@@ -518,7 +518,7 @@ e2e	Drop 2 commits	丢弃 2 个提交
 ui,e2e	Combined message (optional)	合并消息（可选）
 ui,e2e,website	Stage all	全部暂存
 ui,website	Unstage all	全部取消暂存
-ui	 edited by hand	 处手工编辑	edited by hand<
+ui	 edited by hand	 处手工编辑
 e2e	1 edited by hand	1 处手工编辑
 ui,e2e	Close diff	关闭 diff
 ui,e2e	Copy line	复制行
@@ -1014,7 +1014,6 @@ e2e	conflict resolver picks lines into a clean output	冲突解决器将所选�
 e2e	aside div[title*="drag onto another branch"]	aside div[title*="拖到另一个分支上"]
 e2e	command palette opens with keyboard shortcut	命令面板可通过键盘快捷键打开
 e2e	long paths stay inside confirmation dialogs	长路径保持在确认对话框内
-e2e	Virtualized rows keep large graphs smooth	虚拟化行让大型提交图保持流畅
 e2e	selecting a commit opens the inspector	选择提交会打开检查器
 e2e	splash fades into the welcome screen	启动画面淡入欢迎屏幕
 e2e	mod+f focuses the commit search box	mod+f 聚焦提交搜索框
@@ -1043,3 +1042,26 @@ rust	contains("worktree")	contains("工作树")	contains\("worktree"\)
 rust	contains("uncommitted")	contains("未提交的更改")	contains\("uncommitted"\)
 # 纠正：e2e 断言 1 modified 与检查器 ChangeSummary 译文（1 已修改）对齐
 e2e	1 个修改	1 已修改
+# e2e 断言补齐（UI 已中文化，断言同步；demo 数据断言保持英文）
+e2e	Interactively rebase onto here	交互式变基到此处
+e2e	Cherry-pick onto current branch	拣选到当前分支
+e2e	name: 'Cancel'	name: '取消'
+e2e	'Cherry-pick', exact: true	'拣选', exact: true
+e2e	/Delete file/	/删除文件/
+e2e	'Review',	'审查',
+e2e	/Commit \d+ files?/	/提交 \d+ 个文件/
+e2e	/^Commit \d+ files?$/	/^提交 \d+ 个文件$/
+e2e	name: /sidebar$/	name: /侧边栏$/
+e2e	/^Remotes/	/^远端/	/^Remotes/
+e2e	/^Branches/	/^分支/	/^Branches/
+e2e	/^Worktrees/	/^工作树/	/^Worktrees/
+e2e	/^Tags/	/^标签/	/^Tags/
+e2e	/^Stashes/	/^暂存列表/	/^Stashes/
+e2e	/Resolve conflicts/	/解决冲突/
+e2e	/oldest first/	/从旧到新/
+e2e	'Worktrees', { exact: true }	'工作树', { exact: true }
+e2e	200+ commits	200+ 个提交
+# demo 数据断言回退（demo.ts 不翻译，断言保持英文原文）
+e2e	'虚拟化行让大型提交图保持流畅'	'Virtualized rows keep large graphs smooth'	hasText: '虚拟化行让大型提交图保持流畅'
+# UI 混排修正：冲突解决器 aria-label
+ui	解决冲突 in ${file}	解决冲突：${file}
