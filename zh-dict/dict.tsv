@@ -1050,13 +1050,14 @@ e2e	'Cherry-pick', exact: true	'拣选', exact: true
 e2e	/Delete file/	/删除文件/
 e2e	'Review',	'审查',	'Review',
 e2e	/Commit \d+ files?/	/提交 \d+ 个文件/
-e2e	/^Commit \d+ files?$/	/^提交 \d+ 个文件$/
+e2e	/^Commit \d+ files?$/	/^提交 \d+ 个文件$/	\/\^Commit \\d\+ files\?\$/
 e2e	name: /sidebar$/	name: /侧边栏$/
-e2e	/^Remotes/	/^远端/	name: /\^Remotes/
-e2e	/^Branches/	/^分支/	name: /\^Branches/
-e2e	/^Worktrees/	/^工作树/	name: /\^Worktrees/
-e2e	/^Tags/	/^标签/	name: /\^Tags/
-e2e	/^Stashes/	/^暂存列表/	name: /\^Stashes/
+e2e	/^Remotes/	/^远端/	\/\^Remotes\/
+e2e	/^Branches/	/^分支/	\/\^Branches\/
+e2e	/^Worktrees/	/^工作树/	\/\^Worktrees\/
+e2e	/^Tags/	/^标签/	\/\^Tags\/
+e2e	/^Stashes/	/^暂存列表/	\/\^Stashes\/
+e2e	/^Commit \d+ files?$/	/^提交 \d+ 个文件$/	\/\^Commit \\d\+ files\?\$/
 e2e	/Resolve conflicts/	/解决冲突/
 e2e	/oldest first/	/从旧到新/
 e2e	'Worktrees', { exact: true }	'工作树', { exact: true }
