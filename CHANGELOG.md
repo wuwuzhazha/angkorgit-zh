@@ -31,8 +31,8 @@ All notable changes to AngKorGit are documented here. The format follows
   files are staged. Popping a stash also works while other changes are staged.
 - **Restore single files from a stash.** Click a stash in the sidebar and its
   files appear in the inspector, untracked ones included. Tick the files you
-  want (shift-click for a range, or Select all) and restore them together, or
-  hover one file and use its restore button. The stash itself stays put, so the
+  want (shift-click for a range, or Select all) and apply them together, or
+  right-click a single file and apply just that one. The stash itself stays put, so the
   rest is still there when you need it.
 - **Discard staged files too.** Staged rows now carry the same hover discard
   button as unstaged ones, and the row menu and the multi-select menu offer it
@@ -43,7 +43,7 @@ All notable changes to AngKorGit are documented here. The format follows
 - **Stashes in the graph.** Each stash now appears as its own row next to the
   commit it was taken from, with an archive icon in place of the avatar and a
   dashed chip carrying its message. Click the row to see the stashed files,
-  right-click the chip to apply, pop or drop it.
+  right-click the row or the chip to apply, pop or drop it.
 - **Keyboard flow from graph to diff.** With a commit selected, → opens its
   first file in the diff view and moves focus to the file list, ↑/↓ step through
   the files, and ← closes the diff and puts you back on the same commit in the

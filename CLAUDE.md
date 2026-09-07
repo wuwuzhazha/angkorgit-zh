@@ -549,10 +549,16 @@ features/
 │                           kind 'stash'): the node is an Archive glyph in the lane color
 │                           with a dashed inner outline instead of the avatar (role img,
 │                           aria "Stash"), the chip is neutral + border-dashed with the
-│                           message as label, double-click does nothing (row click selects
-│                           and the Inspector shows the stash files), right-click opens the
-│                           ref menu's stash branch — Apply (keep) / Pop / Drop… with a
-│                           confirm — using stashIndexOf(ref.name); fitGroups greedily shows whole
+│                           message as label CAPPED at max-w-[11rem] and WITHOUT the
+│                           hover:shrink-0 expansion branch chips get — a "WIP on main:
+│                           <hash> <summary>" stash grew over the graph and the message
+│                           column on hover (owner 2026-09-07); the full message lives in
+│                           the title —, double-click does nothing (row click selects and
+│                           the Inspector shows the stash files), right-click on the chip
+│                           OR the row (onContextMenu routes a commit carrying a stash ref
+│                           to refMenu instead of the commit menu) opens the ref menu's
+│                           stash branch — Apply (keep) / Pop / Drop… with a confirm —
+│                           using stashIndexOf(ref.name); fitGroups greedily shows whole
 │                           chips by ESTIMATED width (6.4px/char + padding + 14px per
 │                           icon) reserving room for the "+n" badge — a lone chip may
 │                           still ellipsize if longer than the column, never two
@@ -1024,7 +1030,11 @@ features/
 │                               carry a leading Checkbox (aria "Select <path> to restore"),
 │                               shift-click on the checkbox or the row extends a range over
 │                               the FILTERED order from pickAnchor, ⌘-click toggles; the
-│                               hint bar becomes "n of m selected · Clear · Restore n files"
+│                               hint bar becomes "n of m selected · Clear · Apply n files"
+│                               (the wording is APPLY everywhere, matching git's verb —
+│                               "restore" read as unclear to the owner); right-clicking a
+│                               stash file row opens a small menu: Apply this file / Apply n
+│                               selected / Copy path
 │                               (or "Select all" while nothing is picked) and calls
 │                               stashRestoreFiles with every picked path in one go; picked
 │                               resets per commit oid and prunes paths that vanish.

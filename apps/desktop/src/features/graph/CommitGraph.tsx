@@ -243,6 +243,11 @@ export function CommitGraph() {
 
   const onContextMenu = useCallback((event: React.MouseEvent, commit: CommitInfo) => {
     event.preventDefault();
+    const stashRef = commit.refs.find((ref) => ref.kind === 'stash');
+    if (stashRef) {
+      setRefMenu({ x: event.clientX, y: event.clientY, ref: stashRef });
+      return;
+    }
     setMenu({ x: event.clientX, y: event.clientY, commit });
   }, []);
 
@@ -561,7 +566,9 @@ export function CommitGraph() {
             <span style={{ position: 'fixed', left: refMenu.x, top: refMenu.y }} />
           </DropdownMenuTrigger>
           <DropdownMenuContent align="start" side="bottom">
-            <DropdownMenuLabel className="max-w-64 truncate font-mono">{refMenu.ref.shorthand}</DropdownMenuLabel>
+            <DropdownMenuLabel className={cn('max-w-64 truncate', refMenu.ref.kind === 'stash' ? 'font-normal' : 'font-mono')}>
+              {refMenu.ref.shorthand}
+            </DropdownMenuLabel>
             {refMenu.ref.kind === 'stash' && (
               <>
                 <DropdownMenuItem

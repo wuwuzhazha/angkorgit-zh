@@ -4,7 +4,19 @@ import { toast } from 'sonner';
 import { ArchiveRestore, ChevronDown, ChevronRight, ChevronUp, Cloud, Copy, Maximize2, Monitor, Sparkles, Tag as TagIcon } from 'lucide-react';
 import type { CommitFileInfo, CommitInfo, FileDiff } from '@angkorgit/core';
 import { aiCapabilities, filterFiles } from '@angkorgit/core';
-import { Badge, Button, Checkbox, Hint, Logo, cn } from '@angkorgit/design-system';
+import {
+  Badge,
+  Button,
+  Checkbox,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuTrigger,
+  Hint,
+  Logo,
+  cn,
+} from '@angkorgit/design-system';
 import { ipc } from '@/core/ipc';
 import { FileFilterInput } from '@/components/FileFilterInput';
 import { useGraph } from '@/features/graph/store';
@@ -247,6 +259,7 @@ export function CommitDetails({
     }
   };
 
+  const [stashFileMenu, setStashFileMenu] = useState<{ x: number; y: number; path: string } | null>(null);
   const restoreFromStash = async (files: string[]) => {
     if (!stash || files.length === 0) return;
     try {
@@ -254,13 +267,13 @@ export function CommitDetails({
       await refreshStatus();
       toast.success(
         files.length === 1
-          ? `Restored ${basename(files[0])} from the stash`
-          : `Restored ${files.length} files from the stash`,
+          ? `Applied ${basename(files[0])} from the stash`
+          : `Applied ${files.length} files from the stash`,
         { description: 'The stash itself is unchanged.' },
       );
       setPicked(new Set());
     } catch (error) {
-      toast.error(`Restore failed: ${(error as { message?: string }).message ?? error}`);
+      toast.error(`Apply failed: ${(error as { message?: string }).message ?? error}`);
     }
   };
 
@@ -278,11 +291,19 @@ export function CommitDetails({
             stash && picked.has(diff.path) && !active && 'bg-primary/5',
           )}
           style={fileTree && depth !== undefined ? { paddingLeft: treeIndent(depth) } : undefined}
+          onContextMenu={
+            stash
+              ? (e) => {
+                  e.preventDefault();
+                  setStashFileMenu({ x: e.clientX, y: e.clientY, path: diff.path });
+                }
+              : undefined
+          }
         >
         {stash && (
           <Checkbox
             checked={picked.has(diff.path)}
-            aria-label={`Select ${diff.path} to restore`}
+            aria-label={`Select ${diff.path} to apply`}
             onCheckedChange={() => togglePick(diff.path, false)}
             onClick={(e) => {
               e.stopPropagation();
@@ -321,7 +342,7 @@ export function CommitDetails({
           <Button
             variant="ghost"
             size="icon-sm"
-            aria-label={`Restore ${diff.path} from the stash`}
+            aria-label={`Apply ${diff.path} from the stash`}
             className="-my-1 -mr-1 shrink-0 opacity-0 focus-visible:opacity-100 group-hover:opacity-100"
             onClick={() => void restoreFromStash([diff.path])}
           >
@@ -525,7 +546,7 @@ export function CommitDetails({
             {picked.size === 0 ? (
               <>
                 <span className="min-w-0 flex-1 text-faint">
-                  This is a stash. Tick files to restore only those into the working copy.
+                  This is a stash. Tick files to apply only those to the working copy.
                 </span>
                 <Button
                   variant="ghost"
@@ -554,7 +575,7 @@ export function CommitDetails({
                   className="h-6 shrink-0 px-2 text-[11px]"
                   onClick={() => void restoreFromStash([...picked])}
                 >
-                  <ArchiveRestore className="size-3" /> Restore {picked.size} {picked.size === 1 ? 'file' : 'files'}
+                  <ArchiveRestore className="size-3" /> Apply {picked.size} {picked.size === 1 ? 'file' : 'files'}
                 </Button>
               </>
             )}
@@ -596,6 +617,32 @@ export function CommitDetails({
           shownDiffs.map((diff) => renderDiffRow(diff))
         )}
       </div>
+      {stashFileMenu && (
+        <DropdownMenu open onOpenChange={(o) => !o && setStashFileMenu(null)}>
+          <DropdownMenuTrigger asChild>
+            <span style={{ position: 'fixed', left: stashFileMenu.x, top: stashFileMenu.y }} />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="start" side="bottom">
+            <DropdownMenuLabel className="max-w-64 truncate font-mono">{stashFileMenu.path}</DropdownMenuLabel>
+            <DropdownMenuItem onClick={() => void restoreFromStash([stashFileMenu.path])}>
+              <ArchiveRestore /> Apply this file to the working copy
+            </DropdownMenuItem>
+            {picked.size > 1 && picked.has(stashFileMenu.path) && (
+              <DropdownMenuItem onClick={() => void restoreFromStash([...picked])}>
+                <ArchiveRestore /> Apply {picked.size} selected files
+              </DropdownMenuItem>
+            )}
+            <DropdownMenuItem
+              onClick={() => {
+                void navigator.clipboard.writeText(stashFileMenu.path);
+                toast.success('Path copied');
+              }}
+            >
+              <Copy /> Copy path
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      )}
     </div>
   );
 }

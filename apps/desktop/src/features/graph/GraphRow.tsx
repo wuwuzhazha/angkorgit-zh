@@ -350,15 +350,15 @@ function RefCell({
             tone={group.stash ? 'neutral' : group.tag || group.detachedHead ? 'primary' : group.local ? 'success' : 'info'}
             className={cn(
               'min-w-0 shrink whitespace-nowrap',
-              !group.tag &&
+              !group.tag && !group.stash &&
                 'cursor-pointer hover:z-20 hover:shrink-0 hover:!bg-surface-overlay hover:shadow-soft',
-              group.stash && 'border-dashed',
+              group.stash && 'max-w-[11rem] cursor-pointer border-dashed hover:!bg-surface-overlay',
               head &&
                 'border-success bg-success text-background shadow-soft hover:!bg-success',
             )}
             title={
               group.stash
-                ? `Stash: ${group.label} — click the row to see its files, right-click for actions`
+                ? `${group.label}\nStash — click the row to see its files, right-click to apply, pop or drop`
                 : group.tag || group.detachedHead
                 ? group.detachedHead
                   ? 'HEAD is detached at this commit'

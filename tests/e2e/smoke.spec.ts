@@ -862,16 +862,16 @@ test('a stash lists its files and one file can be restored on its own', async ({
   await page.getByText('WIP on main: experiment with lane colors').first().click();
   const inspector = page.getByRole('complementary', { name: 'Inspector' });
   await expect(inspector.getByText('This is a stash.', { exact: false })).toBeVisible();
-  const restore = inspector.getByRole('button', { name: 'Restore src/features/graph/GraphRow.tsx from the stash' });
+  const restore = inspector.getByRole('button', { name: 'Apply src/features/graph/GraphRow.tsx from the stash' });
   await inspector.getByText('GraphRow.tsx', { exact: true }).hover();
   await restore.click();
-  await expect(page.getByText('Restored GraphRow.tsx from the stash')).toBeVisible();
+  await expect(page.getByText('Applied GraphRow.tsx from the stash')).toBeVisible();
 
-  await inspector.getByRole('checkbox', { name: 'Select src/features/graph/CommitGraph.tsx to restore' }).click();
+  await inspector.getByRole('checkbox', { name: 'Select src/features/graph/CommitGraph.tsx to apply' }).click();
   await inspector.getByText('Architecture.md', { exact: true }).click({ modifiers: ['Shift'] });
   await expect(inspector.getByText('4 of 5 selected')).toBeVisible();
-  await inspector.getByRole('button', { name: 'Restore 4 files' }).click();
-  await expect(page.getByText('Restored 4 files from the stash')).toBeVisible();
+  await inspector.getByRole('button', { name: 'Apply 4 files' }).click();
+  await expect(page.getByText('Applied 4 files from the stash')).toBeVisible();
   await expect(inspector.getByText('This is a stash.', { exact: false })).toBeVisible();
 });
 
@@ -919,10 +919,13 @@ test('a stash shows up in the graph with its own node and a menu to pop it', asy
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
   await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
-  const chip = page.getByTitle(/^Stash: WIP on main: experiment with lane colors/);
+  const chip = page.getByRole('table', { name: 'Commits' }).getByTitle(/^WIP on main: experiment with lane colors/);
   await expect(chip).toBeVisible();
   const row = chip.locator('xpath=ancestor::*[@role="row"]');
   await expect(row.getByRole('img', { name: 'Stash' })).toBeVisible();
+  await row.click({ button: 'right', position: { x: 400, y: 10 } });
+  await expect(page.getByRole('menuitem', { name: 'Apply stash (keep it)' })).toBeVisible();
+  await page.keyboard.press('Escape');
   await chip.click({ button: 'right' });
   await expect(page.getByRole('menuitem', { name: 'Apply stash (keep it)' })).toBeVisible();
   await page.getByRole('menuitem', { name: 'Pop stash' }).click();
