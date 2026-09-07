@@ -355,7 +355,7 @@ test('提交操作按钮保持在较窄的工作副本面板内', async ({ page 
   await page.getByText('angkorgit', { exact: true }).first().click();
   await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
 
-  const inspector = page.locator('aside[aria-label="Inspector"]');
+  const inspector = page.locator('aside[aria-label="检查器"]');
   const panel = await inspector.boundingBox();
   expect(panel).not.toBeNull();
 

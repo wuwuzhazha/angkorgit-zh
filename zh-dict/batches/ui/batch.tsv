@@ -165,3 +165,26 @@ ui	移除工作树 failed: ${(error as { message?: string }).message ?? error}	�
 ui	全部丢弃 ${unstagedFiles.length} change${unstagedFiles.length === 1 ? '' : 's'}?	全部丢弃 ${unstagedFiles.length} 个更改？
 ui	Could not identify your account — add reviewers on {provider.label} instead.	无法识别你的账户——请改为在 {provider.label} 上添加审查人。	Could not identify your account
 ui	Could not load commit: {commitError}	无法加载提交：{commitError}	Could not load commit
+# ---- t11 F6 修复补录（engineer，round-4 repair）：core AiError/中英混杂/aria-label/子串覆盖事故 ----
+ui	无更改 for this file in that commit (it may have been renamed).	该提交中此文件无更改（可能已被重命名）。
+ui	aria-label="Inspector"	aria-label="检查器"	aria-label="Inspector"
+ui	aria-label="Commits"	aria-label="提交"	aria-label="Commits"
+ui	aria-label="Home"	aria-label="首页"	aria-label="Home"
+ui	Close ${label(path)}	关闭 ${label(path)}
+ui	Checked out in worktree ${heldBy.get(branch.name)?.name}	已在工作树 ${heldBy.get(branch.name)?.name} 中检出
+ui	Take line ${li + 1} from ${side}	从 ${side} 取第 ${li + 1} 行
+ui	${resolvedCount} of ${total} conflicts resolved	${resolvedCount} / ${total} 个冲突已解决
+ui	${profile.label} profile actions	${profile.label} 配置操作
+ui	${account.username} on ${account.host} actions	${account.username} 在 ${account.host} 上的操作
+ui	Bitbucket rejected these credentials (${res.status}) — check that this is your Atlassian 账户邮箱 and that the API token carries the read:repository:bitbucket scope	Bitbucket 拒绝了这些凭据（${res.status}）——请确认这是你的 Atlassian 账户邮箱，且 API 令牌带有 read:repository:bitbucket 权限范围
+ui	Uses an AI CLI already installed on this machine — Claude Code, Codex, Gemini CLI, OpenCode or Antigravity — with its own login and quota. No API 密钥 needed.	使用本机已安装的 AI CLI——Claude Code、Codex、Gemini CLI、OpenCode 或 Antigravity——以其自身的登录与配额运行，无需 API 密钥。
+ui	Used for commit messages, diff explanations, conflict help and reviews. Local models via Ollama or LM Studio need no API 密钥.	用于提交消息、diff 解释、冲突帮助与审查。通过 Ollama 或 LM Studio 的本地模型无需 API 密钥。
+ui	${group.label}${group.local ? ' · 本地' : ''}${group.remote ? ' · 远端' : ''}${worktree ? ` · in worktree ${worktree}` : ''} — ${worktree ? '双击切换到该工作树' : '双击检出'}, right-click for actions	${group.label}${group.local ? ' · 本地' : ''}${group.remote ? ' · 远端' : ''}${worktree ? ` · 在工作树 ${worktree} 中` : ''}——${worktree ? '双击切换到该工作树' : '双击检出'}，右键查看更多操作
+core	${provider} model list failed (${res.status}): ${res.body.slice(0, 200)}	${provider} 模型列表获取失败（${res.status}）：${res.body.slice(0, 200)}
+core	${spec.label} exited with code ${result.status}	${spec.label} 以代码 ${result.status} 退出
+# ---- t11 扫描器升级后补充（同族 sibling：tooltip/aria 家族）----
+ui	${branch.name} — checked out in worktree ${heldBy.get(branch.name)?.name}; double-click to switch there	${branch.name} — 已在工作树 ${heldBy.get(branch.name)?.name} 中检出；双击切换到那里
+ui	${tag.message ?? tag.name} — click to show the commit, right-click for actions	${tag.message ?? tag.name} — 点击显示该提交，右键查看更多操作
+# ---- t11 上游 0.11.0 同步后新增 sibling（同族）----
+ui	${group.primary.shorthand} — double-click to reset ${group.label} to it, right-click for actions	${group.primary.shorthand}——双击将其重置到 ${group.label}，右键查看更多操作
+ui	${name} is checked out in worktree ${held.name} — reset it from there	${name} 已在工作树 ${held.name} 中检出——请从那里重置

@@ -207,6 +207,25 @@ class Cand:
 
 MIN_LEN = 3
 SIMPLE_EXPR = re.compile(r'^[A-Za-z_$][\w$]*(?:\.[A-Za-z_$][\w$]*|\[[^\]]*\])*$')
+# t11 升级规则③（含中文混杂行）：先剥 ${…} 占位符再统计——英文占优（ascii > 2×cjk）才算待修混杂行
+# （'Bitbucket rejected these credentials …账户邮箱… scope' → 待修；'…无需 API 密钥。' → 已译跳过）
+def _needs_fix(s):
+    if not has_cjk(s):
+        return True
+    st = re.sub(r'\$\{[^}]*\}', '', s)
+    return (len(re.findall(r'[A-Za-z]', st)) > 2 * len(CJK.findall(st)))
+# 片段混杂：≥4 字母英文词后随非字母（'failed: '、'right-click for'），用于模板字面量前缀串
+SEG_MIXED = re.compile(r'[A-Za-z]{4,}[^A-Za-z]|^[A-Za-z]{4,}$')
+
+def _tmpl_seg_ok(sg):
+    """模板字面量前缀片段候选（升级规则①）：'Commit failed: '、'移除工作树 failed: ' 等"""
+    if len(sg) < 4:
+        return False
+    if not re.search(r'[A-Za-z]{3,}', sg):
+        return False
+    if has_cjk(sg):
+        return bool(SEG_MIXED.search(sg))
+    return len(sg.split()) >= 2 or sg.rstrip().endswith((':', '?', '.', '!', '-'))
 
 def scan_ts_lines(scope, rel, text, out):
     lines = text.split('\n')
@@ -248,7 +267,7 @@ def scan_ts_lines(scope, rel, text, out):
                     buf.append(ch)
                     jj += 1
                 s = ''.join(buf).strip()
-                if s and not has_cjk(s) and len(s) >= MIN_LEN:
+                if s and len(s) >= MIN_LEN and _needs_fix(s):
                     before = line[max(0, j - 80):j]
                     mm = re.search(r'([\w-]+)\s*=\s*$', before.rstrip())
                     attr = mm.group(1) if mm else None
@@ -262,25 +281,35 @@ def scan_ts_lines(scope, rel, text, out):
                 j = jj + 1
                 continue
             if c == '`':
-                # 模板字面量：仅单行 + 简单表达式（${id} / ${a.b}）才产出整串候选，且保留占位符原文
+                # 模板字面量（t11 升级）：单行模板产出整串候选（含复杂 ${…} 原样保留），
+                # 复杂模板另按字面片段产出前缀串候选（tmpl-seg），并识别属性模板（attr:xxx）
                 jj = j + 1
-                buf = []
+                pieces = []          # ('lit', text) / ('code', code) 有序片段，可原样重建整串
+                lit_buf = []
                 exprs = []
                 exprs_simple = True
+                attr = None
+                before = line[max(0, j - 80):j]
+                mmb = re.search(r'([\w-]+)\s*=\s*\{?\s*$', before.rstrip())
+                if mmb:
+                    attr = mmb.group(1)
                 while True:
                     closed = False
                     while jj < m:
                         ch = line[jj]
                         if ch == '\\':
                             if jj + 1 < m:
-                                buf.append(ch)
-                                buf.append(line[jj + 1])
+                                lit_buf.append(ch)
+                                lit_buf.append(line[jj + 1])
                             jj += 2
                             continue
                         if ch == '`':
                             closed = True
                             break
                         if ch == '$' and jj + 1 < m and line[jj + 1] == '{':
+                            if lit_buf:
+                                pieces.append(('lit', ''.join(lit_buf)))
+                                lit_buf = []
                             k = jj + 2
                             depth = 1
                             while k < m:
@@ -293,26 +322,41 @@ def scan_ts_lines(scope, rel, text, out):
                             code = line[jj:k + 1]          # 原样片段 ${...}
                             inner = code[2:-1].strip()
                             if SIMPLE_EXPR.match(inner):
-                                buf.append(code)
+                                pieces.append(('code', code))
                                 exprs.append(code)
                             else:
                                 exprs_simple = False
+                                pieces.append(('code', code))
                                 for mm2 in re.finditer(r"(['\"])((?:\\.|(?!\1).)*)\1", inner):
                                     inner_s = mm2.group(2).strip()
-                                    if inner_s and not has_cjk(inner_s) and len(inner_s) >= MIN_LEN:
+                                    if inner_s and len(inner_s) >= MIN_LEN and _needs_fix(inner_s):
                                         out.append(Cand(scope, rel, ln, inner_s, 'string'))
                             jj = k + 1
                             continue
-                        buf.append(ch)
+                        lit_buf.append(ch)
                         jj += 1
                     if closed:
                         break
-                    exprs_simple = False          # 跨行模板：引擎行级替换无法处理 → 不产出
+                    exprs_simple = False          # 跨行模板：引擎行级替换无法处理 → 不产出整串
                     jj = m
                     break
-                s = ''.join(buf).strip()
-                if exprs_simple and closed and s and not has_cjk(s) and len(s) >= MIN_LEN:
-                    out.append(Cand(scope, rel, ln, s, 'template'))
+                if closed:
+                    if lit_buf:
+                        pieces.append(('lit', ''.join(lit_buf)))
+                    whole = ''.join(t for _, t in pieces)
+                    s = whole.strip()
+                    kind_base = f'attr:{attr}' if attr else 'template'
+                    if s and len(s) >= MIN_LEN and _needs_fix(s):
+                        out.append(Cand(scope, rel, ln, s, kind_base))
+                    # 前缀串候选（仅复杂模板）：'Commit failed: ' / '移除工作树 failed: ' 等字面片段
+                    if not exprs_simple:
+                        seg_kind = f'attr:{attr}' if attr else 'tmpl-seg'
+                        for pk, pt in pieces:
+                            if pk != 'lit':
+                                continue
+                            sg = pt.strip()
+                            if _tmpl_seg_ok(sg):
+                                out.append(Cand(scope, rel, ln, sg, seg_kind))
                 j = jj + 1
                 continue
             if c == '<' and (rel.endswith('.tsx') or rel.endswith('.astro')):
@@ -350,7 +394,7 @@ def scan_ts_lines(scope, rel, text, out):
                     while jj2 < m and line[jj2] not in '<{':
                         jj2 += 1
                     t = line[j:jj2].strip()
-                    if len(t) >= MIN_LEN and not has_cjk(t):
+                    if len(t) >= MIN_LEN and _needs_fix(t):
                         out.append(Cand(scope, rel, ln, t, 'jsx-text'))
                     j = jj2
                     continue
@@ -552,7 +596,9 @@ def classify(c, protect, dict_sources, demo_sources):
     if s in dict_sources:
         return 'skip', 'dup', '已入词库'
     if has_cjk(s):
-        return 'skip', 'cjk', '含中文（已译）'
+        # t11 升级规则③：中英混杂行（英文占优 / 前缀片段）不算已译，须修复
+        if not (_needs_fix(s) or (c.kind == 'tmpl-seg' and SEG_MIXED.search(s))):
+            return 'skip', 'cjk', '含中文（已译）'
     if s in demo_sources:
         return 'skip', 'demo', '仅演示数据（demo.ts 被 skip-files 排除）'
     if not s or len(s) < MIN_LEN:

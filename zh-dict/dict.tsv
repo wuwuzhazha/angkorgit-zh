@@ -451,7 +451,7 @@ ui	Show whole file	显示整个文件
 ui	Whole file shown — click for changes only	已显示整个文件——点击仅显示更改
 ui	Toggle whole file view	切换整文件视图
 ui	No changes for this file in that commit (it may have been renamed).	该提交中没有此文件的更改（它可能已被重命名）。
-ui	No changes	无更改
+ui	No changes	无更改	>No changes<
 ui	Select a commit to see its changes.	选择一个提交以查看其更改。
 ui	Close file history	关闭文件历史
 ui	History of ${file}	${file} 的历史
@@ -554,6 +554,7 @@ ui	 file${stagedFiles.length === 1 ? '' : 's'}	 个文件
 ui	Commit history	提交历史
 ui	Commits and pushes in this repository will use the chosen profile's identity and	此仓库中的提交与推送将使用所选配置文件的身份和
 ui	Commit failed: 	提交失败：	Commit failed: 
+ui	aria-label="Commits"	aria-label="提交"	aria-label="Commits"
 ui	Commit	提交	Commit\$\{
 ui	Commit	提交	\? 'Commit'
 ui	<Undo2 className="size-3" /> Amend last commit…	<Undo2 className="size-3" /> 修订上一次提交…
@@ -786,6 +787,23 @@ ui	Remove failed: 	移除失败：	Remove failed:
 ui	Merge failed: 	合并失败：	Merge failed: 
 ui	Apply failed: 	应用失败：	Apply failed: 
 ui	Save failed: 	保存失败：	Save failed: 
+ui	${group.label}${group.local ? ' · 本地' : ''}${group.remote ? ' · 远端' : ''}${worktree ? ` · in worktree ${worktree}` : ''} — ${worktree ? '双击切换到该工作树' : '双击检出'}, right-click for actions	${group.label}${group.local ? ' · 本地' : ''}${group.remote ? ' · 远端' : ''}${worktree ? ` · 在工作树 ${worktree} 中` : ''}——${worktree ? '双击切换到该工作树' : '双击检出'}，右键查看更多操作
+ui	Bitbucket rejected these credentials (${res.status}) — check that this is your Atlassian 账户邮箱 and that the API token carries the read:repository:bitbucket scope	Bitbucket 拒绝了这些凭据（${res.status}）——请确认这是你的 Atlassian 账户邮箱，且 API 令牌带有 read:repository:bitbucket 权限范围
+ui	Uses an AI CLI already installed on this machine — Claude Code, Codex, Gemini CLI, OpenCode or Antigravity — with its own login and quota. No API 密钥 needed.	使用本机已安装的 AI CLI——Claude Code、Codex、Gemini CLI、OpenCode 或 Antigravity——以其自身的登录与配额运行，无需 API 密钥。
+ui	Used for commit messages, diff explanations, conflict help and reviews. Local models via Ollama or LM Studio need no API 密钥.	用于提交消息、diff 解释、冲突帮助与审查。通过 Ollama 或 LM Studio 的本地模型无需 API 密钥。
+ui	${branch.name} — checked out in worktree ${heldBy.get(branch.name)?.name}; double-click to switch there	${branch.name} — 已在工作树 ${heldBy.get(branch.name)?.name} 中检出；双击切换到那里
+ui	${group.primary.shorthand} — double-click to reset ${group.label} to it, right-click for actions	${group.primary.shorthand}——双击将其重置到 ${group.label}，右键查看更多操作
+ui	${tag.message ?? tag.name} — click to show the commit, right-click for actions	${tag.message ?? tag.name} — 点击显示该提交，右键查看更多操作
+ui	${name} is checked out in worktree ${held.name} — reset it from there	${name} 已在工作树 ${held.name} 中检出——请从那里重置
+ui	无更改 for this file in that commit (it may have been renamed).	该提交中此文件无更改（可能已被重命名）。
+ui	Checked out in worktree ${heldBy.get(branch.name)?.name}	已在工作树 ${heldBy.get(branch.name)?.name} 中检出
+ui	${resolvedCount} of ${total} conflicts resolved	${resolvedCount} / ${total} 个冲突已解决
+ui	${account.username} on ${account.host} actions	${account.username} 在 ${account.host} 上的操作
+ui	Take line ${li + 1} from ${side}	从 ${side} 取第 ${li + 1} 行
+ui	${profile.label} profile actions	${profile.label} 配置操作
+ui	aria-label="Inspector"	aria-label="检查器"	aria-label="Inspector"
+ui	Close ${label(path)}	关闭 ${label(path)}
+ui	aria-label="Home"	aria-label="首页"	aria-label="Home"
 
 # ============ B. Rust 引擎错误消息（apps/desktop/src-tauri/src） ============
 rust	no repository is open	没有打开任何仓库
@@ -959,6 +977,8 @@ core	Gemini returned no content	Gemini 未返回内容
 core	Ollama returned no content	Ollama 未返回内容
 core	${parts} — the source branch does not exist on this remote (is it pushed there?)	${parts} — 源分支在此远端上不存在（是否已推送？）
 core	${spec.label} returned no output	${spec.label} 未返回任何输出
+core	${provider} model list failed (${res.status}): ${res.body.slice(0, 200)}	${provider} 模型列表获取失败（${res.status}）：${res.body.slice(0, 200)}
+core	${spec.label} exited with code ${result.status}	${spec.label} 以代码 ${result.status} 退出
 
 # ============ D. 文档（README.md / docs/*.md / CHANGELOG 等，CLAUDE.md 默认排除） ============
 docs	# Architecture	# 架构	^# Architecture$
