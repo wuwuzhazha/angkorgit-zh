@@ -522,17 +522,18 @@ features/
 │                           draws a TAIL — a rounded rect from the node to the end of the
 │                           gutter (the gutter div is width + GUTTER_GAP wide, no margin)
 │                           filled with `url(#graph-tail-N)`, ten linearGradients
-│                           (lane color 0.28 → 0.12 → 0.05) rendered once by GraphTailDefs
+│                           (lane color 0.18 → 0.07 → 0.03 — was 0.28/0.12, dialled down 2026-09-07 after a many-lane repo read as a striped wall) rendered once by GraphTailDefs
 │                           inside the CommitGraph section, painted BEFORE the lane lines
 │                           so lines stay crisp over it (owner asked for a colored band
 │                           from avatar to next column); a second stroked pill (1px,
-│                           `url(#graph-tail-edge-N)`: 0 → 0 at 60% → 0.45 at the end)
+│                           `url(#graph-tail-edge-N)`: 0 → 0 at 60% → 0.32 at the end)
 │                           outlines the RIGHT CAP so the band ends on a soft edge instead
 │                           of dissolving — owner asked for "a border right" 2026-09-07;
 │                           the fill rect is 1px short of the gutter so the stroke fits;
 │                           the whole band is behind ui.graphTail (persisted, default ON,
 │                           "Lane color band" checkbox at the bottom of the Graph display
-│                           menu — owner 2026-09-07: some users won't want the color, respect
+│                           menu, same list as the columns with NO separator (a separator
+│                           read as an uneven gap) — owner 2026-09-07: some users won't want the color, respect
 │                           the preference; CommitRow prop `showTail`, rects carry
 │                           data-graph-tail for the e2e) —
 │                           CommitRow takes `columns`, WipRow `showRefs`; with refs off

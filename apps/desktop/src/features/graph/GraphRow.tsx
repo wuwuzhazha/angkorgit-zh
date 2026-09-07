@@ -41,16 +41,16 @@ export function GraphTailDefs() {
       <defs>
         {Array.from({ length: 10 }, (_, i) => (
           <linearGradient key={i} id={`graph-tail-${i}`} x1="0" x2="1" y1="0" y2="0">
-            <stop offset="0" stopColor={laneColor(i)} stopOpacity={0.28} />
-            <stop offset="0.55" stopColor={laneColor(i)} stopOpacity={0.12} />
-            <stop offset="1" stopColor={laneColor(i)} stopOpacity={0.05} />
+            <stop offset="0" stopColor={laneColor(i)} stopOpacity={0.18} />
+            <stop offset="0.55" stopColor={laneColor(i)} stopOpacity={0.07} />
+            <stop offset="1" stopColor={laneColor(i)} stopOpacity={0.03} />
           </linearGradient>
         ))}
         {Array.from({ length: 10 }, (_, i) => (
           <linearGradient key={`edge-${i}`} id={`graph-tail-edge-${i}`} x1="0" x2="1" y1="0" y2="0">
             <stop offset="0" stopColor={laneColor(i)} stopOpacity={0} />
             <stop offset="0.6" stopColor={laneColor(i)} stopOpacity={0} />
-            <stop offset="1" stopColor={laneColor(i)} stopOpacity={0.45} />
+            <stop offset="1" stopColor={laneColor(i)} stopOpacity={0.32} />
           </linearGradient>
         ))}
       </defs>

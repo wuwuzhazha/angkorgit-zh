@@ -427,7 +427,6 @@ export function CommitGraph() {
                   {label}
                 </DropdownMenuCheckboxItem>
               ))}
-              <DropdownMenuSeparator />
               <DropdownMenuCheckboxItem
                 checked={graphTail}
                 onSelect={(e) => e.preventDefault()}
