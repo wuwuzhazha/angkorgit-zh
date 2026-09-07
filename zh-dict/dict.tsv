@@ -375,6 +375,7 @@ ui	aria-label={`${state} in progress — actions`}	aria-label={`${state} 进行�
 ui	Cancel	取消	^\s*Cancel$
 ui	Create as draft	以草稿创建
 ui	Create	创建	^\s*Create$
+ui	Clone failed: 	克隆失败：	Clone failed: 
 ui	Clone	克隆	^\s*Clone$
 ui	Stash	暂存	^\s*Stash$
 ui	Rename	重命名	^\s*Rename$
@@ -522,6 +523,7 @@ ui	Cherry-pick ${pickOids.length} commits	拣选 ${pickOids.length} 个提交
 ui	Cherry-pick {pickSelection.length} commits onto current branch…	在当前分支上拣选 {pickSelection.length} 个提交…
 ui	Cherry-pick ${oids.length} commits	拣选 ${oids.length} 个提交
 ui	Cherry-pick done	拣选完成
+ui	Cherry-pick failed: 	拣选失败：	Cherry-pick failed: 
 ui	Cherry-pick	拣选	'Cherry-pick'
 ui	Squash {multiSelection.count} commits	压缩 {multiSelection.count} 个提交
 ui	Drop {multiSelection.count} commits	丢弃 {multiSelection.count} 个提交
@@ -551,6 +553,7 @@ ui	 Commits stay in the repository.	 提交保留在仓库中。
 ui	 file${stagedFiles.length === 1 ? '' : 's'}	 个文件
 ui	Commit history	提交历史
 ui	Commits and pushes in this repository will use the chosen profile's identity and	此仓库中的提交与推送将使用所选配置文件的身份和
+ui	Commit failed: 	提交失败：	Commit failed: 
 ui	Commit	提交	Commit\$\{
 ui	Commit	提交	\? 'Commit'
 ui	<Undo2 className="size-3" /> Amend last commit…	<Undo2 className="size-3" /> 修订上一次提交…
@@ -763,6 +766,26 @@ ui	combine it into.	与之合并。	^\s*combine it into\.$
 ui	below.	详细信息。	^\s*below\.$
 ui	Branch	分支	^\s*Branch$
 ui,website	Draft	草稿	>Draft<
+ui	全部丢弃 ${unstagedFiles.length} change${unstagedFiles.length === 1 ? '' : 's'}?	全部丢弃 ${unstagedFiles.length} 个更改？
+ui	Could not identify your account — add reviewers on {provider.label} instead.	无法识别你的账户——请改为在 {provider.label} 上添加审查人。	Could not identify your account
+ui	移除工作树 failed: ${(error as { message?: string }).message ?? error}	移除工作树失败：${(error as { message?: string }).message ?? error}
+ui	Could not load commit: {commitError}	无法加载提交：{commitError}	Could not load commit
+ui	Could not switch to ${main.name}: 	无法切换到 ${main.name}：
+ui	Could not reveal the file: 	无法在 Finder 中显示文件：	Could not reveal the file: 
+ui	Could not create worktree: 	无法创建工作树：	Could not create worktree: 
+ui	Could not open ${wt.name}: 	无法打开 ${wt.name}：
+ui	Could not open worktree: 	无法打开工作树：	Could not open worktree: 
+ui	Could not open the file: 	无法打开文件：	Could not open the file: 
+ui	Could not open ${file}: 	无法打开 ${file}：
+ui	Could not read ${file}: 	无法读取 ${file}：
+ui	Could not set default: 	无法设置默认：	Could not set default: 
+ui	Could not open: 	无法打开：	Could not open: 
+ui	Connect failed: 	连接失败：	Connect failed: 
+ui	Rebase failed: 	变基失败：	Rebase failed: 
+ui	Remove failed: 	移除失败：	Remove failed: 
+ui	Merge failed: 	合并失败：	Merge failed: 
+ui	Apply failed: 	应用失败：	Apply failed: 
+ui	Save failed: 	保存失败：	Save failed: 
 
 # ============ B. Rust 引擎错误消息（apps/desktop/src-tauri/src） ============
 rust	no repository is open	没有打开任何仓库

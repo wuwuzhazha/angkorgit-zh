@@ -141,3 +141,27 @@ ui	Commits and pushes in this repository will use the chosen profile's identity 
 ui	accounts. Asked once — change it later from the toolbar.	账户。仅询问一次——之后可从工具栏更改。
 # ---- t7 F2 修复补录：cliAgents AiError 断言同步（core scope） ----
 core	${spec.label} returned no output	${spec.label} 未返回任何输出
+# ---- t9 F5 修复补录（engineer，round-3 repair）：toast.error 前缀串/混杂行/JSX 句（同族盲区，沿 dict L369-372 前缀先例） ----
+ui	Could not open: 	无法打开：	Could not open: 
+ui	Could not open worktree: 	无法打开工作树：	Could not open worktree: 
+ui	Could not open the file: 	无法打开文件：	Could not open the file: 
+ui	Could not reveal the file: 	无法在 Finder 中显示文件：	Could not reveal the file: 
+ui	Save failed: 	保存失败：	Save failed: 
+ui	Commit failed: 	提交失败：	Commit failed: 
+ui	Merge failed: 	合并失败：	Merge failed: 
+ui	Rebase failed: 	变基失败：	Rebase failed: 
+ui	Connect failed: 	连接失败：	Connect failed: 
+ui	Remove failed: 	移除失败：	Remove failed: 
+ui	Could not set default: 	无法设置默认：	Could not set default: 
+ui	Clone failed: 	克隆失败：	Clone failed: 
+ui	Cherry-pick failed: 	拣选失败：	Cherry-pick failed: 
+ui	Apply failed: 	应用失败：	Apply failed: 
+ui	Could not create worktree: 	无法创建工作树：	Could not create worktree: 
+ui	Could not open ${file}: 	无法打开 ${file}：
+ui	Could not open ${wt.name}: 	无法打开 ${wt.name}：
+ui	Could not read ${file}: 	无法读取 ${file}：
+ui	Could not switch to ${main.name}: 	无法切换到 ${main.name}：
+ui	移除工作树 failed: ${(error as { message?: string }).message ?? error}	移除工作树失败：${(error as { message?: string }).message ?? error}
+ui	全部丢弃 ${unstagedFiles.length} change${unstagedFiles.length === 1 ? '' : 's'}?	全部丢弃 ${unstagedFiles.length} 个更改？
+ui	Could not identify your account — add reviewers on {provider.label} instead.	无法识别你的账户——请改为在 {provider.label} 上添加审查人。	Could not identify your account
+ui	Could not load commit: {commitError}	无法加载提交：{commitError}	Could not load commit
