@@ -1064,7 +1064,7 @@ e2e	'Worktrees', { exact: true }	'工作树', { exact: true }
 e2e	200+ commits	200+ 个提交
 e2e	200\+ commits	200\+ 个提交
 e2e	getByLabel('取 A 侧全部行')	getByLabel('取 A 侧全部行', { exact: true })
-e2e	heading', { name: /创建拉取请求/ }	heading', { name: /Create pull request/ }
+e2e	heading', { name: /Create pull request/ }	heading', { name: /Create 拉取请求/ }
 e2e	menuitemcheckbox', { name: 'Hash' }	menuitemcheckbox', { name: '哈希' }
 # UI 菜单补漏
 ui	Delete file…	删除文件…
