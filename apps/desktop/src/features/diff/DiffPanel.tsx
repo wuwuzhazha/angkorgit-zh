@@ -33,6 +33,7 @@ import { changeBlocks, DiffMinimap, scrollToFraction } from './DiffMinimap';
 export function DiffPanel({ target }: { target: CenterDiffTarget }) {
   const repo = useRepo((s) => s.repo);
   const status = useRepo((s) => s.status);
+  const statusVersion = useRepo((s) => s.statusVersion);
   const refreshStatus = useRepo((s) => s.refreshStatus);
   const closeCenterDiff = useUi((s) => s.closeCenterDiff);
   const openCenterDiff = useUi((s) => s.openCenterDiff);
@@ -183,7 +184,9 @@ export function DiffPanel({ target }: { target: CenterDiffTarget }) {
   const statusEntry = isWorkingCopy
     ? status?.files.find((f) => f.path === target.path)
     : undefined;
-  const statusSignature = `${statusEntry?.staged ?? ''}|${statusEntry?.unstaged ?? ''}`;
+  const statusSignature = isWorkingCopy
+    ? `${statusEntry?.staged ?? ''}|${statusEntry?.unstaged ?? ''}|${statusVersion}`
+    : '';
 
   useEffect(() => {
     if (!path) return;
