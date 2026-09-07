@@ -58,7 +58,7 @@ function openAiCompatible(
         label,
       )) as { choices?: Array<{ message?: { content?: string } }> };
       const text = data.choices?.[0]?.message?.content;
-      if (typeof text !== 'string' || !text.trim()) throw new AiError(`${label} returned no content`, label);
+      if (typeof text !== 'string' || !text.trim()) throw new AiError(`${label} 未返回内容`, label);
       return { text, model: config.model, provider: id };
     },
     async ping() {

@@ -98,7 +98,7 @@ describe('commitStyleInstructions', () => {
       'Write in past tense.',
     );
     expect(commitStyleInstructions(style({ preset: 'custom', instructions: '  ' }), null)).toContain(
-      'conventional-commit',
+      '用约定式提交风格写消息',
     );
   });
 
