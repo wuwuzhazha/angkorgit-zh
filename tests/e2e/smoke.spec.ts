@@ -19,7 +19,7 @@ test('selecting a commit opens the inspector', async ({ page }) => {
   await page.getByText('angkorgit', { exact: true }).first().click();
   await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
   await page.getByRole('row').first().click();
-  await expect(page.getByRole('complementary', { name: 'Inspector' }).getByText(/4 modified/)).toBeVisible();
+  await expect(page.getByRole('complementary', { name: 'Inspector' }).getByLabel('4 modified')).toBeVisible();
 });
 
 test('command palette opens with keyboard shortcut', async ({ page }) => {

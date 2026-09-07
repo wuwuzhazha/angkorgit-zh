@@ -60,11 +60,16 @@ function ChangeSummary({ diffs }: { diffs: CommitFileInfo[] }) {
     .map((status) => ({ status, count: diffs.filter((d) => d.status === status).length }))
     .filter((p) => p.count > 0);
   return (
-    <span className="flex flex-wrap items-center gap-x-3 gap-y-1">
+    <span className="flex items-center gap-x-2.5 whitespace-nowrap">
       {parts.map(({ status, count }) => (
-        <span key={status} className={cn('flex items-center gap-1', statusMeta[status].className)}>
+        <span
+          key={status}
+          title={`${count} ${statusMeta[status].label}`}
+          aria-label={`${count} ${statusMeta[status].label}`}
+          className={cn('flex items-center gap-1 tabular-nums', statusMeta[status].className)}
+        >
           <span className="font-mono">{statusMeta[status].mark}</span>
-          {count} {statusMeta[status].label}
+          {count}
         </span>
       ))}
     </span>
@@ -519,8 +524,8 @@ export function CommitDetails({
         onKeyDown={onFilesKeyDown}
         className="rounded-md p-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/40"
       >
-        <p className="flex items-center justify-between px-2 py-1 text-xs font-semibold uppercase tracking-wide text-muted">
-          <span>
+        <p className="flex items-center justify-between gap-2 px-2 py-1 text-xs font-semibold uppercase tracking-wide text-muted">
+          <span className="shrink-0">
             Files
             {!loading && !error && (
               <span className="ml-1 text-faint">
@@ -534,7 +539,7 @@ export function CommitDetails({
               </span>
             )}
           </span>
-          <span className="flex items-center gap-1 text-[11px] font-normal normal-case tracking-normal">
+          <span className="flex min-w-0 items-center gap-1 text-[11px] font-normal normal-case tracking-normal">
             {loading ? 'Loading…' : error ? '' : <ChangeSummary diffs={diffs} />}
             {fileTree && !loading && !error && (
               <FileTreeFoldButton state={foldState} onFold={(mode) => setFold((f) => nextFold(f, mode))} />
