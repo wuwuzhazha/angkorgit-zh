@@ -88,10 +88,19 @@ jobs:
         shell: pwsh
         run: |
           $v = (Get-Content package.json | ConvertFrom-Json).version
-          do {
+          Write-Host "tree-version=$v"
+          if (-not $v -or $v -notmatch '^\d+\.\d+\.\d+$') {
+            Write-Error "package.json 版本不可读：$v"
+            exit 3
+          }
+          while ($true) {
             $parts = $v -split '\.'
             $v = "$($parts[0]).$($parts[1]).$([int]$parts[2] + 1)"
-          } while (git rev-parse -q --verify "refs/tags/v$v")
+            $tagExists = ((git tag --list "v$v") -join '')
+            if (-not $tagExists) { break }
+            Write-Host "tag v$v 已存在，继续递增"
+          }
+          Write-Host "NEXT_VERSION=$v"
           Write-Output "NEXT_VERSION=$v" >> $env:GITHUB_OUTPUT
 
       - name: ③' 同步+中文化+提交+推送（一键脚本）
