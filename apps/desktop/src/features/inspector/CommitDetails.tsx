@@ -278,7 +278,7 @@ export function CommitDetails({
       );
       setPicked(new Set());
     } catch (error) {
-      toast.error(`Apply failed: ${(error as { message?: string }).message ?? error}`);
+      toast.error(`应用失败：${(error as { message?: string }).message ?? error}`);
     }
   };
 
@@ -540,7 +540,7 @@ export function CommitDetails({
             )}
           </span>
           <span className="flex min-w-0 items-center gap-1 text-[11px] font-normal normal-case tracking-normal">
-            {loading ? 'Loading…' : error ? '' : <ChangeSummary diffs={diffs} />}
+            {loading ? '加载中…' : error ? '' : <ChangeSummary diffs={diffs} />}
             {fileTree && !loading && !error && (
               <FileTreeFoldButton state={foldState} onFold={(mode) => setFold((f) => nextFold(f, mode))} />
             )}
@@ -559,7 +559,7 @@ export function CommitDetails({
                   className="h-6 shrink-0 px-2 text-[11px]"
                   onClick={() => setPicked(new Set(shownDiffs.map((d) => d.path)))}
                 >
-                  Select all
+                  全选
                 </Button>
               </>
             ) : (
@@ -640,10 +640,10 @@ export function CommitDetails({
             <DropdownMenuItem
               onClick={() => {
                 void navigator.clipboard.writeText(stashFileMenu.path);
-                toast.success('Path copied');
+                toast.success('路径已复制');
               }}
             >
-              <Copy /> Copy path
+              <Copy /> 复制路径
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

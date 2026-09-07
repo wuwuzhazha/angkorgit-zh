@@ -169,7 +169,7 @@ pub fn discard_staged_all(path: &str) -> AppResult<Vec<String>> {
 fn discard_to_head(repo: &git2::Repository, file: &str) -> AppResult<()> {
     let workdir = repo
         .workdir()
-        .ok_or_else(|| AppError::other("bare repository"))?
+        .ok_or_else(|| AppError::other("裸仓库"))?
         .to_path_buf();
     let head_tree = repo.head().ok().and_then(|h| h.peel_to_tree().ok());
     let in_head = head_tree

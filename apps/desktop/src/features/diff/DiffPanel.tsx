@@ -346,11 +346,11 @@ export function DiffPanel({ target }: { target: CenterDiffTarget }) {
             <FileText className="size-3.5" />
           </Button>
         </Hint>
-        <Hint label="File history">
+        <Hint label="文件历史">
           <Button
             variant="ghost"
             size="icon-sm"
-            aria-label="File history"
+            aria-label="文件历史"
             onClick={() => openFileHistory(target.path)}
           >
             <History className="size-3.5" />

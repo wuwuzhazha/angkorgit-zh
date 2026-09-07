@@ -324,8 +324,8 @@ export function CommitGraph() {
       void confirmDialog({
         title: 'Reset branch to its remote?',
         description: local.isHead
-          ? `Hard reset to ${ref.shorthand} (${commit.shortOid}).${losing} Uncommitted changes are discarded and cannot be recovered.`
-          : `This branch is not checked out. It is checked out first, then hard reset to ${ref.shorthand} (${commit.shortOid}).${losing} Uncommitted changes are discarded and cannot be recovered.`,
+          ? `硬重置 to ${ref.shorthand} (${commit.shortOid}).${losing} 未提交的更改 are discarded and cannot be recovered.`
+          : `This branch is not checked out. It is checked out first, then hard reset to ${ref.shorthand} (${commit.shortOid}).${losing} 未提交的更改 are discarded and cannot be recovered.`,
         path: name,
         confirmLabel: 'Reset branch',
         destructive: true,
@@ -572,14 +572,14 @@ export function CommitGraph() {
             {refMenu.ref.kind === 'stash' && (
               <>
                 <DropdownMenuItem
-                  onClick={() => void act('Apply stash', () => ipc.stashApply(path, stashIndexOf(refMenu.ref)))}
+                  onClick={() => void act('应用暂存', () => ipc.stashApply(path, stashIndexOf(refMenu.ref)))}
                 >
-                  <Archive /> Apply stash (keep it)
+                  <Archive /> 应用暂存 (keep it)
                 </DropdownMenuItem>
                 <DropdownMenuItem
-                  onClick={() => void act('Pop stash', () => ipc.stashPop(path, stashIndexOf(refMenu.ref)))}
+                  onClick={() => void act('弹出暂存', () => ipc.stashPop(path, stashIndexOf(refMenu.ref)))}
                 >
-                  <ArchiveRestore /> Pop stash
+                  <ArchiveRestore /> 弹出暂存
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   destructive
@@ -589,14 +589,14 @@ export function CommitGraph() {
                       title: 'Drop this stash?',
                       description: 'The stashed changes are deleted and cannot be recovered.',
                       path: ref.shorthand,
-                      confirmLabel: 'Drop stash',
+                      confirmLabel: '丢弃暂存',
                       destructive: true,
                     }).then((ok) => {
-                      if (ok) void act('Drop stash', () => ipc.stashDrop(path, stashIndexOf(ref)));
+                      if (ok) void act('丢弃暂存', () => ipc.stashDrop(path, stashIndexOf(ref)));
                     });
                   }}
                 >
-                  <Trash2 /> Drop stash…
+                  <Trash2 /> 丢弃暂存…
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
               </>

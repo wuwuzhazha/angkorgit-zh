@@ -643,16 +643,16 @@ test('提交图引用标签显示完整名称，其余折叠为计数', async ({
 test('graph display menu can switch the lane color band off and on', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   await expect.poll(() => page.locator('[data-graph-tail]').count()).toBeGreaterThan(5);
-  await page.getByRole('button', { name: 'Graph display options' }).click();
+  await page.getByRole('button', { name: '提交图显示选项' }).click();
   await page.getByRole('menuitemcheckbox', { name: 'Lane color band' }).click();
   await expect(page.locator('[data-graph-tail]')).toHaveCount(0);
   await page.getByRole('menuitemcheckbox', { name: 'Lane color band' }).click();
   await expect.poll(() => page.locator('[data-graph-tail]').count()).toBeGreaterThan(5);
 });
 
-test('graph display menu hides and restores the hash column', async ({ page }) => {
+test('提交图显示菜单隐藏并恢复哈希列', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
   await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
@@ -718,7 +718,7 @@ test('冲突解决器在两侧和结果中都显示行号', async ({ page }) => 
 test('the checked-out branch chip is filled while other local chips stay tinted', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   const headChip = page.getByTitle(/^main · local/).first();
   const otherChip = page.getByTitle(/^feature\/diff-viewer · local/).first();
   const opacity = (color: string) => Number(color.split(',')[3]?.replace(')', '') ?? '1');
@@ -732,7 +732,7 @@ test('the checked-out branch chip is filled while other local chips stay tinted'
 test('double-clicking a separated origin chip offers to reset the local branch', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   await page.getByTitle(/origin\/main — double-click to reset main to it/).first().dblclick();
   const dialog = page.getByRole('dialog');
   await expect(dialog.getByText('Reset branch to its remote?')).toBeVisible();
@@ -742,16 +742,16 @@ test('double-clicking a separated origin chip offers to reset the local branch',
   const button = await dialog.getByRole('button', { name: 'Reset branch' }).boundingBox();
   if (!box || !button) throw new Error('dialog geometry missing');
   expect(button.x + button.width).toBeLessThanOrEqual(box.x + box.width + 1);
-  await dialog.getByRole('button', { name: 'Cancel' }).click();
+  await dialog.getByRole('button', { name: '取消' }).click();
   await expect(dialog).toBeHidden();
 });
 
 test('the diff header opens the history of the file being viewed', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   await page.getByText('CommitGraph.tsx').first().click();
-  const diff = page.locator('section[aria-label^="Diff for"]');
+  const diff = page.locator('section[aria-label^="文件差异："]');
   await expect(diff).toBeVisible();
   await diff.getByRole('button', { name: 'File history' }).click();
   await expect(page.locator('section[aria-label^="History of"]')).toBeVisible();
@@ -762,7 +762,7 @@ test('the diff header opens the history of the file being viewed', async ({ page
 test('a single file can be stashed from its row menu and the toolbar pops the latest stash', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
 
   await page.getByText('ipc.ts', { exact: true }).first().click({ button: 'right' });
   await page.getByRole('menuitem', { name: /Stash this file/ }).click();
@@ -784,7 +784,7 @@ test('a single file can be stashed from its row menu and the toolbar pops the la
 test('shift-click selects a range of working copy files and the menu acts on all of them', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
 
   await page.getByText('ipc.ts', { exact: true }).first().click();
   await page.getByText('Architecture.md', { exact: true }).first().click({ modifiers: ['Shift'] });
@@ -807,7 +807,7 @@ test('shift-click selects a range of working copy files and the menu acts on all
 test('the working copy filter narrows both lists and shows counts', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
 
   await expect(page.getByPlaceholder('Filter changed files…')).toHaveCount(0);
   await page.getByRole('button', { name: 'Filter files' }).click();
@@ -834,7 +834,7 @@ test('the working copy filter narrows both lists and shows counts', async ({ pag
 test('the commit file list can be filtered by path', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   await page.getByText('feat(graph): virtualize commit rows').first().click();
 
   const inspector = page.getByRole('complementary', { name: 'Inspector' });
@@ -856,7 +856,7 @@ test('the commit file list can be filtered by path', async ({ page }) => {
 test('a stash lists its files and one file can be restored on its own', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
 
   await expect(page.getByText('feat(graph): virtualize commit rows').first()).toBeVisible();
   await page.getByText('WIP on main: experiment with lane colors').first().click();
@@ -878,15 +878,15 @@ test('a stash lists its files and one file can be restored on its own', async ({
 test('staged files can be discarded from the row, the menu and the header', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
 
   const stagedDiscard = page.getByRole('button', { name: 'Discard src/features/graph/CommitGraph.tsx' });
   await page.getByText('CommitGraph.tsx', { exact: true }).first().hover();
   await stagedDiscard.click({ force: true });
   const dialog = page.getByRole('dialog');
-  await expect(dialog.getByText('Discard changes?')).toBeVisible();
+  await expect(dialog.getByText('丢弃更改？')).toBeVisible();
   await expect(dialog.getByText(/back to the last commit/)).toBeVisible();
-  await dialog.getByRole('button', { name: 'Cancel' }).click();
+  await dialog.getByRole('button', { name: '取消' }).click();
 
   await page.getByText('CommitGraph.tsx', { exact: true }).first().click({ button: 'right' });
   await expect(page.getByRole('menuitem', { name: /Discard changes/ })).toBeVisible();
@@ -894,23 +894,23 @@ test('staged files can be discarded from the row, the menu and the header', asyn
 
   await page.getByRole('button', { name: 'Discard all staged changes' }).click();
   await expect(dialog.getByText('Discard all 2 staged changes?')).toBeVisible();
-  await dialog.getByRole('button', { name: 'Cancel' }).click();
+  await dialog.getByRole('button', { name: '取消' }).click();
 });
 
 test('the sidebar comes back after a relaunch that happened with a diff open', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
-  await expect(page.getByRole('complementary', { name: 'Branches and refs' })).toBeVisible();
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByRole('complementary', { name: '分支与引用' })).toBeVisible();
   await page.getByText('ipc.ts', { exact: true }).first().click();
-  await expect(page.locator('section[aria-label^="Diff for"]')).toBeVisible();
-  await expect(page.getByRole('complementary', { name: 'Branches and refs' })).toBeHidden();
+  await expect(page.locator('section[aria-label^="文件差异："]')).toBeVisible();
+  await expect(page.getByRole('complementary', { name: '分支与引用' })).toBeHidden();
   await page.waitForTimeout(300);
 
   await page.reload();
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
-  await expect(page.getByRole('complementary', { name: 'Branches and refs' })).toBeVisible();
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByRole('complementary', { name: '分支与引用' })).toBeVisible();
   const stored = await page.evaluate(() => JSON.parse(localStorage.getItem('angkorgit-ui') ?? '{}'));
   expect(stored.state?.sidebarOpen).toBe(true);
 });
@@ -918,7 +918,7 @@ test('the sidebar comes back after a relaunch that happened with a diff open', a
 test('a stash shows up in the graph with its own node and a menu to pop it', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   const chip = page.getByRole('table', { name: 'Commits' }).getByTitle(/^WIP on main: experiment with lane colors/);
   await expect(chip).toBeVisible();
   const row = chip.locator('xpath=ancestor::*[@role="row"]');
@@ -935,7 +935,7 @@ test('a stash shows up in the graph with its own node and a menu to pop it', asy
 test('arrow keys walk from the graph into a commit\u2019s files and back', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   const rows = page.getByRole('row');
   await rows.first().click();
   await expect(rows.first()).toHaveAttribute('aria-selected', 'true');
@@ -947,15 +947,15 @@ test('arrow keys walk from the graph into a commit\u2019s files and back', async
   await page.keyboard.press('ArrowRight');
   const files = page.getByLabel('Commit files');
   await expect(files).toBeFocused();
-  await expect(page.locator('section[aria-label="Diff for src/features/graph/CommitGraph.tsx"]')).toBeVisible();
+  await expect(page.locator('section[aria-label="文件差异： src/features/graph/CommitGraph.tsx"]')).toBeVisible();
 
   await page.keyboard.press('ArrowDown');
-  await expect(page.locator('section[aria-label="Diff for src/features/graph/GraphRow.tsx"]')).toBeVisible();
+  await expect(page.locator('section[aria-label="文件差异： src/features/graph/GraphRow.tsx"]')).toBeVisible();
   await page.keyboard.press('ArrowUp');
-  await expect(page.locator('section[aria-label="Diff for src/features/graph/CommitGraph.tsx"]')).toBeVisible();
+  await expect(page.locator('section[aria-label="文件差异： src/features/graph/CommitGraph.tsx"]')).toBeVisible();
 
   await page.keyboard.press('ArrowLeft');
-  await expect(page.locator('section[aria-label^="Diff for"]')).toHaveCount(0);
+  await expect(page.locator('section[aria-label^="文件差异："]')).toHaveCount(0);
   await expect(rows.nth(1)).toHaveAttribute('aria-selected', 'true');
   await expect(rows.nth(1).locator('button.font-mono')).toHaveText(secondHash);
   await page.keyboard.press('ArrowDown');

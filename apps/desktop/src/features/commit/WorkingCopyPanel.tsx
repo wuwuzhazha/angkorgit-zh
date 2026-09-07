@@ -424,7 +424,7 @@ export function WorkingCopyPanel() {
   const stageMany = (paths: string[], staged: boolean) =>
     run(
       () => Promise.all(paths.map((file) => (staged ? ipc.unstageFile(path, file) : ipc.stageFile(path, file)))),
-      staged ? 'Unstage failed' : 'Stage failed',
+      staged ? '取消暂存失败' : '暂存失败',
     );
 
   const discardMany = async (paths: string[], staged: boolean) => {
@@ -435,7 +435,7 @@ export function WorkingCopyPanel() {
         if (!clean) leftovers.push(file);
       }
     } catch (error) {
-      toast.error(`Discard failed: ${(error as { message?: string }).message ?? error}`);
+      toast.error(`丢弃失败：${(error as { message?: string }).message ?? error}`);
     }
     await refreshStatus();
     if (leftovers.length > 0) {
@@ -475,7 +475,7 @@ export function WorkingCopyPanel() {
         toast.success(`Discarded ${before} staged change${before === 1 ? '' : 's'}`);
       }
     } catch (error) {
-      toast.error(`Discard failed: ${(error as { message?: string }).message ?? error}`);
+      toast.error(`丢弃失败：${(error as { message?: string }).message ?? error}`);
     }
   };
 
@@ -497,14 +497,14 @@ export function WorkingCopyPanel() {
   const requestDiscard = useCallback(
     (file: FileStatus, staged = false) => {
       void confirmDialog({
-        title: 'Discard changes?',
+        title: '丢弃更改？',
         description: staged
           ? file.staged === 'new'
             ? 'This file is new — discarding removes it from the index and deletes the file. This cannot be undone.'
             : 'The file goes back to the last commit — its staged and unstaged changes are both reverted. This cannot be undone.'
           : file.unstaged === 'untracked'
-            ? 'This file is new — discarding reverts it and deletes the file. This cannot be undone.'
-            : 'All changes in this file will be reverted. This cannot be undone.',
+            ? '该文件是新增文件——丢弃将还原并删除它，此操作无法撤销。'
+            : '该文件的所有更改将被还原，此操作无法撤销。',
         path: file.path,
         confirmLabel: 'Discard',
         destructive: true,
@@ -894,21 +894,21 @@ export function WorkingCopyPanel() {
                   onFold={(mode) => setUnstagedFold((f) => nextFold(f, mode))}
                 />
               )}
-              <Button variant="ghost" size="sm" onClick={() => void run(() => ipc.stageAll(path), 'Stage all failed')}>
-                <Plus className="size-3" /> Stage all
+              <Button variant="ghost" size="sm" onClick={() => void run(() => ipc.stageAll(path), '全量暂存失败')}>
+                <Plus className="size-3" /> 全部暂存
               </Button>
-              <Hint label="Discard all changes">
+              <Hint label="全部丢弃 changes">
                 <Button
                   variant="ghost"
                   size="icon-sm"
-                  aria-label="Discard all changes"
+                  aria-label="全部丢弃 changes"
                   className="text-muted hover:text-danger"
                   onClick={() => {
                     void confirmDialog({
-                      title: `Discard all ${allUnstaged.length} change${allUnstaged.length === 1 ? '' : 's'}?`,
+                      title: `全部丢弃 ${allUnstaged.length} change${allUnstaged.length === 1 ? '' : 's'}?`,
                       description:
-                        'Every unstaged change will be reverted and untracked files will be deleted. This cannot be undone — not even with ⌘Z.',
-                      confirmLabel: 'Discard all',
+                        '所有未暂存的更改将被还原，未跟踪的文件将被删除。此操作无法撤销——即使按 ⌘Z 也不行。',
+                      confirmLabel: '全部丢弃',
                       destructive: true,
                     }).then((ok) => {
                       if (ok) void discardEverything();
@@ -923,7 +923,7 @@ export function WorkingCopyPanel() {
         </div>
         {unstagedFiles.length === 0 && (
           <p className="px-2 pb-2 text-xs text-faint">
-            {filtering && allUnstaged.length > 0 ? 'No changes match the filter.' : 'Working tree clean.'}
+            {filtering && allUnstaged.length > 0 ? '无更改 match the filter.' : '工作区干净。'}
           </p>
         )}
         {fileTree ? (
@@ -957,18 +957,18 @@ export function WorkingCopyPanel() {
               <Button variant="ghost" size="sm" onClick={() => void run(() => ipc.unstageAll(path), '全量取消暂存失败')}>
                 <Minus className="size-3" /> 全部取消暂存
               </Button>
-              <Hint label="Discard all staged changes">
+              <Hint label="全部丢弃 staged changes">
                 <Button
                   variant="ghost"
                   size="icon-sm"
-                  aria-label="Discard all staged changes"
+                  aria-label="全部丢弃 staged changes"
                   className="text-muted hover:text-danger"
                   onClick={() => {
                     void confirmDialog({
-                      title: `Discard all ${allStaged.length} staged change${allStaged.length === 1 ? '' : 's'}?`,
+                      title: `全部丢弃 ${allStaged.length} staged change${allStaged.length === 1 ? '' : 's'}?`,
                       description:
                         'Every staged file goes back to the last commit, unstaged edits to those files included, and new files are deleted. This cannot be undone — not even with ⌘Z.',
-                      confirmLabel: 'Discard all',
+                      confirmLabel: '全部丢弃',
                       destructive: true,
                     }).then((ok) => {
                       if (ok) void discardAllStaged();
@@ -983,7 +983,7 @@ export function WorkingCopyPanel() {
         </div>
         {stagedFiles.length === 0 && (
           <p className="px-2 pb-2 text-xs text-faint">
-            {filtering && allStaged.length > 0 ? 'No staged files match the filter.' : 'Nothing staged yet.'}
+            {filtering && allStaged.length > 0 ? 'No staged files match the filter.' : '尚未暂存任何内容。'}
           </p>
         )}
         {fileTree ? (
@@ -1035,9 +1035,9 @@ export function WorkingCopyPanel() {
             {fileMenu.staged ? (
               <>
                 <DropdownMenuItem
-                  onClick={() => void run(() => ipc.unstageFile(path, fileMenu.file.path), 'Unstage failed')}
+                  onClick={() => void run(() => ipc.unstageFile(path, fileMenu.file.path), '取消暂存失败')}
                 >
-                  <Minus /> Unstage file
+                  <Minus /> 取消暂存文件
                 </DropdownMenuItem>
                 <DropdownMenuItem destructive onClick={() => requestDiscard(fileMenu.file, true)}>
                   <Trash2 /> Discard changes…

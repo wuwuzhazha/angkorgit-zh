@@ -80,7 +80,7 @@ export function Inspector() {
     <aside className="flex h-full flex-col bg-surface" aria-label="Inspector">
       <div className="flex h-9 shrink-0 items-center gap-1 border-b border-border-subtle px-2">
         <span className="px-1 text-xs font-semibold uppercase tracking-wide text-muted">
-          {commit || commitError ? (isStash ? 'Stash' : 'Commit') : 'Working copy'}
+          {commit || commitError ? (isStash ? 'Stash' : 'Commit') : '工作副本'}
         </span>
         <div className="ml-auto flex items-center gap-0.5">
           <Hint label={fileFilterOpen ? 'Hide file filter' : 'Filter files'}>
@@ -96,7 +96,7 @@ export function Inspector() {
             </Button>
           </Hint>
           <span className="mx-1 h-4 w-px bg-border-subtle" />
-          <Hint label="Flat list">
+          <Hint label="扁平列表">
             <Button
               variant="ghost"
               size="icon-sm"

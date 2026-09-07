@@ -365,7 +365,7 @@ function RefCell({
                   : group.label
                 : separated
                   ? `${group.primary.shorthand} — double-click to reset ${group.label} to it, right-click for actions`
-                  : `${group.label}${group.local ? ' · local' : ''}${group.remote ? ' · origin' : ''}${worktree ? ` · in worktree ${worktree}` : ''} — ${worktree ? 'double-click to switch to that worktree' : 'double-click to checkout'}, right-click for actions`
+                  : `${group.label}${group.local ? ' · 本地' : ''}${group.remote ? ' · 远端' : ''}${worktree ? ` · in worktree ${worktree}` : ''} — ${worktree ? '双击切换到该工作树' : '双击检出'}, right-click for actions`
             }
             onDoubleClick={(e) => {
               if (group.tag || group.detachedHead || group.stash) return;

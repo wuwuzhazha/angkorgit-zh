@@ -104,7 +104,7 @@ pub fn checkout_branch(path: &str, name: &str) -> AppResult<()> {
                 let local_oid = local
                     .get()
                     .target()
-                    .ok_or_else(|| AppError::other("branch has no target"))?;
+                    .ok_or_else(|| AppError::other("分支没有目标"))?;
                 if local_oid != remote_commit.id()
                     && repo.graph_descendant_of(remote_commit.id(), local_oid)?
                 {

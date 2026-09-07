@@ -333,7 +333,7 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
             <PaletteItem
               icon={<ArchiveRestore />}
               label={`Pop latest stash: ${stashes[0].message}`}
-              onSelect={() => run('Pop stash', () => ipc.stashPop(path, 0))}
+              onSelect={() => run('弹出暂存', () => ipc.stashPop(path, 0))}
             />
           )}
           {nextUndo && (

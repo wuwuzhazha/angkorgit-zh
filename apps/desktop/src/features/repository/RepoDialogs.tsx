@@ -223,13 +223,13 @@ export function RepoDialogs({ onDone }: { onDone: () => Promise<void> }) {
       <Dialog open={dialog === 'createStash'} onOpenChange={(o) => !o && closeDialog()}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>{stashPaths.length > 0 ? 'Stash selected changes' : 'Stash changes'}</DialogTitle>
+            <DialogTitle>{stashPaths.length > 0 ? 'Stash selected changes' : '暂存更改'}</DialogTitle>
             <DialogDescription>
               {stashPaths.length === 1
                 ? 'Only this file is stashed. Everything else stays in your working copy.'
                 : stashPaths.length > 1
                   ? `Only these ${stashPaths.length} files are stashed. Everything else stays in your working copy.`
-                  : 'Save your working changes and restore a clean tree.'}
+                  : '保存你的工作更改并恢复干净的工作区。'}
             </DialogDescription>
           </DialogHeader>
           <div className="flex flex-col gap-3">
@@ -255,7 +255,7 @@ export function RepoDialogs({ onDone }: { onDone: () => Promise<void> }) {
             {stashPaths.length === 0 && (
               <label className="flex cursor-pointer items-center gap-2 text-xs text-muted">
                 <Checkbox checked={includeUntracked} onCheckedChange={(v) => setIncludeUntracked(v === true)} />
-                Include untracked files
+                包含未跟踪文件
               </label>
             )}
           </div>

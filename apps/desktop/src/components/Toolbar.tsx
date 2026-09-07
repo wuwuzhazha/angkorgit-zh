@@ -516,7 +516,7 @@ export function Toolbar({ onRefresh }: { onRefresh: () => Promise<void> }) {
           size="icon"
           aria-label="Pop latest stash"
           disabled={!latestStash || !!busy}
-          onClick={() => void run('Pop stash', () => ipc.stashPop(repo.path, 0))}
+          onClick={() => void run('弹出暂存', () => ipc.stashPop(repo.path, 0))}
         >
           <ArchiveRestore />
         </Button>
