@@ -20,7 +20,7 @@
 
 ## 📖 关于本项目与中文化说明
 
-本仓库是开源桌面 Git 客户端 [wuwuzhazha/angkorgit-zh](https://github.com/wuwuzhazha/angkorgit-zh) 的**全面中文化持续同步分支（angkorgit-zh）**。
+本仓库是开源桌面 Git 客户端 [cheat2001/angkorgit](https://github.com/cheat2001/angkorgit) 的**全面中文化持续同步分支（angkorgit-zh）**。
 
 ### 中文化的设计逻辑与方法
 
@@ -131,7 +131,7 @@
 
 本仓库内置 `.github/workflows/auto-sync-build-release.yml`，**无需人工参与**即可跟随上游持续更新并自动发布中文版安装包：
 
-1. 每 6 小时自动轮询上游 `wuwuzhazha/angkorgit-zh`（也可在 Actions 页手动触发）。
+1. 每 6 小时自动轮询上游 `cheat2001/angkorgit`（也可在 Actions 页手动触发）。
 2. 检测到上游更新后：**合并（上游代码优先）→ 重放中文化词库 → 中文 README 恢复 → 版本号自动递增 → 提交推送 main**。
 3. 自动构建 Windows 安装包（NSIS `.exe` + MSI，含 updater 签名与 `latest.json`）。
 4. 自动发布 GitHub Release（Release 说明含本次上游提交清单与词库/待译统计）。
