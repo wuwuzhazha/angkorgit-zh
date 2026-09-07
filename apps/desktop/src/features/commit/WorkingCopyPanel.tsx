@@ -870,7 +870,7 @@ export function WorkingCopyPanel() {
                 });
               }}
             >
-              <Trash2 /> Delete file…
+              <Trash2 /> 删除文件…
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
