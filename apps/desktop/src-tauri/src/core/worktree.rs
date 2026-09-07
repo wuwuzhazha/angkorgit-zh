@@ -243,9 +243,7 @@ pub fn add(path: &str, request: &WorktreeAddRequest) -> AppResult<String> {
         return Err(AppError::other("为新工作树选择分支"));
     }
     if !git2::Reference::is_valid_name(&format!("refs/heads/{branch}")) {
-        return Err(AppError::other(format!(
-            "“{branch}”不是有效的分支名"
-        )));
+        return Err(AppError::other(format!("“{branch}”不是有效的分支名")));
     }
 
     let local_name: String = if request.create_branch {

@@ -336,9 +336,7 @@ pub fn rebase_commits(path: &str, base: &str) -> AppResult<Vec<CommitInfo>> {
             head_oid,
         ));
         if commits.len() > MAX_INTERACTIVE_COMMITS {
-            return Err(AppError::other(
-                "变基范围过大——请选择更近的基础提交",
-            ));
+            return Err(AppError::other("变基范围过大——请选择更近的基础提交"));
         }
         let parent = current.parent(0).map_err(|_| {
             AppError::other("the selected base is not a first-parent ancestor of HEAD")
@@ -356,9 +354,7 @@ fn ensure_tracked_clean(repo: &Repository) -> AppResult<()> {
     opts.include_untracked(false).include_ignored(false);
     let statuses = repo.statuses(Some(&mut opts))?;
     if !statuses.is_empty() {
-        return Err(AppError::other(
-            "工作区有未提交的更改——请先提交或暂存",
-        ));
+        return Err(AppError::other("工作区有未提交的更改——请先提交或暂存"));
     }
     Ok(())
 }
@@ -373,9 +369,7 @@ pub fn rebase_interactive(path: &str, base: &str, todo: &[RebaseTodoEntry]) -> A
     let mut seen = std::collections::HashSet::new();
     for entry in todo {
         if !allowed.contains(entry.oid.as_str()) {
-            return Err(AppError::other(
-                "变基计划包含变基范围之外的提交",
-            ));
+            return Err(AppError::other("变基计划包含变基范围之外的提交"));
         }
         if !seen.insert(entry.oid.as_str()) {
             return Err(AppError::other("变基计划中某个提交出现了两次"));
@@ -384,10 +378,7 @@ pub fn rebase_interactive(path: &str, base: &str, todo: &[RebaseTodoEntry]) -> A
             entry.action.as_str(),
             "pick" | "reword" | "squash" | "fixup" | "drop"
         ) {
-            return Err(AppError::other(format!(
-                "未知的变基操作：{}",
-                entry.action
-            )));
+            return Err(AppError::other(format!("未知的变基操作：{}", entry.action)));
         }
     }
 

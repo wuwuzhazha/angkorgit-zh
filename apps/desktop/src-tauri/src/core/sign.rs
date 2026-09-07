@@ -55,9 +55,7 @@ pub(crate) fn signing_config(repo: &Repository) -> AppResult<Option<SigningConfi
         SigningFormat::OpenPgp => {
             let key = if key.trim().is_empty() {
                 let sig = repo.signature().map_err(|_| {
-                    AppError::other(
-                        "提交签名需要 user.signingKey 或已配置的 git 身份",
-                    )
+                    AppError::other("提交签名需要 user.signingKey 或已配置的 git 身份")
                 })?;
                 format!(
                     "{} <{}>",

@@ -44,9 +44,7 @@ fn auth_headers(
             headers.push(("authorization".to_string(), format!("Basic {basic}")));
         }
         other => {
-            return Err(AppError::other(format!(
-                "不支持的托管平台“{other}”"
-            )));
+            return Err(AppError::other(format!("不支持的托管平台“{other}”")));
         }
     }
     Ok(headers)

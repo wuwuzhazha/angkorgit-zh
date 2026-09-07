@@ -15,9 +15,7 @@ pub fn get(provider: &str) -> AppResult<Option<String>> {
     match entry(provider)?.get_password() {
         Ok(key) => Ok(Some(key)),
         Err(keyring::Error::NoEntry) => Ok(None),
-        Err(e) => Err(AppError::other(format!(
-            "无法从系统钥匙串读取密钥：{e}"
-        ))),
+        Err(e) => Err(AppError::other(format!("无法从系统钥匙串读取密钥：{e}"))),
     }
 }
 
@@ -34,8 +32,6 @@ pub fn set(provider: &str, key: &str) -> AppResult<()> {
 pub fn delete(provider: &str) -> AppResult<()> {
     match entry(provider)?.delete_credential() {
         Ok(()) | Err(keyring::Error::NoEntry) => Ok(()),
-        Err(e) => Err(AppError::other(format!(
-            "无法从系统钥匙串删除密钥：{e}"
-        ))),
+        Err(e) => Err(AppError::other(format!("无法从系统钥匙串删除密钥：{e}"))),
     }
 }

@@ -159,10 +159,7 @@ pub(crate) fn capture(mut command: Command, stdin: &str, timeout: Duration) -> A
             drop(stdin_thread);
             drop(stdout_thread);
             drop(stderr_thread);
-            return Err(AppError::other(format!(
-                "{} 秒后超时",
-                timeout.as_secs()
-            )));
+            return Err(AppError::other(format!("{} 秒后超时", timeout.as_secs())));
         }
     };
     let _ = stdin_thread.join();

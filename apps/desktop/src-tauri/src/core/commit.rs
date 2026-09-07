@@ -5,9 +5,8 @@ use crate::error::{AppError, AppResult};
 use super::types::OpOutcome;
 
 pub(crate) fn default_signature(repo: &Repository) -> AppResult<git2::Signature<'static>> {
-    repo.signature().map_err(|_| {
-        AppError::other("未配置 Git 身份。请在设置中设置 user.name 和 user.email。")
-    })
+    repo.signature()
+        .map_err(|_| AppError::other("未配置 Git 身份。请在设置中设置 user.name 和 user.email。"))
 }
 
 pub fn commit(path: &str, message: &str) -> AppResult<String> {

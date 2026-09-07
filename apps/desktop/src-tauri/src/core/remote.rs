@@ -208,9 +208,7 @@ pub fn credential_approve(host: &str, username: &str, password: &str) -> AppResu
         .write_all(input.as_bytes())?;
     let status = child.wait()?;
     if !status.success() {
-        return Err(AppError::other(
-            "git 凭据批准失败——是否已配置凭据助手？",
-        ));
+        return Err(AppError::other("git 凭据批准失败——是否已配置凭据助手？"));
     }
     Ok(())
 }
@@ -401,9 +399,7 @@ pub fn edit(path: &str, name: &str, new_name: &str, url: &str) -> AppResult<()> 
     let new_name = new_name.trim();
     let url = url.trim();
     if new_name.is_empty() || url.is_empty() {
-        return Err(crate::error::AppError::other(
-            "远端名称和 URL 均不能为空",
-        ));
+        return Err(crate::error::AppError::other("远端名称和 URL 均不能为空"));
     }
     let repo = super::repo::open(path)?;
     let mut current = name.to_string();
@@ -518,9 +514,9 @@ pub fn pull_branch(path: &str, branch_name: &str) -> AppResult<OpOutcome> {
     let (upstream_name, remote_name) = {
         let repo = super::repo::open(path)?;
         let branch = repo.find_branch(branch_name, git2::BranchType::Local)?;
-        let upstream = branch.upstream().map_err(|_| {
-            AppError::other(format!("分支 {branch_name} 没有可拉取的上游"))
-        })?;
+        let upstream = branch
+            .upstream()
+            .map_err(|_| AppError::other(format!("分支 {branch_name} 没有可拉取的上游")))?;
         let upstream_name = upstream
             .name()?
             .ok_or_else(|| AppError::other("无效的上游名称"))?
@@ -596,15 +592,11 @@ pub fn checkout_remote_ref(
     track: bool,
 ) -> AppResult<()> {
     if !source_ref.starts_with("refs/") {
-        return Err(AppError::other(
-            "源引用必须是完全限定形式（refs/…）",
-        ));
+        return Err(AppError::other("源引用必须是完全限定形式（refs/…）"));
     }
     let branch_ref = format!("refs/heads/{local_branch}");
     if !git2::Reference::is_valid_name(&branch_ref) {
-        return Err(AppError::other(format!(
-            "“{local_branch}”不是有效的分支名"
-        )));
+        return Err(AppError::other(format!("“{local_branch}”不是有效的分支名")));
     }
 
     let repo = super::repo::open(path)?;

@@ -118,6 +118,18 @@ jobs:
             -Push
         # 脚本默认 dry-run；-Push 显式推送到本 fork 的 main（凭据来自 actions/checkout，零泄露）
 
+      - name: ③'' 中文字符串 cargo fmt（CI fmt gate 对齐）
+        if: steps.check.outputs.HAS_UPDATE == 'true'
+        shell: pwsh
+        run: |
+          $env:CARGO_HTTP_PROXY = ''
+          cargo fmt
+          git add -A
+          git commit -m "style(i18n): cargo fmt（中文字符串换行）" --no-verify 2>$null
+          if ($LASTEXITCODE -ne 0) { Write-Output "无 fmt 变更，跳过提交" }
+          git push origin main 2>&1 | Select-Object -Last 1
+        working-directory: apps/desktop/src-tauri
+
       - uses: pnpm/action-setup@v4
         if: steps.check.outputs.HAS_UPDATE == 'true'
         with:
