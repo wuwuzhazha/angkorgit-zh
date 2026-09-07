@@ -634,7 +634,7 @@ export function CommitGraph() {
                   destructive: true,
                 }).then((ok) => {
                   if (ok)
-                    void act(`硬重置 to ${menu.commit.shortOid}`, () => ipc.reset(path, menu.commit.oid, 'hard'), {
+                    void act(`硬重置到 ${menu.commit.shortOid}`, () => ipc.reset(path, menu.commit.oid, 'hard'), {
                       kind: 'reset',
                     });
                 });

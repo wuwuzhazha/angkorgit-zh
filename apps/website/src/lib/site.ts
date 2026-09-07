@@ -2,7 +2,7 @@ const FALLBACK_VERSION = '0.10.0';
 
 async function latestReleaseVersion(): Promise<string> {
   try {
-    const res = await fetch('https://api.github.com/repos/wuwuzhazha/angkorgit/releases/latest', {
+    const res = await fetch('https://api.github.com/repos/wuwuzhazha/angkorgit-zh/releases/latest', {
       headers: { accept: 'application/vnd.github+json' },
     });
     if (!res.ok) return FALLBACK_VERSION;
@@ -32,9 +32,9 @@ export const SITE = {
   buyMeACoffee: 'https://buymeacoffee.com/chansocheatsok',
   tagline: '日常 Git，令人愉悦。',
   latestVersion: await latestReleaseVersion(),
-  latestUrl: 'https://github.com/wuwuzhazha/angkorgit/releases',
+  latestUrl: 'https://github.com/wuwuzhazha/angkorgit-zh/releases',
   assetUrl: (version: string, asset: string) =>
-    `https://github.com/wuwuzhazha/angkorgit/releases/download/v${version}/${asset}`,
+    `https://github.com/wuwuzhazha/angkorgit-zh/releases/download/v${version}/${asset}`,
 };
 
 export const NAV = [

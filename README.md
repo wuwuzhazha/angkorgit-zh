@@ -20,7 +20,7 @@
 
 ## 📖 关于本项目与中文化说明
 
-本仓库是开源桌面 Git 客户端 [cheat2001/angkorgit](https://github.com/cheat2001/angkorgit) 的**全面中文化持续同步分支（angkorgit-zh）**。
+本仓库是开源桌面 Git 客户端 [wuwuzhazha/angkorgit-zh](https://github.com/wuwuzhazha/angkorgit-zh) 的**全面中文化持续同步分支（angkorgit-zh）**。
 
 ### 中文化的设计逻辑与方法
 

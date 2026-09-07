@@ -103,15 +103,6 @@ docs	docs/Roadmap.md	.angkorgit/review.md
 docs	docs/Roadmap.md	(cherry picked from commit …)
 docs	docs/UI-Guidelines.md	--background
 docs	docs/UI-Guidelines.md	Create Branch
-docs	README.md	apps/desktop
-docs	README.md	apps/website
-docs	README.md	chmod +x
-docs	README.md	docs/assets/conflict.png
-docs	README.md	docs/assets/demo.gif
-docs	README.md	docs/assets/diff.png
-docs	README.md	docs/assets/graph.png
-docs	README.md	docs/assets/worktree.png
-docs	README.md	packages/core
 e2e	tests/e2e/smoke.spec.ts	**://www.gravatar.com/**
 e2e	tests/e2e/smoke.spec.ts	000096aaaaaa
 e2e	tests/e2e/smoke.spec.ts	aside button[title="feature"]
@@ -135,7 +126,6 @@ meta	apps/desktop/package.json	tsc --noEmit && vite build
 meta	apps/desktop/package.json	vite preview
 meta	apps/desktop/package.json	workspace:*
 meta	apps/desktop/src-tauri/Cargo.toml	AngKorGit Contributors
-meta	apps/desktop/src-tauri/tauri.conf.json	dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEJCOTlBMDVERkYyNjQ4NQpSV1NGWlBMZkJacTVDNUpPR0lTZmxaNEJxSXNKMU0vVmRCQ3JFWG5NdFNLNHlta09hRUUxcC9lNgo=
 meta	apps/desktop/src-tauri/tauri.conf.json	icons/128x128.png
 meta	apps/desktop/src-tauri/tauri.conf.json	icons/32x32.png
 meta	apps/desktop/src-tauri/tauri.conf.json	icons/icon.icns
