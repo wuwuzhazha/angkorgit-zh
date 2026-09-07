@@ -182,7 +182,14 @@ jobs:
         run: |
           $changes = if (Test-Path "$env:RUNNER_TEMP\upstream-changes.txt") { Get-Content "$env:RUNNER_TEMP\upstream-changes.txt" } else { @('（手动触发重建）') }
           $dictCount = (Get-Content zh-dict/dict.tsv | Where-Object { $_ -and -not $_.StartsWith('#') }).Count
-          $pendingCount = (Get-Content zh-dict/pending.tsv | Where-Object { $_ -and -not $_.StartsWith('#') }).Count
+          $pendingRows = Get-Content zh-dict/pending.tsv | Where-Object { $_ -and -not $_.StartsWith('#') }
+          $pendingCount = $pendingRows.Count
+          # 分类：绝大多数待译候选是设计保留项（命令/路径/代码片段/品牌/占位），仅少数可能是可译长句
+          $keep = 0; $maybe = 0
+          foreach ($r in $pendingRows) {
+            $s = ($r -split "`t")[2]
+            if ($s -match '^(/|\.|~|refs/|origin/|https?://|@|[A-Za-z0-9_.-]+/)' -or $s -match '[{}`''"\\]|=>|&&|\|\||\(' -or $s -match 'GitHub|GitLab|Bitbucket|AngKor|Claude|Codex|Gemini|Ollama|OpenCode|libgit2|Antigravity' -or $s -match '\d{2,}|20\d\d|%') { $keep++ } else { $maybe++ }
+          }
           $body = @"
           ## 🤖 自动流水线产物（AngKorGit 中文版 v$env:NEXT_VERSION）
 
@@ -192,8 +199,9 @@ jobs:
           ~~~
 
           ### 🌐 中文化状态
-          - 词库条目：$dictCount 条
-          - 待译清单（zh-dict/pending.tsv）：$pendingCount 条（未覆盖英文串；人工翻译后推入即可，下次运行自动生效）
+          - 词库条目：$dictCount 条（可译 UI/文档文案已全部覆盖）
+          - 扫描候选（zh-dict/pending.tsv）：$pendingCount 条，其中不可译保留项（命令/路径/代码片段/品牌/占位等）约 $keep 条、可能可译项约 $maybe 条
+          - 若后续发现可译长句，翻译后追加进 zh-dict/dict.tsv 推入即可，下次运行自动生效
 
           ### ⚠️ 说明
           - 安装包未做商业代码签名，SmartScreen 首次运行提示“更多信息 → 仍要运行”。
