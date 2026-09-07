@@ -340,7 +340,7 @@ fn cherry_pick_many_stops_at_the_first_conflict_and_reports_progress() {
     assert_eq!(
         outcome.message,
         format!(
-            "Cherry-picked 1 of 3 commits. {} has conflicts to resolve；另有 1 个提交正在等待",
+            "已拣选 1/3 个提交。{} 存在待解决的冲突；另有 1 个提交正在等待",
             &conflicting[..8]
         )
     );

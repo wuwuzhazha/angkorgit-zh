@@ -551,7 +551,7 @@ pub fn cherry_pick_many(path: &str, oids: &[String], record_origin: bool) -> App
     }
     Ok(OpOutcome {
         status: "ok".into(),
-        message: format!("Cherry-picked {} commits", oids.len()),
+        message: format!("已拣选 {} 个提交", oids.len()),
     })
 }
 
