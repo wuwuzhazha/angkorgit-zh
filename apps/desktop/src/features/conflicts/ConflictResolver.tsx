@@ -882,7 +882,7 @@ export function ConflictResolver({ file, onResolved }: { file: string; onResolve
               />
             </span>
             <span className={cn('text-xs tabular-nums', resolvedCount === total ? 'text-success' : 'text-muted')}>
-              {resolvedCount}/ {total} 已解决
+              {resolvedCount} / {total} 已解决
             </span>
           </div>
         )}
