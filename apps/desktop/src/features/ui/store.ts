@@ -54,11 +54,16 @@ export interface CreateWorktreePreset {
   oid?: string;
 }
 
+export interface StashPreset {
+  paths: string[];
+}
+
 export type DialogContext =
   | string
   | InteractiveRebasePreset
   | CherryPickPreset
   | CreateWorktreePreset
+  | StashPreset
   | null;
 
 interface UiState {
@@ -80,10 +85,15 @@ interface UiState {
   repoTabs: string[];
   worktreeTabs: string[];
   fileTree: boolean;
+  fileFilterOpen: boolean;
+  fileFilterFocusSeq: number;
+  inspectorFocusSeq: number;
+  graphFocusSeq: number;
   sidebarSections: Record<string, boolean>;
   sidebarCollapseEpoch: number;
   commitBoxHeight: number | null;
   graphColumns: GraphColumns;
+  graphTail: boolean;
 
   toggleSidebar: () => void;
   setSidebarOpen: (open: boolean) => void;
@@ -111,10 +121,16 @@ interface UiState {
   collapseSidebarSections: (ids: readonly string[]) => void;
   setCommitBoxHeight: (height: number | null) => void;
   setGraphColumn: (column: keyof GraphColumns, on: boolean) => void;
+  setGraphTail: (on: boolean) => void;
   setFileTree: (on: boolean) => void;
+  setFileFilterOpen: (on: boolean) => void;
+  focusInspector: () => void;
+  focusGraph: () => void;
 }
 
 export const sidebarVisible = (s: UiState) => s.sidebarOpen && !s.sidebarHiddenForDiff;
+
+export const focusRequests = { inspectorConsumed: 0 };
 
 let dialogReturnFocus: HTMLElement | null = null;
 
@@ -152,10 +168,15 @@ export const useUi = create<UiState>()(
   repoTabs: [],
   worktreeTabs: [],
   fileTree: false,
+  fileFilterOpen: false,
+  fileFilterFocusSeq: 0,
+  inspectorFocusSeq: 0,
+  graphFocusSeq: 0,
   sidebarSections: {},
   sidebarCollapseEpoch: 0,
   commitBoxHeight: null,
   graphColumns: DEFAULT_GRAPH_COLUMNS,
+  graphTail: true,
 
   toggleSidebar: () =>
     set((s) =>
@@ -222,7 +243,12 @@ export const useUi = create<UiState>()(
   setCommitBoxHeight: (commitBoxHeight) => set({ commitBoxHeight }),
   setGraphColumn: (column, on) =>
     set((s) => ({ graphColumns: { ...s.graphColumns, [column]: on } })),
+  setGraphTail: (graphTail) => set({ graphTail }),
   setFileTree: (fileTree) => set({ fileTree }),
+  focusInspector: () => set((s) => ({ inspectorFocusSeq: s.inspectorFocusSeq + 1 })),
+  focusGraph: () => set((s) => ({ graphFocusSeq: s.graphFocusSeq + 1 })),
+  setFileFilterOpen: (fileFilterOpen) =>
+    set((s) => ({ fileFilterOpen, fileFilterFocusSeq: fileFilterOpen ? s.fileFilterFocusSeq + 1 : s.fileFilterFocusSeq })),
     }),
     {
       name: 'angkorgit-ui',
@@ -246,6 +272,7 @@ export const useUi = create<UiState>()(
         sidebarSections: state.sidebarSections,
         commitBoxHeight: state.commitBoxHeight,
         graphColumns: state.graphColumns,
+        graphTail: state.graphTail,
       }),
     },
   ),

@@ -226,13 +226,337 @@ fn stash_roundtrip() {
     commit_all(&repo, "base");
 
     repo.write("a.txt", "dirty\n");
-    core::stash_create(repo.path(), Some("wip"), true).unwrap();
+    core::stash_create(repo.path(), Some("wip"), true, &[]).unwrap();
     assert_eq!(repo.read("a.txt"), "committed\n");
     assert_eq!(core::stash_list(repo.path()).unwrap().len(), 1);
 
     core::stash_pop(repo.path(), 0).unwrap();
     assert_eq!(repo.read("a.txt"), "dirty\n");
     assert_eq!(core::stash_list(repo.path()).unwrap().len(), 0);
+}
+
+#[test]
+fn stash_selected_files_leaves_the_rest_in_place() {
+    let repo = TempRepo::new();
+    repo.write("a.txt", "a\n");
+    repo.write("b.txt", "b\n");
+    commit_all(&repo, "base");
+
+    repo.write("a.txt", "a dirty\n");
+    repo.write("b.txt", "b dirty\n");
+    repo.write("new.txt", "untracked\n");
+    core::stash_create(repo.path(), Some("only a"), true, &["a.txt".into()]).unwrap();
+
+    assert_eq!(repo.read("a.txt"), "a\n");
+    assert_eq!(repo.read("b.txt"), "b dirty\n");
+    assert_eq!(repo.read("new.txt"), "untracked\n");
+    let stashes = core::stash_list(repo.path()).unwrap();
+    assert_eq!(stashes.len(), 1);
+    assert!(stashes[0].message.contains("only a"));
+
+    core::stash_pop(repo.path(), 0).unwrap();
+    assert_eq!(repo.read("a.txt"), "a dirty\n");
+    assert_eq!(repo.read("b.txt"), "b dirty\n");
+}
+
+#[test]
+fn stash_selected_staged_file_leaves_other_staged_files_alone() {
+    let repo = TempRepo::new();
+    repo.write("a.txt", "a\n");
+    repo.write("b.txt", "b\n");
+    commit_all(&repo, "base");
+
+    repo.write("a.txt", "A\n");
+    repo.write("b.txt", "B\n");
+    repo.write("c.txt", "new staged\n");
+    core::stage_all(repo.path()).unwrap();
+    core::stash_create(repo.path(), Some("only a"), true, &["a.txt".into()]).unwrap();
+
+    let status = core::status(repo.path()).unwrap();
+    let mut paths: Vec<_> = status.files.iter().map(|f| f.path.clone()).collect();
+    paths.sort();
+    assert_eq!(paths, vec!["b.txt", "c.txt"]);
+    assert!(status.files.iter().all(|f| f.staged.is_some()));
+    assert_eq!(repo.read("a.txt"), "a\n");
+
+    let files = core::stash_files(repo.path(), 0).unwrap();
+    assert_eq!(files.len(), 1);
+    assert_eq!(files[0].path, "a.txt");
+    let stashes = core::stash_list(repo.path()).unwrap();
+    assert_eq!(stashes[0].message, "On master: only a");
+
+    core::stash_pop(repo.path(), 0).unwrap();
+    assert_eq!(repo.read("a.txt"), "A\n");
+    assert_eq!(repo.read("b.txt"), "B\n");
+    assert_eq!(repo.read("c.txt"), "new staged\n");
+
+    let status = Command::new("git")
+        .args(["stash", "list"])
+        .current_dir(&repo.dir)
+        .output()
+        .expect("git CLI available");
+    assert!(String::from_utf8_lossy(&status.stdout).trim().is_empty());
+}
+
+#[test]
+fn stash_selected_new_staged_file_is_removed_and_restored() {
+    let repo = TempRepo::new();
+    repo.write("a.txt", "a\n");
+    commit_all(&repo, "base");
+    repo.write("fresh.txt", "fresh\n");
+    core::stage_file(repo.path(), "fresh.txt").unwrap();
+    core::stash_create(repo.path(), None, true, &["fresh.txt".into()]).unwrap();
+    assert!(!repo.dir.join("fresh.txt").exists());
+    assert_eq!(core::status(repo.path()).unwrap().files.len(), 0);
+
+    let stashes = core::stash_list(repo.path()).unwrap();
+    assert!(stashes[0].message.starts_with("WIP on master: "));
+    let listed = Command::new("git")
+        .args(["stash", "show", "--name-only", "stash@{0}"])
+        .current_dir(&repo.dir)
+        .output()
+        .expect("git CLI available");
+    assert_eq!(String::from_utf8_lossy(&listed.stdout).trim(), "fresh.txt");
+
+    core::stash_pop(repo.path(), 0).unwrap();
+    assert_eq!(repo.read("fresh.txt"), "fresh\n");
+}
+
+#[test]
+fn discard_staged_file_restores_head_for_index_and_worktree() {
+    let repo = TempRepo::new();
+    repo.write("a.txt", "a\n");
+    repo.write("b.txt", "b\n");
+    commit_all(&repo, "base");
+    repo.write("a.txt", "staged\n");
+    core::stage_file(repo.path(), "a.txt").unwrap();
+    repo.write("a.txt", "staged then edited\n");
+    repo.write("b.txt", "B\n");
+    core::stage_file(repo.path(), "b.txt").unwrap();
+    repo.write("fresh.txt", "new\n");
+    core::stage_file(repo.path(), "fresh.txt").unwrap();
+
+    assert!(core::discard_staged_file(repo.path(), "a.txt").unwrap());
+    assert_eq!(repo.read("a.txt"), "a\n");
+    let status = core::status(repo.path()).unwrap();
+    assert!(status.files.iter().all(|f| f.path != "a.txt"));
+    assert!(status
+        .files
+        .iter()
+        .any(|f| f.path == "b.txt" && f.staged.is_some()));
+
+    assert!(core::discard_staged_file(repo.path(), "fresh.txt").unwrap());
+    assert!(!repo.dir.join("fresh.txt").exists());
+
+    let leftovers = core::discard_staged_all(repo.path()).unwrap();
+    assert!(leftovers.is_empty());
+    assert_eq!(repo.read("b.txt"), "b\n");
+    assert_eq!(core::status(repo.path()).unwrap().files.len(), 0);
+}
+
+#[test]
+fn history_shows_stashes_as_single_parent_commits_and_hides_their_helpers() {
+    let repo = TempRepo::new();
+    repo.write("a.txt", "a\n");
+    let base = commit_all(&repo, "base");
+    repo.write("a.txt", "dirty\n");
+    repo.write("new.txt", "untracked\n");
+    core::stash_create(repo.path(), Some("wip graph"), true, &[]).unwrap();
+    let stash_oid = core::stash_list(repo.path()).unwrap()[0].oid.clone();
+
+    let page = core::history(
+        repo.path(),
+        core::HistoryQuery {
+            skip: 0,
+            limit: 20,
+            search: None,
+            author: None,
+            branch: None,
+        },
+    )
+    .unwrap();
+    let summaries: Vec<_> = page.commits.iter().map(|c| c.summary.as_str()).collect();
+    assert_eq!(page.commits.len(), 2, "{summaries:?}");
+    assert!(summaries
+        .iter()
+        .all(|s| !s.starts_with("index on") && !s.starts_with("untracked files on")));
+
+    let stash = page
+        .commits
+        .iter()
+        .find(|c| c.oid == stash_oid)
+        .expect("stash listed");
+    assert_eq!(stash.parents, vec![base.clone()]);
+    let decoration = stash
+        .refs
+        .iter()
+        .find(|r| r.kind == "stash")
+        .expect("stash decoration");
+    assert_eq!(decoration.name, "stash@{0}");
+    assert_eq!(decoration.shorthand, "On master: wip graph");
+
+    let position = core::history_position(repo.path(), &stash_oid)
+        .unwrap()
+        .expect("position");
+    assert_eq!(position.index, 0);
+
+    let branch_only = core::history(
+        repo.path(),
+        core::HistoryQuery {
+            skip: 0,
+            limit: 20,
+            search: None,
+            author: None,
+            branch: Some("master".into()),
+        },
+    )
+    .unwrap();
+    assert!(branch_only.commits.iter().all(|c| c.oid != stash_oid));
+}
+
+#[test]
+fn stash_selected_untracked_file_only() {
+    let repo = TempRepo::new();
+    repo.write("a.txt", "a\n");
+    commit_all(&repo, "base");
+
+    repo.write("a.txt", "a dirty\n");
+    repo.write("new.txt", "untracked\n");
+    core::stash_create(repo.path(), None, true, &["new.txt".into()]).unwrap();
+
+    assert!(!repo.dir.join("new.txt").exists());
+    assert_eq!(repo.read("a.txt"), "a dirty\n");
+
+    core::stash_pop(repo.path(), 0).unwrap();
+    assert_eq!(repo.read("new.txt"), "untracked\n");
+}
+
+#[test]
+fn stash_files_lists_tracked_and_untracked_entries() {
+    let repo = TempRepo::new();
+    repo.write("a.txt", "a\n");
+    repo.write("b.txt", "b\n");
+    commit_all(&repo, "base");
+    repo.write("a.txt", "a dirty\n");
+    repo.write("new/fresh.txt", "one\ntwo\n");
+    core::stash_create(repo.path(), Some("wip"), true, &[]).unwrap();
+
+    let mut files = core::stash_files(repo.path(), 0).unwrap();
+    files.sort_by(|x, y| x.path.cmp(&y.path));
+    assert_eq!(files.len(), 2);
+    assert_eq!(files[0].path, "a.txt");
+    assert_eq!(files[0].status, "modified");
+    assert!(files[0].source_oid.is_none());
+    assert_eq!(files[1].path, "new/fresh.txt");
+    assert_eq!(files[1].status, "new");
+    assert_eq!(files[1].additions, 2);
+    assert!(files[1].source_oid.is_some());
+}
+
+#[test]
+fn stash_restore_files_brings_back_only_the_chosen_files_and_keeps_the_stash() {
+    let repo = TempRepo::new();
+    repo.write("a.txt", "a\n");
+    repo.write("b.txt", "b\n");
+    repo.write("gone.txt", "bye\n");
+    commit_all(&repo, "base");
+    repo.write("a.txt", "a dirty\n");
+    repo.write("b.txt", "b dirty\n");
+    repo.write("new/fresh.txt", "fresh\n");
+    std::fs::remove_file(repo.dir.join("gone.txt")).unwrap();
+    core::stash_create(repo.path(), None, true, &[]).unwrap();
+    assert_eq!(repo.read("a.txt"), "a\n");
+    assert!(!repo.dir.join("new/fresh.txt").exists());
+
+    let restored = core::stash_restore_files(
+        repo.path(),
+        0,
+        &["a.txt".into(), "new/fresh.txt".into(), "gone.txt".into()],
+    )
+    .unwrap();
+    assert_eq!(restored.len(), 3);
+    assert_eq!(repo.read("a.txt"), "a dirty\n");
+    assert_eq!(repo.read("b.txt"), "b\n");
+    assert_eq!(repo.read("new/fresh.txt"), "fresh\n");
+    assert!(!repo.dir.join("gone.txt").exists());
+    assert_eq!(core::stash_list(repo.path()).unwrap().len(), 1);
+
+    let status = core::status(repo.path()).unwrap();
+    let paths: Vec<_> = status.files.iter().map(|f| f.path.as_str()).collect();
+    assert!(paths.contains(&"a.txt"));
+    assert!(paths.contains(&"new/fresh.txt"));
+    assert!(!paths.contains(&"b.txt"));
+
+    let err = core::stash_restore_files(repo.path(), 0, &["nope.txt".into()]).unwrap_err();
+    assert!(err.to_string().contains("not part of this stash"));
+}
+
+#[test]
+fn checkout_remote_branch_fast_forwards_a_stale_local_branch() {
+    let origin = TempRepo::new();
+    origin.write("a.txt", "base\n");
+    commit_all(&origin, "base");
+    core::branch_create(origin.path(), "feature", None, true).unwrap();
+    origin.write("f.txt", "one\n");
+    commit_all(&origin, "feature one");
+
+    let local = TempRepo::new();
+    local.write("readme.md", "local\n");
+    commit_all(&local, "local base");
+    add_origin(&local, &origin);
+    core::fetch(local.path(), "origin", false, false).unwrap();
+
+    core::checkout_branch(local.path(), "origin/feature").unwrap();
+    assert_eq!(local.read("f.txt"), "one\n");
+    core::checkout_branch(local.path(), "master").unwrap();
+
+    origin.write("f.txt", "two\n");
+    let newest = commit_all(&origin, "feature two");
+    core::fetch(local.path(), "origin", false, false).unwrap();
+
+    local.write("notes.txt", "kept across checkout\n");
+    core::checkout_branch(local.path(), "origin/feature").unwrap();
+    let info = core::repo_info(local.path()).unwrap();
+    assert_eq!(info.head_branch.as_deref(), Some("feature"));
+    assert_eq!(info.head_oid.as_deref(), Some(newest.as_str()));
+    assert_eq!(local.read("f.txt"), "two\n");
+    assert_eq!(local.read("notes.txt"), "kept across checkout\n");
+    let feature = core::branches(local.path())
+        .unwrap()
+        .into_iter()
+        .find(|b| b.name == "feature" && !b.is_remote)
+        .unwrap();
+    assert_eq!(feature.upstream.as_deref(), Some("origin/feature"));
+    assert_eq!(feature.behind, 0);
+}
+
+#[test]
+fn checkout_remote_branch_keeps_a_diverged_local_branch() {
+    let origin = TempRepo::new();
+    origin.write("a.txt", "base\n");
+    commit_all(&origin, "base");
+    core::branch_create(origin.path(), "feature", None, true).unwrap();
+    origin.write("f.txt", "one\n");
+    commit_all(&origin, "feature one");
+
+    let local = TempRepo::new();
+    local.write("readme.md", "local\n");
+    commit_all(&local, "local base");
+    add_origin(&local, &origin);
+    core::fetch(local.path(), "origin", false, false).unwrap();
+    core::checkout_branch(local.path(), "origin/feature").unwrap();
+    local.write("mine.txt", "local work\n");
+    let mine = commit_all(&local, "local feature work");
+    core::checkout_branch(local.path(), "master").unwrap();
+
+    origin.write("f.txt", "two\n");
+    commit_all(&origin, "feature two");
+    core::fetch(local.path(), "origin", false, false).unwrap();
+
+    core::checkout_branch(local.path(), "origin/feature").unwrap();
+    let info = core::repo_info(local.path()).unwrap();
+    assert_eq!(info.head_oid.as_deref(), Some(mine.as_str()));
+    assert_eq!(local.read("f.txt"), "one\n");
 }
 
 #[test]

@@ -19,6 +19,7 @@ import { useUi } from '@/features/ui/store';
 import { useUndo } from '@/features/history/undoStore';
 import { useGraph } from '@/features/graph/store';
 import { useSettings } from '@/features/settings/store';
+import { basename, dirname } from '@/shared/utils';
 
 export function RepoDialogs({ onDone }: { onDone: () => Promise<void> }) {
   const repo = useRepo((s) => s.repo);
@@ -42,6 +43,13 @@ export function RepoDialogs({ onDone }: { onDone: () => Promise<void> }) {
     [pickOids, graphCommits],
   );
   const cherryPickRef = useRef<HTMLButtonElement>(null);
+  const stashPaths = useMemo(
+    () =>
+      dialog === 'createStash' && rawContext && typeof rawContext !== 'string' && 'paths' in rawContext
+        ? rawContext.paths
+        : [],
+    [dialog, rawContext],
+  );
 
   const [name, setName] = useState('');
   const [message, setMessage] = useState('');
@@ -93,7 +101,9 @@ export function RepoDialogs({ onDone }: { onDone: () => Promise<void> }) {
   };
 
   const submitStash = () => {
-    void submit('Stash', () => ipc.stashCreate(path, message.trim() || null, includeUntracked));
+    void submit('Stash', () =>
+      ipc.stashCreate(path, message.trim() || null, stashPaths.length > 0 || includeUntracked, stashPaths),
+    );
   };
 
   const submitCherryPick = () => {
@@ -213,10 +223,26 @@ export function RepoDialogs({ onDone }: { onDone: () => Promise<void> }) {
       <Dialog open={dialog === 'createStash'} onOpenChange={(o) => !o && closeDialog()}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Stash changes</DialogTitle>
-            <DialogDescription>Save your working changes and restore a clean tree.</DialogDescription>
+            <DialogTitle>{stashPaths.length > 0 ? 'Stash selected changes' : 'Stash changes'}</DialogTitle>
+            <DialogDescription>
+              {stashPaths.length === 1
+                ? 'Only this file is stashed. Everything else stays in your working copy.'
+                : stashPaths.length > 1
+                  ? `Only these ${stashPaths.length} files are stashed. Everything else stays in your working copy.`
+                  : 'Save your working changes and restore a clean tree.'}
+            </DialogDescription>
           </DialogHeader>
           <div className="flex flex-col gap-3">
+            {stashPaths.length > 0 && (
+              <ul className="flex max-h-40 flex-col gap-1 overflow-y-auto rounded-md border border-border-subtle bg-surface-raised/50 p-2 font-mono text-xs">
+                {stashPaths.map((file) => (
+                  <li key={file} className="flex min-w-0 items-baseline gap-1.5">
+                    <span className="max-w-full shrink-0 truncate text-foreground">{basename(file)}</span>
+                    <span className="min-w-0 flex-1 truncate text-muted">{dirname(file)}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
             <Input
               autoFocus
               placeholder="Stash message (optional)"
@@ -226,10 +252,12 @@ export function RepoDialogs({ onDone }: { onDone: () => Promise<void> }) {
                 if (e.key === 'Enter') submitStash();
               }}
             />
-            <label className="flex cursor-pointer items-center gap-2 text-xs text-muted">
-              <Checkbox checked={includeUntracked} onCheckedChange={(v) => setIncludeUntracked(v === true)} />
-              Include untracked files
-            </label>
+            {stashPaths.length === 0 && (
+              <label className="flex cursor-pointer items-center gap-2 text-xs text-muted">
+                <Checkbox checked={includeUntracked} onCheckedChange={(v) => setIncludeUntracked(v === true)} />
+                Include untracked files
+              </label>
+            )}
           </div>
           <DialogFooter>
             <Button variant="ghost" onClick={closeDialog}>

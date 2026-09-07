@@ -45,7 +45,12 @@ export function CreateWorktreeDialog() {
   const setWorktreeRoot = useSettings((s) => s.setWorktreeRoot);
   const open = dialog === 'createWorktree';
   const preset: CreateWorktreePreset | null =
-    open && rawContext && typeof rawContext === 'object' && !('oids' in rawContext) && !('baseOid' in rawContext)
+    open &&
+    rawContext &&
+    typeof rawContext === 'object' &&
+    !('oids' in rawContext) &&
+    !('baseOid' in rawContext) &&
+    !('paths' in rawContext)
       ? rawContext
       : null;
 

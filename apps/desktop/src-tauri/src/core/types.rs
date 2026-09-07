@@ -222,6 +222,8 @@ pub struct CommitFileInfo {
     pub is_image: bool,
     pub additions: u32,
     pub deletions: u32,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub source_oid: Option<String>,
 }
 
 #[derive(Serialize)]

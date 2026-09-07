@@ -20,6 +20,7 @@ import {
   SquareTerminal,
   Tag,
   Archive,
+  ArchiveRestore,
   UserRound,
 } from 'lucide-react';
 import {
@@ -361,6 +362,7 @@ export function Toolbar({ onRefresh }: { onRefresh: () => Promise<void> }) {
   const repo = useRepo((s) => s.repo);
   const status = useRepo((s) => s.status);
   const remotes = useRepo((s) => s.remotes);
+  const stashes = useRepo((s) => s.stashes);
   const busy = useRepo((s) => s.busy);
   const setBusy = useRepo((s) => s.setBusy);
   const toggleTerminal = useUi((s) => s.toggleTerminal);
@@ -373,6 +375,7 @@ export function Toolbar({ onRefresh }: { onRefresh: () => Promise<void> }) {
 
   if (!repo) return null;
   const remote = remotes[0]?.name ?? 'origin';
+  const latestStash = stashes[0];
 
   const run = async (label: string, op: () => Promise<{ status: string; message: string } | void>) => {
     if (busy) return;
@@ -505,6 +508,17 @@ export function Toolbar({ onRefresh }: { onRefresh: () => Promise<void> }) {
       <Hint label="Stash changes">
         <Button variant="ghost" size="icon" aria-label="Stash changes" onClick={() => openDialog('createStash')}>
           <Archive />
+        </Button>
+      </Hint>
+      <Hint label={latestStash ? `Pop latest stash: ${latestStash.message}` : 'Pop latest stash (nothing stashed)'}>
+        <Button
+          variant="ghost"
+          size="icon"
+          aria-label="Pop latest stash"
+          disabled={!latestStash || !!busy}
+          onClick={() => void run('Pop stash', () => ipc.stashPop(repo.path, 0))}
+        >
+          <ArchiveRestore />
         </Button>
       </Hint>
 

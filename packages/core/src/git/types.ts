@@ -168,6 +168,7 @@ export interface CommitFileInfo {
   isImage: boolean;
   additions: number;
   deletions: number;
+  sourceOid?: string;
 }
 
 export interface ConflictFile {
