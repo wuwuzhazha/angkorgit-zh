@@ -1071,3 +1071,68 @@ ui	Delete file…	删除文件…
 e2e	'虚拟化行让大型提交图保持流畅'	'Virtualized rows keep large graphs smooth'	hasText: '虚拟化行让大型提交图保持流畅'
 # UI 混排修正：冲突解决器 aria-label
 ui	解决冲突 in ${file}	解决冲突：${file}
+
+# ============ H. 全量残留英文补漏（代码对比/设置/账户/编辑器等） ============
+ui	Back to graph <Kbd>Esc</Kbd>	返回提交图 <Kbd>Esc</Kbd>
+ui	Close <Kbd>Esc</Kbd>	关闭 <Kbd>Esc</Kbd>
+ui	Save <Kbd>{modKey()}</Kbd>	保存 <Kbd>{modKey()}</Kbd>
+ui	>Save<	>保存<	^\s*Save$
+ui	>unsaved<	>未保存<	>unsaved<
+ui	staged	已暂存	>staged<
+ui	unstaged	未暂存	>unstaged<
+ui	{blocks.length} change{blocks.length === 1 ? '' : 's'}	{blocks.length} 处更改
+ui	Unstage file	取消暂存文件
+ui	Stage file	暂存文件
+ui	Unstage this line	取消暂存此行
+ui	Stage this line	暂存此行
+ui	Discard this line…	丢弃此行…
+ui	<Copy /> Copy	<Copy /> 复制
+ui	>Copy<	>复制<	^\s*Copy$
+ui	Select all	全选
+ui	markers remain	仍有冲突标记
+ui	> 处手工编辑<	> 手工编辑<	> 处手工编辑<
+ui	Could not load the diff: {loadError}	无法加载 diff：{loadError}
+ui	Settings	设置	>Settings<
+ui	Settings	设置	^\s*Settings$
+ui	Authentication	身份验证	label: 'Authentication'
+ui	https:// remotes use accounts · git@ remotes use SSH keys	https:// 远端使用账户 · git@ 远端使用 SSH 密钥
+ui	Detected on this machine	已检测到本机安装
+ui	Scan again	重新扫描
+ui	Branch prefix rules	分支前缀规则
+ui	first match wins, applied by AngKorGit itself	首个匹配生效，由 AngKorGit 自身应用
+ui	Add rule	添加规则
+ui	Branch matches	分支匹配
+ui	Message starts with	消息以…开头
+ui	No rules. Add one to prefix messages by branch, for example	暂无规则。可按分支为消息添加前缀，例如
+ui	* matches any part of the branch name. Prefix tokens:	* 匹配分支名的任意部分。前缀令牌：
+ui	messages start with	消息以…开头
+ui	messages get no prefix, no rule matches	无规则匹配时消息无前缀
+ui	Off	关闭	>Off<
+ui	Every minute	每分钟
+ui	Every 5 minutes	每 5 分钟
+ui	Every 15 minutes	每 15 分钟
+ui	Save identity	保存身份
+ui	Linked accounts	已关联账户
+ui	Tried first for their host	优先用于其主机
+ui	New profile	新建配置
+ui	Link hosting accounts to the profile after adding it.	添加后可将托管账户关联到该配置。
+ui	Add profile	添加配置
+ui	Reachable	可访问	>Reachable<
+ui	Not reachable. Check the key, URL or that the local server is running.	无法访问。请检查密钥、URL 或本地服务是否运行。
+ui	Connection not tested yet	尚未测试连接
+ui	Test connection	测试连接
+ui	Could not check (offline?)	无法检查（离线？）
+ui	Not verified	未验证
+ui	Token expired or revoked	令牌已过期或被吊销
+ui	Token expired	令牌已过期
+ui	expires in {days}d	{days} 天后过期
+ui	Accounts	账户	"Accounts"
+ui	Could not load accounts.	无法加载账户。
+ui	>default<	>默认<	>default<
+ui	Create one on	在…创建
+ui	No worktrees match the filter.	没有匹配过滤条件的工作树。
+ui	Click to retry	点击重试
+ui	Edit remote	编辑远端
+ui	Rename the remote or point it at a different URL.	重命名远端，或将其指向其他 URL。
+ui	Existing branch	已有分支
+ui	Terminal	终端	"Terminal"
