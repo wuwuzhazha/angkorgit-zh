@@ -147,6 +147,32 @@ jobs:
           TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
         run: pnpm tauri:build
 
+      - name: ④' 生成 updater latest.json（Tauri v2 bundler 不自动生成，需 CI 生成）
+        if: steps.check.outputs.HAS_UPDATE == 'true'
+        shell: pwsh
+        env:
+          NEXT_VERSION: ${{ steps.ver.outputs.NEXT_VERSION }}
+        run: |
+          $bundle = Join-Path $env:GITHUB_WORKSPACE 'apps/desktop/src-tauri/target/release/bundle'
+          $exe = Get-ChildItem (Join-Path $bundle 'nsis') -Filter *.exe | Select-Object -First 1
+          if (-not $exe) { Write-Error 'NSIS exe 未找到，无法生成 latest.json'; exit 4 }
+          # Tauri v2 updater 静态 JSON：signature = .sig 文件全文
+          $sig = (Get-Content -Raw ($exe.FullName + '.sig')).Trim()
+          $url = "https://github.com/$env:GITHUB_REPOSITORY/releases/download/v$env:NEXT_VERSION/$($exe.Name)"
+          $json = @{
+            version  = $env:NEXT_VERSION
+            notes    = "AngKorGit (zh-CN) v$env:NEXT_VERSION auto release"
+            pub_date = (Get-Date).ToUniversalTime().ToString('o')
+            platforms = @{
+              'windows-x86_64' = @{
+                signature = $sig
+                url       = $url
+              }
+            }
+          } | ConvertTo-Json -Depth 6
+          [System.IO.File]::WriteAllText((Join-Path $bundle 'latest.json'), $json, (New-Object System.Text.UTF8Encoding($false)))
+          Write-Host "latest.json 已生成：$url"
+
       - name: 生成发布说明（上游变更 + 中文化统计）
         id: notes
         if: steps.check.outputs.HAS_UPDATE == 'true'
