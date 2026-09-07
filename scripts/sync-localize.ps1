@@ -535,7 +535,7 @@ if (-not $SkipLocalize) {
 $allFiles = @(Get-ChildItem -LiteralPath $Repo -Recurse -Force -File | Where-Object { $_.FullName -notmatch '\\\.git\\' })
 $globDefs = @{
   ui      = @('apps/desktop/src/**/*.ts', 'apps/desktop/src/**/*.tsx')
-  rust    = @('apps/desktop/src-tauri/src/**/*.rs')
+  rust    = @('apps/desktop/src-tauri/src/**/*.rs', 'apps/desktop/src-tauri/tests/**/*.rs')
   core    = @('packages/core/src/**/*.ts')
   website = @('apps/website/src/**/*.ts', 'apps/website/src/**/*.tsx', 'apps/website/src/**/*.astro')
   meta    = @('apps/desktop/src-tauri/tauri.conf.json', 'package.json', 'apps/desktop/package.json', 'apps/desktop/src-tauri/Cargo.toml', 'apps/desktop/index.html')
