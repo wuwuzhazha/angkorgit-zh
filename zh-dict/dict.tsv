@@ -1240,13 +1240,13 @@ docs	open-source, final CTA.	开源、最终行动号召。
 docs	## 1. DNS (Hostinger)	## 1. DNS（Hostinger）
 docs	### More than one key	### 使用多个密钥
 docs	# Distribution Guide	# 分发指南
-docs	## 4. Search Console	## 4. Search Console 验证
+docs	## 4. Search Console	## 4. Search Console 验证	^## 4\. Search Console$
 docs	## 5. Website (live)	## 5. 网站（线上）
 docs	## Everyday commands	## 常用命令
 docs	## No code comments	## 无代码注释
 docs	of failed attempts.	失败尝试之后就会切断连接。
 docs	# Coding Standards	# 编码规范
-docs	## 2. GitHub Pages	## 2. GitHub Pages 托管
+docs	## 2. GitHub Pages	## 2. GitHub Pages 托管	^## 2\. GitHub Pages$
 docs	## 3. Smoke checks	## 3. 冒烟检查
 docs	## Windows & Linux	## Windows 与 Linux
 docs	- [ ] Issue viewer	- [ ] Issue 查看器

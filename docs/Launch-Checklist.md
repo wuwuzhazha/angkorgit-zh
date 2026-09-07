@@ -17,7 +17,7 @@ dig @8.8.8.8 angkorgit.app A +short
 dig @1.1.1.1 angkorgit.app A +short
 ```
 
-## 2. GitHub Pages 托管 托管
+## 2. GitHub Pages 托管
 
 - Pages 源必须是 **GitHub Actions**（在仓库 设置 → Pages 中设置）。
 - 自定义域名 + 强制 HTTPS：
@@ -39,7 +39,7 @@ curl -s https://angkorgit.app/robots.txt                                 # Sitem
 curl -s https://angkorgit.app/og.png -o /dev/null -w "%{http_code}\n"    # 200
 ```
 
-## 4. Search Console 验证 验证
+## 4. Search Console 验证
 
 - 通过**网址前缀属性**（`https://angkorgit.app/`）验证；meta 标签位于
   `apps/website/src/layouts/Base.astro`，部署上线后即可访问。
