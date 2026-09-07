@@ -364,7 +364,7 @@ core/
 - Operations that can pause on conflicts return `OpOutcome { status: "ok"|"conflicts"|"up_to_date"|"fast_forward", message }` — never an error for conflicts.
 - Command args are **camelCase** matching the TS payloads (`#![allow(non_snake_case)]`).
 - Every new engine function gets an integration test in `tests/git_engine.rs`
-  (63 tests; TempRepo fixture creates real repos in temp dirs; uses `angkorgit_lib::test_api`).
+  (69 tests; TempRepo fixture creates real repos in temp dirs; uses `angkorgit_lib::test_api`).
 - Destructive ops verify outcomes (e.g. discard returns leftover paths → UI explains submodules).
 
 ## 6. Frontend — `apps/desktop/src/`
@@ -1068,7 +1068,11 @@ features/
 │                               Badge (M/A/D/R), name first, dimmed dir after, +/− counts,
 │                               chevron rotates when that file's diff is open — never the
 │                               old bordered-card rows; section header "FILES n" with the
-│                               per-status summary right-aligned;
+│                               per-status summary right-aligned as COMPACT tokens — colored
+│                               mark + count ("M 24 · A 6 · D 6 · R 3", label in the
+│                               title/aria-label) on one nowrap line; the worded form
+│                               wrapped to two lines on a commit with all four kinds and
+│                               pushed FILES down (owner screenshot 2026-09-07);
 │                               Explain with AI: result cached in ai/workStore keyed
 │                               repo+oid — survives selection changes and finishes in
 │                               the background if the user navigates away; panel has a

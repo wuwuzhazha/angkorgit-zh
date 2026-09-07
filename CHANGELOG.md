@@ -6,6 +6,17 @@ All notable changes to AngKorGit are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.11.0] — 2026-09-07
+
+The working-copy release. Stashes become first-class: stash only the files you
+pick, see every stash as its own row in the graph, and apply single files back
+without popping the whole thing. The working copy learns multi-select, discard
+for staged files and a path filter, the diff follows your editor as you type,
+and the keyboard carries you from the graph into a commit's files and back.
+The branch you stand on is unmistakable in the sidebar and the graph, a stale
+local branch fast-forwards when you check out its remote, and the sidebar no
+longer starts hidden after a relaunch.
+
 ### Added
 - **Filter files by path.** A search icon in the inspector header opens a filter
   box above the working copy lists or a commit's file list. Type part of a path
@@ -68,6 +79,9 @@ All notable changes to AngKorGit are documented here. The format follows
   local branch with its own commits is left alone, as before.
 
 ### Fixed
+- The file summary above a commit's file list stays on one line, as colored
+  marks with counts, instead of wrapping when a commit touches files in every
+  way at once.
 - **The sidebar no longer starts hidden after a relaunch.** Quitting with a diff
   open saved the folded sidebar layout, and on the next launch that layout was
   mistaken for you closing the sidebar. It now reopens as you left it, and only a
@@ -1033,7 +1047,8 @@ The first release. 🏛️
 - AI assistant with pluggable providers (OpenAI, Anthropic, Gemini, Ollama,
   LM Studio): commit messages, diff/conflict explanations, PR descriptions, reviews
 
-[Unreleased]: https://github.com/cheat2001/angkorgit/compare/v0.10.0...HEAD
+[Unreleased]: https://github.com/cheat2001/angkorgit/compare/v0.11.0...HEAD
+[0.11.0]: https://github.com/cheat2001/angkorgit/compare/v0.10.0...v0.11.0
 [0.10.0]: https://github.com/cheat2001/angkorgit/compare/v0.9.0...v0.10.0
 [0.9.0]: https://github.com/cheat2001/angkorgit/compare/v0.8.0...v0.9.0
 [0.8.0]: https://github.com/cheat2001/angkorgit/compare/v0.7.0...v0.8.0
