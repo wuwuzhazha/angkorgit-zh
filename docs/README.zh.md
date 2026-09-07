@@ -127,6 +127,17 @@
   </tr>
 </table>
 
+## 🚀 全自动「同步 · 中文化 · 构建 · 发布」流水线
+
+本仓库内置 `.github/workflows/auto-sync-build-release.yml`，**无需人工参与**即可跟随上游持续更新并自动发布中文版安装包：
+
+1. 每 6 小时自动轮询上游 `cheat2001/angkorgit`（也可在 Actions 页手动触发）。
+2. 检测到上游更新后：**合并（上游代码优先）→ 重放中文化词库 → 中文 README 恢复 → 版本号自动递增 → 提交推送 main**。
+3. 自动构建 Windows 安装包（NSIS `.exe` + MSI，含 updater 签名与 `latest.json`）。
+4. 自动发布 GitHub Release（Release 说明含本次上游提交清单与词库/待译统计）。
+
+上游新引入的英文串会自动进入 `zh-dict/pending.tsv` 并随 main 提交；人工翻译后推入 `dict.tsv`，下一次运行自动生效。升级检查（应用内“检查更新”）指向本仓库 Releases，安装后即可持续自动升级。
+
 ## 🚫 故意不做的事情
 
 - **应用内代码评审（PR Review）**：代码托管平台（GitHub/GitLab）配合 CI 日志与行内评论体验更佳，软件内提供一键“在浏览器中打开”按钮。
