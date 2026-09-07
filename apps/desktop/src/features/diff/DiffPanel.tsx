@@ -255,7 +255,7 @@ export function DiffPanel({ target }: { target: CenterDiffTarget }) {
         <Hint
           label={
             <span className="flex items-center gap-1">
-              Back to graph <Kbd>Esc</Kbd>
+              返回提交图 <Kbd>Esc</Kbd>
             </span>
           }
         >
@@ -368,7 +368,7 @@ export function DiffPanel({ target }: { target: CenterDiffTarget }) {
               </Button>
             </Hint>
             <span className="text-[10px] text-faint">
-              {blocks.length} change{blocks.length === 1 ? '' : 's'}
+              {blocks.length} 处更改
             </span>
           </>
         )}
@@ -423,7 +423,7 @@ export function DiffPanel({ target }: { target: CenterDiffTarget }) {
                 size="sm"
                 onClick={() => void runStage(() => ipc.unstageFile(path, target.path), 'Unstage')}
               >
-                <Minus className="size-3" /> Unstage file
+                <Minus className="size-3" /> 取消暂存文件
               </Button>
             ) : (
               <Button
@@ -431,7 +431,7 @@ export function DiffPanel({ target }: { target: CenterDiffTarget }) {
                 size="sm"
                 onClick={() => void runStage(() => ipc.stageFile(path, target.path), 'Stage')}
               >
-                <Plus className="size-3" /> Stage file
+                <Plus className="size-3" /> 暂存文件
               </Button>
             )}
           </>
@@ -449,7 +449,7 @@ export function DiffPanel({ target }: { target: CenterDiffTarget }) {
           ) : loadError ? (
             <div className="flex h-full flex-col items-center justify-center gap-3 px-6">
               <p className="max-w-md text-center text-sm text-danger [overflow-wrap:anywhere]">
-                Could not load the diff: {loadError}
+                无法加载 diff：{loadError}
               </p>
               <Button variant="ghost" size="sm" onClick={() => setReloadToken((t) => t + 1)}>
                 重试
@@ -535,7 +535,7 @@ export function DiffPanel({ target }: { target: CenterDiffTarget }) {
                       )
                     }
                   >
-                    <Minus /> Unstage this line
+                    <Minus /> 取消暂存此行
                   </DropdownMenuItem>
                 ) : (
                   <>
@@ -555,7 +555,7 @@ export function DiffPanel({ target }: { target: CenterDiffTarget }) {
                         )
                       }
                     >
-                      <Plus /> Stage this line
+                      <Plus /> 暂存此行
                     </DropdownMenuItem>
                     <DropdownMenuItem
                       destructive
@@ -582,7 +582,7 @@ export function DiffPanel({ target }: { target: CenterDiffTarget }) {
                         });
                       }}
                     >
-                      <Trash2 /> Discard this line…
+                      <Trash2 /> 丢弃此行…
                     </DropdownMenuItem>
                   </>
                 )}
@@ -596,7 +596,7 @@ export function DiffPanel({ target }: { target: CenterDiffTarget }) {
                   toast.success('Copied');
                 }}
               >
-                <Copy /> Copy
+                <Copy /> 复制
               </DropdownMenuItem>
             )}
             <DropdownMenuItem
@@ -610,7 +610,7 @@ export function DiffPanel({ target }: { target: CenterDiffTarget }) {
             <DropdownMenuItem
               onClick={() => selectSide(lineMenu.info.side ?? 'new')}
             >
-              <TextSelect /> Select all
+              <TextSelect /> 全选
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

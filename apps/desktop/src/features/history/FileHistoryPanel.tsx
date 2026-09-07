@@ -185,7 +185,7 @@ export function FileHistoryPanel({ file }: { file: string }) {
         <Hint
           label={
             <span className="flex items-center gap-1">
-              Back to graph <Kbd>Esc</Kbd>
+              返回提交图 <Kbd>Esc</Kbd>
             </span>
           }
         >
@@ -366,7 +366,7 @@ export function FileHistoryPanel({ file }: { file: string }) {
                   toast.success('Copied');
                 }}
               >
-                <Copy /> Copy
+                <Copy /> 复制
               </DropdownMenuItem>
             )}
             <DropdownMenuItem
@@ -380,7 +380,7 @@ export function FileHistoryPanel({ file }: { file: string }) {
             <DropdownMenuItem
               onClick={() => selectSide(lineMenu.info.side ?? 'new')}
             >
-              <TextSelect /> Select all
+              <TextSelect /> 全选
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

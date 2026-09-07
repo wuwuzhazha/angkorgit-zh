@@ -91,7 +91,7 @@ export function EditorPanel({ file }: { file: string }) {
         <Hint
           label={
             <span className="flex items-center gap-1">
-              Close <Kbd>Esc</Kbd>
+              关闭 <Kbd>Esc</Kbd>
             </span>
           }
         >
@@ -101,11 +101,11 @@ export function EditorPanel({ file }: { file: string }) {
         </Hint>
         <Pencil className="size-3.5 shrink-0 text-primary" />
         <span className="min-w-0 flex-1 truncate font-mono text-xs">{file}</span>
-        {dirty && <Badge tone="primary">unsaved</Badge>}
+        {dirty && <Badge tone="primary">未保存</Badge>}
         <Hint
           label={
             <span className="flex items-center gap-1">
-              Save <Kbd>{modKey()}</Kbd>
+              保存 <Kbd>{modKey()}</Kbd>
               <Kbd>S</Kbd>
             </span>
           }

@@ -80,7 +80,7 @@ const SECTIONS: Array<{
 }> = [
   { id: 'appearance', label: '外观', description: '主题、强调色、缩放与动效', icon: Palette },
   { id: 'git', label: 'Git', description: '自动拉取、拉取请求、身份与配置', icon: User },
-  { id: 'accounts', label: 'Authentication', description: 'https:// remotes use accounts · git@ remotes use SSH keys', icon: Github },
+  { id: 'accounts', label: '身份验证', description: 'https:// 远端使用账户 · git@ 远端使用 SSH 密钥', icon: Github },
   { id: 'ai', label: 'AI 助手', description: '提供方、连接与消息风格', icon: Sparkles },
   { id: 'shortcuts', label: '快捷键', description: '键盘参考', icon: Keyboard },
 ];
@@ -182,7 +182,7 @@ function SshCard() {
                 toast.success('公钥已复制——请粘贴到你的托管平台');
               }}
             >
-              <Copy /> Copy public key
+              <Copy /> 复制 public key
             </Button>
           </div>
         )}
@@ -334,10 +334,10 @@ function CliAgentPicker() {
   return (
     <div className="flex flex-col gap-1.5">
       <div className="flex items-center justify-between">
-        <span className="text-xs font-medium text-muted">Detected on this machine</span>
+        <span className="text-xs font-medium text-muted">已检测到本机安装</span>
         <Button variant="ghost" size="sm" onClick={() => void scan()} disabled={scanning}>
           {scanning ? <Spinner /> : <RefreshCw className="size-3.5" />}
-          Scan again
+          重新扫描
         </Button>
       </div>
       {agents.map((agent) => {
@@ -390,7 +390,7 @@ function CliAgentPicker() {
           description="请安装 Claude Code、Codex CLI、Gemini CLI、OpenCode 或 Antigravity CLI，然后重新扫描。"
           action={
             <Button variant="secondary" size="sm" onClick={() => void scan()}>
-              <RefreshCw className="size-3.5" /> Scan again
+              <RefreshCw className="size-3.5" /> 重新扫描
             </Button>
           }
         />
@@ -457,7 +457,7 @@ function CommitStyleCard() {
         <div className="flex flex-col gap-2">
           <div className="flex items-center justify-between">
             <span className="text-xs font-medium text-muted">
-              Branch prefix rules <span className="font-normal text-faint">· first match wins, applied by AngKorGit itself</span>
+              分支前缀规则 <span className="font-normal text-faint">· 首个匹配生效，由 AngKorGit 自身应用</span>
             </span>
             <Button
               variant="ghost"
@@ -467,15 +467,15 @@ function CommitStyleCard() {
               }
             >
               <Plus className="size-3.5" />
-              Add rule
+              添加规则
             </Button>
           </div>
           {commit.prefixRules.length > 0 ? (
             <div className="flex flex-col divide-y divide-border-subtle rounded-lg border border-border-subtle bg-surface-raised/40">
               <div className="grid grid-cols-[1fr_auto_1fr_28px] items-center gap-2 px-2.5 pt-2 text-[10px] font-semibold uppercase tracking-wide text-faint">
-                <span>Branch matches</span>
+                <span>分支匹配</span>
                 <span />
-                <span>Message starts with</span>
+                <span>消息以…开头</span>
                 <span />
               </div>
               {commit.prefixRules.map((rule, index) => (
@@ -506,7 +506,7 @@ function CommitStyleCard() {
             </div>
           ) : (
             <p className="rounded-lg border border-dashed border-border-subtle px-3 py-2.5 text-xs text-faint">
-              No rules. Add one to prefix messages by branch, for example{' '}
+              暂无规则。可按分支为消息添加前缀，例如{' '}
               <span className="font-mono">feature/*</span> → <span className="font-mono">[{'{suffix}'}]</span>.
             </p>
           )}
@@ -520,10 +520,10 @@ function CommitStyleCard() {
               On <span className="font-mono text-foreground">{branch}</span>
               {preview ? (
                 <>
-                  messages start with <span className="font-mono text-foreground">{preview}</span>
+                  消息以…开头 <span className="font-mono text-foreground">{preview}</span>
                 </>
               ) : (
-                <>messages get no prefix, no rule matches</>
+                <>无规则匹配时消息无前缀</>
               )}
             </p>
           )}
@@ -704,11 +704,11 @@ export function SettingsDialog() {
   return (
     <Dialog open={open} onOpenChange={(o) => !o && closeDialog()}>
       <DialogContent className="max-w-3xl overflow-hidden p-0">
-        <DialogTitle className="sr-only">Settings</DialogTitle>
+        <DialogTitle className="sr-only">设置</DialogTitle>
         <div className="flex h-[560px] max-h-[80vh]">
           <nav className="flex w-52 shrink-0 flex-col border-r border-border-subtle bg-surface">
             <p className="px-4 pb-2 pt-4 text-xs font-semibold uppercase tracking-wide text-faint">
-              Settings
+              设置
             </p>
             <div className="flex-1 px-2">
               {SECTIONS.map(({ id, label, icon: Icon }) => (
@@ -880,10 +880,10 @@ export function SettingsDialog() {
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="0">Off</SelectItem>
-                          <SelectItem value="1">Every minute</SelectItem>
-                          <SelectItem value="5">Every 5 minutes</SelectItem>
-                          <SelectItem value="15">Every 15 minutes</SelectItem>
+                          <SelectItem value="0">关闭</SelectItem>
+                          <SelectItem value="1">每分钟</SelectItem>
+                          <SelectItem value="5">每 5 分钟</SelectItem>
+                          <SelectItem value="15">每 15 分钟</SelectItem>
                         </SelectContent>
                       </Select>
                     }
@@ -932,7 +932,7 @@ export function SettingsDialog() {
                         {repo ? `将 user.name 和 user.email 写入 ${repo.name}/.git/config` : '将 user.name 和 user.email 写入 ~/.gitconfig'}
                       </span>
                       <Button size="sm" onClick={() => void saveIdentity()}>
-                        Save identity
+                        保存身份
                       </Button>
                     </div>
                   </SettingCard>
@@ -943,7 +943,7 @@ export function SettingsDialog() {
                     action={
                       !addingProfile && settings.profiles.length > 0 ? (
                         <Button variant="secondary" size="sm" onClick={() => setAddingProfile(true)}>
-                          <Plus className="size-3.5" /> New profile
+                          <Plus className="size-3.5" /> 新建配置
                         </Button>
                       ) : undefined
                     }
@@ -999,13 +999,13 @@ export function SettingsDialog() {
                               <div className="mt-3 flex flex-col gap-1.5 border-t border-border-subtle pt-2.5">
                                 <div className="flex items-baseline justify-between gap-2">
                                   <span className="text-[11px] font-medium text-faint">
-                                    Linked accounts
+                                    已关联账户
                                     <span className="font-normal">
                                       {' '}· {sortedAccounts.filter((a) => profile.accounts?.[a.host] === a.username).length} of{' '}
                                       {sortedAccounts.length}
                                     </span>
                                   </span>
-                                  <span className="text-[11px] text-faint">Tried first for their host</span>
+                                  <span className="text-[11px] text-faint">优先用于其主机</span>
                                 </div>
                                 <div className="flex flex-col divide-y divide-border-subtle rounded-md border border-border-subtle bg-surface">
                                   {sortedAccounts.map((account) => {
@@ -1051,7 +1051,7 @@ export function SettingsDialog() {
                           description="一次性添加“工作”和“个人”，之后每个仓库都会自动选用正确的姓名、邮箱和账户。"
                           action={
                             <Button variant="secondary" size="sm" onClick={() => setAddingProfile(true)}>
-                              <Plus className="size-3.5" /> New profile
+                              <Plus className="size-3.5" /> 新建配置
                             </Button>
                           }
                         />
@@ -1059,7 +1059,7 @@ export function SettingsDialog() {
 
                       {addingProfile && (
                         <div className="rounded-lg border border-primary/30 bg-primary/5 p-3">
-                          <p className="mb-3 text-xs font-medium text-foreground">New profile</p>
+                          <p className="mb-3 text-xs font-medium text-foreground">新建配置</p>
                           <div className="grid grid-cols-3 gap-3">
                             <Field label="Label">
                               <Input
@@ -1098,7 +1098,7 @@ export function SettingsDialog() {
                           </div>
                           <div className="mt-3 flex items-center justify-between gap-3">
                             <span className="text-[11px] text-faint">
-                              Link hosting accounts to the profile after adding it.
+                              添加后可将托管账户关联到该配置。
                             </span>
                             <span className="flex gap-2">
                               <Button variant="ghost" size="sm" onClick={() => setAddingProfile(false)}>
@@ -1109,7 +1109,7 @@ export function SettingsDialog() {
                                 disabled={!profileLabel.trim() || !profileName.trim() || !profileEmail.trim()}
                                 onClick={addProfile}
                               >
-                                Add profile
+                                添加配置
                               </Button>
                             </span>
                           </div>
@@ -1194,20 +1194,20 @@ export function SettingsDialog() {
                           {aiStatus === 'ok' && (
                             <>
                               <span className="size-1.5 rounded-full bg-success" />
-                              <span className="text-success">Reachable</span>
+                              <span className="text-success">可访问</span>
                             </>
                           )}
                           {aiStatus === 'fail' && (
                             <>
                               <span className="size-1.5 rounded-full bg-danger" />
-                              <span className="text-danger">Not reachable. Check the key, URL or that the local server is running.</span>
+                              <span className="text-danger">无法访问。请检查密钥、URL 或本地服务是否运行。</span>
                             </>
                           )}
-                          {aiStatus === 'unknown' && <span className="text-faint">Connection not tested yet</span>}
+                          {aiStatus === 'unknown' && <span className="text-faint">尚未测试连接</span>}
                         </span>
                         <Button variant="secondary" size="sm" onClick={() => void testAi()} disabled={testing}>
                           {testing ? <Spinner /> : <Wifi className="size-3.5" />}
-                          Test connection
+                          测试连接
                         </Button>
                       </div>
                     </div>

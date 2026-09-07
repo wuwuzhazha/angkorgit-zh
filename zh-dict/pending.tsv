@@ -323,8 +323,8 @@ rust	apps/desktop/src-tauri/tests/git_engine.rs	missing origin line in: {engine_
 rust	apps/desktop/src-tauri/tests/git_engine.rs	not a rev
 rust	apps/desktop/src-tauri/tests/git_engine.rs	one\nplus\n
 rust	apps/desktop/src-tauri/tests/git_engine.rs	one\ntwo\nthree
-rust	apps/desktop/src-tauri/tests/git_engine.rs	one\ntwo\nthree\n
-rust	apps/desktop/src-tauri/tests/git_engine.rs	one\nTWO\nthree\nfour\nfive\n
+rust	apps/desktop/src-tauri/tests/git_engine.rs	one\nTWO\nthree\n
+rust	apps/desktop/src-tauri/tests/git_engine.rs	one\ntwo\nthree\nfour\nfive\n
 rust	apps/desktop/src-tauri/tests/git_engine.rs	other change\n
 rust	apps/desktop/src-tauri/tests/git_engine.rs	plain commit
 rust	apps/desktop/src-tauri/tests/git_engine.rs	pr third

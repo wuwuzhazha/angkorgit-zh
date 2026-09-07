@@ -168,7 +168,7 @@ export function CreateWorktreeDialog() {
           <Tabs value={mode} onValueChange={(v) => setMode(v as Mode)}>
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="new">新建分支</TabsTrigger>
-              <TabsTrigger value="existing">Existing branch</TabsTrigger>
+              <TabsTrigger value="existing">已有分支</TabsTrigger>
             </TabsList>
           </Tabs>
 

@@ -161,7 +161,7 @@ export function useDiffFind(diff: FileDiff | null, scrollRef: React.RefObject<HT
       <Hint
         label={
           <span className="flex items-center gap-1">
-            Close <Kbd>Esc</Kbd>
+            关闭 <Kbd>Esc</Kbd>
           </span>
         }
       >

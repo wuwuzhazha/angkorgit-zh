@@ -936,7 +936,7 @@ export function Sidebar() {
           )}
           {worktrees.length > 1 && filteredWorktrees.map(renderWorktree)}
           {worktrees.length > 1 && q && filteredWorktrees.length === 0 && (
-            <div className="px-2 py-1 pl-7 text-xs text-faint">No worktrees match the filter.</div>
+            <div className="px-2 py-1 pl-7 text-xs text-faint">没有匹配过滤条件的工作树。</div>
           )}
         </Section>
         {spacerAfter('worktrees')}
@@ -989,7 +989,7 @@ export function Sidebar() {
                 onClick={() => void useForge.getState().load(true)}
               >
                 {forgeError}
-                <span className="mt-0.5 block text-primary">Click to retry</span>
+                <span className="mt-0.5 block text-primary">点击重试</span>
               </button>
             )}
             {forgeAccount && !forgeError && filteredPrs.length === 0 && !forgeLoading && (
@@ -1262,7 +1262,7 @@ export function Sidebar() {
                 toast.success('URL 已复制');
               }}
             >
-              <Copy /> Copy URL
+              <Copy /> 复制 URL
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -1410,7 +1410,7 @@ export function Sidebar() {
                 setEditRemote({ original: r.name, name: r.name, url: r.url });
               }}
             >
-              <Pencil /> Edit remote…
+              <Pencil /> 编辑远端…
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem
@@ -1437,8 +1437,8 @@ export function Sidebar() {
       <Dialog open={editRemote !== null} onOpenChange={(o) => !o && setEditRemote(null)}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Edit remote</DialogTitle>
-            <DialogDescription>Rename the remote or point it at a different URL.</DialogDescription>
+            <DialogTitle>编辑远端</DialogTitle>
+            <DialogDescription>重命名远端，或将其指向其他 URL。</DialogDescription>
           </DialogHeader>
           <div className="flex flex-col gap-3">
             <label className="flex flex-col gap-1.5 text-xs text-muted">

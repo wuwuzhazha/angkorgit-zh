@@ -186,15 +186,15 @@ function AccountStatus({
 }) {
   if (check === 'checking') return <Spinner className="size-3.5" />;
   if (check === 'unreachable') {
-    return <span className="text-xs text-muted">Could not check (offline?)</span>;
+    return <span className="text-xs text-muted">无法检查（离线？）</span>;
   }
   if (!account.verified) {
     if (!account.verifiedAt) {
-      return <span className="text-xs text-faint">Not verified</span>;
+      return <span className="text-xs text-faint">未验证</span>;
     }
     return (
       <span className="flex items-center gap-1 text-xs text-danger">
-        <AlertTriangle className="size-3.5" /> Token expired or revoked
+        <AlertTriangle className="size-3.5" /> 令牌已过期或被吊销
       </span>
     );
   }
@@ -204,7 +204,7 @@ function AccountStatus({
     if (days <= 0) {
       return (
         <span className="flex items-center gap-1 text-xs text-danger">
-          <AlertTriangle className="size-3.5" /> Token expired
+          <AlertTriangle className="size-3.5" /> 令牌已过期
         </span>
       );
     }
@@ -215,7 +215,7 @@ function AccountStatus({
           days <= 14 ? 'text-primary' : 'text-success',
         )}
       >
-        <CheckCircle2 className="size-3.5" /> expires in {days}d
+        <CheckCircle2 className="size-3.5" /> {days} 天后过期
       </span>
     );
   }
@@ -377,7 +377,7 @@ export function AccountsTab() {
 
   return (
     <SettingCard
-      title="Accounts"
+      title="账户"
       description="当远端的主机匹配时自动使用——无需 SSH 配置即可通过 HTTPS 推送和拉取。每个主机可以有多个账户；其中一个是默认账户，各配置可选用其他账户。"
       action={
         !showForm ? (
@@ -401,7 +401,7 @@ export function AccountsTab() {
             ))}
           </div>
         )}
-        {loadFailed && <p className="text-xs text-danger">Could not load accounts.</p>}
+        {loadFailed && <p className="text-xs text-danger">无法加载账户。</p>}
 
         {!loading &&
           accounts.map((account) => {
@@ -419,7 +419,7 @@ export function AccountsTab() {
                   <p className="flex items-center gap-2 text-sm font-medium text-foreground">
                     <span className="truncate">{account.username}</span>
                     <span className="truncate font-normal text-muted">@ {account.host}</span>
-                    {multi && account.isDefault && <Badge tone="neutral">default</Badge>}
+                    {multi && account.isDefault && <Badge tone="neutral">默认</Badge>}
                   </p>
                   <p className="flex flex-wrap items-center gap-x-2 text-xs text-faint">
                     <AccountStatus account={account} check={checks[key]} />
@@ -506,7 +506,7 @@ export function AccountsTab() {
                       className="flex items-center gap-1 text-primary hover:underline"
                       onClick={() => void openExternal(tokenPage)}
                     >
-                      Create one on {preset.label} <ExternalLink className="size-3" />
+                      在…创建 {preset.label} <ExternalLink className="size-3" />
                     </button>
                   ) : undefined
                 }

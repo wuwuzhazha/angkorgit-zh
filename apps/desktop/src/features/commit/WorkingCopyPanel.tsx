@@ -796,14 +796,14 @@ export function WorkingCopyPanel() {
               <DropdownMenuItem
                 onClick={() => void run(() => ipc.unstageFile(path, fileMenu.file.path), '取消暂存失败')}
               >
-                <Minus /> Unstage file
+                <Minus /> 取消暂存文件
               </DropdownMenuItem>
             ) : (
               <>
                 <DropdownMenuItem
                   onClick={() => void run(() => ipc.stageFile(path, fileMenu.file.path), '暂存失败')}
                 >
-                  <Plus /> Stage file
+                  <Plus /> 暂存文件
                 </DropdownMenuItem>
                 <DropdownMenuItem destructive onClick={() => requestDiscard(fileMenu.file)}>
                   <Trash2 /> Discard changes…

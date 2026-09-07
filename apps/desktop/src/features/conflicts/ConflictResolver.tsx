@@ -1148,7 +1148,7 @@ export function ConflictResolver({ file, onResolved }: { file: string; onResolve
                   <Badge tone="primary">
                     <Pencil className="size-2.5" /> 处手工编辑
                   </Badge>
-                  {manualHasMarkers && <Badge tone="danger">markers remain</Badge>}
+                  {manualHasMarkers && <Badge tone="danger">仍有冲突标记</Badge>}
                 </>
               ) : (
                 <>
