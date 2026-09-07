@@ -1,14 +1,15 @@
-import { useLayoutEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { toast } from 'sonner';
-import { ChevronDown, ChevronRight, ChevronUp, Cloud, Copy, Maximize2, Monitor, Sparkles, Tag as TagIcon } from 'lucide-react';
+import { ArchiveRestore, ChevronDown, ChevronRight, ChevronUp, Cloud, Copy, Maximize2, Monitor, Sparkles, Tag as TagIcon } from 'lucide-react';
 import type { CommitFileInfo, CommitInfo, FileDiff } from '@angkorgit/core';
-import { aiCapabilities } from '@angkorgit/core';
-import { Badge, Button, Hint, Logo, cn } from '@angkorgit/design-system';
+import { aiCapabilities, filterFiles } from '@angkorgit/core';
+import { Badge, Button, Checkbox, Hint, Logo, cn } from '@angkorgit/design-system';
 import { ipc } from '@/core/ipc';
+import { FileFilterInput } from '@/components/FileFilterInput';
 import { useGraph } from '@/features/graph/store';
 import { useRepo } from '@/features/repository/store';
-import { useUi } from '@/features/ui/store';
+import { focusRequests, useUi } from '@/features/ui/store';
 import { aiConfigured, getAiProvider } from '@/features/ai/client';
 import { AiText } from '@/features/ai/AiText';
 import { AiResultDialog } from '@/features/ai/AiResultDialog';
@@ -131,6 +132,8 @@ export function CommitDetails({
   const centerDiff = useUi((s) => s.centerDiff);
   const fileTree = useUi((s) => s.fileTree);
   const repoPath = useRepo((s) => s.repo?.path ?? '');
+  const stash = useRepo((s) => s.stashes.find((entry) => entry.oid === commit.oid) ?? null);
+  const refreshStatus = useRepo((s) => s.refreshStatus);
   const explainKey = explainKeyFor(repoPath, commit.oid);
   const aiText = useAiWork((s) => s.explains[explainKey] ?? null);
   const aiBusy = useAiWork((s) => !!s.explainBusy[explainKey]);
@@ -138,25 +141,168 @@ export function CommitDetails({
   const [bodyExpanded, setBodyExpanded] = useState(false);
   const [fold, setFold] = useState<FileTreeFold>(INITIAL_FOLD);
   const [foldState, setFoldState] = useState<FileTreeFoldState | null>(null);
+  const [fileQuery, setFileQuery] = useState('');
+  const fileFilterOpen = useUi((s) => s.fileFilterOpen);
+  const fileFilterFocusSeq = useUi((s) => s.fileFilterFocusSeq);
+  useEffect(() => {
+    if (!fileFilterOpen) setFileQuery('');
+  }, [fileFilterOpen]);
+  const filtering = fileQuery.trim().length > 0;
+  const shownDiffs = useMemo(() => filterFiles(diffs, diffPath, fileQuery), [diffs, fileQuery]);
+  const [picked, setPicked] = useState<Set<string>>(() => new Set());
+  const pickAnchor = useRef<string | null>(null);
+  useEffect(() => {
+    setFileQuery('');
+    setPicked(new Set());
+    pickAnchor.current = null;
+  }, [commit.oid]);
+  useEffect(() => {
+    if (picked.size === 0) return;
+    const present = new Set(diffs.map((d) => d.path));
+    if ([...picked].every((p) => present.has(p))) return;
+    setPicked(new Set([...picked].filter((p) => present.has(p))));
+  }, [diffs, picked]);
+
+  const togglePick = (file: string, range: boolean) => {
+    setPicked((prev) => {
+      const next = new Set(prev);
+      if (range && pickAnchor.current) {
+        const order = shownDiffs.map((d) => d.path);
+        const from = order.indexOf(pickAnchor.current);
+        const to = order.indexOf(file);
+        if (from >= 0 && to >= 0) {
+          const [a, b] = from < to ? [from, to] : [to, from];
+          for (const p of order.slice(a, b + 1)) next.add(p);
+          return next;
+        }
+      }
+      if (next.has(file)) next.delete(file);
+      else next.add(file);
+      pickAnchor.current = file;
+      return next;
+    });
+  };
   const longBody = commit.body.split('\n').length > 8 || commit.body.length > 600;
   const scrollRef = useRef<HTMLDivElement>(null);
+  const filesRef = useRef<HTMLDivElement>(null);
+  const activeIndex = shownDiffs.findIndex(
+    (d) => centerDiff?.path === d.path && centerDiff.oid === (d.sourceOid ?? commit.oid),
+  );
+  const openFileAt = useCallback(
+    (index: number) => {
+      const d = shownDiffs[index];
+      if (!d) return;
+      openCenterDiff({ path: d.path, oid: d.sourceOid ?? commit.oid, oldPath: d.oldPath });
+      requestAnimationFrame(() => {
+        filesRef.current?.querySelector('[data-active-file]')?.scrollIntoView({ block: 'nearest' });
+      });
+    },
+    [shownDiffs, openCenterDiff, commit.oid],
+  );
+  const inspectorFocusSeq = useUi((s) => s.inspectorFocusSeq);
+  const wantFirstFile = useRef(false);
+  useEffect(() => {
+    if (inspectorFocusSeq === focusRequests.inspectorConsumed) return;
+    focusRequests.inspectorConsumed = inspectorFocusSeq;
+    filesRef.current?.focus();
+    if (activeIndex >= 0) return;
+    if (!loading && shownDiffs.length > 0) openFileAt(0);
+    else wantFirstFile.current = true;
+  }, [inspectorFocusSeq, activeIndex, loading, shownDiffs, openFileAt]);
+  useEffect(() => {
+    if (!wantFirstFile.current || loading || shownDiffs.length === 0) return;
+    wantFirstFile.current = false;
+    openFileAt(0);
+  }, [loading, shownDiffs, openFileAt]);
+  useEffect(() => {
+    wantFirstFile.current = false;
+  }, [commit.oid]);
+  const onFilesKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      if (shownDiffs.length === 0) return;
+      e.preventDefault();
+      e.stopPropagation();
+      const step = e.key === 'ArrowDown' ? 1 : -1;
+      const next =
+        activeIndex < 0
+          ? step === 1
+            ? 0
+            : shownDiffs.length - 1
+          : Math.min(shownDiffs.length - 1, Math.max(0, activeIndex + step));
+      openFileAt(next);
+      return;
+    }
+    if (e.key === 'ArrowRight' || e.key === 'Enter') {
+      if (shownDiffs.length === 0) return;
+      e.preventDefault();
+      e.stopPropagation();
+      openFileAt(activeIndex < 0 ? 0 : activeIndex);
+      return;
+    }
+    if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      e.stopPropagation();
+      closeCenterDiff();
+      useUi.getState().focusGraph();
+    }
+  };
+
+  const restoreFromStash = async (files: string[]) => {
+    if (!stash || files.length === 0) return;
+    try {
+      await ipc.stashRestoreFiles(repoPath, stash.index, files);
+      await refreshStatus();
+      toast.success(
+        files.length === 1
+          ? `Restored ${basename(files[0])} from the stash`
+          : `Restored ${files.length} files from the stash`,
+        { description: 'The stash itself is unchanged.' },
+      );
+      setPicked(new Set());
+    } catch (error) {
+      toast.error(`Restore failed: ${(error as { message?: string }).message ?? error}`);
+    }
+  };
 
   const renderDiffRow = (diff: CommitFileInfo, depth?: number) => {
-    const active = centerDiff?.path === diff.path && centerDiff.oid === commit.oid;
+    const diffOid = diff.sourceOid ?? commit.oid;
+    const active = centerDiff?.path === diff.path && centerDiff.oid === diffOid;
     const meta = statusMeta[diff.status];
     return (
       <Hint key={diff.path} label={diff.path} side="left" className="max-w-[34rem] font-mono">
-        <button
+        <div
+          data-active-file={active || undefined}
           className={cn(
-            'flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left text-xs transition-colors',
+            'group flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left text-xs transition-colors',
             active ? 'bg-primary/10 text-foreground' : 'hover:bg-surface-raised',
+            stash && picked.has(diff.path) && !active && 'bg-primary/5',
           )}
           style={fileTree && depth !== undefined ? { paddingLeft: treeIndent(depth) } : undefined}
-          onClick={() =>
-            active
-              ? closeCenterDiff()
-              : openCenterDiff({ path: diff.path, oid: commit.oid, oldPath: diff.oldPath })
-          }
+        >
+        {stash && (
+          <Checkbox
+            checked={picked.has(diff.path)}
+            aria-label={`Select ${diff.path} to restore`}
+            onCheckedChange={() => togglePick(diff.path, false)}
+            onClick={(e) => {
+              e.stopPropagation();
+              if (e.shiftKey) {
+                e.preventDefault();
+                togglePick(diff.path, true);
+              }
+            }}
+          />
+        )}
+        <button
+          className="flex min-w-0 flex-1 items-center gap-2 text-left"
+          onClick={(e) => {
+            if (stash && (e.shiftKey || e.metaKey || e.ctrlKey)) {
+              togglePick(diff.path, e.shiftKey);
+              return;
+            }
+            if (active) closeCenterDiff();
+            else openCenterDiff({ path: diff.path, oid: diffOid, oldPath: diff.oldPath });
+          }}
         >
           <Badge tone={meta?.tone ?? 'neutral'} className="w-5 shrink-0 justify-center px-0 font-mono">
             {meta?.mark ?? '?'}
@@ -171,6 +317,18 @@ export function CommitDetails({
           {diff.deletions > 0 && <span className="shrink-0 font-mono text-[11px] text-danger">−{diff.deletions}</span>}
           <ChevronRight className={cn('size-3.5 shrink-0 text-faint transition-transform', active && 'rotate-90')} />
         </button>
+        {stash && (
+          <Button
+            variant="ghost"
+            size="icon-sm"
+            aria-label={`Restore ${diff.path} from the stash`}
+            className="-my-1 -mr-1 shrink-0 opacity-0 focus-visible:opacity-100 group-hover:opacity-100"
+            onClick={() => void restoreFromStash([diff.path])}
+          >
+            <ArchiveRestore className="size-3.5 text-primary" />
+          </Button>
+        )}
+        </div>
       </Hint>
     );
   };
@@ -333,10 +491,27 @@ export function CommitDetails({
         />
       </div>
 
-      <div className="p-2">
+      <div
+        ref={filesRef}
+        tabIndex={0}
+        aria-label="Commit files"
+        onKeyDown={onFilesKeyDown}
+        className="rounded-md p-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/40"
+      >
         <p className="flex items-center justify-between px-2 py-1 text-xs font-semibold uppercase tracking-wide text-muted">
           <span>
-            Files{!loading && !error && <span className="ml-1 text-faint">{diffs.length}</span>}
+            Files
+            {!loading && !error && (
+              <span className="ml-1 text-faint">
+                {filtering ? (
+                  <>
+                    {shownDiffs.length} <span className="font-normal normal-case tracking-normal">of {diffs.length}</span>
+                  </>
+                ) : (
+                  diffs.length
+                )}
+              </span>
+            )}
           </span>
           <span className="flex items-center gap-1 text-[11px] font-normal normal-case tracking-normal">
             {loading ? 'Loading…' : error ? '' : <ChangeSummary diffs={diffs} />}
@@ -345,6 +520,57 @@ export function CommitDetails({
             )}
           </span>
         </p>
+        {stash && !loading && !error && diffs.length > 0 && (
+          <div className="mb-1.5 flex min-h-7 items-center gap-2 rounded-md border border-border-subtle bg-surface-raised/50 px-2 py-1 text-[11px]">
+            {picked.size === 0 ? (
+              <>
+                <span className="min-w-0 flex-1 text-faint">
+                  This is a stash. Tick files to restore only those into the working copy.
+                </span>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-6 shrink-0 px-2 text-[11px]"
+                  onClick={() => setPicked(new Set(shownDiffs.map((d) => d.path)))}
+                >
+                  Select all
+                </Button>
+              </>
+            ) : (
+              <>
+                <span className="min-w-0 flex-1 text-muted">
+                  {picked.size} of {diffs.length} selected
+                </span>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-6 shrink-0 px-2 text-[11px]"
+                  onClick={() => setPicked(new Set())}
+                >
+                  Clear
+                </Button>
+                <Button
+                  size="sm"
+                  className="h-6 shrink-0 px-2 text-[11px]"
+                  onClick={() => void restoreFromStash([...picked])}
+                >
+                  <ArchiveRestore className="size-3" /> Restore {picked.size} {picked.size === 1 ? 'file' : 'files'}
+                </Button>
+              </>
+            )}
+          </div>
+        )}
+        {!loading && !error && fileFilterOpen && (
+          <div className="mb-1 px-0.5">
+            <FileFilterInput
+              value={fileQuery}
+              onChange={setFileQuery}
+              onClose={() => useUi.getState().setFileFilterOpen(false)}
+            focusSeq={fileFilterFocusSeq}
+              placeholder="Filter files…"
+            />
+          </div>
+        )}
         {loading ? (
           <div className="space-y-1">
             {[0, 1, 2].map((i) => (
@@ -360,12 +586,14 @@ export function CommitDetails({
               Retry
             </Button>
           </div>
+        ) : shownDiffs.length === 0 && filtering ? (
+          <p className="px-2 py-1.5 text-xs text-faint">No files match the filter.</p>
         ) : fileTree ? (
-          <FileTree items={diffs} pathOf={diffPath} renderFile={renderDiffRow} fold={fold} onFoldState={setFoldState} />
-        ) : diffs.length > VIRTUAL_FILE_THRESHOLD ? (
-          <VirtualFileRows diffs={diffs} scrollRef={scrollRef} renderRow={renderDiffRow} />
+          <FileTree items={shownDiffs} pathOf={diffPath} renderFile={renderDiffRow} fold={fold} onFoldState={setFoldState} />
+        ) : shownDiffs.length > VIRTUAL_FILE_THRESHOLD ? (
+          <VirtualFileRows diffs={shownDiffs} scrollRef={scrollRef} renderRow={renderDiffRow} />
         ) : (
-          diffs.map((diff) => renderDiffRow(diff))
+          shownDiffs.map((diff) => renderDiffRow(diff))
         )}
       </div>
     </div>
