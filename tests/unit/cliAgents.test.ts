@@ -75,7 +75,7 @@ describe('cliAgentProvider', () => {
 
   it('throws AiError when the CLI produces no output', async () => {
     const provider = cliAgentProvider(config(), runner({ stdout: '\n \n' }));
-    await expect(provider.complete({ messages: [{ role: 'user', content: 'x' }] })).rejects.toThrow(/no output/);
+    await expect(provider.complete({ messages: [{ role: 'user', content: 'x' }] })).rejects.toThrow(/未返回任何输出/);
   });
 
   it('ping reports true on success and false on failure', async () => {

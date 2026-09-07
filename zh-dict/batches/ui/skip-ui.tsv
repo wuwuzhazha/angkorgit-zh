@@ -10,7 +10,7 @@ e2e	pnpm --filter @angkorgit/desktop dev	command：CLI 命令（playwright.confi
 
 # ---- batch1.tsv 裁决 ----
 ui	s commits on top of {dropAction.target} — rewrites history	partial-snippet：扫描器提取残片（缺失 Replays {dropAction.source}'s），已用完整词条替换
-ui	s identity and	partial-snippet：跨行 JSX 描述残片（profilePrompt.tsx:53），整句跨行无法字面替换
+ui	s identity and	裁决更正（t7 F4）：原判 partial-snippet 有误——profilePrompt.tsx:53-54 整句为用户可见文案，已按行拆两条词条入词库（Commits and pushes…/accounts. Asked once…），本残片不再单独处理
 ui	Which profile for	partial-snippet：已用完整词条 Which profile for {request?.repoName}? 替换
 ui	Opening	partial-snippet：已用完整词条 Opening {name}… 替换
 ui	(folder: TreeFolder	code：TS 函数签名（FileTree.tsx:109）被 JSX 扫描误报

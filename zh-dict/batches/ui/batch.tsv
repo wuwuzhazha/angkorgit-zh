@@ -98,3 +98,46 @@ ui	Theme	主题	title="Theme"
 ui	Token	令牌	label="Token"
 ui	Work	工作	placeholder="Work"
 ui	Zoom	缩放	title="Zoom"
+# ---- t7 F1 修复补录（engineer，round-2 repair）：扫描器盲区外用户可见英文句，按文件行逐字补词条 ----
+ui	AngKorGit hit an unexpected error. Your repositories are safe — this only affects the	AngKorGit 遇到了意外错误。你的仓库是安全的——这只会影响
+ui	interface. Restarting usually fixes it; if it keeps happening, please report the details	界面。重启通常能解决；如果反复出现，请报告下面的
+ui	below.	详细信息。	^\s*below\.$
+ui	Restart interface	重启界面
+ui	Copy error details	复制错误详情
+ui	"${file}" is a submodule — open it as its own repository to discard the changes inside it.	“${file}”是子模块——请将其作为独立仓库打开，以丢弃其中的更改。
+ui	Discard failed: ${(error as { message?: string }).message ?? error}	丢弃失败：${(error as { message?: string }).message ?? error}
+ui	${remaining.length} change${remaining.length === 1 ? '' : 's'} could not be discarded (${listed}). Submodule changes must be discarded inside the submodule repository.	${remaining.length} 个更改无法丢弃（${listed}）。子模块的更改必须在子模块仓库内丢弃。
+ui	${remaining.length} change${remaining.length === 1 ? '' : 's'} could not be discarded: ${listed}	${remaining.length} 个更改无法丢弃：${listed}
+ui	Discarded ${before} change${before === 1 ? '' : 's'}	已丢弃 ${before} 个更改
+ui	全部丢弃 failed: ${(error as { message?: string }).message ?? error}	全部丢弃失败：${(error as { message?: string }).message ?? error}
+ui	No commits touch this file on the current branch.	当前分支上没有提交改动过此文件。
+ui	Appends “(cherry picked from commit …)” to	为
+ui	{pickOids.length > 1 ? '每条新消息' : '这条新消息'}, like git	{pickOids.length > 1 ? '每条新消息' : '这条新消息'} 追加“(cherry picked from commit …)” 引用，与 git
+ui	cherry-pick -x. Useful when backporting between shared branches.	cherry-pick -x 一致。在共享分支间移植提交时很有用。
+ui	A second folder for this repository with its own checked-out branch. Work on two	该仓库的第二个文件夹，检出独立的分支，无需暂存即可同时处理
+ui	things at once without stashing, and keep every commit in the same history.	多件事，所有提交保留在同一历史中。
+ui	Branch name	分支名称
+ui	Starts from {baseLabel}.	起始于 {baseLabel}。
+ui	Branch	分支	^\s*Branch$
+ui	Every branch is already checked out somewhere.	每个分支都已在某处检出。
+ui	Branches already open in a worktree are not listed; git allows one folder per branch.	已在工作树中打开的分支不会列出；git 每个分支只允许一个文件夹。
+ui	Rewriting the commits above {baseOid.slice(0, 8)} — they apply top to bottom, so the	正在重写 {baseOid.slice(0, 8)} 之上的提交——它们自上而下应用，因此
+ui	top row becomes the oldest rebased commit. Drag rows to reorder.	最上面一行将成为最旧的变基提交。拖动行以重新排序。
+ui	No commits to rebase above this point.	此点之上没有可变基的提交。
+ui	Action for ${row.commit.shortOid.slice(0, 7)}	对 ${row.commit.shortOid.slice(0, 7)} 的操作
+ui	The first kept commit cannot be squash or fixup — there is no earlier commit to	保留的第一个提交不能是 squash 或 fixup——没有更早的提交可
+ui	combine it into.	与之合并。	^\s*combine it into\.$
+ui	Requests run through the CLI on this machine with its own login and quota. AngKorGit stores no key and	请求通过本机的 CLI 运行，使用其自身的登录与配额。AngKorGit 不存储任何密钥，
+ui	sends nothing anywhere itself.	也不会自行向任何地方发送数据。
+ui	Per-project rules: commit <span className="rounded bg-surface-raised px-1 py-0.5 font-mono">{PROJECT_REVIEW_FILE}</span>{' '}	项目级规则：提交 <span className="rounded bg-surface-raised px-1 py-0.5 font-mono">{PROJECT_REVIEW_FILE}</span>{' '}
+ui	to a repository and its content joins these conventions for that repository, so the whole team	到仓库后，其内容会加入该仓库的这些约定，让整个团队
+ui	reviews by the same rules. Project rules win on conflict.	按同一套规则审查。项目规则在冲突时优先。
+ui	Create as draft	以草稿创建
+ui	No remote branches found — fetch first so the target branch list can fill in.	未找到远端分支——请先获取，以便填充目标分支列表。
+ui	This branch has not been pushed yet — push it first so {provider.label} can see it.	此分支尚未推送——请先推送，以便 {provider.label} 能看到它。
+ui	Moves the branch pointer without creating a merge commit	移动分支指针，不创建合并提交
+ui	Fast-forward {dropAction.target} to {dropAction.source}	将 {dropAction.target} 快进到 {dropAction.source}
+ui	Commits and pushes in this repository will use the chosen profile's identity and	此仓库中的提交与推送将使用所选配置文件的身份和
+ui	accounts. Asked once — change it later from the toolbar.	账户。仅询问一次——之后可从工具栏更改。
+# ---- t7 F2 修复补录：cliAgents AiError 断言同步（core scope） ----
+core	${spec.label} returned no output	${spec.label} 未返回任何输出
