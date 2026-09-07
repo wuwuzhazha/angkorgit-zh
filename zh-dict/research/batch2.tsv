@@ -1,24 +1,37 @@
-# 批次 batch2.tsv（website + docs）：translate 22 条；source 按长度降序（长串优先）
+# 批次 batch2.tsv（website + docs）：translate 35 条；source 按长度降序（长串优先）
 # 列：scope<TAB>source<TAB>require_anchor<TAB>sync<TAB>hint<TAB>first_loc<TAB>occurrences
+docs	- [x] Stash: create (whole tree or chosen files), apply, pop (one click from the toolbar), drop; stashes as rows in the graph with their own node and menu; apply single files from a stash · Tags: create (annotated/lightweight), delete, checkout · Submodules: list & update	translate	new	待译	docs/Roadmap.md:16	1
+website	Angkor Git (AngKorGit) is a fast, free, open-source Git 客户端 and Git GUI for macOS, Windows, and Linux, built native with Tauri v2, Rust and libgit2. Visual commit graphs, side-by-side diff review, visual conflict resolution, and AI assistance.	translate	new	待译	apps/website/src/lib/site.ts:23	1
+website	" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">	translate	new	待译	apps/website/src/components/mock/icons.ts:44	1
+website	一个词，AngKorGit。也有人写作 Angkor Git、angkorgit 或 GitAngkor，指的都是这个应用。angkorgit.app 是唯一的官方网站，代码托管在 GitHub 的 cheat2001/angkorgit 仓库。	translate	new	待译	apps/website/src/components/Questions.astro:6	1
+website	-o "$env:TEMP\\AngKorGit-setup.exe"; Start-Process "$env:TEMP\\AngKorGit-setup.exe"	translate	new	待译	apps/website/src/components/Install.astro:68	1
+website	AngKorGit（Angkor Git）——快速、免费的 Git 客户端与 Git GUI，支持 macOS、Windows 和 Linux	translate	new	待译	apps/website/src/lib/site.ts:21	1
 website	return render(rows, { palette, animate: true });	translate	new	待译	apps/website/src/components/mock/Conflicts.astro:10	1
+website	文件历史 is there. Line-level blame is on the list.	translate	new	待译	apps/website/src/components/SpecSheet.astro:71	1
 website	Start-Process "$env:TEMP\\AngKorGit-setup.exe"	translate	new	待译	apps/website/src/components/Install.astro:66	1
+website	AngKorGit · Git 客户端 for macOS, Windows, Linux	translate	jsx-text	JSX 文本	apps/website/src/components/Hero.astro:20	1
 website	export function drawGraph(rows: Row[]) {	translate	new	待译	apps/website/src/components/mock/Conflicts.astro:8	1
 website	import { render } from './renderer';	translate	new	待译	apps/website/src/components/mock/Conflicts.astro:6	1
-website	aspect-ratio: ${width} / ${height}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/website/src/components/mock/Frame.astro:4	1
+website	-o "$env:TEMP\\AngKorGit-setup.exe"	translate	new	待译	apps/website/src/components/Install.astro:65	1
 website	const palette = useThemePalette();	translate	new	待译	apps/website/src/components/mock/Conflicts.astro:10	1
 website	Tauri 2 · Rust · libgit2 · React	translate	jsx-text	JSX 文本	apps/website/src/components/Footer.astro:59	1
 website	return render(rows, { colors });	translate	new	待译	apps/website/src/components/mock/Conflicts.astro:11	1
+website	scale(${frame.clientWidth / w})	translate	new	待译	apps/website/src/components/mock/Frame.astro:17	1
 website	const colors = legacyColors();	translate	new	待译	apps/website/src/components/mock/Conflicts.astro:11	1
+website	Intel 与 Apple Silicon，单文件	translate	new	待译	apps/website/src/components/Install.astro:10	1
 website	WIP on main: experiment …	translate	jsx-text	JSX 文本	apps/website/src/components/mock/Sidebar.astro:29	1
+website	AngKorGit 还是 Angkor Git？	translate	new	待译	apps/website/src/components/Questions.astro:5	1
 website	feature/* → feat(scope):	translate	jsx-text	JSX 文本	apps/website/src/components/AiSection.astro:63	1
 website	AngKorGit contributors	translate	new	待译	apps/website/src/layouts/Base.astro:33	1
 website	angkorgit-feature-di…	translate	jsx-text	JSX 文本裸词，须配 anchor	apps/website/src/components/mock/Sidebar.astro:18	1
 website	macOS, Windows, Linux	translate	new	待译	apps/website/src/layouts/Base.astro:24	1
 docs	## 1. DNS（Hostinger）	translate	new	待译	docs/Launch-Checklist.md:6	1
+website	AppImage、.deb 和 .rpm	translate	new	待译	apps/website/src/components/Install.astro:22	1
 website	angkorgit-fix-stash…	translate	jsx-text	JSX 文本裸词，须配 anchor	apps/website/src/components/mock/Sidebar.astro:19	1
 website	Windows（PowerShell）	translate	attr-ui	属性文案（label），裸词须配 anchor	apps/website/src/components/Install.astro:63	1
 website	Mac（Homebrew）	translate	jsx-text	JSX 文本裸词，须配 anchor	apps/website/src/components/Install.astro:13	1
 website	angkorgit.app	translate	jsx-text	JSX 文本裸词，须配 anchor	apps/website/src/components/HeroGraph.astro:5	1
 website	drawGraph.ts	translate	jsx-text	JSX 文本裸词，须配 anchor	apps/website/src/components/mock/Conflicts.astro:8	2
+website	blame 视图	translate	new	待译	apps/website/src/components/SpecSheet.astro:71	1
 website	HEAD	translate	jsx-text	JSX 文本裸词，须配 anchor	apps/website/src/components/Commit.astro:27	1
 website	init	translate	jsx-text	JSX 文本裸词，须配 anchor	apps/website/src/components/Story.astro:6	1

@@ -1,28 +1,161 @@
-# 批次 batch1.tsv（UI（桌面））：translate 26 条；source 按长度降序（长串优先）
+# 批次 batch1.tsv（UI（桌面））：translate 159 条；source 按长度降序（长串优先）
 # 列：scope<TAB>source<TAB>require_anchor<TAB>sync<TAB>hint<TAB>first_loc<TAB>occurrences
-ui	Cherry-picked ${oids.length} commits (demo)	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/core/ipc.ts:345	1
-ui	Rebased onto ${upstream} (demo)	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/core/ipc.ts:309	1
+ui	This branch is not checked out. It is checked out first, then hard reset to ${ref.shorthand} (${commit.shortOid}).${losing} 未提交的更改 are discarded and cannot be recovered.	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/graph/CommitGraph.tsx:328	1
+ui	${leftovers.length} change${leftovers.length === 1 ? '' : 's'} could not be discarded (${listed}). Submodule changes must be discarded inside the submodule repository.	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/commit/WorkingCopyPanel.tsx:445	1
+ui	Every staged file goes back to the last commit, unstaged edits to those files included, and new files are deleted. This cannot be undone — not even with ⌘Z.	translate	new	待译	apps/desktop/src/features/commit/WorkingCopyPanel.tsx:970	1
+ui	${h.header}\n${h.lines.map((l) => `${l.kind === 'addition' ? '+' : l.kind === 'deletion' ? '-' : ' '}${l.content}`).join('\n')}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/inspector/CommitDetails.tsx:85	1
+ui	These files go back to the last commit — staged and unstaged changes alike. New files are deleted. This cannot be undone.	translate	new	待译	apps/desktop/src/features/commit/WorkingCopyPanel.tsx:457	1
+ui	The file goes back to the last commit — its staged and unstaged changes are both reverted. This cannot be undone.	translate	new	待译	apps/desktop/src/features/commit/WorkingCopyPanel.tsx:504	1
+ui	All changes in these files will be reverted. Untracked files among them are deleted. This cannot be undone.	translate	new	待译	apps/desktop/src/features/commit/WorkingCopyPanel.tsx:458	1
+ui	This ${forgeNoun(forgeRemote?.kind)} cannot be checked out from AngKorGit — open it in the browser instead.	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/sidebar/Sidebar.tsx:416	1
+ui	${remaining.length} staged change${remaining.length === 1 ? '' : 's'} could not be discarded: ${listed}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/commit/WorkingCopyPanel.tsx:473	1
+ui	This file is new — discarding removes it from the index and deletes the file. This cannot be undone.	translate	new	待译	apps/desktop/src/features/commit/WorkingCopyPanel.tsx:503	1
+ui	硬重置到 ${ref.shorthand} (${commit.shortOid}).${losing} 未提交的更改 are discarded and cannot be recovered.	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/graph/CommitGraph.tsx:327	1
+ui	${leftovers.length} change${leftovers.length === 1 ? '' : 's'} could not be discarded: ${listed}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/commit/WorkingCopyPanel.tsx:446	1
+ui	Only these ${stashPaths.length} files are stashed. Everything else stays in your working copy.	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/repository/RepoDialogs.tsx:231	1
+ui	使用本机已安装的 AI CLI——Claude Code、Codex、Gemini CLI、OpenCode 或 Antigravity——以其自身的登录与配额运行，无需 API 密钥。	translate	new	待译	apps/desktop/src/features/settings/SettingsDialog.tsx:1139	1
+ui	${local.ahead} commit${local.ahead === 1 ? '' : 's'} only on the local branch will be lost.	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/graph/CommitGraph.tsx:322	1
+ui	${group.label}\nStash — click the row to see its files, right-click to apply, pop or drop	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/graph/GraphRow.tsx:361	1
+ui	AngKorGit error report\n\n${error?.name}: ${error?.message}\n\n${error?.stack ?? ''}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/components/ErrorBoundary.tsx:23	1
+ui	\r\n[could not start shell: ${(error as { message?: string }).message ?? error}]	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/terminal/TerminalPanel.tsx:81	1
+ui	Checkout ${name} failed: ${(error as { message?: string }).message ?? error}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/graph/CommitGraph.tsx:343	1
+ui	AI 请求失败：${(error as { message?: string } | null)?.message ?? String(error)}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/commit/WorkingCopyPanel.tsx:548	4
+ui	全部丢弃 ${allStaged.length} staged change${allStaged.length === 1 ? '' : 's'}?	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/commit/WorkingCopyPanel.tsx:968	1
+ui	). Submodule changes must be discarded inside the submodule repository.	translate	new	待译	apps/desktop/src/features/commit/WorkingCopyPanel.tsx:445	1
+ui	请安装 Claude Code、Codex CLI、Gemini CLI、OpenCode 或 Antigravity CLI，然后重新扫描。	translate	attr-ui	属性文案（description）	apps/desktop/src/features/settings/SettingsDialog.tsx:390	1
+ui	Only this file is stashed. Everything else stays in your working copy.	translate	new	待译	apps/desktop/src/features/repository/RepoDialogs.tsx:229	1
+ui	cannot be checked out from AngKorGit — open it in the browser instead.	translate	new	待译	apps/desktop/src/features/sidebar/Sidebar.tsx:416	1
+ui	具有 read:repository:bitbucket + write:repository:bitbucket 权限范围的 API 令牌	translate	new	待译	apps/desktop/src/features/settings/AccountsTab.tsx:80	1
+ui	无法切换到 ${main.name}：${(error as { message?: string }).message ?? error}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/sidebar/Sidebar.tsx:350	1
+ui	${repoRemotes.map((r) => `${r.name}=${r.url}`).join(',')}|${upstream}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/repository/RepositoryPage.tsx:170	1
+ui	无法打开 ${held.name}：${(error as { message?: string }).message ?? error}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/graph/CommitGraph.tsx:295	1
+ui	Create a ${prNoun} for ${repo?.headBranch} without leaving AngKorGit	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/components/StatusBar.tsx:81	1
+ui	无法在 Finder 中显示文件：${(error as { message?: string }).message ?? error}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/commit/WorkingCopyPanel.tsx:1089	1
+ui	无法打开 ${wt.name}：${(error as { message?: string }).message ?? error}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/sidebar/Sidebar.tsx:291	1
+ui	${errorLabel}: ${(error as { message?: string }).message ?? error}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/commit/WorkingCopyPanel.tsx:418	1
+ui	Discarded ${paths.length} change${paths.length === 1 ? '' : 's'}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/commit/WorkingCopyPanel.tsx:449	1
+ui	Redo failed: ${(error as { message?: string }).message ?? error}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/history/undoStore.ts:217	1
+ui	Undo failed: ${(error as { message?: string }).message ?? error}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/history/undoStore.ts:187	1
+ui	无法打开 ${file}：${(error as { message?: string }).message ?? error}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/editor/EditorPanel.tsx:36	1
+ui	无法读取 ${file}：${(error as { message?: string }).message ?? error}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/conflicts/ConflictResolver.tsx:176	1
+ui	${label} 失败：${(error as { message?: string }).message ?? error}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/components/CommandPalette.tsx:140	6
+ui	${value.slice(0, selectionStart)}\t${value.slice(selectionEnd)}	translate	new	待译	apps/desktop/src/features/editor/EditorPanel.tsx:144	1
+ui	无法加载 diff：${(error as { message?: string }).message ?? error}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/history/FileHistoryPanel.tsx:165	1
+ui	Copied ${lines} line${lines === 1 ? '' : 's'} (${side} text)	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/diff/diffCopy.tsx:31	1
+ui	Discarded ${before} staged change${before === 1 ? '' : 's'}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/commit/WorkingCopyPanel.tsx:475	1
+ui	Open a pre-filled pull request page for ${repo?.headBranch}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/components/StatusBar.tsx:82	1
+ui	The stashed changes are deleted and cannot be recovered.	translate	new	待译	apps/desktop/src/features/graph/CommitGraph.tsx:590	1
+ui	丢弃失败：${(error as { message?: string }).message ?? error}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/commit/WorkingCopyPanel.tsx:385	3
+ui	中止失败：${(error as { message?: string }).message ?? error}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/components/CommandPalette.tsx:192	3
+ui	保存失败：${(error as { message?: string }).message ?? error}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/conflicts/ConflictResolver.tsx:589	3
+ui	克隆失败：${(error as { message?: string }).message ?? error}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/repository/CloneDialog.tsx:53	1
+ui	刷新失败：${(error as { message?: string }).message ?? error}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/repository/merge.ts:28	1
+ui	变基失败：${(error as { message?: string }).message ?? error}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/sidebar/Sidebar.tsx:397	1
+ui	合并失败：${(error as { message?: string }).message ?? error}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/sidebar/Sidebar.tsx:379	1
+ui	应用失败：${(error as { message?: string }).message ?? error}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/inspector/CommitDetails.tsx:281	2
+ui	拣选失败：${(error as { message?: string }).message ?? error}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/repository/RepoDialogs.tsx:132	1
+ui	提交失败：${(error as { message?: string }).message ?? error}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/commit/WorkingCopyPanel.tsx:640	1
+ui	无法打开：${(error as { message?: string }).message ?? error}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/components/CommandPalette.tsx:160	3
+ui	更新失败：${(error as { message?: string }).message ?? error}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/updater/check.ts:32	1
+ui	清除失败：${(error as { message?: string }).message ?? error}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/components/CommandPalette.tsx:217	2
+ui	移除失败：${(error as { message?: string }).message ?? error}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/settings/AccountsTab.tsx:346	1
+ui	继续失败：${(error as { message?: string }).message ?? error}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/components/CommandPalette.tsx:171	2
+ui	连接失败：${(error as { message?: string }).message ?? error}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/settings/AccountsTab.tsx:335	1
+ui	Create ${forgeNoun(forgeCurrent ? forgeKind : null)}	translate	attr-ui	属性文案（label）	apps/desktop/src/components/CommandPalette.tsx:290	1
+ui	将 user.name 和 user.email 写入 ${repo.name}/.git/config	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/settings/SettingsDialog.tsx:934	1
+ui	${(error as { message?: string }).message ?? error}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/settings/SettingsDialog.tsx:101	2
+ui	具有“read_repository” + “write_repository”权限范围的个人访问令牌	translate	new	待译	apps/desktop/src/features/settings/AccountsTab.tsx:64	2
+ui	${commit.author.name} <${commit.author.email}>	translate	attr-ui	属性文案（title）	apps/desktop/src/features/graph/GraphRow.tsx:500	1
+ui	detached @ ${repo.headOid?.slice(0, 8) ?? '?'}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/components/StatusBar.tsx:36	1
+ui	${changes} change${changes === 1 ? '' : 's'}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/components/StatusBar.tsx:75	1
+ui	${w.name}${w.branch ? ` · ${w.branch}` : ''}	translate	attr-ui	属性文案（label）	apps/desktop/src/components/CommandPalette.tsx:398	1
+ui	Applied ${basename(files[0])} from the stash	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/inspector/CommitDetails.tsx:275	1
+ui	Applied ${files.length} files from the stash	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/inspector/CommitDetails.tsx:276	1
+ui	detached @ ${wt.headOid?.slice(0, 8) ?? '?'}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/sidebar/Sidebar.tsx:531	1
+ui	Cherry-picked ${oids.length} commits (demo)	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/core/ipc.ts:353	1
+ui	${(el.scrollTop / el.scrollHeight) * 100}%	translate	new	待译	apps/desktop/src/features/diff/DiffMinimap.tsx:140	1
+ui	translateY(${item.start - outputMargin}px)	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/conflicts/ConflictResolver.tsx:1226	1
+ui	translateY(${item.start - scrollMargin}px)	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/commit/WorkingCopyPanel.tsx:188	2
+ui	Discard changes in ${paths.length} files?	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/commit/WorkingCopyPanel.tsx:455	1
+ui	From commit ${dialogContext.slice(0, 8)}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/repository/RepoDialogs.tsx:159	1
+ui	rename ${dialogContext} → ${name.trim()}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/repository/RepoDialogs.tsx:145	1
+ui	Open a pre-filled pull request page for	translate	new	待译	apps/desktop/src/components/StatusBar.tsx:82	1
+ui	Pop latest stash: ${stashes[0].message}	translate	attr-ui	属性文案（label）	apps/desktop/src/components/CommandPalette.tsx:335	1
+ui	Unstage ${menuMulti.paths.length} files	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/commit/WorkingCopyPanel.tsx:1020	1
+ui	translateY(${item.start - topMargin}px)	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/conflicts/ConflictResolver.tsx:956	1
+ui	At commit ${dialogContext.slice(0, 8)}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/repository/RepoDialogs.tsx:193	1
+ui	only on the local branch will be lost.	translate	new	待译	apps/desktop/src/features/graph/CommitGraph.tsx:322	1
+ui	Basic ${btoa(`${identity}:${token}`)}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/settings/AccountsTab.tsx:129	1
+ui	Stage ${menuMulti.paths.length} files	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/commit/WorkingCopyPanel.tsx:1020	1
+ui	Worktree ready · ${basename(created)}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/worktrees/CreateWorktreeDialog.tsx:130	1
+ui	${count} ${statusMeta[status].label}	translate	attr-ui	属性文案（title）	apps/desktop/src/features/inspector/CommitDetails.tsx:67	2
+ui	Cherry-pick ${oids[0].slice(0, 8)}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/repository/RepoDialogs.tsx:120	1
+ui	Apply ${diff.path} from the stash	translate	attr-ui	属性文案（aria-label）	apps/desktop/src/features/inspector/CommitDetails.tsx:350	1
+ui	No staged files match the filter.	translate	new	待译	apps/desktop/src/features/commit/WorkingCopyPanel.tsx:986	1
+ui	Reset ${name} to ${ref.shorthand}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/graph/CommitGraph.tsx:347	1
+ui	Previous / next file (file list)	translate	new	待译	apps/desktop/src/features/settings/SettingsDialog.tsx:575	1
+ui	Rebased onto ${upstream} (demo)	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/core/ipc.ts:317	1
+ui	The stash itself is unchanged.	translate	new	待译	apps/desktop/src/features/inspector/CommitDetails.tsx:277	1
+ui	+${leftovers.length - 3} more	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/commit/WorkingCopyPanel.tsx:442	1
+ui	+${remaining.length - 3} more	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/commit/WorkingCopyPanel.tsx:398	2
+ui	Select ${diff.path} to apply	translate	attr-ui	属性文案（aria-label）	apps/desktop/src/features/inspector/CommitDetails.tsx:311	1
+ui	create branch ${name.trim()}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/repository/RepoDialogs.tsx:89	1
 ui	'JetBrains Mono', monospace	translate	new	待译	apps/desktop/src/features/terminal/TerminalPanel.tsx:19	1
-ui	Pushed to ${remote} (demo)	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/core/ipc.ts:389	1
-ui	Fetched ${remote} (demo)	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/core/ipc.ts:368	1
-ui	Pushed tag ${tag} (demo)	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/core/ipc.ts:398	1
-ui	Pulled ${branch} (demo)	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/core/ipc.ts:394	1
-ui	Rebase complete (demo)	translate	new	待译	apps/desktop/src/core/ipc.ts:313	1
+ui	Reset branch to its remote?	translate	new	待译	apps/desktop/src/features/graph/CommitGraph.tsx:325	1
+ui	\r\n[could not start shell:	translate	new	待译	apps/desktop/src/features/terminal/TerminalPanel.tsx:81	1
+ui	${remoteName ?? 'origin'}/	translate	new	待译	apps/desktop/src/features/forge/CreatePrDialog.tsx:82	1
+ui	AngKorGit error report\n\n	translate	new	待译	apps/desktop/src/components/ErrorBoundary.tsx:23	1
+ui	No files match the filter.	translate	jsx-text	JSX 文本	apps/desktop/src/features/inspector/CommitDetails.tsx:616	1
+ui	Pushed to ${remote} (demo)	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/core/ipc.ts:397	1
+ui	without leaving AngKorGit	translate	new	待译	apps/desktop/src/components/StatusBar.tsx:81	1
+ui	Fetched ${remote} (demo)	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/core/ipc.ts:376	1
+ui	Pushed tag ${tag} (demo)	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/core/ipc.ts:406	1
+ui	could not be discarded (	translate	new	待译	apps/desktop/src/features/commit/WorkingCopyPanel.tsx:445	1
+ui	Pulled ${branch} (demo)	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/core/ipc.ts:402	1
+ui	could not be discarded:	translate	new	待译	apps/desktop/src/features/commit/WorkingCopyPanel.tsx:446	2
+ui	Rebase complete (demo)	translate	new	待译	apps/desktop/src/core/ipc.ts:321	1
+ui	Stash selected changes	translate	new	待译	apps/desktop/src/features/repository/RepoDialogs.tsx:226	1
 ui	AngKorGit v${version}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/repository/WelcomePage.tsx:302	1
-ui	Merged ${name} (demo)	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/core/ipc.ts:293	1
-ui	Cherry-picked (demo)	translate	new	待译	apps/desktop/src/core/ipc.ts:341	1
+ui	Filter changed files…	translate	attr-ui	属性文案（placeholder）	apps/desktop/src/features/commit/WorkingCopyPanel.tsx:835	1
+ui	Merged ${name} (demo)	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/core/ipc.ts:301	1
+ui	无更改 match the filter.	translate	new	待译	apps/desktop/src/features/commit/WorkingCopyPanel.tsx:926	1
+ui	Cherry-picked (demo)	translate	new	待译	apps/desktop/src/core/ipc.ts:349	1
 ui	(folder: TreeFolder	translate	jsx-text	JSX 文本	apps/desktop/src/components/FileTree.tsx:109	1
+ui	全部丢弃 staged changes	translate	attr-ui	属性文案（aria-label）	apps/desktop/src/features/commit/WorkingCopyPanel.tsx:964	1
 ui	gitlab.example.com	translate	attr-ui	属性文案（placeholder），裸词须配 anchor	apps/desktop/src/features/settings/AccountsTab.tsx:483	1
+ui	无法在 Finder 中显示文件：	translate	new	待译	apps/desktop/src/features/commit/WorkingCopyPanel.tsx:1089	1
+ui	Checkout ${name}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/graph/CommitGraph.tsx:339	1
+ui	Drop this stash?	translate	new	待译	apps/desktop/src/features/graph/CommitGraph.tsx:589	1
+ui	Hide file filter	translate	new	待译	apps/desktop/src/features/inspector/Inspector.tsx:90	1
+ui	Pop latest stash	translate	attr-ui	属性文案（aria-label）	apps/desktop/src/components/Toolbar.tsx:517	1
+ui	Worktree ready ·	translate	new	待译	apps/desktop/src/features/worktrees/CreateWorktreeDialog.tsx:130	1
 ui	Bearer ${token}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/settings/AccountsTab.tsx:146	1
-ui	Reverted (demo)	translate	new	待译	apps/desktop/src/core/ipc.ts:230	1
+ui	Reverted (demo)	translate	new	待译	apps/desktop/src/core/ipc.ts:238	1
+ui	AngKorGit 崩溃了：	translate	new	待译	apps/desktop/src/components/ErrorBoundary.tsx:17	1
+ui	Atlassian 账户邮箱	translate	new	待译	apps/desktop/src/features/settings/AccountsTab.tsx:491	1
+ui	from the stash	translate	new	待译	apps/desktop/src/features/inspector/CommitDetails.tsx:275	1
+ui	Filter files…	translate	attr-ui	属性文案（placeholder）	apps/desktop/src/components/FileFilterInput.tsx:12	2
+ui	create branch	translate	new	待译	apps/desktop/src/features/repository/RepoDialogs.tsx:89	1
+ui	staged change	translate	new	待译	apps/desktop/src/features/commit/WorkingCopyPanel.tsx:473	3
+ui	Clear filter	translate	attr-ui	属性文案（aria-label）	apps/desktop/src/components/FileFilterInput.tsx:50	1
+ui	Commit files	translate	attr-ui	属性文案（aria-label）	apps/desktop/src/features/inspector/CommitDetails.tsx:523	1
+ui	Filter files	translate	new	待译	apps/desktop/src/features/inspector/Inspector.tsx:90	1
+ui	Redo failed:	translate	new	待译	apps/desktop/src/features/history/undoStore.ts:217	1
+ui	Reset branch	translate	new	待译	apps/desktop/src/features/graph/CommitGraph.tsx:330	1
+ui	Undo failed:	translate	new	待译	apps/desktop/src/features/history/undoStore.ts:187	1
+ui	From commit	translate	new	待译	apps/desktop/src/features/repository/RepoDialogs.tsx:159	1
 ui	Home / End	translate	new	待译	apps/desktop/src/features/settings/SettingsDialog.tsx:573	1
+ui	detached @	translate	new	待译	apps/desktop/src/components/StatusBar.tsx:36	2
+ui	无法加载 diff：	translate	new	待译	apps/desktop/src/features/history/FileHistoryPanel.tsx:165	1
 ui	): number	translate	jsx-text	JSX 文本	apps/desktop/src/features/conflicts/ConflictResolver.tsx:113	2
 ui	): string	translate	jsx-text	JSX 文本	apps/desktop/src/features/settings/AccountsTab.tsx:99	1
-ui	v1.0.0	translate	attr-ui	属性文案（placeholder），裸词须配 anchor	apps/desktop/src/features/repository/RepoDialogs.tsx:189	1
-ui	A / C	translate	new	待译	apps/desktop/src/features/settings/SettingsDialog.tsx:576	1
+ui	At commit	translate	new	待译	apps/desktop/src/features/repository/RepoDialogs.tsx:193	1
+ui	Create a	translate	new	待译	apps/desktop/src/components/StatusBar.tsx:81	1
+ui	v1.0.0	translate	attr-ui	属性文案（placeholder），裸词须配 anchor	apps/desktop/src/features/repository/RepoDialogs.tsx:199	1
+ui	A / C	translate	new	待译	apps/desktop/src/features/settings/SettingsDialog.tsx:578	1
 ui	K / P	translate	new	待译	apps/desktop/src/features/settings/SettingsDialog.tsx:565	1
-ui	P / N	translate	new	待译	apps/desktop/src/features/settings/SettingsDialog.tsx:579	1
+ui	P / N	translate	new	待译	apps/desktop/src/features/settings/SettingsDialog.tsx:581	1
 ui	\b \b	translate	new	待译	apps/desktop/src/features/terminal/TerminalPanel.tsx:45	1
-ui	sk-…	translate	attr-ui	属性文案（placeholder），裸词须配 anchor	apps/desktop/src/features/settings/SettingsDialog.tsx:1178	1
-ui	Esc	translate	jsx-text	JSX 文本裸词，须配 anchor	apps/desktop/src/features/diff/DiffPanel.tsx:258	5
+ui	sk-…	translate	attr-ui	属性文案（placeholder），裸词须配 anchor	apps/desktop/src/features/settings/SettingsDialog.tsx:1180	1
+ui	Esc	translate	jsx-text	JSX 文本裸词，须配 anchor	apps/desktop/src/features/diff/DiffPanel.tsx:262	5
 ui	SSH	translate	attr-ui	属性文案（title），裸词须配 anchor	apps/desktop/src/features/settings/SettingsDialog.tsx:126	1

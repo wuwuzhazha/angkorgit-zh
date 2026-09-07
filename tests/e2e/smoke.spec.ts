@@ -19,7 +19,7 @@ test('选择提交会打开检查器', async ({ page }) => {
   await page.getByText('angkorgit', { exact: true }).first().click();
   await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   await page.getByRole('row').first().click();
-  await expect(page.getByRole('complementary', { name: 'Inspector' }).getByLabel('4 modified')).toBeVisible();
+  await expect(page.getByRole('complementary', { name: '检查器' }).getByLabel('4 已修改')).toBeVisible();
 });
 
 test('命令面板可通过键盘快捷键打开', async ({ page }) => {
@@ -719,8 +719,8 @@ test('the checked-out branch chip is filled while other local chips stay tinted'
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
   await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
-  const headChip = page.getByTitle(/^main · local/).first();
-  const otherChip = page.getByTitle(/^feature\/diff-viewer · local/).first();
+  const headChip = page.getByTitle(/^main · 本地/).first();
+  const otherChip = page.getByTitle(/^feature\/diff-viewer · 本地/).first();
   const opacity = (color: string) => Number(color.split(',')[3]?.replace(')', '') ?? '1');
   const headBg = await headChip.evaluate((el) => getComputedStyle(el).backgroundColor);
   const otherBg = await otherChip.evaluate((el) => getComputedStyle(el).backgroundColor);
@@ -733,11 +733,11 @@ test('double-clicking a separated origin chip offers to reset the local branch',
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
   await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
-  await page.getByTitle(/origin\/main — double-click to reset main to it/).first().dblclick();
+  await page.getByTitle(/origin\/main——双击将其重置到 main/).first().dblclick();
   const dialog = page.getByRole('dialog');
   await expect(dialog.getByText('Reset branch to its remote?')).toBeVisible();
   await expect(dialog.getByText(/2 commits only on the local branch will be lost/)).toBeVisible();
-  await expect(dialog.getByText(/Hard reset to origin\/main/)).toBeVisible();
+  await expect(dialog.getByText(/硬重置到 origin\/main/)).toBeVisible();
   const box = await dialog.boundingBox();
   const button = await dialog.getByRole('button', { name: 'Reset branch' }).boundingBox();
   if (!box || !button) throw new Error('dialog geometry missing');
@@ -753,9 +753,9 @@ test('the diff header opens the history of the file being viewed', async ({ page
   await page.getByText('CommitGraph.tsx').first().click();
   const diff = page.locator('section[aria-label^="文件差异："]');
   await expect(diff).toBeVisible();
-  await diff.getByRole('button', { name: 'File history' }).click();
-  await expect(page.locator('section[aria-label^="History of"]')).toBeVisible();
-  await expect(page.getByLabel('History of src/features/graph/CommitGraph.tsx')).toBeVisible();
+  await diff.getByRole('button', { name: '文件历史' }).click();
+  await expect(page.locator('section[aria-label*=" 的历史"]')).toBeVisible();
+  await expect(page.getByLabel('src/features/graph/CommitGraph.tsx 的历史')).toBeVisible();
   await expect(diff).toBeHidden();
 });
 
@@ -778,7 +778,7 @@ test('a single file can be stashed from its row menu and the toolbar pops the la
   await pop.hover();
   await expect(page.getByRole('tooltip').filter({ hasText: 'WIP on main: experiment with lane colors' })).toBeVisible();
   await pop.click();
-  await expect(page.getByText('Pop stash complete')).toBeVisible();
+  await expect(page.getByText('弹出暂存 完成')).toBeVisible();
 });
 
 test('shift-click selects a range of working copy files and the menu acts on all of them', async ({ page }) => {
@@ -816,7 +816,7 @@ test('the working copy filter narrows both lists and shows counts', async ({ pag
   await filter.fill('graph');
   await expect(page.getByText('CommitGraph.tsx', { exact: true }).first()).toBeVisible();
   await expect(page.getByText('ipc.ts', { exact: true })).toHaveCount(0);
-  await expect(page.getByText('No changes match the filter.')).toBeVisible();
+  await expect(page.getByText('没有匹配过滤条件的更改。')).toBeVisible();
   await expect(page.getByText(/^Staged/).locator('..')).toContainText('1 of 2');
 
   await page.getByRole('button', { name: 'Clear filter' }).click();
@@ -837,7 +837,7 @@ test('the commit file list can be filtered by path', async ({ page }) => {
   await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   await page.getByText('feat(graph): virtualize commit rows').first().click();
 
-  const inspector = page.getByRole('complementary', { name: 'Inspector' });
+  const inspector = page.getByRole('complementary', { name: '检查器' });
   await expect(inspector.getByText('GraphRow.tsx', { exact: true })).toBeVisible();
   await inspector.getByRole('button', { name: 'Filter files' }).click();
   const filter = inspector.getByPlaceholder('Filter files…');
@@ -860,7 +860,7 @@ test('a stash lists its files and one file can be restored on its own', async ({
 
   await expect(page.getByText('feat(graph): virtualize commit rows').first()).toBeVisible();
   await page.getByText('WIP on main: experiment with lane colors').first().click();
-  const inspector = page.getByRole('complementary', { name: 'Inspector' });
+  const inspector = page.getByRole('complementary', { name: '检查器' });
   await expect(inspector.getByText('This is a stash.', { exact: false })).toBeVisible();
   const restore = inspector.getByRole('button', { name: 'Apply src/features/graph/GraphRow.tsx from the stash' });
   await inspector.getByText('GraphRow.tsx', { exact: true }).hover();
@@ -880,7 +880,7 @@ test('staged files can be discarded from the row, the menu and the header', asyn
   await page.getByText('angkorgit', { exact: true }).first().click();
   await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
 
-  const stagedDiscard = page.getByRole('button', { name: 'Discard src/features/graph/CommitGraph.tsx' });
+  const stagedDiscard = page.getByRole('button', { name: '丢弃 src/features/graph/CommitGraph.tsx' });
   await page.getByText('CommitGraph.tsx', { exact: true }).first().hover();
   await stagedDiscard.click({ force: true });
   const dialog = page.getByRole('dialog');
@@ -892,8 +892,8 @@ test('staged files can be discarded from the row, the menu and the header', asyn
   await expect(page.getByRole('menuitem', { name: /Discard changes/ })).toBeVisible();
   await page.keyboard.press('Escape');
 
-  await page.getByRole('button', { name: 'Discard all staged changes' }).click();
-  await expect(dialog.getByText('Discard all 2 staged changes?')).toBeVisible();
+  await page.getByRole('button', { name: '全部丢弃已暂存的更改' }).click();
+  await expect(dialog.getByText('全部丢弃 2 个已暂存更改？')).toBeVisible();
   await dialog.getByRole('button', { name: '取消' }).click();
 });
 
@@ -919,17 +919,17 @@ test('a stash shows up in the graph with its own node and a menu to pop it', asy
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
   await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
-  const chip = page.getByRole('table', { name: 'Commits' }).getByTitle(/^WIP on main: experiment with lane colors/);
+  const chip = page.getByRole('table', { name: '提交' }).getByTitle(/^WIP on main: experiment with lane colors/);
   await expect(chip).toBeVisible();
   const row = chip.locator('xpath=ancestor::*[@role="row"]');
   await expect(row.getByRole('img', { name: 'Stash' })).toBeVisible();
   await row.click({ button: 'right', position: { x: 400, y: 10 } });
-  await expect(page.getByRole('menuitem', { name: 'Apply stash (keep it)' })).toBeVisible();
+  await expect(page.getByRole('menuitem', { name: '应用暂存 (keep it)' })).toBeVisible();
   await page.keyboard.press('Escape');
   await chip.click({ button: 'right' });
-  await expect(page.getByRole('menuitem', { name: 'Apply stash (keep it)' })).toBeVisible();
-  await page.getByRole('menuitem', { name: 'Pop stash' }).click();
-  await expect(page.getByText('Pop stash done')).toBeVisible();
+  await expect(page.getByRole('menuitem', { name: '应用暂存 (keep it)' })).toBeVisible();
+  await page.getByRole('menuitem', { name: '弹出暂存' }).click();
+  await expect(page.getByText('弹出暂存 已完成')).toBeVisible();
 });
 
 test('arrow keys walk from the graph into a commit\u2019s files and back', async ({ page }) => {
@@ -942,7 +942,7 @@ test('arrow keys walk from the graph into a commit\u2019s files and back', async
   await page.keyboard.press('ArrowDown');
   await expect(rows.nth(1)).toHaveAttribute('aria-selected', 'true');
   const secondHash = (await rows.nth(1).locator('button.font-mono').innerText()).trim();
-  await expect(page.getByRole('complementary', { name: 'Inspector' }).getByText(secondHash.slice(0, 7))).toBeVisible();
+  await expect(page.getByRole('complementary', { name: '检查器' }).getByText(secondHash.slice(0, 7))).toBeVisible();
 
   await page.keyboard.press('ArrowRight');
   const files = page.getByLabel('Commit files');

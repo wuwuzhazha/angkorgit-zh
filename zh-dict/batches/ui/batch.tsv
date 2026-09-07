@@ -188,3 +188,12 @@ ui	${tag.message ?? tag.name} — click to show the commit, right-click for acti
 # ---- t11 上游 0.11.0 同步后新增 sibling（同族）----
 ui	${group.primary.shorthand} — double-click to reset ${group.label} to it, right-click for actions	${group.primary.shorthand}——双击将其重置到 ${group.label}，右键查看更多操作
 ui	${name} is checked out in worktree ${held.name} — reset it from there	${name} 已在工作树 ${held.name} 中检出——请从那里重置
+# ---- t11 上游 0.11.0 断言同步补丁：旧词库子串事故造成的混杂串修复 ----
+ui	无更改 match the filter.	没有匹配过滤条件的更改。
+ui	全部丢弃 staged changes	全部丢弃已暂存的更改
+ui	全部丢弃 ${allStaged.length} staged change${allStaged.length === 1 ? '' : 's'}?	全部丢弃 ${allStaged.length} 个已暂存更改？
+ui	全部丢弃 changes	全部丢弃未暂存的更改
+ui	全部丢弃 ${allUnstaged.length} change${allUnstaged.length === 1 ? '' : 's'}?	全部丢弃 ${allUnstaged.length} 个更改？
+ui	Stash — click the row to see its files, right-click to apply, pop or drop	暂存——点击行查看其文件，右键可应用、弹出或丢弃
+ui	未提交的更改 are discarded and cannot be recovered.	未提交的更改将被丢弃且无法恢复。
+ui	This branch is not checked out. It is checked out first, then hard reset to 	此分支当前未检出。将先检出它，再硬重置到

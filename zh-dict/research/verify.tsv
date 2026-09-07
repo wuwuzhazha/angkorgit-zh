@@ -1,12 +1,27 @@
 # 待决清单：翻译前逐条裁决 → 转 translate（产出词条）或转 skip（记入批次 skip 文件 + 理由）
 # 列：scope<TAB>source<TAB>reason<TAB>hint<TAB>kind<TAB>require_anchor<TAB>sync<TAB>first_loc<TAB>occurrences
+website	curl -L ${SITE.assetUrl(version, `AngKorGit_${version}_amd64.AppImage`)} -o ~/Downloads/AngKorGit.AppImage && chmod +x ~/Downloads/AngKorGit.AppImage && ~/Downloads/AngKorGit.AppImage	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	attr:copy		apps/website/src/components/Install.astro:77	1
+website	curl -L ${SITE.assetUrl(version, `AngKorGit_${version}_universal.dmg`)} -o ~/Downloads/AngKorGit.dmg && xattr -cr ~/Downloads/AngKorGit.dmg && open ~/Downloads/AngKorGit.dmg	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	attr:copy		apps/website/src/components/Install.astro:60	1
+website	-o ~/Downloads/AngKorGit.AppImage && chmod +x ~/Downloads/AngKorGit.AppImage && ~/Downloads/AngKorGit.AppImage	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	attr:copy		apps/website/src/components/Install.astro:77	1
+website	curl -L ${SITE.assetUrl(version, `AngKorGit_${version}_amd64.AppImage`)} -o ~/Downloads/AngKorGit.AppImage	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	template		apps/website/src/components/Install.astro:73	1
+ui	0 0 0 ${NODE_HALO}px hsl(var(--background)), 0 0 0 ${NODE_HALO + NODE_RING}px ${laneColor(node.color)}	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	template		apps/desktop/src/features/graph/GraphRow.tsx:223	1
+website	-o ~/Downloads/AngKorGit.dmg && xattr -cr ~/Downloads/AngKorGit.dmg && open ~/Downloads/AngKorGit.dmg	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	attr:copy		apps/website/src/components/Install.astro:60	1
+website	curl -L ${SITE.assetUrl(version, `AngKorGit_${version}_universal.dmg`)} -o ~/Downloads/AngKorGit.dmg	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	template		apps/website/src/components/Install.astro:56	1
+docs	Updated for v0.11.0 (September 2026). [CHANGELOG.md](../CHANGELOG.md) is the	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	md-prose-fmt		docs/Roadmap.md:3	1
 test	checks out same-repo branches with tracking and fork PRs via refs/pull	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	test-name		tests/unit/forge.test.ts:196	1
-rust	fix: adjust\n\nSigned-off-by: Test User <test@angkorgit.dev>	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	rust		apps/desktop/src-tauri/tests/git_engine.rs:357	1
+e2e	arrow keys walk from the graph into a commit\u2019s files and back	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	test-name		tests/e2e/smoke.spec.ts:935	1
+website	</span><span class="font-mono text-[11px] font-normal text-faint">	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	tmpl-seg		apps/website/src/components/mock/Sidebar.astro:4	1
+rust	fix: adjust\n\nSigned-off-by: Test User <test@angkorgit.dev>	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	rust		apps/desktop/src-tauri/tests/git_engine.rs:681	1
 test	checks out fork merge requests via refs/merge-requests	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	test-name		tests/unit/forge.test.ts:299	1
 test	strips refs/heads and collapses unsafe characters	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	test-name		tests/unit/worktree.test.ts:9	1
+website	hsl(var(${alt ? '--graph-2' : laneColors[lane]}))	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	template		apps/website/src/components/mock/Graph.astro:48	1
+ui	Open the commit\u2019s files / back to the graph	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	string		apps/desktop/src/features/settings/SettingsDialog.tsx:574	1
+ui	hsl(var(--primary) / ${current ? 0.28 : 0.14})	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	template		apps/desktop/src/features/diff/DiffViewer.tsx:21	1
 meta	pnpm --filter @angkorgit/desktop tauri build	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	json		package.json:21	1
+ui	max(2px, ${((end - start) / total) * 100}%)	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	template		apps/desktop/src/features/diff/DiffMinimap.tsx:193	1
 meta	pnpm --filter @angkorgit/desktop tauri dev	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	json		package.json:20	1
 meta	pnpm --filter @angkorgit/website preview	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	json		package.json:32	1
+ui	将 user.name 和 user.email 写入 ~/.gitconfig	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	string		apps/desktop/src/features/settings/SettingsDialog.tsx:934	1
 meta	pnpm --filter @angkorgit/website images	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	json		package.json:33	1
 meta	pnpm --filter @angkorgit/desktop tauri	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	json		package.json:19	1
 meta	pnpm --filter @angkorgit/website build	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	json		package.json:31	1
@@ -21,7 +36,7 @@ website	.terminal-block	verify	single-word	裸词：须配 anchor，e2e 断言�
 e2e	.font-mono	verify	single-word	裸词：须配 anchor，e2e 断言同步	string	yes	tests/e2e/smoke.spec.ts:147	1
 core	\n\n	verify	single-word	裸词：须配 anchor，e2e 断言同步	string	yes	packages/core/src/ai/capabilities.ts:109	4
 ui	.svg	verify	single-word	裸词：须配 anchor，e2e 断言同步	string	yes	apps/desktop/src/features/diff/DiffViewer.tsx:153	1
-ui	\n\n	verify	single-word	裸词：须配 anchor，e2e 断言同步	string	yes	apps/desktop/src/features/inspector/CommitDetails.tsx:70	1
+ui	\n\n	verify	single-word	裸词：须配 anchor，e2e 断言同步	string	yes	apps/desktop/src/features/inspector/CommitDetails.tsx:88	1
 ui	\x7f	verify	single-word	裸词：须配 anchor，e2e 断言同步	string	yes	apps/desktop/src/features/terminal/TerminalPanel.tsx:45	1
 website	*.md	verify	single-word	裸词：须配 anchor，e2e 断言同步	string	yes	apps/website/src/content.config.ts:5	1
 website	src…	verify	single-word	裸词：须配 anchor，e2e 断言同步	string	yes	apps/website/src/components/mock/WorkingCopy.astro:7	1

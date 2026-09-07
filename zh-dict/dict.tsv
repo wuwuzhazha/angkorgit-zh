@@ -377,6 +377,7 @@ ui	Create as draft	以草稿创建
 ui	Create	创建	^\s*Create$
 ui	Clone failed: 	克隆失败：	Clone failed: 
 ui	Clone	克隆	^\s*Clone$
+ui	Stash — click the row to see its files, right-click to apply, pop or drop	暂存——点击行查看其文件，右键可应用、弹出或丢弃
 ui	Stash	暂存	^\s*Stash$
 ui	Rename	重命名	^\s*Rename$
 ui	Retry	重试	^\s*Retry$
@@ -804,6 +805,13 @@ ui	${profile.label} profile actions	${profile.label} 配置操作
 ui	aria-label="Inspector"	aria-label="检查器"	aria-label="Inspector"
 ui	Close ${label(path)}	关闭 ${label(path)}
 ui	aria-label="Home"	aria-label="首页"	aria-label="Home"
+ui	This branch is not checked out. It is checked out first, then hard reset to 	此分支当前未检出。将先检出它，再硬重置到
+ui	全部丢弃 ${allStaged.length} staged change${allStaged.length === 1 ? '' : 's'}?	全部丢弃 ${allStaged.length} 个已暂存更改？
+ui	全部丢弃 ${allUnstaged.length} change${allUnstaged.length === 1 ? '' : 's'}?	全部丢弃 ${allUnstaged.length} 个更改？
+ui	未提交的更改 are discarded and cannot be recovered.	未提交的更改将被丢弃且无法恢复。
+ui	无更改 match the filter.	没有匹配过滤条件的更改。
+ui	全部丢弃 staged changes	全部丢弃已暂存的更改
+ui	全部丢弃 changes	全部丢弃未暂存的更改
 
 # ============ B. Rust 引擎错误消息（apps/desktop/src-tauri/src） ============
 rust	no repository is open	没有打开任何仓库
