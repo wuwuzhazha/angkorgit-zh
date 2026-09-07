@@ -572,10 +572,7 @@ pub fn pull_branch(path: &str, branch_name: &str) -> AppResult<OpOutcome> {
         )));
     }
     let mut reference = repo.find_reference(&format!("refs/heads/{branch_name}"))?;
-    reference.set_target(
-        upstream_oid,
-        &format!("拉取：快进到 {upstream_name}"),
-    )?;
+    reference.set_target(upstream_oid, &format!("拉取：快进到 {upstream_name}"))?;
     Ok(OpOutcome {
         status: "fast_forward".into(),
         message: format!("已将 {branch_name} 快进到 {upstream_name}"),

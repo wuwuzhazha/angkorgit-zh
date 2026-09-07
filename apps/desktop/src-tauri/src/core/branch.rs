@@ -338,9 +338,9 @@ pub fn rebase_commits(path: &str, base: &str) -> AppResult<Vec<CommitInfo>> {
         if commits.len() > MAX_INTERACTIVE_COMMITS {
             return Err(AppError::other("变基范围过大——请选择更近的基础提交"));
         }
-        let parent = current.parent(0).map_err(|_| {
-            AppError::other("所选基础提交不是 HEAD 的第一父级祖先")
-        })?;
+        let parent = current
+            .parent(0)
+            .map_err(|_| AppError::other("所选基础提交不是 HEAD 的第一父级祖先"))?;
         if parent.id() == base_oid {
             break;
         }
