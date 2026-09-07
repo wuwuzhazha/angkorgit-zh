@@ -1038,5 +1038,5 @@ rust	contains("expired")	contains("已过期")	contains\("expired"\)
 rust	"Cherry-picked 2 commits"	"已拣选 2 个提交"
 rust	Cherry-picked 1 of 3 commits. {} has conflicts to resolve; 1 more commit is waiting	已拣选 1/3 个提交。{} 存在待解决的冲突；另有 1 个提交正在等待
 rust	contains("already checked out")	contains("工作树中检出")
-rust	contains("worktree")	contains("工作树")
+rust	contains("worktree")	contains("工作树")	contains\("worktree"\)
 rust	contains("uncommitted")	contains("未提交的更改")
