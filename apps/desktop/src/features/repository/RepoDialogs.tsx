@@ -119,7 +119,7 @@ export function RepoDialogs({ onDone }: { onDone: () => Promise<void> }) {
         closeDialog();
         await onDone();
       } catch (error) {
-        toast.error(`Cherry-pick failed: ${(error as { message?: string }).message ?? error}`);
+        toast.error(`拣选失败：${(error as { message?: string }).message ?? error}`);
       } finally {
         setBusy(false);
       }

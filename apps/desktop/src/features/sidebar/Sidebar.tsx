@@ -288,7 +288,7 @@ export function Sidebar() {
       .getState()
       .open(wt.path)
       .catch((error) =>
-        toast.error(`Could not open ${wt.name}: ${(error as { message?: string }).message ?? error}`),
+        toast.error(`无法打开 ${wt.name}：${(error as { message?: string }).message ?? error}`),
       );
   };
 
@@ -347,7 +347,7 @@ export function Sidebar() {
     try {
       await useRepo.getState().open(main.path);
     } catch (error) {
-      toast.error(`Could not switch to ${main.name}: ${(error as { message?: string }).message ?? error}`);
+      toast.error(`无法切换到 ${main.name}：${(error as { message?: string }).message ?? error}`);
       return;
     }
     useUi.getState().closeRepoTab(wt.path);
@@ -358,7 +358,7 @@ export function Sidebar() {
       await useRepo.getState().refresh();
       await graphReload(main.path);
     } catch (error) {
-      toast.error(`移除工作树 failed: ${(error as { message?: string }).message ?? error}`);
+      toast.error(`移除工作树失败：${(error as { message?: string }).message ?? error}`);
     }
   };
 
@@ -376,7 +376,7 @@ export function Sidebar() {
       }
       await act(`将 ${source} 合并到 ${target}`, () => ipc.merge(path, source, noFf), { kind: 'merge' });
     } catch (error) {
-      toast.error(`Merge failed: ${(error as { message?: string }).message ?? error}`);
+      toast.error(`合并失败：${(error as { message?: string }).message ?? error}`);
     }
   };
 
@@ -394,7 +394,7 @@ export function Sidebar() {
       }
       await act(`将 ${source} 变基到 ${target}`, () => ipc.rebase(path, target), { kind: 'rebase' });
     } catch (error) {
-      toast.error(`Rebase failed: ${(error as { message?: string }).message ?? error}`);
+      toast.error(`变基失败：${(error as { message?: string }).message ?? error}`);
     }
   };
 

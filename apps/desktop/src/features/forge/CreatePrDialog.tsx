@@ -339,7 +339,7 @@ export function CreatePrDialog() {
                 )}
                 {accountLookupFailed && (
                   <div className="px-2 py-1.5 text-xs text-faint">
-                    Could not identify your account — add reviewers on {provider.label} instead.
+                    无法识别你的账户——请改为在 {provider.label} 上添加审查人。
                   </div>
                 )}
                 {!candidatesLoading && !accountLookupFailed && visibleCandidates.length === 0 && (

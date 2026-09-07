@@ -155,7 +155,7 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
       if (!dir || dir === path) return;
       await open(dir);
     })().catch((error) =>
-      toast.error(`Could not open: ${(error as { message?: string }).message ?? error}`),
+      toast.error(`无法打开：${(error as { message?: string }).message ?? error}`),
     );
   };
 
@@ -390,7 +390,7 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
                   onSelect={() => {
                     close();
                     void open(w.path).catch((error) =>
-                      toast.error(`Could not open worktree: ${(error as { message?: string }).message ?? error}`),
+                      toast.error(`无法打开工作树：${(error as { message?: string }).message ?? error}`),
                     );
                   }}
                 />
@@ -408,7 +408,7 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
                 onSelect={() => {
                   close();
                   void open(recent.path).catch((error) =>
-                    toast.error(`Could not open: ${(error as { message?: string }).message ?? error}`),
+                    toast.error(`无法打开：${(error as { message?: string }).message ?? error}`),
                   );
                 }}
               />

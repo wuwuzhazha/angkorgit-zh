@@ -50,7 +50,7 @@ export function CloneDialog({ onCloned }: { onCloned: (path: string) => void }) 
       closeDialog();
       onCloned(path);
     } catch (error) {
-      toast.error(`Clone failed: ${(error as { message?: string }).message ?? error}`);
+      toast.error(`克隆失败：${(error as { message?: string }).message ?? error}`);
       setProgress(null);
     }
   };

@@ -173,7 +173,7 @@ export function ConflictResolver({ file, onResolved }: { file: string; onResolve
         setEditingBlock(null);
       })
       .catch((error) => {
-        toast.error(`Could not read ${file}: ${(error as { message?: string }).message ?? error}`);
+        toast.error(`无法读取 ${file}：${(error as { message?: string }).message ?? error}`);
         openConflict(null);
       });
     return () => {
@@ -586,7 +586,7 @@ export function ConflictResolver({ file, onResolved }: { file: string; onResolve
       openConflict(null);
       await onResolved();
     } catch (error) {
-      toast.error(`Save failed: ${(error as { message?: string }).message ?? error}`);
+      toast.error(`保存失败：${(error as { message?: string }).message ?? error}`);
     } finally {
       setSaving(false);
     }

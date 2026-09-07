@@ -136,7 +136,7 @@ export function Inspector() {
         ) : commitError ? (
           <div className="flex h-full flex-col items-center justify-center gap-2 p-4 text-center">
             <p className="text-xs text-danger [overflow-wrap:anywhere]">
-              Could not load commit: {commitError}
+              无法加载提交：{commitError}
             </p>
             <Button variant="ghost" size="sm" onClick={retry}>
               重试

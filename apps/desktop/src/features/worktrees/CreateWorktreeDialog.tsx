@@ -133,7 +133,7 @@ export function CreateWorktreeDialog() {
         await refresh();
       }
     } catch (error) {
-      toast.error(`Could not create worktree: ${(error as { message?: string }).message ?? error}`);
+      toast.error(`无法创建工作树：${(error as { message?: string }).message ?? error}`);
     } finally {
       setBusy(false);
     }

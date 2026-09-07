@@ -33,7 +33,7 @@ export function EditorPanel({ file }: { file: string }) {
         }
       })
       .catch((error) => {
-        toast.error(`Could not open ${file}: ${(error as { message?: string }).message ?? error}`);
+        toast.error(`无法打开 ${file}：${(error as { message?: string }).message ?? error}`);
         closeEditor();
       });
     return () => {
@@ -50,7 +50,7 @@ export function EditorPanel({ file }: { file: string }) {
       toast.success(`${file} 已保存`);
       await refreshStatus();
     } catch (error) {
-      toast.error(`Save failed: ${(error as { message?: string }).message ?? error}`);
+      toast.error(`保存失败：${(error as { message?: string }).message ?? error}`);
     } finally {
       setSaving(false);
     }

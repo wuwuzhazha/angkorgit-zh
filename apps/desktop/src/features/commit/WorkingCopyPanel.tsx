@@ -543,7 +543,7 @@ export function WorkingCopyPanel() {
       await refreshStatus();
       await reloadGraph(path);
     } catch (error) {
-      toast.error(`Commit failed: ${(error as { message?: string }).message ?? error}`);
+      toast.error(`提交失败：${(error as { message?: string }).message ?? error}`);
     } finally {
       committingRef.current = false;
       setCommitting(false);
@@ -711,7 +711,7 @@ export function WorkingCopyPanel() {
                 className="text-danger hover:text-danger"
                 onClick={() => {
                   void confirmDialog({
-                    title: `全部丢弃 ${unstagedFiles.length} change${unstagedFiles.length === 1 ? '' : 's'}?`,
+                    title: `全部丢弃 ${unstagedFiles.length} 个更改？`,
                     description:
                       '所有未暂存的更改将被还原，未跟踪的文件将被删除。此操作无法撤销——即使按 ⌘Z 也不行。',
                     confirmLabel: '全部丢弃',
@@ -823,7 +823,7 @@ export function WorkingCopyPanel() {
                   .openPath(`${path}/${fileMenu.file.path}`)
                   .catch((error) =>
                     toast.error(
-                      `Could not open the file: ${(error as { message?: string }).message ?? error}`,
+                      `无法打开文件：${(error as { message?: string }).message ?? error}`,
                     ),
                   )
               }
@@ -836,7 +836,7 @@ export function WorkingCopyPanel() {
                   .revealPath(`${path}/${fileMenu.file.path}`)
                   .catch((error) =>
                     toast.error(
-                      `Could not reveal the file: ${(error as { message?: string }).message ?? error}`,
+                      `无法在 Finder 中显示文件：${(error as { message?: string }).message ?? error}`,
                     ),
                   )
               }

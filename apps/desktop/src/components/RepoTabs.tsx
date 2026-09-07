@@ -31,7 +31,7 @@ export function RepoTabs() {
       .open(path)
       .catch((error) => {
         toast.error(
-          `Could not open: ${(error as { message?: string }).message ?? error}`,
+          `无法打开：${(error as { message?: string }).message ?? error}`,
         );
         useUi.getState().closeRepoTab(path);
         killTerminalSession(path);

@@ -332,7 +332,7 @@ export function AccountsTab() {
       const added = updated.find((a) => a.host === cleanHost && a.username === finalUsername);
       if (added) void runChecks([added]);
     } catch (error) {
-      toast.error(`Connect failed: ${(error as { message?: string }).message ?? error}`);
+      toast.error(`连接失败：${(error as { message?: string }).message ?? error}`);
     } finally {
       setBusy(false);
     }
@@ -343,7 +343,7 @@ export function AccountsTab() {
       setAccounts(await ipc.accountRemove(account.host, account.username));
       toast.success(`已移除 ${account.host} 上的 ${account.username}`);
     } catch (error) {
-      toast.error(`Remove failed: ${(error as { message?: string }).message ?? error}`);
+      toast.error(`移除失败：${(error as { message?: string }).message ?? error}`);
     }
   };
 
@@ -352,7 +352,7 @@ export function AccountsTab() {
       setAccounts(await ipc.accountSetDefault(account.host, account.username));
       toast.success(`${account.username} 现在是 ${account.host} 的默认账户`);
     } catch (error) {
-      toast.error(`Could not set default: ${(error as { message?: string }).message ?? error}`);
+      toast.error(`无法设置默认：${(error as { message?: string }).message ?? error}`);
     }
   };
 

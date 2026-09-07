@@ -624,7 +624,7 @@ export function SettingsDialog() {
       await ipc.configSet(repo?.path ?? null, 'user.email', gitEmail, !repo);
       toast.success('已保存 Git 身份');
     } catch (error) {
-      toast.error(`Save failed: ${(error as { message?: string }).message ?? error}`);
+      toast.error(`保存失败：${(error as { message?: string }).message ?? error}`);
     }
   };
 
@@ -644,7 +644,7 @@ export function SettingsDialog() {
           : `全局身份已设为“${profile.label}”`,
       );
     } catch (error) {
-      toast.error(`Apply failed: ${(error as { message?: string }).message ?? error}`);
+      toast.error(`应用失败：${(error as { message?: string }).message ?? error}`);
     }
   };
 
