@@ -1624,10 +1624,10 @@ export function Sidebar() {
                 <FastForward className="shrink-0" />
                 <span className="flex min-w-0 flex-col items-start gap-0.5 text-left">
                   <span className="max-w-full truncate">
-                    Fast-forward {dropAction.target} to {dropAction.source}
+                    将 {dropAction.target} 快进到 {dropAction.source}
                   </span>
                   <span className="text-[11px] font-normal text-muted">
-                    Moves the branch pointer without creating a merge commit
+                    移动分支指针，不创建合并提交
                   </span>
                 </span>
               </Button>

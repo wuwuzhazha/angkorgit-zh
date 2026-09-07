@@ -380,16 +380,16 @@ export function CreatePrDialog() {
           </div>
           <label className="flex cursor-pointer items-center gap-2 text-xs text-muted">
             <Checkbox checked={draft} onCheckedChange={(v) => setDraft(v === true)} />
-            Create as draft
+            以草稿创建
           </label>
           {baseOptions.length === 0 && (
             <p className="text-xs text-info">
-              No remote branches found — fetch first so the target branch list can fill in.
+              未找到远端分支——请先获取，以便填充目标分支列表。
             </p>
           )}
           {notPushed && (
             <p className="text-xs text-info">
-              This branch has not been pushed yet — push it first so {provider.label} can see it.
+              此分支尚未推送——请先推送，以便 {provider.label} 能看到它。
             </p>
           )}
           {!notPushed && unpushed > 0 && (

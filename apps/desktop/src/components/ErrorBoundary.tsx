@@ -36,19 +36,19 @@ export class ErrorBoundary extends Component<{ children: ReactNode }, State> {
           <h1 className="text-lg font-semibold text-foreground">出了点问题</h1>
         </div>
         <p className="max-w-md text-sm text-muted">
-          AngKorGit hit an unexpected error. Your repositories are safe — this only affects the
-          interface. Restarting usually fixes it; if it keeps happening, please report the details
-          below.
+          AngKorGit 遇到了意外错误。你的仓库是安全的——这只会影响
+          界面。重启通常能解决；如果反复出现，请报告下面的
+          详细信息。
         </p>
         <pre className="max-h-40 max-w-lg overflow-auto rounded-lg border border-border bg-surface p-3 text-left font-mono text-xs text-danger">
           {error.name}: {error.message}
         </pre>
         <div className="flex gap-2">
           <Button onClick={() => window.location.reload()}>
-            <RotateCcw /> Restart interface
+            <RotateCcw /> 重启界面
           </Button>
           <Button variant="secondary" onClick={this.copyDetails}>
-            <ClipboardCopy /> Copy error details
+            <ClipboardCopy /> 复制错误详情
           </Button>
         </div>
       </div>

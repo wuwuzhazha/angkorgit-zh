@@ -50,8 +50,8 @@ export function ProfilePromptHost() {
         <DialogHeader>
           <DialogTitle>为 {request?.repoName} 选择哪个配置文件？</DialogTitle>
           <DialogDescription>
-            Commits and pushes in this repository will use the chosen profile's identity and
-            accounts. Asked once — change it later from the toolbar.
+            此仓库中的提交与推送将使用所选配置文件的身份和
+            账户。仅询问一次——之后可从工具栏更改。
           </DialogDescription>
         </DialogHeader>
         <div className="flex flex-col gap-1.5">

@@ -159,8 +159,8 @@ export function CreateWorktreeDialog() {
             新建工作树
           </DialogTitle>
           <DialogDescription>
-            A second folder for this repository with its own checked-out branch. Work on two
-            things at once without stashing, and keep every commit in the same history.
+            该仓库的第二个文件夹，检出独立的分支，无需暂存即可同时处理
+            多件事，所有提交保留在同一历史中。
           </DialogDescription>
         </DialogHeader>
 
@@ -174,7 +174,7 @@ export function CreateWorktreeDialog() {
 
           {mode === 'new' ? (
             <label className="flex flex-col gap-1.5 text-xs text-muted">
-              Branch name
+              分支名
               <Input
                 autoFocus
                 placeholder="feature/parallel-task"
@@ -186,12 +186,12 @@ export function CreateWorktreeDialog() {
                 className="font-mono"
               />
               <span className="text-[11px] text-faint [overflow-wrap:anywhere]">
-                Starts from {baseLabel}.
+                起始于 {baseLabel}。
               </span>
             </label>
           ) : (
             <label className="flex flex-col gap-1.5 text-xs text-muted">
-              Branch
+              分支
               <Select value={existingBranch} onValueChange={setExistingBranch}>
                 <SelectTrigger className="h-9 font-mono">
                   <SelectValue placeholder="选择分支" />
@@ -199,7 +199,7 @@ export function CreateWorktreeDialog() {
                 <SelectContent>
                   {availableBranches.length === 0 && (
                     <div className="px-2 py-1.5 text-xs text-faint">
-                      Every branch is already checked out somewhere.
+                      每个分支都已在某处检出。
                     </div>
                   )}
                   {availableBranches.map((b) => (
@@ -211,7 +211,7 @@ export function CreateWorktreeDialog() {
                 </SelectContent>
               </Select>
               <span className="text-[11px] text-faint">
-                Branches already open in a worktree are not listed; git allows one folder per branch.
+                已在工作树中打开的分支不会列出；git 每个分支只允许一个文件夹。
               </span>
             </label>
           )}
@@ -236,7 +236,7 @@ export function CreateWorktreeDialog() {
               </Button>
             </div>
             <span className="text-[11px] text-faint">
-              Created next to the repository by default. The folder must not exist yet.
+              默认创建在仓库旁边；该文件夹必须尚不存在。
             </span>
           </label>
 

@@ -182,8 +182,8 @@ export function InteractiveRebaseDialog() {
         <DialogHeader>
           <DialogTitle>交互式变基</DialogTitle>
           <DialogDescription>
-            Rewriting the commits above {baseOid.slice(0, 8)} — they apply top to bottom, so the
-            top row becomes the oldest rebased commit. Drag rows to reorder.
+            正在重写 {baseOid.slice(0, 8)} 之上的提交——它们自上而下应用，因此
+            最上面一行将成为最旧的变基提交。拖动行以重新排序。
           </DialogDescription>
         </DialogHeader>
         {loading ? (
@@ -198,7 +198,7 @@ export function InteractiveRebaseDialog() {
           >
             {rows.length === 0 && (
               <p className="py-6 text-center text-sm text-faint">
-                No commits to rebase above this point.
+                此点之上没有可变基的提交。
               </p>
             )}
             {rows.map((row) => (
@@ -252,7 +252,7 @@ export function InteractiveRebaseDialog() {
                   >
                     <SelectTrigger
                       className="h-7 w-28 shrink-0 text-xs"
-                      aria-label={`Action for ${row.commit.shortOid.slice(0, 7)}`}
+                      aria-label={`对 ${row.commit.shortOid.slice(0, 7)} 的操作`}
                     >
                       <SelectValue />
                     </SelectTrigger>
@@ -288,8 +288,8 @@ export function InteractiveRebaseDialog() {
         )}
         {invalidCombine && (
           <p className="mt-2 text-xs text-danger">
-            The first kept commit cannot be squash or fixup — there is no earlier commit to
-            combine it into.
+            保留的第一个提交不能是 squash 或 fixup——没有更早的提交可
+            与之合并。
           </p>
         )}
         <DialogFooter>

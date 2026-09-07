@@ -396,8 +396,8 @@ function CliAgentPicker() {
         />
       )}
       <p className="mt-1 text-[11px] leading-relaxed text-faint">
-        Requests run through the CLI on this machine with its own login and quota. AngKorGit stores no key and
-        sends nothing anywhere itself.
+        请求通过本机的 CLI 运行，使用其自身的登录与配额。AngKorGit 不存储任何密钥，
+        也不会自行向任何地方发送数据。
       </p>
     </div>
   );
@@ -552,9 +552,9 @@ function ReviewStyleCard() {
           rows={4}
         />
         <p className="text-[11px] leading-relaxed text-faint">
-          Per-project rules: commit <span className="rounded bg-surface-raised px-1 py-0.5 font-mono">{PROJECT_REVIEW_FILE}</span>{' '}
-          to a repository and its content joins these conventions for that repository, so the whole team
-          reviews by the same rules. Project rules win on conflict.
+          项目级规则：提交 <span className="rounded bg-surface-raised px-1 py-0.5 font-mono">{PROJECT_REVIEW_FILE}</span>{' '}
+          到仓库后，其内容会加入该仓库的这些约定，让整个团队
+          按同一套规则审查。项目规则在冲突时优先。
         </p>
       </div>
     </SettingCard>

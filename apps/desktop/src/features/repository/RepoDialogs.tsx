@@ -304,9 +304,9 @@ export function RepoDialogs({ onDone }: { onDone: () => Promise<void> }) {
               <span className="flex flex-col gap-0.5">
                 <span>{pickOids.length > 1 ? '引用源提交' : '引用源提交'}</span>
                 <span className="opacity-70">
-                  Appends “(cherry picked from commit …)” to{' '}
-                  {pickOids.length > 1 ? '每条新消息' : '这条新消息'}, like git
-                  cherry-pick -x. Useful when backporting between shared branches.
+                  为{' '}
+                  {pickOids.length > 1 ? '每条新消息' : '这条新消息'} 追加“(cherry picked from commit …)” 引用，与 git
+                  cherry-pick -x 一致。在共享分支间移植提交时很有用。
                 </span>
               </span>
             </label>

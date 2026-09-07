@@ -273,7 +273,7 @@ export function FileHistoryPanel({ file }: { file: string }) {
             </div>
           ) : commits.length === 0 ? (
             <p className="px-4 py-10 text-center text-sm text-faint">
-              No commits touch this file on the current branch.
+              当前分支上没有提交改动过此文件。
             </p>
           ) : (
             <>

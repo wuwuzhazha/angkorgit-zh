@@ -346,12 +346,12 @@ export function WorkingCopyPanel() {
         if (!clean) {
           toast.error(
             useRepo.getState().submodules.some((s) => s.path === file)
-              ? `"${file}" is a submodule — open it as its own repository to discard the changes inside it.`
+              ? `“${file}”是子模块——请将其作为独立仓库打开，以丢弃其中的更改。`
               : `无法丢弃“${file}”——更改仍然存在。`,
           );
         }
       } catch (error) {
-        toast.error(`Discard failed: ${(error as { message?: string }).message ?? error}`);
+        toast.error(`丢弃失败：${(error as { message?: string }).message ?? error}`);
       }
     },
     [path, refreshStatus],
@@ -367,14 +367,14 @@ export function WorkingCopyPanel() {
         const listed = remaining.slice(0, 3).join(', ') + (remaining.length > 3 ? ` +${remaining.length - 3} more` : '');
         toast.error(
           submoduleCount > 0
-            ? `${remaining.length} change${remaining.length === 1 ? '' : 's'} could not be discarded (${listed}). Submodule changes must be discarded inside the submodule repository.`
-            : `${remaining.length} change${remaining.length === 1 ? '' : 's'} could not be discarded: ${listed}`,
+            ? `${remaining.length} 个更改无法丢弃（${listed}）。子模块的更改必须在子模块仓库内丢弃。`
+            : `${remaining.length} 个更改无法丢弃：${listed}`,
         );
       } else if (before > 0) {
-        toast.success(`Discarded ${before} change${before === 1 ? '' : 's'}`);
+        toast.success(`已丢弃 ${before} 个更改`);
       }
     } catch (error) {
-      toast.error(`全部丢弃 failed: ${(error as { message?: string }).message ?? error}`);
+      toast.error(`全部丢弃失败：${(error as { message?: string }).message ?? error}`);
     }
   };
 

@@ -97,7 +97,7 @@ export function cliAgentProvider(config: AiConfig, run: CliRunner): AiProvider {
       );
     }
     const text = cleanCliOutput(result.output || result.stdout);
-    if (!text) throw new AiError(`${spec.label} returned no output`, spec.id);
+    if (!text) throw new AiError(`${spec.label} 未返回任何输出`, spec.id);
     return { text, model: config.model || spec.label, provider: spec.id };
   };
 
