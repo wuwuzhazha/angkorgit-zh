@@ -250,10 +250,10 @@ export function CreatePrDialog() {
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <GitPullRequest className="size-4 shrink-0 text-primary" />
-            Create {noun}
+            创建{noun}
           </DialogTitle>
           <DialogDescription>
-            Opens a {noun} on {provider.label} for the current branch.
+            为当前分支在 {provider.label} 上打开{noun}。
           </DialogDescription>
         </DialogHeader>
         <div className="flex flex-col gap-3">
@@ -394,8 +394,8 @@ export function CreatePrDialog() {
           )}
           {!notPushed && unpushed > 0 && (
             <p className="text-xs text-info">
-              {unpushed} commit{unpushed === 1 ? '' : 's'} on this branch {unpushed === 1 ? 'is' : 'are'} not
-              pushed yet and will not be part of the {noun}.
+              此分支的 {unpushed} 个提交尚未
+              推送，因此不会包含在{noun}中。
             </p>
           )}
           {error && <p className="text-xs text-danger [overflow-wrap:anywhere]">{error}</p>}
@@ -409,7 +409,7 @@ export function CreatePrDialog() {
             onClick={() => void submit()}
           >
             {submitting && <Spinner className="size-3.5" />}
-            Create {noun}
+            创建{noun}
           </Button>
         </DialogFooter>
       </DialogContent>
