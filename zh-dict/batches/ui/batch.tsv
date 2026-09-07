@@ -1,0 +1,100 @@
+# B1 翻译批次（translator-a · t2）：batch1.tsv 全 123 行处置 —— 可译 92 条（含 3 条完整词条替换残片）/ 不可译 31 条
+# 列：scope<TAB>source<TAB>target<TAB>anchor(可选)；source 按长度降序（长串优先，契约 §4.7）
+# 占位符 ${...}/{...} 与转义 \n 原样保留（契约 §4.1）；裸词条全部带 anchor（契约 §4.6）
+# 不可译 31 条（demo x11 / key x5 / partial-snippet x4 / code x5 / css x2 / ident x3 / brand x1 / term x1）见 skip-ui.tsv
+ui	#${pr.number} ${pr.title} — ${pr.author} wants to merge ${pr.sourceBranch} into ${pr.targetBranch}. Double-click to check out, right-click for actions.	#${pr.number} ${pr.title} — ${pr.author} 想要将 ${pr.sourceBranch} 合并到 ${pr.targetBranch}。双击检出，右键查看更多操作。
+ui	Replays {dropAction.source}'s commits on top of {dropAction.target} — rewrites history	重放 {dropAction.source} 在 {dropAction.target} 之上的提交——这会重写历史
+ui	Could not read ${PROJECT_REVIEW_FILE} — reviewing without project conventions	无法读取 ${PROJECT_REVIEW_FILE}——将不按项目约定进行审查
+ui	${cleanHost} is unreachable right now — saving without verification	${cleanHost} 当前不可达——将不经验证保存
+ui	${branch.name} — click to filter graph, double-click to checkout	${branch.name} — 点击筛选提交图，双击检出
+ui	Could not reach ${host} — check your network or VPN, then retry.	无法访问 ${host}——请检查网络或 VPN 后重试。
+ui	Link ${account.username} on ${account.host} to ${profile.label}	将 ${account.host} 上的 ${account.username} 关联到 ${profile.label}
+ui	Can't redo "${entry.label}" — the repository has changed since	无法重做“${entry.label}”——仓库此后已发生变化
+ui	Can't undo "${entry.label}" — the repository has changed since	无法撤销“${entry.label}”——仓库此后已发生变化
+ui	${branch.name} — drag onto a local branch to merge or rebase	${branch.name} — 拖到本地分支上进行合并或变基
+ui	${dropAction.target} will be checked out first when merging.	合并时将先检出 ${dropAction.target}。
+ui	Saved ${cleanHost} as ${finalUsername} — token not verified	已将 ${finalUsername} 保存到 ${cleanHost}——令牌未验证
+ui	${account.username} is now the default for ${account.host}	${account.username} 现在是 ${account.host} 的默认账户
+ui	Could not discard "${file}" — the change is still present.	无法丢弃“${file}”——更改仍然存在。
+ui	// demo mode — editing is available in the desktop app\n	// 演示模式——编辑功能可在桌面应用中使用\n
+ui	Can't redo "${entry.label}" — the branch has moved since	无法重做“${entry.label}”——分支此后已移动
+ui	Can't undo "${entry.label}" — the branch has moved since	无法撤销“${entry.label}”——分支此后已移动
+ui	· type any name or load the list your key can access	· 输入任意名称，或加载你的密钥可访问的列表
+ui	Remove ${account.username} on ${account.host}?	移除 ${account.host} 上的 ${account.username}？
+ui	Removed ${account.username} on ${account.host}	已移除 ${account.host} 上的 ${account.username}
+ui	Take empty ${side} side (deletes this section)	选择空的 ${side} 侧（删除此部分）
+ui	${wt.path} — click to switch to this worktree	${wt.path} — 点击切换到该工作树
+ui	Bitbucket rejected the token (${res.status})	Bitbucket 拒绝了该令牌（${res.status}）
+ui	Connected ${cleanHost} as ${finalUsername}	已以 ${finalUsername} 身份连接到 ${cleanHost}
+ui	${branch.name} — double-click to checkout	${branch.name} — 双击检出
+ui	${wt.path} — this folder no longer exists	${wt.path} — 此文件夹已不存在
+ui	GitHub rejected the token (${res.status})	GitHub 拒绝了该令牌（${res.status}）
+ui	GitLab rejected the token (${res.status})	GitLab 拒绝了该令牌（${res.status}）
+ui	Delete branch ${branchMenu.branch.name}	删除分支 ${branchMenu.branch.name}
+ui	double-click to switch to that worktree	双击切换到该工作树
+ui	Which profile for {request?.repoName}?	为 {request?.repoName} 选择哪个配置文件？
+ui	Rebase onto ${branchMenu.branch.name}	变基到 ${branchMenu.branch.name}
+ui	${title} — enter a path (demo mode)	${title} — 输入路径（演示模式）
+ui	The folder is deleted.${branchNote}	此文件夹已删除。${branchNote}
+ui	Checkout ${branchMenu.branch.name}	检出 ${branchMenu.branch.name}
+ui	Cherry-pick ${oids.length} commits	拣选 ${oids.length} 个提交
+ui	Pull request #${pr.number} actions	拉取请求 #${pr.number} 的操作
+ui	Could not load commit: ${message}	无法加载提交：${message}
+ui	Merge ${branchMenu.branch.name}	合并 ${branchMenu.branch.name}
+ui	Rebase ${source} onto ${target}	将 ${source} 变基到 ${target}
+ui	Merge ${source} into ${target}	将 ${source} 合并到 ${target}
+ui	Pull ${branchMenu.branch.name}	拉取 ${branchMenu.branch.name}
+ui	Push ${branchMenu.branch.name}	推送 ${branchMenu.branch.name}
+ui	Update remote ${edit.original}	更新远端 ${edit.original}
+ui	· token in the system keychain	· 令牌保存在系统钥匙串中
+ui	${wt.path} — open in this tab	${wt.path} — 在此标签页中打开
+ui	Remote ${remote.name} actions	远端 ${remote.name} 的操作
+ui	Could not load file history:	无法加载文件历史：
+ui	Could not load more commits:	无法加载更多提交：
+ui	Could not load the history:	无法加载历史记录：
+ui	Removed worktree ${wt.name}	已移除工作树 ${wt.name}
+ui	--- demo staged patch ---	--- 演示暂存补丁 ---
+ui	Clear ${repoState} state?	清除 ${repoState} 状态？
+ui	double-click to checkout	双击检出
+ui	Checkout ${branch.name}	检出 ${branch.name}
+ui	${branch.name} actions	分支 ${branch.name} 的操作
+ui	Checkout #${pr.number}	检出 #${pr.number}
+ui	Delete tag ${tag.name}	删除标签 ${tag.name}
+ui	Redid: ${entry.label}	已重做：${entry.label}
+ui	Undid: ${entry.label}	已撤销：${entry.label}
+ui	Checkout ${tag.name}	检出 ${tag.name}
+ui	Discard ${file.path}	丢弃 ${file.path}
+ui	GitLab (self-hosted)	GitLab（自托管）
+ui	Push tag ${tag.name}	推送标签 ${tag.name}
+ui	Unstage ${file.path}	取消暂存 ${file.path}
+ui	${sub.name} actions	子模块 ${sub.name} 的操作
+ui	${tag.name} actions	标签 ${tag.name} 的操作
+ui	Contents of ${file}	${file} 的内容
+ui	commit "${summary}"	提交“${summary}”
+ui	${path} (worktree)	${path}（工作树）
+ui	${wt.name} actions	工作树 ${wt.name} 的操作
+ui	Checkout ${source}	检出 ${source}
+ui	Checkout ${target}	检出 ${target}
+ui	Stage ${file.path}	暂存 ${file.path}
+ui	Update ${sub.name}	更新 ${sub.name}
+ui	${label} complete	${label} 完成
+ui	Forget ${wt.name}	忘记 ${wt.name}
+ui	Cherry-pick done	拣选完成
+ui	Remove ${r.name}	移除 ${r.name}
+ui	Editing ${file}	正在编辑 ${file}
+ui	Fetch ${r.name}	获取 ${r.name}
+ui	Opening {name}…	正在打开 {name}…
+ui	${file} saved	${file} 已保存
+ui	(no message)	（无消息）	\(no message\)<
+ui	Demo User	演示用户	'Demo User'
+ui	· checked	· 已验证	· checked \{
+ui	Profiles	配置文件	title="Profiles"
+ui	Provider	提供方	title="Provider"
+ui	Worktree	工作树	aria-label="Worktree"
+ui	· origin	· 远端	\? ' · origin' :
+ui	· local	· 本地	\? ' · local' :
+ui	Draft	草稿	>Draft<
+ui	Theme	主题	title="Theme"
+ui	Token	令牌	label="Token"
+ui	Work	工作	placeholder="Work"
+ui	Zoom	缩放	title="Zoom"

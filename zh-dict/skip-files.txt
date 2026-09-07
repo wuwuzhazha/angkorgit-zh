@@ -23,3 +23,6 @@ docs/README.zh.md
 **/target/**
 **/dist/**
 apps/desktop/src/core/demo.ts
+CHANGELOG.md
+SECURITY.md
+CODE_OF_CONDUCT.md

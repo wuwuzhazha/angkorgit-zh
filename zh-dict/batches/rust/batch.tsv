@@ -1,0 +1,35 @@
+# batch-rust.tsv（t4 · translator-c 产出）——对应 t1 清单 batch3（rust + core + meta + e2e/test 余量）可译项
+# 列：scope<TAB>source<TAB>target<TAB>anchor(可选，全部含空格，无需 anchor)
+# 规则：{}/{x}/{SSH_AGENT_HINT} 占位符逐字保留；按 source 长度降序（长串优先，子串条目被长条目先行吸收）
+# 注：# 续行补全 条目为 t4 译者增补——补齐多行 Rust 字符串的续行片段（t1 扫描器未单列，但缺则用户可见消息半英半中）
+rust	graphical pinentry (for example pinentry-mac) — the app has no terminal to ask on.	图形化 pinentry（例如 pinentry-mac）——应用没有可询问的终端。
+rust	The connected {host} account '{username}' was refused — its token may have expired	已关联的 {host} 账户“{username}”被拒绝——其令牌可能已过期
+core	${parts} — the source branch does not exist on this remote (is it pushed there?)	${parts} — 源分支在此远端上不存在（是否已推送？）
+rust	{} refused to sign the commit: {}. Check user.signingKey and that a graphical	{} 拒绝签署提交：{}。请检查 user.signingKey 并确认已配置图形化
+rust	{} could not sign the commit ({e}). If the key has a passphrase, gpg needs a	{} 无法签署提交（{e}）。如果密钥有口令，gpg 需要
+rust	local branch {local_branch} has commits that are not on the pull request —	本地分支 {local_branch} 有不在该拉取请求上的提交——
+rust	{branch_name} has diverged from {upstream_name} — check it out to merge	{branch_name} 与 {upstream_name} 已分叉——请将其检出以合并
+rust	the Bitbucket account has no Atlassian email stored — reconnect it in	该 Bitbucket 账户未存储 Atlassian 邮箱——请在
+rust	{branch_name} is ahead of {upstream_name} — nothing to pull	{branch_name} 领先 {upstream_name}——无需拉取
+rust	or been revoked. Reconnect it in Settings → Authentication.	或已被吊销。请在“设置 → 身份验证”中重新连接。
+rust	{} already exists — pick a folder that does not exist yet	{} 已存在——请选择尚不存在的文件夹
+rust	the selected base is not a first-parent ancestor of HEAD	所选基础提交不是 HEAD 的第一父级祖先
+rust	{} could not sign the commit ({e}). {SSH_AGENT_HINT}	{} 无法签署提交（{e}）。{SSH_AGENT_HINT}
+rust	offered by your SSH agent / git credential helper.{}	由你的 SSH 代理 / git 凭据助手提供。{}
+rust	{} refused to sign the commit: {}. {SSH_AGENT_HINT}	{} 拒绝签署提交：{}。{SSH_AGENT_HINT}
+rust	Fast-forwarded {branch_name} to {upstream_name}	已将 {branch_name} 快进到 {upstream_name}
+test	the source branch does not exist on this remote	源分支在此远端上不存在
+rust	pull: fast-forward to {upstream_name}	拉取：快进到 {upstream_name}
+rust	Cherry-pick has conflicts to resolve	拣选存在待解决的冲突
+rust	{branch_name} is already up to date	{branch_name} 已是最新
+rust	Revert has conflicts to resolve	还原存在待解决的冲突
+rust	could not run ssh-keygen: {e}	无法运行 ssh-keygen：{e}
+rust	{} is not a supported AI CLI	{} 不是受支持的 AI CLI
+rust	failed to read response: {e}	读取响应失败：{e}
+rust	Fast-forwarded to {branch}	已快进到 {branch}
+rust	delete or rename it first	请先将其删除或重命名
+rust	no commits to cherry-pick	没有可拣选的提交
+e2e	Discard ${longPath}	丢弃 ${longPath}
+rust	request failed: {e}	请求失败：{e}
+rust	Cherry-picked {}	已拣选 {}
+rust	delete or rename	删除或重命名

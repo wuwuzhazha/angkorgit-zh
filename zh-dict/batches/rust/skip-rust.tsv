@@ -1,0 +1,182 @@
+# skip-rust.tsv（t4 · translator-c 产出）——batch3 清单（rust+core+meta+e2e/test）判定为不译的行 + verify.tsv 裁决
+# 列：scope<TAB>source<TAB>reason<TAB>first_loc<TAB>note
+# reason 类目见 t1 契约 §3.2：code/ident/css/test-name/demo/brand/protect/command/gitraw/fixture/prompt/dup/cjk
+# 核心原则：Rust 运行时耦合串（协议/解析标记/git 惯例/AI 提示词/测试断言）严格甄别为不译，避免破坏功能或 CI 断言
+# ---- Rust 运行时代码：协议/解析标记（不译则功能正常，译则损坏） ----
+rust	unexpected http status code: 403; class=Http (34)	code	apps/desktop/src-tauri/src/error.rs:119	libgit2 错误文本解析标记（http_status() 按此切分），必须保持英文
+rust	unexpected http status code: 401	code	apps/desktop/src-tauri/src/error.rs:158	libgit2 错误文本解析标记（出现 2 次：tests 158 + 模块测试）
+rust	unexpected http status code: 402	code	apps/desktop/src-tauri/src/error.rs:115	libgit2 错误文本解析标记（出现 2 次：src 测试 115 + 132）
+rust	unexpected http status code: 500	code	apps/desktop/src-tauri/src/error.rs:140	libgit2 错误文本解析标记（模块测试夹具）
+rust	unexpected http status code:	code	apps/desktop/src-tauri/src/error.rs:17	HTTP_STATUS_MARKER 常量，切分 libgit2 消息用
+rust	Bearer {token}	code	apps/desktop/src-tauri/src/account_check.rs:99	Authorization 头协议值（forge.rs:25 同源），RFC 6750 固定词
+rust	Basic {basic}	code	apps/desktop/src-tauri/src/account_check.rs:189	Authorization Basic 协议值（forge.rs:44 同源；forge.rs:137 模块测试断言）
+rust	[GNUPG:] SIG_CREATED	code	apps/desktop/src-tauri/src/core/sign.rs:250	gpg --status-fd 输出解析标记（stderr.contains + starts_with 过滤）
+rust	\\ No newline at end of file\n	code	apps/desktop/src-tauri/src/core/stage.rs:141	统一 diff 协议标记行，入 patch 文本喂 git apply，不可译
+rust	{file_header}@@ -{start},{old_count} +{start},{new_count} @@\n{body}	code	apps/desktop/src-tauri/src/core/stage.rs:276	diff hunk 头语法拼接串，无英文文案可译
+rust	Revert \"{summary}\"\n\nThis reverts commit {full_oid}.	code	apps/desktop/src-tauri/src/core/commit.rs:105	git revert 惯例文案：GitHub 等依赖 "Revert"/"This reverts commit" 识别还原提交，译则破坏互操作
+# ---- Rust 运行时代码：git 内部 reflog/惯例（与 git CLI 输出保持一致，不本地化） ----
+rust	commit: {}	gitraw	apps/desktop/src-tauri/src/core/sign.rs:118	reflog 消息（git 惯例 "commit: <subject>"）
+rust	fast-forward merge {branch}	gitraw	apps/desktop/src-tauri/src/core/branch.rs:185	reflog 消息（head_ref.set_target）
+rust	pull request checkout	gitraw	apps/desktop/src-tauri/src/core/remote.rs:659	reflog 消息（repo.reference）
+rust	AI CLI	ident	apps/desktop/src-tauri/src/ai_cli.rs:330	类别术语（未知 CLI 程序名回退显示标签），保持英文
+# ---- Rust 模块测试 / 集成测试：夹具与断言辅助 ----
+rust	github.com=dara-work, gitlab.com=dara	fixture	apps/desktop/src-tauri/src/core/remote.rs:726	parse_account_bindings 模块测试输入夹具
+rust	nonsense,=user,host=, GitHub.com=Dara	fixture	apps/desktop/src-tauri/src/core/remote.rs:733	parse_account_bindings 模块测试输入夹具
+rust	diff mentioning {OUTPUT_FILE_PLACEHOLDER} literally	fixture	apps/desktop/src-tauri/src/ai_cli.rs:418	ai_cli 模块测试提示词夹具（断言原样往返）
+rust	command -v {name} || true	command	apps/desktop/src-tauri/src/ai_cli.rs:196	shell 命令片段（PATH 探测脚本）
+rust	Test User	fixture	apps/desktop/src-tauri/src/core/sign.rs:324	sign 模块测试 git 身份夹具
+rust	missing origin line in: {engine_message:?}	test-name	apps/desktop/src-tauri/tests/git_engine.rs:374	assert! 失败标签（开发向）
+rust	message {message:?}	test-name	apps/desktop/src-tauri/tests/git_engine.rs:390	assert_eq 失败标签（开发向）
+rust	line should be staged	test-name	apps/desktop/src-tauri/tests/git_engine.rs:612	assert! 失败标签（开发向）
+rust	main repo stays intact	test-name	apps/desktop/src-tauri/tests/git_engine.rs:1713	assert! 失败标签（开发向）
+rust	dirty worktree must not be removed	test-name	apps/desktop/src-tauri/tests/git_engine.rs:1704	expect_err 标签（断言已用中文错误内容："未提交的更改"）
+rust	checkout must refuse a branch checked out in a worktree	test-name	apps/desktop/src-tauri/tests/git_engine.rs:1677	expect_err 标签（断言已用中文错误内容："工作树"）
+rust	adding a worktree for the checked-out branch must fail	test-name	apps/desktop/src-tauri/tests/git_engine.rs:1662	expect_err 标签（断言已用中文错误内容："中检出"）
+rust	feat: two\n\n(cherry picked from commit {second})\n\n	fixture	apps/desktop/src-tauri/tests/git_engine.rs:306	提交消息夹具；与 git CLI 输出及运行期 append_pick_origin 英文原文逐字节比对，译则 cargo test 失配
+rust	feat: one\n\n(cherry picked from commit {first})\n\n	fixture	apps/desktop/src-tauri/tests/git_engine.rs:315	同上（git log 输出比对）
+rust	Revert \"add bad file\"	fixture	apps/desktop/src-tauri/tests/git_engine.rs:417	还原提交摘要夹具（依赖 commit.rs:105 不译的 "Revert ..." 消息）
+rust	add bad file	fixture	apps/desktop/src-tauri/tests/git_engine.rs:400	提交消息夹具
+rust	commit {i}	fixture	apps/desktop/src-tauri/tests/git_engine.rs:476	提交消息夹具
+rust	feature {i}	fixture	apps/desktop/src-tauri/tests/git_engine.rs:515	提交消息夹具
+rust	chore {i}	fixture	apps/desktop/src-tauri/tests/git_engine.rs:517	提交消息夹具
+rust	change a {i}	fixture	apps/desktop/src-tauri/tests/git_engine.rs:836	提交消息夹具
+rust	change b {i}	fixture	apps/desktop/src-tauri/tests/git_engine.rs:838	提交消息夹具
+rust	change a 4	fixture	apps/desktop/src-tauri/tests/git_engine.rs:855	提交消息夹具（仅存于测试临时仓库）
+rust	change a 3	fixture	apps/desktop/src-tauri/tests/git_engine.rs:856	提交消息夹具
+rust	change a 2	fixture	apps/desktop/src-tauri/tests/git_engine.rs:857	提交消息夹具
+rust	change a 1	fixture	apps/desktop/src-tauri/tests/git_engine.rs:858	提交消息夹具
+rust	change a 0	fixture	apps/desktop/src-tauri/tests/git_engine.rs:859	提交消息夹具
+rust	production change\n	fixture	apps/desktop/src-tauri/tests/git_engine.rs:1024	工作区文件内容夹具
+rust	production change	fixture	apps/desktop/src-tauri/tests/git_engine.rs:1025	提交消息夹具
+rust	resolved content\n	fixture	apps/desktop/src-tauri/tests/git_engine.rs:165	冲突解决文件内容夹具
+rust	add picked file\n	fixture	apps/desktop/src-tauri/tests/git_engine.rs:271	文件内容夹具
+rust	add picked file	fixture	apps/desktop/src-tauri/tests/git_engine.rs:264	提交消息夹具
+rust	diverge on master	fixture	apps/desktop/src-tauri/tests/git_engine.rs:335	分叉测试分支/提交夹具
+rust	master change\n	fixture	apps/desktop/src-tauri/tests/git_engine.rs:154	文件内容夹具
+rust	master change	fixture	apps/desktop/src-tauri/tests/git_engine.rs:814	提交消息夹具
+rust	source change\n	fixture	apps/desktop/src-tauri/tests/git_engine.rs:328	文件内容夹具
+rust	change a add c	fixture	apps/desktop/src-tauri/tests/git_engine.rs:1508	提交消息夹具
+rust	feature commit	fixture	apps/desktop/src-tauri/tests/git_engine.rs:896	提交消息夹具
+rust	feature work\n	fixture	apps/desktop/src-tauri/tests/git_engine.rs:125	文件内容夹具
+rust	feature work	fixture	apps/desktop/src-tauri/tests/git_engine.rs:126	提交消息夹具（出现 4 次）
+rust	other change\n	fixture	apps/desktop/src-tauri/tests/git_engine.rs:150	文件内容夹具
+rust	change b only	fixture	apps/desktop/src-tauri/tests/git_engine.rs:644	提交消息夹具
+rust	demo change\n	fixture	apps/desktop/src-tauri/tests/git_engine.rs:1020	文件内容夹具
+rust	demo change	fixture	apps/desktop/src-tauri/tests/git_engine.rs:1021	提交消息夹具
+rust	master commit	fixture	apps/desktop/src-tauri/tests/git_engine.rs:900	提交消息夹具
+rust	three renamed	fixture	apps/desktop/src-tauri/tests/git_engine.rs:733	重命名提交夹具（出现 2 次）
+rust	local edit\n	fixture	apps/desktop/src-tauri/tests/git_engine.rs:1002	文件内容夹具
+rust	local work\n	fixture	apps/desktop/src-tauri/tests/git_engine.rs:1370	文件内容夹具
+rust	plain commit	fixture	apps/desktop/src-tauri/tests/git_engine.rs:1230	提交消息夹具
+rust	release work	fixture	apps/desktop/src-tauri/tests/git_engine.rs:1060	提交消息夹具
+rust	topic change	fixture	apps/desktop/src-tauri/tests/git_engine.rs:810	提交消息夹具
+rust	add a and b	fixture	apps/desktop/src-tauri/tests/git_engine.rs:641	提交消息夹具
+rust	change both	fixture	apps/desktop/src-tauri/tests/git_engine.rs:651	提交消息夹具（出现 3 次）
+rust	demo work\n	fixture	apps/desktop/src-tauri/tests/git_engine.rs:932	文件内容夹具（出现 4 次）
+rust	demo work	fixture	apps/desktop/src-tauri/tests/git_engine.rs:933	提交消息夹具（出现 4 次）
+rust	from engine	fixture	apps/desktop/src-tauri/tests/git_engine.rs:913	提交消息夹具
+rust	master work	fixture	apps/desktop/src-tauri/tests/git_engine.rs:138	提交消息夹具（出现 4 次）
+rust	merge other	fixture	apps/desktop/src-tauri/tests/git_engine.rs:167	提交消息夹具
+rust	prod work\n	fixture	apps/desktop/src-tauri/tests/git_engine.rs:956	文件内容夹具
+rust	prod work	fixture	apps/desktop/src-tauri/tests/git_engine.rs:957	提交消息夹具
+rust	local base	fixture	apps/desktop/src-tauri/tests/git_engine.rs:1337	提交消息夹具（出现 3 次）
+rust	topic work	fixture	apps/desktop/src-tauri/tests/git_engine.rs:135	提交消息夹具（出现 2 次）
+rust	change a	fixture	apps/desktop/src-tauri/tests/git_engine.rs:647	提交消息夹具（出现 2 次）
+rust	pr third	fixture	apps/desktop/src-tauri/tests/git_engine.rs:1439	提交消息夹具
+rust	pr work	fixture	apps/desktop/src-tauri/tests/git_engine.rs:1332	提交消息夹具（出现 3 次）
+rust	not a rev	fixture	apps/desktop/src-tauri/tests/git_engine.rs:1477	history_position 入参夹具
+rust	add files	fixture	apps/desktop/src-tauri/tests/git_engine.rs:1505	提交消息夹具（出现 2 次）
+rust	fix: adjust\n\nSigned-off-by: Test User <test@angkorgit.dev>	fixture	apps/desktop/src-tauri/tests/git_engine.rs:357	签名提交消息夹具（verify 裁决；内容为 git 签名惯例格式，保持英文）
+# ---- core：运行时耦合（协议/AI 提示词/断言） ----
+core	${spec.label} returned no output	code	packages/core/src/ai/cliAgents.ts:100	vitest 断言耦合：cliAgents.test.ts:78 rejects.toThrow(/no output/) 依赖该英文；译则单测红
+core	Bearer ${config.apiKey}	code	packages/core/src/ai/models.ts:65	Authorization 头协议值（openai/lmstudio /models 探测），不可译
+core	Draft: ${input.title}	code	packages/core/src/forge/providers/gitlab.ts:114	GitLab 靠标题前缀 "Draft: " 识别草稿 MR（!/^draft:/i 校验耦合），译则草稿语义失效
+core	\n\n	code	packages/core/src/ai/capabilities.ts:109	纯空白 join 分隔符（verify 裁决；出现 4 次）
+# ---- test（tests/unit）：夹具 / 测试名 / AI 提示词断言 ----
+test	A pull request already exists for feature/thing.	fixture	tests/unit/forge.test.ts:174	Mock GitHub API 错误体（errors[].message）
+test	A pull request already exists	fixture	tests/unit/forge.test.ts:182	断言子串（跟随 mock 体原文）
+test	Another open merge request already exists	fixture	tests/unit/forge.test.ts:289	Mock GitLab API 错误体
+test	Another open merge request	fixture	tests/unit/forge.test.ts:295	断言子串
+test	Draft: Fix pipeline	fixture	tests/unit/forge.test.ts:279	创建 MR 负载夹具（与 gitlab.ts "Draft: " 前缀不译一致，勿单独译）
+test	Validation Failed	fixture	tests/unit/forge.test.ts:173	Mock GitHub API message
+test	401 Unauthorized	fixture	tests/unit/forge.test.ts:496	Mock GitLab API message
+test	Reviews may not be requested	fixture	tests/unit/forge.test.ts:546	Mock GitHub API message
+test	source branch not found	fixture	tests/unit/forge.test.ts:389	Mock Bitbucket API message
+test	request failed: error sending request for url	fixture	tests/unit/forge.test.ts:471	模拟传输错误（gitlab https→http 回退测试，出现 4 次）
+test	expected a parsed remote	fixture	tests/unit/forge.test.ts:26	测试辅助 throw 消息（出现 10 次）
+test	not a url	fixture	tests/unit/forge.test.ts:84	parseForgeRemote 入参夹具
+test	Adds the thing.	fixture	tests/unit/forge.test.ts:152	PR body 夹具
+test	New feature	fixture	tests/unit/forge.test.ts:148	PR 标题夹具（出现 3 次）
+test	Fix pipeline	fixture	tests/unit/forge.test.ts:235	MR 标题夹具（出现 2 次）
+test	Update docs	fixture	tests/unit/forge.test.ts:339	PR 标题夹具（出现 3 次）
+test	Add worktrees	fixture	tests/unit/forge.test.ts:32	PR 标题夹具（出现 2 次）
+test	checks out same-repo branches with tracking and fork PRs via refs/pull	test-name	tests/unit/forge.test.ts:196	测试用例名（verify 裁决）
+test	checks out fork merge requests via refs/merge-requests	test-name	tests/unit/forge.test.ts:299	测试用例名（verify 裁决）
+test	strips refs/heads and collapses unsafe characters	test-name	tests/unit/worktree.test.ts:9	测试用例名（verify 裁决）
+test	fix(ui): wrap paths\n\nLong paths bled out of dialogs.\n\nFixes #2	fixture	tests/unit/commitMessage.test.ts:40	提交消息往返夹具
+test	List, create and remove.\n	fixture	tests/unit/commitMessage.test.ts:8	提交消息 body 夹具
+test	summary\nbody line	fixture	tests/unit/commitMessage.test.ts:13	split/join 夹具
+test	one two\n\nbody	fixture	tests/unit/commitMessage.test.ts:36	join 换行折叠夹具
+test	just a summary	fixture	tests/unit/commitMessage.test.ts:17	单行摘要夹具（出现 2 次）
+test	body line	fixture	tests/unit/commitMessage.test.ts:13	split 夹具
+test	[support] fix login redirect	fixture	tests/unit/commitStyle.test.ts:117	前缀应用夹具（分支规则输出）
+test	[support] fix it	fixture	tests/unit/commitStyle.test.ts:122	ensureCommitPrefix 夹具（出现 3 次）
+test	"[support] "	fixture	tests/unit/commitStyle.test.ts:106	前缀格式断言夹具
+test	fix login redirect	fixture	tests/unit/commitStyle.test.ts:113	模型回复夹具
+test	fix it	fixture	tests/unit/commitStyle.test.ts:123	ensureCommitPrefix 夹具
+test	Write in past tense.	fixture	tests/unit/commitStyle.test.ts:97	自定义 instructions 夹具（出现 2 次）
+test	line 1\nours line\ntheirs line\nline 2	fixture	tests/unit/conflicts.test.ts:53	冲突序列化夹具（both 模式）
+test	line 1\ntheirs line\nline 2	fixture	tests/unit/conflicts.test.ts:50	冲突序列化夹具（incoming 模式）
+test	line 1\nours line\nline 2	fixture	tests/unit/conflicts.test.ts:47	冲突序列化夹具（current 模式）
+test	ours line	fixture	tests/unit/conflicts.test.ts:23	SAMPLE 冲突内容
+test	theirs line	fixture	tests/unit/conflicts.test.ts:24	SAMPLE 冲突内容
+test	ours body	fixture	tests/unit/conflicts.test.ts:79	冲突内容夹具（8 标记符行）
+test	* Free Bet funding dimension. Stored and transmitted PascalCase.	fixture	tests/unit/highlight.test.ts:14	代码高亮 JSDoc 行夹具（出现 2 次）
+test	export enum EnumSponsorType {	fixture	tests/unit/highlight.test.ts:26	代码高亮夹具
+test	run(/* inline start	fixture	tests/unit/highlight.test.ts:39	代码高亮块注释夹具
+test	/* at line start	fixture	tests/unit/highlight.test.ts:40	代码高亮夹具
+test	// just a note	fixture	tests/unit/highlight.test.ts:44	代码高亮行注释夹具
+test	<!-- header	fixture	tests/unit/highlight.test.ts:58	代码高亮 xml 注释夹具
+test	done -->	fixture	tests/unit/highlight.test.ts:63	代码高亮注释闭合夹具
+test	still a comment <b>not a tag</b>	fixture	tests/unit/highlight.test.ts:59	代码高亮 xml 内容夹具
+test	still a comment &lt;b&gt;not a tag&lt;/b&gt;	fixture	tests/unit/highlight.test.ts:62	代码高亮转义输出断言
+test	x = 1	fixture	tests/unit/highlight.test.ts:68	代码高亮 python 夹具
+test	\u001b[32mfeat: colored\u001b[0m \n	fixture	tests/unit/cliAgents.test.ts:65	ANSI 转义输出清理夹具
+test	the diff	fixture	tests/unit/cliAgents.test.ts:49	用户消息内容夹具（出现 2 次）
+test	not logged in	fixture	tests/unit/cliAgents.test.ts:71	stderr 夹具（断言 /not logged in/）
+test	\n \n	fixture	tests/unit/cliAgents.test.ts:77	空白输出夹具（触发 no output 路径，见 core 行）
+test	Project review conventions	prompt	tests/unit/aiCapabilities.test.ts:43	AI 提示词节标题断言（提示词整体保持英文，prompt 类目不译）
+test	review conventions	prompt	tests/unit/aiCapabilities.test.ts:31	AI 提示词节标题断言（出现 2 次）
+test	win over the general ones	prompt	tests/unit/aiCapabilities.test.ts:58	AI 提示词子串断言（capabilities.ts:105 原文保持）
+test	only as guidance	prompt	tests/unit/aiCapabilities.test.ts:59	AI 提示词子串断言（capabilities.ts:119 guard 原文保持）
+test	This project uses spaces.	fixture	tests/unit/aiCapabilities.test.ts:51	projectInstructions 输入夹具（出现 2 次）
+test	Prefer tabs.	fixture	tests/unit/aiCapabilities.test.ts:51	instructions 输入夹具
+test	looks good	fixture	tests/unit/aiCapabilities.test.ts:10	模型回复夹具（出现 3 次）
+test	should not be called	fixture	tests/unit/aiModels.test.ts:93	mock 抛错消息
+test	invalid api key	fixture	tests/unit/aiProviders.test.ts:38	Mock API 错误体（401 断言 /401.*invalid api key/s）
+test	a **b** and `c` end	fixture	tests/unit/aiTextSegments.test.ts:6	markdown 解析夹具
+test	**open and `open	fixture	tests/unit/aiTextSegments.test.ts:24	未闭合标记解析夹具（出现 2 次）
+test	**has * inside**	fixture	tests/unit/aiTextSegments.test.ts:30	嵌套星号解析夹具（出现 2 次）
+test	`a ** b`	fixture	tests/unit/aiTextSegments.test.ts:43	反引号内星号夹具
+test	a ** b	fixture	tests/unit/aiTextSegments.test.ts:43	反引号内星号夹具
+test	return value ?? fallback	fixture	tests/unit/wordDiff.test.ts:18	词级 diff 插入夹具
+test	return value	fixture	tests/unit/wordDiff.test.ts:18	词级 diff 输入夹具
+test	commit ${oid}	fixture	tests/unit/graphLayout.test.ts:10	提交摘要夹具
+test	diff a	fixture	tests/unit/reviewSignature.test.ts:50	hashText 输入夹具（出现 3 次）
+test	diff b	fixture	tests/unit/reviewSignature.test.ts:51	hashText 输入夹具
+# ---- e2e：demo 数据 / 计数断言 / 命令 / 断言标签 ----
+e2e	feat(worktrees): list, create and remove linked worktrees	fixture	tests/e2e/smoke.spec.ts:566	提交消息键入夹具；'57/72' 计数断言耦合，译则摘要长度≠57，e2e 红
+e2e	Virtualized rows keep large graphs smooth	demo	tests/e2e/smoke.spec.ts:502	筛选 demo.ts 文件内容（demo.ts 在 skip-files 不译，内容保持英文）
+e2e	clipped: ${part.text}	test-name	tests/e2e/smoke.spec.ts:219	expect 失败标签（开发向）
+e2e	spills: ${part.text}	test-name	tests/e2e/smoke.spec.ts:220	expect 失败标签（开发向）
+e2e	Explains the why.	fixture	tests/e2e/smoke.spec.ts:570	键入夹具（无内容断言，仅字号断言）
+e2e	pnpm --filter @angkorgit/desktop dev	command	tests/e2e/playwright.config.ts:12	命令串（verify 裁决）
+# ---- meta：pnpm 命令（verify 裁决，全部 command） ----
+meta	pnpm --filter @angkorgit/desktop tauri build	command	package.json:21	命令串
+meta	pnpm --filter @angkorgit/desktop tauri dev	command	package.json:20	命令串
+meta	pnpm --filter @angkorgit/website preview	command	package.json:32	命令串
+meta	pnpm --filter @angkorgit/website images	command	package.json:33	命令串
+meta	pnpm --filter @angkorgit/desktop tauri	command	package.json:19	命令串
+meta	pnpm --filter @angkorgit/website build	command	package.json:31	命令串
+meta	pnpm --filter @angkorgit/desktop dev	command	package.json:18	命令串
+meta	pnpm --filter @angkorgit/website dev	command	package.json:30	命令串

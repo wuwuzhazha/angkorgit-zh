@@ -1,0 +1,64 @@
+# 待决清单：翻译前逐条裁决 → 转 translate（产出词条）或转 skip（记入批次 skip 文件 + 理由）
+# 列：scope<TAB>source<TAB>reason<TAB>hint<TAB>kind<TAB>require_anchor<TAB>sync<TAB>first_loc<TAB>occurrences
+docs	**Live updates via a debounced watcher.** A `notify`-based filesystem watcher (400 ms debounce, `.git` noise filtered down to HEAD/refs/index movements) emits a single `repo-changed` event; the frontend refreshes status — or everything, when HEAD moved externally. Editing in an IDE or committing from a terminal reflects in the UI within half a second.	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	md-prose-fmt		docs/Architecture.md:54	1
+docs	**Tauri v2 + libgit2 (git2-rs).** A native Rust engine gives sub-millisecond status/diff operations and avoids shelling out to `git` for hot paths. `vendored-libgit2` keeps builds hermetic across macOS/Windows/Linux. Every command runs on a blocking thread (`spawn_blocking`) so the UI thread never waits on I/O.	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	md-prose-fmt		docs/Architecture.md:34	1
+docs	- **Feedback within 100ms.** Long operations set a busy label in the toolbar; results arrive as toasts. Conflict outcomes are warnings (amber), not failures.	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	md-prose		docs/UI-Guidelines.md:55	1
+docs	- Public engine functions take `&str` paths and return serde types mirroring `@angkorgit/core` — keep the two in sync when changing either.	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	md-prose-fmt		docs/Coding-Standards.md:29	1
+docs	- Pure logic (parsing, layout, diffing) lives in `@angkorgit/core`, is framework-free and unit-tested. React components stay thin.	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	md-prose-fmt		docs/Coding-Standards.md:17	1
+docs	- Be kind. We follow the [Contributor Covenant](https://www.contributor-covenant.org/version/2/1/code_of_conduct/).	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	md-prose-fmt		docs/Contributing.md:7	1
+docs	- [x] History: virtualized animated graph, search, author/branch filters, refs/tags/HEAD/merges, file history	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	md-prose		docs/Roadmap.md:11	1
+docs	- Tauri v2 system dependencies — see the [official list](https://v2.tauri.app/start/prerequisites/):	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	md-prose-fmt		docs/Development.md:7	1
+docs	- **8px rhythm.** Spacing uses the Tailwind scale (`gap-2`, `p-4`…). No arbitrary pixel values.	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	md-prose-fmt		docs/UI-Guidelines.md:35	1
+docs	- Remove any stale Hostinger parked-page record (`2.57.91.91`). If a resolver still returns it,	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	md-prose-fmt		docs/Launch-Checklist.md:12	1
+docs	- The build uses `SITE_URL=https://angkorgit.app` and `SITE_BASE=/` (pinned in the workflow).	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	md-prose-fmt		docs/Launch-Checklist.md:30	1
+docs	it is upstream caching — TTL is 14400s (4h). Verify against Google/Cloudflare resolvers:	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	md-prose		docs/Launch-Checklist.md:13	1
+docs	- Verify via **URL-prefix property** (`https://angkorgit.app/`); the meta tag is in	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	md-prose-fmt		docs/Launch-Checklist.md:44	1
+docs	Runbook for verifying and re-running the website launch at `https://angkorgit.app`.	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	md-prose-fmt		docs/Launch-Checklist.md:3	1
+docs	That works, with one thing to know: **AngKorGit does not read `~/.ssh/config`**.	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	md-prose-fmt		docs/Getting-Started.md:75	1
+docs	2. Bought `angkorgit.app`, pointed DNS, deleted the stale `2.57.91.91` record.	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	md-prose-fmt		docs/Launch-Checklist.md:59	1
+docs	If your key has a name AngKorGit does not try by default (`~/.ssh/id_ed25519`	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	md-prose-fmt		docs/Getting-Started.md:65	1
+docs	`~/.ssh` — up to five in total, since SSH servers cut you off after a handful	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	md-prose-fmt		docs/Getting-Started.md:86	1
+docs	Updated for v0.10.0 (September 2026). [CHANGELOG.md](../CHANGELOG.md) is the	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	md-prose-fmt		docs/Roadmap.md:3	1
+docs	- Keypair generated; **private key: `~/.tauri/angkorgit.key` on the owner's	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	md-prose-fmt		docs/Distribution.md:61	1
+docs	- `@tanstack/react-virtual` renders only visible rows; rows are `memo`ized.	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	md-prose-fmt		docs/Architecture.md:42	1
+docs	`~/.ssh/id_ed25519` and `~/.ssh/id_rsa`, then any other keypair it finds in	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	md-prose-fmt		docs/Getting-Started.md:85	1
+docs	and `~/.ssh/id_rsa`), set it in the **Private key** field or browse for it.	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	md-prose-fmt		docs/Getting-Started.md:66	1
+docs	- 8px spacing scale; no arbitrary values (`p-[13px]` is a review blocker).	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	md-prose-fmt		docs/Coding-Standards.md:34	1
+docs	- Frontend: silent check 5s after startup (`features/updater/check.ts`) →	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	md-prose-fmt		docs/Distribution.md:66	1
+docs	- The splash logo draw (1.6s) is the single "hero" animation in the app.	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	md-prose		docs/UI-Guidelines.md:47	1
+docs	- The temporary `https://cheat2001.github.io/angkorgit/` URL is retired.	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	md-prose-fmt		docs/Launch-Checklist.md:54	1
+docs	- `TAURI_SIGNING_PRIVATE_KEY` — the contents of `~/.tauri/angkorgit.key`	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	md-prose-fmt		docs/Distribution.md:74	1
+docs	`~/.ssh/id_*` unless you point them at it with an `~/.ssh/config` entry:	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	md-prose-fmt		docs/Getting-Started.md:90	1
+docs	4. Fixed the OG image (headline clipped at 1200px — font-size 72 → 52).	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	md-prose		docs/Launch-Checklist.md:61	1
+test	checks out same-repo branches with tracking and fork PRs via refs/pull	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	test-name		tests/unit/forge.test.ts:196	1
+docs	- Live at `https://angkorgit.app/` (Astro, static, GitHub Pages via	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	md-prose-fmt		docs/Distribution.md:104	1
+docs	- Request indexing for `https://angkorgit.app/` via URL Inspection.	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	md-prose-fmt		docs/Launch-Checklist.md:49	1
+docs	- GitHub repo About → Website is set to `https://angkorgit.app/`.	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	md-prose-fmt		docs/Launch-Checklist.md:53	1
+docs	- Durations 150–250ms; easing `cubic-bezier(0.16, 1, 0.3, 1)`.	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	md-prose-fmt		docs/UI-Guidelines.md:45	1
+rust	fix: adjust\n\nSigned-off-by: Test User <test@angkorgit.dev>	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	rust		apps/desktop/src-tauri/tests/git_engine.rs:357	1
+test	checks out fork merge requests via refs/merge-requests	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	test-name		tests/unit/forge.test.ts:299	1
+test	strips refs/heads and collapses unsafe characters	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	test-name		tests/unit/worktree.test.ts:9	1
+docs	- Rust stable via [rustup](https://rustup.rs)	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	md-prose-fmt		docs/Development.md:6	1
+meta	pnpm --filter @angkorgit/desktop tauri build	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	json		package.json:21	1
+docs	0.2.0 ship `.sig` files and `latest.json`):	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	md-prose-fmt		docs/Distribution.md:73	1
+meta	pnpm --filter @angkorgit/desktop tauri dev	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	json		package.json:20	1
+meta	pnpm --filter @angkorgit/website preview	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	json		package.json:32	1
+meta	pnpm --filter @angkorgit/website images	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	json		package.json:33	1
+meta	pnpm --filter @angkorgit/desktop tauri	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	json		package.json:19	1
+meta	pnpm --filter @angkorgit/website build	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	json		package.json:31	1
+e2e	pnpm --filter @angkorgit/desktop dev	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	string		tests/e2e/playwright.config.ts:12	1
+meta	pnpm --filter @angkorgit/desktop dev	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	json		package.json:18	1
+meta	pnpm --filter @angkorgit/website dev	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	json		package.json:30	1
+ui	12px "JetBrains Mono", monospace	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	string		apps/desktop/src/features/diff/VirtualDiff.tsx:68	1
+website	WorkingCopyFileListItemContaine…	verify	single-word	裸词：须配 anchor，e2e 断言同步	string	yes	apps/website/src/components/mock/WorkingCopy.astro:7	1
+website	!Launch-Checklist.md	verify	single-word	裸词：须配 anchor，e2e 断言同步	string	yes	apps/website/src/content.config.ts:5	1
+website	.terminal-block	verify	single-word	裸词：须配 anchor，e2e 断言同步	string	yes	apps/website/src/components/TerminalBlock.astro:50	1
+e2e	.font-mono	verify	single-word	裸词：须配 anchor，e2e 断言同步	string	yes	tests/e2e/smoke.spec.ts:147	1
+website	Copied!	verify	single-word	裸词：须配 anchor，e2e 断言同步	attr:textContent	yes	apps/website/src/components/TerminalBlock.astro:95	1
+core	\n\n	verify	single-word	裸词：须配 anchor，e2e 断言同步	string	yes	packages/core/src/ai/capabilities.ts:109	4
+ui	.svg	verify	single-word	裸词：须配 anchor，e2e 断言同步	string	yes	apps/desktop/src/features/diff/DiffViewer.tsx:153	1
+ui	\n\n	verify	single-word	裸词：须配 anchor，e2e 断言同步	string	yes	apps/desktop/src/features/inspector/CommitDetails.tsx:70	1
+ui	\x7f	verify	single-word	裸词：须配 anchor，e2e 断言同步	string	yes	apps/desktop/src/features/terminal/TerminalPanel.tsx:45	1
+website	*.md	verify	single-word	裸词：须配 anchor，e2e 断言同步	string	yes	apps/website/src/content.config.ts:5	1
+website	src…	verify	single-word	裸词：须配 anchor，e2e 断言同步	string	yes	apps/website/src/components/mock/WorkingCopy.astro:7	1
+website	.md	verify	single-word	裸词：须配 anchor，e2e 断言同步	string	yes	apps/website/src/layouts/DocsLayout.astro:20	6

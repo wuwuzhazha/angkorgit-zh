@@ -1,0 +1,410 @@
+# B2 翻译批次（translator-b · t3）：website + docs
+# 数据行 404 条：docs 307（t1 桶 271 translate + 36 verify→translate）+ website 97（t1 桶 + mock 一致性补充）
+# 列：scope<TAB>source<TAB>target<TAB>anchor(可选)；source 与文件逐字一致；按长度降序（长串优先）
+# 说明：t1 中“s used for…/re about to commit…/t ship a model…/t save half a conflict…”等为引号处切分产物，
+#       本批以整行为 source 覆盖（§3.1 模板串整串产出）；docs 含版本/URL/路径行按 §4.5 保留受保护片段。
+#       生成脚本：zh-dict/research/_gen_b2_{docs,web,emit,check,anchor}.py（可复现）。
+docs	**AI is an adapter registry.** Features call capabilities (`generateCommitMessage`, `explainConflict`, …) against the `AiProvider` interface. API providers (OpenAI, Anthropic, Gemini, Ollama, LM Studio) are created from config; HTTP goes through an injected transport implemented by a Rust proxy (no CORS, keys stay out of webview fetch). The `cli` provider is different: it runs an AI CLI already installed on the machine (Claude Code, Codex, Gemini CLI, OpenCode) as an allowlisted local subprocess via `ai_cli.rs` — the user's own login and quota, no API key. Adding an API provider touches one file; adding a CLI agent touches `cliAgents.ts` plus the `ai_cli.rs` allowlist.	**AI 是一个适配器注册表。** 功能通过 `AiProvider` 接口调用能力（`generateCommitMessage`、`explainConflict`、…）。API 提供方（OpenAI、Anthropic、Gemini、Ollama、LM Studio）由配置创建；HTTP 经注入的传输层实现，该传输层由 Rust 代理实现（无 CORS，密钥不进入 webview fetch）。`cli` 提供方不同：它运行机器上已安装的 AI CLI（Claude Code、Codex、Gemini CLI、OpenCode），作为白名单本地子进程经 `ai_cli.rs` 运行——用用户自己的登录与配额，无需 API 密钥。新增 API 提供方只需动一个文件；新增 CLI 代理需要动 `cliAgents.ts` 和 `ai_cli.rs` 白名单。
+docs	**Undo/redo as recorded transitions.** Every mutating operation runs through a `tracked()` wrapper that snapshots HEAD before/after. Undo applies the inverse (soft reset for commits, ref restore for branch deletion, …) and validates the repository hasn't moved since — corrupting-the-repo is structurally prevented, and hard-reset-style undos refuse to run over uncommitted work.	**撤销/重做即记录状态变迁。** 每个变更操作都经 `tracked()` 包装，记录 HEAD 前后快照。撤销应用逆操作（提交用软重置、分支删除用引用恢复、…），并校验仓库在此期间没有变动——破坏仓库在结构上被阻止，硬重置式撤销拒绝在未提交的工作之上运行。
+docs	- [x] AI: provider-agnostic (OpenAI, Anthropic, Gemini, Ollama, LM Studio) plus installed AI CLIs (Claude Code, Codex, Gemini CLI, OpenCode, Antigravity) — commit messages, diff/conflict explanations, PR descriptions, staged-change review with team conventions (global + per-repo `.angkorgit/review.md`), background execution with stop, full-size reading views	- [x] AI：与提供方无关（OpenAI、Anthropic、Gemini、Ollama、LM Studio），外加已安装的 AI CLI（Claude Code、Codex、Gemini CLI、OpenCode、Antigravity）——提交消息、diff/冲突解释、PR 描述、按团队约定的暂存更改审查（全局 + 每仓库 `.angkorgit/review.md`）、可停止的后台执行、全尺寸阅读视图
+docs	**Live updates via a debounced watcher.** A `notify`-based filesystem watcher (400 ms debounce, `.git` noise filtered down to HEAD/refs/index movements) emits a single `repo-changed` event; the frontend refreshes status — or everything, when HEAD moved externally. Editing in an IDE or committing from a terminal reflects in the UI within half a second.	**防抖监视器的实时更新。** 基于 `notify` 的文件系统监视器（400 ms 防抖，`.git` 噪音过滤到仅 HEAD/refs/index 变动）发出单个 `repo-changed` 事件；前端刷新状态——若 HEAD 在外部移动则刷新一切。在 IDE 中编辑或从终端提交，半秒内即反映到 UI。
+docs	- [x] Branch: create, delete, rename, checkout (incl. remote), merge, rebase (+continue/abort), interactive rebase (reorder/reword/squash/fixup/drop), cherry-pick (single or multi-commit, optional "(cherry picked from commit …)" reference), reset (soft/mixed/hard) — explicit merges always record a merge commit; abort merge from the commit box	- [x] 分支：创建、删除、重命名、检出（含远端）、合并、变基（+继续/中止）、交互式变基（重排/改写/压缩/丢弃）、拣选（单个或多个提交，可选“(cherry picked from commit …)”引用）、重置（软/混合/硬）——显式合并始终记录合并提交；可从提交框中止合并
+docs	**Graph layout in the domain layer.** Lane assignment (`GraphLayout`) is pure TypeScript, incremental, and unit-tested. Feeding page N+1 never changes rows from page N, which keeps the virtualized list stable while history streams in. Rendering is a per-row SVG slice — O(visible rows), regardless of repository size.	**领域层的提交图布局。** 泳道分配（`GraphLayout`）是纯 TypeScript、增量式且经过单元测试。喂入第 N+1 页不会改变第 N 页的行，因此历史流式加载时虚拟化列表保持稳定。渲染是逐行 SVG 切片——O(可见行数)，与仓库大小无关。
+docs	**Tauri v2 + libgit2 (git2-rs).** A native Rust engine gives sub-millisecond status/diff operations and avoids shelling out to `git` for hot paths. `vendored-libgit2` keeps builds hermetic across macOS/Windows/Linux. Every command runs on a blocking thread (`spawn_blocking`) so the UI thread never waits on I/O.	**Tauri v2 + libgit2（git2-rs）。** 原生 Rust 引擎让 status/diff 操作达到亚毫秒级，热路径不外调 `git`。`vendored-libgit2` 让构建在 macOS/Windows/Linux 上保持可复现。每个命令都在阻塞线程（`spawn_blocking`）上运行，UI 线程从不等待 I/O。
+docs	`src/core/ipc.ts` detects whether it runs inside Tauri. Outside (plain browser), every command is answered by `src/core/demo.ts` — a deterministic 400-commit synthetic repository with branches, merges, a dirty working copy and a conflict sample. Use it for all UI work; it is also what CI's Playwright job tests.	`src/core/ipc.ts` 检测自身是否运行在 Tauri 内。在外部（纯浏览器）时，每个命令由 `src/core/demo.ts` 应答——一个确定性的 400 次提交合成仓库，含分支、合并、脏工作副本与冲突样例。所有 UI 开发都用它；CI 的 Playwright 任务测的也是它。
+docs	**Conflict resolution as data.** Conflicted files are parsed into text/conflict blocks (`parseConflicts`), the resolver mutates block resolutions, and `serializeResolution` writes the result. Unresolved blocks re-emit their markers, so a half-finished session never destroys data.	**冲突解决即数据。** 冲突文件被解析为文本/冲突块（`parseConflicts`），解决器修改块的解决方案，`serializeResolution` 写出结果。未解决的块会重新输出其标记，因此半途而废的会话绝不会破坏数据。
+website	Faster to open, lighter, and narrower on purpose. GitKraken took the workflow ideas further than anyone and I learned from it, but I wanted the twenty-five features that matter rather than the hundred. Fork is closer in spirit, though it is not open source and not on Linux.	打开更快、更轻，而且刻意做得更克制。GitKraken 把工作流理念推得比任何人都远，我从它那里学到很多，但我想要的是真正要紧的二十五个功能，而不是一百个。Fork 在精神上更接近，但它不是开源的，也没有 Linux 版。
+docs	Rust errors serialize as `{ code, message }` (`AppError`). Codes (`conflict`, `auth`, `non_fast_forward`, …) let the UI offer recovery actions instead of raw library messages. Toasts surface every failed operation; conflict outcomes are warnings, not errors.	Rust 错误序列化为 `{ code, message }`（`AppError`）。错误码（`conflict`、`auth`、`non_fast_forward`、…）让 UI 提供恢复操作而不是原始库消息。toast 呈现每个失败操作；冲突结果是警告，不是错误。
+docs	**One typed IPC surface.** `src/core/ipc.ts` is the only place that calls `invoke`. It also ships a deterministic demo backend used when the app runs in a plain browser — this is what makes UI development and Playwright e2e possible without a native build.	**单一类型化 IPC 界面。** `src/core/ipc.ts` 是唯一调用 `invoke` 的地方。它还内置一个确定性 demo 后端，在纯浏览器中运行时使用——这正是无需原生构建即可进行 UI 开发与 Playwright e2e 的原因。
+website	The build isn't signed with an Apple developer certificate yet, so Gatekeeper asks once. Right-click and Open, or install through Homebrew, which clears the flag for you. After that the updater handles new versions and verifies each one with a signature.	构建目前还没有用 Apple 开发者证书签名，所以 Gatekeeper 会询问一次。右键点击并选择“打开”，或通过 Homebrew 安装，它会自动清除该标记。之后更新器会接管新版本，并逐一用签名验证。
+docs	**Verified destructive operations.** Discard (file or all) re-checks status afterwards and reports what could *not* be discarded, so cases libgit2 silently skips (submodule pointer changes) surface as actionable messages instead of silent no-ops.	**可核验的破坏性操作。** 丢弃（文件或全部）之后会重新检查状态，并报告无法丢弃的内容，因此 libgit2 静默跳过的情形（子模块指针变化）会以可操作的提示呈现，而不是静默无操作。
+docs	- [x] Settings: sixteen themes (Angkor Dusk default) with accents & zoom, identity profiles (repo-local) with linked accounts, SSH key management & generation, hosting accounts with verified tokens, AI providers & commit style, keyboard reference	- [x] 设置：十六款主题（默认 Angkor Dusk）带强调色与缩放、身份配置（仓库级）关联账户、SSH 密钥管理与生成、带已验证令牌的托管账户、AI 提供方与提交风格、键盘参考
+docs	- [x] Sidebar: accordion sections with pinned headers and collapse-all, row menus on hover and right-click everywhere, empty-state cards; graph display options and column headers; welcome page with keyboard navigation and missing-folder detection	- [x] 侧边栏：手风琴分区，标题固定且可全部折叠，处处支持悬停与右键行菜单，空状态卡片；提交图显示选项与列标题；欢迎页支持键盘导航并检测缺失文件夹
+docs	AngKorGit's interface should feel like a professional developer tool: minimal, fast, discoverable. Visual influences — Linear's restraint, Raycast's keyboard focus, VS Code's density, GitKraken's graph clarity — reinterpreted, never copied.	AngKorGit 的界面应像一款专业开发者工具：极简、快速、易发现。视觉灵感——Linear 的克制、Raycast 的键盘聚焦、VS Code 的密度、GitKraken 的提交图清晰度——是重新诠释，绝非照搬。
+docs	- [x] Worktrees: sidebar section with branch/dirty/missing state, open any worktree as its own tab, create from a branch or commit into a sibling folder, safe remove and prune, branches held elsewhere marked in the sidebar and graph	- [x] 工作树：侧边栏分区显示分支/脏/缺失状态，任意工作树可作独立标签页打开，可从分支或提交在相邻文件夹创建，安全移除与清理，别处持有的分支在侧边栏与提交图中标记
+docs	- **Plugins** — the command palette, sidebar sections and inspector tabs are list-driven; a plugin host can contribute entries without touching feature internals. The IPC layer is a single object that can be wrapped/instrumented.	- **插件** ——命令面板、侧边栏分区与检查器标签页都是列表驱动；插件宿主可以贡献条目而无需触碰功能内部。IPC 层是单个对象，可被包装/插桩。
+docs	- [x] Conflicts: visual resolver — aligned A/B panes with line numbers, one take-all checkbox per side plus hover-to-pick lines, a Result pane with in-place editing and its own line numbers, conflict navigation, AI explanations	- [x] 冲突：可视化解决器——对齐的 A/B 面板带行号，每侧一个全选复选框并可悬停选行，结果面板支持就地编辑且自带行号，冲突导航，AI 解释
+docs	Non-goals: enterprise admin tooling, built-in CI dashboards, in-app code review (commenting, approving and merging live on the forge's web UI, one click away), anything else that duplicates a forge's web UI without daily value.	非目标：企业级管理工具、内置 CI 仪表盘、应用内代码审查（评论、批准与合并都在 forge 的网页 UI 上实时进行，一键可达），以及任何复制 forge 网页 UI 却没有日常价值的东西。
+docs	- [x] Diff: inline & side-by-side, syntax highlight, word diff, image diff, find in diff (⌘F), minimap, previous/next change and file navigation (N/P, [/]), opens directly at the first change (no scroll animation)	- [x] Diff：内联与并排、语法高亮、词级 diff、图片 diff、diff 内查找（⌘F）、缩略图、上一处/下一处更改与文件导航（N/P、[/]），直接打开到第一处更改（无滚动动画）
+docs	- **Forge integrations (GitHub/GitLab/Azure/Bitbucket)** — planned as `packages/forge` with one adapter per provider mirroring the AI registry pattern; PR/issue viewers become new `features/*` folders.	- **Forge 集成（GitHub/GitLab/Azure/Bitbucket）** ——计划为 `packages/forge`，每个提供方一个适配器，镜像 AI 注册表模式；PR/issue 查看器成为新的 `features/*` 文件夹。
+docs	Include: OS, app version, the operation you ran, expected vs. actual, and — if the repo state matters — a minimal script that reproduces the repository shape. Never include private repository contents.	请包含：操作系统、应用版本、你执行的操作、预期与实际，以及——若仓库状态相关——一个能复现仓库形态的最小脚本。切勿包含私有仓库内容。
+docs	- [x] Performance: fast startup (splash waits for the app, not a timer; heavy views load on first use), a quiet file watcher, on-demand commit diffs, loading overlay on slow repository switches	- [x] 性能：快速启动（启动画面等应用就绪而非定时器；重型视图首次使用时才加载）、安静的文件监视器、按需的提交 diff、慢速仓库切换时的加载遮罩
+docs	AngKorGit follows Clean Architecture with feature-based folders. Dependencies point inward: UI → application state → domain; the Rust engine is behind a single typed IPC boundary.	AngKorGit 遵循 Clean Architecture，按功能划分文件夹。依赖方向朝内：UI → 应用状态 → 领域；Rust 引擎位于单一类型化 IPC 边界之后。
+docs	- [x] Graph search: a commit hash (full or a short prefix down to 4 characters) jumps to the commit in the full graph, centered and highlighted; ⌘F focuses the search	- [x] 提交图搜索：提交哈希（完整或短至 4 字符的前缀）跳转到完整图中的对应提交，居中并高亮；⌘F 聚焦搜索框
+docs	Tag `v*` and push: `.github/workflows/release.yml` builds macOS (universal), Windows and Linux bundles via `tauri-action` and attaches them to a draft GitHub release.	打上 `v*` 标签并推送：`.github/workflows/release.yml` 通过 `tauri-action` 构建 macOS（universal）、Windows 与 Linux 安装包，并附加到草稿版 GitHub release。
+docs	- **Feedback within 100ms.** Long operations set a busy label in the toolbar; results arrive as toasts. Conflict outcomes are warnings (amber), not failures.	- **100ms 内反馈。** 长操作在工具栏显示忙碌标签；结果以 toast 呈现。冲突结果是警告（琥珀色），不是失败。
+docs	- Feature folders own their state: a feature's store is imported only via its public module. Cross-feature reads go through hooks, never internal setters.	- 功能文件夹自持状态：功能的 store 只能通过其公共模块导入。跨功能读取走 hooks，绝不使用内部 setter。
+docs	- Every operation that can leave the repo mid-state (merge, rebase, cherry-pick) returns an `OpOutcome` with `status: "conflicts"` rather than an error.	- 任何可能让仓库处于中间状态的操作（合并、变基、拣选）都返回 `OpOutcome`，`status: "conflicts"` 而非错误。
+docs	- [ ] Worktrees: start an installed AI CLI inside a worktree from its row, a per-repo post-create setup command, merged badge with one-step cleanup	- [ ] 工作树：从其行内在工作树中启动已安装的 AI CLI、每仓库创建后设置命令、合并徽标与一键清理
+docs	- **Worktrees** — the engine already opens repositories by path; a worktree list command and a repo-switcher entry are the only additions needed.	- **工作树** ——引擎已经按路径打开仓库；只需新增工作树列表命令和仓库切换器入口。
+docs	- Components: function components + hooks only. `memo` for list rows; stable callbacks via `useCallback` only where a memoized child needs them.	- 组件：仅函数组件 + hooks。列表行用 `memo`；仅在需要记忆化子组件的地方用 `useCallback` 提供稳定回调。
+docs	- [x] Commit signing: SSH and GPG, driven by existing git config (commit.gpgSign, gpg.format, user.signingKey) — covers commit, amend, merge	- [x] 提交签名：SSH 与 GPG，由现有 git 配置驱动（commit.gpgSign、gpg.format、user.signingKey）——覆盖提交、修订、合并
+docs	- Public engine functions take `&str` paths and return serde types mirroring `@angkorgit/core` — keep the two in sync when changing either.	- 公共引擎函数接受 `&str` 路径，返回镜像 `@angkorgit/core` 的 serde 类型——修改任一侧时保持两侧同步。
+docs	- Angkor Dusk is the default theme; check every visual change at least in Angkor Dusk and one light theme (sixteen themes ship in total).	- Angkor Dusk 是默认主题；每个视觉改动至少要在 Angkor Dusk 和一个浅色主题中检查（共内置十六款主题）。
+docs	- **Color = meaning.** Green is additions/success, red is deletions/danger, gold is primary/HEAD, blue is remote/info. Never decorative.	- **颜色即含义。** 绿色是新增/成功，红色是删除/危险，金色是主色/HEAD，蓝色是远端/信息。绝不为装饰而用色。
+docs	- **Safe by default.** Destructive operations (hard reset, discard, force push) require explicit confirmation and are styled `danger`.	- **默认安全。** 破坏性操作（硬重置、丢弃、强制推送）需要明确确认，并使用 `danger` 样式。
+website	walks through each prompt. All versions are on the <a href={SITE.releases} class="link-underline text-foreground">releases page</a>.	，它会逐步讲解每个提示。所有版本都在<a href={SITE.releases} class="link-underline text-foreground">发布页面</a>上。
+website	Something odd on first launch? The <a href="/docs/getting-started/" class="link-underline text-foreground">getting started page</a>	首次启动遇到奇怪的问题？请查看<a href="/docs/getting-started/" class="link-underline text-foreground">快速开始页面</a>
+docs	- Pure logic (parsing, layout, diffing) lives in `@angkorgit/core`, is framework-free and unit-tested. React components stay thin.	- 纯逻辑（解析、布局、diff）位于 `@angkorgit/core`，不依赖框架且有单元测试。React 组件保持轻薄。
+docs	- Add integration coverage in `tests/git_engine.rs` for every new engine function — tests create real repositories in a temp dir.	- 每个新引擎函数都要在 `tests/git_engine.rs` 中补充集成测试——测试在临时目录创建真实仓库。
+docs	- **Everything keyboard-reachable.** Every action in a menu is also in the ⌘K palette. Shortcuts render next to labels (`Kbd`).	- **一切皆可键盘到达。** 菜单中的每个操作也都在 ⌘K 命令面板中。快捷键显示在标签旁（`Kbd`）。
+docs	- Naming: `PascalCase` components, `camelCase` functions/values, `SCREAMING_SNAKE` constants. Files match their default export.	- 命名：组件 `PascalCase`、函数/值 `camelCase`、常量 `SCREAMING_SNAKE`。文件名与其默认导出一致。
+docs	- **Optimistic where safe.** Staging/unstaging refreshes status only; the graph reloads only when history actually changes.	- **安全处乐观更新。** 暂存/取消暂存只刷新状态；只有历史实际变化时提交图才重新加载。
+docs	- Tailwind utilities only; tokens come from the design system (`bg-surface`, `text-muted`, …). No hex colors in components.	- 仅用 Tailwind 工具类；token 来自设计系统（`bg-surface`、`text-muted`、…）。组件内禁用十六进制颜色。
+docs	- [x] Stash: create, apply, pop, drop · Tags: create (annotated/lightweight), delete, checkout · Submodules: list & update	- [x] 暂存：创建、应用、弹出、丢弃 · 标签：创建（附注/轻量）、删除、检出 · 子模块：列出与更新
+docs	2. Set up per [Development.md](Development.md); make your change following [Coding-Standards.md](Coding-Standards.md).	2. 按 [Development.md](Development.md) 搭建环境；按 [Coding-Standards.md](Coding-Standards.md) 做出改动。
+website	Built by one person who wanted a Git 客户端 that gets out of the way. MIT licensed, no telemetry, no account. If it saves	由一个人打造，想要一个不碍事的 Git 客户端。MIT 许可、无遥测、无账户。如果它为你省下了
+website	Not signed with an Apple certificate, so macOS asks once. Right-click, Open, or use Homebrew below and it never asks.	未用 Apple 证书签名，所以 macOS 会询问一次。右键点击并选择“打开”，或使用下方的 Homebrew，之后就再也不会询问。
+docs	- **Radii.** `rounded-md` for controls, `rounded-lg` for surfaces. Nothing sharp, nothing pill-shaped except badges.	- **圆角。** 控件用 `rounded-md`，表面用 `rounded-lg`。没有尖锐的角，除徽标外没有药丸形。
+docs	- Be kind. We follow the [Contributor Covenant](https://www.contributor-covenant.org/version/2/1/code_of_conduct/).	- 友善待人。我们遵循[贡献者公约](https://www.contributor-covenant.org/version/2/1/code_of_conduct/)。
+docs	- `strict` mode; no `any` (use `unknown` + narrowing). No non-null `!` outside tests and provably-safe layout code.	- `strict` 模式；禁用 `any`（用 `unknown` + 收窄）。测试与可证明安全的布局代码之外不得使用非空 `!`。
+docs	- **Typography.** Inter for UI, JetBrains Mono for anything Git: hashes, paths, diffs, messages being authored.	- **字体。** UI 用 Inter，任何 Git 相关内容——哈希、路径、diff、正在撰写的消息——用 JetBrains Mono。
+docs	- Tests accompany behavior: engine changes → `git_engine.rs`, domain logic → `tests/unit`, flows → Playwright.	- 测试伴随行为：引擎改动 → `git_engine.rs`，领域逻辑 → `tests/unit`，流程 → Playwright。
+website	and sit heavy on the disk. AngKorGit draws its window with the webview your OS already ships, and talks to the	而且很占磁盘。AngKorGit 用操作系统自带的 webview 绘制窗口，并通过
+docs	- **Right inspector** — working copy (staging + commit) by default; commit details when a commit is selected.	- **右侧检查器**——默认为工作副本（暂存 + 提交）；选中提交时显示提交详情。
+docs	- [x] History: virtualized animated graph, search, author/branch filters, refs/tags/HEAD/merges, file history	- [x] 历史：虚拟化动画提交图、搜索、作者/分支过滤、refs/tags/HEAD/合并、文件历史
+website	webview, and the rule for what gets in is simple: if GitKraken has a hundred features, I want the twenty-five	webview，收录功能的规则很简单：如果 GitKraken 有一百个功能，我只要其中二十五个
+website	I got tired of Git 客户端s that were secretly browsers. This one is native, Rust and libgit2 underneath, and it	我受够了那些其实是浏览器的 Git 客户端。这个应用是原生的，底层是 Rust 和 libgit2，它
+website	The graph is virtualized, so a hundred thousand commits scroll like fifty. Ref chips show the whole name or	提交图已虚拟化，十万次提交滚动起来像五十次。引用标签显示完整名称，或
+website	repository through libgit2 in the same process. It opens quickly, updates itself, and stays out of the way.	libgit2 在同一进程中访问仓库。它打开快、自行更新、不碍事。
+docs	- Errors from IPC are `{ code, message }` — always surface `message` to the user via toast, never swallow.	- IPC 错误为 `{ code, message }` ——始终通过 toast 把 `message` 呈现给用户，绝不吞掉。
+website	AngKorGit doesn't ship a model or a token wallet. If you've got Claude Code, Codex, Gemini CLI or OpenCode	AngKorGit 不自带模型或令牌钱包。如果你装了 Claude Code、Codex、Gemini CLI 或 OpenCode，
+website	Every command in the app is in the palette, including the ones buried in a right-click menu. Shortcuts are	应用里的每个命令都在命令面板中，包括藏在右键菜单里的那些。快捷键会显示在
+website	I use Git all day, on a Mac that I like, and every client I tried felt like a website wearing a coat. Slow	我整天都在用 Git，用着我喜欢的 Mac，试过的每个客户端都像穿了外套的网页。打开慢、
+website	Most Git 客户端s are a website wrapped in its own copy of a browser, which is why they take a moment to open	大多数 Git 客户端本质上是套着自己浏览器外壳的网页，所以打开要等一会儿，
+website	conflict, a review of what you're about to commit, and a pull request description. Every one of those has	冲突、审查你即将提交的内容，以及生成拉取请求描述。每一项都带
+docs	- Diffs load lazily per selected file/commit; images stream as base64 only when an image diff is opened.	- diff 按所选文件/提交懒加载；只有打开图片 diff 时才以 base64 流式传输图片。
+website	Merges from the app are always real merge commits. Right-click does what you'd expect, and ⌘Z undoes the	应用内的合并始终是真正的合并提交。右键做你期望的事，⌘Z 撤销
+website	Or point it at an API 密钥, or at Ollama on your own machine. Whatever you pick, requests go straight from	或者指向 API 密钥，或指向你自己机器上的 Ollama。无论选哪个，请求都直接从
+website	Try to check out a branch that's already open in another folder and it takes you there instead, the same	尝试检出已在另一个文件夹中打开的分支时，它会直接带你到那里，就像
+website	What it's used for: a commit message from the staged diff, a plain-language explanation of a commit or a	它的用途：为暂存差异生成提交消息、用通俗语言解释某个提交或
+website	⌘Z undoes, ⌘⇧Z redoes, ⌘B hides the sidebar, [ and ] move between files in a diff. The Escape key closes	⌘Z 撤销、⌘⇧Z 重做、⌘B 隐藏侧边栏，[ 和 ] 在 diff 中切换文件。Esc 一次只关闭
+docs	- **Elevation.** Prefer borders (`border-border-subtle`) over shadows; `shadow-soft` only for overlays.	- **层次。** 优先用边框（`border-border-subtle`）而非阴影；`shadow-soft` 仅用于浮层。
+website	A worktree is a second checkout of the same repository in a sibling folder. Run a hotfix or an AI agent	工作树是同一仓库在相邻文件夹中的第二份检出。在那里跑热修复或 AI 代理，
+website	The sidebar lists every worktree with its branch and whether it has changes. Each opens as its own tab.	侧边栏列出每个工作树及其分支与是否有改动，每个都可作为独立标签页打开。
+website	to open, heavy on disk, a login screen before the first commit. The command line was faster, but a good	占磁盘、第一次提交前还要先登录。命令行更快，但一张好的
+docs	- Imports: `@/` alias inside the app; workspace packages by name. No deep relative paths (`../../..`).	- 导入：应用内用 `@/` 别名；工作区包按名称引用。禁止深层相对路径（`../../..`）。
+docs	- [x] Commit: stage files, hunks, and individual lines; unstage, commit, amend; per-repo commit drafts	- [x] 提交：暂存文件、代码块与单行；取消暂存、提交、修订；按仓库保存提交草稿
+website	Both sides in one view, with line numbers on each so you can talk about line 43 with a colleague. One	两侧同屏，各带行号，你可以和同事聊“第 43 行”。一个
+website	So in August 2026 I started writing one. The engine is libgit2 through Rust, the window is the system	于是在 2026 年 8 月我开始写一个。引擎是 Rust 之上的 libgit2，窗口用系统
+docs	- **Left sidebar** — repositories context: branches, remotes, tags, stashes, submodules. Filterable.	- **左侧边栏**——仓库上下文：分支、远端、标签、暂存、子模块。可过滤。
+docs	- Tauri v2 system dependencies — see the [official list](https://v2.tauri.app/start/prerequisites/):	- Tauri v2 系统依赖——见[官方清单](https://v2.tauri.app/start/prerequisites/)：
+docs	- Node 20+ and pnpm 10+ (`corepack enable` — the repo pins the exact version via `packageManager`)	- Node 20+ 与 pnpm 10+（`corepack enable`——仓库通过 `packageManager` 固定精确版本）
+website	The result pane is an editor. Click a line and type. Nothing touches the file until you press Mark	结果面板就是编辑器：点一行就能输入。在你按下“标记已解决”之前，文件不会有任何改动，
+website	其余 of this page is laid out like a history. Newest commit on top in the graph, oldest first as you	本页其余部分像历史一样排布：最新提交在图顶，越往下越旧，
+docs	- Tauri commands are thin adapters; domain logic lives in `core/*` and is testable without Tauri.	- Tauri 命令是薄适配器；领域逻辑位于 `core/*`，无需 Tauri 即可测试。
+docs	- [x] Repository: open, clone (with progress), recents, search, repository tabs (drag to reorder)	- [x] 仓库：打开、克隆（带进度）、最近、搜索、仓库标签页（可拖动排序）
+docs	The engine lives in `apps/desktop/src-tauri/src/core/`, one module per domain area. Conventions:	引擎位于 `apps/desktop/src-tauri/src/core/`，每个领域一个模块。约定：
+docs	- **8px rhythm.** Spacing uses the Tailwind scale (`gap-2`, `p-4`…). No arbitrary pixel values.	- **8px 节奏。** 间距使用 Tailwind 体系（`gap-2`、`p-4`…）。禁止任意像素值。
+docs	- Remove any stale Hostinger parked-page record (`2.57.91.91`). If a resolver still returns it,	- 删除任何过期的 Hostinger 停车页记录（`2.57.91.91`）。若解析器仍返回它，
+docs	- History is paginated (200 commits per request) via libgit2 revwalk; filters run engine-side.	- 历史通过 libgit2 revwalk 分页（每请求 200 次提交）；过滤在引擎侧运行。
+docs	- Nameservers stay on Hostinger parking: `aurora.dns-parking.com` / `nebula.dns-parking.com`.	- 域名服务器保持 Hostinger 停放：`aurora.dns-parking.com` / `nebula.dns-parking.com`。
+docs	- The build uses `SITE_URL=https://angkorgit.app` and `SITE_BASE=/` (pinned in the workflow).	- 构建使用 `SITE_URL=https://angkorgit.app` 与 `SITE_BASE=/`（固定在工作流中）。
+docs	4. Open a PR with a conventional-commit title, a short "why", and screenshots for UI changes.	4. 打开一个 PR：约定式提交标题、简短的“为什么”，UI 改动附截图。
+docs	The site is a static Astro build deployed to GitHub Pages by `.github/workflows/website.yml`.	网站是由 `.github/workflows/website.yml` 部署到 GitHub Pages 的静态 Astro 构建。
+docs	- [ ] Azure DevOps and Bitbucket Server adapters (GitHub, GitLab and Bitbucket Cloud are in)	- [ ] Azure DevOps 与 Bitbucket Server 适配器（GitHub、GitLab 与 Bitbucket Cloud 已完成）
+website	The page you're looking for was never added to history. Let's get you back to a clean tree.	你正在找的页面从未被加入历史。让我们带你回到一棵干净的工作树。
+docs	- In the DNS Zone Editor, the apex `@` must have **only** the four GitHub Pages A records:	- 在 DNS 区域编辑器中，根域名 `@` 必须**只**有四条 GitHub Pages A 记录：
+docs	1. Implement the adapter in `packages/core/src/ai/providers.ts` (one function, ~40 lines).	1. 在 `packages/core/src/ai/providers.ts` 中实现适配器（一个函数，约 40 行）。
+docs	- **Discoverable.** Icon buttons always have tooltips; empty states say what to do next.	- **可发现。** 图标按钮始终有工具提示；空状态说明下一步该做什么。
+website	Everything you need to work on AngKorGit — from the architecture and coding standards to	你在 AngKorGit 上工作所需的一切——从架构、编码规范到
+website	fold behind a count, never half a word. Paste a hash into the search and it jumps there.	折叠成计数，绝不显示半个词。把哈希粘贴进搜索框，它就会跳过去。
+docs	it is upstream caching — TTL is 14400s (4h). Verify against Google/Cloudflare resolvers:	那是上游缓存——TTL 为 14400s（4 小时）。用 Google/Cloudflare 解析器验证：
+docs	- **Center** — the commit graph (the heart of the app), with the terminal docked below.	- **中央**——提交图（应用的核心），终端停靠在下方。
+website	does the things you do every day without asking for an account or a subscription first.	只做你每天都要做的事，不会先要求你注册账户或订阅。
+docs	- Commands (`commands.rs`) stay thin — parse args, call `core::*`, return serde types.	- 命令层（`commands.rs`）保持轻薄——解析参数、调用 `core::*`、返回 serde 类型。
+docs	Installed AI-CLI agents (Claude Code, Codex, Gemini CLI, OpenCode) follow a different	已安装的 AI-CLI 代理（Claude Code、Codex、Gemini CLI、OpenCode）遵循另一条
+docs	path: add the agent's argv/stdin shape in `packages/core/src/ai/cliAgents.ts` and its	路径：在 `packages/core/src/ai/cliAgents.ts` 中加入代理的 argv/stdin 形态，并把它的
+website	resolved, and the markers are guarded so you can't save half a conflict by accident.	并且标记受到保护，所以你不可能意外保存半个冲突。
+docs	- Verify via **URL-prefix property** (`https://angkorgit.app/`); the meta tag is in	- 通过**网址前缀属性**（`https://angkorgit.app/`）验证；meta 标签位于
+docs	- [x] Remote: fetch, pull, push, force push, push/fetch tags, background auto fetch	- [x] 远端：拉取、拉取、推送、强制推送、推送/拉取标签、后台自动拉取
+docs	6. Flushed local DNS, confirmed Google/Cloudflare resolvers clean, sitemap indexed.	6. 刷新本地 DNS，确认 Google/Cloudflare 解析器干净，站点地图已收录。
+docs	Runbook for verifying and re-running the website launch at `https://angkorgit.app`.	在 `https://angkorgit.app` 验证并重新执行网站发布的运行手册。
+website	installed, it finds the binary and uses your own login and quota. No key to paste.	它会找到对应程序，使用你自己的登录与配额，无需粘贴密钥。
+docs	them to a **draft** GitHub release. Review, paste the changelog section, publish.	到**草稿** GitHub release。审查后粘贴更新日志段落并发布。
+docs	- **The SSH agent** (recommended) — `ssh-add key1 key2 …`. The agent offers each	- **SSH 代理**（推荐）——`ssh-add key1 key2 …`。代理会逐个提供
+docs	Everything visual flows from CSS variables: the base dark/light palettes live in	所有视觉都来自 CSS 变量：基础深/浅色板位于
+docs	That works, with one thing to know: **AngKorGit does not read `~/.ssh/config`**.	这可行，但有一点要知道：**AngKorGit 不读取 `~/.ssh/config`**。
+docs	`apps/website/src/layouts/Base.astro` and is served once the deployment is live.	`apps/website/src/layouts/Base.astro`，部署上线后即可访问。
+docs	default **Angkor Dusk** and its light counterpart **Angkor Dawn**) redefines the	默认的 **Angkor Dusk** 及其浅色对应 **Angkor Dawn**）会重新定义
+docs	without the env var Tauri tries an interactive prompt and headless builds fail).	不设该环境变量时 Tauri 会尝试交互式提示，无头构建将失败）。
+docs	**[owner] one-time — done**: both GitHub secrets are configured (releases since	**[owner] 一次性——已完成**：两个 GitHub secrets 均已配置（自
+docs	- **Linux**: AppImage: `chmod +x AngKorGit_*.AppImage` and run; `.deb` installs	- **Linux**：AppImage：`chmod +x AngKorGit_*.AppImage` 后运行；`.deb` 可正常安装
+docs	Settings → Authentication → SSH → **Generate a key** creates an ed25519 keypair	设置 → 身份验证 → SSH → **生成密钥** 会创建 ed25519 密钥对，
+docs	attributes. PRs that add explanatory comments move the content to docs instead.	属性。添加解释性注释的 PR 应把内容移入文档。
+docs	in-app; the bump matters for fresh installs. Add this to the release checklist.	（应用内更新）；版本号对全新安装很重要。请把它加入发布检查清单。
+docs	pitfalls in `CLAUDE.md` (gotchas G1+), user-visible behavior in `CHANGELOG.md`.	坑记在 `CLAUDE.md`（G1+ 注意事项），用户可见行为记在 `CHANGELOG.md`。
+docs	total; a change must hold up at least in the default Angkor Dusk plus one light	一个改动至少要经受住默认 Angkor Dusk 加一款浅色主题的检验
+docs	what it does through naming and structure. Everything worth explaining lives in	靠命名与结构说明意图。一切值得解释的内容都在
+docs	(the app self-updates), so tap users who installed once still get new versions	（应用自行更新），因此通过 tap 安装一次的用户仍能获得新版本
+docs	- All panels are resizable (`react-resizable-panels`) and persist their sizes.	- 所有面板都可调整大小（`react-resizable-panels`）并持久化尺寸。
+docs	- Animate opacity/transform only — never layout properties in scrolling lists.	- 只动画不透明度/变换——滚动列表中绝不动画布局属性。
+docs	- Everything blocking goes through the `blocking()` helper (`spawn_blocking`).	- 一切阻塞操作都经过 `blocking()` 辅助函数（`spawn_blocking`）。
+docs	- `release.yml` passes `TAURI_SIGNING_PRIVATE_KEY(_PASSWORD)` to tauri-action,	- `release.yml` 把 `TAURI_SIGNING_PRIVATE_KEY(_PASSWORD)` 传给 tauri-action，
+docs	2. Bought `angkorgit.app`, pointed DNS, deleted the stale `2.57.91.91` record.	2. 购买 `angkorgit.app`，配置 DNS，删除过期的 `2.57.91.91` 记录。
+docs	3. Commit, tag `vX.Y.Z`, push the tag → `.github/workflows/release.yml` builds	3. 提交、打标签 `vX.Y.Z`、推送标签 → `.github/workflows/release.yml` 构建
+docs	How AngKorGit ships to users: signing, notarization, auto-updates, and package	AngKorGit 如何交付给用户：签名、公证、自动更新与包管理
+docs	The kbach colonnade ornament (`TemplePattern`) appears only on the welcome and	kbach 廊柱装饰（`TemplePattern`）只出现在欢迎页与
+docs	`cheat2001/homebrew-tap/Casks/angkorgit.rb`. The cask sets `auto_updates true`	`cheat2001/homebrew-tap/Casks/angkorgit.rb`。cask 设置 `auto_updates true`
+docs	cask eventually moves there, signing/notarization must replace the postflight.	cask 最终迁入官方库时，签名/公证必须取代 postflight。
+docs	is expected behavior for unsigned builds; a paid Developer ID signature is the	是未签名构建的预期行为；付费的 Developer ID 签名是
+docs	overwritten — generation always picks a free filename, so a second key becomes	覆盖——生成时总会挑选一个空闲文件名，因此第二个密钥会变成
+docs	same tokens in `packages/design-system/src/themes.css`. Sixteen themes ship in	`packages/design-system/src/themes.css` 中的同一批令牌。共内置十六款主题，
+docs	verified (minisign) before installing, and all releases are built in public by	经过（minisign）密码学校验，所有发布版都由公开的
+docs	- Graph rendering polish, additional keyboard shortcuts, accessibility passes	- 提交图渲染打磨、新增键盘快捷键、无障碍改进
+docs	- `TAURI_SIGNING_PRIVATE_KEY_PASSWORD` — set to an **empty value** (required:	- `TAURI_SIGNING_PRIVATE_KEY_PASSWORD` ——设为**空值**（必需：
+docs	1. Fork and branch from `main`: `feature/<short-name>` or `fix/<short-name>`.	1. Fork 并从 `main` 建分支：`feature/<short-name>` 或 `fix/<short-name>`。
+docs	2. Move `[Unreleased]` items in `CHANGELOG.md` under the new version heading.	2. 把 `CHANGELOG.md` 中 `[Unreleased]` 的条目移到新版本标题下。
+docs	Actions from public source, updates are minisign-verified (§3), and users can	Actions 从公开源码构建，更新经 minisign 校验（§3），用户可以
+docs	Adding an account does nothing for an SSH remote, and an SSH key does nothing	对 SSH 远端，添加账户毫无作用；对 HTTPS 远端，SSH 密钥也毫无作用。
+docs	An endless prompt loop means stale/conflicting records from replaced binaries	无休止的提示循环意味着被替换二进制留下了过期/冲突的记录
+docs	AngKorGit ships **unsigned** — free and independent. Users get one extra step	AngKorGit 以**未签名**形式发布——免费且独立。用户首次启动多一步
+docs	If your key has a name AngKorGit does not try by default (`~/.ssh/id_ed25519`	如果你的密钥名称不是 AngKorGit 默认尝试的名字（`~/.ssh/id_ed25519`
+docs	Own-tap casks may do this — homebrew/cask proper would reject it, so when the	自有 tap 的 cask 可以这样做——homebrew/cask 官方库会拒绝，所以当
+docs	The codebase deliberately contains **no inline comments** — the code must say	代码库刻意**不含行内注释**——代码必须自己说话：
+docs	`// eslint-disable…`, `@ts-expect-error`, `/// <reference…>`, and Rust/clippy	`// eslint-disable…`、`@ts-expect-error`、`/// <reference…>`，以及 Rust/clippy
+docs	`packages/design-system/src/tokens.css`, and every other theme (including the	`packages/design-system/src/tokens.css`，而每个其他主题（包括
+docs	`~/.ssh` — up to five in total, since SSH servers cut you off after a handful	`~/.ssh` 中找到的任何其他密钥对——最多总共五个，因为 SSH 服务器在几次
+docs	certificate**, so your OS asks for a few extra confirmations on first launch.	证书**，所以你的操作系统在首次启动时会多要几次确认。
+docs	folder, then it persists. Each UPDATE (new ad-hoc signature) may re-ask once.	之后便记住。每次 UPDATE（新的 ad-hoc 签名）可能再问一次。
+docs	macOS (universal), Windows, and Linux bundles via `tauri-action` and attaches	macOS（universal）、Windows 与 Linux 安装包（经 `tauri-action`），并附加
+docs	managers. Steps marked **[owner]** need the project owner's accounts/keys and	管理器。标记为 **[owner]** 的步骤需要项目所有者的账户/密钥，
+docs	session** (keyring reads are cached in-process; `accounts.rs` `TOKEN_CACHE`).	会话**（钥匙串读取在进程内缓存；`accounts.rs` 的 `TOKEN_CACHE`）。
+docs	the first git operation that needs a token asks for permission **once per app	需要令牌的第一次 git 操作会请求授权——**每个应用会话一次**
+docs	**own minisign key** before installing — a tampered download will never run.	**自有 minisign 密钥**校验后才安装——被篡改的下载永远不会运行。
+docs	1. Open the `.dmg` and **drag AngKorGit into Applications**. Don't launch it	1. 打开 `.dmg` 并把 **AngKorGit 拖入“应用程序”**。不要从
+docs	3. Enabled Pages + custom domain + HTTPS via the CLI; deployed at root base.	3. 通过 CLI 启用 Pages + 自定义域名 + HTTPS；部署在根路径。
+docs	Passphrase-protected keys only work through the SSH agent, because AngKorGit	带口令的密钥只能通过 SSH 代理工作，因为 AngKorGit
+docs	Updated for v0.10.0 (September 2026). [CHANGELOG.md](../CHANGELOG.md) is the	更新至 v0.10.0（2026 年 9 月）。[CHANGELOG.md](../CHANGELOG.md) 是
+docs	`postflight` block, clearing the Gatekeeper quarantine automatically (needed	`postflight` 块中，自动清除 Gatekeeper 隔离标记（之所以需要，
+docs	for an HTTPS one. If a pull or push fails, the remote URL is the first thing	如果拉取或推送失败，最先要检查的就是远端 URL
+docs	key in turn and the host picks the one it knows. Leave **Use the SSH agent**	密钥，主机挑选它认识的那把。保持**使用 SSH 代理**
+docs	must drag the app out of the dmg into /Applications — running it from inside	必须把应用从 dmg 拖到 /Applications——在 dmg 内部运行时
+docs	**On every release** the cask must be bumped: update `version` and `sha256`	**每次发布**都必须更新 cask：更新 `version` 与 `sha256`
+docs	- A PR should do one thing; include screenshots/screencasts for UI changes.	- 一个 PR 只做一件事；UI 改动附上截图/录屏。
+docs	- Keypair generated; **private key: `~/.tauri/angkorgit.key` on the owner's	- 密钥对已生成；**私钥：`~/.tauri/angkorgit.key`（所有者的
+docs	- Sections: hero with graph screenshot, features, gallery, performance, AI,	- 区块：带提交图截图的 hero、功能、画廊、性能、AI、
+docs	- [ ] Read-only pull request detail view (commits, CI status, review state)	- [ ] 只读拉取请求详情视图（提交、CI 状态、审查状态）
+docs	- `@tanstack/react-virtual` renders only visible rows; rows are `memo`ized.	- `@tanstack/react-virtual` 只渲染可见行；行已 `memo` 化。
+docs	3. Done — settings UI, capabilities and transport pick it up automatically.	3. 完成——设置 UI、能力与传输层会自动接管。
+docs	After that, AngKorGit **updates itself**: every update is cryptographically	此后 AngKorGit **自行更新**：每次更新都会在安装前
+docs	AngKorGit picks its credential from the **remote URL**, not from a setting:	AngKorGit 凭据取自**远端 URL**，而不是某个设置项：
+docs	Updates are pull-based from GitHub releases and verified with the project's	更新从 GitHub releases 拉取，并用项目的
+docs	`~/.ssh/id_ed25519` and `~/.ssh/id_rsa`, then any other keypair it finds in	`~/.ssh/id_ed25519` 和 `~/.ssh/id_rsa`，然后是它在
+docs	after app updates (each unsigned build has a new identity). If a permission	（每个未签名构建都有新身份）。如果权限
+docs	and `~/.ssh/id_rsa`), set it in the **Private key** field or browse for it.	和 `~/.ssh/id_rsa`），请在**私钥**字段中设置或浏览选择它。
+docs	splash screens, only in the Angkor Dusk/Dawn themes, at low opacity — never	启动画面，仅限 Angkor Dusk/Dawn 主题，低透明度——绝不
+docs	then go to **System Settings → Privacy & Security**, scroll down, and click	然后前往**系统设置 → 隐私与安全性**，向下滚动并点击
+docs	**macOS Keychain prompts**: account tokens live in the Keychain, and macOS	**macOS 钥匙串提示**：账户令牌存放在钥匙串中，而 macOS
+docs	- **macOS**: the app isn't notarized, so Gatekeeper blocks the first open.	- **macOS**：应用未公证，Gatekeeper 会阻止首次打开。
+docs	- 8px spacing scale; no arbitrary values (`p-[13px]` is a review blocker).	- 8px 间距体系；禁止任意值（`p-[13px]` 属于审查阻断项）。
+docs	4. If you connect a GitHub/GitLab account, the first git operation per app	4. 如果你关联 GitHub/GitLab 账户，每个应用会话中
+docs	5. Added Search Console verification, JSON-LD, canonical, robots, sitemap.	5. 添加 Search Console 验证、JSON-LD、canonical、robots、站点地图。
+docs	Many people use a different key per host — one for work, one for personal.	很多人每个主机使用不同密钥——工作一把，个人一把。
+docs	Terminal alternative: `xattr -cr /Applications/AngKorGit.app` (removes the	终端替代方案：`xattr -cr /Applications/AngKorGit.app`（移除
+docs	Trash** — this only means the app has no paid Apple certificate. Close it,	废纸篓**——这只说明应用没有付费 Apple 证书。关闭它，
+docs	`IdentityFile` rules that work in your terminal have no effect in the app.	`IdentityFile` 规则在终端里有效，在应用内则无效。
+docs	`apps/website/src/content.config.ts`) — edit a doc and the site updates on	`apps/website/src/content.config.ts`）——改一篇文档，站点在
+docs	`tccutil reset All dev.angkorgit.app`, then relaunch and Allow once. Users	`tccutil reset All dev.angkorgit.app`，然后重新启动并点一次“允许”。用户
+docs	machine — BACK IT UP. If lost, existing installs can never update again.**	机器上——请务必备份。一旦丢失，现有安装将永远无法再更新。**
+docs	real documentation instead: behavior and architecture in `docs/`, hard-won	真正的文档里：行为与架构在 `docs/`，来之不易的
+docs	**macOS folder-access prompts (Desktop/Documents/Downloads)**: consent is	**macOS 文件夹访问提示（桌面/文稿/下载）**：授权与
+docs	- Frontend: silent check 5s after startup (`features/updater/check.ts`) →	- 前端：启动 5s 后静默检查（`features/updater/check.ts`）→
+docs	- Library errors convert into `AppError`; never `unwrap()` outside tests.	- 库错误转换为 `AppError`；测试之外绝不 `unwrap()`。
+docs	- Pages source must be **GitHub Actions** (set in repo Settings → Pages).	- Pages 源必须是 **GitHub Actions**（在仓库 设置 → Pages 中设置）。
+docs	A key generated in AngKorGit is used by AngKorGit; other tools keep using	在 AngKorGit 中生成的密钥由 AngKorGit 使用；其他工具继续使用
+docs	Expect **2–3 clicks total on first run**, then one folder re-confirmation	首次运行总计**点击 2–3 次**，之后每次更新后再确认一次文件夹
+website	checkbox takes a whole side. Hover a line and a plus takes just that one.	复选框即可取走整侧。悬停某行，加号只取那一行。
+docs	quarantine flag). Tauri ad-hoc-signs the binary automatically, so it runs	隔离标记）。Tauri 会自动对二进制做 ad-hoc 签名，因此它能在
+docs	- **Without the agent**, AngKorGit tries your configured key first, then	- **不使用代理**时，AngKorGit 先尝试你配置的密钥，然后
+docs	- Discuss before building: open an issue for anything larger than a fix.	- 先讨论再动手：任何大于一次修复的改动，先开 issue。
+docs	- Ref decorations are computed once per page in Rust, not per row in JS.	- 引用装饰在 Rust 中每页计算一次，而不是在 JS 中逐行计算。
+docs	- The splash logo draw (1.6s) is the single "hero" animation in the app.	- 启动画面 Logo 绘制（1.6s）是应用内唯一的“主角”动画。
+docs	- The temporary `https://cheat2001.github.io/angkorgit/` URL is retired.	- 临时地址 `https://cheat2001.github.io/angkorgit/` 已退役。
+docs	- `TAURI_SIGNING_PRIVATE_KEY` — the contents of `~/.tauri/angkorgit.key`	- `TAURI_SIGNING_PRIVATE_KEY` ——`~/.tauri/angkorgit.key` 的内容
+docs	- `tauri-plugin-updater` + `tauri-plugin-process` registered; capability	- 已注册 `tauri-plugin-updater` + `tauri-plugin-process`；能力
+docs	3. When you open a repository in Desktop/Documents/Downloads, macOS asks	3. 当你在“桌面/文稿/下载”中打开仓库时，macOS 会询问
+docs	Security honesty: unsigned ≠ unsafe. Releases are built by public GitHub	安全上的诚实：未签名 ≠ 不安全。发布版由公开的 GitHub
+docs	`~/.ssh/id_*` unless you point them at it with an `~/.ssh/config` entry:	`~/.ssh/id_*`，除非你用 `~/.ssh/config` 条目把它们指向该密钥：
+docs	and shows the public key to copy into your host. Existing keys are never	并显示要复制到托管平台的公钥。已有密钥绝不会被
+docs	because the app is unsigned; recent Homebrew removed `--no-quarantine`).	是因为应用未签名；新版 Homebrew 已移除 `--no-quarantine`）。
+docs	from inside the dmg window — macOS would run it from a temporary sandbox	dmg 窗口内启动它——macOS 会从临时沙箱运行它，
+docs	install (per-OS download cards + terminal one-liners with copy buttons),	安装（各系统的下载卡片 + 带复制按钮的终端一行命令）、
+docs	2. Launch it. macOS shows *"AngKorGit" cannot be opened* with **Move to	2. 启动它。macOS 会显示 *“AngKorGit”无法打开*，并给出**移到
+docs	4. Fixed the OG image (headline clipped at 1200px — font-size 72 → 52).	4. 修复 OG 图片（标题在 1200px 处被裁剪——字号 72 → 52）。
+docs	AngKorGit is free, open-source software and is **not signed with a paid	AngKorGit 是免费开源软件，且**未使用付费证书签名**，
+docs	always build from source. If the project later earns sponsorship, Apple	随时从源码自行构建。如果项目日后获得赞助，Apple
+website	building, testing, and shipping a release. Source of truth lives in the	构建、测试与发布。权威信息都在
+docs	keyed to the app's code signature. One installed build → one prompt per	应用的代码签名绑定。一个已安装构建 → 每个文件夹一次提示，
+docs	notarization (~$99/yr) can be added — the workflow snippet lives in git	公证（约 99 美元/年）可以补上——工作流片段保存在 git
+docs	## 2. Distribution WITHOUT paid signing (the current, chosen approach)	## 2. 无付费签名的分发（当前选定的方案）
+docs	- Conventional commits: `feat(graph): …`, `fix(engine): …`, `docs: …`.	- 约定式提交：`feat(graph): …`、`fix(engine): …`、`docs: …`。
+docs	- Docs are rendered on-site at `/docs/` directly from `docs/*.md` (see	- 文档直接在站内 `/docs/` 渲染，来源是 `docs/*.md`（见
+docs	- [ ] Plugin host (palette commands, sidebar sections, inspector tabs)	- [ ] 插件宿主（命令面板命令、侧边栏分区、检查器标签页）
+docs	- [x] Auto-update: pull-based from GitHub releases, signature-verified	- [x] 自动更新：从 GitHub releases 拉取，签名校验
+docs	Published at `cheat2001/homebrew-tap` (`Casks/angkorgit.rb`). Install:	发布在 `cheat2001/homebrew-tap`（`Casks/angkorgit.rb`）。安装：
+docs	The library it uses for SSH has never parsed it, so `Host` aliases and	它使用的 SSH 库从未解析过该文件，因此 `Host` 别名和
+website	The whole list, in plain words. If it isn't here, it isn't in the app.	整个清单，用大白话讲。如果这里没有，应用里就没有。
+docs	authoritative record of what shipped in each release; this file tracks	每个版本发布内容的权威记录；本文件跟踪
+website	there while your real work sits untouched. No stash, no "让我先提交这个 WIP".	而你的正式工作保持不动。无需暂存，也不会有“让我先提交这个 WIP”。
+website	your computer to that provider. There is no server of mine in between.	你的电脑发往该提供方，中间没有我的服务器。
+website	<a href={SITE.repo} target="_blank" rel="noreferrer"> repository</a>.	<a href={SITE.repo} target="_blank" rel="noreferrer"> 仓库</a>。
+docs	One command only: the cask runs `xattr -cr` on the installed app in a	只有一条命令：cask 会在安装的应用上运行 `xattr -cr`，放在
+docs	behind the graph, diffs, or code, and invisible in every other theme.	出现在提交图、diff 或代码之后，并在所有其他主题中不可见。
+docs	- Submit sitemap `sitemap-index.xml` (Sitemaps → Add a new sitemap).	- 提交站点地图 `sitemap-index.xml`（站点地图 → 添加新的站点地图）。
+docs	- [ ] Provider avatars via connected accounts, layered over Gravatar	- [ ] 通过关联账户获取提供方头像，叠加在 Gravatar 之上
+docs	never prompts for a passphrase. Run `ssh-add <key>` first, and leave	从不提示输入口令。请先运行 `ssh-add <key>`，并保持
+website	printed next to the menu items so you learn them by using the mouse.	菜单项旁边，用着用着鼠标就学会了。
+docs	session asks to read the token from your Keychain → **Allow** (plain	第一次 git 操作会请求从钥匙串读取令牌 → **允许**（单纯
+docs	- Live at `https://angkorgit.app/` (Astro, static, GitHub Pages via	- 线上地址 `https://angkorgit.app/`（Astro、静态站点，经 GitHub Pages 部署，通过
+docs	- Request indexing for `https://angkorgit.app/` via URL Inspection.	- 通过网址检查请求为 `https://angkorgit.app/` 建立索引。
+docs	- [ ] Performance: commit-graph file support for instant cold opens	- [ ] 性能：提交图文件支持，实现瞬时冷启动
+docs	1. Built the Astro site, added the GitHub Pages workflow, deployed.	1. 构建 Astro 站点，添加 GitHub Pages 工作流，完成部署。
+docs	Once the project has traction (75+ stars, 30+ forks) AND the app is	当项目有了一定热度（75+ stars、30+ forks）且应用
+docs	Public key: embedded in `tauri.conf.json → plugins.updater.pubkey`.	公钥：内嵌于 `tauri.conf.json → plugins.updater.pubkey`。
+docs	dialog ever loops endlessly, reset the stale records and try again:	对话框陷入无限循环，请重置过期记录后重试：
+docs	the dmg triggers app translocation, where grants can never persist.	会触发应用位移，授权将永远无法持久。
+docs	- **Windows**: WebView2 (preinstalled on Win 11), MSVC build tools	- **Windows**：WebView2（Win 11 已预装）、MSVC 构建工具
+docs	- New language for syntax highlighting (`src/shared/highlight.ts`)	- 新增语法高亮语言（`src/shared/highlight.ts`）
+docs	1. Update the version in `apps/desktop/src-tauri/tauri.conf.json`,	1. 更新 `apps/desktop/src-tauri/tauri.conf.json` 中的版本，
+docs	The only lines that may look like comments are machine directives:	唯一看起来像注释的行是机器指令：
+docs	binary to the allowlist in `apps/desktop/src-tauri/src/ai_cli.rs`.	二进制加入 `apps/desktop/src-tauri/src/ai_cli.rs` 的白名单。
+docs	on. This is also the only way a passphrase-protected key can work.	开启。这也是带口令密钥唯一可用的方式。
+docs	## Later — Connected (architecture in place, see Architecture.md)	## 以后——互联（架构已就位，见 Architecture.md）
+docs	- A new AI provider adapter (`packages/core/src/ai/providers.ts`)	- 新增 AI 提供方适配器（`packages/core/src/ai/providers.ts`）
+docs	- GitHub repo About → Website is set to `https://angkorgit.app/`.	- GitHub 仓库的“关于 → 网站”已设置为 `https://angkorgit.app/`。
+docs	- [x] Undo/redo for recent operations; drag-and-drop merge/rebase	- [x] 最近操作的撤销/重做；拖放式合并/变基
+docs	`.github/workflows/website.yml`; custom domain + HTTPS enforced).	`.github/workflows/website.yml`；自定义域名 + HTTPS 强制启用）。
+docs	`apps/desktop/src-tauri/Cargo.toml`, and root/app `package.json`.	`apps/desktop/src-tauri/Cargo.toml`，以及根/应用 `package.json`。
+docs	Either right-click the app → **Open** → Open, or on newer macOS:	右键点击应用 → **打开** → 打开，或在较新的 macOS 上：
+docs	- SEO: meta/OG/JSON-LD, sitemap, Google Search Console verified	- SEO：meta/OG/JSON-LD、站点地图、Google Search Console 已验证
+docs	2. Register it in `createAiProvider` and `AI_PROVIDER_PRESETS`.	2. 在 `createAiProvider` 和 `AI_PROVIDER_PRESETS` 中注册它。
+docs	- Durations 150–250ms; easing `cubic-bezier(0.16, 1, 0.3, 1)`.	- 时长 150–250ms；缓动 `cubic-bezier(0.16, 1, 0.3, 1)`。
+docs	- [x] Built-in PTY terminal at repo root; built-in file editor	- [x] 仓库根目录内置 PTY 终端；内置文件编辑器
+docs	on first launch; document it prominently (README covers this):	操作；请醒目地说明这一点（README 已覆盖）：
+docs	(typical on a dev machine installing many builds): fix with	（常见于安装了多个构建的开发机）：用以下命令修复
+docs	- `apps/website/public/CNAME` must contain `angkorgit.app`.	- `apps/website/public/CNAME` 必须包含 `angkorgit.app`。
+docs	(URL-prefix property), `robots.txt` → `sitemap-index.xml`.	（URL 前缀属性）、`robots.txt` → `sitemap-index.xml`。
+docs	- Launch/verification runbook: `docs/Launch-Checklist.md`.	- 发布/验证手册：`docs/Launch-Checklist.md`。
+docs	- Blocking git work always goes through `spawn_blocking`.	- 阻塞性 git 操作一律走 `spawn_blocking`。
+docs	GitHub Actions from this source tree. No telemetry, ever.	GitHub Actions 从本源码树构建。绝无遥测。
+website	Newest on top, like a real graph. Click a commit to jump.	最新在上，如同真实提交图。点击提交即可跳转。
+docs	## 3. Auto-updates — ACTIVE ✅ (free, Apple-independent)	## 3. 自动更新——已启用 ✅（免费，不依赖 Apple）
+website	Commit details with parents, refs, and per-file counts	提交详情：父提交、引用与各文件计数
+docs	Download the latest release for your platform from the	从以下位置下载你平台的最新发布版：
+docs	`angkorgit_ed25519_2` rather than replacing the first.	`angkorgit_ed25519_2`，而不是替换第一个。
+docs	Thank you for helping make everyday Git delightful! 🙏	感谢你让日常 Git 变得令人愉悦！🙏
+docs	signed/notarized, submit to homebrew-cask proper for	已签名/公证后，再提交到 homebrew-cask 官方库，以
+docs	which then also generates and uploads `latest.json`.	后者随后生成并上传 `latest.json`。
+website	Cherry-pick one or many, with the origin reference	拣选一个或多个提交，可携带来源引用
+website	graph and a proper conflict view are worth having.	提交图和像样的冲突视图是值得拥有的。
+website	Description — what changed and why · ⌘⏎ to commit	说明——改了什么以及为什么 · ⌘⏎ 提交
+docs	history — purely to remove the first-launch step.	历史中——纯粹为省去首次启动那一步。
+docs	- `rustfmt` + `clippy -D warnings` are CI gates.	- `rustfmt` + `clippy -D warnings` 是 CI 门禁。
+website	>Graph</span><span>Message</span><span>作者</span>	>图表</span><span>消息</span><span>作者</span>	>Graph<
+docs	- Engine test coverage in `tests/git_engine.rs`	- 引擎测试覆盖（`tests/git_engine.rs`）
+website	Signature-verified updates from GitHub releases	来自 GitHub releases 的签名验证更新
+website	scroll. The line on the left fills as you read.	滚动时左侧的线随阅读进度填充。
+docs	(`shasum -a 256` of the new universal dmg) in	（新 universal dmg 的 `shasum -a 256`）于
+docs	- Rust stable via [rustup](https://rustup.rs)	- 通过 [rustup](https://rustup.rs) 安装 Rust stable
+docs	- `www` is a CNAME to `cheat2001.github.io`.	- `www` 是指向 `cheat2001.github.io` 的 CNAME。
+docs	One prompt per folder, then it's remembered.	每个文件夹询问一次，之后便会记住。
+docs	0.2.0 ship `.sig` files and `latest.json`):	0.2.0 起发布附带 `.sig` 文件与 `latest.json`）：
+docs	fine on Apple Silicon once past Gatekeeper.	通过 Gatekeeper 后在 Apple Silicon 上正常运行。
+docs	**Performance strategy for 100k commits.**	**10 万次提交的性能策略。**
+website	Install from the terminal without Homebrew	不使用 Homebrew，从终端安装
+docs	## 1. Versioning & releases (works today)	## 1. 版本号与发布（当前可用）
+docs	only way to make authorization permanent.	让授权永久有效的唯一途径。
+docs	## 4. Homebrew cask **[live — own tap]**	## 4. Homebrew cask **[上线——自有 tap]**
+docs	## What "launched" looked like (2026-08)	## “上线”是什么样（2026-08）
+docs	## What makes a good first contribution	## 怎样的首个贡献最合适
+docs	happens only on the very first launch.	只在首次启动时发生。
+docs	## Extension points (future features)	## 扩展点（未来功能）
+docs	## macOS — first launch, step by step	## macOS——首次启动，一步步来
+docs	- **macOS**: Xcode command line tools	- **macOS**：Xcode 命令行工具
+website	merge if you picked the wrong branch.	你选错分支时的合并。
+docs	where permissions can never be saved.	那里的授权永远无法保存。
+docs	3. Make sure the gates pass locally:	3. 确保本地门禁通过：
+docs	cannot be automated by contributors.	无法由贡献者自动完成。
+website	way git refuses on the command line.	git 在命令行中也会拒绝一样。
+docs	Subtle, purposeful, interruptible:	克制、有目的、可中断：
+docs	- Custom domain + HTTPS enforced:	- 自定义域名 + 强制 HTTPS：
+website	Built-in terminal per repository	每个仓库内置终端
+docs	the next deploy; no duplication.	下次部署时更新；无需重复维护。
+website	{ icon: 'down', label: 'Pull' }	{ icon: 'down', label: '拉取' }
+docs	Already wired in the codebase:	代码库中已接通：
+website	Type a command or branch name…	输入命令或分支名…
+docs	## Working on the Rust engine	## 在 Rust 引擎上开发
+website	Copy ${label} install command	复制 ${label} 安装命令
+docs	DNS to settle, then Resubmit.	DNS 稳定后再重新提交。
+docs	Two ways to use several keys:	使用多个密钥的两种方式：
+website	{ icon: 'up', label: 'Push' }	{ icon: 'up', label: '推送' }
+website	exactly one thing at a time.	一样东西。
+docs	**More info → Run anyway**.	**更多信息 → 仍要运行**。
+docs	- [ ] Multi-repo workspaces	- [ ] 多仓库工作区
+website	that matter, done properly.	真正要紧的，并且做到位。
+website	In-app pull request review	应用内拉取请求审查
+docs	## Connecting to a remote	## 连接远端
+docs	## Interaction principles	## 交互原则
+docs	**Use the SSH agent** on.	**使用 SSH 代理**保持开启。
+website	Read the source on GitHub	在 GitHub 上阅读源代码
+docs	## Adding an AI provider	## 新增 AI 提供方
+docs	open-source, final CTA.	开源、最终行动号召。
+website	Back to the repository	返回仓库
+docs	## 1. DNS (Hostinger)	## 1. DNS（Hostinger）
+docs	### More than one key	### 使用多个密钥
+website	init: why I made this	init：为什么做这个
+docs	# Distribution Guide	# 分发指南
+docs	## 4. Search Console	## 4. Search Console 验证
+docs	## 5. Website (live)	## 5. 网站（线上）
+docs	## Everyday commands	## 常用命令
+website	Open it in a new tab	在新标签页中打开
+docs	## No code comments	## 无代码注释
+website	icon('up')} /> Push	icon('up')} /> 推送
+docs	of failed attempts.	失败尝试之后就会切断连接。
+docs	# Coding Standards	# 编码规范
+docs	## 2. GitHub Pages	## 2. GitHub Pages 托管
+docs	## 3. Smoke checks	## 3. 冒烟检查
+docs	## Windows & Linux	## Windows 与 Linux
+docs	- [ ] Issue viewer	- [ ] Issue 查看器
+website	. I read them all.	，我都会读。
+website	Download AngKorGit	下载 AngKorGit
+website	Download {version}	下载 {version}
+docs	## Error handling	## 错误处理
+docs	## Reporting bugs	## 报告缺陷
+docs	## Commits & PRs	## 提交与 PR
+docs	## Design tokens	## 设计令牌
+docs	## Key decisions	## 关键决策
+docs	## Later — Power	## 以后——强力功能
+docs	## Writing style	## 写作风格
+docs	# UI Guidelines	# UI 指南
+docs	## Ground rules	## 基本规则
+website	/> Fetch</span>	/> 获取</span>
+website	Anything else, 	还有其他问题，
+website	Conflict 1 of 1	冲突 1 / 1
+website	Skip to content	跳到内容
+website	/> Pull</span>	/> 拉取</span>
+website	Filter refs...	过滤引用…
+website	View on GitHub	在 GitHub 上查看
+website	a Stop button.	一个停止按钮。
+website	open an issue	开一个 issue
+website	Back to home	返回首页
+website	New worktree	新建工作树
+website	Install · v	安装 · v
+website	Conflict 1	冲突 1
+website	New branch	新建分支
+website	repository	仓库	noreferrer"> repository<
+website	Conflicts	冲突	Conflicts <span
+website	you time,	时间，
+website	Download	下载	^\s*Download$
+website	Actions	操作	>Actions<
+website	Copied!	已复制！	'Copied!'
+website	Resolve	解决	>Resolve<
+website	Summary	摘要	>Summary<
+website	1y ago	1 年前
+website	Native	原生	>Native<
+website	Result	结果	>Result<
+website	Draft	草稿	>Draft<
+website	Reset	重置	>Reset<
+website	Copy	复制	(data-copy-label>Copy<|'Copy')
+website	Home	首页	>Home<

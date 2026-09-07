@@ -1,0 +1,125 @@
+# 批次 batch1.tsv（UI（桌面））：translate 123 条；source 按长度降序（长串优先）
+# 列：scope<TAB>source<TAB>require_anchor<TAB>sync<TAB>hint<TAB>first_loc<TAB>occurrences
+ui	#${pr.number} ${pr.title} — ${pr.author} wants to merge ${pr.sourceBranch} into ${pr.targetBranch}. Double-click to check out, right-click for actions.	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/sidebar/Sidebar.tsx:1010	1
+ui	Could not read ${PROJECT_REVIEW_FILE} — reviewing without project conventions	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/commit/WorkingCopyPanel.tsx:483	1
+ui	${cleanHost} is unreachable right now — saving without verification	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/settings/AccountsTab.tsx:308	1
+ui	${branch.name} — click to filter graph, double-click to checkout	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/sidebar/Sidebar.tsx:654	1
+ui	Could not reach ${host} — check your network or VPN, then retry.	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/forge/store.ts:64	1
+ui	Link ${account.username} on ${account.host} to ${profile.label}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/settings/SettingsDialog.tsx:1034	1
+ui	Can't redo "${entry.label}" — the repository has changed since	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/history/undoStore.ts:201	1
+ui	Can't undo "${entry.label}" — the repository has changed since	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/history/undoStore.ts:170	1
+ui	${branch.name} — drag onto a local branch to merge or rebase	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/sidebar/Sidebar.tsx:706	1
+ui	${dropAction.target} will be checked out first when merging.	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/sidebar/Sidebar.tsx:1599	1
+ui	Saved ${cleanHost} as ${finalUsername} — token not verified	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/settings/AccountsTab.tsx:331	1
+ui	${account.username} is now the default for ${account.host}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/settings/AccountsTab.tsx:353	1
+ui	Could not discard "${file}" — the change is still present.	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/commit/WorkingCopyPanel.tsx:350	1
+ui	s commits on top of {dropAction.target} — rewrites history	translate	new	待译	apps/desktop/src/features/sidebar/Sidebar.tsx:1647	1
+ui	// demo mode — editing is available in the desktop app\n	translate	new	待译	apps/desktop/src/core/ipc.ts:195	1
+ui	Can't redo "${entry.label}" — the branch has moved since	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/history/undoStore.ts:207	1
+ui	Can't undo "${entry.label}" — the branch has moved since	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/history/undoStore.ts:177	1
+ui	· type any name or load the list your key can access	translate	jsx-text	JSX 文本	apps/desktop/src/features/settings/SettingsDialog.tsx:258	1
+ui	Remove ${account.username} on ${account.host}?	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/settings/AccountsTab.tsx:369	1
+ui	Removed ${account.username} on ${account.host}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/settings/AccountsTab.tsx:344	1
+ui	Take empty ${side} side (deletes this section)	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/conflicts/ConflictResolver.tsx:775	2
+ui	${wt.path} — click to switch to this worktree	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/sidebar/Sidebar.tsx:555	1
+ui	Bitbucket rejected the token (${res.status})	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/settings/AccountsTab.tsx:138	1
+ui	Cherry-picked ${oids.length} commits (demo)	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/core/ipc.ts:345	1
+ui	Connected ${cleanHost} as ${finalUsername}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/settings/AccountsTab.tsx:330	1
+ui	${branch.name} — double-click to checkout	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/sidebar/Sidebar.tsx:711	1
+ui	${wt.path} — this folder no longer exists	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/sidebar/Sidebar.tsx:552	1
+ui	GitHub rejected the token (${res.status})	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/settings/AccountsTab.tsx:151	1
+ui	GitLab rejected the token (${res.status})	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/settings/AccountsTab.tsx:166	1
+ui	Delete branch ${branchMenu.branch.name}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/sidebar/Sidebar.tsx:1571	1
+ui	double-click to switch to that worktree	translate	new	待译	apps/desktop/src/features/graph/GraphRow.tsx:308	1
+ui	Rebase onto ${branchMenu.branch.name}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/sidebar/Sidebar.tsx:1525	1
+ui	${title} — enter a path (demo mode)	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/core/ipc.ts:692	2
+ui	The folder is deleted.${branchNote}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/sidebar/Sidebar.tsx:335	1
+ui	Checkout ${branchMenu.branch.name}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/sidebar/Sidebar.tsx:1498	1
+ui	Cherry-pick ${oids.length} commits	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/repository/RepoDialogs.tsx:111	1
+ui	Pull request #${pr.number} actions	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/sidebar/Sidebar.tsx:1025	1
+ui	Could not load commit: ${message}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/inspector/Inspector.tsx:53	1
+ui	Merge ${branchMenu.branch.name}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/sidebar/Sidebar.tsx:1514	1
+ui	Rebase ${source} onto ${target}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/sidebar/Sidebar.tsx:395	1
+ui	Rebased onto ${upstream} (demo)	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/core/ipc.ts:309	1
+ui	Merge ${source} into ${target}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/sidebar/Sidebar.tsx:377	1
+ui	Pull ${branchMenu.branch.name}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/sidebar/Sidebar.tsx:1539	1
+ui	Push ${branchMenu.branch.name}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/sidebar/Sidebar.tsx:1547	1
+ui	Update remote ${edit.original}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/sidebar/Sidebar.tsx:472	1
+ui	· token in the system keychain	translate	jsx-text	JSX 文本	apps/desktop/src/features/settings/AccountsTab.tsx:426	1
+ui	${wt.path} — open in this tab	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/sidebar/Sidebar.tsx:554	1
+ui	Remote ${remote.name} actions	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/sidebar/Sidebar.tsx:778	2
+ui	Could not load file history:	translate	jsx-text	JSX 文本	apps/desktop/src/features/history/FileHistoryPanel.tsx:265	1
+ui	Could not load more commits:	translate	jsx-text	JSX 文本	apps/desktop/src/features/graph/CommitGraph.tsx:473	1
+ui	'JetBrains Mono', monospace	translate	new	待译	apps/desktop/src/features/terminal/TerminalPanel.tsx:19	1
+ui	Could not load the history:	translate	jsx-text	JSX 文本	apps/desktop/src/features/graph/CommitGraph.tsx:406	1
+ui	Removed worktree ${wt.name}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/sidebar/Sidebar.tsx:357	1
+ui	Pushed to ${remote} (demo)	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/core/ipc.ts:389	1
+ui	--- demo staged patch ---	translate	new	待译	apps/desktop/src/core/ipc.ts:494	1
+ui	Clear ${repoState} state?	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/components/CommandPalette.tsx:205	1
+ui	Fetched ${remote} (demo)	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/core/ipc.ts:368	1
+ui	Pushed tag ${tag} (demo)	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/core/ipc.ts:398	1
+ui	double-click to checkout	translate	new	待译	apps/desktop/src/features/graph/GraphRow.tsx:308	1
+ui	Checkout ${branch.name}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/components/CommandPalette.tsx:426	4
+ui	Pulled ${branch} (demo)	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/core/ipc.ts:394	1
+ui	${branch.name} actions	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/sidebar/Sidebar.tsx:672	2
+ui	Checkout #${pr.number}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/sidebar/Sidebar.tsx:421	1
+ui	Delete tag ${tag.name}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/sidebar/Sidebar.tsx:1299	1
+ui	Rebase complete (demo)	translate	new	待译	apps/desktop/src/core/ipc.ts:313	1
+ui	AngKorGit v${version}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/repository/WelcomePage.tsx:302	1
+ui	Merged ${name} (demo)	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/core/ipc.ts:293	1
+ui	Redid: ${entry.label}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/history/undoStore.ts:214	1
+ui	Undid: ${entry.label}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/history/undoStore.ts:184	1
+ui	Checkout ${tag.name}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/sidebar/Sidebar.tsx:1281	1
+ui	Cherry-picked (demo)	translate	new	待译	apps/desktop/src/core/ipc.ts:341	1
+ui	Discard ${file.path}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/commit/WorkingCopyPanel.tsx:110	1
+ui	GitLab (self-hosted)	translate	new	待译	apps/desktop/src/features/settings/AccountsTab.tsx:68	1
+ui	Push tag ${tag.name}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/sidebar/Sidebar.tsx:1289	1
+ui	Unstage ${file.path}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/commit/WorkingCopyPanel.tsx:95	1
+ui	${sub.name} actions	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/sidebar/Sidebar.tsx:1196	1
+ui	${tag.name} actions	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/sidebar/Sidebar.tsx:1107	1
+ui	(folder: TreeFolder	translate	jsx-text	JSX 文本	apps/desktop/src/components/FileTree.tsx:109	1
+ui	Contents of ${file}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/editor/EditorPanel.tsx:130	1
+ui	commit "${summary}"	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/commit/WorkingCopyPanel.tsx:535	1
+ui	${path} (worktree)	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/components/RepoTabs.tsx:85	1
+ui	${wt.name} actions	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/sidebar/Sidebar.tsx:576	1
+ui	Checkout ${source}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/sidebar/Sidebar.tsx:391	1
+ui	Checkout ${target}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/sidebar/Sidebar.tsx:373	1
+ui	Stage ${file.path}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/commit/WorkingCopyPanel.tsx:95	1
+ui	Update ${sub.name}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/sidebar/Sidebar.tsx:1226	1
+ui	gitlab.example.com	translate	attr-ui	属性文案（placeholder），裸词须配 anchor	apps/desktop/src/features/settings/AccountsTab.tsx:483	1
+ui	${label} complete	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/components/Toolbar.tsx:383	2
+ui	Forget ${wt.name}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/sidebar/Sidebar.tsx:326	1
+ui	Which profile for	translate	jsx-text	JSX 文本	apps/desktop/src/components/profilePrompt.tsx:51	1
+ui	Cherry-pick done	translate	new	待译	apps/desktop/src/features/repository/RepoDialogs.tsx:118	1
+ui	Remove ${r.name}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/sidebar/Sidebar.tsx:1427	1
+ui	Bearer ${token}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/settings/AccountsTab.tsx:146	1
+ui	Editing ${file}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/editor/EditorPanel.tsx:88	1
+ui	Fetch ${r.name}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/sidebar/Sidebar.tsx:1402	1
+ui	Reverted (demo)	translate	new	待译	apps/desktop/src/core/ipc.ts:230	1
+ui	s identity and	translate	new	待译	apps/desktop/src/components/profilePrompt.tsx:53	1
+ui	${file} saved	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/editor/EditorPanel.tsx:50	1
+ui	(no message)	translate	jsx-text	JSX 文本	apps/desktop/src/features/graph/GraphRow.tsx:419	1
+ui	Home / End	translate	new	待译	apps/desktop/src/features/settings/SettingsDialog.tsx:573	1
+ui	): number	translate	jsx-text	JSX 文本	apps/desktop/src/features/conflicts/ConflictResolver.tsx:113	2
+ui	): string	translate	jsx-text	JSX 文本	apps/desktop/src/features/settings/AccountsTab.tsx:99	1
+ui	Demo User	translate	new	待译	apps/desktop/src/core/ipc.ts:142	1
+ui	· checked	translate	jsx-text	JSX 文本	apps/desktop/src/features/settings/AccountsTab.tsx:427	1
+ui	Profiles	translate	attr-ui	属性文案（title），裸词须配 anchor	apps/desktop/src/features/settings/SettingsDialog.tsx:941	1
+ui	Provider	translate	attr-ui	属性文案（title），裸词须配 anchor	apps/desktop/src/features/settings/SettingsDialog.tsx:1134	1
+ui	Worktree	translate	attr-ui	属性文案（aria-label），裸词须配 anchor	apps/desktop/src/components/RepoTabs.tsx:127	1
+ui	· origin	translate	new	待译	apps/desktop/src/features/graph/GraphRow.tsx:308	1
+ui	Opening	translate	jsx-text	JSX 文本裸词，须配 anchor	apps/desktop/src/features/repository/RepositoryPage.tsx:75	1
+ui	· local	translate	new	待译	apps/desktop/src/features/graph/GraphRow.tsx:308	1
+ui	v1.0.0	translate	attr-ui	属性文案（placeholder），裸词须配 anchor	apps/desktop/src/features/repository/RepoDialogs.tsx:189	1
+ui	A / C	translate	new	待译	apps/desktop/src/features/settings/SettingsDialog.tsx:576	1
+ui	Draft	translate	jsx-text	JSX 文本裸词，须配 anchor	apps/desktop/src/features/sidebar/Sidebar.tsx:1020	1
+ui	K / P	translate	new	待译	apps/desktop/src/features/settings/SettingsDialog.tsx:565	1
+ui	P / N	translate	new	待译	apps/desktop/src/features/settings/SettingsDialog.tsx:579	1
+ui	Theme	translate	attr-ui	属性文案（title），裸词须配 anchor	apps/desktop/src/features/settings/SettingsDialog.tsx:747	1
+ui	Token	translate	attr-ui	属性文案（label），裸词须配 anchor	apps/desktop/src/features/settings/AccountsTab.tsx:501	1
+ui	\b \b	translate	new	待译	apps/desktop/src/features/terminal/TerminalPanel.tsx:45	1
+ui	Work	translate	attr-ui	属性文案（placeholder），裸词须配 anchor	apps/desktop/src/features/settings/SettingsDialog.tsx:1067	1
+ui	Zoom	translate	attr-ui	属性文案（title），裸词须配 anchor	apps/desktop/src/features/settings/SettingsDialog.tsx:824	1
+ui	sk-…	translate	attr-ui	属性文案（placeholder），裸词须配 anchor	apps/desktop/src/features/settings/SettingsDialog.tsx:1178	1
+ui	Esc	translate	jsx-text	JSX 文本裸词，须配 anchor	apps/desktop/src/features/diff/DiffPanel.tsx:258	5
+ui	SSH	translate	attr-ui	属性文案（title），裸词须配 anchor	apps/desktop/src/features/settings/SettingsDialog.tsx:126	1

@@ -1,0 +1,30 @@
+# B2 跳过清单（translator-b · t3）：裁决为不译的 t1 website 项（verify→skip 及 translate→skip 复核）
+# 列：source<TAB>category<TAB>reason
+# 生成脚本：zh-dict/research/_gen_b2_web.py
+return render(rows, { palette, animate: true });	demo	mock 冲突窗格中的示例代码内容
+return render(rows, { colors });	demo	mock 冲突窗格中的示例代码内容
+export function drawGraph(rows: Row[]) {	demo	mock 冲突窗格中的示例代码内容
+import { render } from './renderer';	demo	mock 冲突窗格中的示例代码内容
+const palette = useThemePalette();	demo	mock 冲突窗格中的示例代码内容
+const colors = legacyColors();	demo	mock 冲突窗格中的示例代码内容
+drawGraph.ts	demo	mock 中的示例文件名
+aspect-ratio: ${width} / ${height}	css	CSS 样式模板串
+Start-Process "$env:TEMP\\AngKorGit-setup.exe"	command	终端命令（PowerShell）
+WIP on main: experiment …	demo	mock 侧边栏示例暂存名
+feature/* → feat(scope):	demo	mock 中示例配置值（git 前缀规则样例）
+angkorgit-feature-di…	demo	mock 侧边栏示例工作树名
+angkorgit-fix-stash…	demo	mock 侧边栏示例工作树名
+angkorgit.app	brand	品牌/域名
+Tauri 2 · Rust · libgit2 · React	brand	技术栈品牌行
+macOS, Windows, Linux	brand	操作系统品牌枚举（JSON-LD）
+AngKorGit contributors	brand	JSON-LD 发布者名称（机构名保留）
+HEAD	ident	git 术语，dict 中 HEAD 一律保留英文
+init	ident	git 术语/装饰性 kicker（与 init: 前缀一致保留）
+Mac（Homebrew）	cjk	已本地化（全角括号已是词库目标形式）
+Windows（PowerShell）	cjk	已本地化（全角括号已是词库目标形式）
+WorkingCopyFileListItemContaine…	demo	mock 工作副本示例文件名
+!Launch-Checklist.md	code	content.config.ts glob 模式
+.terminal-block	css	CSS 类选择器
+*.md	code	content.config.ts glob 模式
+src…	demo	mock 工作副本示例目录
+.md	code	DocsLayout.astro 代码中的扩展名处理

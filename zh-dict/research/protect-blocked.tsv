@@ -1,0 +1,167 @@
+# 受 protect.txt(legacy) 拦截的候选：不改 protect 则引擎永不替换（建议升级 kebab 规则）
+# 列：scope<TAB>source<TAB>verdict<TAB>hint<TAB>first_loc
+docs	**Undo/redo as recorded transitions.** Every mutating operation runs through a `tracked()` wrapper that snapshots HEAD before/after. Undo applies the inverse (soft reset for commits, ref restore for branch deletion, …) and validates the repository hasn't moved since — corrupting-the-repo is structurally prevented, and hard-reset-style undos refuse to run over uncommitted work.	translate	待译	docs/Architecture.md:52
+docs	- [x] AI: provider-agnostic (OpenAI, Anthropic, Gemini, Ollama, LM Studio) plus installed AI CLIs (Claude Code, Codex, Gemini CLI, OpenCode, Antigravity) — commit messages, diff/conflict explanations, PR descriptions, staged-change review with team conventions (global + per-repo `.angkorgit/review.md`), background execution with stop, full-size reading views	translate	待译	docs/Roadmap.md:21
+docs	**Live updates via a debounced watcher.** A `notify`-based filesystem watcher (400 ms debounce, `.git` noise filtered down to HEAD/refs/index movements) emits a single `repo-changed` event; the frontend refreshes status — or everything, when HEAD moved externally. Editing in an IDE or committing from a terminal reflects in the UI within half a second.	verify	含受保护片段（URL/哈希/路径/版本），译时须原样保留	docs/Architecture.md:54
+docs	- [x] Branch: create, delete, rename, checkout (incl. remote), merge, rebase (+continue/abort), interactive rebase (reorder/reword/squash/fixup/drop), cherry-pick (single or multi-commit, optional "(cherry picked from commit …)" reference), reset (soft/mixed/hard) — explicit merges always record a merge commit; abort merge from the commit box	translate	待译	docs/Roadmap.md:12
+docs	**Graph layout in the domain layer.** Lane assignment (`GraphLayout`) is pure TypeScript, incremental, and unit-tested. Feeding page N+1 never changes rows from page N, which keeps the virtualized list stable while history streams in. Rendering is a per-row SVG slice — O(visible rows), regardless of repository size.	translate	待译	docs/Architecture.md:38
+docs	**Tauri v2 + libgit2 (git2-rs).** A native Rust engine gives sub-millisecond status/diff operations and avoids shelling out to `git` for hot paths. `vendored-libgit2` keeps builds hermetic across macOS/Windows/Linux. Every command runs on a blocking thread (`spawn_blocking`) so the UI thread never waits on I/O.	verify	含受保护片段（URL/哈希/路径/版本），译时须原样保留	docs/Architecture.md:34
+docs	**Conflict resolution as data.** Conflicted files are parsed into text/conflict blocks (`parseConflicts`), the resolver mutates block resolutions, and `serializeResolution` writes the result. Unresolved blocks re-emit their markers, so a half-finished session never destroys data.	translate	待译	docs/Architecture.md:46
+website	Faster to open, lighter, and narrower on purpose. GitKraken took the workflow ideas further than anyone and I learned from it, but I wanted the twenty-five features that matter rather than the hundred. Fork is closer in spirit, though it is not open source and not on Linux.	translate	待译	apps/website/src/components/Questions.astro:22
+website	The build isn't signed with an Apple developer certificate yet, so Gatekeeper asks once. Right-click and Open, or install through Homebrew, which clears the flag for you. After that the updater handles new versions and verifies each one with a signature.	translate	待译	apps/website/src/components/Questions.astro:14
+docs	**Verified destructive operations.** Discard (file or all) re-checks status afterwards and reports what could *not* be discarded, so cases libgit2 silently skips (submodule pointer changes) surface as actionable messages instead of silent no-ops.	translate	待译	docs/Architecture.md:56
+docs	- [x] Settings: sixteen themes (Angkor Dusk default) with accents & zoom, identity profiles (repo-local) with linked accounts, SSH key management & generation, hosting accounts with verified tokens, AI providers & commit style, keyboard reference	translate	待译	docs/Roadmap.md:19
+docs	- [x] Sidebar: accordion sections with pinned headers and collapse-all, row menus on hover and right-click everywhere, empty-state cards; graph display options and column headers; welcome page with keyboard navigation and missing-folder detection	translate	待译	docs/Roadmap.md:20
+docs	- **Plugins** — the command palette, sidebar sections and inspector tabs are list-driven; a plugin host can contribute entries without touching feature internals. The IPC layer is a single object that can be wrapped/instrumented.	translate	待译	docs/Architecture.md:60
+docs	- [x] Conflicts: visual resolver — aligned A/B panes with line numbers, one take-all checkbox per side plus hover-to-pick lines, a Result pane with in-place editing and its own line numbers, conflict navigation, AI explanations	translate	待译	docs/Roadmap.md:14
+docs	Non-goals: enterprise admin tooling, built-in CI dashboards, in-app code review (commenting, approving and merging live on the forge's web UI, one click away), anything else that duplicates a forge's web UI without daily value.	translate	待译	docs/Roadmap.md:47
+docs	- [x] Diff: inline & side-by-side, syntax highlight, word diff, image diff, find in diff (⌘F), minimap, previous/next change and file navigation (N/P, [/]), opens directly at the first change (no scroll animation)	translate	待译	docs/Roadmap.md:18
+docs	- [x] Performance: fast startup (splash waits for the app, not a timer; heavy views load on first use), a quiet file watcher, on-demand commit diffs, loading overlay on slow repository switches	translate	待译	docs/Roadmap.md:27
+docs	AngKorGit follows Clean Architecture with feature-based folders. Dependencies point inward: UI → application state → domain; the Rust engine is behind a single typed IPC boundary.	translate	待译	docs/Architecture.md:3
+docs	Tag `v*` and push: `.github/workflows/release.yml` builds macOS (universal), Windows and Linux bundles via `tauri-action` and attaches them to a draft GitHub release.	translate	待译	docs/Development.md:56
+docs	- **Feedback within 100ms.** Long operations set a busy label in the toolbar; results arrive as toasts. Conflict outcomes are warnings (amber), not failures.	verify	含受保护片段（URL/哈希/路径/版本），译时须原样保留	docs/UI-Guidelines.md:55
+docs	- Feature folders own their state: a feature's store is imported only via its public module. Cross-feature reads go through hooks, never internal setters.	translate	待译	docs/Coding-Standards.md:16
+docs	- Every operation that can leave the repo mid-state (merge, rebase, cherry-pick) returns an `OpOutcome` with `status: "conflicts"` rather than an error.	translate	待译	docs/Development.md:41
+ui	#${pr.number} ${pr.title} — ${pr.author} wants to merge ${pr.sourceBranch} into ${pr.targetBranch}. Double-click to check out, right-click for actions.	translate	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/sidebar/Sidebar.tsx:1010
+docs	- [ ] Worktrees: start an installed AI CLI inside a worktree from its row, a per-repo post-create setup command, merged badge with one-step cleanup	translate	待译	docs/Roadmap.md:32
+docs	- **Worktrees** — the engine already opens repositories by path; a worktree list command and a repo-switcher entry are the only additions needed.	translate	待译	docs/Architecture.md:62
+docs	- Public engine functions take `&str` paths and return serde types mirroring `@angkorgit/core` — keep the two in sync when changing either.	verify	含受保护片段（URL/哈希/路径/版本），译时须原样保留	docs/Coding-Standards.md:29
+docs	- Pure logic (parsing, layout, diffing) lives in `@angkorgit/core`, is framework-free and unit-tested. React components stay thin.	verify	含受保护片段（URL/哈希/路径/版本），译时须原样保留	docs/Coding-Standards.md:17
+docs	- **Everything keyboard-reachable.** Every action in a menu is also in the ⌘K palette. Shortcuts render next to labels (`Kbd`).	translate	待译	docs/UI-Guidelines.md:52
+docs	- Tailwind utilities only; tokens come from the design system (`bg-surface`, `text-muted`, …). No hex colors in components.	translate	待译	docs/Coding-Standards.md:33
+website	Not signed with an Apple certificate, so macOS asks once. Right-click, Open, or use Homebrew below and it never asks.	translate	待译	apps/website/src/components/Install.astro:12
+docs	- **Radii.** `rounded-md` for controls, `rounded-lg` for surfaces. Nothing sharp, nothing pill-shaped except badges.	translate	待译	docs/UI-Guidelines.md:37
+docs	- Be kind. We follow the [Contributor Covenant](https://www.contributor-covenant.org/version/2/1/code_of_conduct/).	verify	含受保护片段（URL/哈希/路径/版本），译时须原样保留	docs/Contributing.md:7
+docs	- `strict` mode; no `any` (use `unknown` + narrowing). No non-null `!` outside tests and provably-safe layout code.	translate	待译	docs/Coding-Standards.md:15
+docs	- [x] History: virtualized animated graph, search, author/branch filters, refs/tags/HEAD/merges, file history	verify	含受保护片段（URL/哈希/路径/版本），译时须原样保留	docs/Roadmap.md:11
+docs	- **Elevation.** Prefer borders (`border-border-subtle`) over shadows; `shadow-soft` only for overlays.	translate	待译	docs/UI-Guidelines.md:38
+docs	- [x] Commit: stage files, hunks, and individual lines; unstage, commit, amend; per-repo commit drafts	translate	待译	docs/Roadmap.md:10
+docs	- Tauri v2 system dependencies — see the [official list](https://v2.tauri.app/start/prerequisites/):	verify	含受保护片段（URL/哈希/路径/版本），译时须原样保留	docs/Development.md:7
+docs	The engine lives in `apps/desktop/src-tauri/src/core/`, one module per domain area. Conventions:	translate	待译	docs/Development.md:37
+website	s used for: a commit message from the staged diff, a plain-language explanation of a commit or a	translate	待译	apps/website/src/components/AiSection.astro:18
+docs	- **8px rhythm.** Spacing uses the Tailwind scale (`gap-2`, `p-4`…). No arbitrary pixel values.	verify	含受保护片段（URL/哈希/路径/版本），译时须原样保留	docs/UI-Guidelines.md:35
+docs	- Remove any stale Hostinger parked-page record (`2.57.91.91`). If a resolver still returns it,	verify	含受保护片段（URL/哈希/路径/版本），译时须原样保留	docs/Launch-Checklist.md:12
+docs	- History is paginated (200 commits per request) via libgit2 revwalk; filters run engine-side.	translate	待译	docs/Architecture.md:41
+docs	- Nameservers stay on Hostinger parking: `aurora.dns-parking.com` / `nebula.dns-parking.com`.	translate	待译	docs/Launch-Checklist.md:8
+docs	- The build uses `SITE_URL=https://angkorgit.app` and `SITE_BASE=/` (pinned in the workflow).	verify	含受保护片段（URL/哈希/路径/版本），译时须原样保留	docs/Launch-Checklist.md:30
+docs	4. Open a PR with a conventional-commit title, a short "why", and screenshots for UI changes.	translate	待译	docs/Contributing.md:20
+docs	it is upstream caching — TTL is 14400s (4h). Verify against Google/Cloudflare resolvers:	verify	含受保护片段（URL/哈希/路径/版本），译时须原样保留	docs/Launch-Checklist.md:13
+docs	- Verify via **URL-prefix property** (`https://angkorgit.app/`); the meta tag is in	verify	含受保护片段（URL/哈希/路径/版本），译时须原样保留	docs/Launch-Checklist.md:44
+docs	Runbook for verifying and re-running the website launch at `https://angkorgit.app`.	verify	含受保护片段（URL/哈希/路径/版本），译时须原样保留	docs/Launch-Checklist.md:3
+docs	- **The SSH agent** (recommended) — `ssh-add key1 key2 …`. The agent offers each	translate	待译	docs/Getting-Started.md:81
+docs	That works, with one thing to know: **AngKorGit does not read `~/.ssh/config`**.	verify	含受保护片段（URL/哈希/路径/版本），译时须原样保留	docs/Getting-Started.md:75
+docs	**[owner] one-time — done**: both GitHub secrets are configured (releases since	translate	待译	docs/Distribution.md:72
+docs	in-app; the bump matters for fresh installs. Add this to the release checklist.	translate	待译	docs/Distribution.md:96
+docs	pitfalls in `CLAUDE.md` (gotchas G1+), user-visible behavior in `CHANGELOG.md`.	translate	待译	docs/Coding-Standards.md:8
+docs	(the app self-updates), so tap users who installed once still get new versions	translate	待译	docs/Distribution.md:95
+docs	- All panels are resizable (`react-resizable-panels`) and persist their sizes.	translate	待译	docs/UI-Guidelines.md:10
+docs	- `release.yml` passes `TAURI_SIGNING_PRIVATE_KEY(_PASSWORD)` to tauri-action,	translate	待译	docs/Distribution.md:69
+docs	2. Bought `angkorgit.app`, pointed DNS, deleted the stale `2.57.91.91` record.	verify	含受保护片段（URL/哈希/路径/版本），译时须原样保留	docs/Launch-Checklist.md:59
+docs	How AngKorGit ships to users: signing, notarization, auto-updates, and package	translate	待译	docs/Distribution.md:3
+docs	`cheat2001/homebrew-tap/Casks/angkorgit.rb`. The cask sets `auto_updates true`	translate	待译	docs/Distribution.md:94
+docs	same tokens in `packages/design-system/src/themes.css`. Sixteen themes ship in	translate	待译	docs/UI-Guidelines.md:17
+docs	1. Fork and branch from `main`: `feature/<short-name>` or `fix/<short-name>`.	translate	待译	docs/Contributing.md:13
+docs	Actions from public source, updates are minisign-verified (§3), and users can	translate	待译	docs/Distribution.md:50
+docs	If your key has a name AngKorGit does not try by default (`~/.ssh/id_ed25519`	verify	含受保护片段（URL/哈希/路径/版本），译时须原样保留	docs/Getting-Started.md:65
+docs	Own-tap casks may do this — homebrew/cask proper would reject it, so when the	translate	待译	docs/Distribution.md:89
+docs	`// eslint-disable…`, `@ts-expect-error`, `/// <reference…>`, and Rust/clippy	translate	待译	docs/Coding-Standards.md:10
+docs	`packages/design-system/src/tokens.css`, and every other theme (including the	translate	待译	docs/UI-Guidelines.md:15
+docs	`~/.ssh` — up to five in total, since SSH servers cut you off after a handful	verify	含受保护片段（URL/哈希/路径/版本），译时须原样保留	docs/Getting-Started.md:86
+docs	folder, then it persists. Each UPDATE (new ad-hoc signature) may re-ask once.	translate	待译	docs/Distribution.md:42
+docs	macOS (universal), Windows, and Linux bundles via `tauri-action` and attaches	translate	待译	docs/Distribution.md:13
+docs	session** (keyring reads are cached in-process; `accounts.rs` `TOKEN_CACHE`).	translate	待译	docs/Distribution.md:35
+docs	Passphrase-protected keys only work through the SSH agent, because AngKorGit	translate	待译	docs/Getting-Started.md:68
+docs	Updated for v0.10.0 (September 2026). [CHANGELOG.md](../CHANGELOG.md) is the	verify	含受保护片段（URL/哈希/路径/版本），译时须原样保留	docs/Roadmap.md:3
+docs	- Keypair generated; **private key: `~/.tauri/angkorgit.key` on the owner's	verify	含受保护片段（URL/哈希/路径/版本），译时须原样保留	docs/Distribution.md:61
+docs	- [ ] Read-only pull request detail view (commits, CI status, review state)	translate	待译	docs/Roadmap.md:38
+docs	- `@tanstack/react-virtual` renders only visible rows; rows are `memo`ized.	verify	含受保护片段（URL/哈希/路径/版本），译时须原样保留	docs/Architecture.md:42
+docs	Updates are pull-based from GitHub releases and verified with the project's	translate	待译	docs/Distribution.md:57
+docs	`~/.ssh/id_ed25519` and `~/.ssh/id_rsa`, then any other keypair it finds in	verify	含受保护片段（URL/哈希/路径/版本），译时须原样保留	docs/Getting-Started.md:85
+docs	and `~/.ssh/id_rsa`), set it in the **Private key** field or browse for it.	verify	含受保护片段（URL/哈希/路径/版本），译时须原样保留	docs/Getting-Started.md:66
+docs	- 8px spacing scale; no arbitrary values (`p-[13px]` is a review blocker).	verify	含受保护片段（URL/哈希/路径/版本），译时须原样保留	docs/Coding-Standards.md:34
+docs	real documentation instead: behavior and architecture in `docs/`, hard-won	translate	待译	docs/Coding-Standards.md:7
+docs	**macOS folder-access prompts (Desktop/Documents/Downloads)**: consent is	translate	待译	docs/Distribution.md:40
+docs	- Frontend: silent check 5s after startup (`features/updater/check.ts`) →	verify	含受保护片段（URL/哈希/路径/版本），译时须原样保留	docs/Distribution.md:66
+docs	Expect **2–3 clicks total on first run**, then one folder re-confirmation	translate	待译	docs/Getting-Started.md:26
+docs	quarantine flag). Tauri ad-hoc-signs the binary automatically, so it runs	translate	待译	docs/Distribution.md:25
+docs	- The splash logo draw (1.6s) is the single "hero" animation in the app.	verify	含受保护片段（URL/哈希/路径/版本），译时须原样保留	docs/UI-Guidelines.md:47
+docs	- The temporary `https://cheat2001.github.io/angkorgit/` URL is retired.	verify	含受保护片段（URL/哈希/路径/版本），译时须原样保留	docs/Launch-Checklist.md:54
+docs	- `TAURI_SIGNING_PRIVATE_KEY` — the contents of `~/.tauri/angkorgit.key`	verify	含受保护片段（URL/哈希/路径/版本），译时须原样保留	docs/Distribution.md:74
+docs	- `tauri-plugin-updater` + `tauri-plugin-process` registered; capability	translate	待译	docs/Distribution.md:64
+docs	`~/.ssh/id_*` unless you point them at it with an `~/.ssh/config` entry:	verify	含受保护片段（URL/哈希/路径/版本），译时须原样保留	docs/Getting-Started.md:90
+docs	because the app is unsigned; recent Homebrew removed `--no-quarantine`).	translate	待译	docs/Distribution.md:88
+docs	install (per-OS download cards + terminal one-liners with copy buttons),	translate	待译	docs/Distribution.md:107
+docs	4. Fixed the OG image (headline clipped at 1200px — font-size 72 → 52).	verify	含受保护片段（URL/哈希/路径/版本），译时须原样保留	docs/Launch-Checklist.md:61
+docs	AngKorGit is free, open-source software and is **not signed with a paid	translate	待译	docs/Getting-Started.md:6
+docs	- Docs are rendered on-site at `/docs/` directly from `docs/*.md` (see	translate	待译	docs/Distribution.md:109
+docs	- [x] Auto-update: pull-based from GitHub releases, signature-verified	translate	待译	docs/Roadmap.md:23
+docs	Published at `cheat2001/homebrew-tap` (`Casks/angkorgit.rb`). Install:	translate	待译	docs/Distribution.md:80
+test	checks out same-repo branches with tracking and fork PRs via refs/pull	verify	含受保护片段（URL/哈希/路径/版本），译时须原样保留	tests/unit/forge.test.ts:196
+docs	- Submit sitemap `sitemap-index.xml` (Sitemaps → Add a new sitemap).	translate	待译	docs/Launch-Checklist.md:46
+docs	never prompts for a passphrase. Run `ssh-add <key>` first, and leave	translate	待译	docs/Getting-Started.md:69
+docs	- Live at `https://angkorgit.app/` (Astro, static, GitHub Pages via	verify	含受保护片段（URL/哈希/路径/版本），译时须原样保留	docs/Distribution.md:104
+docs	- Request indexing for `https://angkorgit.app/` via URL Inspection.	verify	含受保护片段（URL/哈希/路径/版本），译时须原样保留	docs/Launch-Checklist.md:49
+docs	- [ ] Performance: commit-graph file support for instant cold opens	translate	待译	docs/Roadmap.md:45
+docs	1. Update the version in `apps/desktop/src-tauri/tauri.conf.json`,	translate	待译	docs/Distribution.md:9
+docs	binary to the allowlist in `apps/desktop/src-tauri/src/ai_cli.rs`.	translate	待译	docs/Development.md:52
+docs	on. This is also the only way a passphrase-protected key can work.	translate	待译	docs/Getting-Started.md:83
+docs	- GitHub repo About → Website is set to `https://angkorgit.app/`.	verify	含受保护片段（URL/哈希/路径/版本），译时须原样保留	docs/Launch-Checklist.md:53
+docs	- [x] Undo/redo for recent operations; drag-and-drop merge/rebase	translate	待译	docs/Roadmap.md:22
+docs	`apps/desktop/src-tauri/Cargo.toml`, and root/app `package.json`.	translate	待译	docs/Distribution.md:10
+docs	Either right-click the app → **Open** → Open, or on newer macOS:	translate	待译	docs/Distribution.md:22
+ui	${branch.name} — click to filter graph, double-click to checkout	translate	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/sidebar/Sidebar.tsx:654
+docs	- Durations 150–250ms; easing `cubic-bezier(0.16, 1, 0.3, 1)`.	verify	含受保护片段（URL/哈希/路径/版本），译时须原样保留	docs/UI-Guidelines.md:45
+docs	- [x] Built-in PTY terminal at repo root; built-in file editor	translate	待译	docs/Roadmap.md:17
+rust	fix: adjust\n\nSigned-off-by: Test User <test@angkorgit.dev>	verify	含受保护片段（URL/哈希/路径/版本），译时须原样保留	apps/desktop/src-tauri/tests/git_engine.rs:357
+docs	(URL-prefix property), `robots.txt` → `sitemap-index.xml`.	translate	待译	docs/Distribution.md:113
+rust	the selected base is not a first-parent ancestor of HEAD	translate	Rust 字符串	apps/desktop/src-tauri/src/core/branch.rs:342
+docs	## 3. Auto-updates — ACTIVE ✅ (free, Apple-independent)	translate	待译	docs/Distribution.md:55
+rust	adding a worktree for the checked-out branch must fail	translate	Rust 字符串	apps/desktop/src-tauri/tests/git_engine.rs:1662
+test	checks out fork merge requests via refs/merge-requests	verify	含受保护片段（URL/哈希/路径/版本），译时须原样保留	tests/unit/forge.test.ts:299
+website	Commit details with parents, refs, and per-file counts	translate	待译	apps/website/src/components/SpecSheet.astro:34
+docs	signed/notarized, submit to homebrew-cask proper for	translate	待译	docs/Distribution.md:99
+website	Cherry-pick one or many, with the origin reference	translate	待译	apps/website/src/components/SpecSheet.astro:21
+docs	history — purely to remove the first-launch step.	translate	待译	docs/Distribution.md:53
+test	strips refs/heads and collapses unsafe characters	verify	含受保护片段（URL/哈希/路径/版本），译时须原样保留	tests/unit/worktree.test.ts:9
+rust	Fast-forwarded {branch_name} to {upstream_name}	translate	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src-tauri/src/core/remote.rs:581
+website	Signature-verified updates from GitHub releases	translate	待译	apps/website/src/components/SpecSheet.astro:63
+website	Start-Process "$env:TEMP\\AngKorGit-setup.exe"	translate	待译	apps/website/src/components/Install.astro:66
+docs	- Rust stable via [rustup](https://rustup.rs)	verify	含受保护片段（URL/哈希/路径/版本），译时须原样保留	docs/Development.md:6
+meta	pnpm --filter @angkorgit/desktop tauri build	verify	含受保护片段（URL/哈希/路径/版本），译时须原样保留	package.json:21
+docs	0.2.0 ship `.sig` files and `latest.json`):	verify	含受保护片段（URL/哈希/路径/版本），译时须原样保留	docs/Distribution.md:73
+ui	Cherry-picked ${oids.length} commits (demo)	translate	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/core/ipc.ts:345
+meta	pnpm --filter @angkorgit/desktop tauri dev	verify	含受保护片段（URL/哈希/路径/版本），译时须原样保留	package.json:20
+ui	${branch.name} — double-click to checkout	translate	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/sidebar/Sidebar.tsx:711
+meta	pnpm --filter @angkorgit/website preview	verify	含受保护片段（URL/哈希/路径/版本），译时须原样保留	package.json:32
+meta	pnpm --filter @angkorgit/website images	verify	含受保护片段（URL/哈希/路径/版本），译时须原样保留	package.json:33
+ui	double-click to switch to that worktree	translate	待译	apps/desktop/src/features/graph/GraphRow.tsx:308
+meta	pnpm --filter @angkorgit/desktop tauri	verify	含受保护片段（URL/哈希/路径/版本），译时须原样保留	package.json:19
+meta	pnpm --filter @angkorgit/website build	verify	含受保护片段（URL/哈希/路径/版本），译时须原样保留	package.json:31
+rust	github.com=dara-work, gitlab.com=dara	translate	Rust 字符串	apps/desktop/src-tauri/src/core/remote.rs:726
+rust	pull: fast-forward to {upstream_name}	translate	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src-tauri/src/core/remote.rs:577
+e2e	pnpm --filter @angkorgit/desktop dev	verify	含受保护片段（URL/哈希/路径/版本），译时须原样保留	tests/e2e/playwright.config.ts:12
+meta	pnpm --filter @angkorgit/desktop dev	verify	含受保护片段（URL/哈希/路径/版本），译时须原样保留	package.json:18
+meta	pnpm --filter @angkorgit/website dev	verify	含受保护片段（URL/哈希/路径/版本），译时须原样保留	package.json:30
+rust	Cherry-pick has conflicts to resolve	translate	Rust 字符串	apps/desktop/src-tauri/src/core/branch.rs:488
+ui	Cherry-pick ${oids.length} commits	translate	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/repository/RepoDialogs.tsx:111
+website	aspect-ratio: ${width} / ${height}	translate	模板串：${x}/{} 占位符必须原样保留	apps/website/src/components/mock/Frame.astro:4
+ui	12px "JetBrains Mono", monospace	verify	含受保护片段（URL/哈希/路径/版本），译时须原样保留	apps/desktop/src/features/diff/VirtualDiff.tsx:68
+website	Built-in terminal per repository	translate	待译	apps/website/src/components/SpecSheet.astro:61
+rust	could not run ssh-keygen: {e}	translate	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src-tauri/src/core/remote.rs:178
+docs	- [ ] Multi-repo workspaces	translate	待译	docs/Roadmap.md:44
+rust	fast-forward merge {branch}	translate	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src-tauri/src/core/branch.rs:185
+rust	Fast-forwarded to {branch}	translate	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src-tauri/src/core/branch.rs:188
+website	In-app pull request review	translate	待译	apps/website/src/components/SpecSheet.astro:69
+rust	no commits to cherry-pick	translate	Rust 字符串	apps/desktop/src-tauri/src/core/branch.rs:519
+ui	double-click to checkout	translate	待译	apps/desktop/src/features/graph/GraphRow.tsx:308
+docs	open-source, final CTA.	translate	待译	docs/Distribution.md:108
+website	angkorgit-feature-di…	translate	JSX 文本裸词，须配 anchor	apps/website/src/components/mock/Sidebar.astro:18
+ui	Cherry-picked (demo)	translate	待译	apps/desktop/src/core/ipc.ts:341
+ui	GitLab (self-hosted)	translate	待译	apps/desktop/src/features/settings/AccountsTab.tsx:68
+website	angkorgit-fix-stash…	translate	JSX 文本裸词，须配 anchor	apps/website/src/components/mock/Sidebar.astro:19
+website	Windows（PowerShell）	translate	属性文案（label），裸词须配 anchor	apps/website/src/components/Install.astro:63
+rust	Cherry-picked {}	translate	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src-tauri/src/core/branch.rs:513
+ui	Cherry-pick done	translate	待译	apps/desktop/src/features/repository/RepoDialogs.tsx:118
+website	.terminal-block	verify	裸词：须配 anchor，e2e 断言同步	apps/website/src/components/TerminalBlock.astro:50
+e2e	.font-mono	verify	裸词：须配 anchor，e2e 断言同步	tests/e2e/smoke.spec.ts:147
+ui	v1.0.0	translate	属性文案（placeholder），裸词须配 anchor	apps/desktop/src/features/repository/RepoDialogs.tsx:189

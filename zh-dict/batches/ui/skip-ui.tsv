@@ -1,0 +1,41 @@
+# skip-ui.tsv — B1（batch1.tsv）不可译清单 + verify.tsv ui/e2e 裁决
+# 列：scope<TAB>source<TAB>category
+# batch1.tsv 全部 123 行均有处置：本文件 31 条 + batch.tsv 92 条词条
+ui	12px "JetBrains Mono", monospace	css：字体栈字符串（VirtualDiff.tsx:68）
+ui	.svg	ident：文件扩展名（DiffViewer.tsx:153）
+ui	\n\n	code：空白字符串（CommitDetails.tsx:70）
+ui	\x7f	code：控制字符（TerminalPanel.tsx:45）
+e2e	.font-mono	css：CSS 选择器（smoke.spec.ts:147）
+e2e	pnpm --filter @angkorgit/desktop dev	command：CLI 命令（playwright.config.ts:12）
+
+# ---- batch1.tsv 裁决 ----
+ui	s commits on top of {dropAction.target} — rewrites history	partial-snippet：扫描器提取残片（缺失 Replays {dropAction.source}'s），已用完整词条替换
+ui	s identity and	partial-snippet：跨行 JSX 描述残片（profilePrompt.tsx:53），整句跨行无法字面替换
+ui	Which profile for	partial-snippet：已用完整词条 Which profile for {request?.repoName}? 替换
+ui	Opening	partial-snippet：已用完整词条 Opening {name}… 替换
+ui	(folder: TreeFolder	code：TS 函数签名（FileTree.tsx:109）被 JSX 扫描误报
+ui	): number	code：TS 函数签名（ConflictResolver.tsx:113）被 JSX 扫描误报
+ui	): string	code：TS 函数签名（AccountsTab.tsx:99）被 JSX 扫描误报
+ui	\b \b	code：终端退格控制序列（TerminalPanel.tsx:45）
+ui	'JetBrains Mono', monospace	css：字体族字符串（TerminalPanel.tsx:19）
+ui	Bearer ${token}	code：HTTP Authorization 认证头（AccountsTab.tsx:146）
+ui	gitlab.example.com	ident：示例占位域名（placeholder），保留英文
+ui	v1.0.0	ident：版本号示例（placeholder），保留原文
+ui	sk-…	ident：API 密钥前缀示例（placeholder），保留原文
+ui	Esc	key：快捷键键名，保留原文
+ui	Home / End	key：快捷键键名，保留原文
+ui	A / C	key：快捷键键名，保留原文
+ui	K / P	key：快捷键键名，保留原文
+ui	P / N	key：快捷键键名，保留原文
+ui	SSH	term：协议名，保留英文（与 dict 既有 SSH 词条一致）
+ui	AngKorGit v${version}	brand：品牌名 + 版本号，保留原文
+ui	Cherry-picked ${oids.length} commits (demo)	demo：演示模式 toast，e2e 断言引用（smoke.spec.ts:150），保持英文
+ui	Cherry-picked (demo)	demo：演示模式 toast，e2e 断言引用（smoke.spec.ts:130），保持英文
+ui	Merged ${name} (demo)	demo：演示模式 toast（ipc.ts demo 分支），保持英文
+ui	Rebased onto ${upstream} (demo)	demo：演示模式 toast（ipc.ts demo 分支），保持英文
+ui	Rebase complete (demo)	demo：演示模式 toast（ipc.ts demo 分支），保持英文
+ui	Pushed to ${remote} (demo)	demo：演示模式 toast（ipc.ts demo 分支），保持英文
+ui	Fetched ${remote} (demo)	demo：演示模式 toast（ipc.ts demo 分支），保持英文
+ui	Pulled ${branch} (demo)	demo：演示模式 toast（ipc.ts demo 分支），保持英文
+ui	Pushed tag ${tag} (demo)	demo：演示模式 toast（ipc.ts demo 分支），保持英文
+ui	Reverted (demo)	demo：演示模式 toast（ipc.ts demo 分支），保持英文

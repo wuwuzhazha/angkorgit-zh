@@ -1,0 +1,29 @@
+# protect.txt 与 skip-files.txt 变更补丁（researcher · t1 · engineer 合并时应用）
+# 用法：engineer 按本文件修改 zh-dict/protect.txt 与 zh-dict/skip-files.txt。
+# 依据：translation-contract.md §6；protect-blocked.tsv 为受影响候选清单。
+
+# ================= protect.txt =================
+# [必改] ① kebab 标识符规则升级：
+#   旧： [a-z][a-z0-9]*(-[a-z0-9]+)+
+#   新： [a-z][a-z0-9]*(-[a-z0-9]*[0-9][a-z0-9]*)+
+#   理由：旧规则命中单连字符英文词（right-click / side-by-side / notify-based），
+#         使这些串永不进引擎 pending（假清零），并导致 183 行候选被拦截（protect-blocked.tsv）。
+#         新规则仅保护“含数字段”的 kebab（shrink-0、text-[10px]、min-w-0 等），纯英文连字符词放行。
+#   注意：-.NET 正则兼容，无需其他转写；替换时保留该行在文件的原有位置即可。
+
+# [建议] ② 追加 CSS 变量防护（放任意位置）：
+--[a-z][a-z0-9-]*
+
+# ================= skip-files.txt =================
+# [必改] ③ CHANGELOG.md 不进词库/不进待译（984 行历史发布说明，翻译价值低，
+#        不排除则 docs 词库需吞上千行、pending 永不收敛）：
+CHANGELOG.md
+
+# [建议] ④ 低价值政策模板保持英文惯例：
+SECURITY.md
+CODE_OF_CONDUCT.md
+
+# ================= 合并后自检 =================
+# 1) pwsh -NoProfile -File scripts/sync-localize.ps1 -Repo E:\angkorgit_zh\build\angkorgit -SkipSync
+# 2) python zh-dict/research/scan_residual.py --repo E:\angkorgit_zh\build\angkorgit
+#    期望：translate=0，verify=0（或全部裁决），protect-blocked.tsv 不再新增 translate 行。
