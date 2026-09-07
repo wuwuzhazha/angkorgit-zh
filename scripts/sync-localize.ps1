@@ -367,7 +367,7 @@ function Update-ForkUrls {
     $abs = Join-Path $Repo ($rel.Replace('/', [System.IO.Path]::DirectorySeparatorChar))
     if (-not (Test-Path -LiteralPath $abs)) { continue }
     $raw = [System.IO.File]::ReadAllText($abs)
-    $new = $raw.Replace('cheat2001/angkorgit', $ForkRepo).Replace('wuwuzhazha/angkorgit', $ForkRepo)
+    $new = [regex]::Replace($raw, 'cheat2001/angkorgit|wuwuzhazha/angkorgit(?!-zh)', $ForkRepo)
     if ($new -ne $raw) {
       [System.IO.File]::WriteAllText($abs, $new, $script:Utf8NoBom)
       Write-Log "fork URL 已替换：$rel（指向 $ForkRepo）"
