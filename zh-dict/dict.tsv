@@ -763,6 +763,7 @@ core	Installed AI CLI (Claude Code, Codex…)	已安装 AI CLI（Claude Code、C
 core	GitHub returned an unexpected response	GitHub 返回了意外的响应
 core	GitLab returned an unexpected response	GitLab 返回了意外的响应
 core	CLI agents need the desktop app	CLI 代理需要桌面应用
+core	${label} returned no content	${label} 未返回内容
 core	Anthropic returned no content	Anthropic 未返回内容
 core	Gemini returned no content	Gemini 未返回内容
 core	Ollama returned no content	Ollama 未返回内容
@@ -1026,6 +1027,7 @@ e2e	no resize handle	无调整大小手柄
 
 # ============ G. 单元测试断言（tests/unit，与中文化后的源码断言同步） ============
 test	toContain('conventional-commit')	toContain('用约定式提交风格写消息')	toContain\('conventional-commit'\)
+test	  'conventional-commit',	  '用约定式提交风格写消息',
 test	toContain('no type prefix')	toContain('无类型前缀')
 test	returned no content	未返回内容
 test	invalid JSON	无效的 JSON
