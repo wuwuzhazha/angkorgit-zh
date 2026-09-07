@@ -278,6 +278,9 @@ export function RepositoryPage() {
   const showSidebar = sidebarOpen && !focusMode;
   const focusModeRef = useRef(focusMode);
   focusModeRef.current = focusMode;
+  const showSidebarRef = useRef(showSidebar);
+  showSidebarRef.current = showSidebar;
+  const sidebarDragging = useRef(false);
   const sidebarPanel = useRef<ImperativePanelHandle>(null);
   const inspectorPanel = useRef<ImperativePanelHandle>(null);
   useEffect(() => {
@@ -323,13 +326,27 @@ export function RepositoryPage() {
             collapsible
             collapsedSize={0}
             onCollapse={() => {
-              const ui = useUi.getState();
-              if (ui.sidebarOpen && !ui.sidebarHiddenForDiff && !focusModeRef.current) ui.setSidebarOpen(false);
+              if (sidebarDragging.current) {
+                const ui = useUi.getState();
+                if (ui.sidebarOpen && !ui.sidebarHiddenForDiff && !focusModeRef.current) ui.setSidebarOpen(false);
+                return;
+              }
+              if (showSidebarRef.current) {
+                requestAnimationFrame(() => {
+                  const panel = sidebarPanel.current;
+                  if (panel && showSidebarRef.current && panel.isCollapsed()) panel.expand(SIDEBAR_DEFAULT_SIZE);
+                });
+              }
             }}
           >
             {showSidebar && <Sidebar />}
           </Panel>
-          <PanelResizeHandle className={cn('w-px bg-border-subtle', !showSidebar && 'hidden')} />
+          <PanelResizeHandle
+            className={cn('w-px bg-border-subtle', !showSidebar && 'hidden')}
+            onDragging={(dragging) => {
+              sidebarDragging.current = dragging;
+            }}
+          />
           <Panel id="center" order={2} defaultSize={54} minSize={30}>
             <PanelGroup direction="vertical" autoSaveId="angkorgit-center">
               <Panel minSize={30}>

@@ -1,9 +1,9 @@
 import { memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { toast } from 'sonner';
-import { AlertTriangle, Copy, ExternalLink, FolderOpen, History, Maximize2, Minus, Pencil, Plus, SearchCheck, Sparkles, Trash2, Undo2, X } from 'lucide-react';
+import { AlertTriangle, Archive, Copy, ExternalLink, FolderOpen, History, Maximize2, Minus, Pencil, Plus, SearchCheck, Sparkles, Trash2, Undo2, X } from 'lucide-react';
 import type { FileStatus } from '@angkorgit/core';
-import { aiCapabilities, buildStagedReviewSignature, hashText, PROJECT_REVIEW_FILE, joinCommitMessage, splitCommitMessage } from '@angkorgit/core';
+import { aiCapabilities, buildStagedReviewSignature, filterFiles, hashText, PROJECT_REVIEW_FILE, joinCommitMessage, splitCommitMessage } from '@angkorgit/core';
 import {
   Badge,
   Button,
@@ -23,7 +23,7 @@ import {
 import { ipc } from '@/core/ipc';
 import { useRepo } from '@/features/repository/store';
 import { useGraph } from '@/features/graph/store';
-import { useUi } from '@/features/ui/store';
+import { focusRequests, useUi } from '@/features/ui/store';
 import { aiConfigured, getAiProvider } from '@/features/ai/client';
 import { AiText } from '@/features/ai/AiText';
 import { AiResultDialog } from '@/features/ai/AiResultDialog';
@@ -34,6 +34,7 @@ import { useUndo } from '@/features/history/undoStore';
 import { abortMergeFlow } from '@/features/repository/merge';
 import { useCommitDraft } from './draftStore';
 import { confirmDialog } from '@/components/confirm';
+import { FileFilterInput } from '@/components/FileFilterInput';
 import { FileTree, treeIndent as sharedTreeIndent, FileTreeFoldButton, INITIAL_FOLD, nextFold, type FileTreeFold, type FileTreeFoldState } from '@/components/FileTree';
 import { basename, dirname } from '@/shared/utils';
 
@@ -69,7 +70,7 @@ const FileRow = memo(function FileRow({
   file: FileStatus;
   staged: boolean;
   selected: boolean;
-  onClick: (file: FileStatus, staged: boolean) => void;
+  onClick: (file: FileStatus, staged: boolean, event: React.MouseEvent) => void;
   onPrimary: (file: FileStatus, staged: boolean) => void;
   onDiscard?: (file: FileStatus) => void;
   onContextMenu?: (event: React.MouseEvent, file: FileStatus, staged: boolean) => void;
@@ -87,7 +88,7 @@ const FileRow = memo(function FileRow({
           selected ? 'bg-primary/10' : 'hover:bg-surface-raised',
         )}
         style={indent !== undefined ? { paddingLeft: indent } : undefined}
-        onClick={() => onClick(file, staged)}
+        onClick={(e) => onClick(file, staged, e)}
         onContextMenu={onContextMenu ? (e) => onContextMenu(e, file, staged) : undefined}
       >
         <Checkbox
@@ -103,7 +104,7 @@ const FileRow = memo(function FileRow({
             <span className="min-w-0 flex-1 truncate text-faint">{dirname(file.path)}</span>
           )}
         </span>
-        {!staged && onDiscard && (
+        {onDiscard && (
           <Button
             variant="ghost"
             size="icon-sm"
@@ -246,6 +247,7 @@ export function WorkingCopyPanel() {
   const [reviewExpanded, setReviewExpanded] = useState(false);
   const [waitIndex, setWaitIndex] = useState(0);
   const [fileMenu, setFileMenu] = useState<{ x: number; y: number; file: FileStatus; staged: boolean } | null>(null);
+  const [multi, setMulti] = useState<{ staged: boolean; paths: string[] } | null>(null);
   const messageRef = useRef<HTMLTextAreaElement | null>(null);
   const listScrollRef = useRef<HTMLDivElement>(null);
 
@@ -286,10 +288,22 @@ export function WorkingCopyPanel() {
 
   const files = useMemo(() => status?.files ?? [], [status]);
   const conflictedPaths = useMemo(() => new Set(conflicts), [conflicts]);
-  const stagedFiles = useMemo(() => files.filter((f) => f.staged), [files]);
-  const unstagedFiles = useMemo(
+  const [fileQuery, setFileQuery] = useState('');
+  const fileFilterOpen = useUi((s) => s.fileFilterOpen);
+  const fileFilterFocusSeq = useUi((s) => s.fileFilterFocusSeq);
+  useEffect(() => {
+    if (!fileFilterOpen) setFileQuery('');
+  }, [fileFilterOpen]);
+  const filtering = fileQuery.trim().length > 0;
+  const allStaged = useMemo(() => files.filter((f) => f.staged), [files]);
+  const allUnstaged = useMemo(
     () => files.filter((f) => f.unstaged && !conflictedPaths.has(f.path)),
     [files, conflictedPaths],
+  );
+  const stagedFiles = useMemo(() => filterFiles(allStaged, fileStatusPath, fileQuery), [allStaged, fileQuery]);
+  const unstagedFiles = useMemo(
+    () => filterFiles(allUnstaged, fileStatusPath, fileQuery),
+    [allUnstaged, fileQuery],
   );
   const stagedSignature = useMemo(() => buildStagedReviewSignature(files), [files]);
   const review = useAiWork((s) => (path ? (s.reviews[path] ?? null) : null));
@@ -328,6 +342,23 @@ export function WorkingCopyPanel() {
     };
   }, [reviewCurrent, review, path, status]);
 
+  useEffect(() => {
+    setMulti(null);
+    setFileQuery('');
+  }, [path]);
+
+  useEffect(() => {
+    if (!multi || !status) return;
+    const present = new Set(
+      status.files
+        .filter((f) => (multi.staged ? f.staged : f.unstaged && f.unstaged !== 'conflicted'))
+        .map((f) => f.path),
+    );
+    const kept = multi.paths.filter((p) => present.has(p));
+    if (kept.length === multi.paths.length) return;
+    setMulti(kept.length > 1 ? { staged: multi.staged, paths: kept } : null);
+  }, [status, multi]);
+
   const showDiff = useCallback(
     (file: FileStatus, staged: boolean) => {
       selectFile({ path: file.path, staged });
@@ -339,9 +370,9 @@ export function WorkingCopyPanel() {
   const isSubmodule = (file: string) => submodules.some((s) => s.path === file);
 
   const discardOne = useCallback(
-    async (file: string) => {
+    async (file: string, staged = false) => {
       try {
-        const clean = await ipc.discardFile(path, file);
+        const clean = staged ? await ipc.discardStagedFile(path, file) : await ipc.discardFile(path, file);
         await refreshStatus();
         if (!clean) {
           toast.error(
@@ -358,7 +389,7 @@ export function WorkingCopyPanel() {
   );
 
   const discardEverything = async () => {
-    const before = unstagedFiles.length;
+    const before = allUnstaged.length;
     try {
       const remaining = await ipc.discardAll(path);
       await refreshStatus();
@@ -390,6 +421,64 @@ export function WorkingCopyPanel() {
     [refreshStatus],
   );
 
+  const stageMany = (paths: string[], staged: boolean) =>
+    run(
+      () => Promise.all(paths.map((file) => (staged ? ipc.unstageFile(path, file) : ipc.stageFile(path, file)))),
+      staged ? 'Unstage failed' : 'Stage failed',
+    );
+
+  const discardMany = async (paths: string[], staged: boolean) => {
+    const leftovers: string[] = [];
+    try {
+      for (const file of paths) {
+        const clean = staged ? await ipc.discardStagedFile(path, file) : await ipc.discardFile(path, file);
+        if (!clean) leftovers.push(file);
+      }
+    } catch (error) {
+      toast.error(`Discard failed: ${(error as { message?: string }).message ?? error}`);
+    }
+    await refreshStatus();
+    if (leftovers.length > 0) {
+      const listed = leftovers.slice(0, 3).join(', ') + (leftovers.length > 3 ? ` +${leftovers.length - 3} more` : '');
+      toast.error(
+        leftovers.some(isSubmodule)
+          ? `${leftovers.length} change${leftovers.length === 1 ? '' : 's'} could not be discarded (${listed}). Submodule changes must be discarded inside the submodule repository.`
+          : `${leftovers.length} change${leftovers.length === 1 ? '' : 's'} could not be discarded: ${listed}`,
+      );
+    } else {
+      toast.success(`Discarded ${paths.length} change${paths.length === 1 ? '' : 's'}`);
+    }
+  };
+
+  const requestDiscardMany = (paths: string[], staged: boolean) => {
+    void confirmDialog({
+      title: `Discard changes in ${paths.length} files?`,
+      description: staged
+        ? 'These files go back to the last commit — staged and unstaged changes alike. New files are deleted. This cannot be undone.'
+        : 'All changes in these files will be reverted. Untracked files among them are deleted. This cannot be undone.',
+      confirmLabel: 'Discard',
+      destructive: true,
+    }).then((ok) => {
+      if (ok) void discardMany(paths, staged);
+    });
+  };
+
+  const discardAllStaged = async () => {
+    const before = allStaged.length;
+    try {
+      const remaining = await ipc.discardStagedAll(path);
+      await refreshStatus();
+      if (remaining.length > 0) {
+        const listed = remaining.slice(0, 3).join(', ') + (remaining.length > 3 ? ` +${remaining.length - 3} more` : '');
+        toast.error(`${remaining.length} staged change${remaining.length === 1 ? '' : 's'} could not be discarded: ${listed}`);
+      } else if (before > 0) {
+        toast.success(`Discarded ${before} staged change${before === 1 ? '' : 's'}`);
+      }
+    } catch (error) {
+      toast.error(`Discard failed: ${(error as { message?: string }).message ?? error}`);
+    }
+  };
+
   const toggleStage = useCallback(
     (file: FileStatus, staged: boolean) => {
       void run(
@@ -406,22 +495,27 @@ export function WorkingCopyPanel() {
   }, []);
 
   const requestDiscard = useCallback(
-    (file: FileStatus) => {
+    (file: FileStatus, staged = false) => {
       void confirmDialog({
-        title: '丢弃更改？',
-        description:
-          file.unstaged === 'untracked'
-            ? '该文件是新增文件——丢弃将还原并删除它，此操作无法撤销。'
-            : '该文件的所有更改将被还原，此操作无法撤销。',
+        title: 'Discard changes?',
+        description: staged
+          ? file.staged === 'new'
+            ? 'This file is new — discarding removes it from the index and deletes the file. This cannot be undone.'
+            : 'The file goes back to the last commit — its staged and unstaged changes are both reverted. This cannot be undone.'
+          : file.unstaged === 'untracked'
+            ? 'This file is new — discarding reverts it and deletes the file. This cannot be undone.'
+            : 'All changes in this file will be reverted. This cannot be undone.',
         path: file.path,
         confirmLabel: 'Discard',
         destructive: true,
       }).then((ok) => {
-        if (ok) void discardOne(file.path);
+        if (ok) void discardOne(file.path, staged);
       });
     },
     [discardOne],
   );
+
+  const requestDiscardStaged = useCallback((file: FileStatus) => requestDiscard(file, true), [requestDiscard]);
 
   const generateMessage = async () => {
     if (aiBusy) {
@@ -568,6 +662,46 @@ export function WorkingCopyPanel() {
     [unstagedFiles, stagedFiles],
   );
 
+  const onRowClick = useCallback(
+    (file: FileStatus, staged: boolean, event: React.MouseEvent) => {
+      const side = visibleOrder.filter((e) => e.staged === staged).map((e) => e.file.path);
+      if (event.shiftKey) {
+        const anchor = useUi.getState().selectedFile;
+        const from = anchor && anchor.staged === staged ? side.indexOf(anchor.path) : -1;
+        const to = side.indexOf(file.path);
+        if (from < 0 || to < 0) {
+          showDiff(file, staged);
+          return;
+        }
+        const [a, b] = from < to ? [from, to] : [to, from];
+        const paths = side.slice(a, b + 1);
+        setMulti(paths.length > 1 ? { staged, paths } : null);
+        return;
+      }
+      if (event.metaKey || event.ctrlKey) {
+        const anchor = useUi.getState().selectedFile;
+        const base =
+          multi && multi.staged === staged
+            ? multi.paths
+            : anchor && anchor.staged === staged && anchor.path !== file.path
+              ? [anchor.path]
+              : [];
+        const paths = base.includes(file.path) ? base.filter((p) => p !== file.path) : [...base, file.path];
+        setMulti(paths.length > 1 ? { staged, paths } : null);
+        if (paths.length === 1) selectFile({ path: paths[0], staged });
+        return;
+      }
+      setMulti(null);
+      showDiff(file, staged);
+    },
+    [visibleOrder, multi, showDiff, selectFile],
+  );
+
+  const multiPaths = useMemo(() => new Set(multi?.paths ?? []), [multi]);
+  const inMulti = (file: FileStatus, staged: boolean) => !!multi && multi.staged === staged && multiPaths.has(file.path);
+  const menuMulti =
+    fileMenu && multi && multi.paths.length > 1 && inMulti(fileMenu.file, fileMenu.staged) ? multi : null;
+
   const moveFileSelection = (direction: 1 | -1) => {
     if (visibleOrder.length === 0) return;
     const current = useUi.getState().selectedFile;
@@ -586,14 +720,48 @@ export function WorkingCopyPanel() {
     });
   };
 
+  const inspectorFocusSeq = useUi((s) => s.inspectorFocusSeq);
+  useEffect(() => {
+    if (inspectorFocusSeq === focusRequests.inspectorConsumed) return;
+    focusRequests.inspectorConsumed = inspectorFocusSeq;
+    listScrollRef.current?.focus();
+    if (!useUi.getState().selectedFile && visibleOrder[0]) showDiff(visibleOrder[0].file, visibleOrder[0].staged);
+  }, [inspectorFocusSeq, visibleOrder, showDiff]);
+
   const onListKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      e.stopPropagation();
+      useUi.getState().closeCenterDiff();
+      useUi.getState().focusGraph();
+      return;
+    }
+    if (e.key === 'ArrowRight') {
+      const current = useUi.getState().selectedFile;
+      const entry = current
+        ? visibleOrder.find((x) => x.file.path === current.path && x.staged === current.staged)
+        : visibleOrder[0];
+      if (!entry) return;
+      e.preventDefault();
+      e.stopPropagation();
+      showDiff(entry.file, entry.staged);
+      return;
+    }
+    if (e.key === 'Escape' && multi) {
+      e.preventDefault();
+      e.stopPropagation();
+      setMulti(null);
+      return;
+    }
     if (e.key === 'ArrowDown') {
       e.preventDefault();
+      e.stopPropagation();
       moveFileSelection(1);
       return;
     }
     if (e.key === 'ArrowUp') {
       e.preventDefault();
+      e.stopPropagation();
       moveFileSelection(-1);
       return;
     }
@@ -623,8 +791,8 @@ export function WorkingCopyPanel() {
       staged={false}
       treeMode={fileTree}
       indent={treeIndent(depth)}
-      selected={selectedFile?.path === file.path && !selectedFile.staged}
-      onClick={showDiff}
+      selected={(selectedFile?.path === file.path && !selectedFile.staged) || inMulti(file, false)}
+      onClick={onRowClick}
       onPrimary={toggleStage}
       onContextMenu={openFileMenu}
       onDiscard={requestDiscard}
@@ -638,15 +806,36 @@ export function WorkingCopyPanel() {
       staged
       treeMode={fileTree}
       indent={treeIndent(depth)}
-      selected={selectedFile?.path === file.path && selectedFile.staged}
-      onClick={showDiff}
+      selected={(selectedFile?.path === file.path && selectedFile.staged) || inMulti(file, true)}
+      onClick={onRowClick}
       onPrimary={toggleStage}
       onContextMenu={openFileMenu}
+      onDiscard={requestDiscardStaged}
     />
   );
 
+  const countLabel = (shown: number, total: number) =>
+    filtering ? (
+      <span className="text-faint">
+        {shown} <span className="font-normal normal-case tracking-normal">of {total}</span>
+      </span>
+    ) : (
+      <span className="text-faint">{total}</span>
+    );
+
   return (
     <div className="flex h-full flex-col">
+      {status !== null && fileFilterOpen && (
+        <div className="shrink-0 px-2 pt-2">
+          <FileFilterInput
+            value={fileQuery}
+            onChange={setFileQuery}
+            onClose={() => useUi.getState().setFileFilterOpen(false)}
+            focusSeq={fileFilterFocusSeq}
+            placeholder="Filter changed files…"
+          />
+        </div>
+      )}
       <div
         ref={listScrollRef}
         tabIndex={0}
@@ -695,9 +884,9 @@ export function WorkingCopyPanel() {
         )}
         <div className="mb-1 flex items-center justify-between px-2">
           <span className="text-xs font-semibold uppercase tracking-wide text-muted">
-            Changes <span className="text-faint">{unstagedFiles.length}</span>
+            Changes {countLabel(unstagedFiles.length, allUnstaged.length)}
           </span>
-          {unstagedFiles.length > 0 && (
+          {allUnstaged.length > 0 && (
             <span className="flex items-center">
               {fileTree && (
                 <FileTreeFoldButton
@@ -705,31 +894,38 @@ export function WorkingCopyPanel() {
                   onFold={(mode) => setUnstagedFold((f) => nextFold(f, mode))}
                 />
               )}
-              <Button
-                variant="ghost"
-                size="sm"
-                className="text-danger hover:text-danger"
-                onClick={() => {
-                  void confirmDialog({
-                    title: `全部丢弃 ${unstagedFiles.length} 个更改？`,
-                    description:
-                      '所有未暂存的更改将被还原，未跟踪的文件将被删除。此操作无法撤销——即使按 ⌘Z 也不行。',
-                    confirmLabel: '全部丢弃',
-                    destructive: true,
-                  }).then((ok) => {
-                    if (ok) void discardEverything();
-                  });
-                }}
-              >
-                <Trash2 className="size-3" /> 全部丢弃
+              <Button variant="ghost" size="sm" onClick={() => void run(() => ipc.stageAll(path), 'Stage all failed')}>
+                <Plus className="size-3" /> Stage all
               </Button>
-              <Button variant="ghost" size="sm" onClick={() => void run(() => ipc.stageAll(path), '全量暂存失败')}>
-                <Plus className="size-3" /> 全部暂存
-              </Button>
+              <Hint label="Discard all changes">
+                <Button
+                  variant="ghost"
+                  size="icon-sm"
+                  aria-label="Discard all changes"
+                  className="text-muted hover:text-danger"
+                  onClick={() => {
+                    void confirmDialog({
+                      title: `Discard all ${allUnstaged.length} change${allUnstaged.length === 1 ? '' : 's'}?`,
+                      description:
+                        'Every unstaged change will be reverted and untracked files will be deleted. This cannot be undone — not even with ⌘Z.',
+                      confirmLabel: 'Discard all',
+                      destructive: true,
+                    }).then((ok) => {
+                      if (ok) void discardEverything();
+                    });
+                  }}
+                >
+                  <Trash2 className="size-3.5" />
+                </Button>
+              </Hint>
             </span>
           )}
         </div>
-        {unstagedFiles.length === 0 && <p className="px-2 pb-2 text-xs text-faint">工作区干净。</p>}
+        {unstagedFiles.length === 0 && (
+          <p className="px-2 pb-2 text-xs text-faint">
+            {filtering && allUnstaged.length > 0 ? 'No changes match the filter.' : 'Working tree clean.'}
+          </p>
+        )}
         {fileTree ? (
           <FileTree
             items={unstagedFiles}
@@ -748,9 +944,9 @@ export function WorkingCopyPanel() {
         )}
         <div className="mb-1 mt-3 flex items-center justify-between px-2">
           <span className="text-xs font-semibold uppercase tracking-wide text-muted">
-            Staged <span className="text-faint">{stagedFiles.length}</span>
+            Staged {countLabel(stagedFiles.length, allStaged.length)}
           </span>
-          {stagedFiles.length > 0 && (
+          {allStaged.length > 0 && (
             <span className="flex items-center">
               {fileTree && (
                 <FileTreeFoldButton
@@ -761,10 +957,35 @@ export function WorkingCopyPanel() {
               <Button variant="ghost" size="sm" onClick={() => void run(() => ipc.unstageAll(path), '全量取消暂存失败')}>
                 <Minus className="size-3" /> 全部取消暂存
               </Button>
+              <Hint label="Discard all staged changes">
+                <Button
+                  variant="ghost"
+                  size="icon-sm"
+                  aria-label="Discard all staged changes"
+                  className="text-muted hover:text-danger"
+                  onClick={() => {
+                    void confirmDialog({
+                      title: `Discard all ${allStaged.length} staged change${allStaged.length === 1 ? '' : 's'}?`,
+                      description:
+                        'Every staged file goes back to the last commit, unstaged edits to those files included, and new files are deleted. This cannot be undone — not even with ⌘Z.',
+                      confirmLabel: 'Discard all',
+                      destructive: true,
+                    }).then((ok) => {
+                      if (ok) void discardAllStaged();
+                    });
+                  }}
+                >
+                  <Trash2 className="size-3.5" />
+                </Button>
+              </Hint>
             </span>
           )}
         </div>
-        {stagedFiles.length === 0 && <p className="px-2 pb-2 text-xs text-faint">尚未暂存任何内容。</p>}
+        {stagedFiles.length === 0 && (
+          <p className="px-2 pb-2 text-xs text-faint">
+            {filtering && allStaged.length > 0 ? 'No staged files match the filter.' : 'Nothing staged yet.'}
+          </p>
+        )}
         {fileTree ? (
           <FileTree
             items={stagedFiles}
@@ -791,13 +1012,37 @@ export function WorkingCopyPanel() {
             <span style={{ position: 'fixed', left: fileMenu.x, top: fileMenu.y }} />
           </DropdownMenuTrigger>
           <DropdownMenuContent align="start" side="bottom">
+            {menuMulti ? (
+              <>
+                <DropdownMenuLabel>{menuMulti.paths.length} files selected</DropdownMenuLabel>
+                <DropdownMenuItem onClick={() => void stageMany(menuMulti.paths, menuMulti.staged)}>
+                  {menuMulti.staged ? <Minus /> : <Plus />}
+                  {menuMulti.staged ? `Unstage ${menuMulti.paths.length} files` : `Stage ${menuMulti.paths.length} files`}
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => useUi.getState().openDialog('createStash', { paths: menuMulti.paths })}
+                >
+                  <Archive /> Stash {menuMulti.paths.length} files…
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem destructive onClick={() => requestDiscardMany(menuMulti.paths, menuMulti.staged)}>
+                  <Trash2 /> Discard changes in {menuMulti.paths.length} files…
+                </DropdownMenuItem>
+              </>
+            ) : (
+            <>
             <DropdownMenuLabel className="max-w-64 truncate font-mono">{fileMenu.file.path}</DropdownMenuLabel>
             {fileMenu.staged ? (
-              <DropdownMenuItem
-                onClick={() => void run(() => ipc.unstageFile(path, fileMenu.file.path), '取消暂存失败')}
-              >
-                <Minus /> 取消暂存文件
-              </DropdownMenuItem>
+              <>
+                <DropdownMenuItem
+                  onClick={() => void run(() => ipc.unstageFile(path, fileMenu.file.path), 'Unstage failed')}
+                >
+                  <Minus /> Unstage file
+                </DropdownMenuItem>
+                <DropdownMenuItem destructive onClick={() => requestDiscard(fileMenu.file, true)}>
+                  <Trash2 /> Discard changes…
+                </DropdownMenuItem>
+              </>
             ) : (
               <>
                 <DropdownMenuItem
@@ -810,6 +1055,11 @@ export function WorkingCopyPanel() {
                 </DropdownMenuItem>
               </>
             )}
+            <DropdownMenuItem
+              onClick={() => useUi.getState().openDialog('createStash', { paths: [fileMenu.file.path] })}
+            >
+              <Archive /> Stash this file…
+            </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={() => openEditor(fileMenu.file.path)}>
               <Pencil /> Edit file
@@ -872,6 +1122,8 @@ export function WorkingCopyPanel() {
             >
               <Trash2 /> 删除文件…
             </DropdownMenuItem>
+            </>
+            )}
           </DropdownMenuContent>
         </DropdownMenu>
       )}

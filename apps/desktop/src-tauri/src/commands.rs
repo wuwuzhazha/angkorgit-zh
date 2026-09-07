@@ -120,6 +120,16 @@ pub async fn discard_all(path: String) -> AppResult<Vec<String>> {
 }
 
 #[tauri::command]
+pub async fn discard_staged_file(path: String, file: String) -> AppResult<bool> {
+    blocking(move || stage::discard_staged_file(&path, &file)).await
+}
+
+#[tauri::command]
+pub async fn discard_staged_all(path: String) -> AppResult<Vec<String>> {
+    blocking(move || stage::discard_staged_all(&path)).await
+}
+
+#[tauri::command]
 pub async fn stage_hunk(path: String, file: String, hunkIndex: usize) -> AppResult<()> {
     blocking(move || stage::stage_hunk(&path, &file, hunkIndex)).await
 }
@@ -480,8 +490,17 @@ pub async fn stash_create(
     path: String,
     message: Option<String>,
     includeUntracked: bool,
+    paths: Option<Vec<String>>,
 ) -> AppResult<()> {
-    blocking(move || misc::stash_create(&path, message.as_deref(), includeUntracked)).await
+    blocking(move || {
+        misc::stash_create(
+            &path,
+            message.as_deref(),
+            includeUntracked,
+            &paths.unwrap_or_default(),
+        )
+    })
+    .await
 }
 
 #[tauri::command]
@@ -497,6 +516,20 @@ pub async fn stash_pop(path: String, index: usize) -> AppResult<()> {
 #[tauri::command]
 pub async fn stash_drop(path: String, index: usize) -> AppResult<()> {
     blocking(move || misc::stash_drop(&path, index)).await
+}
+
+#[tauri::command]
+pub async fn stash_files(path: String, index: usize) -> AppResult<Vec<CommitFileInfo>> {
+    blocking(move || misc::stash_files(&path, index)).await
+}
+
+#[tauri::command]
+pub async fn stash_restore_files(
+    path: String,
+    index: usize,
+    paths: Vec<String>,
+) -> AppResult<Vec<String>> {
+    blocking(move || misc::stash_restore_files(&path, index, &paths)).await
 }
 
 #[tauri::command]

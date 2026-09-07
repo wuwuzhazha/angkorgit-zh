@@ -1,7 +1,7 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { toast } from 'sonner';
-import { ChevronDown, ChevronLeft, ChevronRight, ChevronUp, Columns2, Copy, FileText, Minus, Plus, Rows3, TextSelect, Trash2, WholeWord, WrapText, X } from 'lucide-react';
+import { ChevronDown, ChevronLeft, ChevronRight, ChevronUp, Columns2, Copy, FileText, History, Minus, Plus, Rows3, TextSelect, Trash2, WholeWord, WrapText, X } from 'lucide-react';
 import type { CommitFileInfo, FileDiff } from '@angkorgit/core';
 import {
   Badge,
@@ -33,9 +33,11 @@ import { changeBlocks, DiffMinimap, scrollToFraction } from './DiffMinimap';
 export function DiffPanel({ target }: { target: CenterDiffTarget }) {
   const repo = useRepo((s) => s.repo);
   const status = useRepo((s) => s.status);
+  const statusVersion = useRepo((s) => s.statusVersion);
   const refreshStatus = useRepo((s) => s.refreshStatus);
   const closeCenterDiff = useUi((s) => s.closeCenterDiff);
   const openCenterDiff = useUi((s) => s.openCenterDiff);
+  const openFileHistory = useUi((s) => s.openFileHistory);
   const diffView = useUi((s) => s.diffView);
   const setDiffView = useUi((s) => s.setDiffView);
   const wordDiff = useUi((s) => s.wordDiff);
@@ -182,7 +184,9 @@ export function DiffPanel({ target }: { target: CenterDiffTarget }) {
   const statusEntry = isWorkingCopy
     ? status?.files.find((f) => f.path === target.path)
     : undefined;
-  const statusSignature = `${statusEntry?.staged ?? ''}|${statusEntry?.unstaged ?? ''}`;
+  const statusSignature = isWorkingCopy
+    ? `${statusEntry?.staged ?? ''}|${statusEntry?.unstaged ?? ''}|${statusVersion}`
+    : '';
 
   useEffect(() => {
     if (!path) return;
@@ -340,6 +344,16 @@ export function DiffPanel({ target }: { target: CenterDiffTarget }) {
             onClick={() => setFullFileDiff(!fullFileDiff)}
           >
             <FileText className="size-3.5" />
+          </Button>
+        </Hint>
+        <Hint label="File history">
+          <Button
+            variant="ghost"
+            size="icon-sm"
+            aria-label="File history"
+            onClick={() => openFileHistory(target.path)}
+          >
+            <History className="size-3.5" />
           </Button>
         </Hint>
         {blocks.length > 0 && (

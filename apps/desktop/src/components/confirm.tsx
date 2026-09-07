@@ -88,16 +88,17 @@ export function ConfirmHost() {
           <DialogDescription>{request?.description}</DialogDescription>
           {request?.path && <PathBlock path={request.path} />}
         </DialogHeader>
-        <DialogFooter>
+        <DialogFooter className="flex-wrap">
           <Button variant="ghost" onClick={() => settle(false)}>
             取消
           </Button>
           <Button
             ref={confirmRef}
             variant={request?.destructive ? 'danger' : 'default'}
+            className="min-w-0 max-w-full"
             onClick={() => settle(true)}
           >
-            {request?.confirmLabel ?? 'Confirm'}
+            <span className="min-w-0 truncate">{request?.confirmLabel ?? 'Confirm'}</span>
           </Button>
         </DialogFooter>
       </DialogContent>

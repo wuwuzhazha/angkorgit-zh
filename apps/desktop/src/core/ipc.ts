@@ -171,6 +171,14 @@ export const ipc = {
     if (!isTauri()) return [];
     return invoke('discard_all', { path });
   },
+  async discardStagedFile(path: string, file: string): Promise<boolean> {
+    if (!isTauri()) return true;
+    return invoke('discard_staged_file', { path, file });
+  },
+  async discardStagedAll(path: string): Promise<string[]> {
+    if (!isTauri()) return [];
+    return invoke('discard_staged_all', { path });
+  },
   async stageHunk(path: string, file: string, hunkIndex: number): Promise<void> {
     if (!isTauri()) return;
     return invoke('stage_hunk', { path, file, hunkIndex });
@@ -403,9 +411,14 @@ export const ipc = {
     if (!isTauri()) return demo.demoStashes;
     return invoke('stash_list', { path });
   },
-  async stashCreate(path: string, message: string | null, includeUntracked: boolean): Promise<void> {
+  async stashCreate(
+    path: string,
+    message: string | null,
+    includeUntracked: boolean,
+    paths: string[] = [],
+  ): Promise<void> {
     if (!isTauri()) return;
-    return invoke('stash_create', { path, message, includeUntracked });
+    return invoke('stash_create', { path, message, includeUntracked, paths });
   },
   async stashApply(path: string, index: number): Promise<void> {
     if (!isTauri()) return;
@@ -418,6 +431,14 @@ export const ipc = {
   async stashDrop(path: string, index: number): Promise<void> {
     if (!isTauri()) return;
     return invoke('stash_drop', { path, index });
+  },
+  async stashFiles(path: string, index: number): Promise<CommitFileInfo[]> {
+    if (!isTauri()) return demo.demoCommitFiles();
+    return invoke('stash_files', { path, index });
+  },
+  async stashRestoreFiles(path: string, index: number, paths: string[]): Promise<string[]> {
+    if (!isTauri()) return paths;
+    return invoke('stash_restore_files', { path, index, paths });
   },
 
   async tags(path: string): Promise<TagInfo[]> {

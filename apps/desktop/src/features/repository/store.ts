@@ -18,6 +18,7 @@ interface RepoState {
   branches: BranchInfo[];
   tags: TagInfo[];
   stashes: StashInfo[];
+  statusVersion: number;
   remotes: RemoteInfo[];
   submodules: SubmoduleInfo[];
   worktrees: WorktreeInfo[];
@@ -47,6 +48,7 @@ export const useRepo = create<RepoState>((set, get) => ({
   branches: [],
   tags: [],
   stashes: [],
+  statusVersion: 0,
   remotes: [],
   submodules: [],
   worktrees: [],
@@ -147,7 +149,18 @@ export const useRepo = create<RepoState>((set, get) => ({
       ]);
     if (get().repo?.path !== path || seq !== fullSeq) return;
     if (statusEpoch === statusSeq) {
-      set({ repo: info, status, branches, tags, stashes, remotes, submodules, worktrees, conflicts });
+      set((state) => ({
+        repo: info,
+        status,
+        branches,
+        tags,
+        stashes,
+        remotes,
+        submodules,
+        worktrees,
+        conflicts,
+        statusVersion: state.statusVersion + 1,
+      }));
     } else {
       set({ repo: info, branches, tags, stashes, remotes, submodules, worktrees });
     }
@@ -160,7 +173,7 @@ export const useRepo = create<RepoState>((set, get) => ({
     const statusEpoch = ++statusSeq;
     const [status, conflicts] = await Promise.all([ipc.status(path), ipc.conflicts(path)]);
     if (get().repo?.path !== path || statusEpoch !== statusSeq) return;
-    set({ status, conflicts });
+    set((state) => ({ status, conflicts, statusVersion: state.statusVersion + 1 }));
   },
 
   setBusy: (busy) => set({ busy }),

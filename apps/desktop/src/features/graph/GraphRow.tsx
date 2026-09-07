@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import type { GraphRow as GraphRowData, RefInfo } from '@angkorgit/core';
 import { Badge, cn } from '@angkorgit/design-system';
-import { Check, Cloud, GitMerge, Monitor, Tag as TagIcon, FolderTree } from 'lucide-react';
+import { Archive, Check, Cloud, GitMerge, Monitor, Tag as TagIcon, FolderTree } from 'lucide-react';
 import type { CommitInfo } from '@angkorgit/core';
 import { Avatar } from '@/components/Avatar';
 import { toast } from 'sonner';
@@ -41,9 +41,16 @@ export function GraphTailDefs() {
       <defs>
         {Array.from({ length: 10 }, (_, i) => (
           <linearGradient key={i} id={`graph-tail-${i}`} x1="0" x2="1" y1="0" y2="0">
-            <stop offset="0" stopColor={laneColor(i)} stopOpacity={0.28} />
-            <stop offset="0.55" stopColor={laneColor(i)} stopOpacity={0.12} />
-            <stop offset="1" stopColor={laneColor(i)} stopOpacity={0} />
+            <stop offset="0" stopColor={laneColor(i)} stopOpacity={0.18} />
+            <stop offset="0.55" stopColor={laneColor(i)} stopOpacity={0.07} />
+            <stop offset="1" stopColor={laneColor(i)} stopOpacity={0.03} />
+          </linearGradient>
+        ))}
+        {Array.from({ length: 10 }, (_, i) => (
+          <linearGradient key={`edge-${i}`} id={`graph-tail-edge-${i}`} x1="0" x2="1" y1="0" y2="0">
+            <stop offset="0" stopColor={laneColor(i)} stopOpacity={0} />
+            <stop offset="0.6" stopColor={laneColor(i)} stopOpacity={0} />
+            <stop offset="1" stopColor={laneColor(i)} stopOpacity={0.32} />
           </linearGradient>
         ))}
       </defs>
@@ -61,7 +68,24 @@ export function gutterWidthFor(maxLane: number, laneWidth: number): number {
 }
 const CY = ROW_HEIGHT / 2;
 
-function FlatGutter({ author }: { author: CommitInfo['author'] }) {
+function StashNode({ color }: { color?: number }) {
+  return (
+    <span
+      role="img"
+      aria-label="Stash"
+      className="flex items-center justify-center"
+      style={{
+        width: AVATAR_SIZE,
+        height: AVATAR_SIZE,
+        color: color === undefined ? 'hsl(var(--muted-foreground))' : laneColor(color),
+      }}
+    >
+      <Archive className="size-3" />
+    </span>
+  );
+}
+
+function FlatGutter({ author, isStash }: { author: CommitInfo['author']; isStash: boolean }) {
   return (
     <div
       className="flex shrink-0 items-center justify-center"
@@ -69,7 +93,7 @@ function FlatGutter({ author }: { author: CommitInfo['author'] }) {
     >
       <span
         className="overflow-hidden rounded-full"
-        title={author.name}
+        title={isStash ? 'Stash' : author.name}
         style={{
           width: AVATAR_SIZE,
           height: AVATAR_SIZE,
@@ -77,7 +101,7 @@ function FlatGutter({ author }: { author: CommitInfo['author'] }) {
           background: 'hsl(var(--surface))',
         }}
       >
-        <Avatar name={author.name} email={author.email} size={AVATAR_SIZE} />
+        {isStash ? <StashNode /> : <Avatar name={author.name} email={author.email} size={AVATAR_SIZE} />}
       </span>
     </div>
   );
@@ -89,12 +113,16 @@ function GraphGutter({
   laneWidth,
   author,
   hasRefs,
+  isStash,
+  showTail,
 }: {
   row: GraphRowData;
   width: number;
   laneWidth: number;
   author: CommitInfo['author'];
   hasRefs: boolean;
+  isStash: boolean;
+  showTail: boolean;
 }) {
   const { node, passing } = row;
   const x = (lane: number) => laneX(lane, laneWidth);
@@ -103,14 +131,29 @@ function GraphGutter({
   return (
     <div className="relative shrink-0 overflow-hidden" style={{ width: total, height: ROW_HEIGHT }}>
       <svg width={total} height={ROW_HEIGHT} aria-hidden>
-        <rect
-          x={nx}
-          y={CY - TAIL_HEIGHT / 2}
-          width={Math.max(0, total - nx)}
-          height={TAIL_HEIGHT}
-          rx={TAIL_HEIGHT / 2}
-          fill={`url(#graph-tail-${node.color % 10})`}
-        />
+        {showTail && (
+          <>
+            <rect
+              data-graph-tail
+              x={nx}
+              y={CY - TAIL_HEIGHT / 2}
+              width={Math.max(0, total - nx - 1)}
+              height={TAIL_HEIGHT}
+              rx={TAIL_HEIGHT / 2}
+              fill={`url(#graph-tail-${node.color % 10})`}
+            />
+            <rect
+              x={nx + 0.5}
+              y={CY - TAIL_HEIGHT / 2 + 0.5}
+              width={Math.max(0, total - nx - 2)}
+              height={TAIL_HEIGHT - 1}
+              rx={(TAIL_HEIGHT - 1) / 2}
+              fill="none"
+              stroke={`url(#graph-tail-edge-${node.color % 10})`}
+              strokeWidth={1}
+            />
+          </>
+        )}
         {hasRefs && (
           <line
             x1={0}
@@ -171,7 +214,7 @@ function GraphGutter({
       {!node.isMerge && (
         <span
           className="absolute overflow-hidden rounded-full"
-          title={author.name}
+          title={isStash ? 'Stash' : author.name}
           style={{
             left: nx - AVATAR_SIZE / 2,
             top: CY - AVATAR_SIZE / 2,
@@ -179,9 +222,11 @@ function GraphGutter({
             height: AVATAR_SIZE,
             boxShadow: `0 0 0 ${NODE_HALO}px hsl(var(--background)), 0 0 0 ${NODE_HALO + NODE_RING}px ${laneColor(node.color)}`,
             background: 'hsl(var(--surface))',
+            outline: isStash ? `1.5px dashed ${laneColor(node.color)}` : undefined,
+            outlineOffset: isStash ? -1.5 : undefined,
           }}
         >
-          <Avatar name={author.name} email={author.email} size={AVATAR_SIZE} />
+          {isStash ? <StashNode color={node.color} /> : <Avatar name={author.name} email={author.email} size={AVATAR_SIZE} />}
         </span>
       )}
     </div>
@@ -195,9 +240,10 @@ export interface RefGroup {
   remote: boolean;
   tag: boolean;
   detachedHead: boolean;
+  stash?: boolean;
 }
 
-const groupRank = (g: RefGroup) => (g.detachedHead ? 0 : g.local ? 1 : g.remote ? 2 : 3);
+const groupRank = (g: RefGroup) => (g.detachedHead ? 0 : g.local ? 1 : g.remote ? 2 : g.stash ? 4 : 3);
 
 export function groupRefs(refs: RefInfo[]): RefGroup[] {
   const out: RefGroup[] = [];
@@ -226,6 +272,8 @@ export function groupRefs(refs: RefInfo[]): RefGroup[] {
         index.set(base, out.length);
         out.push({ label: base, primary: ref, local: false, remote: true, tag: false, detachedHead: false });
       }
+    } else if (ref.kind === 'stash') {
+      out.push({ label: ref.shorthand, primary: ref, local: false, remote: false, tag: false, detachedHead: false, stash: true });
     } else {
       out.push({ label: ref.shorthand, primary: ref, local: false, remote: false, tag: true, detachedHead: false });
     }
@@ -234,7 +282,7 @@ export function groupRefs(refs: RefInfo[]): RefGroup[] {
 }
 
 export function estimateChipWidth(group: RefGroup, head: boolean): number {
-  const icons = (group.local ? 1 : 0) + (group.remote ? 1 : 0) + (group.tag ? 1 : 0) + (head || group.detachedHead ? 1 : 0);
+  const icons = (group.local ? 1 : 0) + (group.remote ? 1 : 0) + (group.tag ? 1 : 0) + (group.stash ? 1 : 0) + (head || group.detachedHead ? 1 : 0);
   return Math.round(group.label.length * CHAR_WIDTH + CHIP_PADDING + icons * CHIP_ICON);
 }
 
@@ -262,8 +310,10 @@ function RefCell({
   flat,
   width,
   worktrees,
+  resettableBranches,
   onCheckoutRef,
   onRefMenu,
+  onResetToRemote,
 }: {
   refs: RefInfo[];
   isHead: boolean;
@@ -271,8 +321,10 @@ function RefCell({
   flat?: boolean;
   width: number;
   worktrees?: ReadonlyMap<string, string>;
+  resettableBranches?: ReadonlySet<string>;
   onCheckoutRef: (ref: RefInfo) => void;
   onRefMenu: (event: React.MouseEvent, ref: RefInfo) => void;
+  onResetToRemote: (ref: RefInfo) => void;
 }) {
   const groups = groupRefs(refs);
   let headMarked = false;
@@ -291,26 +343,35 @@ function RefCell({
         const head = (isHead && group.local && !headMarked) || group.detachedHead;
         if (head) headMarked = true;
         const worktree = group.local ? worktrees?.get(group.label) : undefined;
+        const separated = group.remote && !group.local && (resettableBranches?.has(group.label) ?? false);
         return (
           <Badge
             key={group.primary.name}
-            tone={group.tag || group.detachedHead ? 'primary' : group.local ? 'success' : 'info'}
+            tone={group.stash ? 'neutral' : group.tag || group.detachedHead ? 'primary' : group.local ? 'success' : 'info'}
             className={cn(
               'min-w-0 shrink whitespace-nowrap',
-              !group.tag &&
+              !group.tag && !group.stash &&
                 'cursor-pointer hover:z-20 hover:shrink-0 hover:!bg-surface-overlay hover:shadow-soft',
+              group.stash && 'max-w-[11rem] cursor-pointer border-dashed hover:!bg-surface-overlay',
+              head &&
+                'border-success bg-success text-background shadow-soft hover:!bg-success',
             )}
             title={
-              group.tag || group.detachedHead
+              group.stash
+                ? `${group.label}\nStash — click the row to see its files, right-click to apply, pop or drop`
+                : group.tag || group.detachedHead
                 ? group.detachedHead
                   ? 'HEAD 游离在该提交处'
                   : group.label
-                : `${group.label}${group.local ? ' · 本地' : ''}${group.remote ? ' · 远端' : ''}${worktree ? ` · in worktree ${worktree}` : ''} — ${worktree ? '双击切换到该工作树' : '双击检出'}, right-click for actions`
+                : separated
+                  ? `${group.primary.shorthand} — double-click to reset ${group.label} to it, right-click for actions`
+                  : `${group.label}${group.local ? ' · local' : ''}${group.remote ? ' · origin' : ''}${worktree ? ` · in worktree ${worktree}` : ''} — ${worktree ? 'double-click to switch to that worktree' : 'double-click to checkout'}, right-click for actions`
             }
             onDoubleClick={(e) => {
-              if (group.tag || group.detachedHead) return;
+              if (group.tag || group.detachedHead || group.stash) return;
               e.stopPropagation();
-              onCheckoutRef(group.primary);
+              if (separated) onResetToRemote(group.primary);
+              else onCheckoutRef(group.primary);
             }}
             onContextMenu={(e) => {
               if (group.detachedHead) return;
@@ -321,6 +382,7 @@ function RefCell({
           >
             {head && <Check className="size-2.5 shrink-0" />}
             {group.tag && <TagIcon className="size-2.5 shrink-0" />}
+            {group.stash && <Archive className="size-2.5 shrink-0" />}
             <span className="truncate">{group.label}</span>
             {group.local && !worktree && <Monitor className="size-2.5 shrink-0" />}
             {worktree && <FolderTree className="size-2.5 shrink-0" />}
@@ -351,11 +413,14 @@ interface Props {
   selected: boolean;
   laneWidth?: number;
   columns?: GraphColumns;
+  showTail?: boolean;
   worktrees?: ReadonlyMap<string, string>;
+  resettableBranches?: ReadonlySet<string>;
   onSelect: (oid: string, event: React.MouseEvent) => void;
   onContextMenu: (event: React.MouseEvent, commit: CommitInfo) => void;
   onCheckoutRef: (ref: RefInfo) => void;
   onRefMenu: (event: React.MouseEvent, ref: RefInfo, commit: CommitInfo) => void;
+  onResetToRemote: (ref: RefInfo, commit: CommitInfo) => void;
 }
 
 export const CommitRow = memo(function CommitRow({
@@ -366,13 +431,17 @@ export const CommitRow = memo(function CommitRow({
   selected,
   laneWidth = LANE_WIDTH,
   columns = DEFAULT_GRAPH_COLUMNS,
+  showTail = true,
   worktrees,
+  resettableBranches,
   onSelect,
   onContextMenu,
   onCheckoutRef,
   onRefMenu,
+  onResetToRemote,
 }: Props) {
   const isMergeCommit = commit.parents.length > 1;
+  const isStash = commit.refs.some((ref) => ref.kind === 'stash');
   const refCell = columns.refs ? (
     <RefCell
       refs={commit.refs}
@@ -381,8 +450,10 @@ export const CommitRow = memo(function CommitRow({
       flat={flat}
       width={REF_COL_WIDTH}
       worktrees={worktrees}
+      resettableBranches={resettableBranches}
       onCheckoutRef={onCheckoutRef}
       onRefMenu={(e, ref) => onRefMenu(e, ref, commit)}
+      onResetToRemote={(ref) => onResetToRemote(ref, commit)}
     />
   ) : null;
   return (
@@ -400,7 +471,7 @@ export const CommitRow = memo(function CommitRow({
     >
       {!flat && refCell}
       {flat ? (
-        <FlatGutter author={commit.author} />
+        <FlatGutter author={commit.author} isStash={isStash} />
       ) : (
         <GraphGutter
           row={row}
@@ -408,6 +479,8 @@ export const CommitRow = memo(function CommitRow({
           laneWidth={laneWidth}
           author={commit.author}
           hasRefs={columns.refs && commit.refs.length > 0}
+          isStash={isStash}
+          showTail={showTail}
         />
       )}
       {flat && refCell}

@@ -15,7 +15,7 @@ mod watcher;
 pub mod test_api {
     pub use crate::core::branch::{
         can_fast_forward, checkout_branch, cherry_pick, cherry_pick_many, create as branch_create,
-        merge, rebase, rebase_commits, rebase_interactive, reset,
+        list as branches, merge, rebase, rebase_commits, rebase_interactive, reset,
     };
     pub use crate::core::commit::{amend, commit, merge_message, revert};
     pub use crate::core::conflict::{
@@ -24,15 +24,16 @@ pub mod test_api {
     pub use crate::core::diff::{commit_file_diff, commit_files, file_diff};
     pub use crate::core::history::{file_history, list as history, position as history_position};
     pub use crate::core::misc::{
-        stash_create, stash_list, stash_pop, tag_create, tag_delete, tag_list,
+        stash_create, stash_files, stash_list, stash_pop, stash_restore_files, tag_create,
+        tag_delete, tag_list,
     };
-    pub use crate::core::remote::checkout_remote_ref;
+    pub use crate::core::remote::{checkout_remote_ref, fetch};
     pub use crate::core::repo::{
         cleanup_state, info as repo_info, init, ref_fingerprint, set_config, status,
     };
     pub use crate::core::stage::{
-        discard_all, discard_line, stage_all, stage_file, stage_hunk, stage_line, unstage_all,
-        unstage_file, unstage_hunk, unstage_line,
+        discard_all, discard_line, discard_staged_all, discard_staged_file, stage_all, stage_file,
+        stage_hunk, stage_line, unstage_all, unstage_file, unstage_hunk, unstage_line,
     };
     pub use crate::core::types::HistoryQuery;
     pub use crate::core::types::RebaseTodoEntry;
@@ -76,6 +77,8 @@ pub fn run() {
             commands::unstage_all,
             commands::discard_file,
             commands::discard_all,
+            commands::discard_staged_file,
+            commands::discard_staged_all,
             commands::stage_hunk,
             commands::unstage_hunk,
             commands::stage_line,
@@ -126,6 +129,8 @@ pub fn run() {
             commands::stash_apply,
             commands::stash_pop,
             commands::stash_drop,
+            commands::stash_files,
+            commands::stash_restore_files,
             commands::tag_list,
             commands::tag_create,
             commands::tag_delete,

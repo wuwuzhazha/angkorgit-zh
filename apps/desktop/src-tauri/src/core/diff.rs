@@ -9,7 +9,7 @@ const IMAGE_EXTENSIONS: &[&str] = &[
     "png", "jpg", "jpeg", "gif", "webp", "bmp", "ico", "svg", "avif",
 ];
 
-fn is_image_path(path: &str) -> bool {
+pub fn is_image_path(path: &str) -> bool {
     path.rsplit('.')
         .next()
         .map(|ext| IMAGE_EXTENSIONS.contains(&ext.to_lowercase().as_str()))
@@ -252,7 +252,11 @@ pub fn commit_diff(path: &str, oid: &str, context_lines: u32) -> AppResult<Vec<F
 
 pub fn commit_files(path: &str, oid: &str) -> AppResult<Vec<CommitFileInfo>> {
     let repo = super::repo::open(path)?;
-    let diff = commit_tree_diff(&repo, oid, None, None, 0)?;
+    files_of_commit(&repo, oid)
+}
+
+pub fn files_of_commit(repo: &Repository, oid: &str) -> AppResult<Vec<CommitFileInfo>> {
+    let diff = commit_tree_diff(repo, oid, None, None, 0)?;
     let count = diff.deltas().len();
     let mut result = Vec::with_capacity(count);
     for i in 0..count {
@@ -281,6 +285,7 @@ pub fn commit_files(path: &str, oid: &str) -> AppResult<Vec<CommitFileInfo>> {
             is_image,
             additions,
             deletions,
+            source_oid: None,
         });
     }
     Ok(result)

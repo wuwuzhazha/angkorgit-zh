@@ -5,6 +5,7 @@ import { toast } from 'sonner';
 import { toastOutcome } from '@/shared/toastOutcome';
 import {
   Archive,
+  ArchiveRestore,
   ArrowDownToLine,
   ArrowUpFromLine,
   Check,
@@ -49,6 +50,7 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
   const remotes = useRepo((s) => s.remotes);
   const recents = useRepo((s) => s.recents);
   const worktrees = useRepo((s) => s.worktrees);
+  const stashes = useRepo((s) => s.stashes);
   const open = useRepo((s) => s.open);
   const paletteOpen = useUi((s) => s.paletteOpen);
   const setPaletteOpen = useUi((s) => s.setPaletteOpen);
@@ -327,6 +329,13 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
               openDialog('createStash');
             }}
           />
+          {stashes.length > 0 && (
+            <PaletteItem
+              icon={<ArchiveRestore />}
+              label={`Pop latest stash: ${stashes[0].message}`}
+              onSelect={() => run('Pop stash', () => ipc.stashPop(path, 0))}
+            />
+          )}
           {nextUndo && (
             <PaletteItem icon={<Undo2 />} label={`撤销：${nextUndo.label}`} shortcut="Z" onSelect={() => runHistory('undo')} />
           )}

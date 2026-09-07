@@ -119,6 +119,90 @@ pub fn discard_all(path: &str) -> AppResult<Vec<String>> {
     unstaged_paths(&repo)
 }
 
+pub fn discard_staged_file(path: &str, file: &str) -> AppResult<bool> {
+    let repo = super::repo::open(path)?;
+    discard_to_head(&repo, file)?;
+    Ok(!touched_paths(&repo)?.iter().any(|p| p == file))
+}
+
+pub fn discard_staged_all(path: &str) -> AppResult<Vec<String>> {
+    let repo = super::repo::open(path)?;
+    let mut opts = git2::StatusOptions::new();
+    opts.include_untracked(false);
+    let statuses = repo.statuses(Some(&mut opts))?;
+    let staged: Vec<String> = statuses
+        .iter()
+        .filter(|e| {
+            e.status().intersects(
+                git2::Status::INDEX_NEW
+                    | git2::Status::INDEX_MODIFIED
+                    | git2::Status::INDEX_DELETED
+                    | git2::Status::INDEX_RENAMED
+                    | git2::Status::INDEX_TYPECHANGE,
+            )
+        })
+        .filter_map(|e| {
+            e.head_to_index()
+                .and_then(|d| d.old_file().path().map(|p| p.to_string_lossy().to_string()))
+                .or_else(|| e.path().map(String::from))
+        })
+        .collect();
+    let renamed_targets: Vec<String> = statuses
+        .iter()
+        .filter(|e| e.status().contains(git2::Status::INDEX_RENAMED))
+        .filter_map(|e| {
+            e.head_to_index()
+                .and_then(|d| d.new_file().path().map(|p| p.to_string_lossy().to_string()))
+        })
+        .collect();
+    drop(statuses);
+    for file in staged.iter().chain(renamed_targets.iter()) {
+        discard_to_head(&repo, file)?;
+    }
+    let remaining = touched_paths(&repo)?;
+    Ok(staged
+        .into_iter()
+        .filter(|p| remaining.contains(p))
+        .collect())
+}
+
+fn discard_to_head(repo: &git2::Repository, file: &str) -> AppResult<()> {
+    let workdir = repo
+        .workdir()
+        .ok_or_else(|| AppError::other("bare repository"))?
+        .to_path_buf();
+    let head_tree = repo.head().ok().and_then(|h| h.peel_to_tree().ok());
+    let in_head = head_tree
+        .as_ref()
+        .map(|t| t.get_path(Path::new(file)).is_ok())
+        .unwrap_or(false);
+    if in_head {
+        let tree = head_tree.as_ref().expect("checked above");
+        let mut builder = git2::build::CheckoutBuilder::new();
+        builder.path(file).force();
+        repo.checkout_tree(tree.as_object(), Some(&mut builder))?;
+    } else {
+        let mut index = repo.index()?;
+        let _ = index.remove_path(Path::new(file));
+        index.write()?;
+        let full = workdir.join(file);
+        if full.is_file() || full.is_symlink() {
+            std::fs::remove_file(full)?;
+        }
+    }
+    Ok(())
+}
+
+fn touched_paths(repo: &git2::Repository) -> AppResult<Vec<String>> {
+    let mut opts = git2::StatusOptions::new();
+    opts.include_untracked(true).recurse_untracked_dirs(true);
+    let statuses = repo.statuses(Some(&mut opts))?;
+    Ok(statuses
+        .iter()
+        .filter_map(|e| e.path().map(String::from))
+        .collect())
+}
+
 fn split_patch(diff: &git2::Diff) -> AppResult<(String, Vec<String>)> {
     let mut file_header = String::new();
     let mut hunks: Vec<String> = Vec::new();

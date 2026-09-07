@@ -632,9 +632,14 @@ export function Sidebar() {
       }}
       style={{ paddingLeft: 28 + depth * 14 }}
       className={cn(
-        'group flex cursor-grab items-center gap-2 rounded-md px-2 py-1 text-sm hover:bg-surface-raised active:cursor-grabbing',
-        branch.isHead && 'text-primary',
+        'group relative flex cursor-grab items-center gap-2 rounded-md px-2 py-1 text-sm hover:bg-surface-raised active:cursor-grabbing',
         filters.branch === branch.name && 'bg-surface-raised',
+        branch.isHead &&
+          'font-medium text-primary before:absolute before:inset-y-1 before:left-0 before:w-[3px] before:rounded-full before:bg-primary',
+        branch.isHead &&
+          (filters.branch === branch.name
+            ? 'bg-primary/20 hover:bg-primary/25'
+            : 'bg-primary/10 hover:bg-primary/15'),
         dragging === branch.name && 'opacity-40',
         dropTarget === branch.name && 'bg-primary/10 ring-1 ring-inset ring-primary/60',
       )}

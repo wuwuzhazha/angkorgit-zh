@@ -140,14 +140,15 @@
 
 ## 🚫 故意不做的事情
 
-- **应用内代码评审（PR Review）**：代码托管平台（GitHub/GitLab）配合 CI 日志与行内评论体验更佳，软件内提供一键“在浏览器中打开”按钮。
-- **遥测数据、强制账号、云服务**：不会向外部发送任何追踪数据，无需注册任何平台。
-- **代码追溯（Blame）视图**：已内置文件历史查看，单行追溯在后续规划中。
-- **插件市场**：暂不支持扩展插件。
+# macOS, direct download
+curl -L https://github.com/cheat2001/angkorgit/releases/download/v0.11.0/AngKorGit_0.11.0_universal.dmg -o ~/Downloads/AngKorGit.dmg && xattr -cr ~/Downloads/AngKorGit.dmg && open ~/Downloads/AngKorGit.dmg
 
-## 📦 安装与下载
+# Windows (PowerShell)
+curl -L https://github.com/cheat2001/angkorgit/releases/download/v0.11.0/AngKorGit_0.11.0_x64-setup.exe -o "$env:TEMP\AngKorGit-setup.exe"; Start-Process "$env:TEMP\AngKorGit-setup.exe"
 
-你可以从本项目的 [Releases 发行页面](https://github.com/wuwuzhazha/angkorgit-zh/releases) 下载适合你操作系统的安装包：
+# Linux (AppImage)
+curl -L https://github.com/cheat2001/angkorgit/releases/download/v0.11.0/AngKorGit_0.11.0_amd64.AppImage -o ~/Downloads/AngKorGit.AppImage && chmod +x ~/Downloads/AngKorGit.AppImage && ~/Downloads/AngKorGit.AppImage
+```
 
 - **Windows**：下载 `AngKorGit_0.10.0_x64-setup.exe`（NSIS 一键安装程序）或 `.msi` 安装包。
 - **macOS**：下载 `.dmg` 并拖入 Applications 目录。

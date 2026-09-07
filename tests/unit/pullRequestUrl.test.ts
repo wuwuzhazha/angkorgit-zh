@@ -15,8 +15,8 @@ describe('pullRequestUrl', () => {
   });
 
   it('builds a merge request URL for self-hosted GitLab', () => {
-    expect(pullRequestUrl('https://gitlab-01.remotes.local/team/api.git', 'fix/login')).toBe(
-      'https://gitlab-01.remotes.local/team/api/-/merge_requests/new?merge_request%5Bsource_branch%5D=fix%2Flogin',
+    expect(pullRequestUrl('https://gitlab.example.com/team/api.git', 'fix/login')).toBe(
+      'https://gitlab.example.com/team/api/-/merge_requests/new?merge_request%5Bsource_branch%5D=fix%2Flogin',
     );
   });
 

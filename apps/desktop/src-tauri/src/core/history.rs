@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
 
 use git2::{Oid, Repository, Sort};
 
@@ -16,8 +16,57 @@ fn signature_info(sig: &git2::Signature) -> SignatureInfo {
     }
 }
 
+struct StashEntry {
+    oid: Oid,
+    index: usize,
+    message: String,
+}
+
+fn stash_entries(repo: &Repository) -> Vec<StashEntry> {
+    let Ok(reflog) = repo.reflog("refs/stash") else {
+        return Vec::new();
+    };
+    reflog
+        .iter()
+        .enumerate()
+        .map(|(index, entry)| StashEntry {
+            oid: entry.id_new(),
+            index,
+            message: entry.message().unwrap_or("").to_string(),
+        })
+        .collect()
+}
+
+struct StashWalk {
+    commits: HashSet<Oid>,
+    skipped: HashSet<Oid>,
+}
+
+fn push_stashes(repo: &Repository, walk: &mut git2::Revwalk) -> StashWalk {
+    let mut commits = HashSet::new();
+    let mut skipped = HashSet::new();
+    for entry in stash_entries(repo) {
+        let Ok(commit) = repo.find_commit(entry.oid) else {
+            continue;
+        };
+        if walk.push(entry.oid).is_err() {
+            continue;
+        }
+        commits.insert(entry.oid);
+        skipped.extend(commit.parent_ids().skip(1));
+    }
+    StashWalk { commits, skipped }
+}
+
 fn ref_decorations(repo: &Repository) -> HashMap<Oid, Vec<RefInfo>> {
     let mut map: HashMap<Oid, Vec<RefInfo>> = HashMap::new();
+    for entry in stash_entries(repo) {
+        map.entry(entry.oid).or_default().push(RefInfo {
+            kind: "stash".to_string(),
+            name: format!("stash@{{{}}}", entry.index),
+            shorthand: entry.message,
+        });
+    }
     if let Ok(refs) = repo.references() {
         for reference in refs.flatten() {
             let name = reference.name().unwrap_or("").to_string();
@@ -91,6 +140,13 @@ pub fn list(path: &str, query: HistoryQuery) -> AppResult<HistoryPage> {
             let _ = walk.push_head();
         }
     }
+    let stashes = match query.branch {
+        Some(_) => StashWalk {
+            commits: HashSet::new(),
+            skipped: HashSet::new(),
+        },
+        None => push_stashes(&repo, &mut walk),
+    };
 
     let decorations = ref_decorations(&repo);
     let head_oid = repo.head().ok().and_then(|h| h.target());
@@ -104,6 +160,9 @@ pub fn list(path: &str, query: HistoryQuery) -> AppResult<HistoryPage> {
     let mut has_more = false;
 
     for oid in walk.flatten() {
+        if stashes.skipped.contains(&oid) {
+            continue;
+        }
         if !filtered && matched < query.skip {
             matched += 1;
             continue;
@@ -145,7 +204,11 @@ pub fn list(path: &str, query: HistoryQuery) -> AppResult<HistoryPage> {
             has_more = true;
             break;
         }
-        commits.push(commit_info(&repo, &commit, &decorations, head_oid));
+        let mut info = commit_info(&repo, &commit, &decorations, head_oid);
+        if stashes.commits.contains(&oid) {
+            info.parents.truncate(1);
+        }
+        commits.push(info);
     }
 
     Ok(HistoryPage {
@@ -171,8 +234,13 @@ pub fn position(path: &str, rev: &str) -> AppResult<Option<HistoryPosition>> {
     let _ = walk.push_glob("refs/remotes/*");
     let _ = walk.push_glob("refs/tags/*");
     let _ = walk.push_head();
+    let stashes = push_stashes(&repo, &mut walk);
 
-    for (index, oid) in walk.flatten().enumerate() {
+    for (index, oid) in walk
+        .flatten()
+        .filter(|oid| !stashes.skipped.contains(oid))
+        .enumerate()
+    {
         if oid == target {
             return Ok(Some(HistoryPosition {
                 index,
