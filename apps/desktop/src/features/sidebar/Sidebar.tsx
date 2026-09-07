@@ -1017,7 +1017,7 @@ export function Sidebar() {
                 <span className="min-w-0 flex-1 truncate">
                   <span className="text-faint">#{pr.number}</span> {pr.title}
                 </span>
-                {pr.is草稿 && <Badge>草稿</Badge>}
+                {pr.isDraft && <Badge>草稿</Badge>}
                 <Button
                   variant="ghost"
                   size="icon-sm"

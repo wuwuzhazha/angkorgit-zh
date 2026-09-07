@@ -304,7 +304,6 @@ core	packages/core/src/forge/providers/github.ts	40	https://${host}/api/v3	templ
 core	packages/core/src/forge/providers/github.ts	51	string	string
 core	packages/core/src/forge/providers/github.ts	55	head	string
 core	packages/core/src/forge/providers/github.ts	55	invalid	string
-core	packages/core/src/forge/providers/github.ts	56	${parts} — the source branch does not exist on this remote (is it pushed there?)	template
 core	packages/core/src/forge/providers/github.ts	68	${parsed.message}: ${detail}	template
 core	packages/core/src/forge/providers/github.ts	77	${remote.owner}/${remote.repo}	template
 core	packages/core/src/forge/providers/github.ts	79	github	string
@@ -484,313 +483,7 @@ core	packages/core/src/index.ts	19	./forge/provider	string
 core	packages/core/src/index.ts	20	./forge/providers/github	string
 core	packages/core/src/index.ts	21	./forge/providers/gitlab	string
 core	packages/core/src/index.ts	22	./forge/providers/bitbucket	string
-docs	docs/Architecture.md	3	AngKorGit follows Clean Architecture with feature-based folders. Dependencies point inward: UI → application state → domain; the Rust engine is behind a single typed IPC boundary.	md-prose
-docs	docs/Architecture.md	32	## Key decisions	md-prose
-docs	docs/Architecture.md	34	**Tauri v2 + libgit2 (git2-rs).** A native Rust engine gives sub-millisecond status/diff operations and avoids shelling out to `git` for hot paths. `vendored-libgit2` keeps builds hermetic across macOS/Windows/Linux. Every command runs on a blocking thread (`spawn_blocking`) so the UI thread never waits on I/O.	md-prose-fmt
-docs	docs/Architecture.md	36	**One typed IPC surface.** `src/core/ipc.ts` is the only place that calls `invoke`. It also ships a deterministic demo backend used when the app runs in a plain browser — this is what makes UI development and Playwright e2e possible without a native build.	md-prose-fmt
-docs	docs/Architecture.md	38	**Graph layout in the domain layer.** Lane assignment (`GraphLayout`) is pure TypeScript, incremental, and unit-tested. Feeding page N+1 never changes rows from page N, which keeps the virtualized list stable while history streams in. Rendering is a per-row SVG slice — O(visible rows), regardless of repository size.	md-prose-fmt
-docs	docs/Architecture.md	40	**Performance strategy for 100k commits.**	md-prose
-docs	docs/Architecture.md	41	- History is paginated (200 commits per request) via libgit2 revwalk; filters run engine-side.	md-prose
-docs	docs/Architecture.md	42	- `@tanstack/react-virtual` renders only visible rows; rows are `memo`ized.	md-prose-fmt
-docs	docs/Architecture.md	43	- Ref decorations are computed once per page in Rust, not per row in JS.	md-prose
-docs	docs/Architecture.md	44	- Diffs load lazily per selected file/commit; images stream as base64 only when an image diff is opened.	md-prose
-docs	docs/Architecture.md	46	**Conflict resolution as data.** Conflicted files are parsed into text/conflict blocks (`parseConflicts`), the resolver mutates block resolutions, and `serializeResolution` writes the result. Unresolved blocks re-emit their markers, so a half-finished session never destroys data.	md-prose-fmt
-docs	docs/Architecture.md	48	**AI is an adapter registry.** Features call capabilities (`generateCommitMessage`, `explainConflict`, …) against the `AiProvider` interface. API providers (OpenAI, Anthropic, Gemini, Ollama, LM Studio) are created from config; HTTP goes through an injected transport implemented by a Rust proxy (no CORS, keys stay out of webview fetch). The `cli` provider is different: it runs an AI CLI already installed on the machine (Claude Code, Codex, Gemini CLI, OpenCode) as an allowlisted local subprocess via `ai_cli.rs` — the user's own login and quota, no API key. Adding an API provider touches one file; adding a CLI agent touches `cliAgents.ts` plus the `ai_cli.rs` allowlist.	md-prose-fmt
-docs	docs/Architecture.md	52	**Undo/redo as recorded transitions.** Every mutating operation runs through a `tracked()` wrapper that snapshots HEAD before/after. Undo applies the inverse (soft reset for commits, ref restore for branch deletion, …) and validates the repository hasn't moved since — corrupting-the-repo is structurally prevented, and hard-reset-style undos refuse to run over uncommitted work.	md-prose-fmt
-docs	docs/Architecture.md	54	**Live updates via a debounced watcher.** A `notify`-based filesystem watcher (400 ms debounce, `.git` noise filtered down to HEAD/refs/index movements) emits a single `repo-changed` event; the frontend refreshes status — or everything, when HEAD moved externally. Editing in an IDE or committing from a terminal reflects in the UI within half a second.	md-prose-fmt
-docs	docs/Architecture.md	56	**Verified destructive operations.** Discard (file or all) re-checks status afterwards and reports what could *not* be discarded, so cases libgit2 silently skips (submodule pointer changes) surface as actionable messages instead of silent no-ops.	md-prose
-docs	docs/Architecture.md	58	## Extension points (future features)	md-prose
-docs	docs/Architecture.md	60	- **Plugins** — the command palette, sidebar sections and inspector tabs are list-driven; a plugin host can contribute entries without touching feature internals. The IPC layer is a single object that can be wrapped/instrumented.	md-prose
-docs	docs/Architecture.md	61	- **Forge integrations (GitHub/GitLab/Azure/Bitbucket)** — planned as `packages/forge` with one adapter per provider mirroring the AI registry pattern; PR/issue viewers become new `features/*` folders.	md-prose-fmt
-docs	docs/Architecture.md	62	- **Worktrees** — the engine already opens repositories by path; a worktree list command and a repo-switcher entry are the only additions needed.	md-prose
-docs	docs/Architecture.md	64	## Error handling	md-prose
-docs	docs/Architecture.md	66	Rust errors serialize as `{ code, message }` (`AppError`). Codes (`conflict`, `auth`, `non_fast_forward`, …) let the UI offer recovery actions instead of raw library messages. Toasts surface every failed operation; conflict outcomes are warnings, not errors.	md-prose-fmt
-docs	docs/Coding-Standards.md	1	# Coding Standards	md-prose
-docs	docs/Coding-Standards.md	3	## No code comments	md-prose
-docs	docs/Coding-Standards.md	5	The codebase deliberately contains **no inline comments** — the code must say	md-prose
-docs	docs/Coding-Standards.md	6	what it does through naming and structure. Everything worth explaining lives in	md-prose
-docs	docs/Coding-Standards.md	7	real documentation instead: behavior and architecture in `docs/`, hard-won	md-prose-fmt
-docs	docs/Coding-Standards.md	8	pitfalls in `CLAUDE.md` (gotchas G1+), user-visible behavior in `CHANGELOG.md`.	md-prose-fmt
-docs	docs/Coding-Standards.md	9	The only lines that may look like comments are machine directives:	md-prose
-docs	docs/Coding-Standards.md	10	`// eslint-disable…`, `@ts-expect-error`, `/// <reference…>`, and Rust/clippy	md-prose-fmt
-docs	docs/Coding-Standards.md	11	attributes. PRs that add explanatory comments move the content to docs instead.	md-prose
-docs	docs/Coding-Standards.md	15	- `strict` mode; no `any` (use `unknown` + narrowing). No non-null `!` outside tests and provably-safe layout code.	md-prose-fmt
-docs	docs/Coding-Standards.md	16	- Feature folders own their state: a feature's store is imported only via its public module. Cross-feature reads go through hooks, never internal setters.	md-prose
-docs	docs/Coding-Standards.md	17	- Pure logic (parsing, layout, diffing) lives in `@angkorgit/core`, is framework-free and unit-tested. React components stay thin.	md-prose-fmt
-docs	docs/Coding-Standards.md	18	- Components: function components + hooks only. `memo` for list rows; stable callbacks via `useCallback` only where a memoized child needs them.	md-prose-fmt
-docs	docs/Coding-Standards.md	19	- Imports: `@/` alias inside the app; workspace packages by name. No deep relative paths (`../../..`).	md-prose-fmt
-docs	docs/Coding-Standards.md	20	- Naming: `PascalCase` components, `camelCase` functions/values, `SCREAMING_SNAKE` constants. Files match their default export.	md-prose-fmt
-docs	docs/Coding-Standards.md	21	- Errors from IPC are `{ code, message }` — always surface `message` to the user via toast, never swallow.	md-prose-fmt
-docs	docs/Coding-Standards.md	25	- `rustfmt` + `clippy -D warnings` are CI gates.	md-prose-fmt
-docs	docs/Coding-Standards.md	26	- Library errors convert into `AppError`; never `unwrap()` outside tests.	md-prose-fmt
-docs	docs/Coding-Standards.md	27	- Tauri commands are thin adapters; domain logic lives in `core/*` and is testable without Tauri.	md-prose-fmt
-docs	docs/Coding-Standards.md	28	- Blocking git work always goes through `spawn_blocking`.	md-prose-fmt
-docs	docs/Coding-Standards.md	29	- Public engine functions take `&str` paths and return serde types mirroring `@angkorgit/core` — keep the two in sync when changing either.	md-prose-fmt
-docs	docs/Coding-Standards.md	33	- Tailwind utilities only; tokens come from the design system (`bg-surface`, `text-muted`, …). No hex colors in components.	md-prose-fmt
-docs	docs/Coding-Standards.md	34	- 8px spacing scale; no arbitrary values (`p-[13px]` is a review blocker).	md-prose-fmt
-docs	docs/Coding-Standards.md	35	- Angkor Dusk is the default theme; check every visual change at least in Angkor Dusk and one light theme (sixteen themes ship in total).	md-prose
-docs	docs/Coding-Standards.md	37	## Commits & PRs	md-prose
-docs	docs/Coding-Standards.md	39	- Conventional commits: `feat(graph): …`, `fix(engine): …`, `docs: …`.	md-prose-fmt
-docs	docs/Coding-Standards.md	40	- A PR should do one thing; include screenshots/screencasts for UI changes.	md-prose
-docs	docs/Coding-Standards.md	41	- Tests accompany behavior: engine changes → `git_engine.rs`, domain logic → `tests/unit`, flows → Playwright.	md-prose-fmt
-docs	docs/Contributing.md	3	Thank you for helping make everyday Git delightful! 🙏	md-prose
-docs	docs/Contributing.md	5	## Ground rules	md-prose
-docs	docs/Contributing.md	7	- Be kind. We follow the [Contributor Covenant](https://www.contributor-covenant.org/version/2/1/code_of_conduct/).	md-prose-fmt
-docs	docs/Contributing.md	9	- Discuss before building: open an issue for anything larger than a fix.	md-prose
-docs	docs/Contributing.md	13	1. Fork and branch from `main`: `feature/<short-name>` or `fix/<short-name>`.	md-prose-fmt
-docs	docs/Contributing.md	14	2. Set up per [Development.md](Development.md); make your change following [Coding-Standards.md](Coding-Standards.md).	md-prose-fmt
-docs	docs/Contributing.md	15	3. Make sure the gates pass locally:	md-prose
-docs	docs/Contributing.md	20	4. Open a PR with a conventional-commit title, a short "why", and screenshots for UI changes.	md-prose
-docs	docs/Contributing.md	22	## What makes a good first contribution	md-prose
-docs	docs/Contributing.md	24	- New language for syntax highlighting (`src/shared/highlight.ts`)	md-prose-fmt
-docs	docs/Contributing.md	25	- A new AI provider adapter (`packages/core/src/ai/providers.ts`)	md-prose-fmt
-docs	docs/Contributing.md	26	- Graph rendering polish, additional keyboard shortcuts, accessibility passes	md-prose
-docs	docs/Contributing.md	27	- Engine test coverage in `tests/git_engine.rs`	md-prose-fmt
-docs	docs/Contributing.md	29	## Reporting bugs	md-prose
-docs	docs/Contributing.md	31	Include: OS, app version, the operation you ran, expected vs. actual, and — if the repo state matters — a minimal script that reproduces the repository shape. Never include private repository contents.	md-prose
-docs	docs/Development.md	5	- Node 20+ and pnpm 10+ (`corepack enable` — the repo pins the exact version via `packageManager`)	md-prose-fmt
-docs	docs/Development.md	6	- Rust stable via [rustup](https://rustup.rs)	md-prose-fmt
-docs	docs/Development.md	7	- Tauri v2 system dependencies — see the [official list](https://v2.tauri.app/start/prerequisites/):	md-prose-fmt
-docs	docs/Development.md	8	- **macOS**: Xcode command line tools	md-prose
-docs	docs/Development.md	10	- **Windows**: WebView2 (preinstalled on Win 11), MSVC build tools	md-prose
-docs	docs/Development.md	12	## Everyday commands	md-prose
-docs	docs/Development.md	33	`src/core/ipc.ts` detects whether it runs inside Tauri. Outside (plain browser), every command is answered by `src/core/demo.ts` — a deterministic 400-commit synthetic repository with branches, merges, a dirty working copy and a conflict sample. Use it for all UI work; it is also what CI's Playwright job tests.	md-prose-fmt
-docs	docs/Development.md	35	## Working on the Rust engine	md-prose
-docs	docs/Development.md	37	The engine lives in `apps/desktop/src-tauri/src/core/`, one module per domain area. Conventions:	md-prose-fmt
-docs	docs/Development.md	39	- Commands (`commands.rs`) stay thin — parse args, call `core::*`, return serde types.	md-prose-fmt
-docs	docs/Development.md	40	- Everything blocking goes through the `blocking()` helper (`spawn_blocking`).	md-prose-fmt
-docs	docs/Development.md	41	- Every operation that can leave the repo mid-state (merge, rebase, cherry-pick) returns an `OpOutcome` with `status: "conflicts"` rather than an error.	md-prose-fmt
-docs	docs/Development.md	42	- Add integration coverage in `tests/git_engine.rs` for every new engine function — tests create real repositories in a temp dir.	md-prose-fmt
-docs	docs/Development.md	44	## Adding an AI provider	md-prose
-docs	docs/Development.md	46	1. Implement the adapter in `packages/core/src/ai/providers.ts` (one function, ~40 lines).	md-prose-fmt
-docs	docs/Development.md	47	2. Register it in `createAiProvider` and `AI_PROVIDER_PRESETS`.	md-prose-fmt
-docs	docs/Development.md	48	3. Done — settings UI, capabilities and transport pick it up automatically.	md-prose
-docs	docs/Development.md	50	Installed AI-CLI agents (Claude Code, Codex, Gemini CLI, OpenCode) follow a different	md-prose
-docs	docs/Development.md	51	path: add the agent's argv/stdin shape in `packages/core/src/ai/cliAgents.ts` and its	md-prose-fmt
-docs	docs/Development.md	52	binary to the allowlist in `apps/desktop/src-tauri/src/ai_cli.rs`.	md-prose-fmt
-docs	docs/Development.md	56	Tag `v*` and push: `.github/workflows/release.yml` builds macOS (universal), Windows and Linux bundles via `tauri-action` and attaches them to a draft GitHub release.	md-prose-fmt
-docs	docs/Distribution.md	1	# Distribution Guide	md-prose
-docs	docs/Distribution.md	3	How AngKorGit ships to users: signing, notarization, auto-updates, and package	md-prose
-docs	docs/Distribution.md	4	managers. Steps marked **[owner]** need the project owner's accounts/keys and	md-prose
-docs	docs/Distribution.md	5	cannot be automated by contributors.	md-prose
-docs	docs/Distribution.md	7	## 1. Versioning & releases (works today)	md-prose
-docs	docs/Distribution.md	9	1. Update the version in `apps/desktop/src-tauri/tauri.conf.json`,	md-prose-fmt
-docs	docs/Distribution.md	10	`apps/desktop/src-tauri/Cargo.toml`, and root/app `package.json`.	md-prose-fmt
-docs	docs/Distribution.md	11	2. Move `[Unreleased]` items in `CHANGELOG.md` under the new version heading.	md-prose-fmt
-docs	docs/Distribution.md	12	3. Commit, tag `vX.Y.Z`, push the tag → `.github/workflows/release.yml` builds	md-prose-fmt
-docs	docs/Distribution.md	13	macOS (universal), Windows, and Linux bundles via `tauri-action` and attaches	md-prose-fmt
-docs	docs/Distribution.md	14	them to a **draft** GitHub release. Review, paste the changelog section, publish.	md-prose
-docs	docs/Distribution.md	16	## 2. Distribution WITHOUT paid signing (the current, chosen approach)	md-prose
-docs	docs/Distribution.md	18	AngKorGit ships **unsigned** — free and independent. Users get one extra step	md-prose
-docs	docs/Distribution.md	19	on first launch; document it prominently (README covers this):	md-prose
-docs	docs/Distribution.md	21	- **macOS**: the app isn't notarized, so Gatekeeper blocks the first open.	md-prose
-docs	docs/Distribution.md	22	Either right-click the app → **Open** → Open, or on newer macOS:	md-prose
-docs	docs/Distribution.md	24	Terminal alternative: `xattr -cr /Applications/AngKorGit.app` (removes the	md-prose-fmt
-docs	docs/Distribution.md	25	quarantine flag). Tauri ad-hoc-signs the binary automatically, so it runs	md-prose
-docs	docs/Distribution.md	26	fine on Apple Silicon once past Gatekeeper.	md-prose
-docs	docs/Distribution.md	28	**More info → Run anyway**.	md-prose
-docs	docs/Distribution.md	29	- **Linux**: AppImage: `chmod +x AngKorGit_*.AppImage` and run; `.deb` installs	md-prose-fmt
-docs	docs/Distribution.md	32	**macOS Keychain prompts**: account tokens live in the Keychain, and macOS	md-prose
-docs	docs/Distribution.md	34	the first git operation that needs a token asks for permission **once per app	md-prose
-docs	docs/Distribution.md	35	session** (keyring reads are cached in-process; `accounts.rs` `TOKEN_CACHE`).	md-prose-fmt
-docs	docs/Distribution.md	37	is expected behavior for unsigned builds; a paid Developer ID signature is the	md-prose
-docs	docs/Distribution.md	38	only way to make authorization permanent.	md-prose
-docs	docs/Distribution.md	40	**macOS folder-access prompts (Desktop/Documents/Downloads)**: consent is	md-prose
-docs	docs/Distribution.md	41	keyed to the app's code signature. One installed build → one prompt per	md-prose
-docs	docs/Distribution.md	42	folder, then it persists. Each UPDATE (new ad-hoc signature) may re-ask once.	md-prose
-docs	docs/Distribution.md	43	An endless prompt loop means stale/conflicting records from replaced binaries	md-prose
-docs	docs/Distribution.md	44	(typical on a dev machine installing many builds): fix with	md-prose
-docs	docs/Distribution.md	45	`tccutil reset All dev.angkorgit.app`, then relaunch and Allow once. Users	md-prose-fmt
-docs	docs/Distribution.md	46	must drag the app out of the dmg into /Applications — running it from inside	md-prose
-docs	docs/Distribution.md	47	the dmg triggers app translocation, where grants can never persist.	md-prose
-docs	docs/Distribution.md	49	Security honesty: unsigned ≠ unsafe. Releases are built by public GitHub	md-prose
-docs	docs/Distribution.md	50	Actions from public source, updates are minisign-verified (§3), and users can	md-prose
-docs	docs/Distribution.md	51	always build from source. If the project later earns sponsorship, Apple	md-prose
-docs	docs/Distribution.md	52	notarization (~$99/yr) can be added — the workflow snippet lives in git	md-prose
-docs	docs/Distribution.md	53	history — purely to remove the first-launch step.	md-prose
-docs	docs/Distribution.md	55	## 3. Auto-updates — ACTIVE ✅ (free, Apple-independent)	md-prose
-docs	docs/Distribution.md	57	Updates are pull-based from GitHub releases and verified with the project's	md-prose
-docs	docs/Distribution.md	58	**own minisign key** before installing — a tampered download will never run.	md-prose
-docs	docs/Distribution.md	60	Already wired in the codebase:	md-prose
-docs	docs/Distribution.md	61	- Keypair generated; **private key: `~/.tauri/angkorgit.key` on the owner's	md-prose-fmt
-docs	docs/Distribution.md	62	machine — BACK IT UP. If lost, existing installs can never update again.**	md-prose
-docs	docs/Distribution.md	63	Public key: embedded in `tauri.conf.json → plugins.updater.pubkey`.	md-prose-fmt
-docs	docs/Distribution.md	64	- `tauri-plugin-updater` + `tauri-plugin-process` registered; capability	md-prose-fmt
-docs	docs/Distribution.md	66	- Frontend: silent check 5s after startup (`features/updater/check.ts`) →	md-prose-fmt
-docs	docs/Distribution.md	69	- `release.yml` passes `TAURI_SIGNING_PRIVATE_KEY(_PASSWORD)` to tauri-action,	md-prose-fmt
-docs	docs/Distribution.md	70	which then also generates and uploads `latest.json`.	md-prose-fmt
-docs	docs/Distribution.md	72	**[owner] one-time — done**: both GitHub secrets are configured (releases since	md-prose
-docs	docs/Distribution.md	73	0.2.0 ship `.sig` files and `latest.json`):	md-prose-fmt
-docs	docs/Distribution.md	74	- `TAURI_SIGNING_PRIVATE_KEY` — the contents of `~/.tauri/angkorgit.key`	md-prose-fmt
-docs	docs/Distribution.md	75	- `TAURI_SIGNING_PRIVATE_KEY_PASSWORD` — set to an **empty value** (required:	md-prose-fmt
-docs	docs/Distribution.md	76	without the env var Tauri tries an interactive prompt and headless builds fail).	md-prose
-docs	docs/Distribution.md	78	## 4. Homebrew cask **[live — own tap]**	md-prose
-docs	docs/Distribution.md	80	Published at `cheat2001/homebrew-tap` (`Casks/angkorgit.rb`). Install:	md-prose-fmt
-docs	docs/Distribution.md	86	One command only: the cask runs `xattr -cr` on the installed app in a	md-prose-fmt
-docs	docs/Distribution.md	87	`postflight` block, clearing the Gatekeeper quarantine automatically (needed	md-prose-fmt
-docs	docs/Distribution.md	88	because the app is unsigned; recent Homebrew removed `--no-quarantine`).	md-prose-fmt
-docs	docs/Distribution.md	89	Own-tap casks may do this — homebrew/cask proper would reject it, so when the	md-prose
-docs	docs/Distribution.md	90	cask eventually moves there, signing/notarization must replace the postflight.	md-prose
-docs	docs/Distribution.md	92	**On every release** the cask must be bumped: update `version` and `sha256`	md-prose-fmt
-docs	docs/Distribution.md	93	(`shasum -a 256` of the new universal dmg) in	md-prose-fmt
-docs	docs/Distribution.md	94	`cheat2001/homebrew-tap/Casks/angkorgit.rb`. The cask sets `auto_updates true`	md-prose-fmt
-docs	docs/Distribution.md	95	(the app self-updates), so tap users who installed once still get new versions	md-prose
-docs	docs/Distribution.md	96	in-app; the bump matters for fresh installs. Add this to the release checklist.	md-prose
-docs	docs/Distribution.md	98	Once the project has traction (75+ stars, 30+ forks) AND the app is	md-prose
-docs	docs/Distribution.md	99	signed/notarized, submit to homebrew-cask proper for	md-prose
-docs	docs/Distribution.md	102	## 5. Website (live)	md-prose
-docs	docs/Distribution.md	104	- Live at `https://angkorgit.app/` (Astro, static, GitHub Pages via	md-prose-fmt
-docs	docs/Distribution.md	105	`.github/workflows/website.yml`; custom domain + HTTPS enforced).	md-prose-fmt
-docs	docs/Distribution.md	106	- Sections: hero with graph screenshot, features, gallery, performance, AI,	md-prose
-docs	docs/Distribution.md	107	install (per-OS download cards + terminal one-liners with copy buttons),	md-prose
-docs	docs/Distribution.md	108	open-source, final CTA.	md-prose
-docs	docs/Distribution.md	109	- Docs are rendered on-site at `/docs/` directly from `docs/*.md` (see	md-prose-fmt
-docs	docs/Distribution.md	110	`apps/website/src/content.config.ts`) — edit a doc and the site updates on	md-prose-fmt
-docs	docs/Distribution.md	111	the next deploy; no duplication.	md-prose
-docs	docs/Distribution.md	112	- SEO: meta/OG/JSON-LD, sitemap, Google Search Console verified	md-prose
-docs	docs/Distribution.md	113	(URL-prefix property), `robots.txt` → `sitemap-index.xml`.	md-prose-fmt
-docs	docs/Distribution.md	114	- Launch/verification runbook: `docs/Launch-Checklist.md`.	md-prose-fmt
-docs	docs/Getting-Started.md	3	Download the latest release for your platform from the	md-prose
-docs	docs/Getting-Started.md	6	AngKorGit is free, open-source software and is **not signed with a paid	md-prose
-docs	docs/Getting-Started.md	7	certificate**, so your OS asks for a few extra confirmations on first launch.	md-prose
-docs	docs/Getting-Started.md	9	## macOS — first launch, step by step	md-prose
-docs	docs/Getting-Started.md	11	1. Open the `.dmg` and **drag AngKorGit into Applications**. Don't launch it	md-prose-fmt
-docs	docs/Getting-Started.md	12	from inside the dmg window — macOS would run it from a temporary sandbox	md-prose
-docs	docs/Getting-Started.md	13	where permissions can never be saved.	md-prose
-docs	docs/Getting-Started.md	14	2. Launch it. macOS shows *"AngKorGit" cannot be opened* with **Move to	md-prose
-docs	docs/Getting-Started.md	15	Trash** — this only means the app has no paid Apple certificate. Close it,	md-prose
-docs	docs/Getting-Started.md	16	then go to **System Settings → Privacy & Security**, scroll down, and click	md-prose
-docs	docs/Getting-Started.md	18	happens only on the very first launch.	md-prose
-docs	docs/Getting-Started.md	19	3. When you open a repository in Desktop/Documents/Downloads, macOS asks	md-prose
-docs	docs/Getting-Started.md	21	One prompt per folder, then it's remembered.	md-prose
-docs	docs/Getting-Started.md	22	4. If you connect a GitHub/GitLab account, the first git operation per app	md-prose
-docs	docs/Getting-Started.md	23	session asks to read the token from your Keychain → **Allow** (plain	md-prose
-docs	docs/Getting-Started.md	26	Expect **2–3 clicks total on first run**, then one folder re-confirmation	md-prose
-docs	docs/Getting-Started.md	27	after app updates (each unsigned build has a new identity). If a permission	md-prose
-docs	docs/Getting-Started.md	28	dialog ever loops endlessly, reset the stale records and try again:	md-prose
-docs	docs/Getting-Started.md	34	## Windows & Linux	md-prose
-docs	docs/Getting-Started.md	41	After that, AngKorGit **updates itself**: every update is cryptographically	md-prose
-docs	docs/Getting-Started.md	42	verified (minisign) before installing, and all releases are built in public by	md-prose
-docs	docs/Getting-Started.md	43	GitHub Actions from this source tree. No telemetry, ever.	md-prose
-docs	docs/Getting-Started.md	45	## Connecting to a remote	md-prose
-docs	docs/Getting-Started.md	47	AngKorGit picks its credential from the **remote URL**, not from a setting:	md-prose
-docs	docs/Getting-Started.md	54	Adding an account does nothing for an SSH remote, and an SSH key does nothing	md-prose
-docs	docs/Getting-Started.md	55	for an HTTPS one. If a pull or push fails, the remote URL is the first thing	md-prose
-docs	docs/Getting-Started.md	60	Settings → Authentication → SSH → **Generate a key** creates an ed25519 keypair	md-prose
-docs	docs/Getting-Started.md	61	and shows the public key to copy into your host. Existing keys are never	md-prose
-docs	docs/Getting-Started.md	62	overwritten — generation always picks a free filename, so a second key becomes	md-prose
-docs	docs/Getting-Started.md	63	`angkorgit_ed25519_2` rather than replacing the first.	md-prose-fmt
-docs	docs/Getting-Started.md	65	If your key has a name AngKorGit does not try by default (`~/.ssh/id_ed25519`	md-prose-fmt
-docs	docs/Getting-Started.md	66	and `~/.ssh/id_rsa`), set it in the **Private key** field or browse for it.	md-prose-fmt
-docs	docs/Getting-Started.md	68	Passphrase-protected keys only work through the SSH agent, because AngKorGit	md-prose
-docs	docs/Getting-Started.md	69	never prompts for a passphrase. Run `ssh-add <key>` first, and leave	md-prose-fmt
-docs	docs/Getting-Started.md	70	**Use the SSH agent** on.	md-prose
-docs	docs/Getting-Started.md	72	### More than one key	md-prose
-docs	docs/Getting-Started.md	74	Many people use a different key per host — one for work, one for personal.	md-prose
-docs	docs/Getting-Started.md	75	That works, with one thing to know: **AngKorGit does not read `~/.ssh/config`**.	md-prose-fmt
-docs	docs/Getting-Started.md	76	The library it uses for SSH has never parsed it, so `Host` aliases and	md-prose-fmt
-docs	docs/Getting-Started.md	77	`IdentityFile` rules that work in your terminal have no effect in the app.	md-prose-fmt
-docs	docs/Getting-Started.md	79	Two ways to use several keys:	md-prose
-docs	docs/Getting-Started.md	81	- **The SSH agent** (recommended) — `ssh-add key1 key2 …`. The agent offers each	md-prose-fmt
-docs	docs/Getting-Started.md	82	key in turn and the host picks the one it knows. Leave **Use the SSH agent**	md-prose
-docs	docs/Getting-Started.md	83	on. This is also the only way a passphrase-protected key can work.	md-prose
-docs	docs/Getting-Started.md	84	- **Without the agent**, AngKorGit tries your configured key first, then	md-prose
-docs	docs/Getting-Started.md	85	`~/.ssh/id_ed25519` and `~/.ssh/id_rsa`, then any other keypair it finds in	md-prose-fmt
-docs	docs/Getting-Started.md	86	`~/.ssh` — up to five in total, since SSH servers cut you off after a handful	md-prose-fmt
-docs	docs/Getting-Started.md	87	of failed attempts.	md-prose
-docs	docs/Getting-Started.md	89	A key generated in AngKorGit is used by AngKorGit; other tools keep using	md-prose
-docs	docs/Getting-Started.md	90	`~/.ssh/id_*` unless you point them at it with an `~/.ssh/config` entry:	md-prose-fmt
-docs	docs/Launch-Checklist.md	3	Runbook for verifying and re-running the website launch at `https://angkorgit.app`.	md-prose-fmt
-docs	docs/Launch-Checklist.md	4	The site is a static Astro build deployed to GitHub Pages by `.github/workflows/website.yml`.	md-prose-fmt
-docs	docs/Launch-Checklist.md	6	## 1. DNS (Hostinger)	md-prose
-docs	docs/Launch-Checklist.md	8	- Nameservers stay on Hostinger parking: `aurora.dns-parking.com` / `nebula.dns-parking.com`.	md-prose-fmt
-docs	docs/Launch-Checklist.md	9	- In the DNS Zone Editor, the apex `@` must have **only** the four GitHub Pages A records:	md-prose-fmt
-docs	docs/Launch-Checklist.md	11	- `www` is a CNAME to `cheat2001.github.io`.	md-prose-fmt
-docs	docs/Launch-Checklist.md	12	- Remove any stale Hostinger parked-page record (`2.57.91.91`). If a resolver still returns it,	md-prose-fmt
-docs	docs/Launch-Checklist.md	13	it is upstream caching — TTL is 14400s (4h). Verify against Google/Cloudflare resolvers:	md-prose
-docs	docs/Launch-Checklist.md	20	## 2. GitHub Pages	md-prose
-docs	docs/Launch-Checklist.md	22	- Pages source must be **GitHub Actions** (set in repo Settings → Pages).	md-prose
-docs	docs/Launch-Checklist.md	23	- Custom domain + HTTPS enforced:	md-prose
-docs	docs/Launch-Checklist.md	30	- The build uses `SITE_URL=https://angkorgit.app` and `SITE_BASE=/` (pinned in the workflow).	md-prose-fmt
-docs	docs/Launch-Checklist.md	31	- `apps/website/public/CNAME` must contain `angkorgit.app`.	md-prose-fmt
-docs	docs/Launch-Checklist.md	33	## 3. Smoke checks	md-prose
-docs	docs/Launch-Checklist.md	42	## 4. Search Console	md-prose
-docs	docs/Launch-Checklist.md	44	- Verify via **URL-prefix property** (`https://angkorgit.app/`); the meta tag is in	md-prose-fmt
-docs	docs/Launch-Checklist.md	45	`apps/website/src/layouts/Base.astro` and is served once the deployment is live.	md-prose-fmt
-docs	docs/Launch-Checklist.md	46	- Submit sitemap `sitemap-index.xml` (Sitemaps → Add a new sitemap).	md-prose-fmt
-docs	docs/Launch-Checklist.md	48	DNS to settle, then Resubmit.	md-prose
-docs	docs/Launch-Checklist.md	49	- Request indexing for `https://angkorgit.app/` via URL Inspection.	md-prose-fmt
-docs	docs/Launch-Checklist.md	53	- GitHub repo About → Website is set to `https://angkorgit.app/`.	md-prose-fmt
-docs	docs/Launch-Checklist.md	54	- The temporary `https://cheat2001.github.io/angkorgit/` URL is retired.	md-prose-fmt
-docs	docs/Launch-Checklist.md	56	## What "launched" looked like (2026-08)	md-prose
-docs	docs/Launch-Checklist.md	58	1. Built the Astro site, added the GitHub Pages workflow, deployed.	md-prose
-docs	docs/Launch-Checklist.md	59	2. Bought `angkorgit.app`, pointed DNS, deleted the stale `2.57.91.91` record.	md-prose-fmt
-docs	docs/Launch-Checklist.md	60	3. Enabled Pages + custom domain + HTTPS via the CLI; deployed at root base.	md-prose
-docs	docs/Launch-Checklist.md	61	4. Fixed the OG image (headline clipped at 1200px — font-size 72 → 52).	md-prose
-docs	docs/Launch-Checklist.md	62	5. Added Search Console verification, JSON-LD, canonical, robots, sitemap.	md-prose
-docs	docs/Launch-Checklist.md	63	6. Flushed local DNS, confirmed Google/Cloudflare resolvers clean, sitemap indexed.	md-prose
-docs	docs/Roadmap.md	3	Updated for v0.10.0 (September 2026). [CHANGELOG.md](../CHANGELOG.md) is the	md-prose-fmt
-docs	docs/Roadmap.md	4	authoritative record of what shipped in each release; this file tracks	md-prose
-docs	docs/Roadmap.md	9	- [x] Repository: open, clone (with progress), recents, search, repository tabs (drag to reorder)	md-prose
-docs	docs/Roadmap.md	10	- [x] Commit: stage files, hunks, and individual lines; unstage, commit, amend; per-repo commit drafts	md-prose
-docs	docs/Roadmap.md	11	- [x] History: virtualized animated graph, search, author/branch filters, refs/tags/HEAD/merges, file history	md-prose
-docs	docs/Roadmap.md	12	- [x] Branch: create, delete, rename, checkout (incl. remote), merge, rebase (+continue/abort), interactive rebase (reorder/reword/squash/fixup/drop), cherry-pick (single or multi-commit, optional "(cherry picked from commit …)" reference), reset (soft/mixed/hard) — explicit merges always record a merge commit; abort merge from the commit box	md-prose
-docs	docs/Roadmap.md	13	- [x] Remote: fetch, pull, push, force push, push/fetch tags, background auto fetch	md-prose
-docs	docs/Roadmap.md	14	- [x] Conflicts: visual resolver — aligned A/B panes with line numbers, one take-all checkbox per side plus hover-to-pick lines, a Result pane with in-place editing and its own line numbers, conflict navigation, AI explanations	md-prose
-docs	docs/Roadmap.md	15	- [x] Worktrees: sidebar section with branch/dirty/missing state, open any worktree as its own tab, create from a branch or commit into a sibling folder, safe remove and prune, branches held elsewhere marked in the sidebar and graph	md-prose
-docs	docs/Roadmap.md	16	- [x] Stash: create, apply, pop, drop · Tags: create (annotated/lightweight), delete, checkout · Submodules: list & update	md-prose
-docs	docs/Roadmap.md	17	- [x] Built-in PTY terminal at repo root; built-in file editor	md-prose
-docs	docs/Roadmap.md	18	- [x] Diff: inline & side-by-side, syntax highlight, word diff, image diff, find in diff (⌘F), minimap, previous/next change and file navigation (N/P, [/]), opens directly at the first change (no scroll animation)	md-prose
-docs	docs/Roadmap.md	19	- [x] Settings: sixteen themes (Angkor Dusk default) with accents & zoom, identity profiles (repo-local) with linked accounts, SSH key management & generation, hosting accounts with verified tokens, AI providers & commit style, keyboard reference	md-prose
-docs	docs/Roadmap.md	20	- [x] Sidebar: accordion sections with pinned headers and collapse-all, row menus on hover and right-click everywhere, empty-state cards; graph display options and column headers; welcome page with keyboard navigation and missing-folder detection	md-prose
-docs	docs/Roadmap.md	21	- [x] AI: provider-agnostic (OpenAI, Anthropic, Gemini, Ollama, LM Studio) plus installed AI CLIs (Claude Code, Codex, Gemini CLI, OpenCode, Antigravity) — commit messages, diff/conflict explanations, PR descriptions, staged-change review with team conventions (global + per-repo `.angkorgit/review.md`), background execution with stop, full-size reading views	md-prose-fmt
-docs	docs/Roadmap.md	22	- [x] Undo/redo for recent operations; drag-and-drop merge/rebase	md-prose
-docs	docs/Roadmap.md	23	- [x] Auto-update: pull-based from GitHub releases, signature-verified	md-prose
-docs	docs/Roadmap.md	24	- [x] Commit signing: SSH and GPG, driven by existing git config (commit.gpgSign, gpg.format, user.signingKey) — covers commit, amend, merge	md-prose
-docs	docs/Roadmap.md	26	- [x] Graph search: a commit hash (full or a short prefix down to 4 characters) jumps to the commit in the full graph, centered and highlighted; ⌘F focuses the search	md-prose
-docs	docs/Roadmap.md	27	- [x] Performance: fast startup (splash waits for the app, not a timer; heavy views load on first use), a quiet file watcher, on-demand commit diffs, loading overlay on slow repository switches	md-prose
-docs	docs/Roadmap.md	32	- [ ] Worktrees: start an installed AI CLI inside a worktree from its row, a per-repo post-create setup command, merged badge with one-step cleanup	md-prose
-docs	docs/Roadmap.md	33	- [ ] Provider avatars via connected accounts, layered over Gravatar	md-prose
-docs	docs/Roadmap.md	35	## Later — Connected (architecture in place, see Architecture.md)	md-prose
-docs	docs/Roadmap.md	37	- [ ] Azure DevOps and Bitbucket Server adapters (GitHub, GitLab and Bitbucket Cloud are in)	md-prose
-docs	docs/Roadmap.md	38	- [ ] Read-only pull request detail view (commits, CI status, review state)	md-prose
-docs	docs/Roadmap.md	39	- [ ] Issue viewer	md-prose
-docs	docs/Roadmap.md	41	## Later — Power	md-prose
-docs	docs/Roadmap.md	43	- [ ] Plugin host (palette commands, sidebar sections, inspector tabs)	md-prose
-docs	docs/Roadmap.md	44	- [ ] Multi-repo workspaces	md-prose
-docs	docs/Roadmap.md	45	- [ ] Performance: commit-graph file support for instant cold opens	md-prose
-docs	docs/Roadmap.md	47	Non-goals: enterprise admin tooling, built-in CI dashboards, in-app code review (commenting, approving and merging live on the forge's web UI, one click away), anything else that duplicates a forge's web UI without daily value.	md-prose
-docs	docs/UI-Guidelines.md	1	# UI Guidelines	md-prose
-docs	docs/UI-Guidelines.md	3	AngKorGit's interface should feel like a professional developer tool: minimal, fast, discoverable. Visual influences — Linear's restraint, Raycast's keyboard focus, VS Code's density, GitKraken's graph clarity — reinterpreted, never copied.	md-prose
-docs	docs/UI-Guidelines.md	7	- **Left sidebar** — repositories context: branches, remotes, tags, stashes, submodules. Filterable.	md-prose
-docs	docs/UI-Guidelines.md	8	- **Center** — the commit graph (the heart of the app), with the terminal docked below.	md-prose
-docs	docs/UI-Guidelines.md	9	- **Right inspector** — working copy (staging + commit) by default; commit details when a commit is selected.	md-prose
-docs	docs/UI-Guidelines.md	10	- All panels are resizable (`react-resizable-panels`) and persist their sizes.	md-prose-fmt
-docs	docs/UI-Guidelines.md	12	## Design tokens	md-prose
-docs	docs/UI-Guidelines.md	14	Everything visual flows from CSS variables: the base dark/light palettes live in	md-prose
-docs	docs/UI-Guidelines.md	15	`packages/design-system/src/tokens.css`, and every other theme (including the	md-prose-fmt
-docs	docs/UI-Guidelines.md	16	default **Angkor Dusk** and its light counterpart **Angkor Dawn**) redefines the	md-prose
-docs	docs/UI-Guidelines.md	17	same tokens in `packages/design-system/src/themes.css`. Sixteen themes ship in	md-prose-fmt
-docs	docs/UI-Guidelines.md	18	total; a change must hold up at least in the default Angkor Dusk plus one light	md-prose
-docs	docs/UI-Guidelines.md	29	The kbach colonnade ornament (`TemplePattern`) appears only on the welcome and	md-prose-fmt
-docs	docs/UI-Guidelines.md	30	splash screens, only in the Angkor Dusk/Dawn themes, at low opacity — never	md-prose
-docs	docs/UI-Guidelines.md	31	behind the graph, diffs, or code, and invisible in every other theme.	md-prose
-docs	docs/UI-Guidelines.md	35	- **8px rhythm.** Spacing uses the Tailwind scale (`gap-2`, `p-4`…). No arbitrary pixel values.	md-prose-fmt
-docs	docs/UI-Guidelines.md	36	- **Typography.** Inter for UI, JetBrains Mono for anything Git: hashes, paths, diffs, messages being authored.	md-prose
-docs	docs/UI-Guidelines.md	37	- **Radii.** `rounded-md` for controls, `rounded-lg` for surfaces. Nothing sharp, nothing pill-shaped except badges.	md-prose-fmt
-docs	docs/UI-Guidelines.md	38	- **Elevation.** Prefer borders (`border-border-subtle`) over shadows; `shadow-soft` only for overlays.	md-prose-fmt
-docs	docs/UI-Guidelines.md	39	- **Color = meaning.** Green is additions/success, red is deletions/danger, gold is primary/HEAD, blue is remote/info. Never decorative.	md-prose
-docs	docs/UI-Guidelines.md	43	Subtle, purposeful, interruptible:	md-prose
-docs	docs/UI-Guidelines.md	45	- Durations 150–250ms; easing `cubic-bezier(0.16, 1, 0.3, 1)`.	md-prose-fmt
-docs	docs/UI-Guidelines.md	46	- Animate opacity/transform only — never layout properties in scrolling lists.	md-prose
-docs	docs/UI-Guidelines.md	47	- The splash logo draw (1.6s) is the single "hero" animation in the app.	md-prose
-docs	docs/UI-Guidelines.md	50	## Interaction principles	md-prose
-docs	docs/UI-Guidelines.md	52	- **Everything keyboard-reachable.** Every action in a menu is also in the ⌘K palette. Shortcuts render next to labels (`Kbd`).	md-prose-fmt
-docs	docs/UI-Guidelines.md	53	- **Discoverable.** Icon buttons always have tooltips; empty states say what to do next.	md-prose
-docs	docs/UI-Guidelines.md	54	- **Safe by default.** Destructive operations (hard reset, discard, force push) require explicit confirmation and are styled `danger`.	md-prose-fmt
-docs	docs/UI-Guidelines.md	55	- **Feedback within 100ms.** Long operations set a busy label in the toolbar; results arrive as toasts. Conflict outcomes are warnings (amber), not failures.	md-prose
-docs	docs/UI-Guidelines.md	56	- **Optimistic where safe.** Staging/unstaging refreshes status only; the graph reloads only when history actually changes.	md-prose
-docs	docs/UI-Guidelines.md	58	## Writing style	md-prose
+docs	docs/Launch-Checklist.md	6	## 1. DNS（Hostinger）	md-prose
 e2e	tests/e2e/playwright.config.ts	1	@playwright/test	string
 e2e	tests/e2e/playwright.config.ts	8	http://localhost:1420	string
 e2e	tests/e2e/playwright.config.ts	12	pnpm --filter @angkorgit/desktop dev	string
@@ -883,7 +576,6 @@ e2e	tests/e2e/smoke.spec.ts	205	h2, p	string
 e2e	tests/e2e/smoke.spec.ts	219	clipped: ${part.text}	template
 e2e	tests/e2e/smoke.spec.ts	220	spills: ${part.text}	template
 e2e	tests/e2e/smoke.spec.ts	224	button	string
-e2e	tests/e2e/smoke.spec.ts	224	Discard ${longPath}	template
 e2e	tests/e2e/smoke.spec.ts	227	dialog	string
 e2e	tests/e2e/smoke.spec.ts	228	dialog	string
 e2e	tests/e2e/smoke.spec.ts	230	button	string
@@ -1363,7 +1055,6 @@ rust	apps/desktop/src-tauri/src/ai_cli.rs	225	NO_COLOR	rust
 rust	apps/desktop/src-tauri/src/ai_cli.rs	226	TERM	rust
 rust	apps/desktop/src-tauri/src/ai_cli.rs	226	dumb	rust
 rust	apps/desktop/src-tauri/src/ai_cli.rs	284	angkorgit-ai-{}-{nanos}.txt	rust-fmt
-rust	apps/desktop/src-tauri/src/ai_cli.rs	290	{} is not a supported AI CLI	rust
 rust	apps/desktop/src-tauri/src/ai_cli.rs	315	PATH	rust
 rust	apps/desktop/src-tauri/src/ai_cli.rs	316	NO_COLOR	rust
 rust	apps/desktop/src-tauri/src/ai_cli.rs	317	CLICOLOR	rust
@@ -1460,7 +1151,6 @@ rust	apps/desktop/src-tauri/src/core/branch.rs	131	refs/remotes/{name}	rust-fmt
 rust	apps/desktop/src-tauri/src/core/branch.rs	173	up_to_date	rust
 rust	apps/desktop/src-tauri/src/core/branch.rs	185	fast-forward merge {branch}	rust-fmt
 rust	apps/desktop/src-tauri/src/core/branch.rs	187	fast_forward	rust
-rust	apps/desktop/src-tauri/src/core/branch.rs	188	Fast-forwarded to {branch}	rust-fmt
 rust	apps/desktop/src-tauri/src/core/branch.rs	197	conflicts	rust
 rust	apps/desktop/src-tauri/src/core/branch.rs	205	HEAD	rust
 rust	apps/desktop/src-tauri/src/core/branch.rs	210	HEAD	rust
@@ -1468,7 +1158,6 @@ rust	apps/desktop/src-tauri/src/core/branch.rs	213	Merge branch '{branch}' into 
 rust	apps/desktop/src-tauri/src/core/branch.rs	246	conflicts	rust
 rust	apps/desktop/src-tauri/src/core/branch.rs	272	conflicts	rust
 rust	apps/desktop/src-tauri/src/core/branch.rs	288	conflicts	rust
-rust	apps/desktop/src-tauri/src/core/branch.rs	342	the selected base is not a first-parent ancestor of HEAD	rust
 rust	apps/desktop/src-tauri/src/core/branch.rs	379	pick	rust
 rust	apps/desktop/src-tauri/src/core/branch.rs	379	reword	rust
 rust	apps/desktop/src-tauri/src/core/branch.rs	379	squash	rust
@@ -1484,11 +1173,8 @@ rust	apps/desktop/src-tauri/src/core/branch.rs	443	(cherry picked from commit	ru
 rust	apps/desktop/src-tauri/src/core/branch.rs	456	\n\n	rust
 rust	apps/desktop/src-tauri/src/core/branch.rs	474	(cherry picked from commit {oid})\n	rust-fmt
 rust	apps/desktop/src-tauri/src/core/branch.rs	487	conflicts	rust
-rust	apps/desktop/src-tauri/src/core/branch.rs	488	Cherry-pick has conflicts to resolve	rust
 rust	apps/desktop/src-tauri/src/core/branch.rs	496	cherry-pick	rust
 rust	apps/desktop/src-tauri/src/core/branch.rs	503	HEAD	rust
-rust	apps/desktop/src-tauri/src/core/branch.rs	513	Cherry-picked {}	rust-fmt
-rust	apps/desktop/src-tauri/src/core/branch.rs	519	no commits to cherry-pick	rust
 rust	apps/desktop/src-tauri/src/core/branch.rs	526	conflicts	rust
 rust	apps/desktop/src-tauri/src/core/branch.rs	535	conflicts	rust
 rust	apps/desktop/src-tauri/src/core/branch.rs	553	soft	rust
@@ -1497,7 +1183,6 @@ rust	apps/desktop/src-tauri/src/core/branch.rs	555	hard	rust
 rust	apps/desktop/src-tauri/src/core/commit.rs	45	HEAD	rust
 rust	apps/desktop/src-tauri/src/core/commit.rs	65	MERGE_MSG	rust
 rust	apps/desktop/src-tauri/src/core/commit.rs	91	conflicts	rust
-rust	apps/desktop/src-tauri/src/core/commit.rs	92	Revert has conflicts to resolve	rust
 rust	apps/desktop/src-tauri/src/core/commit.rs	102	HEAD	rust
 rust	apps/desktop/src-tauri/src/core/commit.rs	105	Revert \"{summary}\"\n\nThis reverts commit {full_oid}.	rust-fmt
 rust	apps/desktop/src-tauri/src/core/commit.rs	126	HEAD	rust
@@ -1549,7 +1234,6 @@ rust	apps/desktop/src-tauri/src/core/remote.rs	153	{}_{suffix}	rust-fmt
 rust	apps/desktop/src-tauri/src/core/remote.rs	159	{}.pub	rust-fmt
 rust	apps/desktop/src-tauri/src/core/remote.rs	174	ssh-keygen	rust
 rust	apps/desktop/src-tauri/src/core/remote.rs	175	ed25519	rust
-rust	apps/desktop/src-tauri/src/core/remote.rs	178	could not run ssh-keygen: {e}	rust-fmt
 rust	apps/desktop/src-tauri/src/core/remote.rs	196	git	rust
 rust	apps/desktop/src-tauri/src/core/remote.rs	197	credential	rust
 rust	apps/desktop/src-tauri/src/core/remote.rs	197	approve	rust
@@ -1563,7 +1247,6 @@ rust	apps/desktop/src-tauri/src/core/remote.rs	228	GIT_TERMINAL_PROMPT	rust
 rust	apps/desktop/src-tauri/src/core/remote.rs	244	username=	rust
 rust	apps/desktop/src-tauri/src/core/remote.rs	246	password=	rust
 rust	apps/desktop/src-tauri/src/core/remote.rs	269	angkorgit.accounts	rust
-rust	apps/desktop/src-tauri/src/core/remote.rs	289	The connected {host} account '{username}' was refused — its token may have expired	rust
 rust	apps/desktop/src-tauri/src/core/remote.rs	310	git	rust
 rust	apps/desktop/src-tauri/src/core/remote.rs	329	{}.pub	rust-fmt
 rust	apps/desktop/src-tauri/src/core/remote.rs	465	{prefix}refs/heads/{branch}:refs/heads/{branch}	rust-fmt
@@ -1571,14 +1254,9 @@ rust	apps/desktop/src-tauri/src/core/remote.rs	467	refs/tags/*:refs/tags/*	rust
 rust	apps/desktop/src-tauri/src/core/remote.rs	501	{remote_name}/{branch_name}	rust-fmt
 rust	apps/desktop/src-tauri/src/core/remote.rs	527	origin	rust
 rust	apps/desktop/src-tauri/src/core/remote.rs	558	up_to_date	rust
-rust	apps/desktop/src-tauri/src/core/remote.rs	559	{branch_name} is already up to date	rust-fmt
 rust	apps/desktop/src-tauri/src/core/remote.rs	565	up_to_date	rust
-rust	apps/desktop/src-tauri/src/core/remote.rs	566	{branch_name} is ahead of {upstream_name} — nothing to pull	rust-fmt
-rust	apps/desktop/src-tauri/src/core/remote.rs	571	{branch_name} has diverged from {upstream_name} — check it out to merge	rust
 rust	apps/desktop/src-tauri/src/core/remote.rs	574	refs/heads/{branch_name}	rust-fmt
-rust	apps/desktop/src-tauri/src/core/remote.rs	577	pull: fast-forward to {upstream_name}	rust-fmt
 rust	apps/desktop/src-tauri/src/core/remote.rs	580	fast_forward	rust
-rust	apps/desktop/src-tauri/src/core/remote.rs	581	Fast-forwarded {branch_name} to {upstream_name}	rust-fmt
 rust	apps/desktop/src-tauri/src/core/remote.rs	585	refs/angkorgit/pr-head	rust
 rust	apps/desktop/src-tauri/src/core/remote.rs	594	refs/	rust
 rust	apps/desktop/src-tauri/src/core/remote.rs	597	refs/heads/{local_branch}	rust-fmt
@@ -1587,7 +1265,6 @@ rust	apps/desktop/src-tauri/src/core/remote.rs	613	refs/remotes/{remote_name}/{l
 rust	apps/desktop/src-tauri/src/core/remote.rs	618	{remote_name}/{local_branch}	rust-fmt
 rust	apps/desktop/src-tauri/src/core/remote.rs	623	+{source_ref}:{PR_HEAD_TMP_REF}	rust-fmt
 rust	apps/desktop/src-tauri/src/core/remote.rs	642	refs/heads/{local_branch}	rust-fmt
-rust	apps/desktop/src-tauri/src/core/remote.rs	650	local branch {local_branch} has commits that are not on the pull request —	rust
 rust	apps/desktop/src-tauri/src/core/remote.rs	659	pull request checkout	rust
 rust	apps/desktop/src-tauri/src/core/remote.rs	671	refs/tags/{tag}:refs/tags/{tag}	rust-fmt
 rust	apps/desktop/src-tauri/src/core/remote.rs	721	/Users/tester	rust
@@ -1676,18 +1353,14 @@ rust	apps/desktop/src-tauri/src/core/sign.rs	202	.sig	rust
 rust	apps/desktop/src-tauri/src/core/sign.rs	209	sign	rust
 rust	apps/desktop/src-tauri/src/core/sign.rs	209	git	rust
 rust	apps/desktop/src-tauri/src/core/sign.rs	213	PATH	rust
-rust	apps/desktop/src-tauri/src/core/sign.rs	216	{} could not sign the commit ({e}). {SSH_AGENT_HINT}	rust
-rust	apps/desktop/src-tauri/src/core/sign.rs	222	{} refused to sign the commit: {}. {SSH_AGENT_HINT}	rust
 rust	apps/desktop/src-tauri/src/core/sign.rs	228	ssh-keygen produced no signature	rust
 rust	apps/desktop/src-tauri/src/core/sign.rs	235	--status-fd=2	rust
 rust	apps/desktop/src-tauri/src/core/sign.rs	236	--detach-sign	rust
 rust	apps/desktop/src-tauri/src/core/sign.rs	237	--armor	rust
 rust	apps/desktop/src-tauri/src/core/sign.rs	238	--local-user	rust
 rust	apps/desktop/src-tauri/src/core/sign.rs	242	PATH	rust
-rust	apps/desktop/src-tauri/src/core/sign.rs	245	{} could not sign the commit ({e}). If the key has a passphrase, gpg needs a	rust
 rust	apps/desktop/src-tauri/src/core/sign.rs	250	[GNUPG:] SIG_CREATED	rust
 rust	apps/desktop/src-tauri/src/core/sign.rs	254	[GNUPG:]	rust
-rust	apps/desktop/src-tauri/src/core/sign.rs	258	{} refused to sign the commit: {}. Check user.signingKey and that a graphical	rust
 rust	apps/desktop/src-tauri/src/core/sign.rs	273	angkorgit-sign-test-{}-{}	rust
 rust	apps/desktop/src-tauri/src/core/sign.rs	293	commit.gpgsign	rust
 rust	apps/desktop/src-tauri/src/core/sign.rs	293	false	rust
@@ -1766,7 +1439,6 @@ rust	apps/desktop/src-tauri/src/core/worktree.rs	171	worktrees	rust
 rust	apps/desktop/src-tauri/src/core/worktree.rs	171	HEAD	rust
 rust	apps/desktop/src-tauri/src/core/worktree.rs	208	worktree	rust
 rust	apps/desktop/src-tauri/src/core/worktree.rs	221	{base}-{i}	rust-fmt
-rust	apps/desktop/src-tauri/src/core/worktree.rs	237	{} already exists — pick a folder that does not exist yet	rust
 rust	apps/desktop/src-tauri/src/core/worktree.rs	245	refs/heads/{branch}	rust-fmt
 rust	apps/desktop/src-tauri/src/core/worktree.rs	255	HEAD	rust
 rust	apps/desktop/src-tauri/src/core/worktree.rs	292	refs/heads/{local_name}	rust-fmt
@@ -1818,7 +1490,6 @@ rust	apps/desktop/src-tauri/src/forge.rs	32	gitlab	rust
 rust	apps/desktop/src-tauri/src/forge.rs	32	gitlab-self	rust
 rust	apps/desktop/src-tauri/src/forge.rs	33	private-token	rust
 rust	apps/desktop/src-tauri/src/forge.rs	35	bitbucket	rust
-rust	apps/desktop/src-tauri/src/forge.rs	38	the Bitbucket account has no Atlassian email stored — reconnect it in	rust
 rust	apps/desktop/src-tauri/src/forge.rs	43	{email}:{token}	rust-fmt
 rust	apps/desktop/src-tauri/src/forge.rs	44	authorization	rust
 rust	apps/desktop/src-tauri/src/forge.rs	44	Basic {basic}	rust-fmt
@@ -1861,8 +1532,6 @@ rust	apps/desktop/src-tauri/src/http.rs	35	http://	rust
 rust	apps/desktop/src-tauri/src/http.rs	35	https://	rust
 rust	apps/desktop/src-tauri/src/http.rs	41	GET	rust
 rust	apps/desktop/src-tauri/src/http.rs	42	POST	rust
-rust	apps/desktop/src-tauri/src/http.rs	55	request failed: {e}	rust-fmt
-rust	apps/desktop/src-tauri/src/http.rs	60	failed to read response: {e}	rust-fmt
 rust	apps/desktop/src-tauri/src/main.rs	1	windows	rust
 rust	apps/desktop/src-tauri/src/proc.rs	37	CARGO_MANIFEST_DIR	rust
 rust	apps/desktop/src-tauri/src/proc.rs	37	src	rust
@@ -2640,7 +2309,6 @@ rust	apps/desktop/src-tauri/tests/git_engine.rs	1374	pr follow-up	rust
 rust	apps/desktop/src-tauri/tests/git_engine.rs	1377	origin	rust
 rust	apps/desktop/src-tauri/tests/git_engine.rs	1377	refs/pull/1/head	rust
 rust	apps/desktop/src-tauri/tests/git_engine.rs	1377	pr/1	rust
-rust	apps/desktop/src-tauri/tests/git_engine.rs	1379	delete or rename	rust
 rust	apps/desktop/src-tauri/tests/git_engine.rs	1380	git	rust
 rust	apps/desktop/src-tauri/tests/git_engine.rs	1381	rev-parse	rust
 rust	apps/desktop/src-tauri/tests/git_engine.rs	1381	HEAD	rust
@@ -2684,7 +2352,6 @@ rust	apps/desktop/src-tauri/tests/git_engine.rs	1439	pr third	rust
 rust	apps/desktop/src-tauri/tests/git_engine.rs	1442	origin	rust
 rust	apps/desktop/src-tauri/tests/git_engine.rs	1443	refs/heads/feature	rust
 rust	apps/desktop/src-tauri/tests/git_engine.rs	1444	feature	rust
-rust	apps/desktop/src-tauri/tests/git_engine.rs	1448	delete or rename	rust
 rust	apps/desktop/src-tauri/tests/git_engine.rs	1449	pr.txt	rust
 rust	apps/desktop/src-tauri/tests/git_engine.rs	1449	two\n	rust
 rust	apps/desktop/src-tauri/tests/git_engine.rs	1455	a.txt	rust
@@ -3384,7 +3051,6 @@ test	tests/unit/forge.test.ts	448	head	string
 test	tests/unit/forge.test.ts	448	invalid	string
 test	tests/unit/forge.test.ts	455	feature/x	string
 test	tests/unit/forge.test.ts	456	main	string
-test	tests/unit/forge.test.ts	460	the source branch does not exist on this remote	string
 test	tests/unit/forge.test.ts	465	gitlab self-hosted scheme fallback	test-name
 test	tests/unit/forge.test.ts	466	retries over http when the https transport fails on a self-hosted instance	test-name
 test	tests/unit/forge.test.ts	470	https://	string
@@ -3803,7 +3469,6 @@ ui	apps/desktop/src/components/CommandPalette.tsx	130	) =>	jsx-text
 ui	apps/desktop/src/components/CommandPalette.tsx	143	undo	string
 ui	apps/desktop/src/components/CommandPalette.tsx	143	redo	string
 ui	apps/desktop/src/components/CommandPalette.tsx	145	undo	string
-ui	apps/desktop/src/components/CommandPalette.tsx	205	Clear ${repoState} state?	template
 ui	apps/desktop/src/components/CommandPalette.tsx	226	commands	string
 ui	apps/desktop/src/components/CommandPalette.tsx	227	fixed left-1/2 top-24 z-50 w-full max-w-lg -translate-x-1/2 overflow-hidden rounded-lg border border-border bg-surface-overlay shadow-soft	attr:className
 ui	apps/desktop/src/components/CommandPalette.tsx	233	fileHistory	string
@@ -3828,9 +3493,7 @@ ui	apps/desktop/src/components/CommandPalette.tsx	348	rebase	string
 ui	apps/desktop/src/components/CommandPalette.tsx	354	merge	string
 ui	apps/desktop/src/components/CommandPalette.tsx	368	clone	string
 ui	apps/desktop/src/components/CommandPalette.tsx	376	/welcome	string
-ui	apps/desktop/src/components/CommandPalette.tsx	426	Checkout ${branch.name}	template
 ui	apps/desktop/src/components/CommandPalette.tsx	429	checkout	string
-ui	apps/desktop/src/components/CommandPalette.tsx	430	Checkout ${branch.name}	template
 ui	apps/desktop/src/components/CommandPalette.tsx	485	dark	string
 ui	apps/desktop/src/components/CommandPalette.tsx	486	dark	string
 ui	apps/desktop/src/components/CommandPalette.tsx	489	dark	string
@@ -3882,7 +3545,6 @@ ui	apps/desktop/src/components/RepoTabs.tsx	24	nearest	string
 ui	apps/desktop/src/components/RepoTabs.tsx	24	nearest	string
 ui	apps/desktop/src/components/RepoTabs.tsx	70	scrollbar-none flex min-w-0 flex-1 items-end gap-0.5 overflow-x-auto	attr:className
 ui	apps/desktop/src/components/RepoTabs.tsx	82	tab	attr:role
-ui	apps/desktop/src/components/RepoTabs.tsx	85	${path} (worktree)	template
 ui	apps/desktop/src/components/RepoTabs.tsx	89	text/angkorgit-repo-tab	string
 ui	apps/desktop/src/components/RepoTabs.tsx	90	move	attr:effectAllowed
 ui	apps/desktop/src/components/RepoTabs.tsx	99	move	attr:dropEffect
@@ -3895,7 +3557,6 @@ ui	apps/desktop/src/components/RepoTabs.tsx	121	ring-1 ring-inset ring-primary/6
 ui	apps/desktop/src/components/RepoTabs.tsx	126	size-3 shrink-0	string
 ui	apps/desktop/src/components/RepoTabs.tsx	126	text-primary	string
 ui	apps/desktop/src/components/RepoTabs.tsx	126	text-faint	string
-ui	apps/desktop/src/components/RepoTabs.tsx	127	Worktree	attr:aria-label
 ui	apps/desktop/src/components/RepoTabs.tsx	132	button	attr:type
 ui	apps/desktop/src/components/RepoTabs.tsx	135	shrink-0 rounded-sm p-0.5 hover:bg-surface-overlay hover:text-foreground	string
 ui	apps/desktop/src/components/RepoTabs.tsx	136	text-muted	string
@@ -3971,8 +3632,6 @@ ui	apps/desktop/src/components/Toolbar.tsx	348	icon	attr:size
 ui	apps/desktop/src/components/Toolbar.tsx	351	redo	string
 ui	apps/desktop/src/components/Toolbar.tsx	375	origin	string
 ui	apps/desktop/src/components/Toolbar.tsx	382	message	string
-ui	apps/desktop/src/components/Toolbar.tsx	383	${label} complete	template
-ui	apps/desktop/src/components/Toolbar.tsx	385	${label} complete	template
 ui	apps/desktop/src/components/Toolbar.tsx	400	@/features/forge/store	string
 ui	apps/desktop/src/components/Toolbar.tsx	406	navigate('/welcome')}>	jsx-text
 ui	apps/desktop/src/components/Toolbar.tsx	419	ghost	attr:variant
@@ -4012,7 +3671,6 @@ ui	apps/desktop/src/components/profilePrompt.tsx	23	((resolve) =>	jsx-text
 ui	apps/desktop/src/components/profilePrompt.tsx	40	(null);	jsx-text
 ui	apps/desktop/src/components/profilePrompt.tsx	42	!open && settle(null)}>	jsx-text
 ui	apps/desktop/src/components/profilePrompt.tsx	44	max-w-sm	attr:className
-ui	apps/desktop/src/components/profilePrompt.tsx	51	Which profile for	jsx-text
 ui	apps/desktop/src/components/profilePrompt.tsx	53	s identity and	string
 ui	apps/desktop/src/components/profilePrompt.tsx	62	button	attr:type
 ui	apps/desktop/src/components/profilePrompt.tsx	63	flex items-center gap-3 rounded-lg border border-border p-3 text-left transition-colors hover:border-primary/60 hover:bg-surface-raised focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60	attr:className
@@ -4043,7 +3701,6 @@ ui	apps/desktop/src/core/ipc.ts	130	state_cleanup	string
 ui	apps/desktop/src/core/ipc.ts	134	recent_repositories	string
 ui	apps/desktop/src/core/ipc.ts	138	recent_remove	string
 ui	apps/desktop/src/core/ipc.ts	142	user.name	string
-ui	apps/desktop/src/core/ipc.ts	142	Demo User	string
 ui	apps/desktop/src/core/ipc.ts	142	user.email	string
 ui	apps/desktop/src/core/ipc.ts	142	demo@angkorgit.dev	string
 ui	apps/desktop/src/core/ipc.ts	143	config_get	string
@@ -4059,7 +3716,6 @@ ui	apps/desktop/src/core/ipc.ts	180	unstage_hunk	string
 ui	apps/desktop/src/core/ipc.ts	184	stage_line	string
 ui	apps/desktop/src/core/ipc.ts	188	unstage_line	string
 ui	apps/desktop/src/core/ipc.ts	192	discard_line	string
-ui	apps/desktop/src/core/ipc.ts	195	// demo mode — editing is available in the desktop app\n	string
 ui	apps/desktop/src/core/ipc.ts	196	read_file	string
 ui	apps/desktop/src/core/ipc.ts	200	write_file	string
 ui	apps/desktop/src/core/ipc.ts	204	open_path	string
@@ -4146,7 +3802,6 @@ ui	apps/desktop/src/core/ipc.ts	467	diff_file	string
 ui	apps/desktop/src/core/ipc.ts	471	diff_commit	string
 ui	apps/desktop/src/core/ipc.ts	475	diff_commit_files	string
 ui	apps/desktop/src/core/ipc.ts	485	diff_commit_file	string
-ui	apps/desktop/src/core/ipc.ts	494	--- demo staged patch ---	string
 ui	apps/desktop/src/core/ipc.ts	495	staged_patch	string
 ui	apps/desktop/src/core/ipc.ts	499	src/features/graph/drawGraph.ts	string
 ui	apps/desktop/src/core/ipc.ts	500	conflict_list	string
@@ -4185,10 +3840,8 @@ ui	apps/desktop/src/core/ipc.ts	677	_blank	string
 ui	apps/desktop/src/core/ipc.ts	680	@tauri-apps/plugin-opener	string
 ui	apps/desktop/src/core/ipc.ts	685	dev	string
 ui	apps/desktop/src/core/ipc.ts	686	@tauri-apps/api/app	string
-ui	apps/desktop/src/core/ipc.ts	692	${title} — enter a path (demo mode)	template
 ui	apps/desktop/src/core/ipc.ts	694	@tauri-apps/plugin-dialog	string
 ui	apps/desktop/src/core/ipc.ts	696	string	string
-ui	apps/desktop/src/core/ipc.ts	701	${title} — enter a path (demo mode)	template
 ui	apps/desktop/src/core/ipc.ts	703	@tauri-apps/plugin-dialog	string
 ui	apps/desktop/src/core/ipc.ts	705	string	string
 ui	apps/desktop/src/features/ai/AiResultDialog.tsx	1	react	string
@@ -4246,12 +3899,9 @@ ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	80	conflicted	string
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	86	group flex cursor-pointer items-center gap-2 rounded-md px-2 py-1 text-xs transition-colors	string
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	87	bg-primary/10	string
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	87	hover:bg-surface-raised	string
-ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	95	Unstage ${file.path}	template
-ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	95	Stage ${file.path}	template
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	99	conflicted	string
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	108	ghost	attr:variant
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	109	icon-sm	attr:size
-ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	110	Discard ${file.path}	template
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	111	opacity-0 focus-visible:opacity-100 group-hover:opacity-100	attr:className
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	160	(null);	jsx-text
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	186	absolute left-0 w-full	attr:className
@@ -4270,14 +3920,11 @@ ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	250	(null);	jsx-text
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	254	${fixed}px	template
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	257	auto	attr:height
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	349	"${file}" is a submodule — open it as its own repository to discard the changes inside it.	template
-ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	350	Could not discard "${file}" — the change is still present.	template
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	382	, errorLabel: string) =>	jsx-text
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	413	untracked	string
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	417	Discard	string
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	482	not_found	string
-ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	483	Could not read ${PROJECT_REVIEW_FILE} — reviewing without project conventions	template
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	534	commit	string
-ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	535	commit "${summary}"	template
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	584	[data-selected-file-row]	string
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	585	nearest	string
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	590	ArrowDown	string
@@ -4475,7 +4122,6 @@ ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	766	min-w-0 border-l
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	767	current	string
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	767	border-r border-border-subtle border-l-info/60	string
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	767	border-l-success/60	string
-ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	775	Take empty ${side} side (deletes this section)	template
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	783	button	attr:role
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	786	group/line flex cursor-pointer items-start gap-2 px-3 py-0.5 transition-colors	string
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	788	current	string
@@ -4487,7 +4133,6 @@ ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	809	current	string
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	809	border-l-2 border-r border-border-subtle border-l-info/60	string
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	809	border-l-2 border-l-success/60	string
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	811	current	string
-ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	820	Take empty ${side} side (deletes this section)	template
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	832	button	attr:role
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	835	group/line flex cursor-pointer items-start gap-2 px-3 py-0.5 transition-colors	string
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	837	current	string
@@ -4920,12 +4565,9 @@ ui	apps/desktop/src/features/editor/EditorPanel.tsx	9	@/components/confirm	strin
 ui	apps/desktop/src/features/editor/EditorPanel.tsx	10	@/shared/utils	string
 ui	apps/desktop/src/features/editor/EditorPanel.tsx	18	(null);	jsx-text
 ui	apps/desktop/src/features/editor/EditorPanel.tsx	19	('');	jsx-text
-ui	apps/desktop/src/features/editor/EditorPanel.tsx	50	${file} saved	template
 ui	apps/desktop/src/features/editor/EditorPanel.tsx	84	flex h-full flex-col bg-background	attr:className
-ui	apps/desktop/src/features/editor/EditorPanel.tsx	88	Editing ${file}	template
 ui	apps/desktop/src/features/editor/EditorPanel.tsx	94	Esc	jsx-text
 ui	apps/desktop/src/features/editor/EditorPanel.tsx	113	void save()}>	jsx-text
-ui	apps/desktop/src/features/editor/EditorPanel.tsx	130	Contents of ${file}	template
 ui	apps/desktop/src/features/editor/EditorPanel.tsx	131	min-h-0 flex-1 resize-none bg-transparent px-4 py-3 font-mono text-xs leading-5 text-foreground focus:outline-none	attr:className
 ui	apps/desktop/src/features/editor/EditorPanel.tsx	137	Escape	string
 ui	apps/desktop/src/features/editor/EditorPanel.tsx	140	Tab	string
@@ -4970,7 +4612,6 @@ ui	apps/desktop/src/features/forge/store.ts	1	zustand	string
 ui	apps/desktop/src/features/forge/store.ts	9	@angkorgit/core	string
 ui	apps/desktop/src/features/forge/store.ts	10	@/core/ipc	string
 ui	apps/desktop/src/features/forge/store.ts	11	@/features/repository/store	string
-ui	apps/desktop/src/features/forge/store.ts	64	Could not reach ${host} — check your network or VPN, then retry.	template
 ui	apps/desktop/src/features/forge/store.ts	108	${path}|${origin.url}	template
 ui	apps/desktop/src/features/graph/CommitGraph.tsx	1	react	string
 ui	apps/desktop/src/features/graph/CommitGraph.tsx	2	@tanstack/react-virtual	string
@@ -5022,14 +4663,12 @@ ui	apps/desktop/src/features/graph/CommitGraph.tsx	351	date	string
 ui	apps/desktop/src/features/graph/CommitGraph.tsx	370	flex h-6 shrink-0 select-none items-center gap-2 border-b border-border-subtle bg-surface pr-4 text-[10px] font-semibold uppercase tracking-wide text-faint	string
 ui	apps/desktop/src/features/graph/CommitGraph.tsx	371	pl-1	string
 ui	apps/desktop/src/features/graph/CommitGraph.tsx	371	pl-4	string
-ui	apps/desktop/src/features/graph/CommitGraph.tsx	406	Could not load the history:	jsx-text
 ui	apps/desktop/src/features/graph/CommitGraph.tsx	407	void reload(path)}>	jsx-text
 ui	apps/desktop/src/features/graph/CommitGraph.tsx	416	ghost	attr:variant
 ui	apps/desktop/src/features/graph/CommitGraph.tsx	440	animate-locate rounded-md bg-primary/10 shadow-[inset_3px_0_0_hsl(var(--primary))]	string
 ui	apps/desktop/src/features/graph/CommitGraph.tsx	444	absolute	string
 ui	apps/desktop/src/features/graph/CommitGraph.tsx	447	100%	string
 ui	apps/desktop/src/features/graph/CommitGraph.tsx	449	translateY(${item.start}px)	template
-ui	apps/desktop/src/features/graph/CommitGraph.tsx	473	Could not load more commits:	jsx-text
 ui	apps/desktop/src/features/graph/CommitGraph.tsx	474	void reload(path)}>	jsx-text
 ui	apps/desktop/src/features/graph/CommitGraph.tsx	482	!o && setRefMenu(null)}>	jsx-text
 ui	apps/desktop/src/features/graph/CommitGraph.tsx	488	tag	string
@@ -5088,10 +4727,6 @@ ui	apps/desktop/src/features/graph/GraphRow.tsx	297	success	string
 ui	apps/desktop/src/features/graph/GraphRow.tsx	297	info	string
 ui	apps/desktop/src/features/graph/GraphRow.tsx	299	min-w-0 shrink whitespace-nowrap	string
 ui	apps/desktop/src/features/graph/GraphRow.tsx	301	cursor-pointer hover:z-20 hover:shrink-0 hover:!bg-surface-overlay hover:shadow-soft	string
-ui	apps/desktop/src/features/graph/GraphRow.tsx	308	· local	string
-ui	apps/desktop/src/features/graph/GraphRow.tsx	308	· origin	string
-ui	apps/desktop/src/features/graph/GraphRow.tsx	308	double-click to switch to that worktree	string
-ui	apps/desktop/src/features/graph/GraphRow.tsx	308	double-click to checkout	string
 ui	apps/desktop/src/features/graph/GraphRow.tsx	332	g.label).join(', ')}>	jsx-text
 ui	apps/desktop/src/features/graph/GraphRow.tsx	338	h-px min-w-1 flex-1	attr:className
 ui	apps/desktop/src/features/graph/GraphRow.tsx	390	row	attr:role
@@ -5102,7 +4737,6 @@ ui	apps/desktop/src/features/graph/GraphRow.tsx	395	bg-primary/10	string
 ui	apps/desktop/src/features/graph/GraphRow.tsx	395	hover:bg-surface-raised	string
 ui	apps/desktop/src/features/graph/GraphRow.tsx	396	font-medium	string
 ui	apps/desktop/src/features/graph/GraphRow.tsx	414	HEAD	jsx-text
-ui	apps/desktop/src/features/graph/GraphRow.tsx	419	(no message)	jsx-text
 ui	apps/desktop/src/features/graph/GraphRow.tsx	425	shrink-0 truncate text-[11px] text-muted	attr:className
 ui	apps/desktop/src/features/graph/GraphRow.tsx	427	${commit.author.name} <${commit.author.email}>	template
 ui	apps/desktop/src/features/graph/GraphRow.tsx	434	button	attr:type
@@ -5234,7 +4868,6 @@ ui	apps/desktop/src/features/history/FileHistoryPanel.tsx	242	bg-surface-raised 
 ui	apps/desktop/src/features/history/FileHistoryPanel.tsx	250	ghost	attr:variant
 ui	apps/desktop/src/features/history/FileHistoryPanel.tsx	251	icon-sm	attr:size
 ui	apps/desktop/src/features/history/FileHistoryPanel.tsx	253	bg-surface-raised text-primary	string
-ui	apps/desktop/src/features/history/FileHistoryPanel.tsx	265	Could not load file history:	jsx-text
 ui	apps/desktop/src/features/history/FileHistoryPanel.tsx	266	setHistoryAttempt((n) => n + 1)}>	jsx-text
 ui	apps/desktop/src/features/history/FileHistoryPanel.tsx	285	button	attr:type
 ui	apps/desktop/src/features/history/FileHistoryPanel.tsx	287	flex w-full items-start gap-2.5 border-b border-border-subtle px-3 py-2.5 text-left	string
@@ -5286,16 +4919,10 @@ ui	apps/desktop/src/features/history/undoStore.ts	105	branchDelete	string
 ui	apps/desktop/src/features/history/undoStore.ts	107	undo	string
 ui	apps/desktop/src/features/history/undoStore.ts	111	branchRename	string
 ui	apps/desktop/src/features/history/undoStore.ts	112	undo	string
-ui	apps/desktop/src/features/history/undoStore.ts	170	Can't undo "${entry.label}" — the repository has changed since	template
 ui	apps/desktop/src/features/history/undoStore.ts	173	branchCreate	string
-ui	apps/desktop/src/features/history/undoStore.ts	177	Can't undo "${entry.label}" — the branch has moved since	template
 ui	apps/desktop/src/features/history/undoStore.ts	181	undo	string
-ui	apps/desktop/src/features/history/undoStore.ts	184	Undid: ${entry.label}	template
-ui	apps/desktop/src/features/history/undoStore.ts	201	Can't redo "${entry.label}" — the repository has changed since	template
 ui	apps/desktop/src/features/history/undoStore.ts	204	branchDelete	string
-ui	apps/desktop/src/features/history/undoStore.ts	207	Can't redo "${entry.label}" — the branch has moved since	template
 ui	apps/desktop/src/features/history/undoStore.ts	211	redo	string
-ui	apps/desktop/src/features/history/undoStore.ts	214	Redid: ${entry.label}	template
 ui	apps/desktop/src/features/inspector/CommitDetails.tsx	1	react	string
 ui	apps/desktop/src/features/inspector/CommitDetails.tsx	2	@tanstack/react-virtual	string
 ui	apps/desktop/src/features/inspector/CommitDetails.tsx	3	sonner	string
@@ -5378,7 +5005,6 @@ ui	apps/desktop/src/features/inspector/Inspector.tsx	19	(null);	jsx-text
 ui	apps/desktop/src/features/inspector/Inspector.tsx	20	([]);	jsx-text
 ui	apps/desktop/src/features/inspector/Inspector.tsx	22	(null);	jsx-text
 ui	apps/desktop/src/features/inspector/Inspector.tsx	23	(null);	jsx-text
-ui	apps/desktop/src/features/inspector/Inspector.tsx	53	Could not load commit: ${message}	template
 ui	apps/desktop/src/features/inspector/Inspector.tsx	85	ghost	attr:variant
 ui	apps/desktop/src/features/inspector/Inspector.tsx	86	icon-sm	attr:size
 ui	apps/desktop/src/features/inspector/Inspector.tsx	88	bg-surface-raised text-foreground	string
@@ -5425,8 +5051,6 @@ ui	apps/desktop/src/features/repository/RepoDialogs.tsx	60	) =>	jsx-text
 ui	apps/desktop/src/features/repository/RepoDialogs.tsx	80	branchCreate	string
 ui	apps/desktop/src/features/repository/RepoDialogs.tsx	96	Stash	test-name
 ui	apps/desktop/src/features/repository/RepoDialogs.tsx	107	cherryPick	string
-ui	apps/desktop/src/features/repository/RepoDialogs.tsx	111	Cherry-pick ${oids.length} commits	template
-ui	apps/desktop/src/features/repository/RepoDialogs.tsx	118	Cherry-pick done	string
 ui	apps/desktop/src/features/repository/RepoDialogs.tsx	134	branchRename	string
 ui	apps/desktop/src/features/repository/RepoDialogs.tsx	144	!o && closeDialog()}>	jsx-text
 ui	apps/desktop/src/features/repository/RepoDialogs.tsx	155	feature/my-branch	attr:placeholder
@@ -5474,7 +5098,6 @@ ui	apps/desktop/src/features/repository/RepositoryPage.tsx	34	@/features/setting
 ui	apps/desktop/src/features/repository/RepositoryPage.tsx	35	@/core/ipc	string
 ui	apps/desktop/src/features/repository/RepositoryPage.tsx	36	@angkorgit/design-system	string
 ui	apps/desktop/src/features/repository/RepositoryPage.tsx	37	@/shared/utils	string
-ui	apps/desktop/src/features/repository/RepositoryPage.tsx	75	Opening	jsx-text
 ui	apps/desktop/src/features/repository/RepositoryPage.tsx	100	/welcome	string
 ui	apps/desktop/src/features/repository/RepositoryPage.tsx	151	repo-changed	string
 ui	apps/desktop/src/features/repository/RepositoryPage.tsx	178	settings	string
@@ -5577,7 +5200,6 @@ ui	apps/desktop/src/features/settings/AccountsTab.tsx	60	GitLab.com	string
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	61	gitlab.com	string
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	63	https://gitlab.com/-/user_settings/personal_access_tokens	string
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	67	gitlab-self	string
-ui	apps/desktop/src/features/settings/AccountsTab.tsx	68	GitLab (self-hosted)	string
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	71	http://${host}/-/user_settings/personal_access_tokens	template
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	76	Bitbucket	string
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	77	bitbucket.org	string
@@ -5595,7 +5217,6 @@ ui	apps/desktop/src/features/settings/AccountsTab.tsx	126	https://api.bitbucket.
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	127	GET	string
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	130	user-agent	string
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	130	AngKorGit	string
-ui	apps/desktop/src/features/settings/AccountsTab.tsx	138	Bitbucket rejected the token (${res.status})	template
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	141	github	string
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	143	https://api.github.com/user	string
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	144	GET	string
@@ -5603,7 +5224,6 @@ ui	apps/desktop/src/features/settings/AccountsTab.tsx	146	Bearer ${token}	templa
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	147	application/vnd.github+json	string
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	148	user-agent	string
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	148	AngKorGit	string
-ui	apps/desktop/src/features/settings/AccountsTab.tsx	151	GitHub rejected the token (${res.status})	template
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	154	gitlab	string
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	154	gitlab-self	string
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	155	https	string
@@ -5613,7 +5233,6 @@ ui	apps/desktop/src/features/settings/AccountsTab.tsx	159	GET	string
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	160	private-token	string
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	160	user-agent	string
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	160	AngKorGit	string
-ui	apps/desktop/src/features/settings/AccountsTab.tsx	166	GitLab rejected the token (${res.status})	template
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	169	rejected	string
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	172	unreachable	string
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	185	checking	string
@@ -5632,18 +5251,10 @@ ui	apps/desktop/src/features/settings/AccountsTab.tsx	255	unreachable	string
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	291	other	string
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	294	bitbucket	string
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	307	unreachable	string
-ui	apps/desktop/src/features/settings/AccountsTab.tsx	308	${cleanHost} is unreachable right now — saving without verification	template
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	317	bitbucket	string
-ui	apps/desktop/src/features/settings/AccountsTab.tsx	330	Connected ${cleanHost} as ${finalUsername}	template
-ui	apps/desktop/src/features/settings/AccountsTab.tsx	331	Saved ${cleanHost} as ${finalUsername} — token not verified	template
-ui	apps/desktop/src/features/settings/AccountsTab.tsx	344	Removed ${account.username} on ${account.host}	template
-ui	apps/desktop/src/features/settings/AccountsTab.tsx	353	${account.username} is now the default for ${account.host}	template
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	359	((acc, a) =>	jsx-text
-ui	apps/desktop/src/features/settings/AccountsTab.tsx	369	Remove ${account.username} on ${account.host}?	template
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	384	setAdding(true)}>	jsx-text
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	413	flex items-center gap-3 rounded-lg border border-border-subtle bg-surface-raised/40 p-3	attr:className
-ui	apps/desktop/src/features/settings/AccountsTab.tsx	426	· token in the system keychain	jsx-text
-ui	apps/desktop/src/features/settings/AccountsTab.tsx	427	· checked	jsx-text
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	431	reconnect(account)}>	jsx-text
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	443	void makeDefault(account)}>	jsx-text
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	447	reconnect(account)}>	jsx-text
@@ -5658,7 +5269,6 @@ ui	apps/desktop/src/features/settings/AccountsTab.tsx	492	other	string
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	495	bitbucket	string
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	495	you@company.com	string
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	495	optional	string
-ui	apps/desktop/src/features/settings/AccountsTab.tsx	501	Token	attr:label
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	505	button	attr:type
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	506	flex items-center gap-1 text-primary hover:underline	attr:className
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	516	password	attr:type
@@ -5705,7 +5315,6 @@ ui	apps/desktop/src/features/settings/SettingsDialog.tsx	167	void generate()}>	j
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	177	ghost	attr:variant
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	179	self-start	attr:className
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	209	([]);	jsx-text
-ui	apps/desktop/src/features/settings/SettingsDialog.tsx	258	· type any name or load the list your key can access	jsx-text
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	263	void refresh()} disabled=	jsx-text
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	268	void load()} disabled=	jsx-text
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	291	flex w-full items-center gap-2 px-2.5 py-1.5 text-left transition-colors	string
@@ -5775,7 +5384,6 @@ ui	apps/desktop/src/features/settings/SettingsDialog.tsx	721	bg-primary/10 font-
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	722	text-muted hover:bg-surface-raised hover:text-foreground	string
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	733	AngKorGit	jsx-text
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	744	appearance	string
-ui	apps/desktop/src/features/settings/SettingsDialog.tsx	747	Theme	attr:title
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	757	group flex flex-col overflow-hidden rounded-lg border text-left transition-colors	string
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	759	border-primary ring-1 ring-primary	string
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	760	border-border hover:border-muted	string
@@ -5789,7 +5397,6 @@ ui	apps/desktop/src/features/settings/SettingsDialog.tsx	788	text-muted group-ho
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	792	dark	string
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	810	flex size-8 items-center justify-center rounded-full transition-transform hover:scale-110	string
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	812	ring-2 ring-foreground/70 ring-offset-2 ring-offset-background	string
-ui	apps/desktop/src/features/settings/SettingsDialog.tsx	824	Zoom	attr:title
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	833	secondary	attr:variant
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	834	icon-sm	attr:size
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	842	w-14 text-center font-mono text-xs text-muted hover:text-foreground	attr:className
@@ -5798,7 +5405,6 @@ ui	apps/desktop/src/features/settings/SettingsDialog.tsx	850	icon-sm	attr:size
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	869	git	string
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	926	you@example.com	attr:placeholder
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	934	void saveIdentity()}>	jsx-text
-ui	apps/desktop/src/features/settings/SettingsDialog.tsx	941	Profiles	attr:title
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	945	setAddingProfile(true)}>	jsx-text
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	958	rounded-lg border p-3 transition-colors	string
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	959	border-primary/40 bg-primary/5	string
@@ -5812,9 +5418,7 @@ ui	apps/desktop/src/features/settings/SettingsDialog.tsx	1016	flex cursor-pointe
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	1020	flex size-6 shrink-0 items-center justify-center rounded [&_svg]:size-3.5	string
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	1021	bg-primary/15 text-primary	string
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	1021	bg-surface-raised text-muted	string
-ui	apps/desktop/src/features/settings/SettingsDialog.tsx	1034	Link ${account.username} on ${account.host} to ${profile.label}	template
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	1053	setAddingProfile(true)}>	jsx-text
-ui	apps/desktop/src/features/settings/SettingsDialog.tsx	1067	Work	attr:placeholder
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	1071	Enter	string
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	1072	Escape	string
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	1082	Enter	string
@@ -5824,7 +5428,6 @@ ui	apps/desktop/src/features/settings/SettingsDialog.tsx	1093	Enter	string
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	1094	Escape	string
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	1104	setAddingProfile(false)}>	jsx-text
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	1123	accounts	string
-ui	apps/desktop/src/features/settings/SettingsDialog.tsx	1134	Provider	attr:title
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	1136	cli	string
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	1159	cli	string
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	1175	password	attr:type
@@ -6076,22 +5679,13 @@ ui	apps/desktop/src/features/sidebar/Sidebar.tsx	252	(null);	jsx-text
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	253	(null);	jsx-text
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	268	${path}/${sub.path}	template
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	279	();	jsx-text
-ui	apps/desktop/src/features/sidebar/Sidebar.tsx	326	Forget ${wt.name}	template
-ui	apps/desktop/src/features/sidebar/Sidebar.tsx	335	The folder is deleted.${branchNote}	template
-ui	apps/desktop/src/features/sidebar/Sidebar.tsx	357	Removed worktree ${wt.name}	template
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	372	checkout	string
-ui	apps/desktop/src/features/sidebar/Sidebar.tsx	373	Checkout ${target}	template
-ui	apps/desktop/src/features/sidebar/Sidebar.tsx	377	Merge ${source} into ${target}	template
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	377	merge	string
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	390	checkout	string
-ui	apps/desktop/src/features/sidebar/Sidebar.tsx	391	Checkout ${source}	template
-ui	apps/desktop/src/features/sidebar/Sidebar.tsx	395	Rebase ${source} onto ${target}	template
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	395	rebase	string
-ui	apps/desktop/src/features/sidebar/Sidebar.tsx	421	Checkout #${pr.number}	template
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	423	origin	string
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	424	checkout	string
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	452	#${pr.number}	template
-ui	apps/desktop/src/features/sidebar/Sidebar.tsx	472	Update remote ${edit.original}	template
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	477	(new Set());	jsx-text
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	494	branches	string
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	495	worktrees	string
@@ -6106,13 +5700,9 @@ ui	apps/desktop/src/features/sidebar/Sidebar.tsx	547	group flex items-center gap
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	548	cursor-default text-primary	string
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	548	cursor-default text-muted	string
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	548	cursor-pointer	string
-ui	apps/desktop/src/features/sidebar/Sidebar.tsx	552	${wt.path} — this folder no longer exists	template
-ui	apps/desktop/src/features/sidebar/Sidebar.tsx	554	${wt.path} — open in this tab	template
-ui	apps/desktop/src/features/sidebar/Sidebar.tsx	555	${wt.path} — click to switch to this worktree	template
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	573	ghost	attr:variant
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	574	icon-sm	attr:size
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	575	shrink-0 opacity-0 focus-visible:opacity-100 group-hover:opacity-100	attr:className
-ui	apps/desktop/src/features/sidebar/Sidebar.tsx	576	${wt.name} actions	template
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	595	text/angkorgit-branch	string
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	596	link	attr:effectAllowed
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	606	link	attr:dropEffect
@@ -6123,27 +5713,20 @@ ui	apps/desktop/src/features/sidebar/Sidebar.tsx	637	bg-surface-raised	string
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	638	opacity-40	string
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	639	bg-primary/10 ring-1 ring-inset ring-primary/60	string
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	644	flex min-w-0 flex-1 items-center gap-2 text-left	attr:className
-ui	apps/desktop/src/features/sidebar/Sidebar.tsx	648	Checkout ${branch.name}	template
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	648	checkout	string
-ui	apps/desktop/src/features/sidebar/Sidebar.tsx	654	${branch.name} — click to filter graph, double-click to checkout	template
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	661	size-3 shrink-0 text-faint	attr:className
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	669	ghost	attr:variant
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	670	icon-sm	attr:size
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	671	shrink-0 opacity-0 focus-visible:opacity-100 group-hover:opacity-100	attr:className
-ui	apps/desktop/src/features/sidebar/Sidebar.tsx	672	${branch.name} actions	template
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	690	text/angkorgit-branch	string
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	691	link	attr:effectAllowed
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	703	group flex cursor-grab items-center gap-2 rounded-md px-2 py-1 text-sm text-muted hover:bg-surface-raised active:cursor-grabbing	string
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	704	opacity-40	string
-ui	apps/desktop/src/features/sidebar/Sidebar.tsx	706	${branch.name} — drag onto a local branch to merge or rebase	template
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	709	flex min-w-0 flex-1 items-center gap-2 text-left	attr:className
-ui	apps/desktop/src/features/sidebar/Sidebar.tsx	710	Checkout ${branch.name}	template
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	710	checkout	string
-ui	apps/desktop/src/features/sidebar/Sidebar.tsx	711	${branch.name} — double-click to checkout	template
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	717	ghost	attr:variant
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	718	icon-sm	attr:size
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	719	shrink-0 opacity-0 focus-visible:opacity-100 group-hover:opacity-100	attr:className
-ui	apps/desktop/src/features/sidebar/Sidebar.tsx	720	${branch.name} actions	template
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	732	local	string
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	732	remote	string
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	735	local	string
@@ -6156,14 +5739,12 @@ ui	apps/desktop/src/features/sidebar/Sidebar.tsx	761	rotate-90	string
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	775	ghost	attr:variant
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	776	icon-sm	attr:size
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	777	mr-0.5 shrink-0 opacity-0 focus-visible:opacity-100 group-hover:opacity-100	attr:className
-ui	apps/desktop/src/features/sidebar/Sidebar.tsx	778	Remote ${remote.name} actions	template
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	796	remote:${remote.name}	template
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	797	group flex items-center rounded-md hover:bg-surface-raised	attr:className
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	804	flex min-w-0 flex-1 items-center gap-1.5 px-2 py-1 text-sm text-muted	attr:className
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	814	ghost	attr:variant
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	815	icon-sm	attr:size
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	816	mr-0.5 shrink-0 opacity-0 focus-visible:opacity-100 group-hover:opacity-100	attr:className
-ui	apps/desktop/src/features/sidebar/Sidebar.tsx	817	Remote ${remote.name} actions	template
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	838	h-7 border-transparent bg-surface-raised pl-8 text-xs	attr:className
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	843	ghost	attr:variant
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	844	icon-sm	attr:size
@@ -6190,12 +5771,9 @@ ui	apps/desktop/src/features/sidebar/Sidebar.tsx	978	w-full rounded-md px-2 py-1
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	979	settings	string
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	987	w-full rounded-md px-2 py-1 pl-7 text-left text-xs text-muted [overflow-wrap:anywhere] hover:bg-surface-raised	attr:className
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1009	group flex items-center gap-2 rounded-md px-2 py-1 pl-7 text-sm hover:bg-surface-raised	attr:className
-ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1010	#${pr.number} ${pr.title} — ${pr.author} wants to merge ${pr.sourceBranch} into ${pr.targetBranch}. Double-click to check out, right-click for actions.	template
-ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1020	Draft	jsx-text
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1022	ghost	attr:variant
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1023	icon-sm	attr:size
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1024	shrink-0 opacity-0 focus-visible:opacity-100 group-hover:opacity-100	attr:className
-ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1025	Pull request #${pr.number} actions	template
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1037	pullRequests	string
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1051	remote	string
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1060	remotes	string
@@ -6207,7 +5785,6 @@ ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1098	min-w-0 flex-1 truncate	at
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1104	ghost	attr:variant
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1105	icon-sm	attr:size
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1106	shrink-0 opacity-0 focus-visible:opacity-100 group-hover:opacity-100	attr:className
-ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1107	${tag.name} actions	template
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1119	tags	string
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1125	stashes	string
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1128	openDialog('createStash')}>	jsx-text
@@ -6221,27 +5798,20 @@ ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1183	group flex cursor-default 
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1193	ghost	attr:variant
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1194	icon-sm	attr:size
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1195	shrink-0 opacity-0 focus-visible:opacity-100 group-hover:opacity-100	attr:className
-ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1196	${sub.name} actions	template
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1208	submodules	string
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1214	!o && setSubMenu(null)}>	jsx-text
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1220	openSubmodule(subMenu.sub)}>	jsx-text
-ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1226	Update ${sub.name}	template
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1234	${path}/${subMenu.sub.path}	template
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1245	!o && setPrMenu(null)}>	jsx-text
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1253	checkoutPullRequest(prMenu.pr)}>	jsx-text
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1256	void openExternal(prMenu.pr.url)}>	jsx-text
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1272	!o && setTagMenu(null)}>	jsx-text
-ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1281	Checkout ${tag.name}	template
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1281	checkout	string
-ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1289	Push tag ${tag.name}	template
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1289	origin	string
-ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1299	Delete tag ${tag.name}	template
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1309	!o && setStashMenu(null)}>	jsx-text
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1346	!o && setWorktreeMenu(null)}>	jsx-text
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1375	void removeWorktree(worktreeMenu.worktree)}>	jsx-text
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1393	!o && setRemoteMenu(null)}>	jsx-text
-ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1402	Fetch ${r.name}	template
-ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1427	Remove ${r.name}	template
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1437	!o && setEditRemote(null)}>	jsx-text
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1450	Enter	string
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1452	origin	attr:placeholder
@@ -6251,28 +5821,20 @@ ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1465	font-mono	attr:className
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1470	setEditRemote(null)}>	jsx-text
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1484	!o && setBranchMenu(null)}>	jsx-text
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1491	openWorktree(branchMenuHeld)}>	jsx-text
-ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1498	Checkout ${branchMenu.branch.name}	template
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1499	checkout	string
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1507	openDialog('createWorktree',	jsx-text
-ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1514	Merge ${branchMenu.branch.name}	template
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1515	merge	string
-ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1525	Rebase onto ${branchMenu.branch.name}	template
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1526	rebase	string
-ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1539	Pull ${branchMenu.branch.name}	template
-ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1547	Push ${branchMenu.branch.name}	template
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1548	origin	string
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1558	openDialog('createBranch', branchMenu.branch.targetOid)}>	jsx-text
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1563	openDialog('rename', branchMenu.branch.name)}>	jsx-text
-ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1571	Delete branch ${branchMenu.branch.name}	template
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1573	branchDelete	string
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1585	!o && setDropAction(null)}>	jsx-text
-ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1599	${dropAction.target} will be checked out first when merging.	template
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1605	h-auto justify-start whitespace-normal py-2	attr:className
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1620	secondary	attr:variant
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1621	h-auto justify-start whitespace-normal py-2	attr:className
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1637	secondary	attr:variant
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1638	h-auto justify-start whitespace-normal py-2	attr:className
-ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1647	s commits on top of {dropAction.target} — rewrites history	string
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1654	setDropAction(null)}>	jsx-text
 ui	apps/desktop/src/features/terminal/TerminalPanel.tsx	1	react	string
 ui	apps/desktop/src/features/terminal/TerminalPanel.tsx	2	lucide-react	string
@@ -6511,11 +6073,8 @@ website	apps/website/src/components/AiSection.astro	7	OpenCode	string
 website	apps/website/src/components/AiSection.astro	8	Anthropic	string
 website	apps/website/src/components/AiSection.astro	9	OpenAI	string
 website	apps/website/src/components/AiSection.astro	10	Gemini	string
-website	apps/website/src/components/AiSection.astro	10	t ship a model or a token wallet. If you	string
 website	apps/website/src/components/AiSection.astro	11	Ollama	string
 website	apps/website/src/components/AiSection.astro	12	LM Studio	string
-website	apps/website/src/components/AiSection.astro	18	s used for: a commit message from the staged diff, a plain-language explanation of a commit or a	string
-website	apps/website/src/components/AiSection.astro	19	re about to commit, and a pull request description. Every one of those has	string
 website	apps/website/src/components/AiSection.astro	39	&gt;_	jsx-text
 website	apps/website/src/components/AiSection.astro	60	Commit message style	jsx-text
 website	apps/website/src/components/AiSection.astro	63	feature/* → feat(scope):	jsx-text
@@ -6636,7 +6195,6 @@ website	apps/website/src/components/HeroGraph.astro	53	conflicts	string
 website	apps/website/src/components/HeroGraph.astro	53	d41ab88	string
 website	apps/website/src/components/HeroGraph.astro	53	tag	string
 website	apps/website/src/components/HeroGraph.astro	54	why	string
-website	apps/website/src/components/HeroGraph.astro	54	init: why I made this	string
 website	apps/website/src/components/HeroGraph.astro	54	a1b2c3d	string
 website	apps/website/src/components/HeroGraph.astro	54	border-primary/40 bg-primary/10 text-primary	string
 website	apps/website/src/components/HeroGraph.astro	55	border-success/40 bg-success/10 text-success	string
@@ -6653,10 +6211,8 @@ website	apps/website/src/components/HeroGraph.astro	84	${i}m	template
 website	apps/website/src/components/Install.astro	1	./Commit.astro	string
 website	apps/website/src/components/Install.astro	2	./TerminalBlock.astro	string
 website	apps/website/src/components/Install.astro	3	../lib/site	string
-website	apps/website/src/components/Install.astro	6	Install · v	jsx-text
 website	apps/website/src/components/Install.astro	9	macOS	string
 website	apps/website/src/components/Install.astro	11	AngKorGit_${version}_universal.dmg	template
-website	apps/website/src/components/Install.astro	12	Not signed with an Apple certificate, so macOS asks once. Right-click, Open, or use Homebrew below and it never asks.	string
 website	apps/website/src/components/Install.astro	13	Mac（Homebrew）	jsx-text
 website	apps/website/src/components/Install.astro	15	Windows	string
 website	apps/website/src/components/Install.astro	17	AngKorGit_${version}_x64-setup.exe	template
@@ -6673,17 +6229,12 @@ website	apps/website/src/components/Install.astro	66	Start-Process "$env:TEMP\\A
 website	apps/website/src/components/Install.astro	71	Linux	attr:label
 website	apps/website/src/components/Install.astro	74	chmod +x ~/Downloads/AngKorGit.AppImage	string
 website	apps/website/src/components/Install.astro	75	~/Downloads/AngKorGit.AppImage	string
-website	apps/website/src/components/Install.astro	83	getting started page	jsx-text
-website	apps/website/src/components/Install.astro	84	releases page	jsx-text
 website	apps/website/src/components/Logo.astro	5	0 0 64 64	attr:viewBox
 website	apps/website/src/components/Logo.astro	6	none	attr:fill
 website	apps/website/src/components/Logo.astro	8	img	attr:role
 website	apps/website/src/components/Logo.astro	9	angkor-draw 1.6s cubic-bezier(0.6, 0, 0.2, 1) forwards	string
 website	apps/website/src/components/Logo.astro	9	AngKorGit	attr:aria-label
 website	apps/website/src/components/Questions.astro	1	../lib/site	string
-website	apps/website/src/components/Questions.astro	11	open an issue	jsx-text
-website	apps/website/src/components/Questions.astro	14	The build isn't signed with an Apple developer certificate yet, so Gatekeeper asks once. Right-click and Open, or install through Homebrew, which clears the flag for you. After that the updater handles new versions and verifies each one with a signature.	string
-website	apps/website/src/components/Questions.astro	22	Faster to open, lighter, and narrower on purpose. GitKraken took the workflow ideas further than anyone and I learned from it, but I wanted the twenty-five features that matter rather than the hundred. Fork is closer in spirit, though it is not open source and not on Linux.	string
 website	apps/website/src/components/Questions.astro	27	@context	string
 website	apps/website/src/components/Questions.astro	27	https://schema.org	string
 website	apps/website/src/components/Questions.astro	28	@type	string
@@ -6706,16 +6257,9 @@ website	apps/website/src/components/Rail.astro	51	scroll	string
 website	apps/website/src/components/Rail.astro	52	resize	string
 website	apps/website/src/components/Scene.astro	1	./Commit.astro	string
 website	apps/website/src/components/Size.astro	1	./Commit.astro	string
-website	apps/website/src/components/Size.astro	5	Native	jsx-text
 website	apps/website/src/components/SpecSheet.astro	1	./Commit.astro	string
-website	apps/website/src/components/SpecSheet.astro	9	t here, it isn	string
 website	apps/website/src/components/SpecSheet.astro	16	Branches	string
-website	apps/website/src/components/SpecSheet.astro	21	Cherry-pick one or many, with the origin reference	string
-website	apps/website/src/components/SpecSheet.astro	34	Commit details with parents, refs, and per-file counts	string
 website	apps/website/src/components/SpecSheet.astro	48	Conflicts	string
-website	apps/website/src/components/SpecSheet.astro	61	Built-in terminal per repository	string
-website	apps/website/src/components/SpecSheet.astro	63	Signature-verified updates from GitHub releases	string
-website	apps/website/src/components/SpecSheet.astro	69	In-app pull request review	string
 website	apps/website/src/components/Splash.astro	1	./Logo.astro	string
 website	apps/website/src/components/Splash.astro	3	splash	attr:id
 website	apps/website/src/components/Splash.astro	4	fixed inset-0 z-[100] flex flex-col items-center justify-center gap-6 bg-background text-foreground	attr:class
@@ -6736,9 +6280,7 @@ website	apps/website/src/components/TerminalBlock.astro	21	button	attr:type
 website	apps/website/src/components/TerminalBlock.astro	22	scroll	attr:data-view
 website	apps/website/src/components/TerminalBlock.astro	25	view-toggle inline-flex h-6 w-6 items-center justify-center rounded-md text-muted transition-colors hover:bg-surface hover:text-foreground	attr:class
 website	apps/website/src/components/TerminalBlock.astro	32	button	attr:type
-website	apps/website/src/components/TerminalBlock.astro	35	Copy ${label} install command	template
 website	apps/website/src/components/TerminalBlock.astro	36	ml-1 inline-flex items-center gap-1.5 rounded-md border border-border px-2.5 py-1 font-mono text-xs text-muted transition-colors hover:bg-surface hover:text-foreground	attr:class
-website	apps/website/src/components/TerminalBlock.astro	42	Copy	jsx-text
 website	apps/website/src/components/TerminalBlock.astro	50	.terminal-block	string
 website	apps/website/src/components/TerminalBlock.astro	53	('.terminal-view');	jsx-text
 website	apps/website/src/components/TerminalBlock.astro	54	('.view-toggle');	jsx-text
@@ -6762,11 +6304,9 @@ website	apps/website/src/components/TerminalBlock.astro	79	click	string
 website	apps/website/src/components/TerminalBlock.astro	84	textarea	string
 website	apps/website/src/components/TerminalBlock.astro	86	fixed	attr:position
 website	apps/website/src/components/TerminalBlock.astro	90	copy	string
-website	apps/website/src/components/TerminalBlock.astro	95	Copied!	attr:textContent
 website	apps/website/src/components/TerminalBlock.astro	97	<path d="M20 6 9 17l-5-5" />	string
 website	apps/website/src/components/TerminalBlock.astro	98	border-primary	string
 website	apps/website/src/components/TerminalBlock.astro	98	text-primary	string
-website	apps/website/src/components/TerminalBlock.astro	101	Copy	attr:textContent
 website	apps/website/src/components/TerminalBlock.astro	103	<rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />	string
 website	apps/website/src/components/TerminalBlock.astro	104	border-primary	string
 website	apps/website/src/components/TerminalBlock.astro	104	text-primary	string
@@ -6812,17 +6352,12 @@ website	apps/website/src/components/mock/Conflicts.astro	19	info	string
 website	apps/website/src/components/mock/Conflicts.astro	20	feature/lane-colors	string
 website	apps/website/src/components/mock/Conflicts.astro	20	Incoming	string
 website	apps/website/src/components/mock/Conflicts.astro	20	success	string
-website	apps/website/src/components/mock/Conflicts.astro	32	Conflict 1	jsx-text
 website	apps/website/src/components/mock/Conflicts.astro	32	success	string
-website	apps/website/src/components/mock/Conflicts.astro	56	Result	jsx-text
-website	apps/website/src/components/mock/Conflicts.astro	59	Reset	jsx-text
 website	apps/website/src/components/mock/Frame.astro	3	frame relative overflow-hidden rounded-lg border border-border bg-background shadow-soft	string
 website	apps/website/src/components/mock/Frame.astro	4	aspect-ratio: ${width} / ${height}	template
 website	apps/website/src/components/mock/Frame.astro	13	('.frame'));	jsx-text
 website	apps/website/src/components/mock/Frame.astro	15	('.frame-inner');	jsx-text
 website	apps/website/src/components/mock/Graph.astro	1	./icons	string
-website	apps/website/src/components/mock/Graph.astro	9	Graph	jsx-text
-website	apps/website/src/components/mock/Graph.astro	9	Message	jsx-text
 website	apps/website/src/components/mock/Graph.astro	13	local	string
 website	apps/website/src/components/mock/Graph.astro	13	tag	string
 website	apps/website/src/components/mock/Graph.astro	13	remote	string
@@ -6902,17 +6437,12 @@ website	apps/website/src/components/mock/Graph.astro	48	--graph-2	string
 website	apps/website/src/components/mock/Graph.astro	51	Sokha Chan	string
 website	apps/website/src/components/mock/Graph.astro	51	Dara Kim	string
 website	apps/website/src/components/mock/Graph.astro	51	Maly Sok	string
-website	apps/website/src/components/mock/Graph.astro	75	1y ago	jsx-text
 website	apps/website/src/components/mock/GraphScene.astro	1	./AppFrame.astro	string
 website	apps/website/src/components/mock/GraphScene.astro	2	./icons	string
 website	apps/website/src/components/mock/Palette.astro	1	./AppFrame.astro	string
 website	apps/website/src/components/mock/Palette.astro	2	./icons	string
 website	apps/website/src/components/mock/Palette.astro	5	history	string
-website	apps/website/src/components/mock/Palette.astro	5	Type a command or branch name…	jsx-text
 website	apps/website/src/components/mock/Palette.astro	6	down	string
-website	apps/website/src/components/mock/Palette.astro	6	Pull	string
-website	apps/website/src/components/mock/Palette.astro	7	Push	string
-website	apps/website/src/components/mock/Palette.astro	7	Actions	jsx-text
 website	apps/website/src/components/mock/Palette.astro	8	refresh	string
 website	apps/website/src/components/mock/Palette.astro	9	branchPlus	string
 website	apps/website/src/components/mock/Palette.astro	10	folderTree	string
@@ -6944,7 +6474,6 @@ website	apps/website/src/components/mock/Sidebar.astro	19	angkorgit-fix-stash…
 website	apps/website/src/components/mock/Sidebar.astro	19	folder missing	jsx-text
 website	apps/website/src/components/mock/Sidebar.astro	22	#12	jsx-text
 website	apps/website/src/components/mock/Sidebar.astro	23	#11	jsx-text
-website	apps/website/src/components/mock/Sidebar.astro	23	Draft	jsx-text
 website	apps/website/src/components/mock/Sidebar.astro	29	WIP on main: experiment …	jsx-text
 website	apps/website/src/components/mock/WorkingCopy.astro	1	./icons	string
 website	apps/website/src/components/mock/WorkingCopy.astro	4	ipc.ts	string
@@ -6962,15 +6491,10 @@ website	apps/website/src/components/mock/WorkingCopy.astro	11	src	string
 website	apps/website/src/components/mock/WorkingCopy.astro	13	border-info/40 bg-info/15 text-info	string
 website	apps/website/src/components/mock/WorkingCopy.astro	13	border-success/40 bg-success/15 text-success	string
 website	apps/website/src/components/mock/WorkingCopy.astro	13	border-danger/40 bg-danger/15 text-danger	string
-website	apps/website/src/components/mock/WorkingCopy.astro	14	Conflicts	jsx-text
-website	apps/website/src/components/mock/WorkingCopy.astro	15	Resolve	jsx-text
 website	apps/website/src/components/mock/WorkingCopy.astro	20	drawGraph.ts	jsx-text
 website	apps/website/src/components/mock/WorkingCopy.astro	20	src/features/graph	jsx-text
-website	apps/website/src/components/mock/WorkingCopy.astro	58	Summary	jsx-text
-website	apps/website/src/components/mock/WorkingCopy.astro	61	Description — what changed and why · ⌘⏎ to commit	jsx-text
 website	apps/website/src/components/mock/Worktree.astro	1	./AppFrame.astro	string
 website	apps/website/src/components/mock/Worktree.astro	2	./icons	string
-website	apps/website/src/components/mock/Worktree.astro	11	New branch	jsx-text
 website	apps/website/src/components/mock/Worktree.astro	15	feature/parallel-task	jsx-text
 website	apps/website/src/components/mock/Worktree.astro	19	/Users/demo/projects/angkorgit-new	jsx-text
 website	apps/website/src/components/mock/icons.ts	2	<path d="m3 11 9-8 9 8v9a2 2 0 0 1-2 2h-3v-6H8v6H5a2 2 0 0 1-2-2Z"/>	string
@@ -7082,7 +6606,6 @@ website	apps/website/src/layouts/DocsLayout.astro	2	../components/Header.astro	s
 website	apps/website/src/layouts/DocsLayout.astro	3	../components/Footer.astro	string
 website	apps/website/src/layouts/DocsLayout.astro	4	astro:content	string
 website	apps/website/src/layouts/DocsLayout.astro	5	../lib/site	string
-website	apps/website/src/layouts/DocsLayout.astro	6	Home	jsx-text
 website	apps/website/src/layouts/DocsLayout.astro	17	docs	string
 website	apps/website/src/layouts/DocsLayout.astro	17	/docs/${link.slug}/	template
 website	apps/website/src/layouts/DocsLayout.astro	18	shrink-0 rounded-full border px-3 py-1.5 text-xs transition-colors	string
@@ -7131,7 +6654,6 @@ website	apps/website/src/pages/404.astro	3	../components/Footer.astro	string
 website	apps/website/src/pages/404.astro	4	../components/Logo.astro	string
 website	apps/website/src/pages/404.astro	5	../lib/site	string
 website	apps/website/src/pages/404.astro	7	404	jsx-text
-website	apps/website/src/pages/404.astro	10	re looking for was never added to history. Let	string
 website	apps/website/src/pages/404.astro	15	inline-flex items-center gap-2 rounded-md bg-primary px-6 py-3 text-sm font-medium text-primary-foreground transition-colors hover:opacity-90	attr:class
 website	apps/website/src/pages/404.astro	21	inline-flex items-center gap-2 rounded-md border border-border bg-surface px-6 py-3 text-sm font-medium transition-colors hover:bg-surface-raised	attr:class
 website	apps/website/src/pages/docs/[slug].astro	1	astro:content	string
@@ -7144,7 +6666,6 @@ website	apps/website/src/pages/docs/index.astro	1	astro:content	string
 website	apps/website/src/pages/docs/index.astro	2	../../layouts/DocsLayout.astro	string
 website	apps/website/src/pages/docs/index.astro	3	../../lib/site	string
 website	apps/website/src/pages/docs/index.astro	5	docs	string
-website	apps/website/src/pages/docs/index.astro	7	repository	jsx-text
 website	apps/website/src/pages/docs/index.astro	8	.md	string
 website	apps/website/src/pages/docs/index.astro	9	.md	string
 website	apps/website/src/pages/index.astro	1	../layouts/Base.astro	string
@@ -7163,6 +6684,3 @@ website	apps/website/src/pages/index.astro	13	../components/AiSection.astro	stri
 website	apps/website/src/pages/index.astro	14	../components/Install.astro	string
 website	apps/website/src/pages/index.astro	15	../components/Questions.astro	string
 website	apps/website/src/pages/index.astro	16	../components/Footer.astro	string
-website	apps/website/src/pages/index.astro	18	t save half a conflict by accident.	string
-website	apps/website/src/pages/index.astro	32	s already open in another folder and it takes you there instead, the same	string
-website	apps/website/src/pages/index.astro	46	d expect, and ⌘Z undoes the	string

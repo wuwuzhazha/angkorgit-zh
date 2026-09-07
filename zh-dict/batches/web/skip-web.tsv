@@ -28,3 +28,4 @@ WorkingCopyFileListItemContaine…	demo	mock 工作副本示例文件名
 *.md	code	content.config.ts glob 模式
 src…	demo	mock 工作副本示例目录
 .md	code	DocsLayout.astro 代码中的扩展名处理
+## 1. DNS（Hostinger）	brand	docs 标题行：已由 dict 词条（ASCII 括号形）翻译；DNS/Hostinger 品牌保留，no-op 不重复入词库

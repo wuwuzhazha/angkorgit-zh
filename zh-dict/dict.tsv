@@ -6,6 +6,10 @@
 # 保护与排除见 protect.txt / skip-files.txt；未翻译串由脚本输出到 pending.tsv。
 
 # ============ A. 桌面 UI（apps/desktop/src） ============
+ui	{unpushed} commit{unpushed === 1 ? '' : 's'} on this branch {unpushed === 1 ? 'is' : 'are'} not	此分支的 {unpushed} 个提交尚未
+ui	Opens a {noun} on {provider.label} for the current branch.	为当前分支在 {provider.label} 上打开{noun}。
+ui	pushed yet and will not be part of the {noun}.	推送，因此不会包含在{noun}中。
+ui	Create {noun}	创建{noun}
 ui	This rewinds the branch to where it was before the rebase started. Commits made during the rebase are discarded.	这会回退分支到变基开始之前的状态，变基期间产生的提交将被丢弃。
 ui	Git still marks this repository as mid-${repoState}. Clearing removes that marker and keeps every file and commit exactly as it is now. Use this when the ${repoState} is already finished.	Git 仍会将此仓库标记为进行中的 ${repoState}。清除将移除该标记，并保持所有文件和提交原样不变。当 ${repoState} 已经完成时使用。
 ui	Git still marks this repository as mid-${state}. Clearing removes that marker and keeps every file and commit exactly as it is now. Use this when the ${state} is already finished.	Git 仍会将此仓库标记为进行中的 ${state}。清除将移除该标记，并保持所有文件和提交原样不变。当 ${state} 已经完成时使用。
@@ -714,7 +718,7 @@ ui	Provider	提供方	title="Provider"
 ui	Worktree	工作树	aria-label="Worktree"
 ui	· origin	· 远端	\? ' · origin' :
 ui	· local	· 本地	\? ' · local' :
-ui,website	Draft	草稿	>Draft<
+ui,website	>Draft<	>草稿<	>Draft<
 ui	Theme	主题	title="Theme"
 ui	Token	令牌	label="Token"
 ui	Work	工作	placeholder="Work"

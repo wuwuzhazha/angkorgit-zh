@@ -1,31 +1,17 @@
-# 批次 batch3.tsv（rust + core + meta + e2e/test 其余）：translate 186 条；source 按长度降序（长串优先）
+# 批次 batch3.tsv（rust + core + meta + e2e/test 其余）：translate 159 条；source 按长度降序（长串优先）
 # 列：scope<TAB>source<TAB>require_anchor<TAB>sync<TAB>hint<TAB>first_loc<TAB>occurrences
-rust	The connected {host} account '{username}' was refused — its token may have expired	translate	new	Rust 字符串	apps/desktop/src-tauri/src/core/remote.rs:289	1
-core	${parts} — the source branch does not exist on this remote (is it pushed there?)	translate	fmt	模板串：${x}/{} 占位符必须原样保留	packages/core/src/forge/providers/github.ts:56	1
-rust	{} refused to sign the commit: {}. Check user.signingKey and that a graphical	translate	new	Rust 字符串	apps/desktop/src-tauri/src/core/sign.rs:258	1
-rust	{} could not sign the commit ({e}). If the key has a passphrase, gpg needs a	translate	new	Rust 字符串	apps/desktop/src-tauri/src/core/sign.rs:245	1
-rust	local branch {local_branch} has commits that are not on the pull request —	translate	new	Rust 字符串	apps/desktop/src-tauri/src/core/remote.rs:650	1
-rust	{branch_name} has diverged from {upstream_name} — check it out to merge	translate	new	Rust 字符串	apps/desktop/src-tauri/src/core/remote.rs:571	1
-rust	the Bitbucket account has no Atlassian email stored — reconnect it in	translate	new	Rust 字符串	apps/desktop/src-tauri/src/forge.rs:38	1
 rust	{file_header}@@ -{start},{old_count} +{start},{new_count} @@\n{body}	translate	new	Rust 字符串	apps/desktop/src-tauri/src/core/stage.rs:276	1
 test	fix(ui): wrap paths\n\nLong paths bled out of dialogs.\n\nFixes #2	translate	attr-ui	属性文案（message）	tests/unit/commitMessage.test.ts:40	1
 test	* Free Bet funding dimension. Stored and transmitted PascalCase.	translate	new	待译	tests/unit/highlight.test.ts:14	2
-rust	{branch_name} is ahead of {upstream_name} — nothing to pull	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src-tauri/src/core/remote.rs:566	1
 e2e	feat(worktrees): list, create and remove linked worktrees	translate	new	待译	tests/e2e/smoke.spec.ts:566	1
-rust	{} already exists — pick a folder that does not exist yet	translate	new	Rust 字符串	apps/desktop/src-tauri/src/core/worktree.rs:237	1
-rust	the selected base is not a first-parent ancestor of HEAD	translate	new	Rust 字符串	apps/desktop/src-tauri/src/core/branch.rs:342	1
 rust	Revert \"{summary}\"\n\nThis reverts commit {full_oid}.	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src-tauri/src/core/commit.rs:105	1
 rust	checkout must refuse a branch checked out in a worktree	translate	new	Rust 字符串	apps/desktop/src-tauri/tests/git_engine.rs:1677	1
 rust	adding a worktree for the checked-out branch must fail	translate	new	Rust 字符串	apps/desktop/src-tauri/tests/git_engine.rs:1662	1
 rust	feat: two\n\n(cherry picked from commit {second})\n\n	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src-tauri/tests/git_engine.rs:306	1
 rust	feat: one\n\n(cherry picked from commit {first})\n\n	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src-tauri/tests/git_engine.rs:315	1
-rust	{} could not sign the commit ({e}). {SSH_AGENT_HINT}	translate	new	Rust 字符串	apps/desktop/src-tauri/src/core/sign.rs:216	1
 rust	diff mentioning {OUTPUT_FILE_PLACEHOLDER} literally	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src-tauri/src/ai_cli.rs:418	1
-rust	{} refused to sign the commit: {}. {SSH_AGENT_HINT}	translate	new	Rust 字符串	apps/desktop/src-tauri/src/core/sign.rs:222	1
 rust	unexpected http status code: 403; class=Http (34)	translate	new	Rust 字符串	apps/desktop/src-tauri/src/error.rs:119	1
 test	A pull request already exists for feature/thing.	translate	new	待译	tests/unit/forge.test.ts:174	1
-rust	Fast-forwarded {branch_name} to {upstream_name}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src-tauri/src/core/remote.rs:581	1
-test	the source branch does not exist on this remote	translate	new	待译	tests/unit/forge.test.ts:460	1
 test	request failed: error sending request for url	translate	new	待译	tests/unit/forge.test.ts:471	4
 test	still a comment &lt;b&gt;not a tag&lt;/b&gt;	translate	new	待译	tests/unit/highlight.test.ts:62	1
 rust	missing origin line in: {engine_message:?}	translate	new	Rust 字符串	apps/desktop/src-tauri/tests/git_engine.rs:374	1
@@ -34,9 +20,6 @@ test	Another open merge request already exists	translate	new	待译	tests/unit/f
 test	line 1\nours line\ntheirs line\nline 2	translate	new	待译	tests/unit/conflicts.test.ts:53	1
 rust	github.com=dara-work, gitlab.com=dara	translate	new	Rust 字符串	apps/desktop/src-tauri/src/core/remote.rs:726	1
 rust	nonsense,=user,host=, GitHub.com=Dara	translate	new	Rust 字符串	apps/desktop/src-tauri/src/core/remote.rs:733	1
-rust	pull: fast-forward to {upstream_name}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src-tauri/src/core/remote.rs:577	1
-rust	Cherry-pick has conflicts to resolve	translate	new	Rust 字符串	apps/desktop/src-tauri/src/core/branch.rs:488	1
-rust	{branch_name} is already up to date	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src-tauri/src/core/remote.rs:559	1
 test	\u001b[32mfeat: colored\u001b[0m \n	translate	new	待译	tests/unit/cliAgents.test.ts:65	1
 rust	dirty worktree must not be removed	translate	new	Rust 字符串	apps/desktop/src-tauri/tests/git_engine.rs:1704	1
 core	${spec.label} returned no output	translate	fmt	模板串：${x}/{} 占位符必须原样保留	packages/core/src/ai/cliAgents.ts:100	1
@@ -44,24 +27,18 @@ rust	unexpected http status code: 401	translate	new	Rust 字符串	apps/desktop/
 rust	unexpected http status code: 402	translate	new	Rust 字符串	apps/desktop/src-tauri/src/error.rs:115	2
 rust	unexpected http status code: 500	translate	new	Rust 字符串	apps/desktop/src-tauri/src/error.rs:140	1
 test	still a comment <b>not a tag</b>	translate	new	待译	tests/unit/highlight.test.ts:59	1
-rust	Revert has conflicts to resolve	translate	new	Rust 字符串	apps/desktop/src-tauri/src/core/commit.rs:92	1
 rust	\\ No newline at end of file\n	translate	new	Rust 字符串	apps/desktop/src-tauri/src/core/stage.rs:141	2
-rust	could not run ssh-keygen: {e}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src-tauri/src/core/remote.rs:178	1
 test	A pull request already exists	translate	new	待译	tests/unit/forge.test.ts:182	1
 test	export enum EnumSponsorType {	translate	new	待译	tests/unit/highlight.test.ts:26	1
-rust	failed to read response: {e}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src-tauri/src/http.rs:60	1
 rust	unexpected http status code:	translate	new	Rust 字符串	apps/desktop/src-tauri/src/error.rs:17	1
-rust	{} is not a supported AI CLI	translate	new	Rust 字符串	apps/desktop/src-tauri/src/ai_cli.rs:290	1
 test	Reviews may not be requested	translate	new	待译	tests/unit/forge.test.ts:546	1
 test	[support] fix login redirect	translate	new	待译	tests/unit/commitStyle.test.ts:117	1
 rust	fast-forward merge {branch}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src-tauri/src/core/branch.rs:185	1
 test	line 1\ntheirs line\nline 2	translate	new	待译	tests/unit/conflicts.test.ts:50	1
-rust	Fast-forwarded to {branch}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src-tauri/src/core/branch.rs:188	1
 test	Another open merge request	translate	new	待译	tests/unit/forge.test.ts:295	1
 test	List, create and remove.\n	translate	new	待译	tests/unit/commitMessage.test.ts:8	1
 test	Project review conventions	translate	new	待译	tests/unit/aiCapabilities.test.ts:43	1
 rust	command -v {name} || true	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src-tauri/src/ai_cli.rs:196	1
-rust	no commits to cherry-pick	translate	new	Rust 字符串	apps/desktop/src-tauri/src/core/branch.rs:519	1
 test	This project uses spaces.	translate	new	待译	tests/unit/aiCapabilities.test.ts:51	2
 test	line 1\nours line\nline 2	translate	new	待译	tests/unit/conflicts.test.ts:47	1
 test	win over the general ones	translate	new	待译	tests/unit/aiCapabilities.test.ts:58	1
@@ -79,10 +56,8 @@ e2e	spills: ${part.text}	translate	fmt	模板串：${x}/{} 占位符必须原样
 rust	[GNUPG:] SIG_CREATED	translate	new	Rust 字符串	apps/desktop/src-tauri/src/core/sign.rs:250	1
 test	Write in past tense.	translate	new	待译	tests/unit/commitStyle.test.ts:97	2
 test	should not be called	translate	new	待译	tests/unit/aiModels.test.ts:93	1
-e2e	Discard ${longPath}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	tests/e2e/smoke.spec.ts:224	1
 rust	message {message:?}	translate	new	Rust 字符串	apps/desktop/src-tauri/tests/git_engine.rs:390	1
 rust	production change\n	translate	new	Rust 字符串	apps/desktop/src-tauri/tests/git_engine.rs:1024	2
-rust	request failed: {e}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src-tauri/src/http.rs:55	1
 test	Draft: Fix pipeline	translate	new	待译	tests/unit/forge.test.ts:279	1
 test	a **b** and `c` end	translate	new	待译	tests/unit/aiTextSegments.test.ts:6	1
 test	run(/* inline start	translate	new	待译	tests/unit/highlight.test.ts:39	1
@@ -95,8 +70,6 @@ rust	add picked file\n	translate	new	Rust 字符串	apps/desktop/src-tauri/tests
 rust	diverge on master	translate	new	Rust 字符串	apps/desktop/src-tauri/tests/git_engine.rs:335	1
 rust	production change	translate	new	Rust 字符串	apps/desktop/src-tauri/tests/git_engine.rs:1025	1
 test	Validation Failed	translate	new	待译	tests/unit/forge.test.ts:173	2
-rust	Cherry-picked {}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src-tauri/src/core/branch.rs:513	1
-rust	delete or rename	translate	new	Rust 字符串	apps/desktop/src-tauri/tests/git_engine.rs:1379	2
 rust	local divergence	translate	new	Rust 字符串	apps/desktop/src-tauri/tests/git_engine.rs:1371	2
 rust	resolved by hand	translate	new	Rust 字符串	apps/desktop/src-tauri/tests/git_engine.rs:822	1
 test	**has * inside**	translate	new	待译	tests/unit/aiTextSegments.test.ts:30	2

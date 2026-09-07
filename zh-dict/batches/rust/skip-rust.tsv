@@ -180,3 +180,6 @@ meta	pnpm --filter @angkorgit/desktop tauri	command	package.json:19	命令串
 meta	pnpm --filter @angkorgit/website build	command	package.json:31	命令串
 meta	pnpm --filter @angkorgit/desktop dev	command	package.json:18	命令串
 meta	pnpm --filter @angkorgit/website dev	command	package.json:30	命令串
+meta	tsc --noEmit && vite build	command	apps/desktop/package.json:9	命令串
+rust	local divergence	test-name	apps/desktop/src-tauri/tests/git_engine.rs:1371	集成测试提交消息夹具（commit_all fixture）
+rust	resolved by hand	test-name	apps/desktop/src-tauri/tests/git_engine.rs:822	集成测试提交消息夹具（commit_all fixture）

@@ -412,13 +412,13 @@ test('侧边栏列出演示拉取请求并打开创建对话框', async ({ page 
   await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   await expect(page.getByText('拉取请求')).toBeVisible();
   await expect(page.getByText(/side-by-side word diff polish/)).toBeVisible({ timeout: 10_000 });
-  await expect(page.getByText('Draft', { exact: true })).toBeVisible();
+  await expect(page.getByText('草稿', { exact: true })).toBeVisible();
 
   await page.getByRole('button', { name: '创建拉取请求', exact: true }).click();
-  await expect(page.getByRole('heading', { name: /Create 拉取请求/ })).toBeVisible();
+  await expect(page.getByRole('heading', { name: /创建拉取请求/ })).toBeVisible();
   await expect(page.getByPlaceholder('标题')).toBeVisible();
   await page.getByRole('button', { name: '取消' }).click();
-  await expect(page.getByRole('heading', { name: /Create 拉取请求/ })).toBeHidden();
+  await expect(page.getByRole('heading', { name: /创建拉取请求/ })).toBeHidden();
 
   await page.getByRole('button', { name: '创建拉取请求', exact: true }).click();
   await page.getByRole('button', { name: '添加审查人' }).click();
@@ -514,14 +514,14 @@ test('折叠全部侧边栏分区与分支文件夹', async ({ page }) => {
   await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   await page.getByRole('button', { name: /^feature 1$/ }).click();
   await expect(page.getByText('diff-viewer', { exact: true })).toBeVisible();
-  await page.getByRole('button', { name: /^远端/ }).click();
-  await expect(page.getByRole('button', { name: /^远端/ })).toHaveAttribute('aria-expanded', 'true');
+  await page.getByRole('button', { name: /^远端 \d/ }).click();
+  await expect(page.getByRole('button', { name: /^远端 \d/ })).toHaveAttribute('aria-expanded', 'true');
   await page.getByRole('button', { name: '折叠全部分区' }).click();
-  for (const name of [/^分支/, /^工作树/, /^远端/, /^标签/, /^暂存列表/]) {
+  for (const name of [/^分支 \d/, /^工作树 \d/, /^远端 \d/, /^标签 \d/, /^暂存列表 \d/]) {
     await expect(page.getByRole('button', { name })).toHaveAttribute('aria-expanded', 'false');
   }
   await expect(page.getByText('develop', { exact: true })).toBeHidden();
-  await page.getByRole('button', { name: /^分支/ }).click();
+  await page.getByRole('button', { name: /^分支 \d/ }).click();
   await expect(page.getByText('develop', { exact: true })).toBeVisible();
   await expect(page.getByText('diff-viewer', { exact: true })).toBeHidden();
 });
@@ -659,20 +659,20 @@ test('侧边栏分区呈手风琴行为，折叠的标题保持固定', async ({
   await page.getByText('angkorgit', { exact: true }).first().click();
   await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   await page.getByRole('button', { name: '折叠全部分区' }).click();
-  await page.getByRole('button', { name: /^分支/ }).click();
+  await page.getByRole('button', { name: /^分支 \d/ }).click();
   const aside = page.getByRole('complementary', { name: '分支与引用' });
   const asideBox = await aside.boundingBox();
-  const tagsBox = await page.getByRole('button', { name: /^标签/ }).boundingBox();
-  const stashesBox = await page.getByRole('button', { name: /^暂存列表/ }).boundingBox();
+  const tagsBox = await page.getByRole('button', { name: /^标签 \d/ }).boundingBox();
+  const stashesBox = await page.getByRole('button', { name: /^暂存列表 \d/ }).boundingBox();
   if (!asideBox || !tagsBox || !stashesBox) throw new Error('缺少侧边栏几何信息');
   expect(stashesBox.y + stashesBox.height).toBeGreaterThan(asideBox.y + asideBox.height - 90);
   expect(tagsBox.y).toBeLessThan(stashesBox.y);
   const developBox = await page.getByText('develop', { exact: true }).boundingBox();
   if (!developBox) throw new Error('缺少分支行');
   expect(developBox.y).toBeLessThan(tagsBox.y);
-  await page.getByRole('button', { name: /^标签/ }).click();
+  await page.getByRole('button', { name: /^标签 \d/ }).click();
   await expect(aside.getByText('v0.4.0', { exact: true })).toBeVisible();
-  const tagsAfter = await page.getByRole('button', { name: /^标签/ }).boundingBox();
+  const tagsAfter = await page.getByRole('button', { name: /^标签 \d/ }).boundingBox();
   if (!tagsAfter) throw new Error('缺少标签标题');
   expect(tagsAfter.y).toBeLessThan(tagsBox.y);
 });

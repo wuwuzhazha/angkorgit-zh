@@ -2,54 +2,53 @@
  "per_scope_verdict": {
   "core": {
    "skip": 222,
-   "translate": 4,
+   "translate": 3,
    "verify": 1
   },
   "docs": {
-   "translate": 271,
-   "verify": 36
+   "translate": 1
   },
   "e2e": {
    "skip": 98,
-   "translate": 6,
+   "translate": 5,
    "verify": 2
   },
   "meta": {
-   "skip": 192,
-   "verify": 8
+   "skip": 191,
+   "verify": 9
   },
   "rust": {
    "skip": 526,
-   "translate": 107,
+   "translate": 83,
    "verify": 1
   },
   "test": {
    "skip": 491,
-   "translate": 69,
+   "translate": 68,
    "verify": 3
   },
   "ui": {
    "skip": 1157,
-   "translate": 123,
+   "translate": 27,
    "verify": 4
   },
   "website": {
-   "skip": 402,
-   "translate": 54,
-   "verify": 7
+   "skip": 394,
+   "translate": 21,
+   "verify": 6
   }
  },
- "translate_count": 634,
- "verify_count": 62,
- "skip_count": 3088,
+ "translate_count": 208,
+ "verify_count": 26,
+ "skip_count": 3079,
  "batch_workload": {
-  "batch1.tsv": 125.2,
-  "batch2.tsv": 484.0,
-  "batch3.tsv": 188.1
+  "batch1.tsv": 27,
+  "batch2.tsv": 22,
+  "batch3.tsv": 159.3
  },
  "batch_rows": {
-  "batch1.tsv": 123,
-  "batch2.tsv": 325,
-  "batch3.tsv": 186
+  "batch1.tsv": 27,
+  "batch2.tsv": 22,
+  "batch3.tsv": 159
  }
 }
