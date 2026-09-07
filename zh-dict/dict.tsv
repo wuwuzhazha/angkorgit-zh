@@ -21,7 +21,6 @@ ui	This resets the working copy to the state before the merge started.	这会将
 ui	Back to working copy	返回工作副本
 ui	Show the pull requests section in the sidebar, loaded through your connected account.	在侧边栏显示拉取请求区块，通过已关联账户加载。
 ui	Refresh pull requests	刷新拉取请求
-e2e	heading', { name: /Create pull request/ }	heading', { name: /Create 拉取请求/ }
 ui,e2e,docs	Create pull request	创建拉取请求
 ui,docs,website	New worktree…	新建工作树…
 ui,docs	New worktree from here…	从这里新建工作树…
@@ -1065,7 +1064,6 @@ e2e	'Worktrees', { exact: true }	'工作树', { exact: true }
 e2e	200+ commits	200+ 个提交
 e2e	200\+ commits	200\+ 个提交
 e2e	getByLabel('取 A 侧全部行')	getByLabel('取 A 侧全部行', { exact: true })
-e2e	heading', { name: /Create pull request/ }	heading', { name: /Create 拉取请求/ }
 e2e	menuitemcheckbox', { name: 'Hash' }	menuitemcheckbox', { name: '哈希' }
 # UI 菜单补漏
 ui	Delete file…	删除文件…
