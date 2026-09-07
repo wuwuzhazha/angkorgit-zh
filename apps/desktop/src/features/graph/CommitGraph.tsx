@@ -47,6 +47,7 @@ export function CommitGraph() {
   const repo = useRepo((s) => s.repo);
   const refresh = useRepo((s) => s.refresh);
   const worktrees = useRepo((s) => s.worktrees);
+  const branches = useRepo((s) => s.branches);
   const { rows, commits, maxLane, hasMore, loading, error, filters, selectedOid, selectedOids, pendingScrollIndex, loadMore, reload, setFilters, select, toggleSelect, rangeSelect, jumpTo, clearPendingScroll } =
     useGraph();
   const openDialog = useUi((s) => s.openDialog);
@@ -285,6 +286,55 @@ export function CommitGraph() {
     setRefMenu({ x: event.clientX, y: event.clientY, ref });
   }, []);
 
+  const resetToRemote = useCallback(
+    (ref: RefInfo, commit: CommitInfo) => {
+      const name = ref.shorthand.split('/').slice(1).join('/');
+      const local = branches.find((b) => !b.isRemote && b.name === name);
+      if (!local) return;
+      const held = worktrees.find((w) => w.branch === name && !w.isCurrent);
+      if (held) {
+        toast.error(`${name} is checked out in worktree ${held.name} — reset it from there`);
+        return;
+      }
+      const losing =
+        local.upstream === ref.shorthand && local.ahead > 0
+          ? ` ${local.ahead} commit${local.ahead === 1 ? '' : 's'} only on ${name} will be lost.`
+          : '';
+      void confirmDialog({
+        title: `Reset ${name} to ${ref.shorthand}?`,
+        description: local.isHead
+          ? `${name} moves to ${commit.shortOid} with a hard reset.${losing} Uncommitted changes are discarded and cannot be recovered.`
+          : `${name} is not checked out. It will be checked out first, then hard reset to ${commit.shortOid}.${losing} Uncommitted changes are discarded and cannot be recovered.`,
+        confirmLabel: `Reset to ${ref.shorthand}`,
+        destructive: true,
+      }).then(async (ok) => {
+        if (!ok) return;
+        if (!local.isHead) {
+          try {
+            await useUndo.getState().tracked({
+              path,
+              kind: 'checkout',
+              label: `Checkout ${name}`,
+              action: () => ipc.checkout(path, name),
+            });
+          } catch (error) {
+            toast.error(`Checkout ${name} failed: ${(error as { message?: string }).message ?? error}`);
+            return;
+          }
+        }
+        await act(`Reset ${name} to ${ref.shorthand}`, () => ipc.reset(path, commit.oid, 'hard'), {
+          kind: 'reset',
+        });
+      });
+    },
+    [act, branches, path, worktrees],
+  );
+
+  const localBranchNames = useMemo(
+    () => new Set(branches.filter((b) => !b.isRemote).map((b) => b.name)),
+    [branches],
+  );
+
   return (
     <section className="relative flex h-full flex-col bg-background" aria-label="Commit history">
       <GraphTailDefs />
@@ -458,10 +508,12 @@ export function CommitGraph() {
                     laneWidth={laneWidth}
                     columns={graphColumns}
                     worktrees={worktreeBranches}
+                    resettableBranches={localBranchNames}
                     onSelect={onRowSelect}
                     onContextMenu={onContextMenu}
                     onCheckoutRef={checkoutRef}
                     onRefMenu={onRefMenu}
+                    onResetToRemote={resetToRemote}
                   />
                 </div>
               );

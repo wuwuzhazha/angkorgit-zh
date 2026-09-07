@@ -6,6 +6,19 @@ All notable changes to AngKorGit are documented here. The format follows
 
 ## [Unreleased]
 
+### Added
+- **Reset a branch to its remote in one click.** When a local branch and its
+  remote have drifted apart, their chips sit on different commits in the graph.
+  Double-clicking the remote one now asks whether to move the local branch onto it with
+  a hard reset — naming the commits that would be lost — or cancel. A branch that
+  is not checked out is checked out first, and both steps can be undone.
+
+### Changed
+- The branch you are standing on is now unmistakable: the sidebar row carries the
+  accent tint, a gold bar on its left edge and a bolder name, and its chip in the
+  graph is filled solid instead of tinted like every other branch — no more
+  hunting for the tick.
+
 ## [0.10.0] — 2026-09-05
 
 The parallel-work release. Worktrees arrive as a first-class feature, so two

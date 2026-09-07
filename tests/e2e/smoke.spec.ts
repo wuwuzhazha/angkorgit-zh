@@ -702,3 +702,29 @@ test('conflict resolver shows line numbers in both sides and the result', async 
   expect(values.filter((n) => n === 1).length).toBeGreaterThanOrEqual(3);
   expect(values.every((n) => Number.isInteger(n) && n > 0)).toBe(true);
 });
+
+test('the checked-out branch chip is filled while other local chips stay tinted', async ({ page }) => {
+  await page.goto('/');
+  await page.getByText('angkorgit', { exact: true }).first().click();
+  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  const headChip = page.getByTitle(/^main · local/).first();
+  const otherChip = page.getByTitle(/^feature\/diff-viewer · local/).first();
+  const opacity = (color: string) => Number(color.split(',')[3]?.replace(')', '') ?? '1');
+  const headBg = await headChip.evaluate((el) => getComputedStyle(el).backgroundColor);
+  const otherBg = await otherChip.evaluate((el) => getComputedStyle(el).backgroundColor);
+  expect(headBg).not.toBe(otherBg);
+  expect(opacity(headBg)).toBe(1);
+  expect(opacity(otherBg)).toBeLessThan(1);
+});
+
+test('double-clicking a separated origin chip offers to reset the local branch', async ({ page }) => {
+  await page.goto('/');
+  await page.getByText('angkorgit', { exact: true }).first().click();
+  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await page.getByTitle(/origin\/main — double-click to reset main to it/).first().dblclick();
+  const dialog = page.getByRole('dialog');
+  await expect(dialog.getByText('Reset main to origin/main?')).toBeVisible();
+  await expect(dialog.getByText(/2 commits only on main will be lost/)).toBeVisible();
+  await dialog.getByRole('button', { name: 'Cancel' }).click();
+  await expect(dialog).toBeHidden();
+});

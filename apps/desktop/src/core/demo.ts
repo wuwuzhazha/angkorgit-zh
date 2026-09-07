@@ -61,12 +61,12 @@ function makeCommits(count: number): CommitInfo[] {
       parents: i === count - 1 ? [] : parents,
       refs:
         i === 0
-          ? [
-              { kind: 'localBranch', name: 'refs/heads/main', shorthand: 'main' },
-              { kind: 'remoteBranch', name: 'refs/remotes/origin/main', shorthand: 'origin/main' },
-            ]
+          ? [{ kind: 'localBranch', name: 'refs/heads/main', shorthand: 'main' }]
           : i === 2
-            ? [{ kind: 'tag', name: 'refs/tags/v0.4.0', shorthand: 'v0.4.0' }]
+            ? [
+                { kind: 'remoteBranch', name: 'refs/remotes/origin/main', shorthand: 'origin/main' },
+                { kind: 'tag', name: 'refs/tags/v0.4.0', shorthand: 'v0.4.0' },
+              ]
             : i === 7
               ? [{ kind: 'localBranch', name: 'refs/heads/feature/diff-viewer', shorthand: 'feature/diff-viewer' }]
               : [],

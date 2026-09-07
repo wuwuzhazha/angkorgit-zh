@@ -262,8 +262,10 @@ function RefCell({
   flat,
   width,
   worktrees,
+  resettableBranches,
   onCheckoutRef,
   onRefMenu,
+  onResetToRemote,
 }: {
   refs: RefInfo[];
   isHead: boolean;
@@ -271,8 +273,10 @@ function RefCell({
   flat?: boolean;
   width: number;
   worktrees?: ReadonlyMap<string, string>;
+  resettableBranches?: ReadonlySet<string>;
   onCheckoutRef: (ref: RefInfo) => void;
   onRefMenu: (event: React.MouseEvent, ref: RefInfo) => void;
+  onResetToRemote: (ref: RefInfo) => void;
 }) {
   const groups = groupRefs(refs);
   let headMarked = false;
@@ -291,6 +295,7 @@ function RefCell({
         const head = (isHead && group.local && !headMarked) || group.detachedHead;
         if (head) headMarked = true;
         const worktree = group.local ? worktrees?.get(group.label) : undefined;
+        const separated = group.remote && !group.local && (resettableBranches?.has(group.label) ?? false);
         return (
           <Badge
             key={group.primary.name}
@@ -299,18 +304,23 @@ function RefCell({
               'min-w-0 shrink whitespace-nowrap',
               !group.tag &&
                 'cursor-pointer hover:z-20 hover:shrink-0 hover:!bg-surface-overlay hover:shadow-soft',
+              head &&
+                'border-success bg-success text-background shadow-soft hover:!bg-success',
             )}
             title={
               group.tag || group.detachedHead
                 ? group.detachedHead
                   ? 'HEAD is detached at this commit'
                   : group.label
-                : `${group.label}${group.local ? ' · local' : ''}${group.remote ? ' · origin' : ''}${worktree ? ` · in worktree ${worktree}` : ''} — ${worktree ? 'double-click to switch to that worktree' : 'double-click to checkout'}, right-click for actions`
+                : separated
+                  ? `${group.primary.shorthand} — double-click to reset ${group.label} to it, right-click for actions`
+                  : `${group.label}${group.local ? ' · local' : ''}${group.remote ? ' · origin' : ''}${worktree ? ` · in worktree ${worktree}` : ''} — ${worktree ? 'double-click to switch to that worktree' : 'double-click to checkout'}, right-click for actions`
             }
             onDoubleClick={(e) => {
               if (group.tag || group.detachedHead) return;
               e.stopPropagation();
-              onCheckoutRef(group.primary);
+              if (separated) onResetToRemote(group.primary);
+              else onCheckoutRef(group.primary);
             }}
             onContextMenu={(e) => {
               if (group.detachedHead) return;
@@ -352,10 +362,12 @@ interface Props {
   laneWidth?: number;
   columns?: GraphColumns;
   worktrees?: ReadonlyMap<string, string>;
+  resettableBranches?: ReadonlySet<string>;
   onSelect: (oid: string, event: React.MouseEvent) => void;
   onContextMenu: (event: React.MouseEvent, commit: CommitInfo) => void;
   onCheckoutRef: (ref: RefInfo) => void;
   onRefMenu: (event: React.MouseEvent, ref: RefInfo, commit: CommitInfo) => void;
+  onResetToRemote: (ref: RefInfo, commit: CommitInfo) => void;
 }
 
 export const CommitRow = memo(function CommitRow({
@@ -367,10 +379,12 @@ export const CommitRow = memo(function CommitRow({
   laneWidth = LANE_WIDTH,
   columns = DEFAULT_GRAPH_COLUMNS,
   worktrees,
+  resettableBranches,
   onSelect,
   onContextMenu,
   onCheckoutRef,
   onRefMenu,
+  onResetToRemote,
 }: Props) {
   const isMergeCommit = commit.parents.length > 1;
   const refCell = columns.refs ? (
@@ -381,8 +395,10 @@ export const CommitRow = memo(function CommitRow({
       flat={flat}
       width={REF_COL_WIDTH}
       worktrees={worktrees}
+      resettableBranches={resettableBranches}
       onCheckoutRef={onCheckoutRef}
       onRefMenu={(e, ref) => onRefMenu(e, ref, commit)}
+      onResetToRemote={(ref) => onResetToRemote(ref, commit)}
     />
   ) : null;
   return (
