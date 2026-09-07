@@ -7,6 +7,9 @@ All notable changes to AngKorGit are documented here. The format follows
 ## [Unreleased]
 
 ### Added
+- **File history from the diff.** The diff header carries a history button, so the
+  file you are reading is one click away from every commit that touched it — no
+  detour through the file's menu or the command palette.
 - **Reset a branch to its remote in one click.** When a local branch and its
   remote have drifted apart, their chips sit on different commits in the graph.
   Double-clicking the remote one now asks whether to move the local branch onto it with

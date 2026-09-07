@@ -728,3 +728,16 @@ test('double-clicking a separated origin chip offers to reset the local branch',
   await dialog.getByRole('button', { name: 'Cancel' }).click();
   await expect(dialog).toBeHidden();
 });
+
+test('the diff header opens the history of the file being viewed', async ({ page }) => {
+  await page.goto('/');
+  await page.getByText('angkorgit', { exact: true }).first().click();
+  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await page.getByText('CommitGraph.tsx').first().click();
+  const diff = page.locator('section[aria-label^="Diff for"]');
+  await expect(diff).toBeVisible();
+  await diff.getByRole('button', { name: 'File history' }).click();
+  await expect(page.locator('section[aria-label^="History of"]')).toBeVisible();
+  await expect(page.getByLabel('History of src/features/graph/CommitGraph.tsx')).toBeVisible();
+  await expect(diff).toBeHidden();
+});
