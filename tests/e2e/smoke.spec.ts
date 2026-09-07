@@ -19,7 +19,7 @@ test('selecting a commit opens the inspector', async ({ page }) => {
   await page.getByText('angkorgit', { exact: true }).first().click();
   await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
   await page.getByRole('row').first().click();
-  await expect(page.getByText(/1 modified/)).toBeVisible();
+  await expect(page.getByRole('complementary', { name: 'Inspector' }).getByText(/4 modified/)).toBeVisible();
 });
 
 test('command palette opens with keyboard shortcut', async ({ page }) => {
@@ -640,6 +640,18 @@ test('graph ref chips show whole labels and fold the rest behind a count', async
   await expect(hash).toHaveText(/^[0-9a-f]{7}$/);
 });
 
+test('graph display menu can switch the lane color band off and on', async ({ page }) => {
+  await page.goto('/');
+  await page.getByText('angkorgit', { exact: true }).first().click();
+  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await expect.poll(() => page.locator('[data-graph-tail]').count()).toBeGreaterThan(5);
+  await page.getByRole('button', { name: 'Graph display options' }).click();
+  await page.getByRole('menuitemcheckbox', { name: 'Lane color band' }).click();
+  await expect(page.locator('[data-graph-tail]')).toHaveCount(0);
+  await page.getByRole('menuitemcheckbox', { name: 'Lane color band' }).click();
+  await expect.poll(() => page.locator('[data-graph-tail]').count()).toBeGreaterThan(5);
+});
+
 test('graph display menu hides and restores the hash column', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
@@ -723,8 +735,13 @@ test('double-clicking a separated origin chip offers to reset the local branch',
   await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
   await page.getByTitle(/origin\/main — double-click to reset main to it/).first().dblclick();
   const dialog = page.getByRole('dialog');
-  await expect(dialog.getByText('Reset main to origin/main?')).toBeVisible();
-  await expect(dialog.getByText(/2 commits only on main will be lost/)).toBeVisible();
+  await expect(dialog.getByText('Reset branch to its remote?')).toBeVisible();
+  await expect(dialog.getByText(/2 commits only on the local branch will be lost/)).toBeVisible();
+  await expect(dialog.getByText(/Hard reset to origin\/main/)).toBeVisible();
+  const box = await dialog.boundingBox();
+  const button = await dialog.getByRole('button', { name: 'Reset branch' }).boundingBox();
+  if (!box || !button) throw new Error('dialog geometry missing');
+  expect(button.x + button.width).toBeLessThanOrEqual(box.x + box.width + 1);
   await dialog.getByRole('button', { name: 'Cancel' }).click();
   await expect(dialog).toBeHidden();
 });
@@ -740,4 +757,204 @@ test('the diff header opens the history of the file being viewed', async ({ page
   await expect(page.locator('section[aria-label^="History of"]')).toBeVisible();
   await expect(page.getByLabel('History of src/features/graph/CommitGraph.tsx')).toBeVisible();
   await expect(diff).toBeHidden();
+});
+
+test('a single file can be stashed from its row menu and the toolbar pops the latest stash', async ({ page }) => {
+  await page.goto('/');
+  await page.getByText('angkorgit', { exact: true }).first().click();
+  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+
+  await page.getByText('ipc.ts', { exact: true }).first().click({ button: 'right' });
+  await page.getByRole('menuitem', { name: /Stash this file/ }).click();
+  const dialog = page.getByRole('dialog');
+  await expect(dialog.getByText('Stash selected changes')).toBeVisible();
+  await expect(dialog.getByText('ipc.ts', { exact: true })).toBeVisible();
+  await expect(dialog.getByText('src/core', { exact: true })).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(dialog).toBeHidden();
+
+  const pop = page.getByRole('button', { name: 'Pop latest stash' });
+  await expect(pop).toBeEnabled();
+  await pop.hover();
+  await expect(page.getByRole('tooltip').filter({ hasText: 'WIP on main: experiment with lane colors' })).toBeVisible();
+  await pop.click();
+  await expect(page.getByText('Pop stash complete')).toBeVisible();
+});
+
+test('shift-click selects a range of working copy files and the menu acts on all of them', async ({ page }) => {
+  await page.goto('/');
+  await page.getByText('angkorgit', { exact: true }).first().click();
+  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+
+  await page.getByText('ipc.ts', { exact: true }).first().click();
+  await page.getByText('Architecture.md', { exact: true }).first().click({ modifiers: ['Shift'] });
+  await expect(page.locator('[data-selected-file-row]')).toHaveCount(3);
+
+  await page.getByText('palette-seed.sql', { exact: true }).first().click({ button: 'right' });
+  await expect(page.getByRole('menuitem', { name: 'Stage 3 files' })).toBeVisible();
+  await page.getByRole('menuitem', { name: /Stash 3 files/ }).click();
+  const dialog = page.getByRole('dialog');
+  await expect(dialog.getByText('Stash selected changes')).toBeVisible();
+  await expect(dialog.getByText('ipc.ts', { exact: true })).toBeVisible();
+  await expect(dialog.getByText('palette-seed.sql', { exact: true })).toBeVisible();
+  await expect(dialog.getByText('Architecture.md', { exact: true })).toBeVisible();
+  await page.keyboard.press('Escape');
+
+  await page.getByText('ipc.ts', { exact: true }).first().click();
+  await expect(page.locator('[data-selected-file-row]')).toHaveCount(1);
+});
+
+test('the working copy filter narrows both lists and shows counts', async ({ page }) => {
+  await page.goto('/');
+  await page.getByText('angkorgit', { exact: true }).first().click();
+  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+
+  await expect(page.getByPlaceholder('Filter changed files…')).toHaveCount(0);
+  await page.getByRole('button', { name: 'Filter files' }).click();
+  const filter = page.getByPlaceholder('Filter changed files…');
+  await expect(filter).toBeFocused();
+  await filter.fill('graph');
+  await expect(page.getByText('CommitGraph.tsx', { exact: true }).first()).toBeVisible();
+  await expect(page.getByText('ipc.ts', { exact: true })).toHaveCount(0);
+  await expect(page.getByText('No changes match the filter.')).toBeVisible();
+  await expect(page.getByText(/^Staged/).locator('..')).toContainText('1 of 2');
+
+  await page.getByRole('button', { name: 'Clear filter' }).click();
+  await expect(filter).toHaveValue('');
+  await expect(page.getByText('ipc.ts', { exact: true }).first()).toBeVisible();
+  await page.getByRole('row').first().click();
+  await expect(filter).toHaveCount(0);
+  await page.getByRole('button', { name: 'Back to working copy' }).click();
+  await expect(page.getByPlaceholder('Filter changed files…')).toBeVisible();
+  await expect(page.getByPlaceholder('Filter changed files…')).not.toBeFocused();
+  await page.getByPlaceholder('Filter changed files…').press('Escape');
+  await expect(page.getByPlaceholder('Filter changed files…')).toHaveCount(0);
+});
+
+test('the commit file list can be filtered by path', async ({ page }) => {
+  await page.goto('/');
+  await page.getByText('angkorgit', { exact: true }).first().click();
+  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await page.getByText('feat(graph): virtualize commit rows').first().click();
+
+  const inspector = page.getByRole('complementary', { name: 'Inspector' });
+  await expect(inspector.getByText('GraphRow.tsx', { exact: true })).toBeVisible();
+  await inspector.getByRole('button', { name: 'Filter files' }).click();
+  const filter = inspector.getByPlaceholder('Filter files…');
+  await filter.fill('docs');
+  await expect(inspector.getByText('Architecture.md', { exact: true })).toBeVisible();
+  await expect(inspector.getByText('GraphRow.tsx', { exact: true })).toHaveCount(0);
+  await expect(inspector.getByText('1 of 5')).toBeVisible();
+
+  await filter.press('Escape');
+  await expect(filter).toHaveValue('');
+  await expect(inspector.getByText('GraphRow.tsx', { exact: true })).toBeVisible();
+  await inspector.getByRole('button', { name: 'Hide file filter' }).click();
+  await expect(inspector.getByPlaceholder('Filter files…')).toHaveCount(0);
+});
+
+test('a stash lists its files and one file can be restored on its own', async ({ page }) => {
+  await page.goto('/');
+  await page.getByText('angkorgit', { exact: true }).first().click();
+  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+
+  await expect(page.getByText('feat(graph): virtualize commit rows').first()).toBeVisible();
+  await page.getByText('WIP on main: experiment with lane colors').first().click();
+  const inspector = page.getByRole('complementary', { name: 'Inspector' });
+  await expect(inspector.getByText('This is a stash.', { exact: false })).toBeVisible();
+  const restore = inspector.getByRole('button', { name: 'Restore src/features/graph/GraphRow.tsx from the stash' });
+  await inspector.getByText('GraphRow.tsx', { exact: true }).hover();
+  await restore.click();
+  await expect(page.getByText('Restored GraphRow.tsx from the stash')).toBeVisible();
+
+  await inspector.getByRole('checkbox', { name: 'Select src/features/graph/CommitGraph.tsx to restore' }).click();
+  await inspector.getByText('Architecture.md', { exact: true }).click({ modifiers: ['Shift'] });
+  await expect(inspector.getByText('4 of 5 selected')).toBeVisible();
+  await inspector.getByRole('button', { name: 'Restore 4 files' }).click();
+  await expect(page.getByText('Restored 4 files from the stash')).toBeVisible();
+  await expect(inspector.getByText('This is a stash.', { exact: false })).toBeVisible();
+});
+
+test('staged files can be discarded from the row, the menu and the header', async ({ page }) => {
+  await page.goto('/');
+  await page.getByText('angkorgit', { exact: true }).first().click();
+  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+
+  const stagedDiscard = page.getByRole('button', { name: 'Discard src/features/graph/CommitGraph.tsx' });
+  await page.getByText('CommitGraph.tsx', { exact: true }).first().hover();
+  await stagedDiscard.click({ force: true });
+  const dialog = page.getByRole('dialog');
+  await expect(dialog.getByText('Discard changes?')).toBeVisible();
+  await expect(dialog.getByText(/back to the last commit/)).toBeVisible();
+  await dialog.getByRole('button', { name: 'Cancel' }).click();
+
+  await page.getByText('CommitGraph.tsx', { exact: true }).first().click({ button: 'right' });
+  await expect(page.getByRole('menuitem', { name: /Discard changes/ })).toBeVisible();
+  await page.keyboard.press('Escape');
+
+  await page.getByRole('button', { name: 'Discard all staged changes' }).click();
+  await expect(dialog.getByText('Discard all 2 staged changes?')).toBeVisible();
+  await dialog.getByRole('button', { name: 'Cancel' }).click();
+});
+
+test('the sidebar comes back after a relaunch that happened with a diff open', async ({ page }) => {
+  await page.goto('/');
+  await page.getByText('angkorgit', { exact: true }).first().click();
+  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByRole('complementary', { name: 'Branches and refs' })).toBeVisible();
+  await page.getByText('ipc.ts', { exact: true }).first().click();
+  await expect(page.locator('section[aria-label^="Diff for"]')).toBeVisible();
+  await expect(page.getByRole('complementary', { name: 'Branches and refs' })).toBeHidden();
+  await page.waitForTimeout(300);
+
+  await page.reload();
+  await page.getByText('angkorgit', { exact: true }).first().click();
+  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByRole('complementary', { name: 'Branches and refs' })).toBeVisible();
+  const stored = await page.evaluate(() => JSON.parse(localStorage.getItem('angkorgit-ui') ?? '{}'));
+  expect(stored.state?.sidebarOpen).toBe(true);
+});
+
+test('a stash shows up in the graph with its own node and a menu to pop it', async ({ page }) => {
+  await page.goto('/');
+  await page.getByText('angkorgit', { exact: true }).first().click();
+  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  const chip = page.getByTitle(/^Stash: WIP on main: experiment with lane colors/);
+  await expect(chip).toBeVisible();
+  const row = chip.locator('xpath=ancestor::*[@role="row"]');
+  await expect(row.getByRole('img', { name: 'Stash' })).toBeVisible();
+  await chip.click({ button: 'right' });
+  await expect(page.getByRole('menuitem', { name: 'Apply stash (keep it)' })).toBeVisible();
+  await page.getByRole('menuitem', { name: 'Pop stash' }).click();
+  await expect(page.getByText('Pop stash done')).toBeVisible();
+});
+
+test('arrow keys walk from the graph into a commit\u2019s files and back', async ({ page }) => {
+  await page.goto('/');
+  await page.getByText('angkorgit', { exact: true }).first().click();
+  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  const rows = page.getByRole('row');
+  await rows.first().click();
+  await expect(rows.first()).toHaveAttribute('aria-selected', 'true');
+  await page.keyboard.press('ArrowDown');
+  await expect(rows.nth(1)).toHaveAttribute('aria-selected', 'true');
+  const secondHash = (await rows.nth(1).locator('button.font-mono').innerText()).trim();
+  await expect(page.getByRole('complementary', { name: 'Inspector' }).getByText(secondHash.slice(0, 7))).toBeVisible();
+
+  await page.keyboard.press('ArrowRight');
+  const files = page.getByLabel('Commit files');
+  await expect(files).toBeFocused();
+  await expect(page.locator('section[aria-label="Diff for src/features/graph/CommitGraph.tsx"]')).toBeVisible();
+
+  await page.keyboard.press('ArrowDown');
+  await expect(page.locator('section[aria-label="Diff for src/features/graph/GraphRow.tsx"]')).toBeVisible();
+  await page.keyboard.press('ArrowUp');
+  await expect(page.locator('section[aria-label="Diff for src/features/graph/CommitGraph.tsx"]')).toBeVisible();
+
+  await page.keyboard.press('ArrowLeft');
+  await expect(page.locator('section[aria-label^="Diff for"]')).toHaveCount(0);
+  await expect(rows.nth(1)).toHaveAttribute('aria-selected', 'true');
+  await expect(rows.nth(1).locator('button.font-mono')).toHaveText(secondHash);
+  await page.keyboard.press('ArrowDown');
+  await expect(rows.nth(2)).toHaveAttribute('aria-selected', 'true');
 });

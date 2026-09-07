@@ -7,6 +7,12 @@ All notable changes to AngKorGit are documented here. The format follows
 ## [Unreleased]
 
 ### Added
+- **Filter files by path.** A search icon in the inspector header opens a filter
+  box above the working copy lists or a commit's file list. Type part of a path
+  (several words narrow it further, case does not matter) and only matching
+  files stay, with an "n of m" count in each header. Escape clears it, then
+  closes it. The box takes focus only when you open it, never when the panel
+  redraws, so the graph keeps its arrow keys. (#5)
 - **File history from the diff.** The diff header carries a history button, so the
   file you are reading is one click away from every commit that touched it — no
   detour through the file's menu or the command palette.
@@ -14,13 +20,62 @@ All notable changes to AngKorGit are documented here. The format follows
   remote have drifted apart, their chips sit on different commits in the graph.
   Double-clicking the remote one now asks whether to move the local branch onto it with
   a hard reset — naming the commits that would be lost — or cancel. A branch that
-  is not checked out is checked out first, and both steps can be undone.
+  is not checked out is checked out first, and both steps can be undone. The
+  prompt only appears when the local branch has commits of its own; a branch
+  that is merely behind is checked out and fast-forwarded instead.
+- **Stash selected files.** Right-click a file in the working copy and pick
+  "Stash this file…", or shift-click / ⌘-click several files and stash, stage,
+  unstage or discard them together from the same menu. The dialog lists the
+  files and everything else stays in place. Works for staged, unstaged and
+  untracked files, and the stash holds exactly those files even when other
+  files are staged. Popping a stash also works while other changes are staged.
+- **Restore single files from a stash.** Click a stash in the sidebar and its
+  files appear in the inspector, untracked ones included. Tick the files you
+  want (shift-click for a range, or Select all) and restore them together, or
+  hover one file and use its restore button. The stash itself stays put, so the
+  rest is still there when you need it.
+- **Discard staged files too.** Staged rows now carry the same hover discard
+  button as unstaged ones, and the row menu and the multi-select menu offer it
+  as well. Each list header keeps its primary action and a quiet trash icon
+  for "Discard all", which asks before touching anything. Discarding a staged file puts
+  it back to the last commit, index and working copy alike; a newly added file
+  is removed.
+- **Stashes in the graph.** Each stash now appears as its own row next to the
+  commit it was taken from, with an archive icon in place of the avatar and a
+  dashed chip carrying its message. Click the row to see the stashed files,
+  right-click the chip to apply, pop or drop it.
+- **Keyboard flow from graph to diff.** With a commit selected, → opens its
+  first file in the diff view and moves focus to the file list, ↑/↓ step through
+  the files, and ← closes the diff and puts you back on the same commit in the
+  graph. The working copy list answers the same keys.
+- **Lane color band is optional.** The Graph display menu gets a "Lane color
+  band" switch, on by default, for anyone who prefers a plainer graph.
+- **Pop from the toolbar.** A pop button sits beside the stash button. Its
+  tooltip names the latest stash and one click restores it. The command palette
+  gets the same "Pop latest stash" entry.
 
 ### Changed
+- The lane-colored band behind each commit avatar now ends on a soft rounded
+  edge instead of fading into nothing.
 - The branch you are standing on is now unmistakable: the sidebar row carries the
   accent tint, a gold bar on its left edge and a bolder name, and its chip in the
   graph is filled solid instead of tinted like every other branch — no more
   hunting for the tick.
+- **Checking out a remote branch brings your local branch up to date.** When a
+  local branch of the same name already exists and is simply behind the remote,
+  checkout now fast-forwards it to the remote's commit (and sets the upstream if
+  it was missing) instead of silently switching to the stale local branch. A
+  local branch with its own commits is left alone, as before.
+
+### Fixed
+- **The sidebar no longer starts hidden after a relaunch.** Quitting with a diff
+  open saved the folded sidebar layout, and on the next launch that layout was
+  mistaken for you closing the sidebar. It now reopens as you left it, and only a
+  real drag on the divider counts as closing it.
+- **The diff view follows your editor.** Editing a file that is open in the diff
+  view (or staging a second hunk of it) now refreshes the diff in place as soon
+  as the change lands on disk. Before, the diff only reloaded when the file's
+  status kind changed, so you had to open another file and come back.
 
 ## [0.10.0] — 2026-09-05
 
@@ -444,9 +499,9 @@ read always stays visible.
 ### Fixed
 - **Commit file lists keep the filename visible** — long paths in a commit's
   file list used to truncate from the right, cutting off exactly the part
-  that matters (`Monika/Main/dbo/Stored Procedures/Colo…`). The directory now
+  that matters (`Shop/Main/dbo/Stored Procedures/Order…`). The directory now
   truncates instead, dimmed GitKraken-style, so the filename always shows in
-  full (`Monika/Main/dbo/Stored…/Coloris_RiskControl_ApplyPlayerStatus.sql`),
+  full (`Shop/Main/dbo/Stored…/Orders_ApplyCustomerStatus.sql`),
   matching how the working-copy list already renders paths.
 
 ## [0.6.1] — 2026-08-17
