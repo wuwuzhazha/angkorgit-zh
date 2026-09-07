@@ -269,7 +269,7 @@ export function DiffPanel({ target }: { target: CenterDiffTarget }) {
             {target.oid.slice(0, 8)}
           </Badge>
         ) : (
-          <Badge tone={target.staged ? 'success' : 'info'}>{target.staged ? 'staged' : 'unstaged'}</Badge>
+          <Badge tone={target.staged ? 'success' : 'info'}>{target.staged ? '已暂存' : '未暂存'}</Badge>
         )}
         {diff && !diff.isBinary && !diff.isImage && (
           <span className="shrink-0 text-xs">
