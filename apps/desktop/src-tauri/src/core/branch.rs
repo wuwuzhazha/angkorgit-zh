@@ -89,16 +89,31 @@ pub fn checkout_branch(path: &str, name: &str) -> AppResult<()> {
     let repo = super::repo::open(path)?;
 
     if let Ok(remote_branch) = repo.find_branch(name, BranchType::Remote) {
-        if repo
-            .find_branch(local_name_of(name), BranchType::Local)
-            .is_err()
-        {
-            let commit = remote_branch.get().peel_to_commit()?;
-            let mut local = repo.branch(local_name_of(name), &commit, false)?;
-            local.set_upstream(Some(name))?;
+        let local_name = local_name_of(name);
+        let remote_commit = remote_branch.get().peel_to_commit()?;
+        match repo.find_branch(local_name, BranchType::Local) {
+            Err(_) => {
+                let mut local = repo.branch(local_name, &remote_commit, false)?;
+                local.set_upstream(Some(name))?;
+            }
+            Ok(mut local) => {
+                if local.upstream().is_err() {
+                    local.set_upstream(Some(name))?;
+                }
+                refuse_if_checked_out_elsewhere(&repo, local_name)?;
+                let local_oid = local
+                    .get()
+                    .target()
+                    .ok_or_else(|| AppError::other("branch has no target"))?;
+                if local_oid != remote_commit.id()
+                    && repo.graph_descendant_of(remote_commit.id(), local_oid)?
+                {
+                    return fast_forward_and_checkout(&repo, local_name, &remote_commit);
+                }
+            }
         }
-        refuse_if_checked_out_elsewhere(&repo, local_name_of(name))?;
-        return do_checkout(&repo, &format!("refs/heads/{}", local_name_of(name)));
+        refuse_if_checked_out_elsewhere(&repo, local_name)?;
+        return do_checkout(&repo, &format!("refs/heads/{local_name}"));
     }
 
     refuse_if_checked_out_elsewhere(&repo, name)?;
@@ -140,6 +155,25 @@ pub fn can_fast_forward(path: &str, target: &str, source: &str) -> AppResult<boo
     let source_oid = resolve_branch_ref(&repo, source)?.peel_to_commit()?.id();
     let (target_unique, source_unique) = repo.graph_ahead_behind(target_oid, source_oid)?;
     Ok(target_unique == 0 && source_unique > 0)
+}
+
+fn fast_forward_and_checkout(
+    repo: &Repository,
+    local_name: &str,
+    target: &git2::Commit,
+) -> AppResult<()> {
+    let refname = format!("refs/heads/{local_name}");
+    let mut builder = CheckoutBuilder::new();
+    builder.safe();
+    repo.checkout_tree(target.as_object(), Some(&mut builder))?;
+    repo.reference(
+        &refname,
+        target.id(),
+        true,
+        &format!("checkout: fast-forward {local_name} to its upstream"),
+    )?;
+    repo.set_head(&refname)?;
+    Ok(())
 }
 
 fn do_checkout(repo: &Repository, refname: &str) -> AppResult<()> {
