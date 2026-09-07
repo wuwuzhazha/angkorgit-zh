@@ -59,7 +59,6 @@ core	packages/core/src/ai/cliAgents.ts	75	\n\n	string
 core	packages/core/src/ai/cliAgents.ts	79	claude	string
 core	packages/core/src/ai/cliAgents.ts	87	arg	string
 core	packages/core/src/ai/cliAgents.ts	88	stdin	string
-core	packages/core/src/ai/cliAgents.ts	100	${spec.label} returned no output	template
 core	packages/core/src/ai/cliAgents.ts	111	user	string
 core	packages/core/src/ai/cliAgents.ts	111	Reply with exactly one word: pong	string
 core	packages/core/src/ai/models.ts	1	./types	string
@@ -628,7 +627,6 @@ e2e	tests/e2e/smoke.spec.ts	386	palette-seed.sql	string
 e2e	tests/e2e/smoke.spec.ts	391	angkorgit-ui	string
 e2e	tests/e2e/smoke.spec.ts	402	palette-seed.sql	string
 e2e	tests/e2e/smoke.spec.ts	411	angkorgit	string
-e2e	tests/e2e/smoke.spec.ts	415	Draft	string
 e2e	tests/e2e/smoke.spec.ts	417	button	string
 e2e	tests/e2e/smoke.spec.ts	418	heading	string
 e2e	tests/e2e/smoke.spec.ts	420	button	string
@@ -1256,56 +1254,56 @@ rust	apps/desktop/src-tauri/src/core/remote.rs	527	origin	rust
 rust	apps/desktop/src-tauri/src/core/remote.rs	558	up_to_date	rust
 rust	apps/desktop/src-tauri/src/core/remote.rs	565	up_to_date	rust
 rust	apps/desktop/src-tauri/src/core/remote.rs	574	refs/heads/{branch_name}	rust-fmt
-rust	apps/desktop/src-tauri/src/core/remote.rs	580	fast_forward	rust
-rust	apps/desktop/src-tauri/src/core/remote.rs	585	refs/angkorgit/pr-head	rust
-rust	apps/desktop/src-tauri/src/core/remote.rs	594	refs/	rust
-rust	apps/desktop/src-tauri/src/core/remote.rs	597	refs/heads/{local_branch}	rust-fmt
-rust	apps/desktop/src-tauri/src/core/remote.rs	606	+{source_ref}:refs/remotes/{remote_name}/{local_branch}	rust-fmt
-rust	apps/desktop/src-tauri/src/core/remote.rs	613	refs/remotes/{remote_name}/{local_branch}	rust-fmt
-rust	apps/desktop/src-tauri/src/core/remote.rs	618	{remote_name}/{local_branch}	rust-fmt
-rust	apps/desktop/src-tauri/src/core/remote.rs	623	+{source_ref}:{PR_HEAD_TMP_REF}	rust-fmt
-rust	apps/desktop/src-tauri/src/core/remote.rs	642	refs/heads/{local_branch}	rust-fmt
-rust	apps/desktop/src-tauri/src/core/remote.rs	659	pull request checkout	rust
-rust	apps/desktop/src-tauri/src/core/remote.rs	671	refs/tags/{tag}:refs/tags/{tag}	rust-fmt
-rust	apps/desktop/src-tauri/src/core/remote.rs	721	/Users/tester	rust
-rust	apps/desktop/src-tauri/src/core/remote.rs	726	github.com=dara-work, gitlab.com=dara	rust
-rust	apps/desktop/src-tauri/src/core/remote.rs	727	github.com	rust
-rust	apps/desktop/src-tauri/src/core/remote.rs	727	dara-work	rust
-rust	apps/desktop/src-tauri/src/core/remote.rs	728	gitlab.com	rust
-rust	apps/desktop/src-tauri/src/core/remote.rs	728	dara	rust
-rust	apps/desktop/src-tauri/src/core/remote.rs	733	nonsense,=user,host=, GitHub.com=Dara	rust
-rust	apps/desktop/src-tauri/src/core/remote.rs	735	github.com	rust
-rust	apps/desktop/src-tauri/src/core/remote.rs	735	Dara	rust
-rust	apps/desktop/src-tauri/src/core/remote.rs	740	/Users/tester/.ssh/angkorgit_rsa	rust
-rust	apps/desktop/src-tauri/src/core/remote.rs	746	/Users/tester/.ssh/angkorgit_rsa	rust
-rust	apps/desktop/src-tauri/src/core/remote.rs	747	angkorgit_rsa_2	rust
-rust	apps/desktop/src-tauri/src/core/remote.rs	750	/Users/tester/.ssh/angkorgit_rsa_3	rust
-rust	apps/desktop/src-tauri/src/core/remote.rs	757	~/.ssh/work_key	rust
-rust	apps/desktop/src-tauri/src/core/remote.rs	758	/Users/tester/.ssh/work_key	rust
-rust	apps/desktop/src-tauri/src/core/remote.rs	765	/etc/keys/deploy	rust
-rust	apps/desktop/src-tauri/src/core/remote.rs	766	/etc/keys/deploy	rust
-rust	apps/desktop/src-tauri/src/core/remote.rs	772	~/.ssh/id_ed25519_work	rust
-rust	apps/desktop/src-tauri/src/core/remote.rs	775	/Users/tester/.ssh/id_ed25519_work	rust
-rust	apps/desktop/src-tauri/src/core/remote.rs	786	/Users/tester/.ssh/id_ed25519	rust
-rust	apps/desktop/src-tauri/src/core/remote.rs	787	/Users/tester/.ssh/id_rsa	rust
-rust	apps/desktop/src-tauri/src/core/remote.rs	794	~/.ssh/id_rsa	rust
-rust	apps/desktop/src-tauri/src/core/remote.rs	796	/Users/tester/.ssh/id_rsa	rust
-rust	apps/desktop/src-tauri/src/core/remote.rs	799	/Users/tester/.ssh/id_ed25519	rust
-rust	apps/desktop/src-tauri/src/core/remote.rs	806	/Users/tester/.ssh/id_ed25519	rust
-rust	apps/desktop/src-tauri/src/core/remote.rs	807	/Users/tester/.ssh/work_gitlab	rust
-rust	apps/desktop/src-tauri/src/core/remote.rs	813	/Users/tester/.ssh/id_ed25519	rust
-rust	apps/desktop/src-tauri/src/core/remote.rs	814	/Users/tester/.ssh/id_rsa	rust
-rust	apps/desktop/src-tauri/src/core/remote.rs	815	/Users/tester/.ssh/work_gitlab	rust
-rust	apps/desktop/src-tauri/src/core/remote.rs	823	/Users/tester/.ssh/key_{n}	rust-fmt
-rust	apps/desktop/src-tauri/src/core/remote.rs	826	~/.ssh/chosen	rust
-rust	apps/desktop/src-tauri/src/core/remote.rs	839	main	rust
-rust	apps/desktop/src-tauri/src/core/remote.rs	841	refs/heads/main:refs/heads/main	rust
-rust	apps/desktop/src-tauri/src/core/remote.rs	842	refs/tags/*:refs/tags/*	rust
-rust	apps/desktop/src-tauri/src/core/remote.rs	850	main	rust
-rust	apps/desktop/src-tauri/src/core/remote.rs	852	+refs/heads/main:refs/heads/main	rust
-rust	apps/desktop/src-tauri/src/core/remote.rs	853	refs/tags/*:refs/tags/*	rust
-rust	apps/desktop/src-tauri/src/core/remote.rs	861	feature/x	rust
-rust	apps/desktop/src-tauri/src/core/remote.rs	862	+refs/heads/feature/x:refs/heads/feature/x	rust
+rust	apps/desktop/src-tauri/src/core/remote.rs	577	fast_forward	rust
+rust	apps/desktop/src-tauri/src/core/remote.rs	582	refs/angkorgit/pr-head	rust
+rust	apps/desktop/src-tauri/src/core/remote.rs	591	refs/	rust
+rust	apps/desktop/src-tauri/src/core/remote.rs	594	refs/heads/{local_branch}	rust-fmt
+rust	apps/desktop/src-tauri/src/core/remote.rs	603	+{source_ref}:refs/remotes/{remote_name}/{local_branch}	rust-fmt
+rust	apps/desktop/src-tauri/src/core/remote.rs	610	refs/remotes/{remote_name}/{local_branch}	rust-fmt
+rust	apps/desktop/src-tauri/src/core/remote.rs	615	{remote_name}/{local_branch}	rust-fmt
+rust	apps/desktop/src-tauri/src/core/remote.rs	620	+{source_ref}:{PR_HEAD_TMP_REF}	rust-fmt
+rust	apps/desktop/src-tauri/src/core/remote.rs	639	refs/heads/{local_branch}	rust-fmt
+rust	apps/desktop/src-tauri/src/core/remote.rs	656	pull request checkout	rust
+rust	apps/desktop/src-tauri/src/core/remote.rs	668	refs/tags/{tag}:refs/tags/{tag}	rust-fmt
+rust	apps/desktop/src-tauri/src/core/remote.rs	718	/Users/tester	rust
+rust	apps/desktop/src-tauri/src/core/remote.rs	723	github.com=dara-work, gitlab.com=dara	rust
+rust	apps/desktop/src-tauri/src/core/remote.rs	724	github.com	rust
+rust	apps/desktop/src-tauri/src/core/remote.rs	724	dara-work	rust
+rust	apps/desktop/src-tauri/src/core/remote.rs	725	gitlab.com	rust
+rust	apps/desktop/src-tauri/src/core/remote.rs	725	dara	rust
+rust	apps/desktop/src-tauri/src/core/remote.rs	730	nonsense,=user,host=, GitHub.com=Dara	rust
+rust	apps/desktop/src-tauri/src/core/remote.rs	732	github.com	rust
+rust	apps/desktop/src-tauri/src/core/remote.rs	732	Dara	rust
+rust	apps/desktop/src-tauri/src/core/remote.rs	737	/Users/tester/.ssh/angkorgit_rsa	rust
+rust	apps/desktop/src-tauri/src/core/remote.rs	743	/Users/tester/.ssh/angkorgit_rsa	rust
+rust	apps/desktop/src-tauri/src/core/remote.rs	744	angkorgit_rsa_2	rust
+rust	apps/desktop/src-tauri/src/core/remote.rs	747	/Users/tester/.ssh/angkorgit_rsa_3	rust
+rust	apps/desktop/src-tauri/src/core/remote.rs	754	~/.ssh/work_key	rust
+rust	apps/desktop/src-tauri/src/core/remote.rs	755	/Users/tester/.ssh/work_key	rust
+rust	apps/desktop/src-tauri/src/core/remote.rs	762	/etc/keys/deploy	rust
+rust	apps/desktop/src-tauri/src/core/remote.rs	763	/etc/keys/deploy	rust
+rust	apps/desktop/src-tauri/src/core/remote.rs	769	~/.ssh/id_ed25519_work	rust
+rust	apps/desktop/src-tauri/src/core/remote.rs	772	/Users/tester/.ssh/id_ed25519_work	rust
+rust	apps/desktop/src-tauri/src/core/remote.rs	783	/Users/tester/.ssh/id_ed25519	rust
+rust	apps/desktop/src-tauri/src/core/remote.rs	784	/Users/tester/.ssh/id_rsa	rust
+rust	apps/desktop/src-tauri/src/core/remote.rs	791	~/.ssh/id_rsa	rust
+rust	apps/desktop/src-tauri/src/core/remote.rs	793	/Users/tester/.ssh/id_rsa	rust
+rust	apps/desktop/src-tauri/src/core/remote.rs	796	/Users/tester/.ssh/id_ed25519	rust
+rust	apps/desktop/src-tauri/src/core/remote.rs	803	/Users/tester/.ssh/id_ed25519	rust
+rust	apps/desktop/src-tauri/src/core/remote.rs	804	/Users/tester/.ssh/work_gitlab	rust
+rust	apps/desktop/src-tauri/src/core/remote.rs	810	/Users/tester/.ssh/id_ed25519	rust
+rust	apps/desktop/src-tauri/src/core/remote.rs	811	/Users/tester/.ssh/id_rsa	rust
+rust	apps/desktop/src-tauri/src/core/remote.rs	812	/Users/tester/.ssh/work_gitlab	rust
+rust	apps/desktop/src-tauri/src/core/remote.rs	820	/Users/tester/.ssh/key_{n}	rust-fmt
+rust	apps/desktop/src-tauri/src/core/remote.rs	823	~/.ssh/chosen	rust
+rust	apps/desktop/src-tauri/src/core/remote.rs	836	main	rust
+rust	apps/desktop/src-tauri/src/core/remote.rs	838	refs/heads/main:refs/heads/main	rust
+rust	apps/desktop/src-tauri/src/core/remote.rs	839	refs/tags/*:refs/tags/*	rust
+rust	apps/desktop/src-tauri/src/core/remote.rs	847	main	rust
+rust	apps/desktop/src-tauri/src/core/remote.rs	849	+refs/heads/main:refs/heads/main	rust
+rust	apps/desktop/src-tauri/src/core/remote.rs	850	refs/tags/*:refs/tags/*	rust
+rust	apps/desktop/src-tauri/src/core/remote.rs	858	feature/x	rust
+rust	apps/desktop/src-tauri/src/core/remote.rs	859	+refs/heads/feature/x:refs/heads/feature/x	rust
 rust	apps/desktop/src-tauri/src/core/repo.rs	33	merge	rust
 rust	apps/desktop/src-tauri/src/core/repo.rs	36	rebase	rust
 rust	apps/desktop/src-tauri/src/core/repo.rs	37	cherrypick	rust
@@ -3671,7 +3669,6 @@ ui	apps/desktop/src/components/profilePrompt.tsx	23	((resolve) =>	jsx-text
 ui	apps/desktop/src/components/profilePrompt.tsx	40	(null);	jsx-text
 ui	apps/desktop/src/components/profilePrompt.tsx	42	!open && settle(null)}>	jsx-text
 ui	apps/desktop/src/components/profilePrompt.tsx	44	max-w-sm	attr:className
-ui	apps/desktop/src/components/profilePrompt.tsx	53	s identity and	string
 ui	apps/desktop/src/components/profilePrompt.tsx	62	button	attr:type
 ui	apps/desktop/src/components/profilePrompt.tsx	63	flex items-center gap-3 rounded-lg border border-border p-3 text-left transition-colors hover:border-primary/60 hover:bg-surface-raised focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60	attr:className
 ui	apps/desktop/src/components/profilePrompt.tsx	77	settle(null)}>	jsx-text
@@ -3919,7 +3916,6 @@ ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	249	(null);	jsx-text
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	250	(null);	jsx-text
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	254	${fixed}px	template
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	257	auto	attr:height
-ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	349	"${file}" is a submodule — open it as its own repository to discard the changes inside it.	template
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	382	, errorLabel: string) =>	jsx-text
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	413	untracked	string
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	417	Discard	string
@@ -4607,7 +4603,6 @@ ui	apps/desktop/src/features/forge/CreatePrDialog.tsx	307	icon-sm	attr:size
 ui	apps/desktop/src/features/forge/CreatePrDialog.tsx	308	absolute right-1.5 top-1.5	attr:className
 ui	apps/desktop/src/features/forge/CreatePrDialog.tsx	378	Optional	string
 ui	apps/desktop/src/features/forge/CreatePrDialog.tsx	382	setDraft(v === true)} />	jsx-text
-ui	apps/desktop/src/features/forge/CreatePrDialog.tsx	397	are	string
 ui	apps/desktop/src/features/forge/store.ts	1	zustand	string
 ui	apps/desktop/src/features/forge/store.ts	9	@angkorgit/core	string
 ui	apps/desktop/src/features/forge/store.ts	10	@/core/ipc	string

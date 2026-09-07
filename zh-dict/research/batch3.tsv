@@ -1,4 +1,4 @@
-# 批次 batch3.tsv（rust + core + meta + e2e/test 其余）：translate 159 条；source 按长度降序（长串优先）
+# 批次 batch3.tsv（rust + core + meta + e2e/test 其余）：translate 158 条；source 按长度降序（长串优先）
 # 列：scope<TAB>source<TAB>require_anchor<TAB>sync<TAB>hint<TAB>first_loc<TAB>occurrences
 rust	{file_header}@@ -{start},{old_count} +{start},{new_count} @@\n{body}	translate	new	Rust 字符串	apps/desktop/src-tauri/src/core/stage.rs:276	1
 test	fix(ui): wrap paths\n\nLong paths bled out of dialogs.\n\nFixes #2	translate	attr-ui	属性文案（message）	tests/unit/commitMessage.test.ts:40	1
@@ -18,11 +18,10 @@ rust	missing origin line in: {engine_message:?}	translate	new	Rust 字符串	app
 e2e	Virtualized rows keep large graphs smooth	translate	new	待译	tests/e2e/smoke.spec.ts:502	1
 test	Another open merge request already exists	translate	new	待译	tests/unit/forge.test.ts:289	1
 test	line 1\nours line\ntheirs line\nline 2	translate	new	待译	tests/unit/conflicts.test.ts:53	1
-rust	github.com=dara-work, gitlab.com=dara	translate	new	Rust 字符串	apps/desktop/src-tauri/src/core/remote.rs:726	1
-rust	nonsense,=user,host=, GitHub.com=Dara	translate	new	Rust 字符串	apps/desktop/src-tauri/src/core/remote.rs:733	1
+rust	github.com=dara-work, gitlab.com=dara	translate	new	Rust 字符串	apps/desktop/src-tauri/src/core/remote.rs:723	1
+rust	nonsense,=user,host=, GitHub.com=Dara	translate	new	Rust 字符串	apps/desktop/src-tauri/src/core/remote.rs:730	1
 test	\u001b[32mfeat: colored\u001b[0m \n	translate	new	待译	tests/unit/cliAgents.test.ts:65	1
 rust	dirty worktree must not be removed	translate	new	Rust 字符串	apps/desktop/src-tauri/tests/git_engine.rs:1704	1
-core	${spec.label} returned no output	translate	fmt	模板串：${x}/{} 占位符必须原样保留	packages/core/src/ai/cliAgents.ts:100	1
 rust	unexpected http status code: 401	translate	new	Rust 字符串	apps/desktop/src-tauri/src/error.rs:158	1
 rust	unexpected http status code: 402	translate	new	Rust 字符串	apps/desktop/src-tauri/src/error.rs:115	2
 rust	unexpected http status code: 500	translate	new	Rust 字符串	apps/desktop/src-tauri/src/error.rs:140	1
@@ -51,7 +50,7 @@ rust	main repo stays intact	translate	new	Rust 字符串	apps/desktop/src-tauri/
 core	Draft: ${input.title}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	packages/core/src/forge/providers/gitlab.ts:114	1
 e2e	clipped: ${part.text}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	tests/e2e/smoke.spec.ts:219	1
 rust	line should be staged	translate	new	Rust 字符串	apps/desktop/src-tauri/tests/git_engine.rs:612	1
-rust	pull request checkout	translate	new	Rust 字符串	apps/desktop/src-tauri/src/core/remote.rs:659	1
+rust	pull request checkout	translate	new	Rust 字符串	apps/desktop/src-tauri/src/core/remote.rs:656	1
 e2e	spills: ${part.text}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	tests/e2e/smoke.spec.ts:220	1
 rust	[GNUPG:] SIG_CREATED	translate	new	Rust 字符串	apps/desktop/src-tauri/src/core/sign.rs:250	1
 test	Write in past tense.	translate	new	待译	tests/unit/commitStyle.test.ts:97	2

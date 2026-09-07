@@ -1,4 +1,4 @@
-# 批次 batch1.tsv（UI（桌面））：translate 27 条；source 按长度降序（长串优先）
+# 批次 batch1.tsv（UI（桌面））：translate 26 条；source 按长度降序（长串优先）
 # 列：scope<TAB>source<TAB>require_anchor<TAB>sync<TAB>hint<TAB>first_loc<TAB>occurrences
 ui	Cherry-picked ${oids.length} commits (demo)	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/core/ipc.ts:345	1
 ui	Rebased onto ${upstream} (demo)	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/core/ipc.ts:309	1
@@ -15,7 +15,6 @@ ui	(folder: TreeFolder	translate	jsx-text	JSX 文本	apps/desktop/src/components
 ui	gitlab.example.com	translate	attr-ui	属性文案（placeholder），裸词须配 anchor	apps/desktop/src/features/settings/AccountsTab.tsx:483	1
 ui	Bearer ${token}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/settings/AccountsTab.tsx:146	1
 ui	Reverted (demo)	translate	new	待译	apps/desktop/src/core/ipc.ts:230	1
-ui	s identity and	translate	new	待译	apps/desktop/src/components/profilePrompt.tsx:53	1
 ui	Home / End	translate	new	待译	apps/desktop/src/features/settings/SettingsDialog.tsx:573	1
 ui	): number	translate	jsx-text	JSX 文本	apps/desktop/src/features/conflicts/ConflictResolver.tsx:113	2
 ui	): string	translate	jsx-text	JSX 文本	apps/desktop/src/features/settings/AccountsTab.tsx:99	1

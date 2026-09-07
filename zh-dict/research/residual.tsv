@@ -90,7 +90,6 @@ ui	flex max-h-[min(70vh,var(--radix-dropdown-menu-content-available-height))] mi
 website	<path d="M21 4h-3M9 4H3M21 12h-9M6 12H3M21 20h-6M9 20H3"/><path d="M18 2v4M9 10v4M12 18v4"/>	skip	code	SVG/图标数据	string			apps/website/src/components/mock/icons.ts:20	1
 website	grid h-[28px] grid-cols-[150px_106px_1fr_110px_72px_60px] items-center pl-1 pr-4 text-[13px]	skip	css	Tailwind/CSS 类	string			apps/website/src/components/mock/Graph.astro:27	1
 ui	group flex cursor-pointer items-center gap-2 rounded-md px-2 py-1 text-xs transition-colors	skip	css	Tailwind/CSS 类	string			apps/desktop/src/features/commit/WorkingCopyPanel.tsx:86	1
-ui	"${file}" is a submodule — open it as its own repository to discard the changes inside it.	skip	prompt	AI 提示词/探针	template			apps/desktop/src/features/commit/WorkingCopyPanel.tsx:349	1
 website	inline-flex h-5 shrink-0 items-center gap-1 rounded-md border px-1.5 font-mono text-[10px]	skip	css	Tailwind/CSS 类	string			apps/website/src/components/HeroGraph.astro:52	1
 test	http://gitlab.internal/team/api/-/merge_requests/new?merge_request%5Bsource_branch%5D=dev	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			tests/unit/pullRequestUrl.test.ts:43	1
 ui	flex size-8 items-center justify-center rounded-full transition-transform hover:scale-110	skip	css	Tailwind/CSS 类	string			apps/desktop/src/features/settings/SettingsDialog.tsx:810	1
@@ -248,7 +247,7 @@ ui	relative border-y border-border-subtle transition-shadow	skip	css	Tailwind/CS
 ui	text-muted hover:bg-surface-raised hover:text-foreground	skip	css	Tailwind/CSS 类	string			apps/desktop/src/features/settings/SettingsDialog.tsx:722	1
 website	border-primary/40 bg-primary/15 font-medium text-primary	skip	css	Tailwind/CSS 类	string			apps/website/src/layouts/DocsLayout.astro:20	1
 website	text-muted hover:bg-surface-raised hover:text-foreground	skip	css	Tailwind/CSS 类	string			apps/website/src/layouts/DocsLayout.astro:43	1
-rust	+{source_ref}:refs/remotes/{remote_name}/{local_branch}	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust-fmt			apps/desktop/src-tauri/src/core/remote.rs:606	1
+rust	+{source_ref}:refs/remotes/{remote_name}/{local_branch}	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust-fmt			apps/desktop/src-tauri/src/core/remote.rs:603	1
 rust	Revert \"{summary}\"\n\nThis reverts commit {full_oid}.	translate	fmt	模板串：${x}/{} 占位符必须原样保留	rust-fmt			apps/desktop/src-tauri/src/core/commit.rs:105	1
 rust	checkout must refuse a branch checked out in a worktree	translate	new	Rust 字符串	rust			apps/desktop/src-tauri/tests/git_engine.rs:1677	1
 test	hits the anthropic models endpoint with api key headers	skip	test-name	vitest test/it/describe 用例名（不译）	test-name			tests/unit/aiModels.test.ts:68	1
@@ -399,7 +398,7 @@ ui	h-auto justify-start whitespace-normal py-2	skip	code	属性值（className�
 ui	openDialog('cherryPick', menu.commit.oid)}>	skip	code	JSX 代码残渣	jsx-text			apps/desktop/src/features/graph/CommitGraph.tsx:576	1
 website	brew install --cask cheat2001/tap/angkorgit	skip	css	Tailwind/CSS 类	attr:brew			apps/website/src/components/Install.astro:28	1
 meta	pnpm --filter @angkorgit/desktop tauri dev	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	json			package.json:20	1
-rust	+refs/heads/feature/x:refs/heads/feature/x	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust			apps/desktop/src-tauri/src/core/remote.rs:862	1
+rust	+refs/heads/feature/x:refs/heads/feature/x	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust			apps/desktop/src-tauri/src/core/remote.rs:859	1
 rust	missing origin line in: {engine_message:?}	translate	new	Rust 字符串	rust			apps/desktop/src-tauri/tests/git_engine.rs:374	1
 test	assigns a second lane to a parallel branch	skip	test-name	vitest test/it/describe 用例名（不译）	test-name			tests/unit/graphLayout.test.ts:35	1
 test	hits the ollama tags endpoint without auth	skip	test-name	vitest test/it/describe 用例名（不译）	test-name			tests/unit/aiModels.test.ts:80	1
@@ -414,7 +413,7 @@ ui	ssh-rsa AAAAB3NzaC1yc2EDEMO demo@angkorgit	skip	protect	命中保护正则	st
 website	https://github.com/wuwuzhazha/angkorgit-zh	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/website/src/lib/site.ts:24	1
 core	https://generativelanguage.googleapis.com	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			packages/core/src/ai/models.ts:81	3
 e2e	Virtualized rows keep large graphs smooth	translate	new	待译	string		e2e/test 断言同步：scope 写 ui,e2e 或同名 e2e 词条	tests/e2e/smoke.spec.ts:502	1
-rust	refs/remotes/{remote_name}/{local_branch}	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust-fmt			apps/desktop/src-tauri/src/core/remote.rs:613	1
+rust	refs/remotes/{remote_name}/{local_branch}	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust-fmt			apps/desktop/src-tauri/src/core/remote.rs:610	1
 test	Another open merge request already exists	translate	new	待译	string		e2e/test 断言同步：scope 写 ui,e2e 或同名 e2e 词条	tests/unit/forge.test.ts:289	1
 test	does not double an already-present prefix	skip	test-name	vitest test/it/describe 用例名（不译）	test-name			tests/unit/commitStyle.test.ts:121	1
 test	handles html comments with the xml opener	skip	test-name	vitest test/it/describe 用例名（不译）	test-name			tests/unit/highlight.test.ts:57	1
@@ -484,8 +483,8 @@ core	refs/merge-requests/${pr.number}/head	skip	code	URL/路径/模板/选择器
 e2e	const palette = mergedThemePalette();	skip	code	选择器/代码片段（测试）	string			tests/e2e/smoke.spec.ts:85	4
 meta	width=device-width, initial-scale=1.0	skip	code	键值对/元标签	attr:content			apps/desktop/index.html:5	1
 rust	Merge branch 'production' into master	skip	gitraw	git 原始输出/消息模板	rust			apps/desktop/src-tauri/tests/git_engine.rs:1080	1
-rust	github.com=dara-work, gitlab.com=dara	translate	new	Rust 字符串	rust			apps/desktop/src-tauri/src/core/remote.rs:726	1
-rust	nonsense,=user,host=, GitHub.com=Dara	translate	new	Rust 字符串	rust			apps/desktop/src-tauri/src/core/remote.rs:733	1
+rust	github.com=dara-work, gitlab.com=dara	translate	new	Rust 字符串	rust			apps/desktop/src-tauri/src/core/remote.rs:723	1
+rust	nonsense,=user,host=, GitHub.com=Dara	translate	new	Rust 字符串	rust			apps/desktop/src-tauri/src/core/remote.rs:730	1
 test	/Users/me/code/angkorgit-hotfix-login	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			tests/unit/worktree.test.ts:22	1
 test	expands {suffix} from the branch name	skip	test-name	vitest test/it/describe 用例名（不译）	test-name			tests/unit/commitStyle.test.ts:44	1
 test	https://api.groq.com/openai/v1/models	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			tests/unit/aiModels.test.ts:64	1
@@ -547,8 +546,8 @@ website	feat(graph): virtualize commit rows	skip	demo	仅演示数据（demo.ts 
 website	xattr -cr ~/Downloads/AngKorGit.dmg	skip	protect	命中保护正则	string			apps/website/src/components/Install.astro:57	1
 e2e	/Users/demo/projects/angkorgit-new	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			tests/e2e/smoke.spec.ts:487	1
 e2e	const palette = useThemePalette();	skip	code	选择器/代码片段（测试）	string			tests/e2e/smoke.spec.ts:51	1
-rust	/Users/tester/.ssh/angkorgit_rsa_3	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust			apps/desktop/src-tauri/src/core/remote.rs:750	1
-rust	/Users/tester/.ssh/id_ed25519_work	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust			apps/desktop/src-tauri/src/core/remote.rs:775	1
+rust	/Users/tester/.ssh/angkorgit_rsa_3	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust			apps/desktop/src-tauri/src/core/remote.rs:747	1
+rust	/Users/tester/.ssh/id_ed25519_work	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust			apps/desktop/src-tauri/src/core/remote.rs:772	1
 rust	dirty worktree must not be removed	translate	new	Rust 字符串	rust			apps/desktop/src-tauri/tests/git_engine.rs:1704	1
 rust	https://api.bitbucket.org/2.0/user	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust			apps/desktop/src-tauri/src/account_check.rs:188	1
 test	const files = glob('src/**/*.ts');	skip	code	选择器/代码片段（测试）	string			tests/unit/highlight.test.ts:45	1
@@ -592,9 +591,8 @@ ui	highlight.js/lib/languages/python	skip	code	URL/路径/模板/选择器/函�
 ui	ring-1 ring-inset ring-primary/60	skip	css	Tailwind/CSS 类	string			apps/desktop/src/components/RepoTabs.tsx:121	2
 ui	setHistoryAttempt((n) => n + 1)}>	skip	code	JSX 代码残渣	jsx-text			apps/desktop/src/features/history/FileHistoryPanel.tsx:266	1
 website	../components/mock/Worktree.astro	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/website/src/pages/index.astro:8	1
-core	${spec.label} returned no output	translate	fmt	模板串：${x}/{} 占位符必须原样保留	template			packages/core/src/ai/cliAgents.ts:100	1
-rust	+refs/heads/main:refs/heads/main	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust			apps/desktop/src-tauri/src/core/remote.rs:852	1
-rust	/Users/tester/.ssh/angkorgit_rsa	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust			apps/desktop/src-tauri/src/core/remote.rs:740	2
+rust	+refs/heads/main:refs/heads/main	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust			apps/desktop/src-tauri/src/core/remote.rs:849	1
+rust	/Users/tester/.ssh/angkorgit_rsa	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust			apps/desktop/src-tauri/src/core/remote.rs:737	2
 rust	Merge branch 'topic' into master	skip	gitraw	git 原始输出/消息模板	rust			apps/desktop/src-tauri/tests/git_engine.rs:219	1
 rust	ssh-keygen produced no signature	skip	command	CLI 命令/脚本片段	rust			apps/desktop/src-tauri/src/core/sign.rs:228	1
 rust	unexpected http status code: 401	translate	new	Rust 字符串	rust			apps/desktop/src-tauri/src/error.rs:158	1
@@ -628,9 +626,9 @@ website	WorkingCopyFileListItemContaine…	verify	single-word	裸词：须配 an
 website	return render(rows, { colors });	translate	new	待译	string			apps/website/src/components/mock/Conflicts.astro:11	1
 core	${baseUrl}/v1/models?limit=1000	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	template			packages/core/src/ai/models.ts:74	1
 meta	node scripts/generate-icons.mjs	skip	css	Tailwind/CSS 类	json			package.json:34	1
-rust	+{source_ref}:{PR_HEAD_TMP_REF}	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust-fmt			apps/desktop/src-tauri/src/core/remote.rs:623	1
-rust	refs/heads/main:refs/heads/main	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust			apps/desktop/src-tauri/src/core/remote.rs:841	1
-rust	refs/tags/{tag}:refs/tags/{tag}	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust-fmt			apps/desktop/src-tauri/src/core/remote.rs:671	1
+rust	+{source_ref}:{PR_HEAD_TMP_REF}	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust-fmt			apps/desktop/src-tauri/src/core/remote.rs:620	1
+rust	refs/heads/main:refs/heads/main	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust			apps/desktop/src-tauri/src/core/remote.rs:838	1
+rust	refs/tags/{tag}:refs/tags/{tag}	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust-fmt			apps/desktop/src-tauri/src/core/remote.rs:668	1
 test	end of note */ const after = 1;	skip	code	选择器/代码片段（测试）	string			tests/unit/highlight.test.ts:50	2
 test	git@bitbucket.org:team/repo.git	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			tests/unit/forge.test.ts:73	5
 test	git@bitbucket.org:team/test.git	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			tests/unit/forge.test.ts:426	1
@@ -655,7 +653,7 @@ ui	requestDiscard(fileMenu.file)}>	skip	code	URL/路径/模板/选择器/函数�
 ui	src/features/graph/drawGraph.ts	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/desktop/src/core/ipc.ts:499	1
 core	${remote.owner}/${remote.repo}	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	template			packages/core/src/forge/providers/bitbucket.ts:45	3
 e2e	Cherry-picked 2 commits (demo)	skip	demo	演示数据断言（demo.ts 不译，断言保持英文）	string			tests/e2e/smoke.spec.ts:150	1
-rust	/Users/tester/.ssh/work_gitlab	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust			apps/desktop/src-tauri/src/core/remote.rs:807	2
+rust	/Users/tester/.ssh/work_gitlab	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust			apps/desktop/src-tauri/src/core/remote.rs:804	2
 rust	Test User <test@angkorgit.dev>	skip	protect	命中保护正则	rust			apps/desktop/src-tauri/src/core/sign.rs:329	1
 rust	\\ No newline at end of file\n	translate	new	Rust 字符串	rust			apps/desktop/src-tauri/src/core/stage.rs:141	2
 test	https://api.groq.com/openai/v1	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			tests/unit/aiModels.test.ts:60	1
@@ -687,7 +685,7 @@ e2e	[data-panel-resize-handle-id]	skip	code	URL/路径/模板/选择器/函数�
 e2e	angkorgit-feature-diff-viewer	skip	demo	仅演示数据（demo.ts 被 skip-files 排除）	string			tests/e2e/smoke.spec.ts:481	1
 e2e	aside button[title="feature"]	skip	code	选择器/代码片段（测试）	string			tests/e2e/smoke.spec.ts:246	1
 e2e	aside[aria-label="Inspector"]	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			tests/e2e/smoke.spec.ts:358	1
-rust	/Users/tester/.ssh/id_ed25519	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust			apps/desktop/src-tauri/src/core/remote.rs:786	4
+rust	/Users/tester/.ssh/id_ed25519	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust			apps/desktop/src-tauri/src/core/remote.rs:783	4
 rust	/repo/.git/worktrees/wt/index	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust			apps/desktop/src-tauri/src/watcher.rs:207	1
 rust	/repo/.git/worktrees/x/gitdir	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust			apps/desktop/src-tauri/src/watcher.rs:186	1
 rust	ecdsa-sha2-nistp256 AAAA test	skip	protect	命中保护正则	rust			apps/desktop/src-tauri/src/core/sign.rs:348	1
@@ -728,7 +726,7 @@ rust	/repo/.git/worktrees/wt/HEAD	skip	code	URL/路径/模板/选择器/函数�
 rust	/repo/.git/worktrees/x/index	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust			apps/desktop/src-tauri/src/watcher.rs:192	1
 rust	git verify-commit failed: {}	skip	command	CLI 命令/脚本片段	rust			apps/desktop/src-tauri/tests/git_engine.rs:1220	1
 rust	unexpected http status code:	translate	new	Rust 字符串	rust			apps/desktop/src-tauri/src/error.rs:17	1
-rust	{remote_name}/{local_branch}	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust-fmt			apps/desktop/src-tauri/src/core/remote.rs:618	1
+rust	{remote_name}/{local_branch}	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust-fmt			apps/desktop/src-tauri/src/core/remote.rs:615	1
 test	Reviews may not be requested	translate	new	待译	string		e2e/test 断言同步：scope 写 ui,e2e 或同名 e2e 词条	tests/unit/forge.test.ts:546	1
 test	[support] fix login redirect	translate	new	待译	string		e2e/test 断言同步：scope 写 ui,e2e 或同名 e2e 词条	tests/unit/commitStyle.test.ts:117	1
 test	clips very long instructions	skip	test-name	vitest test/it/describe 用例名（不译）	test-name			tests/unit/aiCapabilities.test.ts:72	1
@@ -767,7 +765,7 @@ core	./forge/providers/bitbucket	skip	code	URL/路径/模板/选择器/函数式
 core	refs/pull/${pr.number}/head	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	template			packages/core/src/forge/shared.ts:63	1
 e2e	<span class="hljs-comment">	skip	code	SVG/图标数据	string			tests/e2e/smoke.spec.ts:506	1
 e2e	[data-panel-id="inspector"]	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			tests/e2e/smoke.spec.ts:534	1
-rust	/Users/tester/.ssh/work_key	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust			apps/desktop/src-tauri/src/core/remote.rs:758	1
+rust	/Users/tester/.ssh/work_key	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust			apps/desktop/src-tauri/src/core/remote.rs:755	1
 rust	/repo/.git/worktrees/x/HEAD	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust			apps/desktop/src-tauri/src/watcher.rs:180	1
 rust	angkorgit-ai-test-prompt-{}	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust-fmt			apps/desktop/src-tauri/src/ai_cli.rs:415	1
 rust	angkorgit-ai-{}-{nanos}.txt	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust-fmt			apps/desktop/src-tauri/src/ai_cli.rs:284	1
@@ -816,7 +814,7 @@ meta	@tauri-apps/plugin-process	skip	code	URL/路径/模板/选择器/函数式�
 meta	@tauri-apps/plugin-updater	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	json			apps/desktop/package.json:24	1
 meta	tsc --noEmit && vite build	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	json			apps/desktop/package.json:9	1
 rust	(cherry picked from commit	skip	gitraw	git 原始输出/消息模板	rust			apps/desktop/src-tauri/src/core/branch.rs:443	1
-rust	/Users/tester/.ssh/key_{n}	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust-fmt			apps/desktop/src-tauri/src/core/remote.rs:823	1
+rust	/Users/tester/.ssh/key_{n}	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust-fmt			apps/desktop/src-tauri/src/core/remote.rs:820	1
 rust	/repo/.git/refs/heads/main	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust			apps/desktop/src-tauri/src/watcher.rs:144	2
 rust	cat > /dev/null\necho pong	skip	command	CLI 命令/脚本片段	rust			apps/desktop/src-tauri/src/ai_cli.rs:380	1
 rust	https://github.com/a/b.git	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust			apps/desktop/src-tauri/src/core/accounts.rs:435	1
@@ -861,13 +859,13 @@ core	https://api.openai.com/v1	skip	code	URL/路径/模板/选择器/函数式�
 e2e	[data-panel-id="sidebar"]	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			tests/e2e/smoke.spec.ts:535	1
 meta	@tauri-apps/plugin-dialog	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	json			apps/desktop/package.json:21	1
 meta	@tauri-apps/plugin-opener	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	json			apps/desktop/package.json:22	1
-rust	/Users/tester/.ssh/id_rsa	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust			apps/desktop/src-tauri/src/core/remote.rs:787	3
+rust	/Users/tester/.ssh/id_rsa	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust			apps/desktop/src-tauri/src/core/remote.rs:784	3
 rust	angkorgit-ai-test-slow-{}	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust-fmt			apps/desktop/src-tauri/src/ai_cli.rs:435	1
 rust	angkorgit-sign-test-{}-{}	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust			apps/desktop/src-tauri/src/core/sign.rs:273	1
 rust	branch refs/heads/feature	skip	css	Tailwind/CSS 类	rust			apps/desktop/src-tauri/tests/git_engine.rs:1775	1
 rust	command -v {name} || true	translate	fmt	模板串：${x}/{} 占位符必须原样保留	rust-fmt			apps/desktop/src-tauri/src/ai_cli.rs:196	1
 rust	printf from-file > \"$2\"	skip	command	CLI 命令/脚本片段	rust			apps/desktop/src-tauri/src/ai_cli.rs:399	1
-rust	refs/heads/{local_branch}	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust-fmt			apps/desktop/src-tauri/src/core/remote.rs:597	2
+rust	refs/heads/{local_branch}	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust-fmt			apps/desktop/src-tauri/src/core/remote.rs:594	2
 test	/Users/me/code/angkorgit/	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			tests/unit/worktree.test.ts:34	1
 test	This project uses spaces.	translate	new	待译	string		e2e/test 断言同步：scope 写 ui,e2e 或同名 e2e 词条	tests/unit/aiCapabilities.test.ts:51	2
 test	line 1\nours line\nline 2	translate	new	待译	string		e2e/test 断言同步：scope 写 ui,e2e 或同名 e2e 词条	tests/unit/conflicts.test.ts:47	1
@@ -995,8 +993,8 @@ rust	acct:{host}:{username}	skip	code	URL/路径/模板/选择器/函数式（�
 rust	feat: conflicting pick	skip	fixture	Rust 集成测试断言/夹具（不译）	rust			apps/desktop/src-tauri/tests/git_engine.rs:329	1
 rust	git@github.com:a/b.git	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust			apps/desktop/src-tauri/src/core/accounts.rs:438	1
 rust	main repo stays intact	translate	new	Rust 字符串	rust			apps/desktop/src-tauri/tests/git_engine.rs:1713	1
-rust	refs/angkorgit/pr-head	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust			apps/desktop/src-tauri/src/core/remote.rs:585	1
-rust	~/.ssh/id_ed25519_work	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust			apps/desktop/src-tauri/src/core/remote.rs:772	1
+rust	refs/angkorgit/pr-head	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust			apps/desktop/src-tauri/src/core/remote.rs:582	1
+rust	~/.ssh/id_ed25519_work	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust			apps/desktop/src-tauri/src/core/remote.rs:769	1
 test	bitbucketForgeProvider	skip	test-name	vitest test/it/describe 用例名（不译）	test-name			tests/unit/forge.test.ts:330	1
 test	feature/no-ticket-here	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			tests/unit/commitStyle.test.ts:59	1
 test	feature/team/deep-path	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			tests/unit/commitStyle.test.ts:46	1
@@ -1038,7 +1036,7 @@ meta	http://localhost:1420	skip	code	URL/路径/模板/选择器/函数式（无
 meta	onlyBuiltDependencies	skip	ident	标识符/路径/哈希/日期	json			package.json:9	1
 rust	/repo/.git/index.lock	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust			apps/desktop/src-tauri/src/watcher.rs:156	1
 rust	line should be staged	translate	new	Rust 字符串	rust			apps/desktop/src-tauri/tests/git_engine.rs:612	1
-rust	pull request checkout	translate	new	Rust 字符串	rust			apps/desktop/src-tauri/src/core/remote.rs:659	1
+rust	pull request checkout	translate	new	Rust 字符串	rust			apps/desktop/src-tauri/src/core/remote.rs:656	1
 rust	~/.ssh/id_ed25519.pub	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust			apps/desktop/src-tauri/src/core/sign.rs:303	4
 test	ai model list parsing	skip	test-name	vitest test/it/describe 用例名（不译）	test-name			tests/unit/aiModels.test.ts:21	1
 test	feature/ABC-123-login	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			tests/unit/commitStyle.test.ts:51	1
@@ -1305,7 +1303,7 @@ meta	beforeDevCommand	skip	ident	标识符/路径/哈希/日期	json			apps/desk
 meta	react-router-dom	skip	ident	标识符/路径/哈希/日期	json			apps/desktop/package.json:34	1
 meta	vendored-libgit2	skip	protect	命中保护正则	rust			apps/desktop/src-tauri/Cargo.toml:28	1
 meta	vendored-openssl	skip	ident	标识符/路径/哈希/日期	rust			apps/desktop/src-tauri/Cargo.toml:28	1
-rust	/etc/keys/deploy	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust			apps/desktop/src-tauri/src/core/remote.rs:765	2
+rust	/etc/keys/deploy	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust			apps/desktop/src-tauri/src/core/remote.rs:762	2
 rust	feat: clean pick	skip	fixture	Rust 集成测试断言/夹具（不译）	rust			apps/desktop/src-tauri/tests/git_engine.rs:327	1
 rust	local divergence	translate	new	Rust 字符串	rust			apps/desktop/src-tauri/tests/git_engine.rs:1371	2
 rust	non_fast_forward	skip	ident	标识符/路径/哈希/日期	rust			apps/desktop/src-tauri/src/error.rs:71	1
@@ -1385,7 +1383,7 @@ rust	/repo/.git/HEAD	skip	code	URL/路径/模板/选择器/函数式（无空格
 rust	Antigravity CLI	skip	brand	品牌/产品名（保留英文）	rust			apps/desktop/src-tauri/src/ai_cli.rs:15	1
 rust	add picked file	translate	new	Rust 字符串	rust			apps/desktop/src-tauri/tests/git_engine.rs:264	1
 rust	allowed_signers	skip	ident	标识符/路径/哈希/日期	rust			apps/desktop/src-tauri/tests/git_engine.rs:1204	1
-rust	angkorgit_rsa_2	skip	ident	标识符/路径/哈希/日期	rust			apps/desktop/src-tauri/src/core/remote.rs:747	1
+rust	angkorgit_rsa_2	skip	ident	标识符/路径/哈希/日期	rust			apps/desktop/src-tauri/src/core/remote.rs:744	1
 rust	dev@example.com	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust			apps/desktop/src-tauri/src/forge.rs:135	1
 rust	first (amended)	skip	css	Tailwind/CSS 类	rust			apps/desktop/src-tauri/tests/git_engine.rs:102	2
 rust	github.corp.dev	skip	ident	标识符/路径/哈希/日期	rust			apps/desktop/src-tauri/src/forge.rs:113	1
@@ -1398,7 +1396,7 @@ rust	user.signingkey	skip	ident	标识符/路径/哈希/日期	rust			apps/deskt
 rust	{email}:{token}	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust-fmt			apps/desktop/src-tauri/src/account_check.rs:186	2
 rust	{name}-{suffix}	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust-fmt			apps/desktop/src-tauri/tests/git_engine.rs:1550	1
 rust	{name}:{target}	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust-fmt			apps/desktop/src-tauri/src/core/repo.rs:201	1
-rust	~/.ssh/work_key	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust			apps/desktop/src-tauri/src/core/remote.rs:757	1
+rust	~/.ssh/work_key	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust			apps/desktop/src-tauri/src/core/remote.rs:754	1
 test	--output-format	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			tests/unit/cliAgents.test.ts:31	1
 test	/Users/me/code/	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			tests/unit/worktree.test.ts:21	1
 test	/merge_requests	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			tests/unit/forge.test.ts:669	1
@@ -1515,7 +1513,6 @@ ui	history_commit	skip	ident	标识符/路径/哈希/日期	string			apps/deskto
 ui	line-clamp-[8]	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/desktop/src/features/inspector/CommitDetails.tsx:215	1
 ui	rebase_commits	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/core/ipc.ts:327	1
 ui	rounded-r-none	skip	ident	属性值（className）代码	attr:className			apps/desktop/src/components/Toolbar.tsx:463	1
-ui	s identity and	translate	new	待译	string			apps/desktop/src/components/profilePrompt.tsx:53	1
 ui	s-${file.path}	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	template			apps/desktop/src/features/commit/WorkingCopyPanel.tsx:636	1
 ui	settle(null)}>	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	jsx-text			apps/desktop/src/components/profilePrompt.tsx:77	1
 ui	ssh_public_key	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/core/ipc.ts:551	1
@@ -1552,7 +1549,7 @@ rust	--detach-sign	skip	code	URL/路径/模板/选择器/函数式（无空格�
 rust	--status-fd=2	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust			apps/desktop/src-tauri/src/core/sign.rs:235	1
 rust	.claude/local	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust			apps/desktop/src-tauri/src/ai_cli.rs:84	2
 rust	.opencode/bin	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust			apps/desktop/src-tauri/src/ai_cli.rs:90	2
-rust	/Users/tester	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust			apps/desktop/src-tauri/src/core/remote.rs:721	1
+rust	/Users/tester	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust			apps/desktop/src-tauri/src/core/remote.rs:718	1
 rust	Basic {basic}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	rust-fmt			apps/desktop/src-tauri/src/account_check.rs:189	3
 rust	Command::new(	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust			apps/desktop/src-tauri/src/proc.rs:47	1
 rust	SSH SIGNATURE	skip	command	CLI 命令/脚本片段	rust			apps/desktop/src-tauri/tests/git_engine.rs:1201	3
@@ -1573,8 +1570,8 @@ rust	release 1.0.0	skip	css	Tailwind/CSS 类	rust			apps/desktop/src-tauri/tests
 rust	three renamed	translate	new	Rust 字符串	rust			apps/desktop/src-tauri/tests/git_engine.rs:733	2
 rust	verify-commit	skip	ident	标识符/路径/哈希/日期	rust			apps/desktop/src-tauri/tests/git_engine.rs:1210	1
 rust	{OUTPUT_FILE}	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust			apps/desktop/src-tauri/src/ai_cli.rs:18	1
-rust	~/.ssh/chosen	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust			apps/desktop/src-tauri/src/core/remote.rs:826	1
-rust	~/.ssh/id_rsa	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust			apps/desktop/src-tauri/src/core/remote.rs:794	1
+rust	~/.ssh/chosen	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust			apps/desktop/src-tauri/src/core/remote.rs:823	1
+rust	~/.ssh/id_rsa	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust			apps/desktop/src-tauri/src/core/remote.rs:791	1
 test	Add worktrees	translate	new	待译	string		e2e/test 断言同步：scope 写 ui,e2e 或同名 e2e 词条	tests/unit/forge.test.ts:32	2
 test	commit ${oid}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	template		e2e/test 断言同步：scope 写 ui,e2e 或同名 e2e 词条	tests/unit/graphLayout.test.ts:10	1
 test	feat: colored	skip	css	Tailwind/CSS 类	string			tests/unit/cliAgents.test.ts:67	1
@@ -2081,13 +2078,13 @@ rust	changed\n	skip	ident	裸词（rust/meta/test 默认标识符）	rust			apps
 rust	chore {i}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	rust-fmt			apps/desktop/src-tauri/tests/git_engine.rs:517	1
 rust	clean.txt	skip	ident	标识符/路径/哈希/日期	rust			apps/desktop/src-tauri/tests/git_engine.rs:326	2
 rust	conflicts	skip	ident	标识符/路径/哈希/日期	rust			apps/desktop/src-tauri/src/core/branch.rs:197	12
-rust	dara-work	skip	ident	标识符/路径/哈希/日期	rust			apps/desktop/src-tauri/src/core/remote.rs:727	1
+rust	dara-work	skip	ident	标识符/路径/哈希/日期	rust			apps/desktop/src-tauri/src/core/remote.rs:724	1
 rust	demo work	translate	new	Rust 字符串	rust			apps/desktop/src-tauri/tests/git_engine.rs:933	4
 rust	feat: one	skip	css	Tailwind/CSS 类	rust			apps/desktop/src-tauri/tests/git_engine.rs:292	1
 rust	feat: two	skip	css	Tailwind/CSS 类	rust			apps/desktop/src-tauri/tests/git_engine.rs:294	1
 rust	feature 1	skip	css	Tailwind/CSS 类	rust			apps/desktop/src-tauri/tests/git_engine.rs:532	1
 rust	feature 2	skip	css	Tailwind/CSS 类	rust			apps/desktop/src-tauri/tests/git_engine.rs:532	1
-rust	feature/x	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust			apps/desktop/src-tauri/src/core/remote.rs:861	1
+rust	feature/x	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust			apps/desktop/src-tauri/src/core/remote.rs:858	1
 rust	feature\n	skip	ident	裸词（rust/meta/test 默认标识符）	rust			apps/desktop/src-tauri/tests/git_engine.rs:998	3
 rust	forbidden	skip	ident	标识符/路径/哈希/日期	rust			apps/desktop/src-tauri/src/error.rs:61	1
 rust	from-file	skip	ident	标识符/路径/哈希/日期	rust			apps/desktop/src-tauri/src/ai_cli.rs:407	1
@@ -2838,7 +2835,6 @@ core	plain	skip	ident	标识符/路径/哈希/日期	string			packages/core/src/
 core	stash	skip	ident	标识符/路径/哈希/日期	string			packages/core/src/git/types.ts:66	1
 core	stdin	skip	ident	标识符/路径/哈希/日期	string			packages/core/src/ai/cliAgents.ts:18	4
 e2e	57/72	skip	code	无英文字母（数字/符号）	string			tests/e2e/smoke.spec.ts:567	1
-e2e	Draft	skip	dup	已入词库	string			tests/e2e/smoke.spec.ts:415	1
 e2e	Enter	skip	ident	标识符/路径/哈希/日期	string			tests/e2e/smoke.spec.ts:568	2
 e2e	false	skip	ident	标识符/路径/哈希/日期	string			tests/e2e/smoke.spec.ts:521	1
 e2e	h2, p	skip	css	Tailwind/CSS 类	string			tests/e2e/smoke.spec.ts:205	1
@@ -2882,7 +2878,7 @@ rust	mixed	skip	ident	标识符/路径/哈希/日期	rust			apps/desktop/src-tau
 rust	new\n	skip	ident	裸词（rust/meta/test 默认标识符）	rust			apps/desktop/src-tauri/tests/git_engine.rs:1507	1
 rust	one\n	skip	ident	裸词（rust/meta/test 默认标识符）	rust			apps/desktop/src-tauri/tests/git_engine.rs:91	17
 rust	other	skip	ident	标识符/路径/哈希/日期	rust			apps/desktop/src-tauri/src/error.rs:79	7
-rust	refs/	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust			apps/desktop/src-tauri/src/core/remote.rs:594	1
+rust	refs/	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust			apps/desktop/src-tauri/src/core/remote.rs:591	1
 rust	start	skip	ident	标识符/路径/哈希/日期	rust			apps/desktop/src-tauri/src/commands.rs:182	1
 rust	t.txt	skip	ident	标识符/路径/哈希/日期	rust			apps/desktop/src-tauri/tests/git_engine.rs:200	1
 rust	third	skip	ident	标识符/路径/哈希/日期	rust			apps/desktop/src-tauri/tests/git_engine.rs:1460	1
@@ -3027,7 +3023,7 @@ rust	.pub	skip	ident	裸词（rust/meta/test 默认标识符）	rust			apps/desk
 rust	.sig	skip	ident	裸词（rust/meta/test 默认标识符）	rust			apps/desktop/src-tauri/src/core/sign.rs:202	1
 rust	.ssh	skip	ident	裸词（rust/meta/test 默认标识符）	rust			apps/desktop/src-tauri/src/core/remote.rs:99	2
 rust	/bin	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust			apps/desktop/src-tauri/src/ai_cli.rs:77	1
-rust	Dara	skip	ident	标识符/路径/哈希/日期	rust			apps/desktop/src-tauri/src/core/remote.rs:735	1
+rust	Dara	skip	ident	标识符/路径/哈希/日期	rust			apps/desktop/src-tauri/src/core/remote.rs:732	1
 rust	FOUR	skip	ident	标识符/路径/哈希/日期	rust			apps/desktop/src-tauri/tests/git_engine.rs:579	1
 rust	HEAD	skip	ident	标识符/路径/哈希/日期	rust			apps/desktop/src-tauri/src/watcher.rs:31	21
 rust	HOME	skip	ident	标识符/路径/哈希/日期	rust			apps/desktop/src-tauri/src/ai_cli.rs:57	2
@@ -3057,7 +3053,7 @@ rust	held	skip	ident	标识符/路径/哈希/日期	rust			apps/desktop/src-taur
 rust	http	skip	ident	标识符/路径/哈希/日期	rust			apps/desktop/src-tauri/src/account_check.rs:122	1
 rust	jpeg	skip	ident	标识符/路径/哈希/日期	rust			apps/desktop/src-tauri/src/core/diff.rs:9	1
 rust	list	skip	ident	标识符/路径/哈希/日期	rust			apps/desktop/src-tauri/tests/git_engine.rs:1761	1
-rust	main	skip	demo	仅演示数据（demo.ts 被 skip-files 排除）	rust			apps/desktop/src-tauri/src/core/remote.rs:839	2
+rust	main	skip	demo	仅演示数据（demo.ts 被 skip-files 排除）	rust			apps/desktop/src-tauri/src/core/remote.rs:836	2
 rust	open	skip	demo	仅演示数据（demo.ts 被 skip-files 排除）	rust			apps/desktop/src-tauri/src/commands.rs:177	2
 rust	pick	skip	ident	标识符/路径/哈希/日期	rust			apps/desktop/src-tauri/src/core/branch.rs:379	8
 rust	pnpm	skip	command	CLI 命令/脚本片段	rust			apps/desktop/src-tauri/src/ai_cli.rs:350	1
@@ -3281,7 +3277,6 @@ ui	Use	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/featu
 ui	[],	skip	code	无英文字母（数字/符号）	jsx-text			apps/desktop/src/features/diff/VirtualDiff.tsx:262	2
 ui	[];	skip	code	无英文字母（数字/符号）	jsx-text			apps/desktop/src/components/FileTree.tsx:8	1
 ui	alt	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/shared/useShortcuts.ts:15	1
-ui	are	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/forge/CreatePrDialog.tsx:397	1
 ui	cli	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/ai/client.ts:19	3
 ui	cpp	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/shared/highlight.ts:29	6
 ui	css	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/shared/highlight.ts:30	3
