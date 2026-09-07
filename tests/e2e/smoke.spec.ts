@@ -824,7 +824,7 @@ test('the working copy filter narrows both lists and shows counts', async ({ pag
   await expect(page.getByText('ipc.ts', { exact: true }).first()).toBeVisible();
   await page.getByRole('row').first().click();
   await expect(filter).toHaveCount(0);
-  await page.getByRole('button', { name: 'Back to working copy' }).click();
+  await page.getByRole('button', { name: '返回工作副本' }).click();
   await expect(page.getByPlaceholder('Filter changed files…')).toBeVisible();
   await expect(page.getByPlaceholder('Filter changed files…')).not.toBeFocused();
   await page.getByPlaceholder('Filter changed files…').press('Escape');
@@ -947,12 +947,12 @@ test('arrow keys walk from the graph into a commit\u2019s files and back', async
   await page.keyboard.press('ArrowRight');
   const files = page.getByLabel('Commit files');
   await expect(files).toBeFocused();
-  await expect(page.locator('section[aria-label="文件差异： src/features/graph/CommitGraph.tsx"]')).toBeVisible();
+  await expect(page.locator('section[aria-label="文件差异：src/features/graph/CommitGraph.tsx"]')).toBeVisible();
 
   await page.keyboard.press('ArrowDown');
-  await expect(page.locator('section[aria-label="文件差异： src/features/graph/GraphRow.tsx"]')).toBeVisible();
+  await expect(page.locator('section[aria-label="文件差异：src/features/graph/GraphRow.tsx"]')).toBeVisible();
   await page.keyboard.press('ArrowUp');
-  await expect(page.locator('section[aria-label="文件差异： src/features/graph/CommitGraph.tsx"]')).toBeVisible();
+  await expect(page.locator('section[aria-label="文件差异：src/features/graph/CommitGraph.tsx"]')).toBeVisible();
 
   await page.keyboard.press('ArrowLeft');
   await expect(page.locator('section[aria-label^="文件差异："]')).toHaveCount(0);
