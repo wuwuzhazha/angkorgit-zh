@@ -472,12 +472,12 @@ describe('gitlab self-hosted scheme fallback', () => {
       }
       return { status: 200, body: '[]' };
     };
-    const remote = parseForgeRemote('git@gitlab-01.remotes.local:products/wl/monika.git');
+    const remote = parseForgeRemote('git@gitlab.example.com:team/api.git');
     if (!remote) throw new Error('expected a parsed remote');
     const prs = await gitlabForgeProvider(remote, http).listOpenPullRequests();
     expect(prs).toEqual([]);
-    expect(calls[0].url.startsWith('https://gitlab-01.remotes.local/api/v4/')).toBe(true);
-    expect(calls[1].url.startsWith('http://gitlab-01.remotes.local/api/v4/')).toBe(true);
+    expect(calls[0].url.startsWith('https://gitlab.example.com/api/v4/')).toBe(true);
+    expect(calls[1].url.startsWith('http://gitlab.example.com/api/v4/')).toBe(true);
   });
 
   it('never falls back to http for gitlab.com or on api-level errors', async () => {
