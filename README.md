@@ -9,17 +9,17 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/cheat2001/angkorgit/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/cheat2001/angkorgit/actions/workflows/ci.yml/badge.svg" /></a>
-  <a href="LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-D97706.svg" /></a>
+  <a href="https://github.com/wuwuzhazha/angkorgit/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/wuwuzhazha/angkorgit/actions/workflows/ci.yml/badge.svg" /></a>
+  <a href="LICENSE"><img alt="许可证：MIT" src="https://img.shields.io/badge/license-MIT-D97706.svg" /></a>
   <img alt="Platforms" src="https://img.shields.io/badge/platform-macOS%20%7C%20Windows%20%7C%20Linux-374151.svg" />
-  <img alt="Built with Tauri" src="https://img.shields.io/badge/built%20with-Tauri%20v2%20%2B%20Rust-D97706.svg" />
+  <img alt="使用 Tauri 构建" src="https://img.shields.io/badge/built%20with-Tauri%20v2%20%2B%20Rust-D97706.svg" />
   <a href="https://angkorgit.app/"><img alt="Website" src="https://img.shields.io/badge/website-angkorgit.app-8B5CF6.svg" /></a>
 </p>
 
 ---
 
 <p align="center">
-  <img src="docs/assets/demo.gif" alt="Opening a repository, browsing the commit graph, jumping to a diff and resolving a merge conflict" width="920" />
+  <img src="docs/assets/demo.gif" alt="打开仓库、浏览提交图、跳转至 diff 并解决合并冲突" width="920" />
 </p>
 
 I use Git all day and every client I tried felt like a website wearing a coat. Slow to open, heavy on disk, a login screen before the first commit. So I wrote one. The engine is libgit2 through Rust, the window is the webview your OS already ships, and the rule for what gets in is simple: the things you do every day, done properly, and not much else.
@@ -30,7 +30,7 @@ It's free, MIT licensed, and there is no account, no telemetry and no cloud. Eve
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="docs/assets/graph.png" />
     <source media="(prefers-color-scheme: light)" srcset="docs/assets/graph-light.png" />
-    <img src="docs/assets/graph.png" alt="The commit graph in the Angkor Dusk theme, with branches, working copy and staged changes" width="920" />
+    <img src="docs/assets/graph.png" alt="Angkor Dusk 主题下的提交图，含分支、工作副本与已暂存更改" width="920" />
   </picture>
 </p>
 
@@ -38,13 +38,13 @@ It's free, MIT licensed, and there is no account, no telemetry and no cloud. Eve
 
 **The graph.** Virtualized, so a hundred thousand commits scroll like fifty. Drag a branch onto another to merge or rebase, and a merge from the app is always a real merge commit. Ref chips show the whole name or fold behind a count. Paste a hash into the search and it jumps there. ⌘Z undoes the merge if you picked the wrong branch.
 
-**Conflicts you can read.** Both sides in one view with line numbers on each. One checkbox takes a whole side, a plus on hover takes one line, and the result pane is an editor you can type into. Nothing touches the file until you press Mark resolved.
+**Conflicts you can read.** Both sides in one view with line numbers on each. One checkbox takes a whole side, a plus on hover takes one line, and the result pane is an editor you can type into. Nothing touches the file until you press 标记已解决.
 
 **Worktrees.** A second checkout of the same repository in a sibling folder, for a hotfix or an AI agent while your real work sits untouched. The sidebar lists them, each opens as its own tab, and checking out a branch that is already open in another folder takes you there instead.
 
 **Everything else you reach for.** Stage files, hunks or single lines. Commit with a summary and a description, amend, revert, reset. Interactive rebase, cherry-pick one or many, stash, tags, submodules. Diffs inline or side by side with word level highlighting, a minimap, image diffs and file history. A built-in terminal per repository. Real confirmation dialogs before anything destructive, and undo for the rest.
 
-**Remotes and accounts.** Fetch, pull and push through the same credential chain git uses. SSH keys and access tokens, several accounts on one host, identity profiles stored per repository and never in your global gitconfig. Pull requests from GitHub, GitLab and Bitbucket: list, check out, create, pick reviewers. Commit signing through your existing git config.
+**Remotes and accounts.** Fetch, pull and push through the same credential chain git uses. SSH keys and access tokens, several accounts on one host, identity profiles stored per repository and never in your global gitconfig. 拉取请求 from GitHub, GitLab and Bitbucket: list, check out, create, pick reviewers. Commit signing through your existing git config.
 
 **AI, if you want it.** A commit message from the staged diff, a plain explanation of a commit or a conflict, a review of what you are about to commit, a pull request description. It uses the AI CLI you already log into (Claude Code, Codex, Gemini CLI, OpenCode), or an API key, or Ollama on your own machine. Requests go straight from your computer to the provider you chose. Every one of them has a Stop button.
 
@@ -56,7 +56,7 @@ It's free, MIT licensed, and there is no account, no telemetry and no cloud. Eve
       <picture>
         <source media="(prefers-color-scheme: dark)" srcset="docs/assets/conflict.png" />
         <source media="(prefers-color-scheme: light)" srcset="docs/assets/conflict-light.png" />
-        <img src="docs/assets/conflict.png" alt="The conflict resolver with both sides, line numbers and the result pane" />
+        <img src="docs/assets/conflict.png" alt="冲突解决器，含两侧内容、行号与结果面板" />
       </picture>
       <p align="center"><em>Conflicts: both sides, line numbers, the result is an editor</em></p>
     </td>
@@ -64,7 +64,7 @@ It's free, MIT licensed, and there is no account, no telemetry and no cloud. Eve
       <picture>
         <source media="(prefers-color-scheme: dark)" srcset="docs/assets/worktree.png" />
         <source media="(prefers-color-scheme: light)" srcset="docs/assets/worktree-light.png" />
-        <img src="docs/assets/worktree.png" alt="The new worktree dialog over the graph" />
+        <img src="docs/assets/worktree.png" alt="叠加在提交图上的新建工作树对话框" />
       </picture>
       <p align="center"><em>Worktrees: a second checkout in a sibling folder, its own tab</em></p>
     </td>
@@ -82,7 +82,7 @@ It's free, MIT licensed, and there is no account, no telemetry and no cloud. Eve
       <picture>
         <source media="(prefers-color-scheme: dark)" srcset="docs/assets/command-palette.png" />
         <source media="(prefers-color-scheme: light)" srcset="docs/assets/command-palette-light.png" />
-        <img src="docs/assets/command-palette.png" alt="The command palette" />
+        <img src="docs/assets/command-palette.png" alt="命令面板" />
       </picture>
       <p align="center"><em>⌘K, then type</em></p>
     </td>
@@ -92,7 +92,7 @@ It's free, MIT licensed, and there is no account, no telemetry and no cloud. Eve
       <picture>
         <source media="(prefers-color-scheme: dark)" srcset="docs/assets/theme-setting.png" />
         <source media="(prefers-color-scheme: light)" srcset="docs/assets/theme-setting-light.png" />
-        <img src="docs/assets/theme-setting.png" alt="Appearance settings" />
+        <img src="docs/assets/theme-setting.png" alt="外观设置" />
       </picture>
       <p align="center"><em>Sixteen themes, five accents, UI zoom</em></p>
     </td>
@@ -100,9 +100,9 @@ It's free, MIT licensed, and there is no account, no telemetry and no cloud. Eve
       <picture>
         <source media="(prefers-color-scheme: dark)" srcset="docs/assets/ai-config-setting.png" />
         <source media="(prefers-color-scheme: light)" srcset="docs/assets/ai-config-setting-light.png" />
-        <img src="docs/assets/ai-config-setting.png" alt="AI settings" />
+        <img src="docs/assets/ai-config-setting.png" alt="AI 设置" />
       </picture>
-      <p align="center"><em>AI settings. Your own provider, or a CLI you already have</em></p>
+      <p align="center"><em>AI 设置. Your own provider, or a CLI you already have</em></p>
     </td>
   </tr>
 </table>
@@ -116,20 +116,20 @@ It's free, MIT licensed, and there is no account, no telemetry and no cloud. Eve
 
 ## Install
 
-Grab the file for your platform from the [releases page](https://github.com/cheat2001/angkorgit/releases), or use the terminal. The commands below are pinned to the current release, so bump the version if a newer one is out.
+Grab the file for your platform from the [releases page](https://github.com/wuwuzhazha/angkorgit/releases), or use the terminal. The commands below are pinned to the current release, so bump the version if a newer one is out.
 
 ```bash
 # macOS with Homebrew (also clears the Gatekeeper flag for you)
 brew install --cask cheat2001/tap/angkorgit
 
 # macOS, direct download
-curl -L https://github.com/cheat2001/angkorgit/releases/download/v0.10.0/AngKorGit_0.10.0_universal.dmg -o ~/Downloads/AngKorGit.dmg && xattr -cr ~/Downloads/AngKorGit.dmg && open ~/Downloads/AngKorGit.dmg
+curl -L https://github.com/wuwuzhazha/angkorgit/releases/download/v0.10.0/AngKorGit_0.10.0_universal.dmg -o ~/Downloads/AngKorGit.dmg && xattr -cr ~/Downloads/AngKorGit.dmg && open ~/Downloads/AngKorGit.dmg
 
 # Windows (PowerShell)
-curl -L https://github.com/cheat2001/angkorgit/releases/download/v0.10.0/AngKorGit_0.10.0_x64-setup.exe -o "$env:TEMP\AngKorGit-setup.exe"; Start-Process "$env:TEMP\AngKorGit-setup.exe"
+curl -L https://github.com/wuwuzhazha/angkorgit/releases/download/v0.10.0/AngKorGit_0.10.0_x64-setup.exe -o "$env:TEMP\AngKorGit-setup.exe"; Start-Process "$env:TEMP\AngKorGit-setup.exe"
 
 # Linux (AppImage)
-curl -L https://github.com/cheat2001/angkorgit/releases/download/v0.10.0/AngKorGit_0.10.0_amd64.AppImage -o ~/Downloads/AngKorGit.AppImage && chmod +x ~/Downloads/AngKorGit.AppImage && ~/Downloads/AngKorGit.AppImage
+curl -L https://github.com/wuwuzhazha/angkorgit/releases/download/v0.10.0/AngKorGit_0.10.0_amd64.AppImage -o ~/Downloads/AngKorGit.AppImage && chmod +x ~/Downloads/AngKorGit.AppImage && ~/Downloads/AngKorGit.AppImage
 ```
 
 The builds aren't signed with a paid certificate, so your OS asks once on first launch. After that the app updates itself, and every update is verified with a signature before it installs. All releases are built in public by GitHub Actions from this source tree. The full first-launch walkthrough is on the [getting started page](https://angkorgit.app/docs/getting-started/).
@@ -137,9 +137,9 @@ The builds aren't signed with a paid certificate, so your OS asks once on first 
 ### macOS, first launch
 
 1. Open the `.dmg` and drag AngKorGit into Applications. Don't run it from inside the dmg window, macOS would start it from a temporary location where permissions can't be saved.
-2. Launch it. macOS says the app cannot be opened. Close that, go to System Settings, Privacy & Security, scroll down and click Open Anyway. This happens once.
+2. Launch it. macOS says the app cannot be opened. Close that, go to System Settings, Privacy & Security, scroll down and click 仍然打开. This happens once.
 3. The first time you open a repository in Desktop, Documents or Downloads, macOS asks for access to that folder. Allow, once per folder.
-4. If you connect a GitHub or GitLab account, the first git operation per session asks to read the token from your Keychain. Plain Allow is enough, Always Allow has no effect on unsigned apps.
+4. If you connect a GitHub or GitLab account, the first git operation per session asks to read the token from your Keychain. Plain Allow is enough, 始终允许 has no effect on unsigned apps.
 
 If a permission dialog ever loops, reset the stale records and try again:
 
@@ -197,7 +197,7 @@ cd apps/desktop/src-tauri && cargo test   # git engine integration tests on real
 | `tests` | Unit and e2e tests |
 | `scripts` | Icon generation and tooling |
 
-More in [docs/Architecture.md](docs/Architecture.md) and [docs/Development.md](docs/Development.md). Bugs and ideas go in [issues](https://github.com/cheat2001/angkorgit/issues), I read them all.
+More in [docs/Architecture.md](docs/Architecture.md) and [docs/Development.md](docs/Development.md). Bugs and ideas go in [issues](https://github.com/wuwuzhazha/angkorgit/issues), I read them all.
 
 ## License
 

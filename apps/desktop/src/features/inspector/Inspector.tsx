@@ -77,25 +77,25 @@ export function Inspector() {
     <aside className="flex h-full flex-col bg-surface" aria-label="Inspector">
       <div className="flex h-9 shrink-0 items-center gap-1 border-b border-border-subtle px-2">
         <span className="px-1 text-xs font-semibold uppercase tracking-wide text-muted">
-          {commit || commitError ? 'Commit' : 'Working copy'}
+          {commit || commitError ? '提交' : '工作副本'}
         </span>
         <div className="ml-auto flex items-center gap-0.5">
-          <Hint label="Flat list">
+          <Hint label="扁平列表">
             <Button
               variant="ghost"
               size="icon-sm"
-              aria-label="Flat file list"
+              aria-label="扁平文件列表"
               className={cn(!fileTree && 'bg-surface-raised text-foreground')}
               onClick={() => setFileTree(false)}
             >
               <List className="size-3.5" />
             </Button>
           </Hint>
-          <Hint label="Folder tree">
+          <Hint label="文件夹树">
             <Button
               variant="ghost"
               size="icon-sm"
-              aria-label="Folder tree"
+              aria-label="文件夹树"
               className={cn(fileTree && 'bg-surface-raised text-foreground')}
               onClick={() => setFileTree(true)}
             >
@@ -105,11 +105,11 @@ export function Inspector() {
           {(commit || commitError) && (
             <>
               <span className="mx-1 h-4 w-px bg-border-subtle" />
-              <Hint label="Back to working copy">
+              <Hint label="返回工作副本">
                 <Button
                   variant="ghost"
                   size="icon-sm"
-                  aria-label="Back to working copy"
+                  aria-label="返回工作副本"
                   onClick={() => {
                     useUi.getState().closeCenterDiff();
                     useGraph.getState().select(null);
@@ -139,7 +139,7 @@ export function Inspector() {
               Could not load commit: {commitError}
             </p>
             <Button variant="ghost" size="sm" onClick={retry}>
-              Retry
+              重试
             </Button>
           </div>
         ) : (

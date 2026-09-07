@@ -138,7 +138,7 @@ export function FileTreeFoldButton({
   onFold: (mode: FileTreeFold['mode']) => void;
 }) {
   if (!state?.hasFolders) return null;
-  const label = state.allCollapsed ? 'Expand all folders' : 'Collapse all folders';
+  const label = state.allCollapsed ? '展开全部文件夹' : '折叠全部文件夹';
   return (
     <Hint label={label}>
       <Button

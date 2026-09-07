@@ -23,7 +23,7 @@ pub fn read(path: &str, file: &str) -> AppResult<ConflictFile> {
     let repo = super::repo::open(path)?;
     let workdir = repo
         .workdir()
-        .ok_or_else(|| AppError::other("bare repository"))?;
+        .ok_or_else(|| AppError::other("裸仓库"))?;
     let content = std::fs::read_to_string(workdir.join(file))?;
     let has_markers = content.contains("<<<<<<<");
     Ok(ConflictFile {
@@ -37,7 +37,7 @@ pub fn resolve(path: &str, file: &str, content: &str) -> AppResult<()> {
     let repo = super::repo::open(path)?;
     let workdir = repo
         .workdir()
-        .ok_or_else(|| AppError::other("bare repository"))?;
+        .ok_or_else(|| AppError::other("裸仓库"))?;
     std::fs::write(workdir.join(file), content)?;
 
     let mut index = repo.index()?;

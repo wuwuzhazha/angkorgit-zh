@@ -45,7 +45,7 @@ fn auth_headers(
         }
         other => {
             return Err(AppError::other(format!(
-                "unsupported hosting provider '{other}'"
+                "不支持的托管平台“{other}”"
             )));
         }
     }
@@ -65,10 +65,10 @@ pub async fn request(
     mut request: HttpRequest,
 ) -> AppResult<HttpResponse> {
     let url_host = accounts::host_of_url(&request.url)
-        .ok_or_else(|| AppError::other("forge requests need an absolute http(s) URL"))?;
+        .ok_or_else(|| AppError::other("forge 请求需要使用绝对的 http(s) URL"))?;
     if !url_host_allowed(&host, &url_host) {
         return Err(AppError::other(format!(
-            "forge request to {url_host} does not match the remote host {host}"
+            "发往 {url_host} 的 forge 请求与远端主机 {host} 不匹配"
         )));
     }
 
@@ -79,7 +79,7 @@ pub async fn request(
             let (account, token) = accounts::account_with_token(&host, preferred.as_deref())
                 .ok_or_else(|| {
                     AppError::other(format!(
-                        "no connected {host} account — connect one in Settings → Authentication"
+                        "没有已连接的 {host} 账户——请在“设置 → 身份验证”中连接"
                     ))
                 })?;
             auth_headers(&account.provider, &token, account.email.as_deref())

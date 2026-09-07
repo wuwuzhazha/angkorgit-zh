@@ -38,7 +38,7 @@ function newSession(): TerminalSession {
 function spawnShell(session: TerminalSession, repoPath: string): void {
   const { terminal } = session;
   if (!isTauri()) {
-    terminal.writeln('AngKorGit demo terminal — PTY available in the desktop app.');
+    terminal.writeln('AngKorGit 演示终端——桌面应用中提供 PTY。');
     terminal.write('$ ');
     terminal.onData((data) => {
       if (data === '\r') terminal.write('\r\n$ ');
@@ -65,7 +65,7 @@ function spawnShell(session: TerminalSession, repoPath: string): void {
       session.unlisteners.push(dataUnlisten);
       const exitUnlisten = await listen(`term-exit-${id}`, () => {
         session.exited = true;
-        terminal.writeln('\r\n[process exited]');
+        terminal.writeln('\r\n[进程已退出]');
       });
       if (session.killed) {
         exitUnlisten();
@@ -136,8 +136,8 @@ export function TerminalPanel() {
       <div className="flex h-7 shrink-0 items-center border-b border-border-subtle px-3">
         <span className="text-[10px] font-semibold uppercase tracking-wide text-muted">Terminal</span>
         <span className="ml-2 min-w-0 flex-1 truncate font-mono text-[10px] text-faint">{repoPath}</span>
-        <Hint label="Close terminal">
-          <Button variant="ghost" size="icon-sm" className="ml-auto shrink-0" aria-label="Close terminal" onClick={toggleTerminal}>
+        <Hint label="关闭终端">
+          <Button variant="ghost" size="icon-sm" className="ml-auto shrink-0" aria-label="关闭终端" onClick={toggleTerminal}>
             <X className="size-3" />
           </Button>
         </Hint>

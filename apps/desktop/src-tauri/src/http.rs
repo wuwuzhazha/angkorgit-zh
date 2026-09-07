@@ -33,14 +33,14 @@ pub(crate) fn shared_client() -> AppResult<&'static reqwest::Client> {
 
 pub async fn request(req: HttpRequest) -> AppResult<HttpResponse> {
     if !req.url.starts_with("http://") && !req.url.starts_with("https://") {
-        return Err(AppError::other("only http(s) URLs are allowed"));
+        return Err(AppError::other("只允许 http(s) URL"));
     }
     let client = shared_client()?;
 
     let mut builder = match req.method.as_str() {
         "GET" => client.get(&req.url),
         "POST" => client.post(&req.url),
-        other => return Err(AppError::other(format!("unsupported method {other}"))),
+        other => return Err(AppError::other(format!("不支持的方法 {other}"))),
     };
     for (k, v) in &req.headers {
         builder = builder.header(k, v);

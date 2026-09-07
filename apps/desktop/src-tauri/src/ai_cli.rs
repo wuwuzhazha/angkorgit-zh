@@ -125,7 +125,7 @@ pub(crate) fn capture(mut command: Command, stdin: &str, timeout: Duration) -> A
         .stderr(Stdio::piped());
     let mut child = command
         .spawn()
-        .map_err(|e| AppError::other(format!("failed to launch: {e}")))?;
+        .map_err(|e| AppError::other(format!("启动失败：{e}")))?;
 
     let stdin_data = stdin.as_bytes().to_vec();
     let mut stdin_pipe = child.stdin.take();
@@ -160,7 +160,7 @@ pub(crate) fn capture(mut command: Command, stdin: &str, timeout: Duration) -> A
             drop(stdout_thread);
             drop(stderr_thread);
             return Err(AppError::other(format!(
-                "timed out after {}s",
+                "{} 秒后超时",
                 timeout.as_secs()
             )));
         }
@@ -351,7 +351,7 @@ mod tests {
         let path = search_path(None);
         let joined = path.to_string_lossy().to_string();
         for dir in [".opencode/bin", "pnpm", ".claude/local"] {
-            assert!(joined.contains(dir), "missing {dir} in {joined}");
+            assert!(joined.contains(dir), "{dir} 在 {joined} 中缺失");
         }
     }
 

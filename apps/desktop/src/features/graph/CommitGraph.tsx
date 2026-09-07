@@ -214,11 +214,11 @@ export function CommitGraph() {
               })
           : op;
         const result = (await run()) as { status?: string; message?: string } | undefined;
-        toastOutcome(result, `${label} done`);
+        toastOutcome(result, `${label} 已完成`);
         await refresh();
         await reload(path);
       } catch (error) {
-        toast.error(`${label} failed: ${(error as { message?: string }).message ?? error}`);
+        toast.error(`${label} 失败：${(error as { message?: string }).message ?? error}`);
       }
     },
     [refresh, reload, path],
@@ -270,11 +270,11 @@ export function CommitGraph() {
           .getState()
           .open(held.path)
           .catch((error) =>
-            toast.error(`Could not open ${held.name}: ${(error as { message?: string }).message ?? error}`),
+            toast.error(`无法打开 ${held.name}：${(error as { message?: string }).message ?? error}`),
           );
         return;
       }
-      void act(`Checkout ${ref.shorthand}`, () => ipc.checkout(path, ref.shorthand), {
+      void act(`检出 ${ref.shorthand}`, () => ipc.checkout(path, ref.shorthand), {
         kind: 'checkout',
       });
     },
@@ -286,7 +286,7 @@ export function CommitGraph() {
   }, []);
 
   return (
-    <section className="relative flex h-full flex-col bg-background" aria-label="Commit history">
+    <section className="relative flex h-full flex-col bg-background" aria-label="提交历史">
       <GraphTailDefs />
       <div className="flex shrink-0 items-center gap-2 border-b border-border-subtle bg-surface px-3 py-2">
         <div className="relative w-64">
@@ -303,17 +303,17 @@ export function CommitGraph() {
                 runJump(trimmed);
               }
             }}
-            placeholder="Search commits…"
+            placeholder="搜索提交…"
             className="h-7 pl-8 text-xs"
           />
         </div>
-        {jumpMiss && <span className="text-xs text-danger">Commit not found</span>}
+        {jumpMiss && <span className="text-xs text-danger">找不到提交</span>}
         <div className="relative w-44">
           <User className="absolute left-2.5 top-1/2 size-3.5 -translate-y-1/2 text-faint" />
           <Input
             value={authorDraft}
             onChange={(e) => setAuthorDraft(e.target.value)}
-            placeholder="Filter author…"
+            placeholder="按作者过滤…"
             className="h-7 pl-8 text-xs"
           />
         </div>
@@ -321,7 +321,7 @@ export function CommitGraph() {
           <span className="flex items-center gap-1 rounded-full border border-primary/40 bg-primary/10 px-2 py-0.5 text-xs text-primary">
             <Filter className="size-3" />
             {filters.branch}
-            <button aria-label="Clear branch filter" onClick={() => setFilters(path, { branch: '' })}>
+            <button aria-label="清除分支过滤" onClick={() => setFilters(path, { branch: '' })}>
               <X className="size-3" />
             </button>
           </span>
@@ -330,25 +330,25 @@ export function CommitGraph() {
           {loading && <Spinner className="size-3.5" />}
           <span>
             {commits.length.toLocaleString()}
-            {hasMore ? '+' : ''} commit{commits.length === 1 && !hasMore ? '' : 's'}
+            {hasMore ? '+' : ''} 个提交
           </span>
           <DropdownMenu>
-            <Hint label="Graph display">
+            <Hint label="提交图显示">
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon-sm" aria-label="Graph display options">
+                <Button variant="ghost" size="icon-sm" aria-label="提交图显示选项">
                   <Settings2 className="size-3.5" />
                 </Button>
               </DropdownMenuTrigger>
             </Hint>
             <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Show in graph</DropdownMenuLabel>
+              <DropdownMenuLabel>在图中显示</DropdownMenuLabel>
               {(
                 [
-                  ['refs', 'Branches and tags'],
-                  ['message', 'Commit message'],
-                  ['author', 'Author'],
-                  ['hash', 'Hash'],
-                  ['date', 'Date'],
+                  ['refs', '分支与标签'],
+                  ['message', '提交消息'],
+                  ['author', '作者'],
+                  ['hash', '哈希'],
+                  ['date', '日期'],
                 ] as const
               ).map(([key, label]) => (
                 <DropdownMenuCheckboxItem
@@ -374,27 +374,27 @@ export function CommitGraph() {
       >
         {!flat && graphColumns.refs && (
           <span className="-mr-2 shrink-0 truncate" style={{ width: REF_COL_WIDTH }}>
-            Branch / tag
+            分支 / 标签
           </span>
         )}
         <span className="shrink-0 truncate" style={{ width: gutterWidth, marginRight: flat ? 0 : GUTTER_GAP }}>
-          {flat ? '' : 'Graph'}
+          {flat ? '' : '图表'}
         </span>
         {(graphColumns.message || flat) && (
           <span className="min-w-0 flex-1 truncate">
-            {flat && graphColumns.refs ? 'Branch / tag · message' : graphColumns.message ? 'Message' : ''}
+            {flat && graphColumns.refs ? '分支 / 标签 · 消息' : graphColumns.message ? '消息' : ''}
           </span>
         )}
         {graphColumns.author && (
           <span className="shrink-0 truncate" style={{ width: AUTHOR_COL_WIDTH }}>
-            Author
+            作者
           </span>
         )}
         {graphColumns.hash && (
-          <span className={cn('w-14 shrink-0', graphColumns.message ? 'text-right' : 'text-left')}>Hash</span>
+          <span className={cn('w-14 shrink-0', graphColumns.message ? 'text-right' : 'text-left')}>哈希</span>
         )}
         {graphColumns.date && (
-          <span className={cn('w-[4.5rem] shrink-0', graphColumns.message ? 'text-right' : 'text-left')}>Date</span>
+          <span className={cn('w-[4.5rem] shrink-0', graphColumns.message ? 'text-right' : 'text-left')}>日期</span>
         )}
         {!graphColumns.message && !flat && <span className="min-w-0 flex-1" />}
       </div>
@@ -405,12 +405,12 @@ export function CommitGraph() {
             <div className="flex h-full flex-col items-center justify-center gap-2 px-6 text-center text-sm text-danger">
               <span className="[overflow-wrap:anywhere]">Could not load the history: {error}</span>
               <Button variant="ghost" size="sm" onClick={() => void reload(path)}>
-                Retry
+                重试
               </Button>
             </div>
           ) : (
             <div className="flex h-full flex-col items-center justify-center gap-2 text-sm text-faint">
-              <span>{filtersActive ? 'No commits match these filters' : 'No commits yet'}</span>
+              <span>{filtersActive ? '没有提交匹配这些过滤条件' : '还没有提交'}</span>
               {filtersActive && (
                 <Button
                   variant="ghost"
@@ -472,7 +472,7 @@ export function CommitGraph() {
           <div className="flex items-center justify-center gap-2 px-3 py-2 text-xs text-danger">
             <span className="[overflow-wrap:anywhere]">Could not load more commits: {error}</span>
             <button className="shrink-0 underline underline-offset-2" onClick={() => void reload(path)}>
-              Retry
+              重试
             </button>
           </div>
         )}
@@ -492,7 +492,7 @@ export function CommitGraph() {
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   onClick={() =>
-                    void act(`Merge ${refMenu.ref.shorthand}`, () => ipc.merge(path, refMenu.ref.shorthand, true), {
+                    void act(`合并 ${refMenu.ref.shorthand}`, () => ipc.merge(path, refMenu.ref.shorthand, true), {
                       kind: 'merge',
                       extra: { branch: refMenu.ref.shorthand },
                     })
@@ -502,7 +502,7 @@ export function CommitGraph() {
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   onClick={() =>
-                    void act(`Rebase onto ${refMenu.ref.shorthand}`, () => ipc.rebase(path, refMenu.ref.shorthand), {
+                    void act(`变基到 ${refMenu.ref.shorthand}`, () => ipc.rebase(path, refMenu.ref.shorthand), {
                       kind: 'rebase',
                     })
                   }
@@ -513,7 +513,7 @@ export function CommitGraph() {
                   <>
                     <DropdownMenuItem
                       onClick={() =>
-                        void act(`Pull ${refMenu.ref.shorthand}`, () =>
+                        void act(`拉取 ${refMenu.ref.shorthand}`, () =>
                           ipc.pullBranch(path, refMenu.ref.shorthand),
                         )
                       }
@@ -522,7 +522,7 @@ export function CommitGraph() {
                     </DropdownMenuItem>
                     <DropdownMenuItem
                       onClick={() =>
-                        void act(`Push ${refMenu.ref.shorthand}`, () =>
+                        void act(`推送 ${refMenu.ref.shorthand}`, () =>
                           ipc.push(path, 'origin', false, false, true, refMenu.ref.shorthand),
                         )
                       }
@@ -537,10 +537,10 @@ export function CommitGraph() {
             <DropdownMenuItem
               onClick={() => {
                 void navigator.clipboard.writeText(refMenu.ref.shorthand);
-                toast.success('Name copied');
+                toast.success('名称已复制');
               }}
             >
-              <Copy /> Copy name
+              <Copy /> 复制名称
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -554,37 +554,37 @@ export function CommitGraph() {
           <DropdownMenuContent align="start" side="bottom">
             <DropdownMenuLabel className="font-mono">{menu.commit.shortOid}</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => void act(`Checkout ${menu.commit.shortOid}`, () => ipc.checkoutDetached(path, menu.commit.oid), { kind: 'checkout' })}
+              onClick={() => void act(`检出 ${menu.commit.shortOid}`, () => ipc.checkoutDetached(path, menu.commit.oid), { kind: 'checkout' })}
             >
-              Checkout commit (detached)
+              检出提交（游离状态）
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => openDialog('createBranch', menu.commit.oid)}>
-              <GitBranchPlus /> Create branch here…
+              <GitBranchPlus /> 在此处新建分支…
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => openDialog('createTag', menu.commit.oid)}>
-              <TagIcon /> Create tag here…
+              <TagIcon /> 在此处新建标签…
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => openDialog('createWorktree', { oid: menu.commit.oid })}>
-              <FolderTree /> New worktree from here…
+              <FolderTree /> 从这里新建工作树…
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             {pickSelection ? (
               <DropdownMenuItem onClick={() => openDialog('cherryPick', { oids: pickSelection })}>
-                <ListRestart /> Cherry-pick {pickSelection.length} commits onto current branch…
+                <ListRestart /> 在当前分支上拣选 {pickSelection.length} 个提交…
               </DropdownMenuItem>
             ) : (
               <DropdownMenuItem onClick={() => openDialog('cherryPick', menu.commit.oid)}>
-                <ListRestart /> Cherry-pick onto current branch…
+                <ListRestart /> 拣选到当前分支…
               </DropdownMenuItem>
             )}
             <DropdownMenuItem
               onClick={() =>
-                void act(`Revert ${menu.commit.shortOid}`, () => ipc.revert(path, menu.commit.oid), {
+                void act(`还原 ${menu.commit.shortOid}`, () => ipc.revert(path, menu.commit.oid), {
                   kind: 'revert',
                 })
               }
             >
-              <Undo2 /> Revert commit
+              <Undo2 /> 还原提交
             </DropdownMenuItem>
             {multiSelection?.contiguous && (
               <DropdownMenuItem
@@ -595,7 +595,7 @@ export function CommitGraph() {
                   })
                 }
               >
-                <Combine /> Squash {multiSelection.count} commits
+                <Combine /> 压缩 {multiSelection.count} 个提交
               </DropdownMenuItem>
             )}
             {multiSelection && (
@@ -608,39 +608,39 @@ export function CommitGraph() {
                   })
                 }
               >
-                <Trash2 /> Drop {multiSelection.count} commits
+                <Trash2 /> 丢弃 {multiSelection.count} 个提交
               </DropdownMenuItem>
             )}
             {!menu.commit.isHead && (
               <DropdownMenuItem onClick={() => openDialog('interactiveRebase', menu.commit.oid)}>
-                <ListOrdered /> Interactively rebase onto here…
+                <ListOrdered /> 交互式变基到此处…
               </DropdownMenuItem>
             )}
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => void act(`Soft reset to ${menu.commit.shortOid}`, () => ipc.reset(path, menu.commit.oid, 'soft'), { kind: 'reset' })}>
-              <RotateCcw /> Reset here (soft)
+            <DropdownMenuItem onClick={() => void act(`软重置到 ${menu.commit.shortOid}`, () => ipc.reset(path, menu.commit.oid, 'soft'), { kind: 'reset' })}>
+              <RotateCcw /> 在此处重置（软）
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => void act(`Mixed reset to ${menu.commit.shortOid}`, () => ipc.reset(path, menu.commit.oid, 'mixed'), { kind: 'reset' })}>
-              <RotateCcw /> Reset here (mixed)
+            <DropdownMenuItem onClick={() => void act(`混合重置到 ${menu.commit.shortOid}`, () => ipc.reset(path, menu.commit.oid, 'mixed'), { kind: 'reset' })}>
+              <RotateCcw /> 在此处重置（混合）
             </DropdownMenuItem>
             <DropdownMenuItem
               destructive
               onClick={() => {
                 void confirmDialog({
-                  title: `Hard reset to ${menu.commit.shortOid}?`,
+                  title: `硬重置到 ${menu.commit.shortOid}？`,
                   description:
-                    'HEAD, the index and your working tree will all move to this commit. Uncommitted work is discarded and cannot be recovered.',
-                  confirmLabel: 'Hard reset',
+                    'HEAD、索引和工作区都将移动到该提交，未提交的工作会被丢弃且无法恢复。',
+                  confirmLabel: '硬重置',
                   destructive: true,
                 }).then((ok) => {
                   if (ok)
-                    void act(`Hard reset to ${menu.commit.shortOid}`, () => ipc.reset(path, menu.commit.oid, 'hard'), {
+                    void act(`硬重置 to ${menu.commit.shortOid}`, () => ipc.reset(path, menu.commit.oid, 'hard'), {
                       kind: 'reset',
                     });
                 });
               }}
             >
-              <RotateCcw /> Reset here (hard)
+              <RotateCcw /> 在此处重置（硬）
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

@@ -1,94 +1,94 @@
 import { expect, test } from '@playwright/test';
 
-test('splash fades into the welcome screen', async ({ page }) => {
+test('启动画面淡入欢迎屏幕', async ({ page }) => {
   await page.goto('/');
-  await expect(page.getByText('Strength. Simplicity. Craftsmanship.')).toBeVisible();
-  await expect(page.getByText('Recent repositories')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByText('力量。简洁。匠心。')).toBeVisible();
+  await expect(page.getByText('最近仓库')).toBeVisible({ timeout: 10_000 });
 });
 
-test('opens the demo repository and shows the commit graph', async ({ page }) => {
+test('打开演示仓库并显示提交图', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   await expect(page.getByText('main', { exact: true }).first()).toBeVisible();
-  await expect(page.getByText('Working copy')).toBeVisible();
+  await expect(page.getByText('工作副本')).toBeVisible();
 });
 
-test('selecting a commit opens the inspector', async ({ page }) => {
+test('选择提交会打开检查器', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   await page.getByRole('row').first().click();
-  await expect(page.getByText(/1 modified/)).toBeVisible();
+  await expect(page.getByText(/1 个修改/)).toBeVisible();
 });
 
-test('command palette opens with keyboard shortcut', async ({ page }) => {
+test('命令面板可通过键盘快捷键打开', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   await page.keyboard.press('ControlOrMeta+k');
-  await expect(page.getByPlaceholder('Type a command or branch name…')).toBeVisible();
+  await expect(page.getByPlaceholder('输入命令或分支名…')).toBeVisible();
 });
 
-test('commit search filters the graph', async ({ page }) => {
+test('提交搜索过滤提交图', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  const search = page.getByPlaceholder('Search commits…');
+  const search = page.getByPlaceholder('搜索提交…');
   await search.fill('virtualize');
   await expect(page.getByText(/feat\(graph\): virtualize commit rows/).first()).toBeVisible();
 });
 
-test('conflict resolver picks lines into a clean output', async ({ page }) => {
+test('冲突解决器将所选行合并为干净的结果', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   await page.getByRole('button', { name: /drawGraph\.ts/ }).first().click();
-  await expect(page.getByText('0 of 1 resolved')).toBeVisible();
-  await expect(page.getByTitle(/Unresolved conflict/).first()).toBeVisible();
+  await expect(page.getByText('0 / 1 已解决')).toBeVisible();
+  await expect(page.getByTitle(/未解决的冲突/).first()).toBeVisible();
   await expect(page.getByText('<<<<<<<')).toHaveCount(0);
-  await page.getByLabel('Take all lines from side A').click();
-  await expect(page.getByText('1 of 1 resolved')).toBeVisible();
+  await page.getByLabel('取 A 侧全部行').click();
+  await expect(page.getByText('1 / 1 已解决')).toBeVisible();
   await expect(page.getByText('const palette = useThemePalette();')).toHaveCount(2);
-  await expect(page.getByRole('button', { name: 'Mark resolved' })).toBeEnabled();
+  await expect(page.getByRole('button', { name: '标记已解决' })).toBeEnabled();
 });
 
 test('single conflict shows jump nav and per-conflict take-all', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   await page.getByRole('button', { name: /drawGraph\.ts/ }).first().click();
-  await expect(page.getByText('0 of 1 resolved')).toBeVisible();
-  await expect(page.getByLabel('Next conflict')).toBeVisible();
-  await expect(page.getByText('Conflict 1 of 1')).toBeVisible();
-  await page.getByLabel('Take all lines from B for this conflict').click();
-  await expect(page.getByText('1 of 1 resolved')).toBeVisible();
-  await page.getByLabel('Take all lines from B for this conflict').click();
-  await expect(page.getByText('0 of 1 resolved')).toBeVisible();
-  await page.getByTitle(/Unresolved conflict/).first().click();
-  const editor = page.getByLabel('Hand-edited result for this conflict');
+  await expect(page.getByText('0 / 1 已解决')).toBeVisible();
+  await expect(page.getByLabel('下一个冲突')).toBeVisible();
+  await expect(page.getByText('冲突 1 / 1')).toBeVisible();
+  await page.getByLabel('取 B 侧全部行解决此冲突').click();
+  await expect(page.getByText('1 / 1 已解决')).toBeVisible();
+  await page.getByLabel('取 B 侧全部行解决此冲突').click();
+  await expect(page.getByText('0 / 1 已解决')).toBeVisible();
+  await page.getByTitle(/未解决的冲突/).first().click();
+  const editor = page.getByLabel('此冲突的手工编辑结果');
   await expect(editor).toBeVisible();
   await page.keyboard.press('Escape');
   await expect(editor).toBeHidden();
-  await expect(page.getByText('0 of 1 resolved')).toBeVisible();
-  await expect(page.getByRole('button', { name: 'Mark resolved' })).toBeDisabled();
+  await expect(page.getByText('0 / 1 已解决')).toBeVisible();
+  await expect(page.getByRole('button', { name: '标记已解决' })).toBeDisabled();
 });
 
 test('conflict result can be hand-edited per block', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   await page.getByRole('button', { name: /drawGraph\.ts/ }).first().click();
-  await expect(page.getByText('0 of 1 resolved')).toBeVisible();
-  await page.getByTitle(/Unresolved conflict/).first().click();
-  const editor = page.getByLabel('Hand-edited result for this conflict');
+  await expect(page.getByText('0 / 1 已解决')).toBeVisible();
+  await page.getByTitle(/未解决的冲突/).first().click();
+  const editor = page.getByLabel('此冲突的手工编辑结果');
   await expect(editor).toBeVisible();
   await editor.fill('const palette = mergedThemePalette();');
-  await expect(page.getByText('1 of 1 resolved')).toBeVisible();
-  await page.getByText('Result', { exact: true }).click();
+  await expect(page.getByText('1 / 1 已解决')).toBeVisible();
+  await page.getByText('结果', { exact: true }).click();
   await expect(editor).toBeHidden();
   await expect(page.getByText('const palette = mergedThemePalette();')).toBeVisible();
-  await expect(page.getByText('1 edited by hand')).toBeVisible();
-  await expect(page.getByRole('button', { name: 'Mark resolved' })).toBeEnabled();
+  await expect(page.getByText('1 处手工编辑')).toBeVisible();
+  await expect(page.getByRole('button', { name: '标记已解决' })).toBeEnabled();
   await page.getByText('const palette = mergedThemePalette();').click();
   await expect(editor).toBeVisible();
   await editor.fill('scrapped');
@@ -96,18 +96,18 @@ test('conflict result can be hand-edited per block', async ({ page }) => {
   await expect(editor).toBeHidden();
   await expect(page.getByText('const palette = mergedThemePalette();')).toBeVisible();
   await expect(page.getByText('scrapped')).toBeHidden();
-  await expect(page.getByText('1 of 1 resolved')).toBeVisible();
+  await expect(page.getByText('1 / 1 已解决')).toBeVisible();
 });
 
-test('interactive rebase dialog opens from the commit context menu', async ({ page }) => {
+test('交互式变基对话框可从提交右键菜单打开', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   await page.getByRole('row').nth(3).click({ button: 'right' });
   await page.getByRole('menuitem', { name: /Interactively rebase onto here/ }).click();
   const dialog = page.getByRole('dialog');
   await expect(dialog).toBeVisible();
-  await expect(dialog.getByText('Interactive rebase')).toBeVisible();
+  await expect(dialog.getByText('交互式变基')).toBeVisible();
   await expect(dialog.getByRole('listitem').first()).toBeVisible();
   await expect(dialog.getByRole('combobox').first()).toBeVisible();
   await dialog.getByRole('button', { name: 'Cancel' }).click();
@@ -117,12 +117,12 @@ test('interactive rebase dialog opens from the commit context menu', async ({ pa
 test('cherry-pick opens a dialog with the source reference option', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   await page.getByRole('row').nth(3).click({ button: 'right' });
   await page.getByRole('menuitem', { name: /Cherry-pick onto current branch/ }).click();
   const dialog = page.getByRole('dialog');
   await expect(dialog).toBeVisible();
-  await expect(dialog.getByText('Cherry-pick commit')).toBeVisible();
+  await expect(dialog.getByText('拣选提交')).toBeVisible();
   await expect(dialog.getByRole('checkbox')).toBeChecked();
   await expect(dialog.getByText(/cherry picked from commit/)).toBeVisible();
   await dialog.getByRole('button', { name: 'Cherry-pick', exact: true }).click();
@@ -133,19 +133,19 @@ test('cherry-pick opens a dialog with the source reference option', async ({ pag
 test('multi-select cherry-pick lists every commit in the dialog', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   await page.getByRole('row').nth(1).click();
   await page.getByRole('row').nth(2).click({ modifiers: ['ControlOrMeta'] });
   await page.getByRole('row').nth(2).click({ button: 'right' });
   await page
-    .getByRole('menuitem', { name: /Cherry-pick 2 commits onto current branch/ })
+    .getByRole('menuitem', { name: /在当前分支上拣选 2 个提交…/ })
     .click();
   const dialog = page.getByRole('dialog');
   await expect(dialog).toBeVisible();
-  await expect(dialog.getByRole('heading', { name: 'Cherry-pick 2 commits' })).toBeVisible();
+  await expect(dialog.getByRole('heading', { name: '拣选 2 个提交' })).toBeVisible();
   await expect(dialog.getByText(/oldest first/)).toBeVisible();
   await expect(dialog.locator('.font-mono')).toHaveCount(2);
-  await dialog.getByRole('button', { name: 'Cherry-pick 2 commits' }).click();
+  await dialog.getByRole('button', { name: '拣选 2 个提交' }).click();
   await expect(page.getByRole('dialog')).toBeHidden();
   await expect(page.getByText('Cherry-picked 2 commits (demo)')).toBeVisible();
 });
@@ -153,30 +153,30 @@ test('multi-select cherry-pick lists every commit in the dialog', async ({ page 
 test('multi-select offers squash and pre-fills the rebase plan', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   await page.getByRole('row').nth(1).click();
   await page.getByRole('row').nth(2).click({ modifiers: ['ControlOrMeta'] });
   await page.getByRole('row').nth(2).click({ button: 'right' });
-  await expect(page.getByRole('menuitem', { name: 'Drop 2 commits' })).toBeVisible();
-  await page.getByRole('menuitem', { name: 'Squash 2 commits' }).click();
+  await expect(page.getByRole('menuitem', { name: '丢弃 2 个提交' })).toBeVisible();
+  await page.getByRole('menuitem', { name: '压缩 2 个提交' }).click();
   const dialog = page.getByRole('dialog');
   await expect(dialog).toBeVisible();
   await expect(dialog.getByRole('listitem').first()).toBeVisible();
   await expect(dialog.getByRole('combobox').filter({ hasText: 'squash' })).toHaveCount(1);
-  await expect(dialog.getByPlaceholder('Combined message (optional)')).toBeVisible();
+  await expect(dialog.getByPlaceholder('合并消息（可选）')).toBeVisible();
   await dialog.getByRole('button', { name: 'Cancel' }).click();
   await expect(page.getByRole('dialog')).toBeHidden();
 });
 
-test('clicking a file opens the diff already at its first change, with no scroll animation', async ({ page }) => {
+test('点击文件打开的 diff 直接定位到第一处更改，无滚动动画', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   const trace = page.evaluate(async () => {
     const samples: number[] = [];
     const started = performance.now();
     while (performance.now() - started < 1_000) {
-      const el = document.querySelector('section[aria-label^="Diff for"] div.overflow-y-auto');
+      const el = document.querySelector('section[aria-label^="文件差异："] div.overflow-y-auto');
       if (el) samples.push(el.scrollTop);
       await new Promise((resolve) => requestAnimationFrame(resolve));
     }
@@ -191,10 +191,10 @@ test('clicking a file opens the diff already at its first change, with no scroll
   expect(climbing).toHaveLength(0);
 });
 
-test('long paths stay inside confirmation dialogs', async ({ page }) => {
+test('长路径保持在确认对话框内', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
 
   const longPath =
     'src/features/repository/components/working-copy/deeply/nested/WorkingCopyFileListItemContainerFactory.tsx';
@@ -224,7 +224,7 @@ test('long paths stay inside confirmation dialogs', async ({ page }) => {
   const discard = page.getByRole('button', { name: `Discard ${longPath}` });
   await discard.scrollIntoViewIfNeeded();
   await discard.click({ force: true });
-  await expect(page.getByRole('dialog').getByText('Discard changes?')).toBeVisible();
+  await expect(page.getByRole('dialog').getByText('丢弃更改？')).toBeVisible();
   await expect(page.getByRole('dialog').getByText(longPath)).toBeVisible();
   await expectContained();
   await page.getByRole('button', { name: 'Cancel' }).click();
@@ -234,22 +234,22 @@ test('long paths stay inside confirmation dialogs', async ({ page }) => {
     .first()
     .click({ button: 'right' });
   await page.getByRole('menuitem', { name: /Delete file/ }).click();
-  await expect(page.getByRole('dialog').getByText('Delete file?')).toBeVisible();
+  await expect(page.getByRole('dialog').getByText('删除文件？')).toBeVisible();
   await expect(page.getByRole('dialog').getByText(longPath)).toBeVisible();
   await expectContained();
 });
 
-test('branch names line up whether or not the branch is checked out', async ({ page }) => {
+test('无论分支是否检出，分支名都对齐', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   await page.locator('aside button[title="feature"]').click();
 
   const layout = await page.evaluate(() => {
     const leftOf = (el: Element | null) =>
       el ? Math.round((el as HTMLElement).getBoundingClientRect().left) : -1;
     const branch = (name: string) => {
-      const row = [...document.querySelectorAll('aside div[title*="drag onto another branch"]')].find(
+      const row = [...document.querySelectorAll('aside div[title*="拖到另一个分支上"]')].find(
         (el) => (el.getAttribute('title') ?? '').startsWith(`${name} —`),
       );
       return {
@@ -272,10 +272,10 @@ test('branch names line up whether or not the branch is checked out', async ({ p
   expect(layout.nested.left).toBe(layout.plain.left + 14);
 });
 
-test('hovering a working copy file reveals its full path', async ({ page }) => {
+test('悬停工作副本文件会显示其完整路径', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
 
   const longPath =
     'src/features/repository/components/working-copy/deeply/nested/WorkingCopyFileListItemContainerFactory.tsx';
@@ -283,7 +283,7 @@ test('hovering a working copy file reveals its full path', async ({ page }) => {
   await expect(page.getByRole('tooltip').filter({ hasText: longPath })).toBeVisible();
 });
 
-test('avatars stay visible after opening and closing a diff', async ({ page }) => {
+test('打开并关闭 diff 后头像保持可见', async ({ page }) => {
   const pixel = Buffer.from(
     'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==',
     'base64',
@@ -302,13 +302,13 @@ test('avatars stay visible after opening and closing a diff', async ({ page }) =
 
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   await expect.poll(visibleAvatars, { timeout: 10_000 }).toBeGreaterThan(0);
 
   await page.getByText('palette-seed.sql').first().click();
-  await expect(page.getByRole('button', { name: 'Close diff' })).toBeVisible();
+  await expect(page.getByRole('button', { name: '关闭 diff' })).toBeVisible();
   await page.keyboard.press('Escape');
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible();
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible();
   await expect.poll(visibleAvatars, { timeout: 10_000 }).toBeGreaterThan(0);
 });
 
@@ -334,7 +334,7 @@ test('text selection in a diff survives the right-click copy menu', async ({ pag
 
   await selectRows();
   await row.click({ button: 'right', position: { x: 60, y: 8 } });
-  const copyLine = page.getByRole('menuitem', { name: 'Copy line' });
+  const copyLine = page.getByRole('menuitem', { name: '复制行' });
   await expect(copyLine).toBeVisible();
   await expect.poll(selectionLength).toBeGreaterThan(0);
   await copyLine.click();
@@ -345,15 +345,15 @@ test('text selection in a diff survives the right-click copy menu', async ({ pag
   await expect(copyLine).toBeVisible();
   await page.keyboard.press('Escape');
   await expect(copyLine).not.toBeVisible();
-  await expect(page.getByRole('button', { name: 'Close diff' })).toBeVisible();
+  await expect(page.getByRole('button', { name: '关闭 diff' })).toBeVisible();
   await expect.poll(selectionLength).toBeGreaterThan(0);
 });
 
-test('commit actions stay inside a narrow working copy panel', async ({ page }) => {
+test('提交操作按钮保持在较窄的工作副本面板内', async ({ page }) => {
   await page.setViewportSize({ width: 820, height: 800 });
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
 
   const inspector = page.locator('aside[aria-label="Inspector"]');
   const panel = await inspector.boundingBox();
@@ -371,15 +371,15 @@ test('commit actions stay inside a narrow working copy panel', async ({ page }) 
   }
 });
 
-test('opening a diff hides the sidebar and toggling it back returns to the graph', async ({
+test('打开 diff 会隐藏侧边栏，切回后返回提交图', async ({
   page,
 }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
 
-  const sidebar = page.getByRole('complementary', { name: 'Branches and refs' });
-  const diff = page.locator('section[aria-label^="Diff for"]');
+  const sidebar = page.getByRole('complementary', { name: '分支与引用' });
+  const diff = page.locator('section[aria-label^="文件差异："]');
   const toggle = page.getByRole('button', { name: /sidebar$/ });
 
   await expect(sidebar).toBeVisible();
@@ -406,83 +406,83 @@ test('opening a diff hides the sidebar and toggling it back returns to the graph
   await expect(diff).toBeHidden();
 });
 
-test('sidebar lists demo pull requests and opens the create dialog', async ({ page }) => {
+test('侧边栏列出演示拉取请求并打开创建对话框', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
-  await expect(page.getByText('Pull requests')).toBeVisible();
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByText('拉取请求')).toBeVisible();
   await expect(page.getByText(/side-by-side word diff polish/)).toBeVisible({ timeout: 10_000 });
   await expect(page.getByText('Draft', { exact: true })).toBeVisible();
 
-  await page.getByRole('button', { name: 'Create pull request', exact: true }).click();
-  await expect(page.getByRole('heading', { name: 'Create pull request' })).toBeVisible();
-  await expect(page.getByPlaceholder('Title')).toBeVisible();
+  await page.getByRole('button', { name: '创建拉取请求', exact: true }).click();
+  await expect(page.getByRole('heading', { name: '创建拉取请求' })).toBeVisible();
+  await expect(page.getByPlaceholder('标题')).toBeVisible();
   await page.getByRole('button', { name: 'Cancel' }).click();
-  await expect(page.getByRole('heading', { name: 'Create pull request' })).toBeHidden();
+  await expect(page.getByRole('heading', { name: '创建拉取请求' })).toBeHidden();
 
-  await page.getByRole('button', { name: 'Create pull request', exact: true }).click();
-  await page.getByRole('button', { name: 'Add reviewers' }).click();
+  await page.getByRole('button', { name: '创建拉取请求', exact: true }).click();
+  await page.getByRole('button', { name: '添加审查人' }).click();
   await expect(page.getByRole('menuitemcheckbox', { name: /Dara Kim/ })).toBeVisible();
 });
 
-test('searching a commit hash jumps to it in the full graph', async ({ page }) => {
+test('搜索提交哈希会在完整提交图中跳转到它', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  const search = page.getByPlaceholder('Search commits…');
+  const search = page.getByPlaceholder('搜索提交…');
   await expect(search).toBeVisible({ timeout: 10_000 });
   await search.fill('000096aaaaaa');
-  await expect(page.getByText('400 commits')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByText('400 个提交')).toBeVisible({ timeout: 10_000 });
   await expect(page.getByText('000096aa').first()).toBeVisible();
 
   await page.getByText('fix(diff): handle renamed files in word diff').first().click();
   await expect(search).toHaveValue('');
-  await expect(page.getByText('400 commits')).toBeVisible();
+  await expect(page.getByText('400 个提交')).toBeVisible();
 });
 
-test('a short hash prefix jumps like a full hash and unknown hex words fall back to filtering', async ({ page }) => {
+test('短哈希前缀与完整哈希一样跳转，未知的十六进制词回退为过滤', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  const search = page.getByPlaceholder('Search commits…');
+  const search = page.getByPlaceholder('搜索提交…');
   await expect(search).toBeVisible({ timeout: 10_000 });
 
   await search.fill('000096');
-  await expect(page.getByText('400 commits')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByText('400 个提交')).toBeVisible({ timeout: 10_000 });
   await expect(page.getByText('000096aa').first()).toBeVisible();
 
   await search.fill('dedede');
-  await expect(page.getByText('No commits match these filters')).toBeVisible({ timeout: 10_000 });
-  await expect(page.getByText('Commit not found')).not.toBeVisible();
+  await expect(page.getByText('没有提交匹配这些过滤条件')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByText('找不到提交')).not.toBeVisible();
 });
 
-test('searching a hash that does not exist keeps the graph and says so', async ({ page }) => {
+test('搜索不存在的哈希会保留提交图并提示', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  const search = page.getByPlaceholder('Search commits…');
+  const search = page.getByPlaceholder('搜索提交…');
   await expect(search).toBeVisible({ timeout: 10_000 });
   await search.fill('deadbeef123');
-  await expect(page.getByText('Commit not found')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByText('找不到提交')).toBeVisible({ timeout: 10_000 });
   await expect(page.getByText(/200\+ commits/)).toBeVisible();
 });
 
-test('mod+f focuses the commit search box', async ({ page }) => {
+test('mod+f 聚焦提交搜索框', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  const search = page.getByPlaceholder('Search commits…');
+  const search = page.getByPlaceholder('搜索提交…');
   await expect(search).toBeVisible({ timeout: 10_000 });
   await page.keyboard.press('ControlOrMeta+f');
   await expect(search).toBeFocused();
 });
 
-test('sidebar lists the demo worktrees and the new worktree dialog opens', async ({ page }) => {
+test('侧边栏列出演示工作树并打开新建工作树对话框', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   await expect(page.getByText('Worktrees', { exact: true })).toBeVisible();
   await expect(page.getByText('angkorgit-feature-diff-viewer')).toBeVisible();
-  await expect(page.getByText('folder missing')).toBeVisible();
-  await page.getByRole('button', { name: 'New worktree' }).click();
+  await expect(page.getByText('文件夹缺失')).toBeVisible();
+  await page.getByRole('button', { name: '新建工作树' }).click();
   const dialog = page.getByRole('dialog');
-  await expect(dialog.getByText('New worktree')).toBeVisible();
+  await expect(dialog.getByText('新建工作树')).toBeVisible();
   await expect(dialog.getByPlaceholder('/path/to/new-folder')).toHaveValue(
     '/Users/demo/projects/angkorgit-new',
   );
@@ -495,11 +495,11 @@ test('sidebar lists the demo worktrees and the new worktree dialog opens', async
 test('multi-line comments in a diff stay highlighted as comments', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   await page.getByText('CommitGraph.tsx').first().click();
   const inner = page
-    .locator('section[aria-label^="Diff for"] span.font-mono')
-    .filter({ hasText: 'Virtualized rows keep large graphs smooth' })
+    .locator('section[aria-label^="文件差异："] span.font-mono')
+    .filter({ hasText: '虚拟化行让大型提交图保持流畅' })
     .first();
   await expect(inner).toBeVisible();
   const html = await inner.evaluate((el) => el.innerHTML);
@@ -508,15 +508,15 @@ test('multi-line comments in a diff stay highlighted as comments', async ({ page
   expect(html).not.toContain('hljs-title');
 });
 
-test('collapse all folds every sidebar section and branch folder', async ({ page }) => {
+test('折叠全部侧边栏分区与分支文件夹', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   await page.getByRole('button', { name: /^feature 1$/ }).click();
   await expect(page.getByText('diff-viewer', { exact: true })).toBeVisible();
   await page.getByRole('button', { name: /^Remotes/ }).click();
   await expect(page.getByRole('button', { name: /^Remotes/ })).toHaveAttribute('aria-expanded', 'true');
-  await page.getByRole('button', { name: 'Collapse all sections' }).click();
+  await page.getByRole('button', { name: '折叠全部分区' }).click();
   for (const name of [/^Branches/, /^Worktrees/, /^Remotes/, /^Tags/, /^Stashes/]) {
     await expect(page.getByRole('button', { name })).toHaveAttribute('aria-expanded', 'false');
   }
@@ -526,16 +526,16 @@ test('collapse all folds every sidebar section and branch folder', async ({ page
   await expect(page.getByText('diff-viewer', { exact: true })).toBeHidden();
 });
 
-test('opening a diff keeps the inspector at the same width', async ({ page }) => {
+test('打开 diff 时检查器保持相同宽度', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   const inspector = page.locator('[data-panel-id="inspector"]');
   const sidebar = page.locator('[data-panel-id="sidebar"]');
   const handle = page.locator('[data-panel-resize-handle-id]').first();
   const grip = await handle.boundingBox();
-  if (!grip) throw new Error('no sidebar resize handle');
+  if (!grip) throw new Error('侧边栏无调整大小手柄');
   await page.mouse.move(grip.x + grip.width / 2, grip.y + 300);
   await page.mouse.down();
   await page.mouse.move(grip.x + 80, grip.y + 300, { steps: 8 });
@@ -546,25 +546,25 @@ test('opening a diff keeps the inspector at the same width', async ({ page }) =>
 
   const widthOf = async (locator: typeof sidebar) => (await locator.boundingBox())?.width ?? 0;
   await page.getByText('CommitGraph.tsx').first().click();
-  await expect(page.locator('section[aria-label^="Diff for"]')).toBeVisible();
+  await expect(page.locator('section[aria-label^="文件差异："]')).toBeVisible();
   await expect.poll(() => widthOf(sidebar)).toBeLessThan(2);
   await expect.poll(async () => Math.abs((await widthOf(inspector)) - inspectorBefore)).toBeLessThan(2);
 
   await page.keyboard.press('Escape');
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible();
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible();
   await expect.poll(async () => Math.abs((await widthOf(sidebar)) - sidebarBefore)).toBeLessThan(2);
   await expect.poll(async () => Math.abs((await widthOf(inspector)) - inspectorBefore)).toBeLessThan(2);
 });
 
-test('commit box separates a summary line from a smaller description', async ({ page }) => {
+test('提交框将摘要行与较小的描述分隔开', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
-  const summary = page.getByLabel('Commit summary');
-  const description = page.getByLabel('Commit description');
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
+  const summary = page.getByLabel('提交摘要');
+  const description = page.getByLabel('提交说明');
   await summary.click();
   await summary.fill('feat(worktrees): list, create and remove linked worktrees');
-  await expect(page.getByTitle('Summary length (50 recommended, 72 max)')).toHaveText('57/72');
+  await expect(page.getByTitle('摘要长度（建议 50，最多 72）')).toHaveText('57/72');
   await summary.press('Enter');
   await expect(description).toBeFocused();
   await page.keyboard.type('Explains the why.');
@@ -587,12 +587,12 @@ test('commit box separates a summary line from a smaller description', async ({ 
 test('the commit box grows when its top edge is dragged and resets on double-click', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
-  const description = page.getByLabel('Commit description');
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
+  const description = page.getByLabel('提交说明');
   const before = (await description.boundingBox())?.height ?? 0;
-  const handle = page.getByRole('separator', { name: 'Resize commit box' });
+  const handle = page.getByRole('separator', { name: '调整提交框大小' });
   const grip = await handle.boundingBox();
-  if (!grip) throw new Error('no resize handle');
+  if (!grip) throw new Error('无调整大小手柄');
   await page.mouse.move(grip.x + grip.width / 2, grip.y + grip.height / 2);
   await page.mouse.down();
   await page.mouse.move(grip.x + grip.width / 2, grip.y - 120, { steps: 6 });
@@ -604,25 +604,25 @@ test('the commit box grows when its top edge is dragged and resets on double-cli
   expect(Math.abs(reset - before)).toBeLessThan(2);
 });
 
-test('folder tree view can collapse and expand every folder at once', async ({ page }) => {
+test('文件夹树视图可一次性折叠和展开所有文件夹', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
-  await page.getByRole('button', { name: 'Folder tree' }).click();
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
+  await page.getByRole('button', { name: '文件夹树' }).click();
   await expect(page.getByText('ipc.ts', { exact: true }).first()).toBeVisible();
-  const changesHeader = page.locator('div', { has: page.getByText(/^Changes/) }).filter({ has: page.getByRole('button', { name: 'Stage all' }) }).last();
-  await changesHeader.getByRole('button', { name: 'Collapse all folders' }).click();
+  const changesHeader = page.locator('div', { has: page.getByText(/^Changes/) }).filter({ has: page.getByRole('button', { name: '全部暂存' }) }).last();
+  await changesHeader.getByRole('button', { name: '折叠全部文件夹' }).click();
   await expect(page.getByText('ipc.ts', { exact: true })).toBeHidden();
-  await changesHeader.getByRole('button', { name: 'Expand all folders' }).click();
+  await changesHeader.getByRole('button', { name: '展开全部文件夹' }).click();
   await expect(page.getByText('ipc.ts', { exact: true }).first()).toBeVisible();
-  await page.getByRole('button', { name: 'Flat file list' }).click();
+  await page.getByRole('button', { name: '扁平文件列表' }).click();
   await expect(page.getByRole('button', { name: /all folders$/ })).toHaveCount(0);
 });
 
-test('graph ref chips show whole labels and fold the rest behind a count', async ({ page }) => {
+test('提交图引用标签显示完整名称，其余折叠为计数', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   const firstRow = page.getByRole('row').filter({ hasText: 'feat(graph): virtualize commit rows' }).first();
   await expect(firstRow.getByText('main', { exact: true })).toBeVisible();
   const chips = firstRow.locator('span.inline-flex');
@@ -636,63 +636,63 @@ test('graph ref chips show whole labels and fold the rest behind a count', async
     });
     expect(clipped).toBe(false);
   }
-  const hash = firstRow.getByTitle('Copy full hash');
+  const hash = firstRow.getByTitle('复制完整哈希');
   await expect(hash).toHaveText(/^[0-9a-f]{7}$/);
 });
 
-test('graph display menu hides and restores the hash column', async ({ page }) => {
+test('提交图显示菜单隐藏并恢复哈希列', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
-  await expect(page.getByTitle('Copy full hash').first()).toBeVisible();
-  await page.getByRole('button', { name: 'Graph display options' }).click();
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByTitle('复制完整哈希').first()).toBeVisible();
+  await page.getByRole('button', { name: '提交图显示选项' }).click();
   await page.getByRole('menuitemcheckbox', { name: 'Hash' }).click();
-  await expect(page.getByTitle('Copy full hash')).toHaveCount(0);
+  await expect(page.getByTitle('复制完整哈希')).toHaveCount(0);
   await expect(page.getByRole('menuitemcheckbox', { name: 'Hash' })).toBeVisible();
   await page.getByRole('menuitemcheckbox', { name: 'Hash' }).click();
-  await expect(page.getByTitle('Copy full hash').first()).toBeVisible();
+  await expect(page.getByTitle('复制完整哈希').first()).toBeVisible();
 });
 
-test('sidebar sections behave as an accordion with collapsed headers pinned', async ({ page }) => {
+test('侧边栏分区呈手风琴行为，折叠的标题保持固定', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
-  await page.getByRole('button', { name: 'Collapse all sections' }).click();
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
+  await page.getByRole('button', { name: '折叠全部分区' }).click();
   await page.getByRole('button', { name: /^Branches/ }).click();
-  const aside = page.getByRole('complementary', { name: 'Branches and refs' });
+  const aside = page.getByRole('complementary', { name: '分支与引用' });
   const asideBox = await aside.boundingBox();
   const tagsBox = await page.getByRole('button', { name: /^Tags/ }).boundingBox();
   const stashesBox = await page.getByRole('button', { name: /^Stashes/ }).boundingBox();
-  if (!asideBox || !tagsBox || !stashesBox) throw new Error('sidebar geometry missing');
+  if (!asideBox || !tagsBox || !stashesBox) throw new Error('缺少侧边栏几何信息');
   expect(stashesBox.y + stashesBox.height).toBeGreaterThan(asideBox.y + asideBox.height - 90);
   expect(tagsBox.y).toBeLessThan(stashesBox.y);
   const developBox = await page.getByText('develop', { exact: true }).boundingBox();
-  if (!developBox) throw new Error('branch row missing');
+  if (!developBox) throw new Error('缺少分支行');
   expect(developBox.y).toBeLessThan(tagsBox.y);
   await page.getByRole('button', { name: /^Tags/ }).click();
   await expect(aside.getByText('v0.4.0', { exact: true })).toBeVisible();
   const tagsAfter = await page.getByRole('button', { name: /^Tags/ }).boundingBox();
-  if (!tagsAfter) throw new Error('tags header missing');
+  if (!tagsAfter) throw new Error('缺少标签标题');
   expect(tagsAfter.y).toBeLessThan(tagsBox.y);
 });
 
-test('welcome page flags missing folders and opens a repository from the keyboard', async ({ page }) => {
+test('欢迎页标记缺失的文件夹并可用键盘打开仓库', async ({ page }) => {
   await page.goto('/');
-  await expect(page.getByText('Recent repositories')).toBeVisible({ timeout: 10_000 });
-  await expect(page.getByText('folder missing')).toBeVisible();
+  await expect(page.getByText('最近仓库')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByText('文件夹缺失')).toBeVisible();
   await expect(page.getByText('~/work/api-gateway')).toBeVisible();
-  const search = page.getByLabel('Search recent repositories');
+  const search = page.getByLabel('搜索最近仓库');
   await expect(search).toBeFocused();
   await search.press('ArrowDown');
   await search.press('Enter');
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
 });
 
-test('conflict resolver shows line numbers in both sides and the result', async ({ page }) => {
+test('冲突解决器在两侧和结果中都显示行号', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   await page.getByRole('button', { name: /drawGraph\.ts/ }).first().click();
   const dialog = page.getByRole('dialog', { name: /Resolve conflicts/ });
   await expect(dialog).toBeVisible();

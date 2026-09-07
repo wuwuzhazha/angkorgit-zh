@@ -8,19 +8,19 @@ const version = SITE.latestVersion;
 const platforms = [
   {
     name: 'macOS',
-    detail: 'Intel and Apple Silicon, one file',
+    detail: 'Intel 与 Apple Silicon，单文件',
     asset: `AngKorGit_${version}_universal.dmg`,
     note: 'Not signed with an Apple certificate, so macOS asks once. Right-click, Open, or use Homebrew below and it never asks.',
   },
   {
     name: 'Windows',
-    detail: 'x64 installer',
+    detail: 'x64 安装程序',
     asset: `AngKorGit_${version}_x64-setup.exe`,
-    note: 'SmartScreen will say the publisher is unknown. More info, then Run anyway. An .msi is on the releases page too.',
+    note: 'SmartScreen 会提示发布者未知。点击“更多信息”，然后“仍要运行”。发布页面也提供 .msi 安装包。',
   },
   {
     name: 'Linux',
-    detail: 'AppImage, .deb and .rpm',
+    detail: 'AppImage、.deb 和 .rpm',
     asset: `AngKorGit_${version}_amd64.AppImage`,
     note: 'chmod +x and run. Needs WebKitGTK 4.1 and libssl, which most desktops already have.',
   },
@@ -34,13 +34,13 @@ const brew = 'brew install --cask cheat2001/tap/angkorgit';
     <div class="grid gap-12 lg:grid-cols-12">
       <div class="min-w-0 lg:col-span-5" data-reveal>
         <p class="font-mono text-xs uppercase tracking-[0.18em] text-primary">Install · v{version}</p>
-        <h2 class="display mt-3 text-4xl leading-[1.02] sm:text-5xl">Pick your platform.</h2>
+        <h2 class="display mt-3 text-4xl leading-[1.02] sm:text-5xl">选择你的平台。</h2>
         <p class="mt-6 text-[17px] leading-relaxed text-muted">
           Every build is compiled in public by GitHub Actions from the source you can read, and the app checks for
           the next version itself.
         </p>
         <div class="mt-8">
-          <p class="font-mono text-xs uppercase tracking-[0.14em] text-faint">Mac with Homebrew</p>
+          <p class="font-mono text-xs uppercase tracking-[0.14em] text-faint">Mac（Homebrew）</p>
           <div class="mt-2">
             <TerminalBlock label="terminal" lines={[brew]} copy={brew} />
           </div>
@@ -90,7 +90,7 @@ const brew = 'brew install --cask cheat2001/tap/angkorgit';
               copy={`curl -L ${SITE.assetUrl(version, `AngKorGit_${version}_universal.dmg`)} -o ~/Downloads/AngKorGit.dmg && xattr -cr ~/Downloads/AngKorGit.dmg && open ~/Downloads/AngKorGit.dmg`}
             />
             <TerminalBlock
-              label="Windows (PowerShell)"
+              label="Windows（PowerShell）"
               lines={[
                 `curl -L ${SITE.assetUrl(version, `AngKorGit_${version}_x64-setup.exe`)} -o "$env:TEMP\\AngKorGit-setup.exe"`,
                 `Start-Process "$env:TEMP\\AngKorGit-setup.exe"`,

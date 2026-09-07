@@ -127,7 +127,7 @@ pub fn list() -> Vec<AccountInfo> {
 }
 
 fn save_list(accounts: &[AccountInfo]) -> AppResult<()> {
-    let path = meta_path().ok_or_else(|| AppError::other("config dir not initialized"))?;
+    let path = meta_path().ok_or_else(|| AppError::other("配置目录未初始化"))?;
     if let Some(parent) = path.parent() {
         std::fs::create_dir_all(parent)?;
     }
@@ -193,16 +193,16 @@ pub fn add(
 ) -> AppResult<Vec<AccountInfo>> {
     let host = normalize_host(host);
     if host.is_empty() || username.trim().is_empty() || token.trim().is_empty() {
-        return Err(AppError::other("host, username and token are all required"));
+        return Err(AppError::other("主机、用户名和令牌均为必填"));
     }
     let username = username.trim().to_string();
 
     let name = entry_name(&host, &username);
     let entry = keyring::Entry::new(KEYRING_SERVICE, &name)
-        .map_err(|e| AppError::other(format!("keychain unavailable: {e}")))?;
+        .map_err(|e| AppError::other(format!("钥匙串不可用：{e}")))?;
     entry
         .set_password(token.trim())
-        .map_err(|e| AppError::other(format!("could not store token in keychain: {e}")))?;
+        .map_err(|e| AppError::other(format!("无法将令牌存入钥匙串：{e}")))?;
     if let Ok(mut cache) = token_cache().lock() {
         cache.insert(name, Some(token.trim().to_string()));
     }

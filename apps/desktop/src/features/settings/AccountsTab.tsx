@@ -53,39 +53,39 @@ const PROVIDERS: Record<ProviderKind, ProviderPreset> = {
     defaultHost: 'github.com',
     hostEditable: false,
     tokenUrl: () => 'https://github.com/settings/tokens/new?scopes=repo&description=AngKorGit',
-    tokenHint: 'Personal access token with the "repo" scope',
-    usernameHint: 'username (detected from the token)',
+    tokenHint: '具有“repo”权限范围的个人访问令牌',
+    usernameHint: '用户名（从令牌中检测到）',
   },
   gitlab: {
     label: 'GitLab.com',
     defaultHost: 'gitlab.com',
     hostEditable: false,
     tokenUrl: () => 'https://gitlab.com/-/user_settings/personal_access_tokens',
-    tokenHint: 'Personal access token with "read_repository" + "write_repository" scopes',
-    usernameHint: 'username (detected from the token)',
+    tokenHint: '具有“read_repository” + “write_repository”权限范围的个人访问令牌',
+    usernameHint: '用户名（从令牌中检测到）',
   },
   'gitlab-self': {
     label: 'GitLab (self-hosted)',
     defaultHost: '',
     hostEditable: true,
     tokenUrl: (host) => (host ? `http://${host}/-/user_settings/personal_access_tokens` : null),
-    tokenHint: 'Personal access token with "read_repository" + "write_repository" scopes',
-    usernameHint: 'username (detected from the token)',
+    tokenHint: '具有“read_repository” + “write_repository”权限范围的个人访问令牌',
+    usernameHint: '用户名（从令牌中检测到）',
   },
   bitbucket: {
     label: 'Bitbucket',
     defaultHost: 'bitbucket.org',
     hostEditable: false,
     tokenUrl: () => 'https://id.atlassian.com/manage-profile/security/api-tokens',
-    tokenHint: 'API token with read:repository:bitbucket + write:repository:bitbucket scopes',
-    usernameHint: 'Atlassian account email (your Bitbucket username is detected)',
+    tokenHint: '具有 read:repository:bitbucket + write:repository:bitbucket 权限范围的 API 令牌',
+    usernameHint: 'Atlassian 账户邮箱（已检测到你的 Bitbucket 用户名）',
   },
   other: {
-    label: 'Other host',
+    label: '其他主机',
     defaultHost: '',
     hostEditable: true,
     tokenUrl: () => null,
-    tokenHint: 'Token or password used for HTTPS git access',
+    tokenHint: '用于 HTTPS git 访问的令牌或密码',
     usernameHint: 'username',
   },
 };
@@ -120,7 +120,7 @@ async function validateToken(
   try {
     if (provider === 'bitbucket') {
       if (!identity) {
-        throw new Error('enter your Atlassian account email so the token can be verified');
+        throw new Error('输入你的 Atlassian 账户邮箱以验证令牌');
       }
       const res = await ipc.httpRequest({
         url: 'https://api.bitbucket.org/2.0/user',
@@ -132,7 +132,7 @@ async function validateToken(
       });
       if (res.status === 401 || res.status === 403) {
         throw new Error(
-          `Bitbucket rejected these credentials (${res.status}) — check that this is your Atlassian account email and that the API token carries the read:repository:bitbucket scope`,
+          `Bitbucket rejected these credentials (${res.status}) — check that this is your Atlassian 账户邮箱 and that the API token carries the read:repository:bitbucket scope`,
         );
       }
       if (res.status !== 200) throw new Error(`Bitbucket rejected the token (${res.status})`);
@@ -306,12 +306,12 @@ export function AccountsTab() {
       const verified = await validateToken(provider, cleanHost, finalUsername, token.trim());
       if (verified === 'unreachable') {
         toast.warning(`${cleanHost} is unreachable right now — saving without verification`);
-        if (!finalUsername) throw new Error('enter a username to save without verification');
+        if (!finalUsername) throw new Error('输入用户名即可不经验证保存');
       } else if (verified) {
         finalUsername = verified.login;
         isVerified = true;
       } else if (!finalUsername) {
-        throw new Error('username is required for this provider');
+        throw new Error('此提供方需要用户名');
       }
 
       const email = provider === 'bitbucket' ? username.trim() : null;
@@ -368,8 +368,8 @@ export function AccountsTab() {
     const ok = await confirmDialog({
       title: `Remove ${account.username} on ${account.host}?`,
       description:
-        'The token is deleted from the system keychain. Pushes to this host fall back to your other accounts or the credential helper.',
-      confirmLabel: 'Remove account',
+        '令牌将从系统钥匙串中删除。推送到该主机时将回退到你的其他账户或凭据助手。',
+      confirmLabel: '移除账户',
       destructive: true,
     });
     if (ok) await remove(account);
@@ -378,11 +378,11 @@ export function AccountsTab() {
   return (
     <SettingCard
       title="Accounts"
-      description="Used automatically when a remote's host matches — push and pull over HTTPS with no SSH setup. Several accounts per host are fine; one is the default and profiles can pick another."
+      description="当远端的主机匹配时自动使用——无需 SSH 配置即可通过 HTTPS 推送和拉取。每个主机可以有多个账户；其中一个是默认账户，各配置可选用其他账户。"
       action={
         !showForm ? (
           <Button variant="secondary" size="sm" onClick={() => setAdding(true)}>
-            <Plus className="size-3.5" /> Add account
+            <Plus className="size-3.5" /> 添加账户
           </Button>
         ) : undefined
       }
@@ -449,7 +449,7 @@ export function AccountsTab() {
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem destructive onClick={() => void confirmRemove(account)}>
-                      <Trash2 /> Remove account…
+                      <Trash2 /> 移除账户…
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
@@ -461,7 +461,7 @@ export function AccountsTab() {
           <div className="rounded-lg border border-primary/30 bg-primary/5 p-3">
             <p className="mb-3 flex items-center gap-2 text-xs font-medium text-foreground">
               <KeyRound className="size-3.5 text-primary" />
-              {accounts.length === 0 ? 'Connect your first account' : 'Add account'}
+              {accounts.length === 0 ? '连接你的第一个账户' : '添加账户'}
             </p>
             <div className="grid grid-cols-2 gap-3">
               <Field label="Provider">
@@ -488,8 +488,8 @@ export function AccountsTab() {
                 />
               </Field>
               <Field
-                label={provider === 'bitbucket' ? 'Atlassian account email' : 'Username'}
-                hint={provider === 'bitbucket' ? 'Bitbucket username is detected' : provider === 'other' ? undefined : 'detected from the token'}
+                label={provider === 'bitbucket' ? 'Atlassian 账户邮箱' : 'Username'}
+                hint={provider === 'bitbucket' ? '已检测到 Bitbucket 用户名' : provider === 'other' ? undefined : '从令牌中检测到'}
               >
                 <Input
                   placeholder={provider === 'bitbucket' ? 'you@company.com' : 'optional'}
@@ -514,7 +514,7 @@ export function AccountsTab() {
                 <Input
                   ref={tokenInputRef}
                   type="password"
-                  placeholder="Paste the token"
+                  placeholder="粘贴令牌"
                   value={token}
                   onChange={(e) => setToken(e.target.value)}
                   onKeyDown={(e) => {
@@ -529,7 +529,7 @@ export function AccountsTab() {
               <span className="flex shrink-0 gap-2">
                 {accounts.length > 0 && (
                   <Button variant="ghost" size="sm" onClick={() => setAdding(false)}>
-                    Cancel
+                    取消
                   </Button>
                 )}
                 <Button size="sm" onClick={() => void connect()} disabled={busy || !token.trim() || !host.trim()}>

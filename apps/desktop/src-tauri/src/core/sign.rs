@@ -36,7 +36,7 @@ pub(crate) fn signing_config(repo: &Repository) -> AppResult<Option<SigningConfi
         Some("ssh") => SigningFormat::Ssh,
         Some(other) => {
             return Err(AppError::other(format!(
-                "commit signing with gpg.format={other} is not supported — use ssh or openpgp"
+                "不支持 gpg.format={other} 的提交签名——请使用 ssh 或 openpgp"
             )))
         }
     };
@@ -45,7 +45,7 @@ pub(crate) fn signing_config(repo: &Repository) -> AppResult<Option<SigningConfi
         SigningFormat::Ssh => {
             if key.trim().is_empty() {
                 return Err(AppError::other(
-                    "commit.gpgSign is on with gpg.format=ssh, but user.signingKey is not set. \
+                    "commit.gpgSign 已开启且 gpg.format=ssh，但未设置 user.signingKey。 \
                      Point it at your SSH key (for example ~/.ssh/id_ed25519.pub).",
                 ));
             }
@@ -56,7 +56,7 @@ pub(crate) fn signing_config(repo: &Repository) -> AppResult<Option<SigningConfi
             let key = if key.trim().is_empty() {
                 let sig = repo.signature().map_err(|_| {
                     AppError::other(
-                        "commit signing needs user.signingKey or a configured git identity",
+                        "提交签名需要 user.signingKey 或已配置的 git 身份",
                     )
                 })?;
                 format!(
@@ -101,7 +101,7 @@ pub(crate) fn create_commit(
     let buffer = repo.commit_create_buffer(author, committer, message, tree, parents)?;
     let content = buffer
         .as_str()
-        .ok_or_else(|| AppError::other("commit content is not valid UTF-8"))?
+        .ok_or_else(|| AppError::other("提交内容不是有效的 UTF-8"))?
         .to_string();
     let signature = sign_buffer(&config, &content)?;
     let oid = repo.commit_signed(&content, signature.trim_end(), None)?;
@@ -177,7 +177,7 @@ fn expand_home(path: &str) -> PathBuf {
 }
 
 const SSH_AGENT_HINT: &str =
-    "If the key has a passphrase, load it into ssh-agent (ssh-add) first — the app cannot prompt for it.";
+    "如果密钥有口令，请先将其载入 ssh-agent（ssh-add）——应用无法提示输入口令。";
 
 fn sign_with_ssh(config: &SigningConfig, content: &str) -> AppResult<String> {
     let mut cleanup = TempFiles(Vec::new());
@@ -191,7 +191,7 @@ fn sign_with_ssh(config: &SigningConfig, content: &str) -> AppResult<String> {
         let file = expand_home(&config.key);
         if !file.exists() {
             return Err(AppError::other(format!(
-                "the signing key {} does not exist — check user.signingKey",
+                "签名密钥 {} 不存在——请检查 user.signingKey",
                 file.display()
             )));
         }

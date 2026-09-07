@@ -94,19 +94,19 @@ export function WelcomePage() {
   const openRepository = async (path: string) => {
     if (useRepo.getState().opening !== null) return;
     if (missing.has(path)) {
-      toast.error('This folder no longer exists. Remove it from recents or open it from its new location.');
+      toast.error('此文件夹已不存在。请从最近记录中移除，或从其新位置打开。');
       return;
     }
     try {
       await open(path);
       navigate('/repo');
     } catch (error) {
-      toast.error(`Could not open repository: ${(error as { message?: string }).message ?? error}`);
+      toast.error(`无法打开仓库：${(error as { message?: string }).message ?? error}`);
     }
   };
 
   const browse = async () => {
-    const dir = await pickDirectory('Open a Git repository');
+    const dir = await pickDirectory('打开 Git 仓库');
     if (dir) await openRepository(dir);
   };
 
@@ -147,11 +147,11 @@ export function WelcomePage() {
             <h1 className="text-2xl font-semibold tracking-tight">
               AngKor<span className="text-primary">Git</span>
             </h1>
-            <p className="text-sm text-muted">Everyday Git, made delightful.</p>
+            <p className="text-sm text-muted">日常 Git，令人愉悦。</p>
           </div>
           <div className="ml-auto">
-            <Hint label="Settings">
-              <Button variant="ghost" size="icon" onClick={() => openDialog('settings')} aria-label="Settings">
+            <Hint label="设置">
+              <Button variant="ghost" size="icon" onClick={() => openDialog('settings')} aria-label="设置">
                 <Settings />
               </Button>
             </Hint>
@@ -167,8 +167,8 @@ export function WelcomePage() {
               <FolderOpen className="size-5" />
             </span>
             <span>
-              <span className="block font-medium">Open repository</span>
-              <span className="block text-xs text-muted">Browse for a local folder</span>
+              <span className="block font-medium">打开仓库</span>
+              <span className="block text-xs text-muted">浏览本地文件夹</span>
             </span>
           </button>
           <button
@@ -179,8 +179,8 @@ export function WelcomePage() {
               <GitBranchPlus className="size-5" />
             </span>
             <span>
-              <span className="block font-medium">Clone repository</span>
-              <span className="block text-xs text-muted">From a remote URL</span>
+              <span className="block font-medium">克隆仓库</span>
+              <span className="block text-xs text-muted">从远端 URL 克隆</span>
             </span>
           </button>
         </div>
@@ -188,7 +188,7 @@ export function WelcomePage() {
         <div className="rounded-lg border border-border bg-surface shadow-soft">
           <div className="flex items-center gap-2 border-b border-border-subtle px-4 py-3">
             <Clock className="size-4 text-muted" />
-            <span className="text-sm font-medium">Recent repositories</span>
+            <span className="text-sm font-medium">最近仓库</span>
             {recents.length > 0 && <span className="text-xs text-faint">{recents.length}</span>}
             {recents.length > 0 && (
               <div className="relative ml-auto w-56">
@@ -198,8 +198,8 @@ export function WelcomePage() {
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                   onKeyDown={onSearchKey}
-                  placeholder="Search, ↑↓ to choose, ⏎ to open"
-                  aria-label="Search recent repositories"
+                  placeholder="搜索，↑↓ 选择，⏎ 打开"
+                  aria-label="搜索最近仓库"
                   className="h-7 pl-8 text-xs"
                 />
               </div>
@@ -209,21 +209,21 @@ export function WelcomePage() {
             {recents.length === 0 ? (
               <SettingEmpty
                 icon={<FolderGit2 className="size-4" />}
-                title="No repositories yet"
-                description="Open a folder that already has a .git directory, or clone one from a URL. Everything you open shows up here."
+                title="还没有仓库"
+                description="打开一个已有 .git 目录的文件夹，或从 URL 克隆一个。你打开的所有内容都会显示在这里。"
                 action={
                   <span className="flex gap-2">
                     <Button variant="secondary" size="sm" onClick={browse}>
-                      <FolderOpen className="size-3.5" /> Open
+                      <FolderOpen className="size-3.5" /> 打开
                     </Button>
                     <Button variant="secondary" size="sm" onClick={() => openDialog('clone')}>
-                      <GitBranchPlus className="size-3.5" /> Clone
+                      <GitBranchPlus className="size-3.5" /> 克隆
                     </Button>
                   </span>
                 }
               />
             ) : filtered.length === 0 ? (
-              <p className="px-3 py-8 text-center text-sm text-faint">No repositories match “{query.trim()}”.</p>
+              <p className="px-3 py-8 text-center text-sm text-faint">未找到匹配“{query.trim()}”的仓库。</p>
             ) : (
               filtered.map((repo, index) => {
                 const gone = missing.has(repo.path);
@@ -265,7 +265,7 @@ export function WelcomePage() {
                         </span>
                         {gone && (
                           <span className="flex shrink-0 items-center gap-1 text-[11px] text-danger">
-                            <AlertTriangle className="size-3" /> folder missing
+                            <AlertTriangle className="size-3" /> 文件夹缺失
                           </span>
                         )}
                       </span>
@@ -282,7 +282,7 @@ export function WelcomePage() {
                       variant="ghost"
                       size="icon-sm"
                       className="shrink-0 opacity-0 focus-visible:opacity-100 group-hover:opacity-100"
-                      aria-label={`${repo.name} actions`}
+                      aria-label={`${repo.name} 操作`}
                       onClick={(e) => {
                         e.stopPropagation();
                         const rect = e.currentTarget.getBoundingClientRect();
@@ -310,7 +310,7 @@ export function WelcomePage() {
               )
             }
           >
-            Check for updates
+            检查更新
           </button>
         </p>
       </div>
@@ -323,22 +323,22 @@ export function WelcomePage() {
           <DropdownMenuContent align="start" side="bottom">
             <DropdownMenuLabel className="max-w-72 truncate font-mono">{shortenHome(menu.repo.path)}</DropdownMenuLabel>
             <DropdownMenuItem disabled={missing.has(menu.repo.path)} onClick={() => void openRepository(menu.repo.path)}>
-              <FolderGit2 /> Open
+              <FolderGit2 /> 打开
             </DropdownMenuItem>
             <DropdownMenuItem disabled={missing.has(menu.repo.path)} onClick={() => void ipc.revealPath(menu.repo.path)}>
-              <FolderOpen /> {isMac ? 'Reveal in Finder' : 'Show in file manager'}
+              <FolderOpen /> {isMac ? '在 Finder 中显示' : '在文件管理器中显示'}
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => {
                 void navigator.clipboard.writeText(menu.repo.path);
-                toast.success('Path copied');
+                toast.success('路径已复制');
               }}
             >
-              <Copy /> Copy path
+              <Copy /> 复制路径
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem destructive onClick={() => void removeRecent(menu.repo.path)}>
-              {missing.has(menu.repo.path) ? <Trash2 /> : <X />} Remove from recents
+              {missing.has(menu.repo.path) ? <Trash2 /> : <X />} 从最近列表中移除
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

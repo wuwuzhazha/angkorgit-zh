@@ -75,7 +75,7 @@ async function applyTransition(
   const path = entry.repoPath;
   switch (entry.kind) {
     case 'commit': {
-      if (!to.headOid) throw new Error('nothing to reset to');
+      if (!to.headOid) throw new Error('没有可重置的目标');
       await ipc.reset(path, to.headOid, 'soft');
       return;
     }
@@ -84,9 +84,9 @@ async function applyTransition(
     case 'rebase':
     case 'reset':
     case 'revert': {
-      if (!to.headOid) throw new Error('nothing to reset to');
+      if (!to.headOid) throw new Error('没有可重置的目标');
       if (!(await treeIsClean(path))) {
-        throw new Error('working tree has uncommitted changes — commit or stash them first');
+        throw new Error('工作区有未提交的更改——请先提交或暂存');
       }
       await ipc.reset(path, to.headOid, 'hard');
       return;

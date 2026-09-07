@@ -20,20 +20,20 @@ on first launch; document it prominently (README covers this):
 
 - **macOS**: the app isn't notarized, so Gatekeeper blocks the first open.
   Either right-click the app → **Open** → Open, or on newer macOS:
-  **System Settings → Privacy & Security → "AngKorGit was blocked" → Open Anyway**.
+  **System Settings → Privacy & Security → "AngKorGit 已被阻止" → 仍然打开**.
   Terminal alternative: `xattr -cr /Applications/AngKorGit.app` (removes the
   quarantine flag). Tauri ad-hoc-signs the binary automatically, so it runs
   fine on Apple Silicon once past Gatekeeper.
-- **Windows**: SmartScreen shows "Windows protected your PC" →
+- **Windows**: SmartScreen shows "Windows 已保护你的电脑" →
   **More info → Run anyway**.
 - **Linux**: AppImage: `chmod +x AngKorGit_*.AppImage` and run; `.deb` installs
   normally.
 
 **macOS Keychain prompts**: account tokens live in the Keychain, and macOS
-cannot durably trust an unsigned binary — "Always Allow" does not stick, so
+cannot durably trust an unsigned binary — "始终允许" does not stick, so
 the first git operation that needs a token asks for permission **once per app
 session** (keyring reads are cached in-process; `accounts.rs` `TOKEN_CACHE`).
-Click **Allow** (not "Always Allow" — it has no effect). One prompt per launch
+Click **Allow** (not "始终允许" — it has no effect). One prompt per launch
 is expected behavior for unsigned builds; a paid Developer ID signature is the
 only way to make authorization permanent.
 
@@ -64,8 +64,8 @@ Already wired in the codebase:
 - `tauri-plugin-updater` + `tauri-plugin-process` registered; capability
   `updater:default`, `process:default`; `bundle.createUpdaterArtifacts: true`.
 - Frontend: silent check 5s after startup (`features/updater/check.ts`) →
-  "Update available" toast with **Update now** (download, verify, relaunch);
-  manual **Check for updates** in the Settings rail footer.
+  "有可用更新" toast with **Update now** (download, verify, relaunch);
+  manual **检查更新** in the Settings rail footer.
 - `release.yml` passes `TAURI_SIGNING_PRIVATE_KEY(_PASSWORD)` to tauri-action,
   which then also generates and uploads `latest.json`.
 

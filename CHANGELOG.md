@@ -1,4 +1,4 @@
-# Changelog
+# 更新日志
 
 All notable changes to AngKorGit are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and versions follow
@@ -20,8 +20,8 @@ description, and a welcome page that behaves like the rest of the app.
 - **Worktrees.** A Worktrees section in the sidebar lists every working tree of
   the repository, main first, with its branch, an uncommitted-changes dot, a
   lock mark and a warning when the folder is gone. Click a row to open that
-  worktree as its own tab. "New worktree…" (sidebar, command palette, a branch's
-  "Open in new worktree…" or a commit's "New worktree from here…") creates a
+  worktree as its own tab. "新建工作树…" (sidebar, command palette, a branch's
+  "在新工作树中打开…" or a commit's "从这里新建工作树…") creates a
   sibling folder named `<repo>-<branch>` on a new or existing branch and opens
   it. Removing confirms first, refuses a dirty folder unless you opt into
   deleting the changes, and a prune action forgets entries whose folder was
@@ -50,12 +50,12 @@ description, and a welcome page that behaves like the rest of the app.
   still one message, so drafts and generated messages keep working.
 - **Welcome page.** Recent repositories are rows with an icon, a home-relative
   path, the time, and a menu with Open, Reveal in Finder, Copy path and Remove.
-  Moved or deleted folders are marked "folder missing" instead of failing. The
+  Moved or deleted folders are marked "文件夹缺失" instead of failing. The
   search box has focus on arrival and the arrow keys and Enter open a
   repository. A fresh install gets an empty state with Open and Clone, and the
-  version with a "Check for updates" link sits in the footer.
+  version with a "检查更新" link sits in the footer.
 - Click a hash in the graph to copy it; hover a relative time for the full
-  date. An empty filtered graph offers "Clear filters".
+  date. An empty filtered graph offers "清除过滤条件".
 
 ### Changed
 - **Conflict resolver.** Color is an accent, not a wash: thin colored edges
@@ -71,16 +71,16 @@ description, and a welcome page that behaves like the rest of the app.
   the same style as Changes and Staged, and conflicted files no longer appear
   a second time in the Changes list.
 - **Settings.** Single controls sit on their title row. Profiles are cards with
-  an avatar, an "In use" badge, a Use button, a confirmed remove, and a tidy
+  an avatar, an "使用中" badge, a Use button, a confirmed remove, and a tidy
   list of linked accounts with a switch per account; adding a profile is a
   labeled form. Accounts are readable cards with a menu and a labeled connect
-  form behind an "Add account" button; the credential-helper switch has its own
+  form behind an "添加账户" button; the credential-helper switch has its own
   row. The AI tab reports Reachable or Not reachable beside Test connection,
   shows detected CLI agents as cards, and lays prefix rules out as a small
   table. The card, field, row and empty-state primitives are shared by every
   tab.
 - **Commit details** in the inspector: the close button moved into the panel
-  header, long bodies fold behind "Show full message", author, time, hash,
+  header, long bodies fold behind "显示完整消息", author, time, hash,
   parents and refs share one card with the graph's ref icons, and the file list
   uses the working copy's letter badges and plain rows. Tree view has a fold
   button in each list's own header.
@@ -168,7 +168,7 @@ commit hashes now jump straight to their commit.
 
 ### Fixed
 - The commit actions no longer overflow a narrow working copy panel: with the
-  merge-only "Abort merge" button present (or a wide "Commit N files" label),
+  merge-only "中止合并" button present (or a wide "提交 N 个文件" label),
   the Commit button was clipped at the panel edge — the action row now wraps
   onto extra lines instead.
 - Searching a short commit hash (down to git's 4-character minimum, e.g. one
@@ -201,14 +201,14 @@ commit hashes now jump straight to their commit.
 - ⌘⏎ commits from anywhere, Esc closes the editor, the diff, the file history
   and the conflict resolver (which now also takes focus on open), and the
   working-copy file list is keyboard-navigable (arrows, Enter, Space).
-- Reduce motion now disables all transitions and animations, including the
+- 减少动效 now disables all transitions and animations, including the
   splash logo draw and smooth scrolling in the diff minimap and conflict
   resolver.
 - Long paths and branch names no longer push buttons out of the conflict
   resolver header, terminal bar, welcome rows and sidebar; empty sidebar
   sections say so instead of rendering a blank body; hover-only row actions
   become visible when focused with the keyboard.
-- Accounts re-checks run in parallel and show an explicit "could not check"
+- Accounts re-checks run in parallel and show an explicit "无法检查"
   state instead of silently keeping the last known one, AI provider keys are
   migrated to the keyring once instead of on every launch, and checking for
   updates shows a pending toast.
@@ -223,14 +223,14 @@ commit search also learned the move everyone expects: paste a hash and the
 graph takes you straight there.
 
 ### Added
-- **Pull requests in the app** — a new sidebar section lists the open pull
+- **拉取请求 in the app** — a new sidebar section lists the open pull
   requests (GitHub, GitLab, Bitbucket Cloud) for the current repository's
   remote, using the hosting account already connected in Settings →
   Authentication. Each entry shows its number, title and draft state; the row
   menu checks the pull request out locally (same-repo branches get proper
   tracking, fork PRs land on a `pr/<number>` branch via the forge's pull
   ref), opens it in the browser, or copies its URL.
-- **Create pull requests without leaving AngKorGit** — the status bar button,
+- **创建拉取请求s without leaving AngKorGit** — the status bar button,
   palette command and sidebar "+" now open an in-app dialog when a connected
   account matches the remote: pick the target branch (pre-selected from the
   forge's default branch), write or AI-generate the description, optionally
@@ -243,7 +243,7 @@ graph takes you straight there.
   chosen people are asked for review as part of creation. Your own connected
   account is left out of the list, and the member list is remembered for the
   session so reopening the dialog is instant.
-- New Settings → Git toggle "Pull requests": turn it off to hide the sidebar
+- New Settings → Git toggle "拉取请求": turn it off to hide the sidebar
   section and stop fetching pull requests entirely, for people who don't use
   them. The create button then falls back to the pre-filled browser page.
 - **Searching a commit hash jumps to it in the graph** — pasting a hash (7 to
@@ -252,7 +252,7 @@ graph takes you straight there.
   it to the center, selects it and marks it with a highlight, so the commits
   around it stay visible. Clicking any other commit clears the highlight and
   the search box, Enter re-runs the jump, and a hash that doesn't exist keeps
-  the graph untouched with a small "Commit not found" note instead of
+  the graph untouched with a small "找不到提交" note instead of
   emptying the view. Text searches still filter as before, and ⌘F focuses
   the commit search whenever no diff is open (a diff keeps its find bar).
 
@@ -333,7 +333,7 @@ itself while you wait.
 The signing release. Commits made in AngKorGit finally carry your signature:
 if your git config says sign, the app signs — SSH or GPG, the same key and the
 same rules as your terminal, with nothing to set up in the app. Alongside it,
-the AI settings grew a real model picker and the repository switcher learned
+the AI 设置 grew a real model picker and the repository switcher learned
 to scroll.
 
 ### Added
@@ -351,8 +351,8 @@ to scroll.
   of the window with no way to scroll, hiding repositories and the "Open
   repository…" action. The repository list now scrolls inside the menu while
   the open/clone/profile actions stay pinned and always reachable.
-- **Pick AI models from a list** — the AI settings no longer make you type
-  model names from memory: a "Load models" button fetches what your API key
+- **Pick AI models from a list** — the AI 设置 no longer make you type
+  model names from memory: a "加载模型" button fetches what your API key
   (and custom base URL) can actually access — OpenAI-compatible endpoints
   including Groq, Ollama and LM Studio, plus Anthropic and Gemini — and shows
   them as a click-to-select list. The field stays editable, so custom and
@@ -378,7 +378,7 @@ instead of nudging the checked-out branch sideways.
   back on always closes the diff and returns you to the graph, whether the diff
   hid the sidebar or you had already hidden it yourself.
 - **Confirmations show the path in its own panel** — the file path used to be
-  quoted inside the sentence (and inside the "Delete …?" heading), which turned
+  quoted inside the sentence (and inside the "删除…？" heading), which turned
   a deep path into a three-line title broken mid-word. Titles are short again
   and the path sits in a monospace panel below, wrapping at directory
   boundaries with the folders dimmed and the filename bright.
@@ -390,10 +390,10 @@ instead of nudging the checked-out branch sideways.
 ### Fixed
 - **Long file paths no longer bleed out of confirmation dialogs** — discarding
   a change to a deeply nested file showed the path running straight past the
-  edge of the "Discard changes?" popup, because a path has no spaces to wrap
+  edge of the "丢弃更改？" popup, because a path has no spaces to wrap
   at. Both the title and the body of every dialog now wrap anywhere in a long
   word, so the whole path stays inside the box — this also covered the
-  "Delete <path>?" confirmation, which had the same fault (#2).
+  "删除 <path>？" confirmation, which had the same fault (#2).
 
 ## [0.6.3] — 2026-08-20
 
@@ -407,7 +407,7 @@ properly invisible.
   Windows, fetching, pulling, pushing or letting auto-fetch run would flash a
   PowerShell/terminal window on screen for a moment and steal keyboard focus
   from whatever you were typing in. Every helper process the app runs (the
-  `git credential` handshake, `ssh-keygen`, the AI CLI probes, open/reveal in
+  `git 凭据` handshake, `ssh-keygen`, the AI CLI probes, open/reveal in
   file manager) is now launched with `CREATE_NO_WINDOW`, so it stays invisible
   (#1).
 
@@ -447,16 +447,16 @@ instead of the top of the file.
   conflicts prefill both sides so the code can be aligned/merged, resolved
   blocks prefill the picked lines. Edits apply live as you type, Esc cancels
   the typing, clicking away keeps it, and nothing touches the disk until
-  "Mark resolved". Edited lines carry a pencil marker, count toward the
+  "标记已解决". Edited lines carry a pencil marker, count toward the
   resolved total, and a hover undo button discards an edit back to the
   checkbox picks; the whole-file editor behind the header pencil still works
   as before.
-- **Per-conflict "Take all A" / "Take all B"** — each conflict block carries
+- **Per-conflict "全部取 A" / "全部取 B"** — each conflict block carries
   its own take-a-whole-side checkboxes, so one click resolves that conflict
   without ticking line by line (the pane-header checkboxes still take a side
   for every conflict at once).
-- **Abort merge next to the commit button** — during a merge the commit box
-  shows an "Abort merge" button beside Commit (with the merge message already
+- **中止合并 next to the commit button** — during a merge the commit box
+  shows an "中止合并" button beside Commit (with the merge message already
   prefilled), and it stays visible even when the status is otherwise clean;
   the toolbar state badge menu still works and both paths now clear the
   prefilled merge message.
@@ -468,7 +468,7 @@ instead of the top of the file.
 
 ### Changed
 - **Conflict navigation moved to the Output divider** — a centered
-  "Conflict n of m" pill with prev/next arrows floats between the panes and
+  "冲突 n / m" pill with prev/next arrows floats between the panes and
   the Output, GitKraken-style, instead of living in the window header; the
   resolver also auto-jumps to the first conflict on open and the arrows show
   even for a single conflict.
@@ -482,7 +482,7 @@ instead of the top of the file.
 - **AI conflict explanations were invisible** — the ✨ button's answer used to
   render below the entire file at the bottom of the A/B panes, so clicking
   appeared to do nothing. The explanation now opens in a floating panel over
-  the panes, with an immediate "Explaining conflict…" state while the AI
+  the panes, with an immediate "正在解释冲突…" state while the AI
   works and a dismiss button.
 - **Conflict resolver Output pane now follows the work** — picking lines or
   editing a conflict auto-scrolls the Output pane to that conflict's result,
@@ -493,9 +493,9 @@ instead of the top of the file.
 - **Hand-edit safety** — Esc now reverts the editor's typing instead of
   silently keeping it (a stray keystroke can no longer mark a conflict
   resolved with both sides duplicated), an emptied edit now previews and
-  saves consistently as a deleted section, cancelling a "replace hand edits?"
+  saves consistently as a deleted section, cancelling a "替换手工编辑？"
   dialog no longer half-applies the replacement, and files that legitimately
-  contain `<<<<<<<` mid-line no longer block "Mark resolved".
+  contain `<<<<<<<` mid-line no longer block "标记已解决".
 
 ## [0.6.0] — 2026-08-16
 
@@ -523,11 +523,11 @@ walk files.
   each stored token against its provider. Expired or revoked tokens show a
   clear warning with a one-click Reconnect that prefills everything except the
   new token; GitHub and GitLab tokens with a known expiry date show
-  "expires in N days" before they die
+  "N 天后过期" before they die
 - **Previous/next file navigation in the diff view** — arrows and `[` / `]`
   step through the files of a commit or the working copy without going back
-  to the file list, with an "n of m" position indicator
-- **"Create pull request" in the status bar** — whenever the current branch is
+  to the file list, with an "n / m" position indicator
+- **"创建拉取请求" in the status bar** — whenever the current branch is
   a feature branch on a recognized forge, a quiet button in the footer (and a
   command palette entry) opens the pre-filled pull/merge request page on
   GitHub, GitLab (including self-hosted), or Bitbucket — there when you want
@@ -536,7 +536,7 @@ walk files.
 ### Fixed
 - A failed push or fetch on a host with a connected account now says that the
   account's token may have expired and points at Settings → Authentication,
-  instead of a generic "credentials refused" message — and the account is
+  instead of a generic "凭据被拒绝" message — and the account is
   marked unverified so Settings reflects reality
 
 ## [0.5.0] — 2026-08-15
@@ -547,20 +547,20 @@ bug it found — from a conflict-corrupting parser to app-freezing edge cases.
 
 ### Added
 - **Interactive rebase** — right-click a commit in the graph and choose
-  "Interactively rebase onto here…" to reorder, reword, squash, fixup, or drop
+  "在此处交互式变基…" to reorder, reword, squash, fixup, or drop
   the commits above it. The rebase is all-or-nothing: if a step would
   conflict, nothing is changed and the message names the commit to reorder or
   drop. Undo restores the previous state with one click
 - **Select commits and squash them directly** — ⌘-click or shift-click to
   select several commits in the graph, then right-click for "Squash N
-  commits" or "Drop N commits"; the rebase plan opens pre-filled so you can
+  commits" or "丢弃 N 个提交"; the rebase plan opens pre-filled so you can
   adjust the combined message and confirm in one click
 - **Terminal sessions persist per repository** — switching to another repo tab
   and back reattaches the same shell with its scrollback and any running
   command intact. A session ends only when its repo tab is closed, the shell
   exits, or the app quits
 - **File history covers the file's whole lifetime** — it loads 500 changes at
-  a time with a "Show older changes" button instead of stopping at the 200
+  a time with a "显示更早的更改" button instead of stopping at the 200
   most recent
 - **AI API keys are stored in the OS keychain** instead of plaintext local
   storage, matching how hosting tokens are kept. Existing keys migrate
@@ -569,7 +569,7 @@ bug it found — from a conflict-corrupting parser to app-freezing edge cases.
 ### Fixed
 - The "rebase" badge no longer sticks forever after a conflicted rebase was
   resolved by hand — the state badge in the toolbar is now a menu offering
-  continue, abort, or "clear state, keep everything as is" for rebase, merge,
+  continue, abort, or "清除状态，保持一切原样" for rebase, merge,
   cherry-pick, revert, and bisect states (previously the app had no way to
   continue or conclude a paused rebase at all)
 - The conflict resolver no longer corrupts files whose content contains lines of
@@ -658,7 +658,7 @@ themes and kept fresh by background fetching.
   Previously, merging a branch whose changes were already contained in the
   source fast-forwarded — the branch pointer moved with no visible
   "Merge branch 'x' into y" commit on the graph, which read as "the merge did
-  nothing". Drag-and-drop merge and the "Merge into current" context menus now
+  nothing". Drag-and-drop merge and the "合并到当前分支" context menus now
   record a real merge commit; the drop dialog offers a fast-forward option —
   shown only when the target is strictly behind, like GitKraken. Pull still
   fast-forwards when it can
@@ -721,7 +721,7 @@ like they worked and did not; those are fixed or gone.
   appears only for verified accounts, and unverified ones are labelled as such.
   Bitbucket verification also detects the real Bitbucket username from the
   Atlassian email, so the stored username is the one git actually needs
-- **The "SSH private key" setting now does something**: present since the first
+- **The "SSH 私钥" setting now does something**: present since the first
   commit, its value was never sent to the git engine — only `~/.ssh/id_ed25519`
   and `~/.ssh/id_rsa` were ever tried, so anyone with a differently-named key
   entered a path, saw no error, and still could not authenticate. The configured
@@ -732,7 +732,7 @@ like they worked and did not; those are fixed or gone.
   switching back meant re-entering everything. Each provider keeps its own
   settings now, restored on switch and across restarts. This also stops one
   provider's API key being sent to another
-- **"Reduce motion" now reduces motion**: the toggle was stored and never read.
+- **"减少动效" now reduces motion**: the toggle was stored and never read.
   It now disables the app's movement animations (dialogs, fades, slides, the
   diff caret, Framer Motion) — scoped to exactly those, so enabling it costs
   nothing while scrolling — and it defaults to your OS reduce-motion preference
@@ -758,7 +758,7 @@ like they worked and did not; those are fixed or gone.
   credential source the engine tries
 
 ### Removed
-- **Settings that did nothing**: the "Git executable" field claimed to configure
+- **Settings that did nothing**: the "Git 可执行文件" field claimed to configure
   the built-in terminal but was read by no code (the terminal spawns your shell),
   and an unused `githubUser` value sat in stored settings. Both are gone, along
   with the Advanced card that held them and an unused `repo_discover` IPC command
@@ -767,11 +767,11 @@ like they worked and did not; those are fixed or gone.
 
 ### Fixed
 - **AI explanations no longer stick to the wrong commit**: selecting a
-  different commit (or conflict file) clears the previous "Explain with AI"
+  different commit (or conflict file) clears the previous "用 AI 解释"
   result instead of showing it under the new selection; an in-flight
   explanation can no longer land on a commit you've already navigated away from
 - **AI explanation panels no longer clip long lines**: unbreakable tokens
-  (long paths, URLs) in "Explain with AI" output and commit bodies now wrap
+  (long paths, URLs) in "用 AI 解释" output and commit bodies now wrap
   instead of overflowing the inspector/conflict panels, and the assistant is
   instructed to answer in plain text (no raw markdown syntax on screen)
 - **Commit message drafts no longer leak between repositories**: the draft (and
@@ -782,7 +782,7 @@ like they worked and did not; those are fixed or gone.
 
 ### Added
 - **Customizable commit message style**: Settings → AI Assistant now has a
-  "Commit message style" section — pick Conventional commits, Plain summary, or
+  "提交消息风格" section — pick Conventional commits, Plain summary, or
   describe your own convention in plain words. Branch prefix rules
   (`staging → [support]`, `feature/* → [{suffix}]`, tokens `{branch}`,
   `{suffix}`, `{ticket}`; first match wins) are enforced by AngKorGit itself
@@ -791,7 +791,7 @@ like they worked and did not; those are fixed or gone.
   structured per capability so future AI features (e.g. code review) can carry
   their own conventions.
 - **AI features without an API key — use the AI CLI you already have**: a new
-  "Installed AI CLI" provider in Settings → AI Assistant detects Claude Code,
+  "已安装 AI CLI" provider in Settings → AI Assistant detects Claude Code,
   Codex CLI, Gemini CLI, OpenCode and Antigravity CLI (`agy`, model overrides
   like `gemini-3.1-pro-high`) on your machine and runs them locally for
   commit messages, diff explanations, conflict help and reviews. Requests go
@@ -816,7 +816,7 @@ like they worked and did not; those are fixed or gone.
 - **First-lane avatars were clipped on their left edge**: the lane origin now
   leaves room for the full avatar circle
 - **Relative times no longer wrap to two lines**: the time column fits the
-  widest value ("11mo ago") on a single line
+  widest value ("11 个月前") on a single line
 - **Website**: docs pages now emit their own meta description and a correct
   per-page canonical URL (previously every page canonicalized to the
   homepage); footer "Contributing" link no longer 404s; docs titles are
@@ -875,7 +875,7 @@ like they worked and did not; those are fixed or gone.
 - **Diffs feel like a read-only editor**: click a pane to place a blinking
   caret, then ⌘A selects just that side (old or new) and ⌘C copies its full
   text — every line, correctly formatted, straight from the diff data.
-  "Select all" also sits in the right-click menu
+  "全选" also sits in the right-click menu
 - **The living graph**: author avatars are the commit nodes (merges stay
   dots), and a BRANCH/TAG rail docks one pill per branch beside the graph —
   laptop/cloud icons for local/origin presence, ✓ on the checked-out branch,
@@ -931,7 +931,7 @@ The first release. 🏛️
 - Full-width diff view with **minimap**, previous/next-change navigation,
   inline & side-by-side, word-level diff, whole-file mode, image diffs —
   virtualized for any file size, editor-grade smooth scrolling and panning
-- **File history**: ⌘K → "File history…" (or right-click a file) — docked
+- **File history**: ⌘K → "文件历史…" (or right-click a file) — docked
   commit list showing who changed the file and when, one-click diff switching,
   side panels auto-collapse for a full-width review
 - **Built-in file editor**: right-click → Edit file, ⌘S saves in place

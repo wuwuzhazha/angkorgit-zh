@@ -1,4 +1,4 @@
-# Code of Conduct
+# 行为准则
 
 ## Our Pledge
 

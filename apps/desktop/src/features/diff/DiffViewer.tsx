@@ -155,18 +155,18 @@ function ImageDiff({ diff }: { diff: FileDiff }) {
     <div className="flex gap-4 p-4">
       {diff.oldImage && (
         <figure className="flex-1 rounded-lg border border-danger/40 bg-surface p-3 text-center">
-          <img src={`data:${mime};base64,${diff.oldImage}`} alt="Previous version" className="mx-auto max-h-72 max-w-full" />
-          <figcaption className="mt-2 text-xs text-danger">Before</figcaption>
+          <img src={`data:${mime};base64,${diff.oldImage}`} alt="上一个版本" className="mx-auto max-h-72 max-w-full" />
+          <figcaption className="mt-2 text-xs text-danger">变更前</figcaption>
         </figure>
       )}
       {diff.newImage && (
         <figure className="flex-1 rounded-lg border border-success/40 bg-surface p-3 text-center">
-          <img src={`data:${mime};base64,${diff.newImage}`} alt="New version" className="mx-auto max-h-72 max-w-full" />
-          <figcaption className="mt-2 text-xs text-success">After</figcaption>
+          <img src={`data:${mime};base64,${diff.newImage}`} alt="新版本" className="mx-auto max-h-72 max-w-full" />
+          <figcaption className="mt-2 text-xs text-success">变更后</figcaption>
         </figure>
       )}
       {!diff.oldImage && !diff.newImage && (
-        <p className="w-full py-8 text-center text-sm text-faint">Image contents unavailable</p>
+        <p className="w-full py-8 text-center text-sm text-faint">图片内容不可用</p>
       )}
     </div>
   );
@@ -200,10 +200,10 @@ export function DiffViewer({
 
   if (diff.isImage) return <ImageDiff diff={diff} />;
   if (diff.isBinary) {
-    return <p className="py-8 text-center text-sm text-faint">Binary file — no text diff</p>;
+    return <p className="py-8 text-center text-sm text-faint">二进制文件——无文本 diff</p>;
   }
   if (diff.hunks.length === 0) {
-    return <p className="py-8 text-center text-sm text-faint">No changes</p>;
+    return <p className="py-8 text-center text-sm text-faint">无更改</p>;
   }
 
   if (!wrap && scrollRef) {

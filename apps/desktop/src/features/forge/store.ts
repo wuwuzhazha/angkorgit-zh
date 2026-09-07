@@ -60,7 +60,7 @@ function hostMatches(a: string, b: string): boolean {
 }
 
 function friendlyForgeError(raw: string, host: string): string {
-  if (/error sending request|^request failed:|failed to read response/i.test(raw)) {
+  if (/error sending request|^请求失败:|failed to read response/i.test(raw)) {
     return `Could not reach ${host} — check your network or VPN, then retry.`;
   }
   return raw;
@@ -168,7 +168,7 @@ export const useForge = create<ForgeState>((set, get) => ({
       } else if (outcome.prs) {
         snapshot = { ...base, hasAccount: true, prs: outcome.prs, error: null, errorDetail: null, loadedAt: Date.now() };
       } else {
-        const raw = outcome.raw ?? 'request failed';
+        const raw = outcome.raw ?? '请求失败';
         snapshot = {
           ...base,
           hasAccount: true,

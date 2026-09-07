@@ -126,7 +126,7 @@ fn discover_ssh_keys(home: Option<&Path>) -> Vec<PathBuf> {
 fn resolved_key_path(path: &str) -> AppResult<PathBuf> {
     let resolved = expand_home(path, home_dir().as_deref());
     if resolved.as_os_str().is_empty() {
-        return Err(AppError::other("choose a path for the key"));
+        return Err(AppError::other("为密钥选择路径"));
     }
     Ok(resolved)
 }
@@ -136,7 +136,7 @@ pub fn ssh_public_key(path: &str) -> AppResult<String> {
     let public = PathBuf::from(format!("{}.pub", private.display()));
     if !public.exists() {
         return Err(AppError::other(format!(
-            "no public key next to {} — expected {}",
+            "{} 旁边没有公钥——预期为 {}",
             private.display(),
             public.display()
         )));
@@ -163,7 +163,7 @@ pub fn ssh_key_generate(base: &str, comment: &str) -> AppResult<GeneratedKey> {
     let requested = resolved_key_path(base)?;
     let private = free_key_path(&requested, path_in_use).ok_or_else(|| {
         AppError::other(format!(
-            "could not find a free name next to {} — remove some old keys first",
+            "在 {} 旁边找不到可用名称——请先删除一些旧密钥",
             requested.display()
         ))
     })?;
@@ -178,7 +178,7 @@ pub fn ssh_key_generate(base: &str, comment: &str) -> AppResult<GeneratedKey> {
         .map_err(|e| AppError::other(format!("could not run ssh-keygen: {e}")))?;
     if !output.status.success() {
         return Err(AppError::other(format!(
-            "ssh-keygen failed: {}",
+            "ssh-keygen 失败：{}",
             String::from_utf8_lossy(&output.stderr).trim()
         )));
     }
@@ -204,12 +204,12 @@ pub fn credential_approve(host: &str, username: &str, password: &str) -> AppResu
     child
         .stdin
         .as_mut()
-        .ok_or_else(|| AppError::other("could not write to git credential"))?
+        .ok_or_else(|| AppError::other("无法写入 git 凭据"))?
         .write_all(input.as_bytes())?;
     let status = child.wait()?;
     if !status.success() {
         return Err(AppError::other(
-            "git credential approve failed — is a credential helper configured?",
+            "git 凭据批准失败——是否已配置凭据助手？",
         ));
     }
     Ok(())
@@ -302,7 +302,7 @@ pub(crate) fn make_callbacks<'a>() -> RemoteCallbacks<'a> {
         let attempt = attempts.fetch_add(1, Ordering::SeqCst);
         if attempt > 6 {
             return Err(git2::Error::from_str(&format!(
-                "authentication rejected for {url} — the server refused the credentials \
+                "{url} 的身份验证被拒绝——服务器拒绝了凭据 \
                  offered by your SSH agent / git credential helper.{}",
                 refused_account_hint(&offered_account)
             )));
@@ -373,7 +373,7 @@ pub(crate) fn make_callbacks<'a>() -> RemoteCallbacks<'a> {
             }
         }
         Err(git2::Error::from_str(&format!(
-            "no usable authentication for {url} — tried SSH agent, ~/.ssh keys and git \
+            "{url} 没有可用的身份验证——已尝试 SSH 代理、~/.ssh 密钥和 git \
              credential helpers. Check `git credential fill` works for this remote, or add \
              your key to the SSH agent (ssh-add).{}",
             refused_account_hint(&offered_account)
@@ -402,7 +402,7 @@ pub fn edit(path: &str, name: &str, new_name: &str, url: &str) -> AppResult<()> 
     let url = url.trim();
     if new_name.is_empty() || url.is_empty() {
         return Err(crate::error::AppError::other(
-            "remote name and URL are both required",
+            "远端名称和 URL 均不能为空",
         ));
     }
     let repo = super::repo::open(path)?;
@@ -436,7 +436,7 @@ pub fn fetch(path: &str, remote_name: &str, tags: bool, prune: bool) -> AppResul
     remote.fetch(&[] as &[&str], Some(&mut opts), None)?;
     Ok(OpOutcome {
         status: "ok".into(),
-        message: format!("Fetched {remote_name}"),
+        message: format!("已拉取 {remote_name}"),
     })
 }
 
@@ -447,15 +447,15 @@ pub fn pull(path: &str, remote_name: &str) -> AppResult<OpOutcome> {
     let head = repo.head()?;
     let branch_name = head
         .shorthand()
-        .ok_or_else(|| AppError::other("HEAD is detached; cannot pull"))?
+        .ok_or_else(|| AppError::other("HEAD 处于游离状态；无法拉取"))?
         .to_string();
     let branch = repo.find_branch(&branch_name, git2::BranchType::Local)?;
     let upstream = branch
         .upstream()
-        .map_err(|_| AppError::other(format!("branch {branch_name} has no upstream")))?;
+        .map_err(|_| AppError::other(format!("分支 {branch_name} 没有上游")))?;
     let upstream_name = upstream
         .name()?
-        .ok_or_else(|| AppError::other("invalid upstream name"))?
+        .ok_or_else(|| AppError::other("无效的上游名称"))?
         .to_string();
     drop(upstream);
     drop(branch);
@@ -487,7 +487,7 @@ pub fn push(
         None => repo
             .head()?
             .shorthand()
-            .ok_or_else(|| AppError::other("HEAD is detached; cannot push"))?
+            .ok_or_else(|| AppError::other("HEAD 处于游离状态；无法推送"))?
             .to_string(),
     };
 
@@ -508,8 +508,8 @@ pub fn push(
     Ok(OpOutcome {
         status: "ok".into(),
         message: format!(
-            "Pushed {branch_name} to {remote_name}{}",
-            if force { " (forced)" } else { "" }
+            "已将 {branch_name} 推送到 {remote_name}{}",
+            if force { "（强制）" } else { "" }
         ),
     })
 }
@@ -519,11 +519,11 @@ pub fn pull_branch(path: &str, branch_name: &str) -> AppResult<OpOutcome> {
         let repo = super::repo::open(path)?;
         let branch = repo.find_branch(branch_name, git2::BranchType::Local)?;
         let upstream = branch.upstream().map_err(|_| {
-            AppError::other(format!("branch {branch_name} has no upstream to pull from"))
+            AppError::other(format!("分支 {branch_name} 没有可拉取的上游"))
         })?;
         let upstream_name = upstream
             .name()?
-            .ok_or_else(|| AppError::other("invalid upstream name"))?
+            .ok_or_else(|| AppError::other("无效的上游名称"))?
             .to_string();
         let remote_name = upstream_name
             .split('/')
@@ -551,11 +551,11 @@ pub fn pull_branch(path: &str, branch_name: &str) -> AppResult<OpOutcome> {
     let local_oid = branch
         .get()
         .target()
-        .ok_or_else(|| AppError::other("branch has no target"))?;
+        .ok_or_else(|| AppError::other("分支没有目标"))?;
     let upstream_oid = upstream
         .get()
         .target()
-        .ok_or_else(|| AppError::other("upstream has no target"))?;
+        .ok_or_else(|| AppError::other("上游没有目标"))?;
 
     if local_oid == upstream_oid {
         return Ok(OpOutcome {
@@ -597,13 +597,13 @@ pub fn checkout_remote_ref(
 ) -> AppResult<()> {
     if !source_ref.starts_with("refs/") {
         return Err(AppError::other(
-            "the source ref must be fully qualified (refs/…)",
+            "源引用必须是完全限定形式（refs/…）",
         ));
     }
     let branch_ref = format!("refs/heads/{local_branch}");
     if !git2::Reference::is_valid_name(&branch_ref) {
         return Err(AppError::other(format!(
-            "'{local_branch}' is not a valid branch name"
+            "“{local_branch}”不是有效的分支名"
         )));
     }
 
@@ -681,7 +681,7 @@ pub fn push_tag(path: &str, remote_name: &str, tag: &str) -> AppResult<OpOutcome
     )?;
     Ok(OpOutcome {
         status: "ok".into(),
-        message: format!("Pushed tag {tag} to {remote_name}"),
+        message: format!("已将标签 {tag} 推送到 {remote_name}"),
     })
 }
 

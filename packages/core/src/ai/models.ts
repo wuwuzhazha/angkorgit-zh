@@ -4,7 +4,7 @@ function parseJson(body: string, provider: string): unknown {
   try {
     return JSON.parse(body);
   } catch {
-    throw new AiError(`${provider} returned invalid JSON`, provider);
+    throw new AiError(`${provider} 返回了无效的 JSON`, provider);
   }
 }
 

@@ -148,12 +148,12 @@ pub async fn read_file(path: String, file: String) -> AppResult<String> {
         let meta = std::fs::metadata(&full)?;
         if meta.len() > MAX_EDITABLE_BYTES {
             return Err(crate::error::AppError::other(
-                "file is larger than 5 MB — open it in an external editor",
+                "文件超过 5 MB——请在外部编辑器中打开",
             ));
         }
         let bytes = std::fs::read(&full)?;
         String::from_utf8(bytes)
-            .map_err(|_| crate::error::AppError::other("file is not valid UTF-8 text"))
+            .map_err(|_| crate::error::AppError::other("文件不是有效的 UTF-8 文本"))
     })
     .await
 }
@@ -188,7 +188,7 @@ pub async fn open_path(path: String) -> AppResult<()> {
             }
         }?;
         if !status.success() {
-            return Err(crate::error::AppError::other("could not open path"));
+            return Err(crate::error::AppError::other("无法打开路径"));
         }
         Ok(())
     })

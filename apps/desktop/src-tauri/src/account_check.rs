@@ -26,7 +26,7 @@ pub async fn check(host: String, username: String) -> AppResult<AccountCheckResu
         move || accounts::find(&host, &username)
     })
     .await?
-    .ok_or_else(|| AppError::other(format!("no account for {username} on {host}")))?;
+    .ok_or_else(|| AppError::other(format!("在 {host} 上找不到 {username} 的账户")))?;
 
     let token = run_blocking({
         let host = account.host.clone();

@@ -20,7 +20,7 @@ interface Row {
 }
 
 const rows: Row[] = [
-  { id: 'wip', lane: 0, msg: 'Uncommitted changes', sub: 'that part is yours', through: [], up: false, down: true, wip: true },
+  { id: 'wip', lane: 0, msg: '未提交的更改', sub: '那部分属于你', through: [], up: false, down: true, wip: true },
   {
     id: 'install',
     lane: 0,
@@ -35,15 +35,15 @@ const rows: Row[] = [
     down: true,
     fromBelow: [1],
   },
-  { id: 'ai', lane: 1, msg: 'Uses the AI you already have', hash: '8f1d2c0', through: [0], up: true, down: true },
-  { id: 'box', lane: 0, msg: 'Everything in the box', hash: '4a91be7', through: [1], up: true, down: true, fromBelow: [2] },
-  { id: 'size', lane: 1, msg: 'Native, not a browser', hash: 'e3c07d1', through: [0, 2], up: true, down: true },
-  { id: 'palette', lane: 2, msg: '⌘K, then type', hash: 'b7720af', through: [0, 1], up: true, down: true },
-  { id: 'graph', lane: 2, msg: 'Drag a branch onto another', hash: '19de4c2', through: [0, 1], up: true, down: false, joinBelow: 0 },
+  { id: 'ai', lane: 1, msg: '使用你已有的 AI', hash: '8f1d2c0', through: [0], up: true, down: true },
+  { id: 'box', lane: 0, msg: '开箱即得的一切', hash: '4a91be7', through: [1], up: true, down: true, fromBelow: [2] },
+  { id: 'size', lane: 1, msg: '原生应用，而非浏览器', hash: 'e3c07d1', through: [0, 2], up: true, down: true },
+  { id: 'palette', lane: 2, msg: '⌘K，然后输入', hash: 'b7720af', through: [0, 1], up: true, down: true },
+  { id: 'graph', lane: 2, msg: '把一个分支拖到另一个分支上', hash: '19de4c2', through: [0, 1], up: true, down: false, joinBelow: 0 },
   {
     id: 'worktrees',
     lane: 1,
-    msg: 'Two branches, two folders',
+    msg: '两个分支，两个文件夹',
     hash: '0c5a3f9',
     refs: [{ label: 'feat/worktrees', kind: 'branch' }],
     through: [0],
@@ -51,7 +51,7 @@ const rows: Row[] = [
     down: false,
     joinBelow: 0,
   },
-  { id: 'conflicts', lane: 0, msg: 'Conflicts you can read', hash: 'd41ab88', through: [], up: true, down: true },
+  { id: 'conflicts', lane: 0, msg: '能读懂的冲突', hash: 'd41ab88', through: [], up: true, down: true },
   { id: 'why', lane: 0, msg: 'init: why I made this', hash: 'a1b2c3d', through: [], up: true, down: false },
 ];
 
@@ -63,7 +63,7 @@ const laneColor = ['--graph-0', '--graph-1', '--graph-3'];
 const color = (lane: number) => `hsl(var(${laneColor[lane]}))`;
 ---
 
-<div class="hg select-none" aria-label="Table of contents drawn as a commit graph" role="navigation">
+<div class="hg select-none" aria-label="以提交图绘制的目录" role="navigation">
   <div class="mock-bar rounded-t-lg border border-border">
     <span class="h-2 w-2 rounded-full" style="background:hsl(var(--graph-0) / 0.8)"></span>
     <span class="font-mono text-[10.5px] tracking-wide text-faint">angkorgit.app</span>

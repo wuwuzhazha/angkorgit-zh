@@ -1,4 +1,4 @@
-# Launch Checklist — angkorgit.app
+# 发布检查清单 — angkorgit.app
 
 Runbook for verifying and re-running the website launch at `https://angkorgit.app`.
 The site is a static Astro build deployed to GitHub Pages by `.github/workflows/website.yml`.
@@ -44,7 +44,7 @@ curl -s https://angkorgit.app/og.png -o /dev/null -w "%{http_code}\n"    # 200
 - Verify via **URL-prefix property** (`https://angkorgit.app/`); the meta tag is in
   `apps/website/src/layouts/Base.astro` and is served once the deployment is live.
 - Submit sitemap `sitemap-index.xml` (Sitemaps → Add a new sitemap).
-- If it reports "Couldn't fetch", the fetch happened while DNS was still flapping — wait for
+- If it reports "无法获取", the fetch happened while DNS was still flapping — wait for
   DNS to settle, then Resubmit.
 - Request indexing for `https://angkorgit.app/` via URL Inspection.
 

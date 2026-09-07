@@ -151,7 +151,7 @@ fn file_diff_from(
 ) -> AppResult<FileDiff> {
     let delta = diff
         .get_delta(delta_index)
-        .ok_or_else(|| AppError::other("delta out of range"))?;
+        .ok_or_else(|| AppError::other("增量超出范围"))?;
     let (new_path, old_path, status) = delta_summary(&delta);
 
     let is_binary = delta.flags().is_binary();
@@ -258,7 +258,7 @@ pub fn commit_files(path: &str, oid: &str) -> AppResult<Vec<CommitFileInfo>> {
     for i in 0..count {
         let delta = diff
             .get_delta(i)
-            .ok_or_else(|| AppError::other("delta out of range"))?;
+            .ok_or_else(|| AppError::other("增量超出范围"))?;
         let (new_path, old_path, status) = delta_summary(&delta);
         let is_binary = delta.flags().is_binary();
         let is_image = is_image_path(&new_path);
@@ -299,7 +299,7 @@ pub fn commit_file_diff(
     for i in 0..count {
         let delta = diff
             .get_delta(i)
-            .ok_or_else(|| AppError::other("delta out of range"))?;
+            .ok_or_else(|| AppError::other("增量超出范围"))?;
         let matches_file = delta
             .new_file()
             .path()

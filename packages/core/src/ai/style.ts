@@ -39,16 +39,16 @@ export const PROJECT_REVIEW_FILE = '.angkorgit/review.md';
 
 export const COMMIT_STYLE_PRESETS: Record<CommitStylePreset, { label: string; description: string }> = {
   conventional: {
-    label: 'Conventional commits',
-    description: 'type(scope): summary — feat, fix, refactor…',
+    label: '约定式提交',
+    description: 'type(scope)：摘要——feat、fix、refactor…',
   },
   plain: {
-    label: 'Plain summary',
-    description: 'Imperative one-liner, no type prefix',
+    label: '简洁摘要',
+    description: '祈使句单行，无类型前缀',
   },
   custom: {
-    label: 'Custom instructions',
-    description: 'Describe your team convention in your own words',
+    label: '自定义说明',
+    description: '用你自己的话描述团队约定',
   },
 };
 
@@ -92,9 +92,9 @@ export function ensureCommitPrefix(message: string, prefix: string): string {
 }
 
 const CONVENTIONAL_INSTRUCTIONS =
-  'Write a conventional-commit style message. First line: type(scope): summary under 72 chars.';
+  '用约定式提交风格写消息。第一行：type(scope)：72 字符以内的摘要。';
 const PLAIN_INSTRUCTIONS =
-  'Write a plain commit message. First line: an imperative summary under 72 chars with no type prefix.';
+  '写一条简洁的提交消息。第一行：72 字符以内的祈使句摘要，无类型前缀。';
 
 export function commitStyleInstructions(style: CommitStyle, prefix: string | null): string {
   const base =

@@ -135,12 +135,12 @@ const COMMIT_BOX_AUTO_MAX = 260;
 const COMMIT_BOX_MAX = 600;
 
 const REVIEW_WAIT_MESSAGES = [
-  'Reading your staged changes…',
-  'Thinking through edge cases…',
-  'Hunting for bugs…',
-  'Checking your conventions…',
-  'Looking for missing tests…',
-  'Polishing the feedback…',
+  '正在读取暂存更改…',
+  '正在思考边界情况…',
+  '正在查找缺陷…',
+  '正在检查你的约定…',
+  '正在查找缺失的测试…',
+  '正在润色反馈…',
 ];
 
 const UNSTAGED_ROW_HEIGHT = 36;
@@ -374,7 +374,7 @@ export function WorkingCopyPanel() {
         toast.success(`Discarded ${before} change${before === 1 ? '' : 's'}`);
       }
     } catch (error) {
-      toast.error(`Discard all failed: ${(error as { message?: string }).message ?? error}`);
+      toast.error(`全部丢弃 failed: ${(error as { message?: string }).message ?? error}`);
     }
   };
 
@@ -394,7 +394,7 @@ export function WorkingCopyPanel() {
     (file: FileStatus, staged: boolean) => {
       void run(
         () => (staged ? ipc.unstageFile(path, file.path) : ipc.stageFile(path, file.path)),
-        staged ? 'Unstage failed' : 'Stage failed',
+        staged ? '取消暂存失败' : '暂存失败',
       );
     },
     [run, path],
@@ -408,11 +408,11 @@ export function WorkingCopyPanel() {
   const requestDiscard = useCallback(
     (file: FileStatus) => {
       void confirmDialog({
-        title: 'Discard changes?',
+        title: '丢弃更改？',
         description:
           file.unstaged === 'untracked'
-            ? 'This file is new — discarding reverts it and deletes the file. This cannot be undone.'
-            : 'All changes in this file will be reverted. This cannot be undone.',
+            ? '该文件是新增文件——丢弃将还原并删除它，此操作无法撤销。'
+            : '该文件的所有更改将被还原，此操作无法撤销。',
         path: file.path,
         confirmLabel: 'Discard',
         destructive: true,
@@ -430,11 +430,11 @@ export function WorkingCopyPanel() {
       return;
     }
     if (!aiConfigured()) {
-      toast.info('Configure an AI provider in Settings first');
+      toast.info('请先在设置中配置 AI 提供方');
       return;
     }
     if (stagedFiles.length === 0) {
-      toast.info('Stage some changes first');
+      toast.info('请先暂存一些更改');
       return;
     }
     const run = ++aiRunRef.current;
@@ -451,7 +451,7 @@ export function WorkingCopyPanel() {
       setMessage(generated);
     } catch (error) {
       if (stillRunning()) {
-        toast.error(`AI request failed: ${(error as { message?: string } | null)?.message ?? String(error)}`);
+        toast.error(`AI 请求失败：${(error as { message?: string } | null)?.message ?? String(error)}`);
       }
     } finally {
       if (stillRunning()) setAiBusy(false);
@@ -460,11 +460,11 @@ export function WorkingCopyPanel() {
 
   const reviewStaged = async () => {
     if (!aiConfigured()) {
-      toast.info('Configure an AI provider in Settings first');
+      toast.info('请先在设置中配置 AI 提供方');
       return;
     }
     if (stagedFiles.length === 0) {
-      toast.info('Stage some changes first');
+      toast.info('请先暂存一些更改');
       return;
     }
     const target = path;
@@ -475,7 +475,7 @@ export function WorkingCopyPanel() {
       const patch = await ipc.stagedPatch(target);
       if (!stillRunning()) return;
       if (!patch.trim()) {
-        toast.info('The staged changes have no reviewable text diff');
+        toast.info('暂存的更改没有可审查的文本差异');
         return;
       }
       const projectInstructions = await ipc.readFile(target, PROJECT_REVIEW_FILE).catch((error) => {
@@ -490,13 +490,13 @@ export function WorkingCopyPanel() {
       });
       if (!stillRunning()) return;
       if (!text) {
-        toast.error('The AI provider returned an empty review — try again or check the model in Settings');
+        toast.error('AI 提供方返回了空审查——请重试或检查设置中的模型');
         return;
       }
       const state = useRepo.getState();
       if (state.repo?.path !== target) return;
       if (buildStagedReviewSignature(state.status?.files ?? []) !== signature) {
-        toast.info('The staged changes changed during the review — run it again');
+        toast.info('审查期间暂存内容发生了变化——请重新运行');
         return;
       }
       useAiWork
@@ -504,7 +504,7 @@ export function WorkingCopyPanel() {
         .setReview(target, { stagedSignature: signature, patchHash: hashText(patch), text });
     } catch (error) {
       if (stillRunning()) {
-        toast.error(`AI request failed: ${(error as { message?: string } | null)?.message ?? String(error)}`);
+        toast.error(`AI 请求失败：${(error as { message?: string } | null)?.message ?? String(error)}`);
       }
     } finally {
       useAiWork.getState().endReview(target, run);
@@ -526,7 +526,7 @@ export function WorkingCopyPanel() {
       await ensureRepoProfile(path);
       if (amend) {
         await ipc.amend(path, message.trim() ? message.trim() : null);
-        toast.success('Commit amended');
+        toast.success('已修订提交');
       } else {
         const summary = message.trim().split('\n')[0].slice(0, 50);
         await useUndo.getState().tracked({
@@ -535,7 +535,7 @@ export function WorkingCopyPanel() {
           label: `commit "${summary}"`,
           action: () => ipc.commit(path, message.trim()),
         });
-        toast.success('Committed');
+        toast.success('已提交');
       }
       setMessage('');
       setAmend(false);
@@ -650,7 +650,7 @@ export function WorkingCopyPanel() {
       <div
         ref={listScrollRef}
         tabIndex={0}
-        aria-label="Changed files"
+        aria-label="已更改文件"
         onKeyDown={onListKeyDown}
         className="relative min-h-0 flex-1 overflow-y-auto p-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/40"
       >
@@ -665,7 +665,7 @@ export function WorkingCopyPanel() {
             <div className="mb-1 flex items-center justify-between px-2">
               <span className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-danger">
                 <AlertTriangle className="size-3.5" />
-                Conflicts <span className="font-normal text-faint">{conflicts.length}</span>
+                冲突 <span className="font-normal text-faint">{conflicts.length}</span>
               </span>
               <Button variant="ghost" size="sm" className="text-danger hover:text-danger" onClick={() => openConflict(conflicts[0])}>
                 Resolve
@@ -687,7 +687,7 @@ export function WorkingCopyPanel() {
                     <span className="max-w-full shrink-0 truncate font-medium text-foreground">{basename(file)}</span>
                     {dirname(file) && <span className="min-w-0 flex-1 truncate text-[11px] text-faint">{dirname(file)}</span>}
                   </span>
-                  <span className="shrink-0 text-[11px] text-danger opacity-0 transition-opacity group-hover:opacity-100">Resolve</span>
+                  <span className="shrink-0 text-[11px] text-danger opacity-0 transition-opacity group-hover:opacity-100">解决</span>
                 </button>
               ))}
             </div>
@@ -711,25 +711,25 @@ export function WorkingCopyPanel() {
                 className="text-danger hover:text-danger"
                 onClick={() => {
                   void confirmDialog({
-                    title: `Discard all ${unstagedFiles.length} change${unstagedFiles.length === 1 ? '' : 's'}?`,
+                    title: `全部丢弃 ${unstagedFiles.length} change${unstagedFiles.length === 1 ? '' : 's'}?`,
                     description:
-                      'Every unstaged change will be reverted and untracked files will be deleted. This cannot be undone — not even with ⌘Z.',
-                    confirmLabel: 'Discard all',
+                      '所有未暂存的更改将被还原，未跟踪的文件将被删除。此操作无法撤销——即使按 ⌘Z 也不行。',
+                    confirmLabel: '全部丢弃',
                     destructive: true,
                   }).then((ok) => {
                     if (ok) void discardEverything();
                   });
                 }}
               >
-                <Trash2 className="size-3" /> Discard all
+                <Trash2 className="size-3" /> 全部丢弃
               </Button>
-              <Button variant="ghost" size="sm" onClick={() => void run(() => ipc.stageAll(path), 'Stage all failed')}>
-                <Plus className="size-3" /> Stage all
+              <Button variant="ghost" size="sm" onClick={() => void run(() => ipc.stageAll(path), '全量暂存失败')}>
+                <Plus className="size-3" /> 全部暂存
               </Button>
             </span>
           )}
         </div>
-        {unstagedFiles.length === 0 && <p className="px-2 pb-2 text-xs text-faint">Working tree clean.</p>}
+        {unstagedFiles.length === 0 && <p className="px-2 pb-2 text-xs text-faint">工作区干净。</p>}
         {fileTree ? (
           <FileTree
             items={unstagedFiles}
@@ -758,13 +758,13 @@ export function WorkingCopyPanel() {
                   onFold={(mode) => setStagedFold((f) => nextFold(f, mode))}
                 />
               )}
-              <Button variant="ghost" size="sm" onClick={() => void run(() => ipc.unstageAll(path), 'Unstage all failed')}>
-                <Minus className="size-3" /> Unstage all
+              <Button variant="ghost" size="sm" onClick={() => void run(() => ipc.unstageAll(path), '全量取消暂存失败')}>
+                <Minus className="size-3" /> 全部取消暂存
               </Button>
             </span>
           )}
         </div>
-        {stagedFiles.length === 0 && <p className="px-2 pb-2 text-xs text-faint">Nothing staged yet.</p>}
+        {stagedFiles.length === 0 && <p className="px-2 pb-2 text-xs text-faint">尚未暂存任何内容。</p>}
         {fileTree ? (
           <FileTree
             items={stagedFiles}
@@ -794,14 +794,14 @@ export function WorkingCopyPanel() {
             <DropdownMenuLabel className="max-w-64 truncate font-mono">{fileMenu.file.path}</DropdownMenuLabel>
             {fileMenu.staged ? (
               <DropdownMenuItem
-                onClick={() => void run(() => ipc.unstageFile(path, fileMenu.file.path), 'Unstage failed')}
+                onClick={() => void run(() => ipc.unstageFile(path, fileMenu.file.path), '取消暂存失败')}
               >
                 <Minus /> Unstage file
               </DropdownMenuItem>
             ) : (
               <>
                 <DropdownMenuItem
-                  onClick={() => void run(() => ipc.stageFile(path, fileMenu.file.path), 'Stage failed')}
+                  onClick={() => void run(() => ipc.stageFile(path, fileMenu.file.path), '暂存失败')}
                 >
                   <Plus /> Stage file
                 </DropdownMenuItem>
@@ -815,7 +815,7 @@ export function WorkingCopyPanel() {
               <Pencil /> Edit file
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => useUi.getState().openFileHistory(fileMenu.file.path)}>
-              <History /> File history
+              <History /> 文件历史
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() =>
@@ -828,7 +828,7 @@ export function WorkingCopyPanel() {
                   )
               }
             >
-              <ExternalLink /> Open in external app
+              <ExternalLink /> 打开 in external app
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() =>
@@ -846,10 +846,10 @@ export function WorkingCopyPanel() {
             <DropdownMenuItem
               onClick={() => {
                 void navigator.clipboard.writeText(fileMenu.file.path);
-                toast.success('Path copied');
+                toast.success('路径已复制');
               }}
             >
-              <Copy /> Copy path
+              <Copy /> 复制路径
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem
@@ -857,16 +857,16 @@ export function WorkingCopyPanel() {
               onClick={() => {
                 const file = fileMenu.file;
                 void confirmDialog({
-                  title: 'Delete file?',
+                  title: '删除文件？',
                   description:
                     file.unstaged === 'untracked'
-                      ? 'The file is untracked — deleting it cannot be undone.'
-                      : 'The file will be removed from your working tree. It can be restored with Discard (the deletion shows as a change).',
+                      ? '该文件未被跟踪——删除后无法撤销。'
+                      : '该文件将从工作区移除，可通过“丢弃”恢复（删除会显示为一次更改）。',
                   path: file.path,
                   confirmLabel: 'Delete',
                   destructive: true,
                 }).then((ok) => {
-                  if (ok) void run(() => ipc.deleteFile(path, file.path), 'Delete failed');
+                  if (ok) void run(() => ipc.deleteFile(path, file.path), '删除失败');
                 });
               }}
             >
@@ -879,7 +879,7 @@ export function WorkingCopyPanel() {
       {status === null ? null : files.length === 0 && !amend && repo?.state !== 'merge' ? (
         <div className="shrink-0 border-t border-border-subtle px-3 py-2">
           <Button variant="ghost" size="sm" className="text-muted" onClick={() => setAmend(true)}>
-            <Undo2 className="size-3" /> Amend last commit…
+            <Undo2 className="size-3" /> 修订上一次提交…
           </Button>
         </div>
       ) : (
@@ -887,8 +887,8 @@ export function WorkingCopyPanel() {
           <div
             role="separator"
             aria-orientation="horizontal"
-            aria-label="Resize commit box"
-            title="Drag to resize · double-click to reset"
+            aria-label="调整提交框大小"
+            title="拖动调整大小 · 双击重置"
             onMouseDown={startResize}
             onDoubleClick={() => useUi.getState().setCommitBoxHeight(null)}
             className={cn(
@@ -906,13 +906,13 @@ export function WorkingCopyPanel() {
             <div className="mb-2 rounded-md border border-primary/30 bg-primary/5 text-xs leading-relaxed">
               <div className="flex items-center justify-between pl-3 pr-1.5 pt-1.5">
                 <span className="flex items-center gap-1.5 font-medium text-primary">
-                  <SearchCheck className="size-3.5" /> AI review
+                  <SearchCheck className="size-3.5" /> AI 审查
                 </span>
-                <Hint label="Stop the review">
+                <Hint label="停止审查">
                   <Button
                     variant="ghost"
                     size="icon-sm"
-                    aria-label="Stop the AI review"
+                    aria-label="停止 AI 审查"
                     onClick={stopReview}
                   >
                     <X className="size-3" />
@@ -931,24 +931,24 @@ export function WorkingCopyPanel() {
             <div className="mb-2 rounded-md border border-primary/30 bg-primary/5 text-xs leading-relaxed">
               <div className="flex items-center justify-between pl-3 pr-1.5 pt-1.5">
                 <span className="flex items-center gap-1.5 font-medium text-primary">
-                  <SearchCheck className="size-3.5" /> AI review
+                  <SearchCheck className="size-3.5" /> AI 审查
                 </span>
                 <span className="flex items-center">
-                  <Hint label="Open review in full view">
+                  <Hint label="在完整视图中打开审查">
                     <Button
                       variant="ghost"
                       size="icon-sm"
-                      aria-label="Open AI review in full view"
+                      aria-label="在完整视图中打开 AI 审查"
                       onClick={() => setReviewExpanded(true)}
                     >
                       <Maximize2 className="size-3" />
                     </Button>
                   </Hint>
-                  <Hint label="Dismiss review">
+                  <Hint label="关闭审查">
                     <Button
                       variant="ghost"
                       size="icon-sm"
-                      aria-label="Dismiss AI review"
+                      aria-label="关闭 AI 审查"
                       onClick={() => useAiWork.getState().setReview(path, null)}
                     >
                       <X className="size-3" />
@@ -978,8 +978,8 @@ export function WorkingCopyPanel() {
                     messageRef.current?.focus();
                   }
                 }}
-                placeholder={amend ? 'New summary (leave empty to keep current)' : 'Summary'}
-                aria-label="Commit summary"
+                placeholder={amend ? '新摘要（留空保持当前）' : '摘要'}
+                aria-label="提交摘要"
                 spellCheck
                 className={cn(
                   'h-9 min-w-0 flex-1 bg-transparent pl-3 text-sm font-medium text-foreground outline-none',
@@ -993,16 +993,16 @@ export function WorkingCopyPanel() {
                     'pointer-events-none absolute right-9 font-mono text-[10px] tabular-nums',
                     summary.length > 72 ? 'text-danger' : 'text-faint',
                   )}
-                  title="Summary length (50 recommended, 72 max)"
+                  title="摘要长度（建议 50，最多 72）"
                 >
                   {summary.length}/72
                 </span>
               )}
-              <Hint label={aiBusy ? 'Stop generating' : 'Generate message with AI'}>
+              <Hint label={aiBusy ? '停止生成' : '用 AI 生成消息'}>
                 <Button
                   variant="ghost"
                   size="icon-sm"
-                  aria-label={aiBusy ? 'Stop generating the commit message' : 'Generate commit message with AI'}
+                  aria-label={aiBusy ? '停止生成提交消息' : '用 AI 生成提交消息'}
                   className="absolute right-1.5"
                   disabled={reviewBusy}
                   onClick={() => void generateMessage()}
@@ -1026,8 +1026,8 @@ export function WorkingCopyPanel() {
                   summaryRef.current?.focus();
                 }
               }}
-              placeholder="Description — what changed and why  ·  ⌘⏎ to commit"
-              aria-label="Commit description"
+              placeholder="说明——改了什么以及为什么  ·  ⌘⏎ 提交"
+              aria-label="提交说明"
               className={cn(
                 'min-h-[72px] resize-none rounded-none border-0 bg-transparent px-3 py-2 text-xs leading-relaxed text-foreground shadow-none focus-visible:ring-0 focus-visible:border-0',
                 commitBoxHeight === null ? 'max-h-[260px]' : 'max-h-[600px] overflow-y-auto',
@@ -1037,9 +1037,9 @@ export function WorkingCopyPanel() {
           <div className="mt-2 flex flex-wrap items-center justify-end gap-2">
             <label className="mr-auto flex cursor-pointer items-center gap-1.5 text-xs text-muted">
               <Checkbox checked={amend} onCheckedChange={(v) => setAmend(v === true)} />
-              <Undo2 className="size-3" /> Amend
+              <Undo2 className="size-3" /> 修订
             </label>
-            <Hint label="Review staged changes with AI before committing">
+            <Hint label="提交前用 AI 审查暂存更改">
               <Button
                 variant="outline"
                 size="sm"
@@ -1051,18 +1051,18 @@ export function WorkingCopyPanel() {
                 ) : (
                   <SearchCheck className="size-3 text-primary" />
                 )}
-                Review
+                审查
               </Button>
             </Hint>
             {repo?.state === 'merge' && (
-              <Hint label="Reset the working copy to the state before the merge started">
+              <Hint label="将工作副本重置为合并开始前的状态">
                 <Button
                   variant="outline"
                   size="sm"
                   className="text-danger hover:text-danger"
                   onClick={() => void abortMergeFlow(path)}
                 >
-                  Abort merge
+                  中止合并
                 </Button>
               </Hint>
             )}
@@ -1076,7 +1076,7 @@ export function WorkingCopyPanel() {
               onClick={() => void commit()}
             >
               {committing && <Spinner className="text-primary-foreground" />}
-              {amend ? 'Amend commit' : `Commit${stagedFiles.length > 0 ? ` ${stagedFiles.length} file${stagedFiles.length === 1 ? '' : 's'}` : ''}`}
+              {amend ? '修订提交' : `提交${stagedFiles.length > 0 ? ` ${stagedFiles.length} 个文件` : ''}`}
             </Button>
           </div>
         </div>
@@ -1085,7 +1085,7 @@ export function WorkingCopyPanel() {
       <AiResultDialog
         open={reviewExpanded && !!review && reviewCurrent}
         onOpenChange={(open) => !open && setReviewExpanded(false)}
-        title="AI review"
+        title="AI 审查"
         icon={<SearchCheck className="size-4 text-primary" />}
         text={review?.text ?? ''}
       />

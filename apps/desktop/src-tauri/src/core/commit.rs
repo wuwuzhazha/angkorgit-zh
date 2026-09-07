@@ -6,7 +6,7 @@ use super::types::OpOutcome;
 
 pub(crate) fn default_signature(repo: &Repository) -> AppResult<git2::Signature<'static>> {
     repo.signature().map_err(|_| {
-        AppError::other("Git identity is not configured. Set user.name and user.email in Settings.")
+        AppError::other("未配置 Git 身份。请在设置中设置 user.name 和 user.email。")
     })
 }
 
@@ -110,7 +110,7 @@ pub fn revert(path: &str, oid: &str) -> AppResult<OpOutcome> {
     repo.cleanup_state()?;
     Ok(OpOutcome {
         status: "ok".into(),
-        message: format!("Reverted {}", &oid[..8.min(oid.len())]),
+        message: format!("已还原 {}", &oid[..8.min(oid.len())]),
     })
 }
 
@@ -118,7 +118,7 @@ pub fn amend(path: &str, message: Option<&str>) -> AppResult<String> {
     let repo = super::repo::open(path)?;
     let head = repo
         .head()
-        .map_err(|_| AppError::other("nothing to amend: repository has no commits"))?;
+        .map_err(|_| AppError::other("没有可修订的内容：仓库没有提交"))?;
     let commit = head.peel_to_commit()?;
     let mut index = repo.index()?;
     let tree_oid = index.write_tree()?;

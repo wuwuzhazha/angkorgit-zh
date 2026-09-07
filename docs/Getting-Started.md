@@ -1,4 +1,4 @@
-# Getting Started
+# 快速开始
 
 Download the latest release for your platform from the
 [releases page](https://github.com/cheat2001/angkorgit/releases).
@@ -14,14 +14,14 @@ certificate**, so your OS asks for a few extra confirmations on first launch.
 2. Launch it. macOS shows *"AngKorGit" cannot be opened* with **Move to
    Trash** — this only means the app has no paid Apple certificate. Close it,
    then go to **System Settings → Privacy & Security**, scroll down, and click
-   **"Open Anyway"** next to the AngKorGit message. Confirm once more. This
+   **"仍然打开"** next to the AngKorGit message. Confirm once more. This
    happens only on the very first launch.
 3. When you open a repository in Desktop/Documents/Downloads, macOS asks
-   *"AngKorGit would like to access files in your … folder"* → **Allow**.
+   *"AngKorGit 想要访问你的…文件夹中的文件"* → **Allow**.
    One prompt per folder, then it's remembered.
 4. If you connect a GitHub/GitLab account, the first git operation per app
    session asks to read the token from your Keychain → **Allow** (plain
-   "Allow" — "Always Allow" has no effect on unsigned apps).
+   "Allow" — "始终允许" has no effect on unsigned apps).
 
 Expect **2–3 clicks total on first run**, then one folder re-confirmation
 after app updates (each unsigned build has a new identity). If a permission

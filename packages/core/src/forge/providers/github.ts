@@ -107,7 +107,7 @@ export function githubForgeProvider(remote: ForgeRemote, http: HttpClient): Forg
         'GET',
         `/repos/${repoPath}/pulls?state=open&sort=updated&direction=desc&per_page=50`,
       )) as GithubPull[];
-      if (!Array.isArray(data)) throw new ForgeError('GitHub returned an unexpected response', 'github');
+      if (!Array.isArray(data)) throw new ForgeError('GitHub 返回了意外的响应', 'github');
       return data.map(mapPull);
     },
     async defaultBranch(): Promise<string> {

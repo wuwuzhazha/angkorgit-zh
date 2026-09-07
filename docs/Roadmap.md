@@ -1,4 +1,4 @@
-# Roadmap
+# 路线图
 
 Updated for v0.10.0 (September 2026). [CHANGELOG.md](../CHANGELOG.md) is the
 authoritative record of what shipped in each release; this file tracks
@@ -22,7 +22,7 @@ direction.
 - [x] Undo/redo for recent operations; drag-and-drop merge/rebase
 - [x] Auto-update: pull-based from GitHub releases, signature-verified
 - [x] Commit signing: SSH and GPG, driven by existing git config (commit.gpgSign, gpg.format, user.signingKey) — covers commit, amend, merge
-- [x] Pull requests: sidebar list, checkout and in-app create with reviewer selection for GitHub, GitLab (incl. self-hosted) and Bitbucket Cloud, through the connected account; browser fallback without one
+- [x] 拉取请求: sidebar list, checkout and in-app create with reviewer selection for GitHub, GitLab (incl. self-hosted) and Bitbucket Cloud, through the connected account; browser fallback without one
 - [x] Graph search: a commit hash (full or a short prefix down to 4 characters) jumps to the commit in the full graph, centered and highlighted; ⌘F focuses the search
 - [x] Performance: fast startup (splash waits for the app, not a timer; heavy views load on first use), a quiet file watcher, on-demand commit diffs, loading overlay on slow repository switches
 

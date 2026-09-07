@@ -90,7 +90,7 @@ export function ConfirmHost() {
         </DialogHeader>
         <DialogFooter>
           <Button variant="ghost" onClick={() => settle(false)}>
-            Cancel
+            取消
           </Button>
           <Button
             ref={confirmRef}

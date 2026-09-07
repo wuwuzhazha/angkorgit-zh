@@ -24,7 +24,7 @@ export function createForgeJsonRequest(
     if (res.status < 200 || res.status >= 300) {
       const detail = parseMessage(res.body);
       throw new ForgeError(
-        `${label} request failed (${res.status})${detail ? `: ${detail}` : ''}`,
+        `${label} 请求失败（${res.status}）${detail ? `: ${detail}` : ''}`,
         forge,
         res.status,
       );
@@ -32,7 +32,7 @@ export function createForgeJsonRequest(
     try {
       return JSON.parse(res.body);
     } catch {
-      throw new ForgeError(`${label} returned invalid JSON`, forge);
+      throw new ForgeError(`${label} 返回了无效的 JSON`, forge);
     }
   };
 }
@@ -46,8 +46,8 @@ export function forgeNoun(
   kind: ForgeKind | null | undefined,
   options: { plural?: boolean; capitalize?: boolean } = {},
 ): string {
-  const base = kind === 'gitlab' ? 'merge request' : 'pull request';
-  const word = options.plural ? `${base}s` : base;
+  const base = kind === 'gitlab' ? '合并请求' : '拉取请求';
+  const word = options.plural ? `${base}` : base;
   return options.capitalize ? word.charAt(0).toUpperCase() + word.slice(1) : word;
 }
 

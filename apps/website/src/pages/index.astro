@@ -25,7 +25,7 @@ import Footer from '../components/Footer.astro';
     <Hero />
     <Story />
 
-    <Scene id="conflicts" lane={0} kicker="Conflicts" title="Conflicts you can <em>read</em>.">
+    <Scene id="conflicts" lane={0} kicker="Conflicts" title="能读懂的<em>冲突</em>。">
       <Fragment slot="body">
         <p>
           Both sides in one view, with line numbers on each so you can talk about line 43 with a colleague. One
@@ -39,11 +39,11 @@ import Footer from '../components/Footer.astro';
       <Conflicts slot="mock" />
     </Scene>
 
-    <Scene id="worktrees" lane={1} kicker="New in 0.10" title="Two branches, <em>two folders</em>, one window." flip>
+    <Scene id="worktrees" lane={1} kicker="0.10 新增" title="两个分支、<em>两个文件夹</em>，一个窗口。" flip>
       <Fragment slot="body">
         <p>
           A worktree is a second checkout of the same repository in a sibling folder. Run a hotfix or an AI agent
-          there while your real work sits untouched. No stash, no "let me just commit this WIP".
+          there while your real work sits untouched. No stash, no "让我先提交这个 WIP".
         </p>
         <p>
           The sidebar lists every worktree with its branch and whether it has changes. Each opens as its own tab.
@@ -54,7 +54,7 @@ import Footer from '../components/Footer.astro';
       <Worktree slot="mock" />
     </Scene>
 
-    <Scene id="graph" lane={2} kicker="Graph" title="Drag a branch onto another. <em>That's the merge.</em>">
+    <Scene id="graph" lane={2} kicker="Graph" title="把一个分支拖到另一个分支上。<em>这就是合并。</em>">
       <Fragment slot="body">
         <p>
           The graph is virtualized, so a hundred thousand commits scroll like fifty. Ref chips show the whole name or
@@ -68,7 +68,7 @@ import Footer from '../components/Footer.astro';
       <GraphScene slot="mock" />
     </Scene>
 
-    <Scene id="palette" lane={2} kicker="Keyboard" title="⌘K, then <em>type</em>." flip>
+    <Scene id="palette" lane={2} kicker="Keyboard" title="⌘K，然后<em>输入</em>。" flip>
       <Fragment slot="body">
         <p>
           Every command in the app is in the palette, including the ones buried in a right-click menu. Shortcuts are

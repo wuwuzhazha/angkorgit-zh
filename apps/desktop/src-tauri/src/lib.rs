@@ -168,5 +168,5 @@ pub fn run() {
             commands::ai_cli_run,
         ])
         .run(tauri::generate_context!())
-        .expect("error while running AngKorGit");
+        .expect("运行 AngKorGit 时出错");
 }

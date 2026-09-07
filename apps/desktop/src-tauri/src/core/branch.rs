@@ -56,7 +56,7 @@ pub fn create(path: &str, name: &str, from_oid: Option<&str>, checkout: bool) ->
         Some(oid) => repo.find_commit(git2::Oid::from_str(oid)?)?,
         None => repo
             .head()
-            .map_err(|_| AppError::other("cannot branch: repository has no commits"))?
+            .map_err(|_| AppError::other("无法创建分支：仓库没有提交"))?
             .peel_to_commit()?,
     };
     repo.branch(name, &commit, false)?;
@@ -108,7 +108,7 @@ pub fn checkout_branch(path: &str, name: &str) -> AppResult<()> {
 fn refuse_if_checked_out_elsewhere(repo: &Repository, branch: &str) -> AppResult<()> {
     match super::worktree::checked_out_elsewhere(repo, branch) {
         Some(location) => Err(AppError::other(format!(
-            "'{branch}' is already checked out in the worktree at {location}. Switch to that worktree to work on it, or check out a different branch here."
+            "“{branch}”已在位于 {location} 的工作树中检出。请切换到该工作树继续操作，或在此检出其他分支。"
         ))),
         None => Ok(()),
     }
@@ -171,7 +171,7 @@ pub fn merge(path: &str, branch: &str, no_ff: bool) -> AppResult<OpOutcome> {
     if analysis.is_up_to_date() {
         return Ok(OpOutcome {
             status: "up_to_date".into(),
-            message: format!("Already up to date with {branch}"),
+            message: format!("已与 {branch} 保持最新"),
         });
     }
 
@@ -195,7 +195,7 @@ pub fn merge(path: &str, branch: &str, no_ff: bool) -> AppResult<OpOutcome> {
     if index.has_conflicts() {
         return Ok(OpOutcome {
             status: "conflicts".into(),
-            message: format!("Merge of {branch} has conflicts to resolve"),
+            message: format!("合并 {branch} 存在待解决的冲突"),
         });
     }
 
@@ -217,7 +217,7 @@ pub fn merge(path: &str, branch: &str, no_ff: bool) -> AppResult<OpOutcome> {
     repo.cleanup_state()?;
     Ok(OpOutcome {
         status: "ok".into(),
-        message: format!("Merged {branch}"),
+        message: format!("已合并 {branch}"),
     })
 }
 
@@ -244,7 +244,7 @@ pub fn rebase(path: &str, upstream: &str) -> AppResult<OpOutcome> {
         if index.has_conflicts() {
             return Ok(OpOutcome {
                 status: "conflicts".into(),
-                message: "Rebase paused on conflicts. Resolve them, then continue.".into(),
+                message: "变基因冲突暂停。请解决冲突后继续。".into(),
             });
         }
         match rebase.commit(None, &sig, None) {
@@ -256,7 +256,7 @@ pub fn rebase(path: &str, upstream: &str) -> AppResult<OpOutcome> {
     rebase.finish(Some(&sig))?;
     Ok(OpOutcome {
         status: "ok".into(),
-        message: format!("Rebased onto {upstream}"),
+        message: format!("已变基到 {upstream}"),
     })
 }
 
@@ -270,7 +270,7 @@ pub fn rebase_continue(path: &str) -> AppResult<OpOutcome> {
         if index.has_conflicts() {
             return Ok(OpOutcome {
                 status: "conflicts".into(),
-                message: "Conflicts are still unresolved.".into(),
+                message: "冲突仍未解决。".into(),
             });
         }
     }
@@ -286,7 +286,7 @@ pub fn rebase_continue(path: &str) -> AppResult<OpOutcome> {
         if index.has_conflicts() {
             return Ok(OpOutcome {
                 status: "conflicts".into(),
-                message: "Rebase paused on conflicts. Resolve them, then continue.".into(),
+                message: "变基因冲突暂停。请解决冲突后继续。".into(),
             });
         }
         match rebase.commit(None, &sig, None) {
@@ -298,7 +298,7 @@ pub fn rebase_continue(path: &str) -> AppResult<OpOutcome> {
     rebase.finish(Some(&sig))?;
     Ok(OpOutcome {
         status: "ok".into(),
-        message: "Rebase complete".into(),
+        message: "变基完成".into(),
     })
 }
 
@@ -325,7 +325,7 @@ pub fn rebase_commits(path: &str, base: &str) -> AppResult<Vec<CommitInfo>> {
     loop {
         if current.parent_count() > 1 {
             return Err(AppError::other(format!(
-                "'{}' is a merge commit — interactive rebase across merges isn't supported",
+                "“{}”是一个合并提交——不支持跨合并的交互式变基",
                 current.summary().unwrap_or("")
             )));
         }
@@ -337,7 +337,7 @@ pub fn rebase_commits(path: &str, base: &str) -> AppResult<Vec<CommitInfo>> {
         ));
         if commits.len() > MAX_INTERACTIVE_COMMITS {
             return Err(AppError::other(
-                "the rebase range is too large — pick a closer base commit",
+                "变基范围过大——请选择更近的基础提交",
             ));
         }
         let parent = current.parent(0).map_err(|_| {
@@ -357,7 +357,7 @@ fn ensure_tracked_clean(repo: &Repository) -> AppResult<()> {
     let statuses = repo.statuses(Some(&mut opts))?;
     if !statuses.is_empty() {
         return Err(AppError::other(
-            "working tree has uncommitted changes — commit or stash them first",
+            "工作区有未提交的更改——请先提交或暂存",
         ));
     }
     Ok(())
@@ -374,18 +374,18 @@ pub fn rebase_interactive(path: &str, base: &str, todo: &[RebaseTodoEntry]) -> A
     for entry in todo {
         if !allowed.contains(entry.oid.as_str()) {
             return Err(AppError::other(
-                "the rebase plan contains a commit outside the rebase range",
+                "变基计划包含变基范围之外的提交",
             ));
         }
         if !seen.insert(entry.oid.as_str()) {
-            return Err(AppError::other("the rebase plan lists a commit twice"));
+            return Err(AppError::other("变基计划中某个提交出现了两次"));
         }
         if !matches!(
             entry.action.as_str(),
             "pick" | "reword" | "squash" | "fixup" | "drop"
         ) {
             return Err(AppError::other(format!(
-                "unknown rebase action: {}",
+                "未知的变基操作：{}",
                 entry.action
             )));
         }
@@ -402,7 +402,7 @@ pub fn rebase_interactive(path: &str, base: &str, todo: &[RebaseTodoEntry]) -> A
         let mut index = repo.cherrypick_commit(&commit, &parent, 0, None)?;
         if index.has_conflicts() {
             return Err(AppError::Conflict(format!(
-                "'{}' would conflict at this position — reorder or drop it (nothing was changed)",
+                "“{}”在此位置会产生冲突——请重新排序或丢弃它（未做任何更改）",
                 commit.summary().unwrap_or("")
             )));
         }
@@ -411,7 +411,7 @@ pub fn rebase_interactive(path: &str, base: &str, todo: &[RebaseTodoEntry]) -> A
         if squashing {
             if !built_any {
                 return Err(AppError::other(
-                    "cannot squash the first commit — there is no earlier commit to fold it into",
+                    "无法压缩第一个提交——没有更早的提交可供合并",
                 ));
             }
             let message = if entry.action == "fixup" {
@@ -537,13 +537,13 @@ pub fn cherry_pick_many(path: &str, oids: &[String], record_origin: bool) -> App
             let remaining = oids.len() - applied - 1;
             let rest = match remaining {
                 0 => String::new(),
-                1 => "; 1 more commit is waiting".into(),
-                n => format!("; {n} more commits are waiting"),
+                1 => "；另有 1 个提交正在等待".into(),
+                n => format!("；另有 {n} 个提交正在等待"),
             };
             return Ok(OpOutcome {
                 status: "conflicts".into(),
                 message: format!(
-                    "Cherry-picked {applied} of {} commits. {short} has conflicts to resolve{rest}",
+                    "已拣选 {applied}/{} 个提交。{short} 存在待解决的冲突{rest}",
                     oids.len()
                 ),
             });
@@ -562,7 +562,7 @@ pub fn reset(path: &str, oid: &str, mode: &str) -> AppResult<()> {
         "soft" => ResetType::Soft,
         "mixed" => ResetType::Mixed,
         "hard" => ResetType::Hard,
-        _ => return Err(AppError::other(format!("unknown reset mode: {mode}"))),
+        _ => return Err(AppError::other(format!("未知的重置模式：{mode}"))),
     };
     repo.reset(&obj, kind, None)?;
     Ok(())

@@ -88,7 +88,7 @@ export function gitlabForgeProvider(remote: ForgeRemote, http: HttpClient): Forg
         'GET',
         `/projects/${projectId}/merge_requests?state=opened&order_by=updated_at&sort=desc&per_page=50`,
       )) as GitlabMergeRequest[];
-      if (!Array.isArray(data)) throw new ForgeError('GitLab returned an unexpected response', 'gitlab');
+      if (!Array.isArray(data)) throw new ForgeError('GitLab 返回了意外的响应', 'gitlab');
       return data.map(mapMergeRequest);
     },
     async defaultBranch(): Promise<string> {

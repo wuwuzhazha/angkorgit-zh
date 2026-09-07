@@ -14,7 +14,7 @@ export class ErrorBoundary extends Component<{ children: ReactNode }, State> {
   }
 
   componentDidCatch(error: Error, info: { componentStack?: string | null }) {
-    console.error('AngKorGit crashed:', error, info.componentStack);
+    console.error('AngKorGit 崩溃了：', error, info.componentStack);
   }
 
   private copyDetails = () => {
@@ -33,7 +33,7 @@ export class ErrorBoundary extends Component<{ children: ReactNode }, State> {
         <Logo size={48} className="text-foreground" />
         <div className="flex items-center gap-2 text-danger">
           <AlertTriangle className="size-5" />
-          <h1 className="text-lg font-semibold text-foreground">Something went wrong</h1>
+          <h1 className="text-lg font-semibold text-foreground">出了点问题</h1>
         </div>
         <p className="max-w-md text-sm text-muted">
           AngKorGit hit an unexpected error. Your repositories are safe — this only affects the

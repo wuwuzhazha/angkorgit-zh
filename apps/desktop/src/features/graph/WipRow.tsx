@@ -42,7 +42,7 @@ export function WipRow({
     <div
       role="button"
       tabIndex={0}
-      aria-label={`${counts.total} uncommitted file change${counts.total === 1 ? '' : 's'} — view working copy`}
+      aria-label={`${counts.total}个未提交的文件更改——查看工作副本`}
       onClick={focusWorkingCopy}
       onKeyDown={(e) => {
         if (e.key === 'Enter' || e.key === ' ') focusWorkingCopy();
@@ -70,16 +70,16 @@ export function WipRow({
         />
       </svg>
       <Pencil className="size-3.5 shrink-0 text-primary" />
-      <span className="font-mono text-xs text-primary">// WIP</span>
+      <span className="font-mono text-xs text-primary">// 未提交</span>
       <span className="min-w-0 truncate text-muted">
-        {counts.total} uncommitted change{counts.total === 1 ? '' : 's'}
+        {counts.total}个未提交的更改
       </span>
       <span className="ml-auto flex shrink-0 items-center gap-1">
-        {counts.conflicted > 0 && <Badge tone="danger">{counts.conflicted} conflicted</Badge>}
-        {counts.staged > 0 && <Badge tone="success">{counts.staged} staged</Badge>}
-        {counts.unstaged > 0 && <Badge tone="info">{counts.unstaged} modified</Badge>}
+        {counts.conflicted > 0 && <Badge tone="danger">{counts.conflicted} 个冲突</Badge>}
+        {counts.staged > 0 && <Badge tone="success">{counts.staged} 个已暂存</Badge>}
+        {counts.unstaged > 0 && <Badge tone="info">{counts.unstaged} 个修改</Badge>}
         <span className="rounded-md border border-primary/40 px-2 py-0.5 text-[11px] font-medium text-primary">
-          View changes
+          查看更改
         </span>
       </span>
     </div>

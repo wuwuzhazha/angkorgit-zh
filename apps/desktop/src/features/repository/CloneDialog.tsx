@@ -46,7 +46,7 @@ export function CloneDialog({ onCloned }: { onCloned: (path: string) => void }) 
       const name = url.trim().replace(/\.git$/, '').split('/').pop() ?? 'repository';
       const target = `${into.replace(/\/$/, '')}/${name}`;
       const path = await ipc.cloneRepository(url.trim(), target);
-      toast.success('Repository cloned');
+      toast.success('仓库已克隆');
       closeDialog();
       onCloned(path);
     } catch (error) {
@@ -59,7 +59,7 @@ export function CloneDialog({ onCloned }: { onCloned: (path: string) => void }) 
     <Dialog open={open} onOpenChange={(o) => !o && closeDialog()}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Clone repository</DialogTitle>
+          <DialogTitle>克隆仓库</DialogTitle>
           <DialogDescription>
             HTTPS or SSH URL. HTTPS uses your saved accounts first, then the system credential
             helper; SSH uses your agent and keys.
@@ -77,7 +77,7 @@ export function CloneDialog({ onCloned }: { onCloned: (path: string) => void }) 
           />
           <div className="flex gap-2">
             <Input
-              placeholder="Destination folder"
+              placeholder="目标文件夹"
               value={into}
               onChange={(e) => setInto(e.target.value)}
               onKeyDown={(e) => {
@@ -87,9 +87,9 @@ export function CloneDialog({ onCloned }: { onCloned: (path: string) => void }) 
             <Button
               variant="secondary"
               size="icon"
-              aria-label="Browse destination"
+              aria-label="浏览目标文件夹"
               onClick={async () => {
-                const dir = await pickDirectory('Choose destination folder');
+                const dir = await pickDirectory('选择目标文件夹');
                 if (dir) setInto(dir);
               }}
             >
@@ -105,18 +105,18 @@ export function CloneDialog({ onCloned }: { onCloned: (path: string) => void }) 
                 />
               </div>
               <span className="text-xs text-muted">
-                {progress === 0 ? 'Connecting…' : `Cloning… ${Math.round(progress)}%`}
+                {progress === 0 ? '正在连接…' : `正在克隆… ${Math.round(progress)}%`}
               </span>
             </div>
           )}
         </div>
         <DialogFooter>
           <Button variant="ghost" onClick={closeDialog}>
-            Cancel
+            取消
           </Button>
           <Button onClick={() => void clone()} disabled={progress !== null || !url.trim() || !into.trim()}>
             {progress !== null ? <Spinner className="text-primary-foreground" /> : null}
-            Clone
+            克隆
           </Button>
         </DialogFooter>
       </DialogContent>

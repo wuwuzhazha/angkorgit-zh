@@ -71,9 +71,9 @@ function RepoSwitcher() {
     try {
       await applyProfileToRepo(repo.path, profile);
       setActiveEmail(profile.email);
-      toast.success(`${repo.name} now uses the "${profile.label}" profile`);
+      toast.success(`仓库 ${repo.name} 现在使用配置“${profile.label}”`);
     } catch (error) {
-      toast.error(`Could not switch profile: ${(error as { message?: string }).message ?? error}`);
+      toast.error(`无法切换配置：${(error as { message?: string }).message ?? error}`);
     }
   };
 
@@ -87,9 +87,9 @@ function RepoSwitcher() {
     if (path === repo.path) return;
     try {
       await open(path);
-      toast.success(`Switched to ${path.split('/').pop()}`);
+      toast.success(`已切换到 ${path.split('/').pop()}`);
     } catch (error) {
-      toast.error(`Could not open repository: ${(error as { message?: string }).message ?? error}`);
+      toast.error(`无法打开仓库：${(error as { message?: string }).message ?? error}`);
     }
   };
 
@@ -102,7 +102,7 @@ function RepoSwitcher() {
             'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60',
           )}
           disabled={!!busy}
-          aria-label="Switch repository"
+          aria-label="切换仓库"
         >
           <Logo size={22} className="text-foreground" />
           <span className="leading-tight">
@@ -111,8 +111,8 @@ function RepoSwitcher() {
               <ChevronDown className="size-3 text-faint" />
             </span>
             <span className="block font-mono text-[10px] text-faint">
-              {repo.isDetached ? 'detached HEAD' : repo.headBranch ?? 'no branch'}
-              {repo.isWorktree ? ' · worktree' : ''}
+              {repo.isDetached ? '游离的 HEAD' : repo.headBranch ?? '无分支'}
+              {repo.isWorktree ? ' · 工作树' : ''}
               {assignedProfile ? ` · ${assignedProfile.label}` : ''}
             </span>
           </span>
@@ -122,7 +122,7 @@ function RepoSwitcher() {
         align="start"
         className="flex max-h-[min(70vh,var(--radix-dropdown-menu-content-available-height))] min-w-72 flex-col"
       >
-        <DropdownMenuLabel>Repositories</DropdownMenuLabel>
+        <DropdownMenuLabel>仓库列表</DropdownMenuLabel>
         <div className="min-h-0 flex-1 overflow-y-auto">
           {recents.map((recent) => {
             const isCurrent = recent.path === repo.path;
@@ -141,22 +141,22 @@ function RepoSwitcher() {
         <DropdownMenuItem
           onClick={() =>
             void (async () => {
-              const dir = await pickDirectory('Open a Git repository');
+              const dir = await pickDirectory('打开 Git 仓库');
               if (dir) await switchTo(dir);
             })()
           }
         >
-          <FolderOpen /> Open repository…
+          <FolderOpen /> 打开仓库…
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => openDialog('clone')}>
-          <GitBranchPlus /> Clone repository…
+          <GitBranchPlus /> 克隆仓库…
         </DropdownMenuItem>
         {profiles.length > 0 && (
           <>
             <DropdownMenuSeparator />
             <DropdownMenuSub>
               <DropdownMenuSubTrigger>
-                <UserRound /> Profile
+                <UserRound /> 身份配置
               </DropdownMenuSubTrigger>
               <DropdownMenuSubContent>
                 {profiles.map((profile) => {
@@ -181,11 +181,11 @@ function RepoSwitcher() {
 }
 
 const STATE_LABELS: Record<string, string> = {
-  rebase: 'Rebase in progress',
-  merge: 'Merge in progress',
-  cherrypick: 'Cherry-pick in progress',
-  revert: 'Revert in progress',
-  bisect: 'Bisect in progress',
+  rebase: '变基进行中',
+  merge: '合并进行中',
+  cherrypick: '拣选进行中',
+  revert: '还原进行中',
+  bisect: '二分查找进行中',
 };
 
 function StateActions({ onRefresh }: { onRefresh: () => Promise<void> }) {
@@ -200,9 +200,9 @@ function StateActions({ onRefresh }: { onRefresh: () => Promise<void> }) {
     void (async () => {
       try {
         const outcome = await ipc.rebaseContinue(path);
-        toastOutcome(outcome, 'Rebase continued');
+        toastOutcome(outcome, '变基已继续');
       } catch (error) {
-        toast.error(`Continue failed: ${(error as { message?: string }).message ?? error}`);
+        toast.error(`继续失败：${(error as { message?: string }).message ?? error}`);
       }
       finish();
     })();
@@ -210,18 +210,18 @@ function StateActions({ onRefresh }: { onRefresh: () => Promise<void> }) {
   const abortRebase = () =>
     void (async () => {
       const ok = await confirmDialog({
-        title: 'Abort rebase?',
+        title: '中止变基？',
         description:
-          'This rewinds the branch to where it was before the rebase started. Commits made during the rebase are discarded.',
-        confirmLabel: 'Abort rebase',
+          '这会回退分支到变基开始之前的状态，变基期间产生的提交将被丢弃。',
+        confirmLabel: '中止变基',
         destructive: true,
       });
       if (!ok) return;
       try {
         await ipc.rebaseAbort(path);
-        toast.success('Rebase aborted');
+        toast.success('变基已中止');
       } catch (error) {
-        toast.error(`Abort failed: ${(error as { message?: string }).message ?? error}`);
+        toast.error(`中止失败：${(error as { message?: string }).message ?? error}`);
       }
       finish();
     })();
@@ -231,17 +231,17 @@ function StateActions({ onRefresh }: { onRefresh: () => Promise<void> }) {
   const clearState = () =>
     void (async () => {
       const ok = await confirmDialog({
-        title: `Clear ${state} state?`,
+        title: `清除 ${state} 状态？`,
         description:
-          `Git still marks this repository as mid-${state}. Clearing removes that marker and keeps every file and commit exactly as it is now. Use this when the ${state} is already finished.`,
-        confirmLabel: 'Clear state',
+          `Git 仍会将此仓库标记为进行中的 ${state}。清除将移除该标记，并保持所有文件和提交原样不变。当 ${state} 已经完成时使用。`,
+        confirmLabel: '清除状态',
       });
       if (!ok) return;
       try {
         await ipc.stateCleanup(path);
-        toast.success('State cleared');
+        toast.success('已清除状态');
       } catch (error) {
-        toast.error(`Clear failed: ${(error as { message?: string }).message ?? error}`);
+        toast.error(`清除失败：${(error as { message?: string }).message ?? error}`);
       }
       finish();
     })();
@@ -257,7 +257,7 @@ function StateActions({ onRefresh }: { onRefresh: () => Promise<void> }) {
               'font-mono text-[11px] text-danger hover:bg-danger/20',
               'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-danger/60',
             )}
-            aria-label={`${state} in progress — actions`}
+            aria-label={`${state} 进行中——操作`}
           >
             {state}
             <ChevronDown className="size-3" />
@@ -269,21 +269,21 @@ function StateActions({ onRefresh }: { onRefresh: () => Promise<void> }) {
         {state === 'rebase' && (
           <>
             <DropdownMenuItem onClick={continueRebase}>
-              <Redo2 /> Continue rebase
+              <Redo2 /> 继续变基
             </DropdownMenuItem>
             <DropdownMenuItem destructive onClick={abortRebase}>
-              <Undo2 /> Abort rebase
+              <Undo2 /> 中止变基
             </DropdownMenuItem>
           </>
         )}
         {state === 'merge' && (
           <DropdownMenuItem destructive onClick={abortMerge}>
-            <Undo2 /> Abort merge
+            <Undo2 /> 中止合并
           </DropdownMenuItem>
         )}
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={clearState}>
-          <Check /> Clear state, keep everything as is
+          <Check /> 清除状态，保持一切原样
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
@@ -312,18 +312,18 @@ function UndoRedoButtons({ onRefresh }: { onRefresh: () => Promise<void> }) {
         label={
           nextUndo ? (
             <span className="flex items-center gap-1">
-              Undo: {nextUndo.label} <Kbd>{modKey()}</Kbd>
+              撤销：{nextUndo.label} <Kbd>{modKey()}</Kbd>
               <Kbd>Z</Kbd>
             </span>
           ) : (
-            'Nothing to undo'
+            '无可撤销'
           )
         }
       >
         <Button
           variant="ghost"
           size="icon"
-          aria-label="Undo"
+          aria-label="撤销"
           disabled={!nextUndo}
           onClick={() => run('undo')}
         >
@@ -334,19 +334,19 @@ function UndoRedoButtons({ onRefresh }: { onRefresh: () => Promise<void> }) {
         label={
           nextRedo ? (
             <span className="flex items-center gap-1">
-              Redo: {nextRedo.label} <Kbd>{modKey()}</Kbd>
+              重做：{nextRedo.label} <Kbd>{modKey()}</Kbd>
               <Kbd>⇧</Kbd>
               <Kbd>Z</Kbd>
             </span>
           ) : (
-            'Nothing to redo'
+            '无可重做'
           )
         }
       >
         <Button
           variant="ghost"
           size="icon"
-          aria-label="Redo"
+          aria-label="重做"
           disabled={!nextRedo}
           onClick={() => run('redo')}
         >
@@ -386,7 +386,7 @@ export function Toolbar({ onRefresh }: { onRefresh: () => Promise<void> }) {
       }
       await onRefresh();
     } catch (error) {
-      toast.error(`${label} failed: ${(error as { message?: string }).message ?? error}`);
+      toast.error(`${label} 失败：${(error as { message?: string }).message ?? error}`);
     } finally {
       setBusy(null);
     }
@@ -402,7 +402,7 @@ export function Toolbar({ onRefresh }: { onRefresh: () => Promise<void> }) {
 
   return (
     <header className="flex h-12 shrink-0 items-center gap-1 border-b border-border-subtle bg-surface px-2">
-      <Hint label="Back to repositories">
+      <Hint label="返回仓库列表">
         <Button variant="ghost" size="icon" aria-label="Home" onClick={() => navigate('/welcome')}>
           <Home />
         </Button>
@@ -410,7 +410,7 @@ export function Toolbar({ onRefresh }: { onRefresh: () => Promise<void> }) {
       <Hint
         label={
           <span className="flex items-center gap-1">
-            {sidebarOpen ? 'Hide sidebar' : 'Show sidebar'} <Kbd>{modKey()}</Kbd>
+            {sidebarOpen ? '隐藏侧边栏' : '显示侧边栏'} <Kbd>{modKey()}</Kbd>
             <Kbd>B</Kbd>
           </span>
         }
@@ -418,7 +418,7 @@ export function Toolbar({ onRefresh }: { onRefresh: () => Promise<void> }) {
         <Button
           variant="ghost"
           size="icon"
-          aria-label={sidebarOpen ? 'Hide sidebar' : 'Show sidebar'}
+          aria-label={sidebarOpen ? '隐藏侧边栏' : '显示侧边栏'}
           className={!sidebarOpen ? 'text-primary' : undefined}
           onClick={toggleSidebar}
         >
@@ -432,59 +432,59 @@ export function Toolbar({ onRefresh }: { onRefresh: () => Promise<void> }) {
 
       <Separator orientation="vertical" className="mx-2 h-6" />
 
-      <Hint label={`Fetch ${remote}`}>
+      <Hint label={`获取 ${remote}`}>
         <Button
           variant="ghost"
           size="sm"
           disabled={!!busy}
-          onClick={() => void run('Fetch', () => ipc.fetch(repo.path, remote, true, true))}
+          onClick={() => void run('获取', () => ipc.fetch(repo.path, remote, true, true))}
         >
-          <RefreshCw className={busy === 'Fetch' ? 'animate-spin' : ''} />
-          Fetch
+          <RefreshCw className={busy === '获取' ? 'animate-spin' : ''} />
+          获取
         </Button>
       </Hint>
-      <Hint label={`Pull from ${remote}${status?.behind ? ` (${status.behind} behind)` : ''}`}>
+      <Hint label={`从 ${remote} 拉取${status?.behind ? ` (${status.behind} behind)` : ''}`}>
         <Button
           variant="ghost"
           size="sm"
           disabled={!!busy}
-          onClick={() => void run('Pull', () => ipc.pull(repo.path, remote))}
+          onClick={() => void run('拉取', () => ipc.pull(repo.path, remote))}
         >
           <ArrowDownToLine />
-          Pull
+          拉取
           {status && status.behind > 0 && <Badge tone="info">{capCount(status.behind)}</Badge>}
         </Button>
       </Hint>
       <div className="flex items-center">
-        <Hint label={`Push to ${remote}${status?.ahead ? ` (${status.ahead} ahead)` : ''}`}>
+        <Hint label={`推送到 ${remote}${status?.ahead ? ` (${status.ahead} ahead)` : ''}`}>
           <Button
             variant="ghost"
             size="sm"
             className="rounded-r-none"
             disabled={!!busy}
-            onClick={() => runPush('Push', () => ipc.push(repo.path, remote, false, false, true))}
+            onClick={() => runPush('推送', () => ipc.push(repo.path, remote, false, false, true))}
           >
             <ArrowUpFromLine />
-            Push
+            推送
             {status && status.ahead > 0 && <Badge tone="primary">{capCount(status.ahead)}</Badge>}
           </Button>
         </Hint>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon-sm" className="rounded-l-none" aria-label="Push options" disabled={!!busy}>
+            <Button variant="ghost" size="icon-sm" className="rounded-l-none" aria-label="推送选项" disabled={!!busy}>
               <ChevronDown className="size-3.5" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="start">
-            <DropdownMenuItem onClick={() => runPush('Push (force)', () => ipc.push(repo.path, remote, true, false, true))} destructive>
-              Force push
+            <DropdownMenuItem onClick={() => runPush('推送（强制）', () => ipc.push(repo.path, remote, true, false, true))} destructive>
+              强制推送
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => runPush('Push with tags', () => ipc.push(repo.path, remote, false, true, true))}>
-              Push with tags
+            <DropdownMenuItem onClick={() => runPush('推送（含标签）', () => ipc.push(repo.path, remote, false, true, true))}>
+              推送（含标签）
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => void run('Fetch tags', () => ipc.fetch(repo.path, remote, true, false))}>
-              Fetch tags
+            <DropdownMenuItem onClick={() => void run('拉取标签', () => ipc.fetch(repo.path, remote, true, false))}>
+              拉取标签
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -492,18 +492,18 @@ export function Toolbar({ onRefresh }: { onRefresh: () => Promise<void> }) {
 
       <Separator orientation="vertical" className="mx-2 h-6" />
 
-      <Hint label="Create branch">
-        <Button variant="ghost" size="icon" aria-label="Create branch" onClick={() => openDialog('createBranch')}>
+      <Hint label="新建分支">
+        <Button variant="ghost" size="icon" aria-label="新建分支" onClick={() => openDialog('createBranch')}>
           <GitBranchPlus />
         </Button>
       </Hint>
-      <Hint label="Create tag">
-        <Button variant="ghost" size="icon" aria-label="Create tag" onClick={() => openDialog('createTag')}>
+      <Hint label="新建标签">
+        <Button variant="ghost" size="icon" aria-label="新建标签" onClick={() => openDialog('createTag')}>
           <Tag />
         </Button>
       </Hint>
-      <Hint label="Stash changes">
-        <Button variant="ghost" size="icon" aria-label="Stash changes" onClick={() => openDialog('createStash')}>
+      <Hint label="暂存更改">
+        <Button variant="ghost" size="icon" aria-label="暂存更改" onClick={() => openDialog('createStash')}>
           <Archive />
         </Button>
       </Hint>
@@ -517,32 +517,32 @@ export function Toolbar({ onRefresh }: { onRefresh: () => Promise<void> }) {
         <Hint
           label={
             <span className="flex items-center gap-1">
-              Command palette <Kbd>{modKey()}</Kbd>
+              命令面板 <Kbd>{modKey()}</Kbd>
               <Kbd>K</Kbd>
             </span>
           }
         >
-          <Button variant="ghost" size="icon" aria-label="Command palette" onClick={() => setPaletteOpen(true)}>
+          <Button variant="ghost" size="icon" aria-label="命令面板" onClick={() => setPaletteOpen(true)}>
             <Command />
           </Button>
         </Hint>
         <Hint
           label={
             <span className="flex items-center gap-1">
-              Terminal <Kbd>{modKey()}</Kbd>
+              终端 <Kbd>{modKey()}</Kbd>
               <Kbd>`</Kbd>
             </span>
           }
         >
-          <Button variant="ghost" size="icon" aria-label="Toggle terminal" onClick={toggleTerminal}>
+          <Button variant="ghost" size="icon" aria-label="切换终端" onClick={toggleTerminal}>
             <SquareTerminal />
           </Button>
         </Hint>
-        <Hint label="Refresh">
+        <Hint label="刷新">
           <Button
             variant="ghost"
             size="icon"
-            aria-label="Refresh"
+            aria-label="刷新"
             onClick={() => {
               setSpinning(true);
               void onRefresh().finally(() => setSpinning(false));
@@ -551,8 +551,8 @@ export function Toolbar({ onRefresh }: { onRefresh: () => Promise<void> }) {
             <RefreshCw className={spinning ? 'animate-spin' : ''} />
           </Button>
         </Hint>
-        <Hint label="Settings">
-          <Button variant="ghost" size="icon" aria-label="Settings" onClick={() => openDialog('settings')}>
+        <Hint label="设置">
+          <Button variant="ghost" size="icon" aria-label="设置" onClick={() => openDialog('settings')}>
             <Settings />
           </Button>
         </Hint>

@@ -9,7 +9,7 @@ import { NAV, SITE } from '../lib/site';
   class="sticky top-0 z-50 border-b border-border-subtle/70 bg-background/80 backdrop-blur-md"
 >
   <div class="container-site flex h-16 items-center justify-between gap-4">
-    <a href="/" class="flex items-center gap-2.5" aria-label="AngKorGit home">
+    <a href="/" class="flex items-center gap-2.5" aria-label="AngKorGit 主页">
       <Logo size={30} class="text-foreground" />
       <span class="text-[15px] font-semibold tracking-tight">AngKorGit</span>
     </a>
@@ -29,7 +29,7 @@ import { NAV, SITE } from '../lib/site';
         href={SITE.repo}
         target="_blank"
         rel="noreferrer"
-        aria-label="View source on GitHub"
+        aria-label="在 GitHub 上查看源代码"
         class="inline-flex h-9 w-9 items-center justify-center rounded-md border border-border text-muted transition-colors hover:bg-surface-raised hover:text-foreground"
       >
         <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -53,7 +53,7 @@ import { NAV, SITE } from '../lib/site';
       <button
         id="nav-menu-button"
         type="button"
-        aria-label="Open menu"
+        aria-label="打开菜单"
         aria-expanded="false"
         aria-controls="nav-menu"
         class="inline-flex h-9 w-9 items-center justify-center rounded-md border border-border text-muted transition-colors hover:bg-surface-raised hover:text-foreground lg:hidden"
@@ -93,7 +93,7 @@ import { NAV, SITE } from '../lib/site';
   menuButton?.addEventListener('click', () => {
     const open = menu?.classList.toggle('hidden') === false;
     menuButton.setAttribute('aria-expanded', String(open));
-    menuButton.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    menuButton.setAttribute('aria-label', open ? '关闭菜单' : '打开菜单');
   });
   menu?.querySelectorAll('a').forEach((link) =>
     link.addEventListener('click', () => {

@@ -90,7 +90,7 @@ pub fn tag_create(
         Some(rev) => repo.revparse_single(rev)?,
         None => repo
             .head()
-            .map_err(|_| AppError::other("cannot tag: repository has no commits"))?
+            .map_err(|_| AppError::other("无法创建标签：仓库没有提交"))?
             .peel(git2::ObjectType::Commit)?,
     };
     match message {

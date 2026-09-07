@@ -239,7 +239,7 @@ export function DiffPanel({ target }: { target: CenterDiffTarget }) {
       await op();
       await refreshStatus();
     } catch (error) {
-      toast.error(`${label} failed: ${(error as { message?: string }).message ?? error}`);
+      toast.error(`${label} 失败：${(error as { message?: string }).message ?? error}`);
     }
   };
 
@@ -249,7 +249,7 @@ export function DiffPanel({ target }: { target: CenterDiffTarget }) {
       initial={{ opacity: 0, y: 6 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
-      aria-label={`Diff for ${target.path}`}
+      aria-label={`文件差异：${target.path}`}
     >
       <div className="flex h-10 shrink-0 items-center gap-2 border-b border-border-subtle bg-surface px-3">
         <Hint
@@ -259,7 +259,7 @@ export function DiffPanel({ target }: { target: CenterDiffTarget }) {
             </span>
           }
         >
-          <Button variant="ghost" size="icon-sm" aria-label="Close diff" onClick={closeCenterDiff}>
+          <Button variant="ghost" size="icon-sm" aria-label="关闭 diff" onClick={closeCenterDiff}>
             <X className="size-4" />
           </Button>
         </Hint>
@@ -278,33 +278,33 @@ export function DiffPanel({ target }: { target: CenterDiffTarget }) {
           </span>
         )}
         <Separator orientation="vertical" className="mx-1 h-4" />
-        <Hint label="Inline diff">
+        <Hint label="内联 diff">
           <Button
             variant="ghost"
             size="icon-sm"
-            aria-label="Inline diff"
+            aria-label="内联 diff"
             className={cn(diffView === 'inline' && 'bg-surface-raised text-foreground')}
             onClick={() => setDiffView('inline')}
           >
             <Rows3 className="size-3.5" />
           </Button>
         </Hint>
-        <Hint label="Side-by-side diff">
+        <Hint label="并排 diff">
           <Button
             variant="ghost"
             size="icon-sm"
-            aria-label="Side-by-side diff"
+            aria-label="并排 diff"
             className={cn(diffView === 'split' && 'bg-surface-raised text-foreground')}
             onClick={() => setDiffView('split')}
           >
             <Columns2 className="size-3.5" />
           </Button>
         </Hint>
-        <Hint label={wordDiff ? 'Word diff on' : 'Word diff off'}>
+        <Hint label={wordDiff ? '词级 diff 开' : '词级 diff 关'}>
           <Button
             variant="ghost"
             size="icon-sm"
-            aria-label="Toggle word diff"
+            aria-label="切换词级 diff"
             className={cn(wordDiff && 'bg-surface-raised text-primary')}
             onClick={() => setWordDiff(!wordDiff)}
           >
@@ -314,16 +314,16 @@ export function DiffPanel({ target }: { target: CenterDiffTarget }) {
         <Hint
           label={
             textDiff && wrapUnavailable(textDiff)
-              ? 'Wrapping is off for large files to keep scrolling smooth'
+              ? '大文件已关闭自动换行，以保持滚动流畅'
               : wrapLines
-                ? 'Lines wrapped — click for horizontal scroll'
-                : 'Wrap long lines'
+                ? '已自动换行——点击横向滚动'
+                : '自动换行'
           }
         >
           <Button
             variant="ghost"
             size="icon-sm"
-            aria-label="Toggle line wrapping"
+            aria-label="切换自动换行"
             disabled={!!textDiff && wrapUnavailable(textDiff)}
             className={cn(wrapLines && 'bg-surface-raised text-primary')}
             onClick={() => setWrapLines(!wrapLines)}
@@ -331,11 +331,11 @@ export function DiffPanel({ target }: { target: CenterDiffTarget }) {
             <WrapText className="size-3.5" />
           </Button>
         </Hint>
-        <Hint label={fullFileDiff ? 'Whole file shown — click for changes only' : 'Show whole file'}>
+        <Hint label={fullFileDiff ? '已显示整个文件——点击仅显示更改' : '显示整个文件'}>
           <Button
             variant="ghost"
             size="icon-sm"
-            aria-label="Toggle whole file view"
+            aria-label="切换整文件视图"
             className={cn(fullFileDiff && 'bg-surface-raised text-primary')}
             onClick={() => setFullFileDiff(!fullFileDiff)}
           >
@@ -348,22 +348,22 @@ export function DiffPanel({ target }: { target: CenterDiffTarget }) {
             <Hint
               label={
                 <span className="flex items-center gap-1">
-                  Previous change <Kbd>P</Kbd>
+                  上一个更改 <Kbd>P</Kbd>
                 </span>
               }
             >
-              <Button variant="ghost" size="icon-sm" aria-label="Previous change" onClick={() => jumpChange(-1)}>
+              <Button variant="ghost" size="icon-sm" aria-label="上一个更改" onClick={() => jumpChange(-1)}>
                 <ChevronUp className="size-4" />
               </Button>
             </Hint>
             <Hint
               label={
                 <span className="flex items-center gap-1">
-                  Next change <Kbd>N</Kbd>
+                  下一个更改 <Kbd>N</Kbd>
                 </span>
               }
             >
-              <Button variant="ghost" size="icon-sm" aria-label="Next change" onClick={() => jumpChange(1)}>
+              <Button variant="ghost" size="icon-sm" aria-label="下一个更改" onClick={() => jumpChange(1)}>
                 <ChevronDown className="size-4" />
               </Button>
             </Hint>
@@ -378,14 +378,14 @@ export function DiffPanel({ target }: { target: CenterDiffTarget }) {
             <Hint
               label={
                 <span className="flex items-center gap-1">
-                  Previous file <Kbd>[</Kbd>
+                  上一个文件 <Kbd>[</Kbd>
                 </span>
               }
             >
               <Button
                 variant="ghost"
                 size="icon-sm"
-                aria-label="Previous file"
+                aria-label="上一个文件"
                 disabled={fileIndex <= 0}
                 onClick={() => goFile(-1)}
               >
@@ -398,14 +398,14 @@ export function DiffPanel({ target }: { target: CenterDiffTarget }) {
             <Hint
               label={
                 <span className="flex items-center gap-1">
-                  Next file <Kbd>]</Kbd>
+                  下一个文件 <Kbd>]</Kbd>
                 </span>
               }
             >
               <Button
                 variant="ghost"
                 size="icon-sm"
-                aria-label="Next file"
+                aria-label="下一个文件"
                 disabled={fileIndex >= siblings.length - 1}
                 onClick={() => goFile(1)}
               >
@@ -452,7 +452,7 @@ export function DiffPanel({ target }: { target: CenterDiffTarget }) {
                 Could not load the diff: {loadError}
               </p>
               <Button variant="ghost" size="sm" onClick={() => setReloadToken((t) => t + 1)}>
-                Retry
+                重试
               </Button>
             </div>
           ) : diff ? (
@@ -483,17 +483,17 @@ export function DiffPanel({ target }: { target: CenterDiffTarget }) {
                             target.staged
                               ? ipc.unstageHunk(path, target.path, hunkIndex)
                               : ipc.stageHunk(path, target.path, hunkIndex),
-                          'Hunk operation',
+                          '代码块操作',
                         )
                       }
                     >
                       {target.staged ? (
                         <>
-                          <Minus className="size-3" /> Unstage hunk
+                          <Minus className="size-3" /> 取消暂存代码块
                         </>
                       ) : (
                         <>
-                          <Plus className="size-3" /> Stage hunk
+                          <Plus className="size-3" /> 暂存代码块
                         </>
                       )}
                     </Button>
@@ -503,7 +503,7 @@ export function DiffPanel({ target }: { target: CenterDiffTarget }) {
             />
           ) : (
             <p className="py-16 text-center text-sm text-faint">
-              No diff to show — the change may already be staged or resolved.
+              没有可显示的 diff——更改可能已被暂存或已解决。
             </p>
           )}
         </div>
@@ -531,7 +531,7 @@ export function DiffPanel({ target }: { target: CenterDiffTarget }) {
                               ? lineMenu.info.line.newLineNo
                               : lineMenu.info.line.oldLineNo) ?? 0,
                           ),
-                        'Unstage line',
+                        '取消暂存行',
                       )
                     }
                   >
@@ -551,7 +551,7 @@ export function DiffPanel({ target }: { target: CenterDiffTarget }) {
                                 ? lineMenu.info.line.newLineNo
                                 : lineMenu.info.line.oldLineNo) ?? 0,
                             ),
-                          'Stage line',
+                          '暂存行',
                         )
                       }
                     >
@@ -562,10 +562,10 @@ export function DiffPanel({ target }: { target: CenterDiffTarget }) {
                       onClick={() => {
                         const info = lineMenu.info;
                         void confirmDialog({
-                          title: 'Discard this line?',
+                          title: '丢弃此行？',
                           description:
-                            'The change on this line will be reverted in your working tree (modified lines are restored to their original text). This cannot be undone.',
-                          confirmLabel: 'Discard line',
+                            '此行的更改将在工作区中被还原（修改过的行将恢复到原始文本），此操作无法撤销。',
+                          confirmLabel: '丢弃行',
                           destructive: true,
                         }).then((ok) => {
                           if (ok)
@@ -577,7 +577,7 @@ export function DiffPanel({ target }: { target: CenterDiffTarget }) {
                                   info.line.kind,
                                   (info.line.kind === 'addition' ? info.line.newLineNo : info.line.oldLineNo) ?? 0,
                                 ),
-                              'Discard line',
+                              '丢弃行',
                             );
                         });
                       }}
@@ -602,10 +602,10 @@ export function DiffPanel({ target }: { target: CenterDiffTarget }) {
             <DropdownMenuItem
               onClick={() => {
                 void navigator.clipboard.writeText(lineMenu.info.line.content);
-                toast.success('Line copied');
+                toast.success('行已复制');
               }}
             >
-              <Copy /> Copy line
+              <Copy /> 复制行
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => selectSide(lineMenu.info.side ?? 'new')}

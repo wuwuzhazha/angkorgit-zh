@@ -8,9 +8,9 @@ pub enum AppError {
     Io(#[from] std::io::Error),
     #[error("{0}")]
     Other(String),
-    #[error("no repository is open")]
+    #[error("没有打开任何仓库")]
     NoRepository,
-    #[error("operation would conflict: {0}")]
+    #[error("操作将产生冲突：{0}")]
     Conflict(String),
 }
 
@@ -36,18 +36,18 @@ impl AppError {
 
     fn message(&self) -> String {
         match self.http_status() {
-            Some(401) => "HTTP 401 — the host rejected the credentials. If this remote uses a \
-                          connected account, its token may have expired or been revoked — \
-                          reconnect it in Settings → Authentication."
+            Some(401) => "HTTP 401——主机拒绝了凭据。 如果此远端使用 \
+                          关联账户，其令牌可能已过期或被吊销—— \
+                          请在“设置 → 身份验证”中重新连接。"
                 .to_string(),
-            Some(402) => "HTTP 402 — the host refused the write because the account or workspace \
-                          is over its plan limit or has a billing problem. On Bitbucket Cloud a \
-                          free workspace over its user limit turns every private repository \
-                          read-only; public repositories still accept pushes."
+            Some(402) => "HTTP 402——主机拒绝写入，因为账户或工作区 \
+                          超出套餐限制或存在计费问题。在 Bitbucket Cloud 上， \
+                          超出用户上限的免费工作区会让所有私有仓库 \
+                          变为只读；公共仓库仍可推送。"
                 .to_string(),
-            Some(403) => "HTTP 403 — the host accepted your identity but refused the operation. \
-                          The token is usually missing a write scope, or the account has no \
-                          write access to this repository."
+            Some(403) => "HTTP 403——主机接受了你的身份但拒绝了该操作。 \
+                          通常是令牌缺少写入权限范围，或账户没有 \
+                          此仓库的写入权限。"
                 .to_string(),
             _ => self.to_string(),
         }
@@ -123,7 +123,7 @@ mod tests {
 
     #[test]
     fn plain_git_errors_have_no_http_status() {
-        assert_eq!(git_error("reference not found").http_status(), None);
+        assert_eq!(git_error("找不到引用").http_status(), None);
         assert_eq!(AppError::NoRepository.http_status(), None);
     }
 
@@ -131,7 +131,7 @@ mod tests {
     fn plan_limit_errors_are_explained() {
         let error = git_error("unexpected http status code: 402");
         assert_eq!(error.code(), "plan_limit");
-        assert!(error.message().contains("plan limit"));
+        assert!(error.message().contains("套餐限制"));
         assert!(!error.message().contains("class=Http"));
     }
 
@@ -144,7 +144,7 @@ mod tests {
 
     #[test]
     fn missing_files_map_to_not_found_and_other_io_errors_stay_io() {
-        let missing = AppError::Io(std::io::Error::new(std::io::ErrorKind::NotFound, "no file"));
+        let missing = AppError::Io(std::io::Error::new(std::io::ErrorKind::NotFound, "无文件"));
         assert_eq!(missing.code(), "not_found");
         let denied = AppError::Io(std::io::Error::new(
             std::io::ErrorKind::PermissionDenied,
@@ -158,6 +158,6 @@ mod tests {
         let error = git_error("unexpected http status code: 401");
         assert_eq!(error.code(), "auth");
         assert!(error.message().contains("expired"));
-        assert!(error.message().contains("Settings → Authentication"));
+        assert!(error.message().contains("设置 → 身份验证"));
     }
 }

@@ -107,7 +107,7 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
         setFiles([]);
         setFilesError(true);
         setFilesLoading(false);
-        toast.error(`File history failed: ${(error as { message?: string }).message ?? error}`);
+        toast.error(`文件历史加载失败：${(error as { message?: string }).message ?? error}`);
       });
   };
 
@@ -132,10 +132,10 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
     void (async () => {
       try {
         const result = (await op()) as { status?: string; message?: string } | undefined;
-        toastOutcome(result, `${label} done`);
+        toastOutcome(result, `${label} 已完成`);
         await onRefresh();
       } catch (error) {
-        toast.error(`${label} failed: ${(error as { message?: string }).message ?? error}`);
+        toast.error(`${label} 失败：${(error as { message?: string }).message ?? error}`);
       }
     })();
   };
@@ -151,7 +151,7 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
   const openRepository = () => {
     close();
     void (async () => {
-      const dir = await pickDirectory('Open a Git repository');
+      const dir = await pickDirectory('打开 Git 仓库');
       if (!dir || dir === path) return;
       await open(dir);
     })().catch((error) =>
@@ -164,9 +164,9 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
     void (async () => {
       try {
         const outcome = await ipc.rebaseContinue(path);
-        toastOutcome(outcome, 'Rebase continued');
+        toastOutcome(outcome, '变基已继续');
       } catch (error) {
-        toast.error(`Continue failed: ${(error as { message?: string }).message ?? error}`);
+        toast.error(`继续失败：${(error as { message?: string }).message ?? error}`);
       }
       await onRefresh();
     })();
@@ -176,18 +176,18 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
     close();
     void (async () => {
       const ok = await confirmDialog({
-        title: 'Abort rebase?',
+        title: '中止变基？',
         description:
-          'This rewinds the branch to where it was before the rebase started. Commits made during the rebase are discarded.',
-        confirmLabel: 'Abort rebase',
+          '这会回退分支到变基开始之前的状态，变基期间产生的提交将被丢弃。',
+        confirmLabel: '中止变基',
         destructive: true,
       });
       if (!ok) return;
       try {
         await ipc.rebaseAbort(path);
-        toast.success('Rebase aborted');
+        toast.success('变基已中止');
       } catch (error) {
-        toast.error(`Abort failed: ${(error as { message?: string }).message ?? error}`);
+        toast.error(`中止失败：${(error as { message?: string }).message ?? error}`);
       }
       await onRefresh();
     })();
@@ -204,15 +204,15 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
       const ok = await confirmDialog({
         title: `Clear ${repoState} state?`,
         description:
-          `Git still marks this repository as mid-${repoState}. Clearing removes that marker and keeps every file and commit exactly as it is now. Use this when the ${repoState} is already finished.`,
-        confirmLabel: 'Clear state',
+          `Git 仍会将此仓库标记为进行中的 ${repoState}。清除将移除该标记，并保持所有文件和提交原样不变。当 ${repoState} 已经完成时使用。`,
+        confirmLabel: '清除状态',
       });
       if (!ok) return;
       try {
         await ipc.stateCleanup(path);
-        toast.success('State cleared');
+        toast.success('已清除状态');
       } catch (error) {
-        toast.error(`Clear failed: ${(error as { message?: string }).message ?? error}`);
+        toast.error(`清除失败：${(error as { message?: string }).message ?? error}`);
       }
       await onRefresh();
     })();
@@ -222,7 +222,7 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
     <Command.Dialog
       open={paletteOpen}
       onOpenChange={setPaletteOpen}
-      label="Command palette"
+      label="命令面板"
       shouldFilter={mode === 'commands'}
       className="fixed left-1/2 top-24 z-50 w-full max-w-lg -translate-x-1/2 overflow-hidden rounded-lg border border-border bg-surface-overlay shadow-soft"
     >
@@ -231,8 +231,8 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
         onValueChange={setSearch}
         placeholder={
           mode === 'fileHistory'
-            ? 'Search a file to see who changed it…'
-            : 'Type a command or branch name…'
+            ? '搜索文件查看修改人…'
+            : '输入命令或分支名…'
         }
         onKeyDown={(e) => {
           if (mode === 'fileHistory' && e.key === 'Backspace' && search === '') {
@@ -244,7 +244,7 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
       />
       <Command.List className="max-h-80 overflow-y-auto p-1.5 [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:text-[10px] [&_[cmdk-group-heading]]:font-semibold [&_[cmdk-group-heading]]:uppercase [&_[cmdk-group-heading]]:tracking-wide [&_[cmdk-group-heading]]:text-faint">
         {!(mode === 'fileHistory' && (filesLoading || filesError)) && (
-          <Command.Empty className="py-8 text-center text-sm text-faint">No results.</Command.Empty>
+          <Command.Empty className="py-8 text-center text-sm text-faint">无结果。</Command.Empty>
         )}
 
         {mode === 'fileHistory' && filesLoading && (
@@ -253,10 +253,10 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
           </div>
         )}
         {mode === 'fileHistory' && !filesLoading && filesError && (
-          <div className="py-8 text-center text-sm text-faint">Could not list files.</div>
+          <div className="py-8 text-center text-sm text-faint">无法列出文件。</div>
         )}
         {mode === 'fileHistory' && !filesLoading && !filesError && (
-          <Command.Group heading="File history">
+          <Command.Group heading="文件历史">
             {visibleFiles.map((file) => (
               <PaletteItem
                 key={file}
@@ -273,10 +273,10 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
 
         {mode === 'commands' && (
         <>
-        <Command.Group heading="Actions">
-          <PaletteItem icon={<History />} label="File history…" onSelect={enterFileHistory} />
-          <PaletteItem icon={<ArrowDownToLine />} label="Pull" onSelect={() => run('Pull', () => ipc.pull(path, remote))} />
-          <PaletteItem icon={<ArrowUpFromLine />} label="Push" onSelect={() => run('Push', () => ipc.push(path, remote, false, false, true))} />
+        <Command.Group heading="操作">
+          <PaletteItem icon={<History />} label="文件历史…" onSelect={enterFileHistory} />
+          <PaletteItem icon={<ArrowDownToLine />} label="拉取" onSelect={() => run('拉取', () => ipc.pull(path, remote))} />
+          <PaletteItem icon={<ArrowUpFromLine />} label="推送" onSelect={() => run('推送', () => ipc.push(path, remote, false, false, true))} />
           {(() => {
             const headUpstream = branches.find((b) => !b.isRemote && b.isHead)?.upstream ?? null;
             const prUrl = currentPullRequestUrl(repo, pickForgeRemote(remotes, headUpstream)?.url);
@@ -294,10 +294,10 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
               />
             ) : null;
           })()}
-          <PaletteItem icon={<RefreshCw />} label="Fetch (with tags)" onSelect={() => run('Fetch', () => ipc.fetch(path, remote, true, true))} />
+          <PaletteItem icon={<RefreshCw />} label="拉取（含标签）" onSelect={() => run('获取', () => ipc.fetch(path, remote, true, true))} />
           <PaletteItem
             icon={<GitBranchPlus />}
-            label="Create branch…"
+            label="新建分支…"
             onSelect={() => {
               close();
               openDialog('createBranch');
@@ -305,7 +305,7 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
           />
           <PaletteItem
             icon={<FolderTree />}
-            label="New worktree…"
+            label="新建工作树…"
             onSelect={() => {
               close();
               openDialog('createWorktree');
@@ -313,7 +313,7 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
           />
           <PaletteItem
             icon={<TagIcon />}
-            label="Create tag…"
+            label="新建标签…"
             onSelect={() => {
               close();
               openDialog('createTag');
@@ -321,21 +321,21 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
           />
           <PaletteItem
             icon={<Archive />}
-            label="Stash changes…"
+            label="暂存更改…"
             onSelect={() => {
               close();
               openDialog('createStash');
             }}
           />
           {nextUndo && (
-            <PaletteItem icon={<Undo2 />} label={`Undo: ${nextUndo.label}`} shortcut="Z" onSelect={() => runHistory('undo')} />
+            <PaletteItem icon={<Undo2 />} label={`撤销：${nextUndo.label}`} shortcut="Z" onSelect={() => runHistory('undo')} />
           )}
           {nextRedo && (
-            <PaletteItem icon={<Redo2 />} label={`Redo: ${nextRedo.label}`} onSelect={() => runHistory('redo')} />
+            <PaletteItem icon={<Redo2 />} label={`重做：${nextRedo.label}`} onSelect={() => runHistory('redo')} />
           )}
           <PaletteItem
             icon={<RefreshCw />}
-            label="Refresh"
+            label="刷新"
             onSelect={() => {
               close();
               void onRefresh();
@@ -344,25 +344,25 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
         </Command.Group>
 
         {repoState !== 'clean' && (
-          <Command.Group heading="Repository state">
+          <Command.Group heading="仓库状态">
             {repoState === 'rebase' && (
               <>
-                <PaletteItem icon={<Redo2 />} label="Continue rebase" onSelect={continueRebase} />
-                <PaletteItem icon={<Undo2 />} label="Abort rebase" onSelect={abortRebase} />
+                <PaletteItem icon={<Redo2 />} label="继续变基" onSelect={continueRebase} />
+                <PaletteItem icon={<Undo2 />} label="中止变基" onSelect={abortRebase} />
               </>
             )}
             {repoState === 'merge' && (
-              <PaletteItem icon={<Undo2 />} label="Abort merge" onSelect={abortMerge} />
+              <PaletteItem icon={<Undo2 />} label="中止合并" onSelect={abortMerge} />
             )}
-            <PaletteItem icon={<Check />} label="Clear repository state" onSelect={clearState} />
+            <PaletteItem icon={<Check />} label="清除仓库状态" onSelect={clearState} />
           </Command.Group>
         )}
 
-        <Command.Group heading="Repository">
-          <PaletteItem icon={<FolderOpen />} label="Open repository…" onSelect={openRepository} />
+        <Command.Group heading="仓库">
+          <PaletteItem icon={<FolderOpen />} label="打开仓库…" onSelect={openRepository} />
           <PaletteItem
             icon={<GitBranchPlus />}
-            label="Clone repository…"
+            label="克隆仓库…"
             onSelect={() => {
               close();
               openDialog('clone');
@@ -370,7 +370,7 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
           />
           <PaletteItem
             icon={<Home />}
-            label="Back to repositories"
+            label="返回仓库列表"
             onSelect={() => {
               close();
               navigate('/welcome');
@@ -379,7 +379,7 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
         </Command.Group>
 
         {worktrees.some((w) => !w.isCurrent && !w.isMissing) && (
-          <Command.Group heading="Switch worktree">
+          <Command.Group heading="切换工作树">
             {worktrees
               .filter((w) => !w.isCurrent && !w.isMissing)
               .map((w) => (
@@ -399,7 +399,7 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
         )}
 
         {otherRepos.length > 0 && (
-          <Command.Group heading="Switch repository">
+          <Command.Group heading="切换仓库">
             {otherRepos.map((recent) => (
               <PaletteItem
                 key={recent.path}
@@ -416,7 +416,7 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
           </Command.Group>
         )}
 
-        <Command.Group heading="Checkout branch">
+        <Command.Group heading="检出分支">
           {visibleBranches.map((branch) => (
             <PaletteItem
               key={branch.name}
@@ -436,10 +436,10 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
           ))}
         </Command.Group>
 
-        <Command.Group heading="View">
+        <Command.Group heading="视图">
           <PaletteItem
             icon={<SquareTerminal />}
-            label="Toggle terminal"
+            label="切换终端"
             shortcut="`"
             onSelect={() => {
               close();
@@ -448,7 +448,7 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
           />
           <PaletteItem
             icon={<PanelLeft />}
-            label={sidebarOpen ? 'Hide sidebar' : 'Show sidebar'}
+            label={sidebarOpen ? '隐藏侧边栏' : '显示侧边栏'}
             shortcut="B"
             onSelect={() => {
               close();
@@ -457,7 +457,7 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
           />
           <PaletteItem
             icon={<ChevronsDownUp />}
-            label="Collapse sidebar sections"
+            label="折叠侧边栏分区"
             onSelect={() => {
               close();
               useUi.getState().collapseSidebarSections(SIDEBAR_SECTIONS);
@@ -465,7 +465,7 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
           />
           <PaletteItem
             icon={<ZoomIn />}
-            label="Zoom in"
+            label="放大"
             shortcut="+"
             onSelect={() => {
               close();
@@ -474,7 +474,7 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
           />
           <PaletteItem
             icon={<ZoomOut />}
-            label="Zoom out"
+            label="缩小"
             shortcut="-"
             onSelect={() => {
               close();
@@ -483,7 +483,7 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
           />
           <PaletteItem
             icon={themeBase(theme) === 'dark' ? <Sun /> : <Moon />}
-            label={themeBase(theme) === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
+            label={themeBase(theme) === 'dark' ? '切换到浅色主题' : '切换到深色主题'}
             onSelect={() => {
               close();
               setTheme(themeBase(theme) === 'dark' ? 'light' : 'dark');
@@ -491,7 +491,7 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
           />
           <PaletteItem
             icon={<Settings />}
-            label="Settings"
+            label="设置"
             shortcut=","
             onSelect={() => {
               close();
@@ -500,7 +500,7 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
           />
           <PaletteItem
             icon={<Download />}
-            label="Check for updates"
+            label="检查更新"
             onSelect={() => {
               close();
               void import('@/features/updater/check').then(({ checkForUpdates }) =>

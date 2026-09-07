@@ -24,12 +24,12 @@ async function postJson(
     body: JSON.stringify(payload),
   });
   if (res.status < 200 || res.status >= 300) {
-    throw new AiError(`${provider} request failed (${res.status}): ${res.body.slice(0, 300)}`, provider, res.status);
+    throw new AiError(`${provider} 请求失败（${res.status}）: ${res.body.slice(0, 300)}`, provider, res.status);
   }
   try {
     return JSON.parse(res.body);
   } catch {
-    throw new AiError(`${provider} returned invalid JSON`, provider);
+    throw new AiError(`${provider} 返回了无效的 JSON`, provider);
   }
 }
 
@@ -105,7 +105,7 @@ function anthropicProvider(http: HttpClient, config: AiConfig): AiProvider {
         ?.filter((c) => c.type === 'text')
         .map((c) => c.text ?? '')
         .join('');
-      if (!text) throw new AiError('Anthropic returned no content', 'anthropic');
+      if (!text) throw new AiError('Anthropic 未返回内容', 'anthropic');
       return { text, model: config.model, provider: 'anthropic' };
     },
     async ping() {
@@ -152,7 +152,7 @@ function geminiProvider(http: HttpClient, config: AiConfig): AiProvider {
         'Gemini',
       )) as { candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }> };
       const text = data.candidates?.[0]?.content?.parts?.map((p) => p.text ?? '').join('');
-      if (!text) throw new AiError('Gemini returned no content', 'gemini');
+      if (!text) throw new AiError('Gemini 未返回内容', 'gemini');
       return { text, model: config.model, provider: 'gemini' };
     },
     async ping() {
@@ -189,7 +189,7 @@ function ollamaProvider(http: HttpClient, config: AiConfig): AiProvider {
         'Ollama',
       )) as { message?: { content?: string } };
       const text = data.message?.content;
-      if (typeof text !== 'string' || !text.trim()) throw new AiError('Ollama returned no content', 'ollama');
+      if (typeof text !== 'string' || !text.trim()) throw new AiError('Ollama 未返回内容', 'ollama');
       return { text, model: config.model, provider: 'ollama' };
     },
     async ping() {
@@ -206,7 +206,7 @@ function ollamaProvider(http: HttpClient, config: AiConfig): AiProvider {
 export function createAiProvider(config: AiConfig, http: HttpClient, cli?: CliRunner): AiProvider {
   switch (config.provider) {
     case 'cli':
-      if (!cli) throw new AiError('CLI agents need the desktop app', 'cli');
+      if (!cli) throw new AiError('CLI 代理需要桌面应用', 'cli');
       return cliAgentProvider(config, cli);
     case 'openai':
       return openAiCompatible('openai', 'OpenAI', http, config, 'https://api.openai.com/v1');
@@ -225,7 +225,7 @@ export const AI_PROVIDER_PRESETS: Record<
   AiProviderKind,
   { label: string; defaultModel: string; needsApiKey: boolean; defaultBaseUrl: string }
 > = {
-  cli: { label: 'Installed AI CLI (Claude Code, Codex…)', defaultModel: '', needsApiKey: false, defaultBaseUrl: '' },
+  cli: { label: '已安装 AI CLI（Claude Code、Codex…）', defaultModel: '', needsApiKey: false, defaultBaseUrl: '' },
   openai: { label: 'OpenAI', defaultModel: 'gpt-4o-mini', needsApiKey: true, defaultBaseUrl: 'https://api.openai.com/v1' },
   anthropic: { label: 'Anthropic', defaultModel: 'claude-sonnet-5', needsApiKey: true, defaultBaseUrl: 'https://api.anthropic.com' },
   gemini: { label: 'Google Gemini', defaultModel: 'gemini-2.0-flash', needsApiKey: true, defaultBaseUrl: 'https://generativelanguage.googleapis.com' },

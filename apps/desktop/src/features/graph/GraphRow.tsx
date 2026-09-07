@@ -303,7 +303,7 @@ function RefCell({
             title={
               group.tag || group.detachedHead
                 ? group.detachedHead
-                  ? 'HEAD is detached at this commit'
+                  ? 'HEAD 游离在该提交处'
                   : group.label
                 : `${group.label}${group.local ? ' · local' : ''}${group.remote ? ' · origin' : ''}${worktree ? ` · in worktree ${worktree}` : ''} — ${worktree ? 'double-click to switch to that worktree' : 'double-click to checkout'}, right-click for actions`
             }
@@ -436,11 +436,11 @@ export const CommitRow = memo(function CommitRow({
           'w-14 shrink-0 rounded px-0.5 font-mono text-[11px] text-faint hover:bg-surface-raised hover:text-foreground',
           columns.message ? 'text-right' : 'text-left',
         )}
-        title="Copy full hash"
+        title="复制完整哈希"
         onClick={(e) => {
           e.stopPropagation();
           void navigator.clipboard.writeText(commit.oid);
-          toast.success('Commit hash copied');
+          toast.success('已复制提交哈希');
         }}
       >
         {commit.shortOid.slice(0, 7)}

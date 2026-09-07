@@ -124,7 +124,7 @@ export function CreateWorktreeDialog() {
       setWorktreeRoot(parentDirectory(created));
       toast.success(`Worktree ready · ${basename(created)}`, {
         description:
-          'Ignored files such as node_modules are not copied. Run your install step in its terminal when you need it.',
+          'node_modules 等被忽略的文件不会被复制。需要时请在其终端中运行安装步骤。',
       });
       closeDialog();
       if (openAfter) {
@@ -140,7 +140,7 @@ export function CreateWorktreeDialog() {
   };
 
   const browse = async () => {
-    const dir = await pickDirectory('Choose where to create the worktree');
+    const dir = await pickDirectory('选择工作树的创建位置');
     if (!dir) return;
     directoryTouched.current = true;
     setDirectory(suggestWorktreePath(dir, repoName, effectiveBranch || 'new'));
@@ -148,7 +148,7 @@ export function CreateWorktreeDialog() {
 
   const baseLabel = baseOid
     ? `${baseOid.slice(0, 8)}${baseSummary ? ` · ${baseSummary}` : ''}`
-    : repo?.headBranch ?? 'the current HEAD';
+    : repo?.headBranch ?? '当前 HEAD';
 
   return (
     <Dialog open={open} onOpenChange={(o) => !o && closeDialog()}>
@@ -156,7 +156,7 @@ export function CreateWorktreeDialog() {
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <FolderTree className="size-4 text-primary" />
-            New worktree
+            新建工作树
           </DialogTitle>
           <DialogDescription>
             A second folder for this repository with its own checked-out branch. Work on two
@@ -167,7 +167,7 @@ export function CreateWorktreeDialog() {
         <div className="flex flex-col gap-4">
           <Tabs value={mode} onValueChange={(v) => setMode(v as Mode)}>
             <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="new">New branch</TabsTrigger>
+              <TabsTrigger value="new">新建分支</TabsTrigger>
               <TabsTrigger value="existing">Existing branch</TabsTrigger>
             </TabsList>
           </Tabs>
@@ -194,7 +194,7 @@ export function CreateWorktreeDialog() {
               Branch
               <Select value={existingBranch} onValueChange={setExistingBranch}>
                 <SelectTrigger className="h-9 font-mono">
-                  <SelectValue placeholder="Choose a branch" />
+                  <SelectValue placeholder="选择分支" />
                 </SelectTrigger>
                 <SelectContent>
                   {availableBranches.length === 0 && (
@@ -231,7 +231,7 @@ export function CreateWorktreeDialog() {
                 placeholder="/path/to/new-folder"
                 className="font-mono"
               />
-              <Button variant="secondary" size="icon" aria-label="Browse for a parent folder" onClick={() => void browse()}>
+              <Button variant="secondary" size="icon" aria-label="浏览父文件夹" onClick={() => void browse()}>
                 <FolderOpen />
               </Button>
             </div>
@@ -248,7 +248,7 @@ export function CreateWorktreeDialog() {
 
         <DialogFooter>
           <Button variant="ghost" onClick={closeDialog}>
-            Cancel
+            取消
           </Button>
           <Button disabled={!canSubmit} onClick={() => void submit()} className={cn(busy && 'gap-2')}>
             {busy ? <Spinner className="text-primary-foreground" /> : null}

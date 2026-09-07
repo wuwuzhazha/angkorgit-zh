@@ -138,7 +138,7 @@ export function FileHistoryPanel({ file }: { file: string }) {
       })
       .catch((error) => {
         if (seq !== historySeq.current) return;
-        toast.error(`File history failed: ${(error as { message?: string }).message ?? error}`);
+        toast.error(`文件历史加载失败：${(error as { message?: string }).message ?? error}`);
       })
       .finally(() => {
         if (seq === historySeq.current) setLoadingMore(false);
@@ -162,7 +162,7 @@ export function FileHistoryPanel({ file }: { file: string }) {
       })
       .catch((error) => {
         if (cancelled) return;
-        toast.error(`Could not load diff: ${(error as { message?: string }).message ?? error}`);
+        toast.error(`无法加载 diff：${(error as { message?: string }).message ?? error}`);
         setDiff(null);
       })
       .finally(() => {
@@ -179,7 +179,7 @@ export function FileHistoryPanel({ file }: { file: string }) {
       initial={{ opacity: 0, y: 6 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
-      aria-label={`History of ${file}`}
+      aria-label={`${file} 的历史`}
     >
       <div className="flex h-10 shrink-0 items-center gap-2 border-b border-border-subtle bg-surface px-3">
         <Hint
@@ -189,7 +189,7 @@ export function FileHistoryPanel({ file }: { file: string }) {
             </span>
           }
         >
-          <Button variant="ghost" size="icon-sm" aria-label="Close file history" onClick={closeFileHistory}>
+          <Button variant="ghost" size="icon-sm" aria-label="关闭文件历史" onClick={closeFileHistory}>
             <X className="size-4" />
           </Button>
         </Hint>
@@ -201,55 +201,55 @@ export function FileHistoryPanel({ file }: { file: string }) {
             <span className="text-danger">−{diff.deletions}</span>
           </span>
         )}
-        <Hint label="Inline diff">
+        <Hint label="内联 diff">
           <Button
             variant="ghost"
             size="icon-sm"
-            aria-label="Inline diff"
+            aria-label="内联 diff"
             className={cn(diffView === 'inline' && 'bg-surface-raised text-foreground')}
             onClick={() => setDiffView('inline')}
           >
             <Rows3 className="size-3.5" />
           </Button>
         </Hint>
-        <Hint label="Side-by-side diff">
+        <Hint label="并排 diff">
           <Button
             variant="ghost"
             size="icon-sm"
-            aria-label="Side-by-side diff"
+            aria-label="并排 diff"
             className={cn(diffView === 'split' && 'bg-surface-raised text-foreground')}
             onClick={() => setDiffView('split')}
           >
             <Columns2 className="size-3.5" />
           </Button>
         </Hint>
-        <Hint label={wordDiff ? 'Word diff on' : 'Word diff off'}>
+        <Hint label={wordDiff ? '词级 diff 开' : '词级 diff 关'}>
           <Button
             variant="ghost"
             size="icon-sm"
-            aria-label="Toggle word diff"
+            aria-label="切换词级 diff"
             className={cn(wordDiff && 'bg-surface-raised text-primary')}
             onClick={() => setWordDiff(!wordDiff)}
           >
             <WholeWord className="size-3.5" />
           </Button>
         </Hint>
-        <Hint label={wrapLines ? 'Lines wrapped — click for horizontal scroll' : 'Wrap long lines'}>
+        <Hint label={wrapLines ? '已自动换行——点击横向滚动' : '自动换行'}>
           <Button
             variant="ghost"
             size="icon-sm"
-            aria-label="Toggle line wrapping"
+            aria-label="切换自动换行"
             className={cn(wrapLines && 'bg-surface-raised text-primary')}
             onClick={() => setWrapLines(!wrapLines)}
           >
             <WrapText className="size-3.5" />
           </Button>
         </Hint>
-        <Hint label={fullFileDiff ? 'Whole file shown — click for changes only' : 'Show whole file'}>
+        <Hint label={fullFileDiff ? '已显示整个文件——点击仅显示更改' : '显示整个文件'}>
           <Button
             variant="ghost"
             size="icon-sm"
-            aria-label="Toggle whole file view"
+            aria-label="切换整文件视图"
             className={cn(fullFileDiff && 'bg-surface-raised text-primary')}
             onClick={() => setFullFileDiff(!fullFileDiff)}
           >
@@ -264,7 +264,7 @@ export function FileHistoryPanel({ file }: { file: string }) {
             <div className="flex h-full flex-col items-center justify-center gap-3 px-4 text-center">
               <p className="text-sm text-danger">Could not load file history: {historyError}</p>
               <Button variant="ghost" size="sm" onClick={() => setHistoryAttempt((n) => n + 1)}>
-                Retry
+                重试
               </Button>
             </div>
           ) : commits === null ? (
@@ -307,7 +307,7 @@ export function FileHistoryPanel({ file }: { file: string }) {
               {hasMore && (
                 <div className="py-2 text-center">
                   <Button variant="ghost" size="sm" disabled={loadingMore} onClick={loadOlder}>
-                    {loadingMore ? <Spinner className="size-3.5" /> : 'Show older changes'}
+                    {loadingMore ? <Spinner className="size-3.5" /> : '显示更早的更改'}
                   </Button>
                 </div>
               )}
@@ -342,8 +342,8 @@ export function FileHistoryPanel({ file }: { file: string }) {
             ) : (
               <p className="py-16 text-center text-sm text-faint">
                 {selected
-                  ? 'No changes for this file in that commit (it may have been renamed).'
-                  : 'Select a commit to see its changes.'}
+                  ? '无更改 for this file in that commit (it may have been renamed).'
+                  : '选择一个提交以查看其更改。'}
               </p>
             )}
           </div>
@@ -372,10 +372,10 @@ export function FileHistoryPanel({ file }: { file: string }) {
             <DropdownMenuItem
               onClick={() => {
                 void navigator.clipboard.writeText(lineMenu.info.line.content);
-                toast.success('Line copied');
+                toast.success('行已复制');
               }}
             >
-              <Copy /> Copy line
+              <Copy /> 复制行
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => selectSide(lineMenu.info.side ?? 'new')}

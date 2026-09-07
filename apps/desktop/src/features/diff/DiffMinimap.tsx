@@ -182,7 +182,7 @@ export function DiffMinimap({
       className="relative w-3.5 shrink-0 cursor-pointer border-l border-border-subtle bg-surface"
       onMouseDown={scrub}
       role="scrollbar"
-      aria-label="Change overview — click to jump, drag to scroll"
+      aria-label="更改概览——点击跳转，拖动滚动"
     >
       {markers.map(({ kind, start, end }) => (
         <span

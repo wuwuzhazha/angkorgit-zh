@@ -97,7 +97,7 @@ pub fn list(path: &str) -> AppResult<Vec<WorktreeInfo>> {
     let main = open_main(path)?;
     let main_workdir = main
         .workdir()
-        .ok_or_else(|| AppError::other("bare repositories have no working tree"))?
+        .ok_or_else(|| AppError::other("裸仓库没有工作树"))?
         .to_path_buf();
     let mut result = Vec::new();
 
@@ -230,7 +230,7 @@ pub fn add(path: &str, request: &WorktreeAddRequest) -> AppResult<String> {
     let main = open_main(path)?;
     let target = PathBuf::from(request.directory.trim());
     if request.directory.trim().is_empty() {
-        return Err(AppError::other("choose a folder for the new worktree"));
+        return Err(AppError::other("为新工作树选择文件夹"));
     }
     if target.exists() {
         return Err(AppError::other(format!(
@@ -240,18 +240,18 @@ pub fn add(path: &str, request: &WorktreeAddRequest) -> AppResult<String> {
     }
     let branch = request.branch.trim();
     if branch.is_empty() {
-        return Err(AppError::other("choose a branch for the new worktree"));
+        return Err(AppError::other("为新工作树选择分支"));
     }
     if !git2::Reference::is_valid_name(&format!("refs/heads/{branch}")) {
         return Err(AppError::other(format!(
-            "'{branch}' is not a valid branch name"
+            "“{branch}”不是有效的分支名"
         )));
     }
 
     let local_name: String = if request.create_branch {
         if main.find_branch(branch, BranchType::Local).is_ok() {
             return Err(AppError::other(format!(
-                "branch '{branch}' already exists — uncheck \"Create new branch\" to use it"
+                "分支“{branch}”已存在——取消勾选“新建分支”即可使用"
             )));
         }
         let base = request.base.as_deref().unwrap_or("HEAD");
@@ -272,12 +272,12 @@ pub fn add(path: &str, request: &WorktreeAddRequest) -> AppResult<String> {
         }
         local.to_string()
     } else {
-        return Err(AppError::other(format!("branch '{branch}' does not exist")));
+        return Err(AppError::other(format!("分支“{branch}”不存在")));
     };
 
     if let Some(location) = checked_out_at(&main, &local_name)? {
         return Err(AppError::other(format!(
-            "'{local_name}' is already checked out in {location}. Open that worktree instead, or pick another branch."
+            "“{local_name}”已在 {location} 中检出。请改为打开该工作树，或选择其他分支。"
         )));
     }
 
@@ -302,11 +302,11 @@ pub fn remove(path: &str, name: &str, force: bool) -> AppResult<()> {
     let main = open_main(path)?;
     let wt = main
         .find_worktree(name)
-        .map_err(|_| AppError::other(format!("worktree '{name}' not found")))?;
+        .map_err(|_| AppError::other(format!("找不到工作树“{name}”")))?;
     let is_locked = matches!(wt.is_locked(), Ok(WorktreeLockStatus::Locked(_)));
     if is_locked && !force {
         return Err(AppError::other(format!(
-            "worktree '{name}' is locked — unlock it (git worktree unlock) or force the removal"
+            "工作树“{name}”已锁定——请解锁（git worktree unlock）或强制移除"
         )));
     }
     let exists = wt.path().exists();
@@ -314,7 +314,7 @@ pub fn remove(path: &str, name: &str, force: bool) -> AppResult<()> {
         let repo = Repository::open_from_worktree(&wt)?;
         if is_dirty(&repo) {
             return Err(AppError::other(format!(
-                "worktree '{name}' has uncommitted changes — commit or stash them, or force the removal"
+                "工作树“{name}”有未提交的更改——请提交或暂存，或强制移除"
             )));
         }
     }

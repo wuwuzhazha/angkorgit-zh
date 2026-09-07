@@ -107,7 +107,7 @@ export function InteractiveRebaseDialog() {
       } catch (error) {
         if (!stillOpenFor(baseOid)) return;
         toast.error(
-          `Interactive rebase failed: ${(error as { message?: string }).message ?? error}`,
+          `交互式变基失败：${(error as { message?: string }).message ?? error}`,
         );
         useUi.getState().closeDialog();
       }
@@ -160,16 +160,16 @@ export function InteractiveRebaseDialog() {
       await useUndo.getState().tracked({
         path,
         kind: 'rebase',
-        label: 'interactive rebase',
+        label: '交互式变基',
         action: () => ipc.rebaseInteractive(path, baseOid, todo),
       });
-      toast.success('Interactive rebase done');
+      toast.success('交互式变基完成');
       closeDialog();
       await useRepo.getState().refresh();
       await useGraph.getState().reload(path);
     } catch (error) {
       toast.error(
-        `Interactive rebase failed: ${(error as { message?: string }).message ?? error}`,
+        `交互式变基失败：${(error as { message?: string }).message ?? error}`,
       );
     } finally {
       setExecuting(false);
@@ -180,7 +180,7 @@ export function InteractiveRebaseDialog() {
     <Dialog open={open} onOpenChange={(o) => !o && closeDialog()}>
       <DialogContent className="max-w-2xl">
         <DialogHeader>
-          <DialogTitle>Interactive rebase</DialogTitle>
+          <DialogTitle>交互式变基</DialogTitle>
           <DialogDescription>
             Rewriting the commits above {baseOid.slice(0, 8)} — they apply top to bottom, so the
             top row becomes the oldest rebased commit. Drag rows to reorder.
@@ -193,7 +193,7 @@ export function InteractiveRebaseDialog() {
         ) : (
           <div
             role="list"
-            aria-label="Rebase plan"
+            aria-label="变基计划"
             className="flex max-h-[50vh] flex-col gap-1 overflow-y-auto pr-1"
           >
             {rows.length === 0 && (
@@ -238,7 +238,7 @@ export function InteractiveRebaseDialog() {
                 )}
               >
                 <div className="flex items-center gap-2">
-                  <Hint label="Drag to reorder">
+                  <Hint label="拖动以重新排序">
                     <span className="shrink-0 cursor-grab text-faint">
                       <GripVertical className="size-4" />
                     </span>
@@ -277,7 +277,7 @@ export function InteractiveRebaseDialog() {
                   <Textarea
                     rows={2}
                     className="text-xs"
-                    placeholder="Combined message (optional)"
+                    placeholder="合并消息（可选）"
                     value={row.message}
                     onChange={(e) => setMessage(row.commit.oid, e.target.value)}
                   />
@@ -294,7 +294,7 @@ export function InteractiveRebaseDialog() {
         )}
         <DialogFooter>
           <Button variant="ghost" onClick={closeDialog} disabled={executing}>
-            Cancel
+            取消
           </Button>
           <Button
             disabled={loading || executing || invalidCombine || rows.length === 0}

@@ -3,74 +3,74 @@ import Commit from './Commit.astro';
 
 const groups: { title: string; items: string[] }[] = [
   {
-    title: 'Every day',
+    title: '每天',
     items: [
-      'Stage files, hunks, or single lines',
-      'Commit with summary and description, drafts saved per repository',
-      'Amend, revert, reset (soft, mixed, hard)',
-      'Undo and redo for commits, checkouts, merges, rebases',
-      'Working copy watcher, so the WIP row is always right',
-      'Auto fetch in the background',
+      '暂存文件、代码块或单行',
+      '带摘要和说明提交，草稿按仓库保存',
+      '修订、还原、重置（软、混合、硬）',
+      '提交、检出、合并、变基的撤销与重做',
+      '工作副本监听，让 WIP 行始终准确',
+      '后台自动拉取',
     ],
   },
   {
     title: 'Branches',
     items: [
-      'Branch folders in the sidebar',
-      'Drag one branch onto another to merge or rebase',
-      'Interactive rebase: reorder, squash, reword, drop',
+      '侧边栏中的分支文件夹',
+      '把一个分支拖到另一个分支上以合并或变基',
+      '交互式变基：重排、压缩、改写、丢弃',
       'Cherry-pick one or many, with the origin reference',
-      'Worktrees: list, create, remove, prune',
-      'Stashes, tags, submodules',
+      '工作树：列表、创建、移除、清理',
+      '暂存、标签、子模块',
     ],
   },
   {
-    title: 'Reading changes',
+    title: '阅读更改',
     items: [
-      'Inline or side by side, word level highlighting',
-      'Whole file view, image diffs, a minimap you can click',
-      'Previous and next change, previous and next file',
-      'Commit search by text, author, branch, or hash',
-      'File history',
+      '内联或并排，词级高亮',
+      '整文件视图、图片 diff、可点击的缩略图',
+      '上一个/下一个更改，上一个/下一个文件',
+      '按文本、作者、分支或哈希搜索提交',
+      '文件历史',
       'Commit details with parents, refs, and per-file counts',
     ],
   },
   {
-    title: 'Remotes and accounts',
+    title: '远端与账户',
     items: [
-      'Fetch, pull, push, with the credential chain git itself uses',
-      'SSH keys and access tokens. Several accounts on one host',
-      'Identity profiles stored per repository, never in the global gitconfig',
-      'Pull requests: list, check out, create, pick reviewers (GitHub, GitLab, Bitbucket)',
-      'Commit signing through your existing git config (SSH or GPG)',
+      '抓取、拉取、推送，使用 git 自身的凭据链',
+      'SSH 密钥与访问令牌。一个主机可关联多个账户',
+      '身份配置按仓库保存，绝不写入全局 gitconfig',
+      '拉取请求：列表、检出、创建、挑选审查人（GitHub、GitLab、Bitbucket）',
+      '通过你现有的 git 配置进行提交签名（SSH 或 GPG）',
     ],
   },
   {
     title: 'Conflicts',
     items: [
-      'Both sides aligned, line numbers on each',
-      'Take a side, a block, or one line',
-      'Edit the result in place, or the whole file',
-      'AI explanation of a conflict on request',
+      '两侧对齐，每侧带行号',
+      '选择一侧、一块或一行',
+      '就地编辑结果，或编辑整个文件',
+      '按需对冲突进行 AI 解释',
     ],
   },
   {
-    title: 'The rest',
+    title: '其余',
     items: [
-      '⌘K palette with every command, shortcuts shown next to menu items',
-      '16 themes, dark and light, five accents',
+      '⌘K 命令面板包含所有命令，菜单项旁显示快捷键',
+      '16 款主题，深浅双色，五种强调色',
       'Built-in terminal per repository',
-      'Real confirmation dialogs before anything destructive',
+      '任何破坏性操作前都有真正的确认对话框',
       'Signature-verified updates from GitHub releases',
     ],
   },
 ];
 
 const notInBox = [
-  ['In-app pull request review', 'The forge does this better, with CI logs and suggestions. There is an Open in browser button.'],
-  ['Telemetry, accounts, a cloud', 'Nothing phones home. There is nothing to sign up for.'],
-  ['A blame view', 'File history is there. Line-level blame is on the list.'],
-  ['A plugin marketplace', 'Not yet. The palette and sidebar are list driven, so it is possible later.'],
+  ['In-app pull request review', '托管平台在这方面做得更好，有 CI 日志与建议。界面提供“在浏览器中打开”按钮。'],
+  ['遥测、账户、云服务', '不会回传任何数据，也无需注册。'],
+  ['blame 视图', '文件历史 is there. Line-level blame is on the list.'],
+  ['插件市场', '还没有。命令面板和侧边栏由列表驱动，以后有可能实现。'],
 ];
 ---
 
@@ -78,8 +78,8 @@ const notInBox = [
   <div class="container-site rail-offset">
     <div class="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)]">
       <div data-reveal>
-        <p class="font-mono text-xs uppercase tracking-[0.18em] text-primary">Spec sheet</p>
-        <h2 class="display mt-3 text-4xl leading-[1.02] sm:text-5xl">Everything in the box</h2>
+        <p class="font-mono text-xs uppercase tracking-[0.18em] text-primary">规格表</p>
+        <h2 class="display mt-3 text-4xl leading-[1.02] sm:text-5xl">开箱即得的一切</h2>
         <p class="mt-6 text-[17px] leading-relaxed text-muted">
           The whole list, in plain words. If it isn't here, it isn't in the app.
         </p>
@@ -102,8 +102,8 @@ const notInBox = [
 
     <div class="mt-20 grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)]" data-reveal>
       <div>
-        <p class="font-mono text-xs uppercase tracking-[0.18em] text-faint">And not</p>
-        <h3 class="display mt-3 text-3xl leading-[1.05] sm:text-4xl">What I left out, on purpose</h3>
+        <p class="font-mono text-xs uppercase tracking-[0.18em] text-faint">而不包括</p>
+        <h3 class="display mt-3 text-3xl leading-[1.05] sm:text-4xl">我刻意不做的事</h3>
       </div>
       <dl class="grid gap-x-10 gap-y-6 sm:grid-cols-2">
         {

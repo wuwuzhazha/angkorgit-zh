@@ -49,13 +49,13 @@ export function RepoTabs() {
 
   const addNew = () => {
     void (async () => {
-      const dir = await pickDirectory('Open a repository');
+      const dir = await pickDirectory('打开仓库');
       if (!dir) return;
       try {
         await useRepo.getState().open(dir);
       } catch (error) {
         toast.error(
-          `Could not open repository: ${(error as { message?: string }).message ?? error}`,
+          `无法打开仓库：${(error as { message?: string }).message ?? error}`,
         );
       }
     })();
@@ -146,12 +146,12 @@ export function RepoTabs() {
           );
         })}
       </div>
-      <Hint label="Open another repository">
+      <Hint label="打开另一个仓库">
         <Button
           variant="ghost"
           size="icon-sm"
           className="mb-0.5 shrink-0"
-          aria-label="Open another repository"
+          aria-label="打开另一个仓库"
           onClick={addNew}
         >
           <Plus className="size-4" />

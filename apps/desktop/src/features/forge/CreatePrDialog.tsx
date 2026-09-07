@@ -206,7 +206,7 @@ export function CreatePrDialog() {
     } catch (err) {
       if (run !== aiRun.current) return;
       setGenerating(false);
-      toast.error(`Could not generate a description: ${(err as { message?: string }).message ?? err}`);
+      toast.error(`无法生成描述：${(err as { message?: string }).message ?? err}`);
     }
   };
 
@@ -232,7 +232,7 @@ export function CreatePrDialog() {
         reviewerIds: reviewers,
       });
       closeDialog();
-      toast.success(`${provider.label} ${noun} #${pr.number} created`, {
+      toast.success(`${provider.label} ${noun} #${pr.number} 已创建`, {
         action: { label: 'Open', onClick: () => void openExternal(pr.url) },
       });
       void useForge.getState().load(true);
@@ -270,7 +270,7 @@ export function CreatePrDialog() {
               }}
             >
               <SelectTrigger className="h-8 flex-1">
-                <SelectValue placeholder="Target branch" />
+                <SelectValue placeholder="目标分支" />
               </SelectTrigger>
               <SelectContent>
                 {baseOptions.map((name) => (
@@ -283,7 +283,7 @@ export function CreatePrDialog() {
           </div>
           <Input
             autoFocus
-            placeholder="Title"
+            placeholder="标题"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             onKeyDown={(e) => {
@@ -292,7 +292,7 @@ export function CreatePrDialog() {
           />
           <div className="relative">
             <Textarea
-              placeholder="Description (optional)"
+              placeholder="说明（可选）"
               value={body}
               onChange={(e) => setBody(e.target.value)}
               onKeyDown={(e) => {
@@ -301,12 +301,12 @@ export function CreatePrDialog() {
               className="min-h-32 pr-9 font-mono text-xs"
             />
             {aiConfigured() && (
-              <Hint label={generating ? 'Stop generating' : 'Generate a description with AI'}>
+              <Hint label={generating ? '停止生成' : '用 AI 生成说明'}>
                 <Button
                   variant="ghost"
                   size="icon-sm"
                   className="absolute right-1.5 top-1.5"
-                  aria-label={generating ? 'Stop generating' : 'Generate description with AI'}
+                  aria-label={generating ? '停止生成' : '用 AI 生成说明'}
                   onClick={() => void generate()}
                 >
                   {generating ? <Square className="size-3.5" /> : <Sparkles className="size-3.5" />}
@@ -326,8 +326,8 @@ export function CreatePrDialog() {
                 <Button variant="secondary" size="sm" className="shrink-0">
                   <Users className="size-3.5" />
                   {reviewers.length > 0
-                    ? `${reviewers.length} reviewer${reviewers.length === 1 ? '' : 's'}`
-                    : 'Add reviewers'}
+                    ? `${reviewers.length} 位审查人`
+                    : '添加审查人'}
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="start" className="max-h-64 w-72 overflow-y-auto">
@@ -402,7 +402,7 @@ export function CreatePrDialog() {
         </div>
         <DialogFooter>
           <Button variant="secondary" onClick={closeDialog}>
-            Cancel
+            取消
           </Button>
           <Button
             disabled={!title.trim() || !base || !source || notPushed || submitting}

@@ -53,7 +53,7 @@ export function StatusBar() {
       {status && (status.ahead > 0 || status.behind > 0) && (
         <span className="flex items-center gap-1.5">
           {status.ahead > 0 && (
-            <Hint label={`${status.ahead} commit${status.ahead === 1 ? '' : 's'} to push`}>
+            <Hint label={`${status.ahead} 个提交待推送`}>
               <span className="flex items-center gap-0.5 text-success">
                 <ArrowUp className="size-3" />
                 {capCount(status.ahead)}
@@ -61,7 +61,7 @@ export function StatusBar() {
             </Hint>
           )}
           {status.behind > 0 && (
-            <Hint label={`${status.behind} commit${status.behind === 1 ? '' : 's'} to pull`}>
+            <Hint label={`${status.behind} 个提交待拉取`}>
               <span className="flex items-center gap-0.5 text-info">
                 <ArrowDown className="size-3" />
                 {capCount(status.behind)}
@@ -102,7 +102,7 @@ export function StatusBar() {
           <button
             type="button"
             className="flex items-center gap-1 rounded px-1 hover:bg-surface-raised hover:text-foreground"
-            aria-label="UI zoom"
+            aria-label="界面缩放"
           >
             <ZoomIn className="size-3" />
             {Math.round(zoom * 100)}%
@@ -117,12 +117,12 @@ export function StatusBar() {
           ))}
         </DropdownMenuContent>
       </DropdownMenu>
-      <Hint label="Check for updates">
+      <Hint label="检查更新">
         <button
           type="button"
           className="rounded px-1 hover:bg-surface-raised hover:text-foreground"
           onClick={() => {
-            toast.loading('Checking for updates…', { id: 'updater' });
+            toast.loading('正在检查更新…', { id: 'updater' });
             void import('@/features/updater/check')
               .then(({ checkForUpdates }) => checkForUpdates({ silent: false }))
               .finally(() => toast.dismiss('updater'));

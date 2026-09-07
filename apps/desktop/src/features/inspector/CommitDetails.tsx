@@ -34,14 +34,14 @@ const statusMeta: Record<
   CommitFileInfo['status'],
   { label: string; mark: string; className: string; tone: 'info' | 'success' | 'danger' | 'primary' }
 > = {
-  modified: { label: 'modified', mark: 'M', className: 'text-info', tone: 'info' },
-  new: { label: 'added', mark: 'A', className: 'text-success', tone: 'success' },
-  deleted: { label: 'deleted', mark: 'D', className: 'text-danger', tone: 'danger' },
-  renamed: { label: 'renamed', mark: 'R', className: 'text-primary', tone: 'primary' },
+  modified: { label: '已修改', mark: 'M', className: 'text-info', tone: 'info' },
+  new: { label: '新增', mark: 'A', className: 'text-success', tone: 'success' },
+  deleted: { label: '已删除', mark: 'D', className: 'text-danger', tone: 'danger' },
+  renamed: { label: '重命名', mark: 'R', className: 'text-primary', tone: 'primary' },
 };
 
 function ChangeSummary({ diffs }: { diffs: CommitFileInfo[] }) {
-  if (diffs.length === 0) return <>No changes</>;
+  if (diffs.length === 0) return <>无更改</>;
   const order: CommitFileInfo['status'][] = ['modified', 'new', 'deleted', 'renamed'];
   const parts = order
     .map((status) => ({ status, count: diffs.filter((d) => d.status === status).length }))
@@ -182,7 +182,7 @@ export function CommitDetails({
       return;
     }
     if (!aiConfigured()) {
-      toast.info('Configure an AI provider in Settings first');
+      toast.info('请先在设置中配置 AI 提供方');
       return;
     }
     const run = useAiWork.getState().startExplain(key);
@@ -194,7 +194,7 @@ export function CommitDetails({
       if (stillRunning()) useAiWork.getState().setExplain(key, text);
     } catch (error) {
       if (stillRunning()) {
-        toast.error(`AI request failed: ${(error as { message?: string } | null)?.message ?? String(error)}`);
+        toast.error(`AI 请求失败：${(error as { message?: string } | null)?.message ?? String(error)}`);
       }
     } finally {
       useAiWork.getState().endExplain(key, run);
@@ -224,7 +224,7 @@ export function CommitDetails({
                 onClick={() => setBodyExpanded((v) => !v)}
               >
                 {bodyExpanded ? <ChevronUp className="size-3" /> : <ChevronDown className="size-3" />}
-                {bodyExpanded ? 'Show less' : 'Show full message'}
+                {bodyExpanded ? '收起' : '显示完整消息'}
               </button>
             )}
           </div>
@@ -237,16 +237,16 @@ export function CommitDetails({
               <span className="truncate text-xs font-medium text-foreground">{commit.author.name}</span>
               <span className="truncate text-[11px] text-faint" title={formatDate(commit.author.time)}>
                 {timeAgo(commit.author.time)} · {formatDate(commit.author.time)}
-                {commit.committer.email !== commit.author.email && ` · committed by ${commit.committer.name}`}
+                {commit.committer.email !== commit.author.email && ` · 由 ${commit.committer.name} 提交`}
               </span>
             </span>
-            <Hint label="Copy full hash">
+            <Hint label="复制完整哈希">
               <button
                 className="flex h-6 shrink-0 items-center gap-1 rounded-md border border-border bg-surface px-1.5 font-mono text-[11px] text-muted hover:text-foreground"
-                aria-label="Copy commit hash"
+                aria-label="复制提交哈希"
                 onClick={() => {
                   void navigator.clipboard.writeText(commit.oid);
-                  toast.success('Commit hash copied');
+                  toast.success('已复制提交哈希');
                 }}
               >
                 {commit.shortOid} <Copy className="size-2.5" />
@@ -256,14 +256,14 @@ export function CommitDetails({
           {(commit.parents.length > 0 || commit.refs.length > 0) && (
             <div className="mt-2 flex flex-wrap items-center gap-1.5 border-t border-border-subtle pt-2">
               {commit.parents.length > 0 && (
-                <span className="text-[11px] text-faint">{commit.parents.length > 1 ? 'Parents' : 'Parent'}</span>
+                <span className="text-[11px] text-faint">{commit.parents.length > 1 ? '父提交' : '父提交'}</span>
               )}
               {commit.parents.map((parent) => (
                 <button
                   key={parent}
                   className="flex h-5 items-center rounded border border-border-subtle bg-surface px-1.5 font-mono text-[10px] text-muted hover:text-foreground"
                   onClick={() => select(parent)}
-                  title="Show this commit"
+                  title="显示此提交"
                 >
                   {parent.slice(0, 7)}
                 </button>
@@ -292,12 +292,12 @@ export function CommitDetails({
             {aiBusy ? (
               <>
                 <Logo size={14} animated="loop" className="logo-draw-loop" />
-                Stop explaining
+                停止解释
               </>
             ) : (
               <>
                 <Sparkles className="text-primary" />
-                Explain with AI
+                用 AI 解释
               </>
             )}
           </Button>
@@ -306,13 +306,13 @@ export function CommitDetails({
           <div className="mt-1 rounded-md border border-primary/30 bg-primary/5 text-xs leading-relaxed">
             <div className="flex items-center justify-between pl-3 pr-1.5 pt-1.5">
               <span className="flex items-center gap-1.5 font-medium text-primary">
-                <Sparkles className="size-3.5" /> AI explanation
+                <Sparkles className="size-3.5" /> AI 解释
               </span>
-              <Hint label="Open explanation in full view">
+              <Hint label="在完整视图中打开解释">
                 <Button
                   variant="ghost"
                   size="icon-sm"
-                  aria-label="Open AI explanation in full view"
+                  aria-label="在完整视图中打开 AI 解释"
                   onClick={() => setAiExpanded(true)}
                 >
                   <Maximize2 className="size-3" />
@@ -327,7 +327,7 @@ export function CommitDetails({
         <AiResultDialog
           open={aiExpanded && !!aiText}
           onOpenChange={(open) => !open && setAiExpanded(false)}
-          title="AI explanation"
+          title="AI 解释"
           icon={<Sparkles className="size-4 text-primary" />}
           text={aiText ?? ''}
         />
@@ -336,10 +336,10 @@ export function CommitDetails({
       <div className="p-2">
         <p className="flex items-center justify-between px-2 py-1 text-xs font-semibold uppercase tracking-wide text-muted">
           <span>
-            Files{!loading && !error && <span className="ml-1 text-faint">{diffs.length}</span>}
+            文件{!loading && !error && <span className="ml-1 text-faint">{diffs.length}</span>}
           </span>
           <span className="flex items-center gap-1 text-[11px] font-normal normal-case tracking-normal">
-            {loading ? 'Loading…' : error ? '' : <ChangeSummary diffs={diffs} />}
+            {loading ? '加载中…' : error ? '' : <ChangeSummary diffs={diffs} />}
             {fileTree && !loading && !error && (
               <FileTreeFoldButton state={foldState} onFold={(mode) => setFold((f) => nextFold(f, mode))} />
             )}
@@ -354,10 +354,10 @@ export function CommitDetails({
         ) : error ? (
           <div className="flex items-center gap-2 px-2 py-1.5">
             <span className="min-w-0 flex-1 text-xs text-danger [overflow-wrap:anywhere]">
-              Could not load changes: {error}
+              无法加载更改：{error}
             </span>
             <Button variant="ghost" size="sm" className="shrink-0" onClick={onRetry}>
-              Retry
+              重试
             </Button>
           </div>
         ) : fileTree ? (

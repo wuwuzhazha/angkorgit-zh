@@ -45,7 +45,7 @@ Subtle, purposeful, interruptible:
 - Durations 150–250ms; easing `cubic-bezier(0.16, 1, 0.3, 1)`.
 - Animate opacity/transform only — never layout properties in scrolling lists.
 - The splash logo draw (1.6s) is the single "hero" animation in the app.
-- Respect the *Reduce motion* setting.
+- Respect the *减少动效* setting.
 
 ## Interaction principles
 
@@ -57,4 +57,4 @@ Subtle, purposeful, interruptible:
 
 ## Writing style
 
-Sentence case everywhere ("Create branch", not "Create Branch"). Errors say what failed and what to do: "Push failed: no upstream — push with 'Set upstream' instead." No jargon beyond Git's own vocabulary.
+Sentence case everywhere ("新建分支", not "Create Branch"). Errors say what failed and what to do: "推送失败：没有上游——请改用“设置上游”推送。" No jargon beyond Git's own vocabulary.

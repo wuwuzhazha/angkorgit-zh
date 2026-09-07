@@ -62,11 +62,11 @@ export function RepoDialogs({ onDone }: { onDone: () => Promise<void> }) {
     setBusy(true);
     try {
       await op();
-      toast.success(`${label} done`);
+      toast.success(`${label} 已完成`);
       closeDialog();
       await onDone();
     } catch (error) {
-      toast.error(`${label} failed: ${(error as { message?: string }).message ?? error}`);
+      toast.error(`${label} 失败：${(error as { message?: string }).message ?? error}`);
     } finally {
       setBusy(false);
     }
@@ -74,7 +74,7 @@ export function RepoDialogs({ onDone }: { onDone: () => Promise<void> }) {
 
   const submitCreateBranch = () => {
     if (!name.trim()) return;
-    void submit('Create branch', () =>
+    void submit('新建分支', () =>
       useUndo.getState().tracked({
         path,
         kind: 'branchCreate',
@@ -87,7 +87,7 @@ export function RepoDialogs({ onDone }: { onDone: () => Promise<void> }) {
 
   const submitCreateTag = () => {
     if (!name.trim()) return;
-    void submit('Create tag', () =>
+    void submit('新建标签', () =>
       ipc.tagCreate(path, name.trim(), dialogContext, message.trim() || null),
     );
   };
@@ -128,7 +128,7 @@ export function RepoDialogs({ onDone }: { onDone: () => Promise<void> }) {
 
   const submitRename = () => {
     if (!name.trim() || name.trim() === dialogContext) return;
-    void submit('Rename branch', () =>
+    void submit('重命名分支', () =>
       useUndo.getState().tracked({
         path,
         kind: 'branchRename',
@@ -144,9 +144,9 @@ export function RepoDialogs({ onDone }: { onDone: () => Promise<void> }) {
       <Dialog open={dialog === 'createBranch'} onOpenChange={(o) => !o && closeDialog()}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Create branch</DialogTitle>
+            <DialogTitle>新建分支</DialogTitle>
             <DialogDescription>
-              {dialogContext ? `From commit ${dialogContext.slice(0, 8)}` : 'From the current HEAD'}
+              {dialogContext ? `From commit ${dialogContext.slice(0, 8)}` : '从当前 HEAD 起'}
             </DialogDescription>
           </DialogHeader>
           <div className="flex flex-col gap-3">
@@ -166,10 +166,10 @@ export function RepoDialogs({ onDone }: { onDone: () => Promise<void> }) {
           </div>
           <DialogFooter>
             <Button variant="ghost" onClick={closeDialog}>
-              Cancel
+              取消
             </Button>
             <Button disabled={busy || !name.trim()} onClick={submitCreateBranch}>
-              Create
+              创建
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -178,9 +178,9 @@ export function RepoDialogs({ onDone }: { onDone: () => Promise<void> }) {
       <Dialog open={dialog === 'createTag'} onOpenChange={(o) => !o && closeDialog()}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Create tag</DialogTitle>
+            <DialogTitle>新建标签</DialogTitle>
             <DialogDescription>
-              {dialogContext ? `At commit ${dialogContext.slice(0, 8)}` : 'At the current HEAD'} — add a message for an annotated tag.
+              {dialogContext ? `At commit ${dialogContext.slice(0, 8)}` : '在当前 HEAD 处'} — add a message for an annotated tag.
             </DialogDescription>
           </DialogHeader>
           <div className="flex flex-col gap-3">
@@ -194,17 +194,17 @@ export function RepoDialogs({ onDone }: { onDone: () => Promise<void> }) {
               }}
             />
             <Textarea
-              placeholder="Tag message (optional)"
+              placeholder="标签消息（可选）"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
             />
           </div>
           <DialogFooter>
             <Button variant="ghost" onClick={closeDialog}>
-              Cancel
+              取消
             </Button>
             <Button disabled={busy || !name.trim()} onClick={submitCreateTag}>
-              Create
+              创建
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -213,13 +213,13 @@ export function RepoDialogs({ onDone }: { onDone: () => Promise<void> }) {
       <Dialog open={dialog === 'createStash'} onOpenChange={(o) => !o && closeDialog()}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Stash changes</DialogTitle>
-            <DialogDescription>Save your working changes and restore a clean tree.</DialogDescription>
+            <DialogTitle>暂存更改</DialogTitle>
+            <DialogDescription>保存你的工作更改并恢复干净的工作区。</DialogDescription>
           </DialogHeader>
           <div className="flex flex-col gap-3">
             <Input
               autoFocus
-              placeholder="Stash message (optional)"
+              placeholder="暂存消息（可选）"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               onKeyDown={(e) => {
@@ -228,15 +228,15 @@ export function RepoDialogs({ onDone }: { onDone: () => Promise<void> }) {
             />
             <label className="flex cursor-pointer items-center gap-2 text-xs text-muted">
               <Checkbox checked={includeUntracked} onCheckedChange={(v) => setIncludeUntracked(v === true)} />
-              Include untracked files
+              包含未跟踪文件
             </label>
           </div>
           <DialogFooter>
             <Button variant="ghost" onClick={closeDialog}>
-              Cancel
+              取消
             </Button>
             <Button disabled={busy} onClick={submitStash}>
-              Stash
+              暂存
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -245,8 +245,8 @@ export function RepoDialogs({ onDone }: { onDone: () => Promise<void> }) {
       <Dialog open={dialog === 'rename'} onOpenChange={(o) => !o && closeDialog()}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Rename branch</DialogTitle>
-            <DialogDescription>Renaming “{dialogContext}”.</DialogDescription>
+            <DialogTitle>重命名分支</DialogTitle>
+            <DialogDescription>重命名“{dialogContext}”。</DialogDescription>
           </DialogHeader>
           <Input
             autoFocus
@@ -258,13 +258,13 @@ export function RepoDialogs({ onDone }: { onDone: () => Promise<void> }) {
           />
           <DialogFooter>
             <Button variant="ghost" onClick={closeDialog}>
-              Cancel
+              取消
             </Button>
             <Button
               disabled={busy || !name.trim() || name.trim() === dialogContext}
               onClick={submitRename}
             >
-              Rename
+              重命名
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -279,12 +279,12 @@ export function RepoDialogs({ onDone }: { onDone: () => Promise<void> }) {
         >
           <DialogHeader>
             <DialogTitle>
-              {pickOids.length > 1 ? `Cherry-pick ${pickOids.length} commits` : 'Cherry-pick commit'}
+              {pickOids.length > 1 ? `拣选 ${pickOids.length} 个提交` : '拣选提交'}
             </DialogTitle>
             <DialogDescription>
               {pickOids.length > 1
-                ? `Apply these commits, oldest first, as new commits on ${repo?.headBranch ?? 'the current branch'}.`
-                : `Apply this commit as a new commit on ${repo?.headBranch ?? 'the current branch'}.`}
+                ? `按从旧到新的顺序将这些提交作为新提交应用到 ${repo?.headBranch ?? '当前分支'} 上。`
+                : `将此提交作为新提交应用到 ${repo?.headBranch ?? '当前分支'} 上。`}
             </DialogDescription>
           </DialogHeader>
           <div className="flex flex-col gap-3">
@@ -302,10 +302,10 @@ export function RepoDialogs({ onDone }: { onDone: () => Promise<void> }) {
                 onCheckedChange={(v) => setCherryPickRecordOrigin(v === true)}
               />
               <span className="flex flex-col gap-0.5">
-                <span>{pickOids.length > 1 ? 'Reference the source commits' : 'Reference the source commit'}</span>
+                <span>{pickOids.length > 1 ? '引用源提交' : '引用源提交'}</span>
                 <span className="opacity-70">
                   Appends “(cherry picked from commit …)” to{' '}
-                  {pickOids.length > 1 ? 'each new message' : 'the new message'}, like git
+                  {pickOids.length > 1 ? '每条新消息' : '这条新消息'}, like git
                   cherry-pick -x. Useful when backporting between shared branches.
                 </span>
               </span>
@@ -313,10 +313,10 @@ export function RepoDialogs({ onDone }: { onDone: () => Promise<void> }) {
           </div>
           <DialogFooter>
             <Button variant="ghost" onClick={closeDialog}>
-              Cancel
+              取消
             </Button>
             <Button ref={cherryPickRef} disabled={busy} onClick={submitCherryPick}>
-              {pickOids.length > 1 ? `Cherry-pick ${pickOids.length} commits` : 'Cherry-pick'}
+              {pickOids.length > 1 ? `拣选 ${pickOids.length} 个提交` : '拣选'}
             </Button>
           </DialogFooter>
         </DialogContent>

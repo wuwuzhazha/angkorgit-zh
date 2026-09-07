@@ -113,12 +113,12 @@ pub fn watch(app: &AppHandle, slot: &WatcherSlot, path: &str) -> AppResult<()> {
             }
         },
     )
-    .map_err(|e| AppError::other(format!("could not create watcher: {e}")))?;
+    .map_err(|e| AppError::other(format!("无法创建监视器：{e}")))?;
 
     debouncer
         .watcher()
         .watch(&root, RecursiveMode::Recursive)
-        .map_err(|e| AppError::other(format!("could not watch {path}: {e}")))?;
+        .map_err(|e| AppError::other(format!("无法监视 {path}：{e}")))?;
     for extra in extra_watch_roots(&root, &gitdirs) {
         let _ = debouncer.watcher().watch(&extra, RecursiveMode::Recursive);
     }

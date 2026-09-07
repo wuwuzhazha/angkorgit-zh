@@ -32,7 +32,7 @@
     "updater": {
       "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEJCOTlBMDVERkYyNjQ4NQpSV1NGWlBMZkJacTVDNUpPR0lTZmxaNEJxSXNKMU0vVmRCQ3JFWG5NdFNLNHlta09hRUUxcC9lNgo=",
       "endpoints": [
-        "https://github.com/cheat2001/angkorgit/releases/latest/download/latest.json"
+        "https://github.com/wuwuzhazha/angkorgit/releases/latest/download/latest.json"
       ]
     }
   },

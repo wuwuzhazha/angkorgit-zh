@@ -268,7 +268,7 @@ export function Sidebar() {
       .open(`${path}/${sub.path}`)
       .catch(() =>
         toast.error(
-          `Could not open ${sub.path} — the submodule may not be initialized. Run "Update" on it first.`,
+          `无法打开 ${sub.path}——子模块可能尚未初始化，请先对其执行“更新”。`,
         ),
       );
   };
@@ -313,10 +313,10 @@ export function Sidebar() {
             shouldRecord: outcomeOk,
           })
         : await op();
-      toastOutcome(result as { status?: string; message?: string } | undefined, `${label} done`);
+      toastOutcome(result as { status?: string; message?: string } | undefined, `${label} 已完成`);
       await refreshAll();
     } catch (error) {
-      toast.error(`${label} failed: ${(error as { message?: string }).message ?? error}`);
+      toast.error(`${label} 失败：${(error as { message?: string }).message ?? error}`);
     }
   };
 
@@ -327,19 +327,19 @@ export function Sidebar() {
       return;
     }
     const dirty = worktreeDirty(wt);
-    const branchNote = wt.branch ? ` The branch ${wt.branch} and its commits stay in the repository.` : ' Commits stay in the repository.';
+    const branchNote = wt.branch ? ` 分支 ${wt.branch} 及其提交保留在仓库中。` : ' 提交保留在仓库中。';
     const ok = await confirmDialog({
-      title: `Remove worktree "${wt.name}"?`,
+      title: `移除工作树 "${wt.name}"?`,
       description: dirty
-        ? `This folder has uncommitted changes. Removing it deletes the folder and everything in it.${branchNote}`
+        ? `此文件夹有未提交的更改。移除它将删除该文件夹及其中的所有内容。${branchNote}`
         : `The folder is deleted.${branchNote}`,
       path: wt.path,
-      confirmLabel: dirty ? 'Delete changes and remove' : 'Remove worktree',
+      confirmLabel: dirty ? '删除更改并移除' : '移除工作树',
       destructive: true,
     });
     if (!ok) return;
     if (!wt.isCurrent) {
-      await act(`Remove worktree ${wt.name}`, () => ipc.worktreeRemove(path, wt.name, dirty));
+      await act(`移除工作树 ${wt.name}`, () => ipc.worktreeRemove(path, wt.name, dirty));
       return;
     }
     const main = worktrees.find((w) => w.isMain);
@@ -358,7 +358,7 @@ export function Sidebar() {
       await useRepo.getState().refresh();
       await graphReload(main.path);
     } catch (error) {
-      toast.error(`Remove worktree failed: ${(error as { message?: string }).message ?? error}`);
+      toast.error(`移除工作树 failed: ${(error as { message?: string }).message ?? error}`);
     }
   };
 
@@ -526,10 +526,10 @@ export function Sidebar() {
   const renderWorktree = (wt: WorktreeInfo) => {
     const dirty = worktreeDirty(wt);
     const subtitle = wt.isMissing
-      ? 'folder missing'
+      ? '文件夹缺失'
       : wt.isDetached
         ? `detached @ ${wt.headOid?.slice(0, 8) ?? '?'}`
-        : wt.branch ?? 'no branch';
+        : wt.branch ?? '无分支';
     return (
       <div
         key={wt.path}
@@ -559,12 +559,12 @@ export function Sidebar() {
         <span className="flex min-w-0 flex-1 flex-col leading-tight">
           <span className="flex min-w-0 items-center gap-1.5">
             <span className="min-w-0 truncate">{wt.name}</span>
-            {wt.isMain && <Home className="size-3 shrink-0 text-faint" aria-label="Main worktree" />}
-            {wt.isLocked && <Lock className="size-3 shrink-0 text-faint" aria-label="Locked" />}
+            {wt.isMain && <Home className="size-3 shrink-0 text-faint" aria-label="主工作树" />}
+            {wt.isLocked && <Lock className="size-3 shrink-0 text-faint" aria-label="已锁定" />}
             {wt.isMissing ? (
-              <AlertTriangle className="size-3 shrink-0 text-danger" aria-label="Folder missing" />
+              <AlertTriangle className="size-3 shrink-0 text-danger" aria-label="文件夹缺失" />
             ) : dirty ? (
-              <span className="size-1.5 shrink-0 rounded-full bg-primary" aria-label="Uncommitted changes" />
+              <span className="size-1.5 shrink-0 rounded-full bg-primary" aria-label="未提交的更改" />
             ) : null}
           </span>
           <span className="truncate font-mono text-[10px] text-faint">{subtitle}</span>
@@ -638,7 +638,7 @@ export function Sidebar() {
         dragging === branch.name && 'opacity-40',
         dropTarget === branch.name && 'bg-primary/10 ring-1 ring-inset ring-primary/60',
       )}
-      title={`${branch.name} — drag onto another branch to merge or rebase`}
+      title={`${branch.name} — 拖到另一个分支上以合并或变基`}
     >
       <button
         className="flex min-w-0 flex-1 items-center gap-2 text-left"
@@ -803,7 +803,7 @@ export function Sidebar() {
       <div
         className="flex min-w-0 flex-1 items-center gap-1.5 px-2 py-1 text-sm text-muted"
         style={{ paddingLeft: 10 }}
-        title={`${remote.name} — ${remote.url} (no branches fetched yet)`}
+        title={`${remote.name} — ${remote.url} （尚未拉取任何分支）`}
       >
         <span className="size-3.5 shrink-0" />
         <Cloud className="size-3.5 shrink-0 text-faint" />
@@ -827,23 +827,23 @@ export function Sidebar() {
   );
 
   return (
-    <aside className="flex h-full flex-col bg-surface" aria-label="Branches and refs">
+    <aside className="flex h-full flex-col bg-surface" aria-label="分支与引用">
       <div className="flex items-center gap-1 p-2">
         <div className="relative min-w-0 flex-1">
           <Search className="absolute left-2.5 top-1/2 size-3.5 -translate-y-1/2 text-faint" />
           <Input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Filter refs…"
+            placeholder="过滤引用…"
             className="h-7 border-transparent bg-surface-raised pl-8 text-xs"
           />
         </div>
-        <Hint label="Collapse all sections">
+        <Hint label="折叠全部分区">
           <Button
             variant="ghost"
             size="icon-sm"
             className="shrink-0 text-faint hover:text-foreground"
-            aria-label="Collapse all sections"
+            aria-label="折叠全部分区"
             disabled={!anySectionOpen && expandedFolders.size === 0}
             onClick={collapseAll}
           >
@@ -856,11 +856,11 @@ export function Sidebar() {
         <Section
           {...section('branches')}
           icon={<GitBranch className="size-3.5" />}
-          title="Branches"
+          title="分支"
           count={locals.length}
           action={
-            <Hint label="New branch">
-              <Button variant="ghost" size="icon-sm" aria-label="New branch" onClick={() => openDialog('createBranch')}>
+            <Hint label="新建分支">
+              <Button variant="ghost" size="icon-sm" aria-label="新建分支" onClick={() => openDialog('createBranch')}>
                 <Plus className="size-3.5" />
               </Button>
             </Hint>
@@ -879,31 +879,31 @@ export function Sidebar() {
           {q && locals.length > FLAT_FILTER_CAP && (
             <div className="px-2 py-1 pl-7 text-xs text-faint">+{locals.length - FLAT_FILTER_CAP} more…</div>
           )}
-          {noFilterMatches && <div className="px-2 py-1 pl-7 text-xs text-faint">No refs match the filter.</div>}
+          {noFilterMatches && <div className="px-2 py-1 pl-7 text-xs text-faint">没有匹配过滤条件的引用。</div>}
         </Section>
         {spacerAfter('branches')}
 
         <Section
           {...section('worktrees')}
           icon={<FolderTree className="size-3.5" />}
-          title="Worktrees"
+          title="工作树"
           count={worktrees.length}
           action={
             <span className="flex items-center">
               {worktrees.some((w) => w.isMissing) && (
-                <Hint label="Forget worktrees whose folder is gone">
+                <Hint label="遗忘文件夹已消失的工作树">
                   <Button
                     variant="ghost"
                     size="icon-sm"
-                    aria-label="Prune missing worktrees"
-                    onClick={() => void act('Prune worktrees', () => ipc.worktreePrune(path))}
+                    aria-label="清理缺失的工作树"
+                    onClick={() => void act('清理工作树', () => ipc.worktreePrune(path))}
                   >
                     <Eraser className="size-3.5" />
                   </Button>
                 </Hint>
               )}
-              <Hint label="New worktree">
-                <Button variant="ghost" size="icon-sm" aria-label="New worktree" onClick={() => openDialog('createWorktree')}>
+              <Hint label="新建工作树">
+                <Button variant="ghost" size="icon-sm" aria-label="新建工作树" onClick={() => openDialog('createWorktree')}>
                   <Plus className="size-3.5" />
                 </Button>
               </Hint>
@@ -920,8 +920,8 @@ export function Sidebar() {
           {!repoRefreshing && worktrees.length <= 1 && (
             <SidebarEmpty
               icon={<FolderTree />}
-              title="Two branches, two folders"
-              description="Fix a bug or run an agent beside your work. No stashing."
+              title="两个分支，两个文件夹"
+              description="在现有工作之外修缺陷或运行代理，无需暂存。"
               action={
                 <Button
                   variant="secondary"
@@ -929,7 +929,7 @@ export function Sidebar() {
                   className="w-full justify-center"
                   onClick={() => openDialog('createWorktree')}
                 >
-                  <Plus className="size-3.5" /> New worktree
+                  <Plus className="size-3.5" /> 新建工作树
                 </Button>
               }
             />
@@ -950,21 +950,21 @@ export function Sidebar() {
             count={filteredPrs.length}
             action={
               <span className="flex items-center">
-                <Hint label="Refresh pull requests">
+                <Hint label="刷新拉取请求">
                   <Button
                     variant="ghost"
                     size="icon-sm"
-                    aria-label="Refresh pull requests"
+                    aria-label="刷新拉取请求"
                     onClick={() => void useForge.getState().load(true)}
                   >
                     <RefreshCw className={cn('size-3.5', forgeLoading && 'animate-spin')} />
                   </Button>
                 </Hint>
-                <Hint label="Create pull request">
+                <Hint label="创建拉取请求">
                   <Button
                     variant="ghost"
                     size="icon-sm"
-                    aria-label="Create pull request"
+                    aria-label="创建拉取请求"
                     onClick={() => openDialog('createPullRequest')}
                   >
                     <Plus className="size-3.5" />
@@ -1038,12 +1038,12 @@ export function Sidebar() {
           </>
         )}
 
-        <Section {...section('remotes')} icon={<Cloud className="size-3.5" />} title="Remotes" count={remoteBranches.length}>
+        <Section {...section('remotes')} icon={<Cloud className="size-3.5" />} title="远端" count={remoteBranches.length}>
           {remotes.length === 0 && !hasRemoteBranches && !repoRefreshing && (
             <SidebarEmpty
               icon={<Cloud />}
-              title="No remotes"
-              description="This repository lives only on this machine. Add a remote to push, pull and open pull requests."
+              title="无远端"
+              description="此仓库只存在于本机。添加远端即可推送、拉取并打开拉取请求。"
             />
           )}
           {q
@@ -1061,12 +1061,12 @@ export function Sidebar() {
 
         <Section
           icon={<TagIcon className="size-3.5" />}
-          title="Tags"
+          title="标签"
           count={filteredTags.length}
           {...section('tags')}
           action={
-            <Hint label="New tag">
-              <Button variant="ghost" size="icon-sm" aria-label="New tag" onClick={() => openDialog('createTag')}>
+            <Hint label="新建标签">
+              <Button variant="ghost" size="icon-sm" aria-label="新建标签" onClick={() => openDialog('createTag')}>
                 <Plus className="size-3.5" />
               </Button>
             </Hint>
@@ -1075,11 +1075,11 @@ export function Sidebar() {
           {tags.length === 0 && !repoRefreshing && (
             <SidebarEmpty
               icon={<TagIcon />}
-              title="No tags yet"
-              description="Mark releases and milestones so they stand out in the graph."
+              title="还没有标签"
+              description="标记发布与里程碑，让它们在提交图中脱颖而出。"
               action={
                 <Button variant="secondary" size="sm" className="w-full justify-center" onClick={() => openDialog('createTag')}>
-                  <Plus className="size-3.5" /> New tag
+                  <Plus className="size-3.5" /> 新建标签
                 </Button>
               }
             />
@@ -1120,12 +1120,12 @@ export function Sidebar() {
 
         <Section
           icon={<Archive className="size-3.5" />}
-          title="Stashes"
+          title="暂存列表"
           count={stashes.length}
           {...section('stashes')}
           action={
-            <Hint label="New stash">
-              <Button variant="ghost" size="icon-sm" aria-label="New stash" onClick={() => openDialog('createStash')}>
+            <Hint label="新建暂存">
+              <Button variant="ghost" size="icon-sm" aria-label="新建暂存" onClick={() => openDialog('createStash')}>
                 <Plus className="size-3.5" />
               </Button>
             </Hint>
@@ -1134,11 +1134,11 @@ export function Sidebar() {
           {stashes.length === 0 && !repoRefreshing && (
             <SidebarEmpty
               icon={<Archive />}
-              title="Nothing stashed"
-              description="Set changes aside without committing, then pop them back later."
+              title="没有暂存内容"
+              description="将更改暂放一边而不提交，稍后再取回。"
               action={
                 <Button variant="secondary" size="sm" className="w-full justify-center" onClick={() => openDialog('createStash')}>
-                  <Plus className="size-3.5" /> Stash changes
+                  <Plus className="size-3.5" /> 暂存更改
                 </Button>
               }
             />
@@ -1160,7 +1160,7 @@ export function Sidebar() {
                 variant="ghost"
                 size="icon-sm"
                 className="shrink-0 opacity-0 focus-visible:opacity-100 group-hover:opacity-100"
-                aria-label="Stash actions"
+                aria-label="暂存操作"
                 onClick={(e) => {
                   e.stopPropagation();
                   const rect = e.currentTarget.getBoundingClientRect();
@@ -1176,7 +1176,7 @@ export function Sidebar() {
 
         {submodules.length > 0 && (
           <>
-          <Section {...section('submodules')} icon={<Boxes className="size-3.5" />} title="Submodules" count={submodules.length}>
+          <Section {...section('submodules')} icon={<Boxes className="size-3.5" />} title="子模块" count={submodules.length}>
             {submodules.map((sub) => (
               <div
                 key={sub.name}
@@ -1218,7 +1218,7 @@ export function Sidebar() {
           <DropdownMenuContent align="start" side="bottom">
             <DropdownMenuLabel className="max-w-64 truncate font-mono">{subMenu.sub.path}</DropdownMenuLabel>
             <DropdownMenuItem onClick={() => openSubmodule(subMenu.sub)}>
-              <FolderGit2 /> Open as repository
+              <FolderGit2 /> 打开 as repository
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => {
@@ -1232,10 +1232,10 @@ export function Sidebar() {
             <DropdownMenuItem
               onClick={() => {
                 void navigator.clipboard.writeText(`${path}/${subMenu.sub.path}`);
-                toast.success('Path copied');
+                toast.success('路径已复制');
               }}
             >
-              <Copy /> Copy path
+              <Copy /> 复制路径
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -1254,12 +1254,12 @@ export function Sidebar() {
               <Check /> Checkout
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => void openExternal(prMenu.pr.url)}>
-              <Cloud /> Open in browser
+              <Cloud /> 打开 in browser
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => {
                 void navigator.clipboard.writeText(prMenu.pr.url);
-                toast.success('URL copied');
+                toast.success('URL 已复制');
               }}
             >
               <Copy /> Copy URL
@@ -1315,7 +1315,7 @@ export function Sidebar() {
             <DropdownMenuItem
               onClick={() => {
                 const stash = stashMenu.stash;
-                void act('Apply stash', () => ipc.stashApply(path, stash.index));
+                void act('应用暂存', () => ipc.stashApply(path, stash.index));
               }}
             >
               <Play /> Apply
@@ -1323,7 +1323,7 @@ export function Sidebar() {
             <DropdownMenuItem
               onClick={() => {
                 const stash = stashMenu.stash;
-                void act('Pop stash', () => ipc.stashPop(path, stash.index));
+                void act('弹出暂存', () => ipc.stashPop(path, stash.index));
               }}
             >
               <Undo2 /> Pop
@@ -1333,7 +1333,7 @@ export function Sidebar() {
               destructive
               onClick={() => {
                 const stash = stashMenu.stash;
-                void act('Drop stash', () => ipc.stashDrop(path, stash.index));
+                void act('丢弃暂存', () => ipc.stashDrop(path, stash.index));
               }}
             >
               <Trash2 /> Delete
@@ -1353,21 +1353,21 @@ export function Sidebar() {
               disabled={worktreeMenu.worktree.isCurrent || worktreeMenu.worktree.isMissing}
               onClick={() => openWorktree(worktreeMenu.worktree)}
             >
-              <FolderTree /> {worktreeMenu.worktree.isCurrent ? 'Open in this tab' : 'Switch to this worktree'}
+              <FolderTree /> {worktreeMenu.worktree.isCurrent ? '在此标签页中打开' : '切换到该工作树'}
             </DropdownMenuItem>
             <DropdownMenuItem
               disabled={worktreeMenu.worktree.isMissing}
               onClick={() => void ipc.revealPath(worktreeMenu.worktree.path)}
             >
-              <FolderOpen /> {isMac ? 'Reveal in Finder' : 'Show in file manager'}
+              <FolderOpen /> {isMac ? '在 Finder 中显示' : '在文件管理器中显示'}
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => {
                 void navigator.clipboard.writeText(worktreeMenu.worktree.path);
-                toast.success('Path copied');
+                toast.success('路径已复制');
               }}
             >
-              <Copy /> Copy path
+              <Copy /> 复制路径
             </DropdownMenuItem>
             {!worktreeMenu.worktree.isMain && (
               <>
@@ -1379,7 +1379,7 @@ export function Sidebar() {
                     </>
                   ) : (
                     <>
-                      <Trash2 /> Remove worktree…
+                      <Trash2 /> 移除工作树…
                     </>
                   )}
                 </DropdownMenuItem>
@@ -1418,17 +1418,17 @@ export function Sidebar() {
               onClick={() => {
                 const r = remoteMenu.remote;
                 void confirmDialog({
-                  title: `Remove remote "${r.name}"?`,
+                  title: `移除远端 "${r.name}"?`,
                   description:
-                    'The remote and its remote-tracking branches are removed from this repository. Nothing is deleted on the server.',
-                  confirmLabel: 'Remove remote',
+                    '该远端及其远端跟踪分支将从本仓库移除，服务器上的内容不会被删除。',
+                  confirmLabel: '移除远端',
                   destructive: true,
                 }).then((ok) => {
                   if (ok) void act(`Remove ${r.name}`, () => ipc.remoteRemove(path, r.name));
                 });
               }}
             >
-              <Trash2 /> Remove remote…
+              <Trash2 /> 移除远端…
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -1468,7 +1468,7 @@ export function Sidebar() {
           </div>
           <DialogFooter>
             <Button variant="secondary" onClick={() => setEditRemote(null)}>
-              Cancel
+              取消
             </Button>
             <Button
               disabled={savingRemote || !editRemote?.name.trim() || !editRemote?.url.trim()}
@@ -1505,7 +1505,7 @@ export function Sidebar() {
             )}
             {!branchMenu.branch.isHead && !branchMenuHeld && (
               <DropdownMenuItem onClick={() => openDialog('createWorktree', { branch: branchMenu.branch.name })}>
-                <FolderTree /> Open in new worktree…
+                <FolderTree /> 打开 in new worktree…
               </DropdownMenuItem>
             )}
             <DropdownMenuItem
@@ -1556,7 +1556,7 @@ export function Sidebar() {
             )}
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={() => openDialog('createBranch', branchMenu.branch.targetOid)}>
-              <GitBranchPlus /> Create branch here…
+              <GitBranchPlus /> 在此处新建分支…
             </DropdownMenuItem>
             {!branchMenu.branch.isRemote && (
               <>
@@ -1597,7 +1597,7 @@ export function Sidebar() {
             <DialogDescription>
               {dropAction && useRepo.getState().repo?.headBranch !== dropAction.target
                 ? `${dropAction.target} will be checked out first when merging.`
-                : 'Choose what to do with these branches.'}
+                : '选择要对这些分支执行的操作。'}
             </DialogDescription>
           </DialogHeader>
           <div className="flex flex-col gap-2">
@@ -1652,7 +1652,7 @@ export function Sidebar() {
           </div>
           <DialogFooter>
             <Button variant="ghost" onClick={() => setDropAction(null)}>
-              Cancel
+              取消
             </Button>
           </DialogFooter>
         </DialogContent>

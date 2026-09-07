@@ -76,7 +76,7 @@ export function bitbucketForgeProvider(remote: ForgeRemote, http: HttpClient): F
         `/repositories/${repoPath}/pullrequests?state=OPEN&sort=-updated_on&pagelen=50`,
       )) as { values?: BitbucketPull[] };
       if (!Array.isArray(data.values)) {
-        throw new ForgeError('Bitbucket returned an unexpected response', 'bitbucket');
+        throw new ForgeError('Bitbucket 返回了意外的响应', 'bitbucket');
       }
       return data.values.map(mapPull);
     },

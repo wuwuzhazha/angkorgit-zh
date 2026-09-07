@@ -64,14 +64,14 @@ pub fn create(
             pixel_width: 0,
             pixel_height: 0,
         })
-        .map_err(|e| AppError::other(format!("failed to open pty: {e}")))?;
+        .map_err(|e| AppError::other(format!("无法打开 pty：{e}")))?;
 
     let mut cmd = default_shell();
     cmd.cwd(cwd);
     let mut child = pair
         .slave
         .spawn_command(cmd)
-        .map_err(|e| AppError::other(format!("failed to spawn shell: {e}")))?;
+        .map_err(|e| AppError::other(format!("无法启动 shell：{e}")))?;
     let killer = child.clone_killer();
 
     let id = state.next_id.fetch_add(1, Ordering::SeqCst) + 1;
@@ -79,11 +79,11 @@ pub fn create(
     let mut reader = pair
         .master
         .try_clone_reader()
-        .map_err(|e| AppError::other(format!("failed to clone pty reader: {e}")))?;
+        .map_err(|e| AppError::other(format!("无法克隆 pty 读取端：{e}")))?;
     let writer = pair
         .master
         .take_writer()
-        .map_err(|e| AppError::other(format!("failed to take pty writer: {e}")))?;
+        .map_err(|e| AppError::other(format!("无法获取 pty 写入端：{e}")))?;
 
     state.sessions.lock().unwrap().insert(
         id,
@@ -123,7 +123,7 @@ pub fn write(state: &TerminalSessions, id: u32, data: &str) -> AppResult<()> {
     let mut sessions = state.sessions.lock().unwrap();
     let session = sessions
         .get_mut(&id)
-        .ok_or_else(|| AppError::other("terminal session not found"))?;
+        .ok_or_else(|| AppError::other("找不到终端会话"))?;
     session
         .writer
         .write_all(data.as_bytes())
@@ -136,7 +136,7 @@ pub fn resize(state: &TerminalSessions, id: u32, cols: u16, rows: u16) -> AppRes
     let sessions = state.sessions.lock().unwrap();
     let session = sessions
         .get(&id)
-        .ok_or_else(|| AppError::other("terminal session not found"))?;
+        .ok_or_else(|| AppError::other("找不到终端会话"))?;
     session
         .master
         .resize(PtySize {
@@ -145,7 +145,7 @@ pub fn resize(state: &TerminalSessions, id: u32, cols: u16, rows: u16) -> AppRes
             pixel_width: 0,
             pixel_height: 0,
         })
-        .map_err(|e| AppError::other(format!("resize failed: {e}")))?;
+        .map_err(|e| AppError::other(format!("调整大小失败：{e}")))?;
     Ok(())
 }
 

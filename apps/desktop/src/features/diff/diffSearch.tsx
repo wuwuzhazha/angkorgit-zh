@@ -129,32 +129,32 @@ export function useDiffFind(diff: FileDiff | null, scrollRef: React.RefObject<HT
             else next();
           }
         }}
-        placeholder="Find in diff…"
+        placeholder="在 diff 中查找…"
         autoFocus
         spellCheck={false}
         className="w-44 bg-transparent text-xs text-foreground outline-none placeholder:text-faint"
       />
       <span className="shrink-0 whitespace-nowrap px-1 text-[10px] tabular-nums text-muted">
-        {query ? (matches.length > 0 ? `${bounded + 1} of ${matches.length}` : 'No results') : ''}
+        {query ? (matches.length > 0 ? `${bounded + 1} of ${matches.length}` : '无结果') : ''}
       </span>
-      <Hint label="Match case">
+      <Hint label="区分大小写">
         <Button
           variant="ghost"
           size="icon-sm"
-          aria-label="Match case"
+          aria-label="区分大小写"
           className={cn('size-6', caseSensitive && 'bg-surface-raised text-primary')}
           onClick={() => setCaseSensitive((v) => !v)}
         >
           <CaseSensitive className="size-3.5" />
         </Button>
       </Hint>
-      <Hint label="Previous match (⇧↩)">
-        <Button variant="ghost" size="icon-sm" aria-label="Previous match" className="size-6" disabled={matches.length === 0} onClick={prev}>
+      <Hint label="上一个匹配 (⇧↩)">
+        <Button variant="ghost" size="icon-sm" aria-label="上一个匹配" className="size-6" disabled={matches.length === 0} onClick={prev}>
           <ChevronUp className="size-3.5" />
         </Button>
       </Hint>
-      <Hint label="Next match (↩)">
-        <Button variant="ghost" size="icon-sm" aria-label="Next match" className="size-6" disabled={matches.length === 0} onClick={next}>
+      <Hint label="下一个匹配 (↩)">
+        <Button variant="ghost" size="icon-sm" aria-label="下一个匹配" className="size-6" disabled={matches.length === 0} onClick={next}>
           <ChevronDown className="size-3.5" />
         </Button>
       </Hint>
@@ -165,7 +165,7 @@ export function useDiffFind(diff: FileDiff | null, scrollRef: React.RefObject<HT
           </span>
         }
       >
-        <Button variant="ghost" size="icon-sm" aria-label="Close search" className="size-6" onClick={close}>
+        <Button variant="ghost" size="icon-sm" aria-label="关闭搜索" className="size-6" onClick={close}>
           <X className="size-3.5" />
         </Button>
       </Hint>

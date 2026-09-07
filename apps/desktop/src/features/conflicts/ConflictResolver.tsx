@@ -337,12 +337,12 @@ export function ConflictResolver({ file, onResolved }: { file: string; onResolve
     const replaceBlocks = blockIndex === undefined ? blockEdits.size > 0 : blockEdits.has(blockIndex);
     if (!replaceManual && !replaceBlocks) return true;
     const ok = await confirmDialog({
-      title: 'Replace hand edits?',
+      title: '替换手工编辑？',
       description: replaceManual
-        ? 'Your hand-written Output (and any hand-edited conflicts) will be replaced by the resolution built from the checkboxes.'
+        ? '你手写的输出（以及手工编辑过的冲突）将被基于勾选项生成的解决方案替换。'
         : blockIndex === undefined
-          ? 'Hand-edited conflict results will be replaced by the lines you pick.'
-          : "This conflict's hand-edited result will be replaced by the lines you pick.",
+          ? '手工编辑的冲突结果将被你选择的行替换。'
+          : "此冲突的手工编辑结果将被你选择的行替换。",
       confirmLabel: 'Replace',
       destructive: true,
     });
@@ -480,8 +480,8 @@ export function ConflictResolver({ file, onResolved }: { file: string; onResolve
 
   const revertEdit = async (index: number) => {
     const ok = await confirmDialog({
-      title: 'Discard hand-edited result?',
-      description: 'This conflict goes back to the lines picked from A and B, or to unresolved.',
+      title: '丢弃手工编辑的结果？',
+      description: '此冲突将回到从 A 和 B 中选择的行，或回到未解决状态。',
       confirmLabel: 'Discard',
       destructive: true,
     });
@@ -554,7 +554,7 @@ export function ConflictResolver({ file, onResolved }: { file: string; onResolve
 
   const explain = async (current: string, incoming: string) => {
     if (!aiConfigured()) {
-      toast.info('Configure an AI provider in Settings first');
+      toast.info('请先在设置中配置 AI 提供方');
       return;
     }
     const run = ++aiRunRef.current;
@@ -565,7 +565,7 @@ export function ConflictResolver({ file, onResolved }: { file: string; onResolve
       if (stillRunning()) setAiText(text);
     } catch (error) {
       if (stillRunning()) {
-        toast.error(`AI request failed: ${(error as { message?: string } | null)?.message ?? String(error)}`);
+        toast.error(`AI 请求失败：${(error as { message?: string } | null)?.message ?? String(error)}`);
       }
     } finally {
       if (stillRunning()) setAiBusy(false);
@@ -582,7 +582,7 @@ export function ConflictResolver({ file, onResolved }: { file: string; onResolve
     setSaving(true);
     try {
       await ipc.conflictResolve(path, file, manualText ?? buildResult());
-      toast.success(`${file} resolved`);
+      toast.success(`${file} 已解决`);
       openConflict(null);
       await onResolved();
     } catch (error) {
@@ -594,12 +594,12 @@ export function ConflictResolver({ file, onResolved }: { file: string; onResolve
 
   const renderRevertAction = (index: number) => (
     <span className="absolute right-2 top-0.5 z-10 flex items-center opacity-0 transition-opacity group-hover:opacity-100">
-      <Hint label="Discard the hand edit and rebuild from the checkboxes">
+      <Hint label="丢弃手工编辑并从勾选项重建">
         <Button
           variant="ghost"
           size="icon-sm"
           className="h-5 w-5 border border-border bg-surface shadow-soft"
-          aria-label="Discard the hand edit for this conflict"
+          aria-label="丢弃此冲突的手工编辑"
           onMouseDown={(e) => e.stopPropagation()}
           onClick={(e) => {
             e.stopPropagation();
@@ -688,7 +688,7 @@ export function ConflictResolver({ file, onResolved }: { file: string; onResolve
         }}
         spellCheck={false}
         rows={Math.max(draftLines.length, 1)}
-        aria-label="Hand-edited result for this conflict"
+        aria-label="此冲突的手工编辑结果"
         className={cn(
           'ml-2 min-w-0 flex-1 resize-none overflow-hidden bg-transparent p-0 font-mono text-xs leading-5 text-foreground',
           'focus:outline-none',
@@ -702,7 +702,7 @@ export function ConflictResolver({ file, onResolved }: { file: string; onResolve
     <div
       data-line={lineNo === null ? 0 : lineNo - (outputStarts.get(index) ?? 1)}
       className="flex cursor-text items-start gap-2 border-l-2 border-danger bg-danger/5 px-2 transition-colors hover:bg-danger/10"
-      title="Unresolved conflict — click to edit the result, or pick lines above"
+      title="未解决的冲突——点击编辑结果，或在上方选择行"
       onMouseDown={(e) => {
         e.preventDefault();
         startEdit(index, lineFromEvent(e));
@@ -727,8 +727,8 @@ export function ConflictResolver({ file, onResolved }: { file: string; onResolve
           onClick={(e) => e.stopPropagation()}
           aria-label={
             side === 'current'
-              ? 'Take all lines from A for this conflict'
-              : 'Take all lines from B for this conflict'
+              ? '取 A 侧全部行解决此冲突'
+              : '取 B 侧全部行解决此冲突'
           }
         />
       );
@@ -774,7 +774,7 @@ export function ConflictResolver({ file, onResolved }: { file: string; onResolve
               onCheckedChange={() => void toggleLine(index, side, EMPTY_SIDE)}
               aria-label={`Take empty ${side} side (deletes this section)`}
             />
-            <span className="font-mono text-xs italic leading-5 text-faint">(no lines — deletes this section)</span>
+            <span className="font-mono text-xs italic leading-5 text-faint">（无行——删除此部分）</span>
           </label>
         ) : (
           lines.map((line, li) => (
@@ -819,7 +819,7 @@ export function ConflictResolver({ file, onResolved }: { file: string; onResolve
                 onCheckedChange={() => void toggleLine(index, side, EMPTY_SIDE)}
                 aria-label={`Take empty ${side} side (deletes this section)`}
               />
-              <span className="font-mono text-xs italic leading-5 text-faint">(no lines — deletes this section)</span>
+              <span className="font-mono text-xs italic leading-5 text-faint">（无行——删除此部分）</span>
             </label>
           )}
         </div>
@@ -860,14 +860,14 @@ export function ConflictResolver({ file, onResolved }: { file: string; onResolve
       animate={{ opacity: 1 }}
       role="dialog"
       aria-modal="true"
-      aria-label={`Resolve conflicts in ${file}`}
+      aria-label={`解决冲突 in ${file}`}
     >
       <header className="flex h-14 shrink-0 items-center gap-4 border-b border-border-subtle bg-surface px-4">
         <span className="flex size-8 shrink-0 items-center justify-center rounded-md bg-danger/15 text-danger">
           <GitMerge className="size-4" />
         </span>
         <div className="min-w-0 leading-tight">
-          <p className="text-[10px] font-semibold uppercase tracking-wide text-faint">Resolve conflicts</p>
+          <p className="text-[10px] font-semibold uppercase tracking-wide text-faint">解决冲突</p>
           <p className="flex min-w-0 items-baseline gap-1.5 text-sm">
             <span className="max-w-full shrink-0 truncate font-semibold text-foreground">{basename(file)}</span>
             {dirname(file) && <span className="min-w-0 truncate font-mono text-[11px] text-faint">{dirname(file)}</span>}
@@ -882,7 +882,7 @@ export function ConflictResolver({ file, onResolved }: { file: string; onResolve
               />
             </span>
             <span className={cn('text-xs tabular-nums', resolvedCount === total ? 'text-success' : 'text-muted')}>
-              {resolvedCount} of {total} resolved
+              {resolvedCount}/ {total} 已解决
             </span>
           </div>
         )}
@@ -890,21 +890,21 @@ export function ConflictResolver({ file, onResolved }: { file: string; onResolve
           <Hint
             label={
               manualHasMarkers || (manualText === null && blockEditsHaveMarkers)
-                ? 'Remove the remaining <<<<<<< markers from the Output first'
+                ? '请先从输出中移除剩余的 <<<<<<< 标记'
                 : !canSave
-                  ? 'Pick lines for every conflict (or edit the Output by hand) first'
-                  : 'Write the result and mark the file resolved'
+                  ? '请先为每个冲突选择行（或手工编辑输出）'
+                  : '写入结果并将文件标记为已解决'
             }
           >
             <span>
               <Button size="sm" disabled={!canSave || saving} onClick={() => void save()}>
                 {saving ? <Spinner className="text-primary-foreground" /> : <Check />}
-                Mark resolved
+                标记已解决
               </Button>
             </span>
           </Hint>
           <Hint label="Close">
-            <Button variant="ghost" size="icon" aria-label="Close" onClick={() => openConflict(null)}>
+            <Button variant="ghost" size="icon" aria-label="关闭" onClick={() => openConflict(null)}>
               <X />
             </Button>
           </Hint>
@@ -924,21 +924,21 @@ export function ConflictResolver({ file, onResolved }: { file: string; onResolve
                 <Checkbox
                   checked={allOfSidePicked('current')}
                   onCheckedChange={() => void togglePaneSide('current')}
-                  aria-label="Take all lines from side A"
+                  aria-label="取 A 侧全部行"
                 />
                 <Badge tone="info">A</Badge>
                 <span className="min-w-0 flex-1 truncate text-xs font-medium text-info">{aLabel}</span>
-                <span className="shrink-0 text-[10px] uppercase tracking-wide text-faint">current</span>
+                <span className="shrink-0 text-[10px] uppercase tracking-wide text-faint">当前</span>
               </label>
               <label className="flex cursor-pointer items-center gap-2 border-t-2 border-t-success/60 px-3 py-1.5">
                 <Checkbox
                   checked={allOfSidePicked('incoming')}
                   onCheckedChange={() => void togglePaneSide('incoming')}
-                  aria-label="Take all lines from side B"
+                  aria-label="取 B 侧全部行"
                 />
                 <Badge tone="success">B</Badge>
                 <span className="min-w-0 flex-1 truncate text-xs font-medium text-success">{bLabel}</span>
-                <span className="shrink-0 text-[10px] uppercase tracking-wide text-faint">incoming</span>
+                <span className="shrink-0 text-[10px] uppercase tracking-wide text-faint">传入</span>
               </label>
             </div>
             {virtualized ? (
@@ -983,16 +983,16 @@ export function ConflictResolver({ file, onResolved }: { file: string; onResolve
                         >
                           <div className="flex items-center bg-surface-raised/40 px-3 py-1 pr-8">
                             <span className="text-[10px] font-semibold uppercase tracking-wide text-faint">
-                              Conflict {conflictIndices.indexOf(row.block) + 1}
+                              冲突 {conflictIndices.indexOf(row.block) + 1}
                             </span>
                           </div>
-                          <Hint label="Explain this conflict with AI">
+                          <Hint label="用 AI 解释此冲突">
                             <Button
                               variant="ghost"
                               size="icon-sm"
                               className="absolute right-1 top-0.5 z-10 h-6 w-6"
                               disabled={aiBusy}
-                              aria-label="Explain this conflict with AI"
+                              aria-label="用 AI 解释此冲突"
                               onClick={() => void explain(block.current.join('\n'), block.incoming.join('\n'))}
                             >
                               {aiBusy ? <Logo size={14} animated="loop" className="logo-draw-loop" /> : <Sparkles className="size-3 text-primary" />}
@@ -1054,20 +1054,20 @@ export function ConflictResolver({ file, onResolved }: { file: string; onResolve
                   >
                     <div className="flex items-center border-b border-border-subtle bg-surface-raised/40 px-3 py-1 pr-8">
                       <span className="text-[10px] font-semibold uppercase tracking-wide text-faint">
-                        Conflict {conflictIndices.indexOf(index) + 1}
+                        冲突 {conflictIndices.indexOf(index) + 1}
                       </span>
                     </div>
                     <div className="grid grid-cols-2">
                       {renderSideCell(block, index, 'current')}
                       {renderSideCell(block, index, 'incoming')}
                     </div>
-                    <Hint label="Explain this conflict with AI">
+                    <Hint label="用 AI 解释此冲突">
                       <Button
                         variant="ghost"
                         size="icon-sm"
                         className="absolute right-1 top-0.5 h-6 w-6"
                         disabled={aiBusy}
-                        aria-label="Explain this conflict with AI"
+                        aria-label="用 AI 解释此冲突"
                         onClick={() => void explain(block.current.join('\n'), block.incoming.join('\n'))}
                       >
                         {aiBusy ? <Logo size={14} animated="loop" className="logo-draw-loop" /> : <Sparkles className="size-3 text-primary" />}
@@ -1083,14 +1083,14 @@ export function ConflictResolver({ file, onResolved }: { file: string; onResolve
                 <div className="flex shrink-0 items-center gap-2 border-b border-border-subtle px-3 py-1.5">
                   <Sparkles className="size-3.5 text-primary" />
                   <span className="text-xs font-semibold">
-                    {aiBusy ? 'Explaining conflict…' : 'AI explanation'}
+                    {aiBusy ? '正在解释冲突…' : 'AI 解释'}
                   </span>
-                  <Hint label={aiBusy ? 'Stop explaining' : 'Dismiss'}>
+                  <Hint label={aiBusy ? '停止解释' : '关闭'}>
                     <Button
                       variant="ghost"
                       size="icon-sm"
                       className="ml-auto h-5 w-5"
-                      aria-label={aiBusy ? 'Stop the AI explanation' : 'Dismiss AI explanation'}
+                      aria-label={aiBusy ? '停止 AI 解释' : '关闭 AI 解释'}
                       onClick={() => (aiBusy ? stopExplain() : setAiText(null))}
                     >
                       <X className="size-3" />
@@ -1113,29 +1113,29 @@ export function ConflictResolver({ file, onResolved }: { file: string; onResolve
 
           <div className="relative flex min-h-0 flex-[2] flex-col border-t border-border">
             <div className="flex items-center gap-2 border-b border-border-subtle bg-surface px-3 py-1.5">
-              <span className="text-[10px] font-semibold uppercase tracking-wide text-muted">Result</span>
+              <span className="text-[10px] font-semibold uppercase tracking-wide text-muted">结果</span>
               {total > 0 && (
                 <span className="flex items-center gap-0.5 rounded-md border border-border-subtle bg-surface-raised/60 px-1">
-                  <Hint label="Previous conflict">
+                  <Hint label="上一个冲突">
                     <Button
                       variant="ghost"
                       size="icon-sm"
                       className="h-5 w-5"
-                      aria-label="Previous conflict"
+                      aria-label="上一个冲突"
                       onClick={() => jump(-1)}
                     >
                       <ChevronUp className="size-3.5" />
                     </Button>
                   </Hint>
                   <span className="whitespace-nowrap px-1 text-[10px] font-medium tabular-nums text-muted">
-                    Conflict {activeConflict + 1} of {total}
+                    冲突 {activeConflict + 1} / {total}
                   </span>
-                  <Hint label="Next conflict">
+                  <Hint label="下一个冲突">
                     <Button
                       variant="ghost"
                       size="icon-sm"
                       className="h-5 w-5"
-                      aria-label="Next conflict"
+                      aria-label="下一个冲突"
                       onClick={() => jump(1)}
                     >
                       <ChevronDown className="size-3.5" />
@@ -1154,8 +1154,8 @@ export function ConflictResolver({ file, onResolved }: { file: string; onResolve
                 <>
                   <span className="text-[10px] text-faint">
                     {resolvedCount === total
-                      ? 'Ready to mark resolved — click any result to edit it'
-                      : 'Pick lines from A and B — click any result to edit it by hand'}
+                      ? '可以标记已解决——点击任意结果进行编辑'
+                      : '从 A 和 B 中选择行——点击任意结果即可手工编辑'}
                   </span>
                   {blockEdits.size > 0 && (
                     <Badge tone="primary">
@@ -1166,11 +1166,11 @@ export function ConflictResolver({ file, onResolved }: { file: string; onResolve
               )}
               <span className="ml-auto flex items-center gap-1">
                 {manualText === null ? (
-                  <Hint label="Edit the output by hand">
+                  <Hint label="手工编辑输出">
                     <Button
                       variant="ghost"
                       size="icon-sm"
-                      aria-label="Edit output by hand"
+                      aria-label="手工编辑输出"
                       onClick={() => {
                         setEditingBlock(null);
                         setManualText(buildResult());
@@ -1180,11 +1180,11 @@ export function ConflictResolver({ file, onResolved }: { file: string; onResolve
                     </Button>
                   </Hint>
                 ) : (
-                  <Hint label="Discard manual edits and rebuild from the checkboxes">
+                  <Hint label="丢弃手工编辑并从勾选项重建">
                     <Button
                       variant="ghost"
                       size="icon-sm"
-                      aria-label="Reset manual edits"
+                      aria-label="重置手工编辑"
                       onClick={() => setManualText(null)}
                     >
                       <RotateCcw className="size-3.5" />
@@ -1201,7 +1201,7 @@ export function ConflictResolver({ file, onResolved }: { file: string; onResolve
                 value={manualText}
                 onChange={(e) => setManualText(e.target.value)}
                 spellCheck={false}
-                aria-label="Resolved file content (editable)"
+                aria-label="已解决的文件内容（可编辑）"
                 className={cn(
                   'min-h-0 flex-1 resize-none bg-transparent px-4 py-2 font-mono text-xs leading-5 text-foreground',
                   'focus:outline-none focus:ring-1 focus:ring-inset focus:ring-primary/40',

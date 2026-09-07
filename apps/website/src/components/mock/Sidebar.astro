@@ -2,7 +2,7 @@
 import { icon } from './icons';
 
 const section = (name: string, count: number, open = true) =>
-  `<div class="flex items-center gap-1.5 rounded-md px-2 py-1.5 text-xs font-semibold uppercase tracking-wide text-muted">${icon(open ? 'chevronDown' : 'chevronRight', 'h-3.5 w-3.5')}${icon(name === 'Branches' ? 'branch' : name === 'Worktrees' ? 'folderTree' : name === 'Pull requests' ? 'pr' : name === 'Remotes' ? 'cloud' : name === 'Tags' ? 'tag' : name === 'Stashes' ? 'archive' : 'layers', 'h-3.5 w-3.5')}<span class="text-foreground">${name}</span><span class="font-mono text-[11px] font-normal text-faint">${count}</span></div>`;
+  `<div class="flex items-center gap-1.5 rounded-md px-2 py-1.5 text-xs font-semibold uppercase tracking-wide text-muted">${icon(open ? 'chevronDown' : 'chevronRight', 'h-3.5 w-3.5')}${icon(name === 'Branches' ? 'branch' : name === 'Worktrees' ? 'folderTree' : name === '拉取请求' ? 'pr' : name === 'Remotes' ? 'cloud' : name === 'Tags' ? 'tag' : name === 'Stashes' ? 'archive' : 'layers', 'h-3.5 w-3.5')}<span class="text-foreground">${name}</span><span class="font-mono text-[11px] font-normal text-faint">${count}</span></div>`;
 ---
 
 <aside class="flex w-[260px] shrink-0 flex-col border-r border-border-subtle bg-surface">
@@ -24,7 +24,7 @@ const section = (name: string, count: number, open = true) =>
     <div class="flex items-start gap-2 py-1 pl-[3.1rem]"><span class="flex flex-col leading-tight"><span class="flex items-center gap-1.5 text-foreground/90">angkorgit-feature-di… <span class="h-1.5 w-1.5 rounded-full bg-primary"></span></span><span class="font-mono text-[10.5px] text-faint">feature/diff-viewer</span></span></div>
     <div class="flex items-start gap-2 py-1 pl-[3.1rem]"><span class="flex flex-col leading-tight"><span class="flex items-center gap-1.5 text-foreground/90">angkorgit-fix-stash… <span class="text-danger" set:html={icon('alert', 'h-3 w-3')} /></span><span class="font-mono text-[10.5px] text-faint">folder missing</span></span></div>
 
-    <Fragment set:html={section('Pull requests', 3)} />
+    <Fragment set:html={section('拉取请求', 3)} />
     <div class="flex items-center gap-1.5 py-1 pl-[2.1rem] text-foreground/90"><span class="text-faint">#12</span> feat(diff): side-by-sid…</div>
     <div class="flex items-center gap-1.5 py-1 pl-[2.1rem] text-foreground/90"><span class="text-faint">#11</span> fix(stash): app… <span class="rounded-full border border-border px-1.5 text-[10.5px] text-muted">Draft</span></div>
     <div class="flex items-center gap-1.5 py-1 pl-[2.1rem] text-foreground/90"><span class="text-faint">#9</span> docs: translate first-la…</div>

@@ -19,12 +19,12 @@ const result = [...a.map((l) => ({ ...l, side: false })), { n: 4, code: aBlock[0
     <div class="flex h-[72px] shrink-0 items-center gap-4 border-b border-border-subtle px-4">
       <span class="flex h-10 w-10 items-center justify-center rounded-lg bg-danger/15 text-danger" set:html={icon('merge', 'h-5 w-5')} />
       <span class="flex flex-col leading-tight">
-        <span class="text-[10.5px] uppercase tracking-[0.14em] text-faint">Resolve conflicts</span>
+        <span class="text-[10.5px] uppercase tracking-[0.14em] text-faint">解决冲突</span>
         <span class="mt-1 text-[15px]"><span class="font-semibold text-foreground">drawGraph.ts</span> <span class="font-mono text-[12px] text-faint">src/features/graph</span></span>
       </span>
       <span class="ml-4 h-1.5 w-40 overflow-hidden rounded-full bg-border-subtle"><span class="block h-full w-full rounded-full bg-success"></span></span>
-      <span class="text-[13px] text-success">1 of 1 resolved</span>
-      <span class="ml-auto flex h-9 items-center gap-2 rounded-md bg-primary px-3.5 text-[13px] font-medium text-primary-foreground" set:html={icon('check', 'h-4 w-4') + ' Mark resolved'} />
+      <span class="text-[13px] text-success">1 / 1 已解决</span>
+      <span class="ml-auto flex h-9 items-center gap-2 rounded-md bg-primary px-3.5 text-[13px] font-medium text-primary-foreground" set:html={icon('check', 'h-4 w-4') + ' 标记已解决'} />
       <span class="text-muted" set:html={icon('x', 'h-4 w-4')} />
     </div>
 
@@ -70,7 +70,7 @@ const result = [...a.map((l) => ({ ...l, side: false })), { n: 4, code: aBlock[0
       <div class="flex h-10 shrink-0 items-center gap-3 border-b border-border-subtle px-3">
         <span class="text-[11px] font-semibold uppercase tracking-[0.12em] text-foreground">Result</span>
         <span class="flex h-6 items-center gap-2 rounded-md border border-border px-2 text-[12px] text-muted"><span set:html={icon('chevronDown', 'h-3 w-3 rotate-180')} /> Conflict 1 of 1 <span set:html={icon('chevronDown', 'h-3 w-3')} /></span>
-        <span class="text-[12px] text-faint">Ready to mark resolved — click any result to edit it</span>
+        <span class="text-[12px] text-faint">可以标记已解决——点击任意结果进行编辑</span>
         <span class="ml-auto flex items-center gap-4 text-muted"><span set:html={icon('pencil', 'h-4 w-4')} /><span class="text-[13px]">Reset</span></span>
       </div>
       <div class="py-1 font-mono text-[12.5px]">

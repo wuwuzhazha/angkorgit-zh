@@ -28,7 +28,7 @@ export function SplashScreen() {
         <h1 className="text-2xl font-semibold tracking-tight">
           AngKor<span className="text-primary">Git</span>
         </h1>
-        <p className="mt-1 text-xs text-muted">Strength. Simplicity. Craftsmanship.</p>
+        <p className="mt-1 text-xs text-muted">力量。简洁。匠心。</p>
       </motion.div>
     </motion.div>
   );

@@ -78,11 +78,11 @@ const SECTIONS: Array<{
   description: string;
   icon: React.ComponentType<{ className?: string }>;
 }> = [
-  { id: 'appearance', label: 'Appearance', description: 'Theme, accent color, zoom and motion', icon: Palette },
-  { id: 'git', label: 'Git', description: 'Auto fetch, pull requests, identity and profiles', icon: User },
+  { id: 'appearance', label: '外观', description: '主题、强调色、缩放与动效', icon: Palette },
+  { id: 'git', label: 'Git', description: '自动拉取、拉取请求、身份与配置', icon: User },
   { id: 'accounts', label: 'Authentication', description: 'https:// remotes use accounts · git@ remotes use SSH keys', icon: Github },
-  { id: 'ai', label: 'AI Assistant', description: 'Provider, connection and message style', icon: Sparkles },
-  { id: 'shortcuts', label: 'Shortcuts', description: 'Keyboard reference', icon: Keyboard },
+  { id: 'ai', label: 'AI 助手', description: '提供方、连接与消息风格', icon: Sparkles },
+  { id: 'shortcuts', label: '快捷键', description: '键盘参考', icon: Keyboard },
 ];
 
 function SshCard() {
@@ -110,9 +110,9 @@ function SshCard() {
       const created = await ipc.sshKeyGenerate('~/.ssh/angkorgit_ed25519', 'AngKorGit');
       settings.setSshKeyPath(created.path);
       setPublicKey(created.publicKey);
-      toast.success(`Created ${created.path} — add the public key to your host`, {
+      toast.success(`已创建 ${created.path}——请将公钥添加到托管平台`, {
         description:
-          'Other tools keep using ~/.ssh/id_* unless you add this path to ~/.ssh/config.',
+          '除非将此路径添加到 ~/.ssh/config，否则其他工具仍会使用 ~/.ssh/id_*。',
       });
     } catch (error) {
       toast.error(`${(error as { message?: string }).message ?? error}`);
@@ -124,16 +124,16 @@ function SshCard() {
   return (
     <SettingCard
       title="SSH"
-      description="Used for git@… remotes; https:// remotes use the accounts above instead."
+      description="用于 git@… 远端；https:// 远端改用上面的账户。"
     >
       <div className="flex flex-col gap-3">
         <SettingRow
-          title="Use the SSH agent"
-          description="Tried before any key file, and the only way a passphrase-protected key can work."
+          title="使用 SSH 代理"
+          description="在任何密钥文件之前尝试，也是带口令密钥唯一可用的方式。"
           control={<Switch checked={settings.sshUseAgent} onCheckedChange={settings.setSshUseAgent} />}
         />
 
-        <Field label="Private key">
+        <Field label="私钥">
           <div className="flex gap-2">
             <div className="relative flex-1">
               <KeyRound className="absolute left-2.5 top-1/2 size-3.5 -translate-y-1/2 text-faint" />
@@ -144,13 +144,13 @@ function SshCard() {
                 placeholder="~/.ssh/id_ed25519"
               />
             </div>
-            <Hint label="Browse for a key">
+            <Hint label="浏览密钥">
               <Button
                 variant="secondary"
                 size="icon"
-                aria-label="Browse for a private key"
+                aria-label="浏览私钥"
                 onClick={async () => {
-                  const picked = await pickFile('Choose an SSH private key');
+                  const picked = await pickFile('选择 SSH 私钥');
                   if (picked) settings.setSshKeyPath(picked);
                 }}
               >
@@ -179,7 +179,7 @@ function SshCard() {
               className="self-start"
               onClick={() => {
                 void navigator.clipboard.writeText(publicKey);
-                toast.success('Public key copied — paste it into your host');
+                toast.success('公钥已复制——请粘贴到你的托管平台');
               }}
             >
               <Copy /> Copy public key
@@ -196,8 +196,8 @@ function CredentialHelperCard() {
   const setUseCredentialHelper = useSettings((s) => s.setUseCredentialHelper);
   return (
     <SettingCard
-      title="System credential helper"
-      description="After your accounts, fall back to credentials saved by git or another client. Turn off to test the accounts on their own."
+      title="系统凭据助手"
+      description="在账户之后，回退到 git 或其他客户端保存的凭据；关闭可单独测试账户。"
       action={<Switch checked={useCredentialHelper} onCheckedChange={setUseCredentialHelper} />}
     />
   );
@@ -227,7 +227,7 @@ function ModelField() {
     }
     const { ai: current } = useSettings.getState();
     if (preset.needsApiKey && !current.apiKey) {
-      toast.info('Enter your API key first — the model list is specific to your account');
+      toast.info('请先输入 API 密钥——模型列表与你的账户相关');
       return;
     }
     setLoading(true);
@@ -237,9 +237,9 @@ function ModelField() {
       );
       setModels(found);
       setOpen(found.length > 0);
-      if (found.length === 0) toast.info('The provider returned no models');
+      if (found.length === 0) toast.info('提供方未返回模型');
     } catch (error) {
-      toast.error(`Could not load models: ${(error as { message?: string }).message ?? error}`);
+      toast.error(`无法加载模型：${(error as { message?: string }).message ?? error}`);
     } finally {
       setLoading(false);
     }
@@ -259,15 +259,15 @@ function ModelField() {
         </span>
         <div className="flex items-center gap-1">
           {models.length > 0 && !open && (
-            <Hint label="Fetch the list again">
-              <Button variant="ghost" size="icon-sm" aria-label="Refresh model list" onClick={() => void refresh()} disabled={loading}>
+            <Hint label="重新获取列表">
+              <Button variant="ghost" size="icon-sm" aria-label="刷新模型列表" onClick={() => void refresh()} disabled={loading}>
                 <RefreshCw className="size-3.5" />
               </Button>
             </Hint>
           )}
           <Button variant="ghost" size="sm" onClick={() => void load()} disabled={loading}>
             {loading ? <Spinner /> : <ChevronDown className={cn('size-3.5 transition-transform', open && 'rotate-180')} />}
-            {open ? 'Hide models' : models.length > 0 ? 'Show models' : 'Load models'}
+            {open ? '隐藏模型' : models.length > 0 ? '显示模型' : '加载模型'}
           </Button>
         </div>
       </div>
@@ -364,7 +364,7 @@ function CliAgentPicker() {
                 <span className="truncate">{agent.label}</span>
                 {isActive && (
                   <Badge tone="primary">
-                    <Check className="size-3" /> In use
+                    <Check className="size-3" /> 使用中
                   </Badge>
                 )}
                 {agent.version && <span className="font-mono text-[11px] font-normal text-faint">{agent.version}</span>}
@@ -386,8 +386,8 @@ function CliAgentPicker() {
       {!scanning && agents.length === 0 && (
         <SettingEmpty
           icon={<SquareTerminal className="size-4" />}
-          title="No AI CLI found"
-          description="Install Claude Code, Codex CLI, Gemini CLI, OpenCode or Antigravity CLI, then scan again."
+          title="未找到 AI CLI"
+          description="请安装 Claude Code、Codex CLI、Gemini CLI、OpenCode 或 Antigravity CLI，然后重新扫描。"
           action={
             <Button variant="secondary" size="sm" onClick={() => void scan()}>
               <RefreshCw className="size-3.5" /> Scan again
@@ -421,7 +421,7 @@ function CommitStyleCard() {
 
   return (
     <SettingCard
-      title="Commit message style"
+      title="提交消息风格"
       description={COMMIT_STYLE_PRESETS[commit.preset].description}
       action={
         <Select
@@ -443,12 +443,12 @@ function CommitStyleCard() {
     >
       <div className="flex flex-col gap-3">
         {commit.preset === 'custom' && (
-          <Field label="Your convention, in plain words">
+          <Field label="用自然语言描述你的约定">
             <Textarea
               value={commit.instructions}
               onChange={(e) => setCommitStyle({ instructions: e.target.value })}
               placeholder={
-                'e.g. Start with the affected module in brackets, write in past tense, and never use conventional-commit types.'
+                '例如：以方括号中的受影响模块开头，用过去时书写，绝不使用 conventional-commit 类型。'
               }
               rows={3}
             />
@@ -496,7 +496,7 @@ function CommitStyleCard() {
                   <Button
                     variant="ghost"
                     size="icon-sm"
-                    aria-label="Remove rule"
+                    aria-label="移除规则"
                     onClick={() => removeRule(index)}
                   >
                     <Trash2 className="size-3.5 text-danger" />
@@ -539,15 +539,15 @@ function ReviewStyleCard() {
 
   return (
     <SettingCard
-      title="AI review conventions"
-      description="What the AI reviewer pays attention to when it reviews staged changes. Applies to every repository."
+      title="AI 审查约定"
+      description="AI 审查者在审查暂存更改时关注的内容，适用于所有仓库。"
     >
       <div className="flex flex-col gap-2">
         <Textarea
           value={review.instructions}
           onChange={(e) => setReviewStyle({ instructions: e.target.value })}
           placeholder={
-            'e.g. Flag any raw SQL outside the repository layer. We use React hooks only, no class components. Be strict about missing error handling and missing tests.'
+            '例如：标记仓库层之外的裸 SQL。我们只使用 React hooks，不用类组件；对缺失的错误处理和缺失的测试要严格。'
           }
           rows={4}
         />
@@ -562,23 +562,23 @@ function ReviewStyleCard() {
 }
 
 const SHORTCUTS: Array<[string, string[]]> = [
-  ['Command palette', ['mod', 'K / P']],
-  ['Toggle terminal', ['mod', '`']],
-  ['Toggle sidebar', ['mod', 'B']],
-  ['Undo / redo operation', ['mod', 'Z / ⇧Z']],
-  ['Refresh repository', ['mod', 'R']],
+  ['命令面板', ['mod', 'K / P']],
+  ['切换终端', ['mod', '`']],
+  ['切换侧边栏', ['mod', 'B']],
+  ['撤销/重做操作', ['mod', 'Z / ⇧Z']],
+  ['刷新仓库', ['mod', 'R']],
   ['Settings', ['mod', ',']],
-  ['Commit staged changes', ['mod', '⏎']],
-  ['Previous / next commit', ['↑ / ↓']],
-  ['First / last commit', ['Home / End']],
-  ['Search commits / find in diff', ['mod', 'F']],
-  ['Previous match (find in diff)', ['⇧', '⏎']],
-  ['Select / copy diff side', ['mod', 'A / C']],
-  ['Save (file editor)', ['mod', 'S']],
-  ['Zoom in / out / reset', ['mod', '+ / − / 0']],
-  ['Previous / next change (diff)', ['P / N']],
-  ['Previous / next file (diff)', ['[ / ]']],
-  ['Close diff view', ['Esc']],
+  ['提交暂存的更改', ['mod', '⏎']],
+  ['上一个/下一个提交', ['↑ / ↓']],
+  ['第一个/最后一个提交', ['Home / End']],
+  ['搜索提交 / diff 内查找', ['mod', 'F']],
+  ['上一个匹配（diff 内查找）', ['⇧', '⏎']],
+  ['选择/复制 diff 一侧', ['mod', 'A / C']],
+  ['保存（文件编辑器）', ['mod', 'S']],
+  ['放大/缩小/重置', ['mod', '+ / − / 0']],
+  ['上一个/下一个更改（diff）', ['P / N']],
+  ['上一个/下一个文件（diff）', ['[ / ]']],
+  ['关闭 diff 视图', ['Esc']],
 ];
 
 export function SettingsDialog() {
@@ -622,7 +622,7 @@ export function SettingsDialog() {
     try {
       await ipc.configSet(repo?.path ?? null, 'user.name', gitName, !repo);
       await ipc.configSet(repo?.path ?? null, 'user.email', gitEmail, !repo);
-      toast.success('Git identity saved');
+      toast.success('已保存 Git 身份');
     } catch (error) {
       toast.error(`Save failed: ${(error as { message?: string }).message ?? error}`);
     }
@@ -640,8 +640,8 @@ export function SettingsDialog() {
       setGitEmail(profile.email);
       toast.success(
         repo
-          ? `${repo.name} now uses the "${profile.label}" profile`
-          : `Global identity set to "${profile.label}"`,
+          ? `仓库 ${repo.name} 现在使用配置“${profile.label}”`
+          : `全局身份已设为“${profile.label}”`,
       );
     } catch (error) {
       toast.error(`Apply failed: ${(error as { message?: string }).message ?? error}`);
@@ -672,10 +672,10 @@ export function SettingsDialog() {
   };
   const removeProfile = async (profile: IdentityProfile) => {
     const ok = await confirmDialog({
-      title: `Remove profile "${profile.label}"?`,
+      title: `移除配置“${profile.label}”？`,
       description:
-        'Repositories already assigned to it keep the identity written in their config; they just lose the profile link.',
-      confirmLabel: 'Remove profile',
+        '已分配该配置的仓库会保留写入其配置的身份，只是失去配置关联。',
+      confirmLabel: '移除配置',
       destructive: true,
     });
     if (ok) settings.removeProfile(profile.id);
@@ -745,14 +745,14 @@ export function SettingsDialog() {
                 <div className="flex flex-col gap-4">
                   <SettingCard
                     title="Theme"
-                    description="Popular editor palettes — surfaces and syntax colors follow the theme."
+                    description="常用编辑器配色——界面与语法颜色跟随主题。"
                   >
                     <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
                       {THEMES.map((t) => (
                         <button
                           key={t.id}
                           onClick={() => settings.setTheme(t.id)}
-                          aria-label={`Theme: ${t.label}`}
+                          aria-label={`主题：${t.label}`}
                           className={cn(
                             'group flex flex-col overflow-hidden rounded-lg border text-left transition-colors',
                             settings.theme === t.id
@@ -797,14 +797,14 @@ export function SettingsDialog() {
                   </SettingCard>
 
                   <SettingCard
-                    title="Accent color"
-                    description="Buttons, highlights and focus follow your accent. Graph and diff colors keep their meaning."
+                    title="强调色"
+                    description="按钮、高亮与焦点跟随强调色，提交图与 diff 颜色保持其含义。"
                   >
                     <div className="flex items-center gap-3">
                       {ACCENTS.map((accent) => (
                         <Hint key={accent.id} label={accent.label}>
                           <button
-                            aria-label={`Accent: ${accent.label}`}
+                            aria-label={`强调色：${accent.label}`}
                             onClick={() => settings.setAccent(accent.id)}
                             className={cn(
                               'flex size-8 items-center justify-center rounded-full transition-transform hover:scale-110',
@@ -832,7 +832,7 @@ export function SettingsDialog() {
                         <Button
                           variant="secondary"
                           size="icon-sm"
-                          aria-label="Zoom out"
+                          aria-label="缩小"
                           disabled={settings.zoom <= ZOOM_MIN}
                           onClick={settings.zoomOut}
                         >
@@ -840,7 +840,7 @@ export function SettingsDialog() {
                         </Button>
                         <button
                           className="w-14 text-center font-mono text-xs text-muted hover:text-foreground"
-                          title="Reset zoom"
+                          title="重置缩放"
                           onClick={settings.zoomReset}
                         >
                           {Math.round(settings.zoom * 100)}%
@@ -848,7 +848,7 @@ export function SettingsDialog() {
                         <Button
                           variant="secondary"
                           size="icon-sm"
-                          aria-label="Zoom in"
+                          aria-label="放大"
                           disabled={settings.zoom >= ZOOM_MAX}
                           onClick={settings.zoomIn}
                         >
@@ -859,8 +859,8 @@ export function SettingsDialog() {
                   />
 
                   <SettingCard
-                    title="Reduce motion"
-                    description="Minimize animations across the app"
+                    title="减少动效"
+                    description="减少整个应用中的动画"
                     action={<Switch checked={settings.reduceMotion} onCheckedChange={settings.setReduceMotion} />}
                   />
                 </div>
@@ -869,8 +869,8 @@ export function SettingsDialog() {
               {section === 'git' && (
                 <div className="flex flex-col gap-4">
                   <SettingCard
-                    title="Auto fetch"
-                    description="Fetch from the first remote in the background so teammates' commits show up by themselves. Failures stay silent."
+                    title="自动拉取"
+                    description="在后台从第一个远端拉取，让队友的提交自动出现；失败保持静默。"
                     action={
                       <Select
                         value={String(settings.autoFetchMinutes)}
@@ -890,8 +890,8 @@ export function SettingsDialog() {
                   />
 
                   <SettingCard
-                    title="Pull requests"
-                    description="Show the pull requests section in the sidebar, loaded through your connected account."
+                    title="拉取请求"
+                    description="在侧边栏显示拉取请求区块，通过已关联账户加载。"
                     action={
                       <Switch
                         checked={settings.showPullRequests}
@@ -901,11 +901,11 @@ export function SettingsDialog() {
                   />
 
                   <SettingCard
-                    title={repo ? 'Identity for this repository' : 'Global identity'}
+                    title={repo ? '此仓库的身份' : '全局身份'}
                     description={
                       repo
-                        ? 'The name and email written on commits made here. Saved to this repository, so it wins over your global git config.'
-                        : 'The name and email written on commits when a repository has no identity of its own.'
+                        ? '在此处提交时写入的姓名和邮箱，保存到本仓库，优先于全局 git 配置。'
+                        : '仓库没有自己的身份时，提交时写入的姓名和邮箱。'
                     }
                     action={
                       activeProfile ? (
@@ -917,7 +917,7 @@ export function SettingsDialog() {
                   >
                     <div className="grid grid-cols-2 gap-3">
                       <Field label="Name">
-                        <Input value={gitName} onChange={(e) => setGitName(e.target.value)} placeholder="Your Name" />
+                        <Input value={gitName} onChange={(e) => setGitName(e.target.value)} placeholder="你的姓名" />
                       </Field>
                       <Field label="Email">
                         <Input
@@ -929,7 +929,7 @@ export function SettingsDialog() {
                     </div>
                     <div className="mt-3 flex items-center justify-between gap-3">
                       <span className="text-[11px] text-faint">
-                        {repo ? `Writes user.name and user.email to ${repo.name}/.git/config` : 'Writes user.name and user.email to ~/.gitconfig'}
+                        {repo ? `将 user.name 和 user.email 写入 ${repo.name}/.git/config` : '将 user.name 和 user.email 写入 ~/.gitconfig'}
                       </span>
                       <Button size="sm" onClick={() => void saveIdentity()}>
                         Save identity
@@ -939,7 +939,7 @@ export function SettingsDialog() {
 
                   <SettingCard
                     title="Profiles"
-                    description="Work and personal identities, each with the hosting accounts linked to it. A repository is assigned to one profile the first time you commit or push, and that choice stays with the repository."
+                    description="工作与个人身份，各自关联托管平台账户。仓库在首次提交或推送时被分配到某个配置，该选择随仓库保留。"
                     action={
                       !addingProfile && settings.profiles.length > 0 ? (
                         <Button variant="secondary" size="sm" onClick={() => setAddingProfile(true)}>
@@ -966,7 +966,7 @@ export function SettingsDialog() {
                                   <span className="truncate">{profile.label}</span>
                                   {isActive && (
                                     <Badge tone="primary">
-                                      <Check className="size-3" /> {repo ? 'In use here' : 'In use'}
+                                      <Check className="size-3" /> {repo ? '此处使用中' : '使用中'}
                                     </Badge>
                                   )}
                                 </p>
@@ -976,7 +976,7 @@ export function SettingsDialog() {
                               </div>
                               {!isActive && (
                                 <Button variant="secondary" size="sm" onClick={() => void applyProfile(profile)}>
-                                  {repo ? 'Use for this repo' : 'Use'}
+                                  {repo ? '用于此仓库' : 'Use'}
                                 </Button>
                               )}
                               <DropdownMenu>
@@ -987,10 +987,10 @@ export function SettingsDialog() {
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent align="end">
                                   <DropdownMenuItem disabled={isActive} onClick={() => void applyProfile(profile)}>
-                                    <Check /> {repo ? 'Use for this repo' : 'Use as global identity'}
+                                    <Check /> {repo ? '用于此仓库' : '用作全局身份'}
                                   </DropdownMenuItem>
                                   <DropdownMenuItem destructive onClick={() => void removeProfile(profile)}>
-                                    <Trash2 /> Remove profile…
+                                    <Trash2 /> 移除配置…
                                   </DropdownMenuItem>
                                 </DropdownMenuContent>
                               </DropdownMenu>
@@ -1047,8 +1047,8 @@ export function SettingsDialog() {
                       {settings.profiles.length === 0 && !addingProfile && (
                         <SettingEmpty
                           icon={<UsersRound className="size-4" />}
-                          title="No profiles yet"
-                          description="Add Work and Personal once, then every repository picks the right name, email and account."
+                          title="还没有配置"
+                          description="一次性添加“工作”和“个人”，之后每个仓库都会自动选用正确的姓名、邮箱和账户。"
                           action={
                             <Button variant="secondary" size="sm" onClick={() => setAddingProfile(true)}>
                               <Plus className="size-3.5" /> New profile
@@ -1075,7 +1075,7 @@ export function SettingsDialog() {
                             </Field>
                             <Field label="Name">
                               <Input
-                                placeholder="Your Name"
+                                placeholder="你的姓名"
                                 value={profileName}
                                 onChange={(e) => setProfileName(e.target.value)}
                                 onKeyDown={(e) => {
@@ -1102,7 +1102,7 @@ export function SettingsDialog() {
                             </span>
                             <span className="flex gap-2">
                               <Button variant="ghost" size="sm" onClick={() => setAddingProfile(false)}>
-                                Cancel
+                                取消
                               </Button>
                               <Button
                                 size="sm"
@@ -1134,8 +1134,8 @@ export function SettingsDialog() {
                     title="Provider"
                     description={
                       settings.ai.provider === 'cli'
-                        ? 'Uses an AI CLI already installed on this machine — Claude Code, Codex, Gemini CLI, OpenCode or Antigravity — with its own login and quota. No API key needed.'
-                        : 'Used for commit messages, diff explanations, conflict help and reviews. Local models via Ollama or LM Studio need no API key.'
+                        ? 'Uses an AI CLI already installed on this machine — Claude Code, Codex, Gemini CLI, OpenCode or Antigravity — with its own login and quota. No API 密钥 needed.'
+                        : 'Used for commit messages, diff explanations, conflict help and reviews. Local models via Ollama or LM Studio need no API 密钥.'
                     }
                     action={
                       <Select
@@ -1159,18 +1159,18 @@ export function SettingsDialog() {
                       {settings.ai.provider === 'cli' ? (
                         <>
                           <CliAgentPicker />
-                          <Field label="Model override" hint="optional, the CLI's default when empty">
+                          <Field label="模型覆盖" hint="可选，留空使用 CLI 默认值">
                             <Input
                               value={settings.ai.model}
                               onChange={(e) => settings.setAi({ model: e.target.value })}
-                              placeholder="CLI default"
+                              placeholder="CLI 默认"
                             />
                           </Field>
                         </>
                       ) : (
                         <>
                           {preset.needsApiKey && (
-                            <Field label="API key">
+                            <Field label="API 密钥">
                               <Input
                                 type="password"
                                 value={settings.ai.apiKey}
@@ -1179,7 +1179,7 @@ export function SettingsDialog() {
                               />
                             </Field>
                           )}
-                          <Field label="Base URL" hint={`optional, defaults to ${preset.defaultBaseUrl}`}>
+                          <Field label="基础 URL" hint={`可选，默认为 ${preset.defaultBaseUrl}`}>
                             <Input
                               value={settings.ai.baseUrl ?? ''}
                               onChange={(e) => settings.setAi({ baseUrl: e.target.value })}
@@ -1218,7 +1218,7 @@ export function SettingsDialog() {
               )}
 
               {section === 'shortcuts' && (
-                <SettingCard title="Keyboard shortcuts">
+                <SettingCard title="键盘快捷键">
                   <div className="flex flex-col">
                     {SHORTCUTS.map(([label, keys], index) => (
                       <div key={label}>

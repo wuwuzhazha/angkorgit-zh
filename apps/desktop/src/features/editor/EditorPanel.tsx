@@ -62,10 +62,10 @@ export function EditorPanel({ file }: { file: string }) {
       return;
     }
     void confirmDialog({
-      title: 'Discard unsaved changes?',
-      description: 'This file has unsaved edits. Close without saving?',
+      title: '丢弃未保存的更改？',
+      description: '此文件有未保存的编辑。关闭但不保存？',
       path: file,
-      confirmLabel: 'Close without saving',
+      confirmLabel: '关闭但不保存',
       destructive: true,
     }).then((ok) => {
       if (ok) closeEditor();
@@ -95,7 +95,7 @@ export function EditorPanel({ file }: { file: string }) {
             </span>
           }
         >
-          <Button variant="ghost" size="icon-sm" aria-label="Close editor" onClick={requestClose}>
+          <Button variant="ghost" size="icon-sm" aria-label="关闭编辑器" onClick={requestClose}>
             <X className="size-4" />
           </Button>
         </Hint>

@@ -9,7 +9,7 @@ pub fn stage_file(path: &str, file: &str) -> AppResult<()> {
     let mut index = repo.index()?;
     let workdir = repo
         .workdir()
-        .ok_or_else(|| AppError::other("bare repository"))?;
+        .ok_or_else(|| AppError::other("裸仓库"))?;
     if workdir.join(file).symlink_metadata().is_ok() {
         index.add_path(Path::new(file))?;
     } else {
@@ -82,7 +82,7 @@ pub fn discard_file(path: &str, file: &str) -> AppResult<bool> {
     let repo = super::repo::open(path)?;
     let workdir = repo
         .workdir()
-        .ok_or_else(|| AppError::other("bare repository"))?;
+        .ok_or_else(|| AppError::other("裸仓库"))?;
     let index = repo.index()?;
     let is_tracked = index.get_path(Path::new(file), 0).is_some();
     if !is_tracked {
@@ -102,7 +102,7 @@ pub fn discard_all(path: &str) -> AppResult<Vec<String>> {
     let repo = super::repo::open(path)?;
     let workdir = repo
         .workdir()
-        .ok_or_else(|| AppError::other("bare repository"))?;
+        .ok_or_else(|| AppError::other("裸仓库"))?;
 
     let mut opts = git2::StatusOptions::new();
     opts.include_untracked(true).recurse_untracked_dirs(true);
@@ -172,9 +172,9 @@ fn single_line_patch(
 ) -> AppResult<String> {
     let (file_header, _) = split_patch(diff)?;
     let patch = git2::Patch::from_diff(diff, 0)?
-        .ok_or_else(|| AppError::other("no textual diff for this file"))?;
+        .ok_or_else(|| AppError::other("此文件没有文本 diff"))?;
     if hunk_index >= patch.num_hunks() {
-        return Err(AppError::other(format!("hunk {hunk_index} not found")));
+        return Err(AppError::other(format!("找不到代码块 {hunk_index}")));
     }
     let (hunk, line_count) = patch.hunk(hunk_index)?;
 
@@ -256,7 +256,7 @@ fn single_line_patch(
 
     if !selected_found {
         return Err(AppError::other(
-            "the selected line is not an added or removed line",
+            "所选行不是新增或删除的行",
         ));
     }
 
@@ -317,13 +317,13 @@ fn pair_partner(
 
 fn locate_line(diff: &git2::Diff, kind: &str, line_no: u32) -> AppResult<(usize, usize)> {
     let patch = git2::Patch::from_diff(diff, 0)?
-        .ok_or_else(|| AppError::other("no textual diff for this file"))?;
+        .ok_or_else(|| AppError::other("此文件没有文本 diff"))?;
     let want_origin = match kind {
         "addition" => '+',
         "deletion" => '-',
         _ => {
             return Err(AppError::other(
-                "only added or removed lines can be selected",
+                "只能选择新增或删除的行",
             ))
         }
     };
@@ -344,7 +344,7 @@ fn locate_line(diff: &git2::Diff, kind: &str, line_no: u32) -> AppResult<(usize,
         }
     }
     Err(AppError::other(
-        "that line is no longer part of the current changes — refresh and try again",
+        "该行已不属于当前更改——请刷新后重试",
     ))
 }
 
@@ -376,7 +376,7 @@ pub fn discard_line(path: &str, file: &str, kind: &str, line_no: u32) -> AppResu
     let diff = file_diff_workdir_to_index(&repo, file)?;
     let (hunk_index, line_index) = locate_line(&diff, kind, line_no)?;
     let patch = git2::Patch::from_diff(&diff, 0)?
-        .ok_or_else(|| AppError::other("no textual diff for this file"))?;
+        .ok_or_else(|| AppError::other("此文件没有文本 diff"))?;
     let (_, line_count) = patch.hunk(hunk_index)?;
     let mut selected = vec![line_index];
     if let Some(partner) = pair_partner(&patch, hunk_index, line_count, line_index)? {
@@ -394,7 +394,7 @@ pub fn stage_hunk(path: &str, file: &str, hunk_index: usize) -> AppResult<()> {
     let (header, hunks) = split_patch(&diff)?;
     let hunk = hunks
         .get(hunk_index)
-        .ok_or_else(|| AppError::other(format!("hunk {hunk_index} not found")))?;
+        .ok_or_else(|| AppError::other(format!("找不到代码块 {hunk_index}")))?;
     let patch_text = format!("{header}{hunk}");
     let patch = git2::Diff::from_buffer(patch_text.as_bytes())?;
     repo.apply(&patch, ApplyLocation::Index, None)?;
@@ -410,7 +410,7 @@ pub fn unstage_hunk(path: &str, file: &str, hunk_index: usize) -> AppResult<()> 
     let (header, hunks) = split_patch(&diff)?;
     let hunk = hunks
         .get(hunk_index)
-        .ok_or_else(|| AppError::other(format!("hunk {hunk_index} not found")))?;
+        .ok_or_else(|| AppError::other(format!("找不到代码块 {hunk_index}")))?;
     let patch_text = format!("{header}{hunk}");
     let patch = git2::Diff::from_buffer(patch_text.as_bytes())?;
     repo.apply(&patch, ApplyLocation::Index, None)?;
