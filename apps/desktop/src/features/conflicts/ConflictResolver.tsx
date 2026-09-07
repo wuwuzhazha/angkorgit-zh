@@ -860,7 +860,7 @@ export function ConflictResolver({ file, onResolved }: { file: string; onResolve
       animate={{ opacity: 1 }}
       role="dialog"
       aria-modal="true"
-      aria-label={`解决冲突 in ${file}`}
+      aria-label={`解决冲突：${file}`}
     >
       <header className="flex h-14 shrink-0 items-center gap-4 border-b border-border-subtle bg-surface px-4">
         <span className="flex size-8 shrink-0 items-center justify-center rounded-md bg-danger/15 text-danger">
@@ -1146,7 +1146,7 @@ export function ConflictResolver({ file, onResolved }: { file: string; onResolve
               {manualText !== null ? (
                 <>
                   <Badge tone="primary">
-                    <Pencil className="size-2.5" /> edited by hand
+                    <Pencil className="size-2.5" /> 处手工编辑
                   </Badge>
                   {manualHasMarkers && <Badge tone="danger">markers remain</Badge>}
                 </>
@@ -1159,7 +1159,7 @@ export function ConflictResolver({ file, onResolved }: { file: string; onResolve
                   </span>
                   {blockEdits.size > 0 && (
                     <Badge tone="primary">
-                      <Pencil className="size-2.5" /> {blockEdits.size} edited by hand
+                      <Pencil className="size-2.5" /> {blockEdits.size} 处手工编辑
                     </Badge>
                   )}
                 </>

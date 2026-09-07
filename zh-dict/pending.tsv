@@ -121,6 +121,7 @@ e2e	tests/e2e/smoke.spec.ts	h2, p
 e2e	tests/e2e/smoke.spec.ts	img[src*="gravatar"]
 e2e	tests/e2e/smoke.spec.ts	iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==
 e2e	tests/e2e/smoke.spec.ts	temple gold
+e2e	tests/e2e/smoke.spec.ts	Virtualized rows keep large graphs smooth
 meta	apps/desktop/package.json	tsc --noEmit
 meta	apps/desktop/package.json	tsc --noEmit && vite build
 meta	apps/desktop/package.json	vite preview
@@ -323,7 +324,7 @@ rust	apps/desktop/src-tauri/tests/git_engine.rs	not a rev
 rust	apps/desktop/src-tauri/tests/git_engine.rs	one\nplus\n
 rust	apps/desktop/src-tauri/tests/git_engine.rs	one\ntwo\nthree
 rust	apps/desktop/src-tauri/tests/git_engine.rs	one\ntwo\nthree\n
-rust	apps/desktop/src-tauri/tests/git_engine.rs	one\nTWO\nthree\nFOUR\nfive\n
+rust	apps/desktop/src-tauri/tests/git_engine.rs	one\nTWO\nthree\nfour\nfive\n
 rust	apps/desktop/src-tauri/tests/git_engine.rs	other change\n
 rust	apps/desktop/src-tauri/tests/git_engine.rs	plain commit
 rust	apps/desktop/src-tauri/tests/git_engine.rs	pr third

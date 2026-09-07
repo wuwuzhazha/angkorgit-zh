@@ -104,13 +104,13 @@ test('交互式变基对话框可从提交右键菜单打开', async ({ page }) 
   await page.getByText('angkorgit', { exact: true }).first().click();
   await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   await page.getByRole('row').nth(3).click({ button: 'right' });
-  await page.getByRole('menuitem', { name: /Interactively rebase onto here/ }).click();
+  await page.getByRole('menuitem', { name: /交互式变基到此处/ }).click();
   const dialog = page.getByRole('dialog');
   await expect(dialog).toBeVisible();
   await expect(dialog.getByText('交互式变基')).toBeVisible();
   await expect(dialog.getByRole('listitem').first()).toBeVisible();
   await expect(dialog.getByRole('combobox').first()).toBeVisible();
-  await dialog.getByRole('button', { name: 'Cancel' }).click();
+  await dialog.getByRole('button', { name: '取消' }).click();
   await expect(page.getByRole('dialog')).toBeHidden();
 });
 
@@ -119,13 +119,13 @@ test('cherry-pick opens a dialog with the source reference option', async ({ pag
   await page.getByText('angkorgit', { exact: true }).first().click();
   await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   await page.getByRole('row').nth(3).click({ button: 'right' });
-  await page.getByRole('menuitem', { name: /Cherry-pick onto current branch/ }).click();
+  await page.getByRole('menuitem', { name: /拣选到当前分支/ }).click();
   const dialog = page.getByRole('dialog');
   await expect(dialog).toBeVisible();
   await expect(dialog.getByText('拣选提交')).toBeVisible();
   await expect(dialog.getByRole('checkbox')).toBeChecked();
   await expect(dialog.getByText(/cherry picked from commit/)).toBeVisible();
-  await dialog.getByRole('button', { name: 'Cherry-pick', exact: true }).click();
+  await dialog.getByRole('button', { name: '拣选', exact: true }).click();
   await expect(page.getByRole('dialog')).toBeHidden();
   await expect(page.getByText('Cherry-picked (demo)')).toBeVisible();
 });
@@ -143,7 +143,7 @@ test('multi-select cherry-pick lists every commit in the dialog', async ({ page 
   const dialog = page.getByRole('dialog');
   await expect(dialog).toBeVisible();
   await expect(dialog.getByRole('heading', { name: '拣选 2 个提交' })).toBeVisible();
-  await expect(dialog.getByText(/oldest first/)).toBeVisible();
+  await expect(dialog.getByText(/从旧到新/)).toBeVisible();
   await expect(dialog.locator('.font-mono')).toHaveCount(2);
   await dialog.getByRole('button', { name: '拣选 2 个提交' }).click();
   await expect(page.getByRole('dialog')).toBeHidden();
@@ -164,7 +164,7 @@ test('multi-select offers squash and pre-fills the rebase plan', async ({ page }
   await expect(dialog.getByRole('listitem').first()).toBeVisible();
   await expect(dialog.getByRole('combobox').filter({ hasText: 'squash' })).toHaveCount(1);
   await expect(dialog.getByPlaceholder('合并消息（可选）')).toBeVisible();
-  await dialog.getByRole('button', { name: 'Cancel' }).click();
+  await dialog.getByRole('button', { name: '取消' }).click();
   await expect(page.getByRole('dialog')).toBeHidden();
 });
 
@@ -227,13 +227,13 @@ test('长路径保持在确认对话框内', async ({ page }) => {
   await expect(page.getByRole('dialog').getByText('丢弃更改？')).toBeVisible();
   await expect(page.getByRole('dialog').getByText(longPath)).toBeVisible();
   await expectContained();
-  await page.getByRole('button', { name: 'Cancel' }).click();
+  await page.getByRole('button', { name: '取消' }).click();
 
   await page
     .getByText('WorkingCopyFileListItemContainerFactory.tsx')
     .first()
     .click({ button: 'right' });
-  await page.getByRole('menuitem', { name: /Delete file/ }).click();
+  await page.getByRole('menuitem', { name: /删除文件/ }).click();
   await expect(page.getByRole('dialog').getByText('删除文件？')).toBeVisible();
   await expect(page.getByRole('dialog').getByText(longPath)).toBeVisible();
   await expectContained();
@@ -359,7 +359,7 @@ test('提交操作按钮保持在较窄的工作副本面板内', async ({ page 
   const panel = await inspector.boundingBox();
   expect(panel).not.toBeNull();
 
-  for (const name of ['Review', /Commit \d+ files?/] as const) {
+  for (const name of ['审查', /提交 \d+ 个文件/] as const) {
     const button = inspector.getByRole('button', { name });
     await expect(button).toBeVisible();
     const box = await button.boundingBox();
@@ -380,7 +380,7 @@ test('打开 diff 会隐藏侧边栏，切回后返回提交图', async ({
 
   const sidebar = page.getByRole('complementary', { name: '分支与引用' });
   const diff = page.locator('section[aria-label^="文件差异："]');
-  const toggle = page.getByRole('button', { name: /sidebar$/ });
+  const toggle = page.getByRole('button', { name: /侧边栏$/ });
 
   await expect(sidebar).toBeVisible();
   await page.getByText('palette-seed.sql').first().click();
@@ -417,7 +417,7 @@ test('侧边栏列出演示拉取请求并打开创建对话框', async ({ page 
   await page.getByRole('button', { name: '创建拉取请求', exact: true }).click();
   await expect(page.getByRole('heading', { name: '创建拉取请求' })).toBeVisible();
   await expect(page.getByPlaceholder('标题')).toBeVisible();
-  await page.getByRole('button', { name: 'Cancel' }).click();
+  await page.getByRole('button', { name: '取消' }).click();
   await expect(page.getByRole('heading', { name: '创建拉取请求' })).toBeHidden();
 
   await page.getByRole('button', { name: '创建拉取请求', exact: true }).click();
@@ -477,7 +477,7 @@ test('侧边栏列出演示工作树并打开新建工作树对话框', async ({
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
   await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
-  await expect(page.getByText('Worktrees', { exact: true })).toBeVisible();
+  await expect(page.getByText('工作树', { exact: true })).toBeVisible();
   await expect(page.getByText('angkorgit-feature-diff-viewer')).toBeVisible();
   await expect(page.getByText('文件夹缺失')).toBeVisible();
   await page.getByRole('button', { name: '新建工作树' }).click();
@@ -499,7 +499,7 @@ test('multi-line comments in a diff stay highlighted as comments', async ({ page
   await page.getByText('CommitGraph.tsx').first().click();
   const inner = page
     .locator('section[aria-label^="文件差异："] span.font-mono')
-    .filter({ hasText: '虚拟化行让大型提交图保持流畅' })
+    .filter({ hasText: 'Virtualized rows keep large graphs smooth' })
     .first();
   await expect(inner).toBeVisible();
   const html = await inner.evaluate((el) => el.innerHTML);
@@ -574,10 +574,10 @@ test('提交框将摘要行与较小的描述分隔开', async ({ page }) => {
   ]);
   expect(summarySize).toBeGreaterThan(descriptionSize);
   await expect(summary).toHaveCSS('font-weight', '500');
-  await expect(page.getByRole('button', { name: /^Commit \d+ files?$/ })).toBeEnabled();
+  await expect(page.getByRole('button', { name: /^提交 \d+ 个文件$/ })).toBeEnabled();
 
   await summary.fill('');
-  await expect(page.getByRole('button', { name: /^Commit \d+ files?$/ })).toBeDisabled();
+  await expect(page.getByRole('button', { name: /^提交 \d+ 个文件$/ })).toBeDisabled();
   await description.click();
   await description.fill('');
   await description.press('Backspace');
@@ -694,7 +694,7 @@ test('冲突解决器在两侧和结果中都显示行号', async ({ page }) => 
   await page.getByText('angkorgit', { exact: true }).first().click();
   await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   await page.getByRole('button', { name: /drawGraph\.ts/ }).first().click();
-  const dialog = page.getByRole('dialog', { name: /Resolve conflicts/ });
+  const dialog = page.getByRole('dialog', { name: /解决冲突/ });
   await expect(dialog).toBeVisible();
   const gutters = dialog.locator('span.w-9.tabular-nums');
   const values = (await gutters.allInnerTexts()).map((t) => t.trim()).filter(Boolean).map(Number);
