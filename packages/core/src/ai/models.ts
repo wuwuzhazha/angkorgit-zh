@@ -46,7 +46,7 @@ async function getBody(
 ): Promise<string> {
   const res = await http({ url, method: 'GET', headers });
   if (res.status < 200 || res.status >= 300) {
-    throw new AiError(`${provider} model list failed (${res.status}): ${res.body.slice(0, 200)}`, provider, res.status);
+    throw new AiError(`${provider} 模型列表获取失败（${res.status}）：${res.body.slice(0, 200)}`, provider, res.status);
   }
   return res.body;
 }

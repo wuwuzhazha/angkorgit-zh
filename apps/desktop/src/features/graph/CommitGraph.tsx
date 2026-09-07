@@ -314,7 +314,7 @@ export function CommitGraph() {
       if (!local) return;
       const held = worktrees.find((w) => w.branch === name && !w.isCurrent);
       if (held) {
-        toast.error(`${name} is checked out in worktree ${held.name} — reset it from there`);
+        toast.error(`${name} 已在工作树 ${held.name} 中检出——请从那里重置`);
         return;
       }
       const losing =
@@ -324,7 +324,7 @@ export function CommitGraph() {
       void confirmDialog({
         title: 'Reset branch to its remote?',
         description: local.isHead
-          ? `硬重置 to ${ref.shorthand} (${commit.shortOid}).${losing} 未提交的更改 are discarded and cannot be recovered.`
+          ? `硬重置到 ${ref.shorthand} (${commit.shortOid}).${losing} 未提交的更改 are discarded and cannot be recovered.`
           : `This branch is not checked out. It is checked out first, then hard reset to ${ref.shorthand} (${commit.shortOid}).${losing} 未提交的更改 are discarded and cannot be recovered.`,
         path: name,
         confirmLabel: 'Reset branch',
@@ -477,7 +477,7 @@ export function CommitGraph() {
         )}
         {!graphColumns.message && !flat && <span className="min-w-0 flex-1" />}
       </div>
-      <div ref={scrollRef} tabIndex={-1} className="min-h-0 flex-1 overflow-y-auto outline-none" role="table" aria-label="Commits">
+      <div ref={scrollRef} tabIndex={-1} className="min-h-0 flex-1 overflow-y-auto outline-none" role="table" aria-label="提交">
         <WipRow gutterWidth={gutterWidth} flat={flat} showRefs={graphColumns.refs} />
         {rows.length === 0 && !loading ? (
           error ? (

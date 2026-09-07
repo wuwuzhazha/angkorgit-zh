@@ -130,7 +130,7 @@ export function RepoTabs() {
               <span className="min-w-0 truncate">{label(path)}</span>
               <button
                 type="button"
-                aria-label={`Close ${label(path)}`}
+                aria-label={`关闭 ${label(path)}`}
                 className={cn(
                   'shrink-0 rounded-sm p-0.5 hover:bg-surface-overlay hover:text-foreground',
                   active ? 'text-muted' : 'text-transparent group-hover:text-muted',

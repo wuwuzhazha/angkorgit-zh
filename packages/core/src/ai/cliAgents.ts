@@ -91,7 +91,7 @@ export function cliAgentProvider(config: AiConfig, run: CliRunner): AiProvider {
     if (result.status !== 0) {
       const detail = cleanCliOutput(result.stderr || result.stdout).slice(0, 300);
       throw new AiError(
-        `${spec.label} exited with code ${result.status}${detail ? `: ${detail}` : ''}`,
+        `${spec.label} 以代码 ${result.status} 退出${detail ? `: ${detail}` : ''}`,
         spec.id,
         result.status,
       );

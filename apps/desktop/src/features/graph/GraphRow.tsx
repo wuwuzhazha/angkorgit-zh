@@ -364,8 +364,8 @@ function RefCell({
                   ? 'HEAD 游离在该提交处'
                   : group.label
                 : separated
-                  ? `${group.primary.shorthand} — double-click to reset ${group.label} to it, right-click for actions`
-                  : `${group.label}${group.local ? ' · 本地' : ''}${group.remote ? ' · 远端' : ''}${worktree ? ` · in worktree ${worktree}` : ''} — ${worktree ? '双击切换到该工作树' : '双击检出'}, right-click for actions`
+                  ? `${group.primary.shorthand}——双击将其重置到 ${group.label}，右键查看更多操作`
+                  : `${group.label}${group.local ? ' · 本地' : ''}${group.remote ? ' · 远端' : ''}${worktree ? ` · 在工作树 ${worktree} 中` : ''}——${worktree ? '双击切换到该工作树' : '双击检出'}，右键查看更多操作`
             }
             onDoubleClick={(e) => {
               if (group.tag || group.detachedHead || group.stash) return;

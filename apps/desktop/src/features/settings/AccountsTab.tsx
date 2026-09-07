@@ -132,7 +132,7 @@ async function validateToken(
       });
       if (res.status === 401 || res.status === 403) {
         throw new Error(
-          `Bitbucket rejected these credentials (${res.status}) — check that this is your Atlassian 账户邮箱 and that the API token carries the read:repository:bitbucket scope`,
+          `Bitbucket 拒绝了这些凭据（${res.status}）——请确认这是你的 Atlassian 账户邮箱，且 API 令牌带有 read:repository:bitbucket 权限范围`,
         );
       }
       if (res.status !== 200) throw new Error(`Bitbucket 拒绝了该令牌（${res.status}）`);
@@ -434,7 +434,7 @@ export function AccountsTab() {
                 )}
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="icon-sm" aria-label={`${account.username} on ${account.host} actions`}>
+                    <Button variant="ghost" size="icon-sm" aria-label={`${account.username} 在 ${account.host} 上的操作`}>
                       <MoreHorizontal className="size-3.5" />
                     </Button>
                   </DropdownMenuTrigger>

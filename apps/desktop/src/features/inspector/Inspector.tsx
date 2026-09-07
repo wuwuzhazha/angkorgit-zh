@@ -77,7 +77,7 @@ export function Inspector() {
   const isStash = useRepo((s) => !!selectedOid && s.stashes.some((entry) => entry.oid === selectedOid));
 
   return (
-    <aside className="flex h-full flex-col bg-surface" aria-label="Inspector">
+    <aside className="flex h-full flex-col bg-surface" aria-label="检查器">
       <div className="flex h-9 shrink-0 items-center gap-1 border-b border-border-subtle px-2">
         <span className="px-1 text-xs font-semibold uppercase tracking-wide text-muted">
           {commit || commitError ? (isStash ? 'Stash' : 'Commit') : '工作副本'}

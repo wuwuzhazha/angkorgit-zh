@@ -745,7 +745,7 @@ export function ConflictResolver({ file, onResolved }: { file: string; onResolve
               : 'text-success'
             : 'text-muted opacity-0 hover:bg-surface-raised group-hover/line:opacity-100 focus-visible:opacity-100',
         )}
-        aria-label={`Take line ${li + 1} from ${side}`}
+        aria-label={`从 ${side} 取第 ${li + 1} 行`}
         onClick={(e) => {
           e.stopPropagation();
           void toggleLine(index, side, li);
@@ -874,7 +874,7 @@ export function ConflictResolver({ file, onResolved }: { file: string; onResolve
           </p>
         </div>
         {total > 0 && (
-          <div className="flex shrink-0 items-center gap-2" aria-label={`${resolvedCount} of ${total} conflicts resolved`}>
+          <div className="flex shrink-0 items-center gap-2" aria-label={`${resolvedCount} / ${total} 个冲突已解决`}>
             <span className="h-1.5 w-28 overflow-hidden rounded-full bg-surface-raised">
               <span
                 className={cn('block h-full rounded-full transition-[width] duration-300', resolvedCount === total ? 'bg-success' : 'bg-primary')}

@@ -655,7 +655,7 @@ export function Sidebar() {
         onClick={() => setFilters(path, { branch: filters.branch === branch.name ? '' : branch.name })}
         title={
           heldBy.has(branch.name)
-            ? `${branch.name} — checked out in worktree ${heldBy.get(branch.name)?.name}; double-click to switch there`
+            ? `${branch.name} — 已在工作树 ${heldBy.get(branch.name)?.name} 中检出；双击切换到那里`
             : `${branch.name} — 点击筛选提交图，双击检出`
         }
       >
@@ -664,7 +664,7 @@ export function Sidebar() {
         {heldBy.has(branch.name) && (
           <FolderTree
             className="size-3 shrink-0 text-faint"
-            aria-label={`Checked out in worktree ${heldBy.get(branch.name)?.name}`}
+            aria-label={`已在工作树 ${heldBy.get(branch.name)?.name} 中检出`}
           />
         )}
         {branch.ahead > 0 && <Badge tone="primary">↑{capCount(branch.ahead)}</Badge>}
@@ -1101,7 +1101,7 @@ export function Sidebar() {
             >
               <span
                 className="min-w-0 flex-1 truncate"
-                title={`${tag.message ?? tag.name} — click to show the commit, right-click for actions`}
+                title={`${tag.message ?? tag.name} — 点击显示该提交，右键查看更多操作`}
               >
                 {tag.name}
               </span>

@@ -406,7 +406,7 @@ export function Toolbar({ onRefresh }: { onRefresh: () => Promise<void> }) {
   return (
     <header className="flex h-12 shrink-0 items-center gap-1 border-b border-border-subtle bg-surface px-2">
       <Hint label="返回仓库列表">
-        <Button variant="ghost" size="icon" aria-label="Home" onClick={() => navigate('/welcome')}>
+        <Button variant="ghost" size="icon" aria-label="首页" onClick={() => navigate('/welcome')}>
           <Home />
         </Button>
       </Hint>

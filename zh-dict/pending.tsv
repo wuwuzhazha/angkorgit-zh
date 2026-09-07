@@ -122,7 +122,6 @@ e2e	tests/e2e/smoke.spec.ts	Apply src/features/graph/GraphRow.tsx from the stash
 e2e	tests/e2e/smoke.spec.ts	Apply stash (keep it)
 e2e	tests/e2e/smoke.spec.ts	aside button[title="feature"]
 e2e	tests/e2e/smoke.spec.ts	aside button[title="feature"] span.truncate
-e2e	tests/e2e/smoke.spec.ts	aside[aria-label="Inspector"]
 e2e	tests/e2e/smoke.spec.ts	Back to working copy
 e2e	tests/e2e/smoke.spec.ts	button span.truncate
 e2e	tests/e2e/smoke.spec.ts	cherry-pick opens a dialog with the source reference option
@@ -433,7 +432,7 @@ rust	apps/desktop/src-tauri/tests/git_engine.rs	one\nplus\n
 rust	apps/desktop/src-tauri/tests/git_engine.rs	one\ntwo\n
 rust	apps/desktop/src-tauri/tests/git_engine.rs	one\ntwo\nthree
 rust	apps/desktop/src-tauri/tests/git_engine.rs	one\ntwo\nthree\n
-rust	apps/desktop/src-tauri/tests/git_engine.rs	one\ntwo\nthree\nfour\nfive\n
+rust	apps/desktop/src-tauri/tests/git_engine.rs	one\nTWO\nthree\nfour\nfive\n
 rust	apps/desktop/src-tauri/tests/git_engine.rs	only a
 rust	apps/desktop/src-tauri/tests/git_engine.rs	other change\n
 rust	apps/desktop/src-tauri/tests/git_engine.rs	plain commit

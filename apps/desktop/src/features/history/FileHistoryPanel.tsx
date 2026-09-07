@@ -342,7 +342,7 @@ export function FileHistoryPanel({ file }: { file: string }) {
             ) : (
               <p className="py-16 text-center text-sm text-faint">
                 {selected
-                  ? '无更改 for this file in that commit (it may have been renamed).'
+                  ? '该提交中此文件无更改（可能已被重命名）。'
                   : '选择一个提交以查看其更改。'}
               </p>
             )}
