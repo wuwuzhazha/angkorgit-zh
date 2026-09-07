@@ -19,7 +19,7 @@ test('选择提交会打开检查器', async ({ page }) => {
   await page.getByText('angkorgit', { exact: true }).first().click();
   await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   await page.getByRole('row').first().click();
-  await expect(page.getByText(/1 个修改/)).toBeVisible();
+  await expect(page.getByText(/1 已修改/)).toBeVisible();
 });
 
 test('命令面板可通过键盘快捷键打开', async ({ page }) => {
