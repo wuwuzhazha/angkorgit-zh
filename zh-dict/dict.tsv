@@ -1136,3 +1136,4 @@ ui	Edit remote	编辑远端
 ui	Rename the remote or point it at a different URL.	重命名远端，或将其指向其他 URL。
 ui	Existing branch	已有分支
 ui	Terminal	终端	"Terminal"
+ui	'staged' : 'unstaged'	'已暂存' : '未暂存'
