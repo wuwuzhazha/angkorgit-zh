@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { toast } from 'sonner';
 import { toastOutcome } from '@/shared/toastOutcome';
-import { ArrowDownToLine, ArrowUpFromLine, Check, Combine, Copy, Filter, FolderTree, GitBranchPlus, Settings2, GitMerge, ListOrdered, ListRestart, RotateCcw, Search, Tag as TagIcon, Trash2, Undo2, User, X } from 'lucide-react';
+import { Archive, ArchiveRestore, ArrowDownToLine, ArrowUpFromLine, Check, Combine, Copy, Filter, FolderTree, GitBranchPlus, Settings2, GitMerge, ListOrdered, ListRestart, RotateCcw, Search, Tag as TagIcon, Trash2, Undo2, User, X } from 'lucide-react';
 import type { CommitInfo, RefInfo } from '@angkorgit/core';
 import {
   Button,
@@ -43,6 +43,8 @@ interface RefMenuState {
   ref: RefInfo;
 }
 
+const stashIndexOf = (ref: RefInfo) => Number(/\{(\d+)\}/.exec(ref.name)?.[1] ?? 0);
+
 export function CommitGraph() {
   const repo = useRepo((s) => s.repo);
   const refresh = useRepo((s) => s.refresh);
@@ -52,6 +54,8 @@ export function CommitGraph() {
     useGraph();
   const openDialog = useUi((s) => s.openDialog);
   const graphColumns = useUi((s) => s.graphColumns);
+  const graphTail = useUi((s) => s.graphTail);
+  const setGraphTail = useUi((s) => s.setGraphTail);
   const setGraphColumn = useUi((s) => s.setGraphColumn);
   const scrollRef = useRef<HTMLDivElement>(null);
   const [menu, setMenu] = useState<MenuState | null>(null);
@@ -66,6 +70,10 @@ export function CommitGraph() {
   const searchInputRef = useRef<HTMLInputElement>(null);
 
   const path = repo?.path ?? '';
+  const graphFocusSeq = useUi((s) => s.graphFocusSeq);
+  useEffect(() => {
+    if (graphFocusSeq > 0) scrollRef.current?.focus();
+  }, [graphFocusSeq]);
 
   const worktreeBranches = useMemo(() => {
     const map = new Map<string, string>();
@@ -180,6 +188,14 @@ export function CommitGraph() {
       { combo: 'arrowup', handler: () => moveSelection(-1) },
       { combo: 'home', handler: () => moveSelection('home') },
       { combo: 'end', handler: () => moveSelection('end') },
+      {
+        combo: 'arrowright',
+        handler: () => {
+          const ui = useUi.getState();
+          if (ui.centerDiff || ui.centerEditor || ui.centerFileHistory || ui.paletteOpen || ui.dialog || ui.conflictFile) return;
+          ui.focusInspector();
+        },
+      },
       {
         combo: 'mod+f',
         handler: () => {
@@ -298,14 +314,15 @@ export function CommitGraph() {
       }
       const losing =
         local.upstream === ref.shorthand && local.ahead > 0
-          ? ` ${local.ahead} commit${local.ahead === 1 ? '' : 's'} only on ${name} will be lost.`
+          ? ` ${local.ahead} commit${local.ahead === 1 ? '' : 's'} only on the local branch will be lost.`
           : '';
       void confirmDialog({
-        title: `Reset ${name} to ${ref.shorthand}?`,
+        title: 'Reset branch to its remote?',
         description: local.isHead
-          ? `${name} moves to ${commit.shortOid} with a hard reset.${losing} Uncommitted changes are discarded and cannot be recovered.`
-          : `${name} is not checked out. It will be checked out first, then hard reset to ${commit.shortOid}.${losing} Uncommitted changes are discarded and cannot be recovered.`,
-        confirmLabel: `Reset to ${ref.shorthand}`,
+          ? `Hard reset to ${ref.shorthand} (${commit.shortOid}).${losing} Uncommitted changes are discarded and cannot be recovered.`
+          : `This branch is not checked out. It is checked out first, then hard reset to ${ref.shorthand} (${commit.shortOid}).${losing} Uncommitted changes are discarded and cannot be recovered.`,
+        path: name,
+        confirmLabel: 'Reset branch',
         destructive: true,
       }).then(async (ok) => {
         if (!ok) return;
@@ -331,7 +348,7 @@ export function CommitGraph() {
   );
 
   const localBranchNames = useMemo(
-    () => new Set(branches.filter((b) => !b.isRemote).map((b) => b.name)),
+    () => new Set(branches.filter((b) => !b.isRemote && b.ahead > 0).map((b) => b.name)),
     [branches],
   );
 
@@ -410,6 +427,14 @@ export function CommitGraph() {
                   {label}
                 </DropdownMenuCheckboxItem>
               ))}
+              <DropdownMenuSeparator />
+              <DropdownMenuCheckboxItem
+                checked={graphTail}
+                onSelect={(e) => e.preventDefault()}
+                onCheckedChange={(checked) => setGraphTail(checked === true)}
+              >
+                Lane color band
+              </DropdownMenuCheckboxItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
@@ -448,7 +473,7 @@ export function CommitGraph() {
         )}
         {!graphColumns.message && !flat && <span className="min-w-0 flex-1" />}
       </div>
-      <div ref={scrollRef} className="min-h-0 flex-1 overflow-y-auto" role="table" aria-label="Commits">
+      <div ref={scrollRef} tabIndex={-1} className="min-h-0 flex-1 overflow-y-auto outline-none" role="table" aria-label="Commits">
         <WipRow gutterWidth={gutterWidth} flat={flat} showRefs={graphColumns.refs} />
         {rows.length === 0 && !loading ? (
           error ? (
@@ -507,6 +532,7 @@ export function CommitGraph() {
                     selected={selectedOid === commit.oid || selectedOids.includes(commit.oid)}
                     laneWidth={laneWidth}
                     columns={graphColumns}
+                    showTail={graphTail}
                     worktrees={worktreeBranches}
                     resettableBranches={localBranchNames}
                     onSelect={onRowSelect}
@@ -537,7 +563,39 @@ export function CommitGraph() {
           </DropdownMenuTrigger>
           <DropdownMenuContent align="start" side="bottom">
             <DropdownMenuLabel className="max-w-64 truncate font-mono">{refMenu.ref.shorthand}</DropdownMenuLabel>
-            {refMenu.ref.kind !== 'tag' && (
+            {refMenu.ref.kind === 'stash' && (
+              <>
+                <DropdownMenuItem
+                  onClick={() => void act('Apply stash', () => ipc.stashApply(path, stashIndexOf(refMenu.ref)))}
+                >
+                  <Archive /> Apply stash (keep it)
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => void act('Pop stash', () => ipc.stashPop(path, stashIndexOf(refMenu.ref)))}
+                >
+                  <ArchiveRestore /> Pop stash
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  destructive
+                  onClick={() => {
+                    const ref = refMenu.ref;
+                    void confirmDialog({
+                      title: 'Drop this stash?',
+                      description: 'The stashed changes are deleted and cannot be recovered.',
+                      path: ref.shorthand,
+                      confirmLabel: 'Drop stash',
+                      destructive: true,
+                    }).then((ok) => {
+                      if (ok) void act('Drop stash', () => ipc.stashDrop(path, stashIndexOf(ref)));
+                    });
+                  }}
+                >
+                  <Trash2 /> Drop stash…
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+              </>
+            )}
+            {refMenu.ref.kind !== 'tag' && refMenu.ref.kind !== 'stash' && (
               <>
                 <DropdownMenuItem onClick={() => checkoutRef(refMenu.ref)}>
                   <Check /> Checkout {refMenu.ref.shorthand}

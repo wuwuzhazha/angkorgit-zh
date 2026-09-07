@@ -67,9 +67,11 @@ function makeCommits(count: number): CommitInfo[] {
                 { kind: 'remoteBranch', name: 'refs/remotes/origin/main', shorthand: 'origin/main' },
                 { kind: 'tag', name: 'refs/tags/v0.4.0', shorthand: 'v0.4.0' },
               ]
-            : i === 7
-              ? [{ kind: 'localBranch', name: 'refs/heads/feature/diff-viewer', shorthand: 'feature/diff-viewer' }]
-              : [],
+            : i === 5
+              ? [{ kind: 'stash', name: 'stash@{0}', shorthand: 'WIP on main: experiment with lane colors' }]
+              : i === 7
+                ? [{ kind: 'localBranch', name: 'refs/heads/feature/diff-viewer', shorthand: 'feature/diff-viewer' }]
+                : [],
       isHead: i === 0,
     });
   }
@@ -348,15 +350,24 @@ export function demoCommitDiff(): FileDiff[] {
 }
 
 export function demoCommitFiles(): CommitFileInfo[] {
-  return demoCommitDiff().map((diff) => ({
-    path: diff.path,
-    oldPath: diff.oldPath,
-    status: diff.status,
-    isBinary: diff.isBinary,
-    isImage: diff.isImage,
-    additions: diff.additions,
-    deletions: diff.deletions,
-  }));
+  const extra: CommitFileInfo[] = [
+    { path: 'src/features/graph/GraphRow.tsx', oldPath: null, status: 'modified', isBinary: false, isImage: false, additions: 12, deletions: 4 },
+    { path: 'src/features/graph/store.ts', oldPath: null, status: 'modified', isBinary: false, isImage: false, additions: 3, deletions: 1 },
+    { path: 'docs/Architecture.md', oldPath: null, status: 'modified', isBinary: false, isImage: false, additions: 9, deletions: 0 },
+    { path: 'tests/unit/graphLayout.test.ts', oldPath: null, status: 'new', isBinary: false, isImage: false, additions: 40, deletions: 0 },
+  ];
+  return [
+    ...demoCommitDiff().map((diff) => ({
+      path: diff.path,
+      oldPath: diff.oldPath,
+      status: diff.status,
+      isBinary: diff.isBinary,
+      isImage: diff.isImage,
+      additions: diff.additions,
+      deletions: diff.deletions,
+    })),
+    ...extra,
+  ];
 }
 
 export const demoConflictContent = `import { render } from './renderer';

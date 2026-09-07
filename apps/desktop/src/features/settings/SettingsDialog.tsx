@@ -571,6 +571,8 @@ const SHORTCUTS: Array<[string, string[]]> = [
   ['Commit staged changes', ['mod', '⏎']],
   ['Previous / next commit', ['↑ / ↓']],
   ['First / last commit', ['Home / End']],
+  ['Open the commit\u2019s files / back to the graph', ['→ / ←']],
+  ['Previous / next file (file list)', ['↑ / ↓']],
   ['Search commits / find in diff', ['mod', 'F']],
   ['Previous match (find in diff)', ['⇧', '⏎']],
   ['Select / copy diff side', ['mod', 'A / C']],
