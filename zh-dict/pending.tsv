@@ -237,6 +237,115 @@ rust	apps/desktop/src-tauri/src/http.rs	failed to read response: {e}
 rust	apps/desktop/src-tauri/src/http.rs	request failed: {e}
 rust	apps/desktop/src-tauri/src/proc.rs	Command::new(
 rust	apps/desktop/src-tauri/src/watcher.rs	worktrees/
+rust	apps/desktop/src-tauri/tests/git_engine.rs	--format=%B
+rust	apps/desktop/src-tauri/tests/git_engine.rs	--porcelain
+rust	apps/desktop/src-tauri/tests/git_engine.rs	(cherry picked from commit {picked})
+rust	apps/desktop/src-tauri/tests/git_engine.rs	{name}-{suffix}
+rust	apps/desktop/src-tauri/tests/git_engine.rs	add a and b
+rust	apps/desktop/src-tauri/tests/git_engine.rs	add bad file
+rust	apps/desktop/src-tauri/tests/git_engine.rs	add files
+rust	apps/desktop/src-tauri/tests/git_engine.rs	add picked file
+rust	apps/desktop/src-tauri/tests/git_engine.rs	add picked file\n
+rust	apps/desktop/src-tauri/tests/git_engine.rs	alpha\nbeta\ngamma
+rust	apps/desktop/src-tauri/tests/git_engine.rs	alpha\nbeta\ngamma\n\n\n
+rust	apps/desktop/src-tauri/tests/git_engine.rs	alpha\nbeta\ngamma\n\n\nkhlhlihho
+rust	apps/desktop/src-tauri/tests/git_engine.rs	change a
+rust	apps/desktop/src-tauri/tests/git_engine.rs	change a {i}
+rust	apps/desktop/src-tauri/tests/git_engine.rs	change a 0
+rust	apps/desktop/src-tauri/tests/git_engine.rs	change a 1
+rust	apps/desktop/src-tauri/tests/git_engine.rs	change a 2
+rust	apps/desktop/src-tauri/tests/git_engine.rs	change a 3
+rust	apps/desktop/src-tauri/tests/git_engine.rs	change a 4
+rust	apps/desktop/src-tauri/tests/git_engine.rs	change a add c
+rust	apps/desktop/src-tauri/tests/git_engine.rs	change b {i}
+rust	apps/desktop/src-tauri/tests/git_engine.rs	change b only
+rust	apps/desktop/src-tauri/tests/git_engine.rs	change both
+rust	apps/desktop/src-tauri/tests/git_engine.rs	checkout must refuse a branch checked out in a worktree
+rust	apps/desktop/src-tauri/tests/git_engine.rs	chore {i}
+rust	apps/desktop/src-tauri/tests/git_engine.rs	commit {i}
+rust	apps/desktop/src-tauri/tests/git_engine.rs	commit 0
+rust	apps/desktop/src-tauri/tests/git_engine.rs	commit 1
+rust	apps/desktop/src-tauri/tests/git_engine.rs	commit 2
+rust	apps/desktop/src-tauri/tests/git_engine.rs	committed\n
+rust	apps/desktop/src-tauri/tests/git_engine.rs	delete or rename
+rust	apps/desktop/src-tauri/tests/git_engine.rs	demo change
+rust	apps/desktop/src-tauri/tests/git_engine.rs	demo change\n
+rust	apps/desktop/src-tauri/tests/git_engine.rs	demo work
+rust	apps/desktop/src-tauri/tests/git_engine.rs	demo work\n
+rust	apps/desktop/src-tauri/tests/git_engine.rs	dirty worktree must not be removed
+rust	apps/desktop/src-tauri/tests/git_engine.rs	diverge on master
+rust	apps/desktop/src-tauri/tests/git_engine.rs	feat: add picked file\n\nSome body text.
+rust	apps/desktop/src-tauri/tests/git_engine.rs	feat: after the conflict
+rust	apps/desktop/src-tauri/tests/git_engine.rs	feat: amended
+rust	apps/desktop/src-tauri/tests/git_engine.rs	feat: clean pick
+rust	apps/desktop/src-tauri/tests/git_engine.rs	feat: clean pick\n
+rust	apps/desktop/src-tauri/tests/git_engine.rs	feat: conflicting pick
+rust	apps/desktop/src-tauri/tests/git_engine.rs	feat: initial commit
+rust	apps/desktop/src-tauri/tests/git_engine.rs	feat: one
+rust	apps/desktop/src-tauri/tests/git_engine.rs	feat: one\n\n(cherry picked from commit {first})\n\n
+rust	apps/desktop/src-tauri/tests/git_engine.rs	feat: original
+rust	apps/desktop/src-tauri/tests/git_engine.rs	feat: signed commit
+rust	apps/desktop/src-tauri/tests/git_engine.rs	feat: two
+rust	apps/desktop/src-tauri/tests/git_engine.rs	feat: two\n\n(cherry picked from commit {second})\n\n
+rust	apps/desktop/src-tauri/tests/git_engine.rs	feature {i}
+rust	apps/desktop/src-tauri/tests/git_engine.rs	feature 1
+rust	apps/desktop/src-tauri/tests/git_engine.rs	feature 2
+rust	apps/desktop/src-tauri/tests/git_engine.rs	feature commit
+rust	apps/desktop/src-tauri/tests/git_engine.rs	feature work
+rust	apps/desktop/src-tauri/tests/git_engine.rs	feature work\n
+rust	apps/desktop/src-tauri/tests/git_engine.rs	feature@{upstream}
+rust	apps/desktop/src-tauri/tests/git_engine.rs	first (amended)
+rust	apps/desktop/src-tauri/tests/git_engine.rs	from engine
+rust	apps/desktop/src-tauri/tests/git_engine.rs	git CLI available
+rust	apps/desktop/src-tauri/tests/git_engine.rs	git worktree list did not report the new worktree:\n{listing}
+rust	apps/desktop/src-tauri/tests/git_engine.rs	gpg.ssh.allowedSignersFile={}
+rust	apps/desktop/src-tauri/tests/git_engine.rs	hotfix/one
+rust	apps/desktop/src-tauri/tests/git_engine.rs	keep\nmore\n
+rust	apps/desktop/src-tauri/tests/git_engine.rs	line should be staged
+rust	apps/desktop/src-tauri/tests/git_engine.rs	local base
+rust	apps/desktop/src-tauri/tests/git_engine.rs	local divergence
+rust	apps/desktop/src-tauri/tests/git_engine.rs	local edit\n
+rust	apps/desktop/src-tauri/tests/git_engine.rs	local work\n
+rust	apps/desktop/src-tauri/tests/git_engine.rs	main repo stays intact
+rust	apps/desktop/src-tauri/tests/git_engine.rs	master change
+rust	apps/desktop/src-tauri/tests/git_engine.rs	master change\n
+rust	apps/desktop/src-tauri/tests/git_engine.rs	master commit
+rust	apps/desktop/src-tauri/tests/git_engine.rs	master work
+rust	apps/desktop/src-tauri/tests/git_engine.rs	Merge branch 'demo' into production
+rust	apps/desktop/src-tauri/tests/git_engine.rs	Merge branch 'feature'
+rust	apps/desktop/src-tauri/tests/git_engine.rs	Merge branch 'other'
+rust	apps/desktop/src-tauri/tests/git_engine.rs	Merge branch 'production' into master
+rust	apps/desktop/src-tauri/tests/git_engine.rs	Merge branch 'topic' into master
+rust	apps/desktop/src-tauri/tests/git_engine.rs	merge other
+rust	apps/desktop/src-tauri/tests/git_engine.rs	message {message:?}
+rust	apps/desktop/src-tauri/tests/git_engine.rs	missing origin line in: {engine_message:?}
+rust	apps/desktop/src-tauri/tests/git_engine.rs	not a rev
+rust	apps/desktop/src-tauri/tests/git_engine.rs	one\nplus\n
+rust	apps/desktop/src-tauri/tests/git_engine.rs	one\ntwo\nthree
+rust	apps/desktop/src-tauri/tests/git_engine.rs	one\ntwo\nthree\n
+rust	apps/desktop/src-tauri/tests/git_engine.rs	one\nTWO\nthree\nFOUR\nfive\n
+rust	apps/desktop/src-tauri/tests/git_engine.rs	other change\n
+rust	apps/desktop/src-tauri/tests/git_engine.rs	plain commit
+rust	apps/desktop/src-tauri/tests/git_engine.rs	pr third
+rust	apps/desktop/src-tauri/tests/git_engine.rs	pr work
+rust	apps/desktop/src-tauri/tests/git_engine.rs	prod work
+rust	apps/desktop/src-tauri/tests/git_engine.rs	prod work\n
+rust	apps/desktop/src-tauri/tests/git_engine.rs	production change
+rust	apps/desktop/src-tauri/tests/git_engine.rs	production change\n
+rust	apps/desktop/src-tauri/tests/git_engine.rs	release work
+rust	apps/desktop/src-tauri/tests/git_engine.rs	released\n
+rust	apps/desktop/src-tauri/tests/git_engine.rs	resolved by hand
+rust	apps/desktop/src-tauri/tests/git_engine.rs	resolved content\n
+rust	apps/desktop/src-tauri/tests/git_engine.rs	resolved\n
+rust	apps/desktop/src-tauri/tests/git_engine.rs	Revert \"add bad file\"
+rust	apps/desktop/src-tauri/tests/git_engine.rs	source change\n
+rust	apps/desktop/src-tauri/tests/git_engine.rs	SSH SIGNATURE
+rust	apps/desktop/src-tauri/tests/git_engine.rs	Test User
+rust	apps/desktop/src-tauri/tests/git_engine.rs	three renamed
+rust	apps/desktop/src-tauri/tests/git_engine.rs	topic change
+rust	apps/desktop/src-tauri/tests/git_engine.rs	topic work
+rust	apps/desktop/src-tauri/tests/git_engine.rs	untracked\n
+rust	apps/desktop/src-tauri/tests/git_engine.rs	worktree 
 test	tests/unit/aiCapabilities.test.ts	  \n 
 test	tests/unit/aiCapabilities.test.ts	…(truncated)
 test	tests/unit/aiCapabilities.test.ts	clips very long instructions

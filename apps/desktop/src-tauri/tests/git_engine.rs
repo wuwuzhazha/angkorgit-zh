@@ -297,7 +297,7 @@ fn cherry_pick_many_applies_in_order_with_origin_lines() {
     let outcome =
         core::cherry_pick_many(repo.path(), &[first.clone(), second.clone()], true).unwrap();
     assert_eq!(outcome.status, "ok");
-    assert_eq!(outcome.message, "Cherry-picked 2 commits");
+    assert_eq!(outcome.message, "已拣选 2 个提交");
     assert!(repo.dir.join("one.txt").exists());
     assert!(repo.dir.join("two.txt").exists());
 
@@ -340,7 +340,7 @@ fn cherry_pick_many_stops_at_the_first_conflict_and_reports_progress() {
     assert_eq!(
         outcome.message,
         format!(
-            "Cherry-picked 1 of 3 commits. {} has conflicts to resolve; 1 more commit is waiting",
+            "Cherry-picked 1 of 3 commits. {} has conflicts to resolve；另有 1 个提交正在等待",
             &conflicting[..8]
         )
     );
@@ -1660,7 +1660,7 @@ fn worktree_add_refuses_a_branch_checked_out_elsewhere() {
         },
     )
     .expect_err("adding a worktree for the checked-out branch must fail");
-    assert!(err.to_string().contains("already checked out"), "{err}");
+    assert!(err.to_string().contains("工作树中检出"), "{err}");
     assert!(!dir.exists());
 }
 
@@ -1675,7 +1675,7 @@ fn checkout_refuses_a_branch_held_by_another_worktree() {
 
     let err = core::checkout_branch(repo.path(), "feature")
         .expect_err("checkout must refuse a branch checked out in a worktree");
-    assert!(err.to_string().contains("worktree"), "{err}");
+    assert!(err.to_string().contains("工作树"), "{err}");
     assert_eq!(
         core::repo_info(repo.path()).unwrap().head_branch.as_deref(),
         Some("master")
@@ -1702,7 +1702,7 @@ fn worktree_remove_refuses_dirty_trees_unless_forced() {
     );
     let err = core::worktree_remove(repo.path(), &name, false)
         .expect_err("dirty worktree must not be removed");
-    assert!(err.to_string().contains("uncommitted"), "{err}");
+    assert!(err.to_string().contains("未提交的更改"), "{err}");
     assert!(dir.exists());
 
     core::worktree_remove(repo.path(), &name, true).unwrap();
