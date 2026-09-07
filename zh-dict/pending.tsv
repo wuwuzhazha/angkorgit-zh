@@ -110,7 +110,6 @@ e2e	tests/e2e/smoke.spec.ts	<span class="hljs-comment">
 e2e	tests/e2e/smoke.spec.ts	000096aaaaaa
 e2e	tests/e2e/smoke.spec.ts	1 of 2
 e2e	tests/e2e/smoke.spec.ts	1 of 5
-e2e	tests/e2e/smoke.spec.ts	4 modified
 e2e	tests/e2e/smoke.spec.ts	4 of 5 selected
 e2e	tests/e2e/smoke.spec.ts	a single file can be stashed from its row menu and the toolbar pops the latest stash
 e2e	tests/e2e/smoke.spec.ts	a stash lists its files and one file can be restored on its own
@@ -119,7 +118,6 @@ e2e	tests/e2e/smoke.spec.ts	Applied 4 files from the stash
 e2e	tests/e2e/smoke.spec.ts	Applied GraphRow.tsx from the stash
 e2e	tests/e2e/smoke.spec.ts	Apply 4 files
 e2e	tests/e2e/smoke.spec.ts	Apply src/features/graph/GraphRow.tsx from the stash
-e2e	tests/e2e/smoke.spec.ts	Apply stash (keep it)
 e2e	tests/e2e/smoke.spec.ts	aside button[title="feature"]
 e2e	tests/e2e/smoke.spec.ts	aside button[title="feature"] span.truncate
 e2e	tests/e2e/smoke.spec.ts	Back to working copy
@@ -135,9 +133,6 @@ e2e	tests/e2e/smoke.spec.ts	const palette = useThemePalette();
 e2e	tests/e2e/smoke.spec.ts	ControlOrMeta+f
 e2e	tests/e2e/smoke.spec.ts	ControlOrMeta+k
 e2e	tests/e2e/smoke.spec.ts	dialog geometry missing
-e2e	tests/e2e/smoke.spec.ts	Discard all 2 staged changes?
-e2e	tests/e2e/smoke.spec.ts	Discard all staged changes
-e2e	tests/e2e/smoke.spec.ts	Discard src/features/graph/CommitGraph.tsx
 e2e	tests/e2e/smoke.spec.ts	double-clicking a separated origin chip offers to reset the local branch
 e2e	tests/e2e/smoke.spec.ts	Explains the why.
 e2e	tests/e2e/smoke.spec.ts	feat(graph): virtualize commit rows
@@ -145,7 +140,6 @@ e2e	tests/e2e/smoke.spec.ts	feat(worktrees): list, create and remove linked work
 e2e	tests/e2e/smoke.spec.ts	feature/diff-viewer
 e2e	tests/e2e/smoke.spec.ts	feature/parallel agents
 e2e	tests/e2e/smoke.spec.ts	feature/parallel-task
-e2e	tests/e2e/smoke.spec.ts	File history
 e2e	tests/e2e/smoke.spec.ts	Filter changed files…
 e2e	tests/e2e/smoke.spec.ts	Filter files
 e2e	tests/e2e/smoke.spec.ts	Filter files…
@@ -153,21 +147,15 @@ e2e	tests/e2e/smoke.spec.ts	fix(diff): handle renamed files in word diff
 e2e	tests/e2e/smoke.spec.ts	graph display menu can switch the lane color band off and on
 e2e	tests/e2e/smoke.spec.ts	h2, p
 e2e	tests/e2e/smoke.spec.ts	Hide file filter
-e2e	tests/e2e/smoke.spec.ts	History of src/features/graph/CommitGraph.tsx
 e2e	tests/e2e/smoke.spec.ts	img[src*="gravatar"]
 e2e	tests/e2e/smoke.spec.ts	iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==
 e2e	tests/e2e/smoke.spec.ts	Lane color band
 e2e	tests/e2e/smoke.spec.ts	multi-line comments in a diff stay highlighted as comments
 e2e	tests/e2e/smoke.spec.ts	multi-select cherry-pick lists every commit in the dialog
 e2e	tests/e2e/smoke.spec.ts	multi-select offers squash and pre-fills the rebase plan
-e2e	tests/e2e/smoke.spec.ts	No changes match the filter.
 e2e	tests/e2e/smoke.spec.ts	Pop latest stash
-e2e	tests/e2e/smoke.spec.ts	Pop stash
-e2e	tests/e2e/smoke.spec.ts	Pop stash complete
-e2e	tests/e2e/smoke.spec.ts	Pop stash done
 e2e	tests/e2e/smoke.spec.ts	Reset branch
 e2e	tests/e2e/smoke.spec.ts	Reset branch to its remote?
-e2e	tests/e2e/smoke.spec.ts	section[aria-label^="History of"]
 e2e	tests/e2e/smoke.spec.ts	Select src/features/graph/CommitGraph.tsx to apply
 e2e	tests/e2e/smoke.spec.ts	shift-click selects a range of working copy files and the menu acts on all of them
 e2e	tests/e2e/smoke.spec.ts	single conflict shows jump nav and per-conflict take-all
@@ -432,7 +420,7 @@ rust	apps/desktop/src-tauri/tests/git_engine.rs	one\nplus\n
 rust	apps/desktop/src-tauri/tests/git_engine.rs	one\ntwo\n
 rust	apps/desktop/src-tauri/tests/git_engine.rs	one\ntwo\nthree
 rust	apps/desktop/src-tauri/tests/git_engine.rs	one\ntwo\nthree\n
-rust	apps/desktop/src-tauri/tests/git_engine.rs	one\nTWO\nthree\nfour\nfive\n
+rust	apps/desktop/src-tauri/tests/git_engine.rs	one\ntwo\nthree\nfour\nfive\n
 rust	apps/desktop/src-tauri/tests/git_engine.rs	only a
 rust	apps/desktop/src-tauri/tests/git_engine.rs	other change\n
 rust	apps/desktop/src-tauri/tests/git_engine.rs	plain commit

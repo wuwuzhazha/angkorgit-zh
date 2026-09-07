@@ -358,7 +358,7 @@ function RefCell({
             )}
             title={
               group.stash
-                ? `${group.label}\nStash — click the row to see its files, right-click to apply, pop or drop`
+                ? `${group.label}\n暂存——点击行查看其文件，右键可应用、弹出或丢弃`
                 : group.tag || group.detachedHead
                 ? group.detachedHead
                   ? 'HEAD 游离在该提交处'

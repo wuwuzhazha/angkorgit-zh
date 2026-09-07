@@ -897,15 +897,15 @@ export function WorkingCopyPanel() {
               <Button variant="ghost" size="sm" onClick={() => void run(() => ipc.stageAll(path), '全量暂存失败')}>
                 <Plus className="size-3" /> 全部暂存
               </Button>
-              <Hint label="全部丢弃 changes">
+              <Hint label="全部丢弃未暂存的更改">
                 <Button
                   variant="ghost"
                   size="icon-sm"
-                  aria-label="全部丢弃 changes"
+                  aria-label="全部丢弃未暂存的更改"
                   className="text-muted hover:text-danger"
                   onClick={() => {
                     void confirmDialog({
-                      title: `全部丢弃 ${allUnstaged.length} change${allUnstaged.length === 1 ? '' : 's'}?`,
+                      title: `全部丢弃 ${allUnstaged.length} 个更改？`,
                       description:
                         '所有未暂存的更改将被还原，未跟踪的文件将被删除。此操作无法撤销——即使按 ⌘Z 也不行。',
                       confirmLabel: '全部丢弃',
@@ -923,7 +923,7 @@ export function WorkingCopyPanel() {
         </div>
         {unstagedFiles.length === 0 && (
           <p className="px-2 pb-2 text-xs text-faint">
-            {filtering && allUnstaged.length > 0 ? '无更改 match the filter.' : '工作区干净。'}
+            {filtering && allUnstaged.length > 0 ? '没有匹配过滤条件的更改。' : '工作区干净。'}
           </p>
         )}
         {fileTree ? (
@@ -957,15 +957,15 @@ export function WorkingCopyPanel() {
               <Button variant="ghost" size="sm" onClick={() => void run(() => ipc.unstageAll(path), '全量取消暂存失败')}>
                 <Minus className="size-3" /> 全部取消暂存
               </Button>
-              <Hint label="全部丢弃 staged changes">
+              <Hint label="全部丢弃已暂存的更改">
                 <Button
                   variant="ghost"
                   size="icon-sm"
-                  aria-label="全部丢弃 staged changes"
+                  aria-label="全部丢弃已暂存的更改"
                   className="text-muted hover:text-danger"
                   onClick={() => {
                     void confirmDialog({
-                      title: `全部丢弃 ${allStaged.length} staged change${allStaged.length === 1 ? '' : 's'}?`,
+                      title: `全部丢弃 ${allStaged.length} 个已暂存更改？`,
                       description:
                         'Every staged file goes back to the last commit, unstaged edits to those files included, and new files are deleted. This cannot be undone — not even with ⌘Z.',
                       confirmLabel: '全部丢弃',

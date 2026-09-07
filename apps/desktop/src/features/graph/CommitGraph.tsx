@@ -324,8 +324,8 @@ export function CommitGraph() {
       void confirmDialog({
         title: 'Reset branch to its remote?',
         description: local.isHead
-          ? `硬重置到 ${ref.shorthand} (${commit.shortOid}).${losing} 未提交的更改 are discarded and cannot be recovered.`
-          : `This branch is not checked out. It is checked out first, then hard reset to ${ref.shorthand} (${commit.shortOid}).${losing} 未提交的更改 are discarded and cannot be recovered.`,
+          ? `硬重置到 ${ref.shorthand} (${commit.shortOid}).${losing} 未提交的更改将被丢弃且无法恢复。`
+          : `此分支当前未检出。将先检出它，再硬重置到${ref.shorthand} (${commit.shortOid}).${losing} 未提交的更改将被丢弃且无法恢复。`,
         path: name,
         confirmLabel: 'Reset branch',
         destructive: true,
