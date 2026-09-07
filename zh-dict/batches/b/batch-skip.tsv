@@ -1,0 +1,109 @@
+# batch-skip.tsv — B2（pending.tsv 第 273–500 行）不可译清单
+# 列：line<TAB>scope<TAB>file<TAB>source<TAB>category（99 条原 skip + 8 条改判，改判行 category 以 [改判] 开头）
+273	rust	apps/desktop/src-tauri/src/ai_cli.rs	.cargo/bin	路径/标识符/键名/CSS 类
+274	rust	apps/desktop/src-tauri/src/ai_cli.rs	.claude/local	路径/标识符/键名/CSS 类
+275	rust	apps/desktop/src-tauri/src/ai_cli.rs	.local/bin	路径/标识符/键名/CSS 类
+276	rust	apps/desktop/src-tauri/src/ai_cli.rs	.local/share/mise/shims	路径/标识符/键名/CSS 类
+277	rust	apps/desktop/src-tauri/src/ai_cli.rs	.local/share/pnpm	路径/标识符/键名/CSS 类
+278	rust	apps/desktop/src-tauri/src/ai_cli.rs	.nvm/versions/node	路径/标识符/键名/CSS 类
+279	rust	apps/desktop/src-tauri/src/ai_cli.rs	.opencode/bin	路径/标识符/键名/CSS 类
+280	rust	apps/desktop/src-tauri/src/ai_cli.rs	.volta/bin	路径/标识符/键名/CSS 类
+281	rust	apps/desktop/src-tauri/src/ai_cli.rs	{} is not a supported AI CLI	纯占位符/模板变量
+282	rust	apps/desktop/src-tauri/src/ai_cli.rs	{name} {}	纯占位符/模板变量
+283	rust	apps/desktop/src-tauri/src/ai_cli.rs	{OUTPUT_FILE}	纯占位符/模板变量
+284	rust	apps/desktop/src-tauri/src/ai_cli.rs	#!/bin/sh\n{body}\n	路径/标识符/键名/CSS 类
+285	rust	apps/desktop/src-tauri/src/ai_cli.rs	AI CLI	品牌/产品/主题名（保留英文）
+286	rust	apps/desktop/src-tauri/src/ai_cli.rs	Antigravity CLI	品牌/产品/主题名（保留英文）
+287	rust	apps/desktop/src-tauri/src/ai_cli.rs	cat > /dev/null\necho pong	CLI 命令/脚本片段/配置项
+288	rust	apps/desktop/src-tauri/src/ai_cli.rs	Claude Code	品牌/产品/主题名（保留英文）
+289	rust	apps/desktop/src-tauri/src/ai_cli.rs	Codex CLI	品牌/产品/主题名（保留英文）
+290	rust	apps/desktop/src-tauri/src/ai_cli.rs	command -v {name} || true	CLI 命令/脚本片段/配置项
+291	rust	apps/desktop/src-tauri/src/ai_cli.rs	diff mentioning {OUTPUT_FILE_PLACEHOLDER} literally	AI 提示词/探针
+293	rust	apps/desktop/src-tauri/src/ai_cli.rs	Gemini CLI	品牌/产品/主题名（保留英文）
+294	rust	apps/desktop/src-tauri/src/ai_cli.rs	Library/pnpm	路径/标识符/键名/CSS 类
+296	rust	apps/desktop/src-tauri/src/ai_cli.rs	printf '%s' \"$1\"	CLI 命令/脚本片段/配置项
+297	rust	apps/desktop/src-tauri/src/ai_cli.rs	sleep 20	CLI 命令/脚本片段/配置项
+302	rust	apps/desktop/src-tauri/src/core/accounts.rs	acct:{host}:{username}	纯占位符/模板变量
+305	rust	apps/desktop/src-tauri/src/core/accounts.rs	gitlab.example.com:8443	协议常量/MIME/host
+308	rust	apps/desktop/src-tauri/src/core/ai_keys.rs	ai:{provider}	纯占位符/模板变量
+317	rust	apps/desktop/src-tauri/src/core/branch.rs	(cherry picked from commit 	git 原始输出/自动提交消息/trailer
+318	rust	apps/desktop/src-tauri/src/core/branch.rs	(cherry picked from commit {oid})\n	git 原始输出/自动提交消息/trailer
+322	rust	apps/desktop/src-tauri/src/core/branch.rs	Merge branch '{branch}' into {into}	git 原始输出/自动提交消息/trailer
+332	rust	apps/desktop/src-tauri/src/core/commit.rs	Revert \"{summary}\"\n\nThis reverts commit {full_oid}.	git 原始输出/自动提交消息/trailer
+333	rust	apps/desktop/src-tauri/src/core/commit.rs	Revert has conflicts to resolve	git 原始输出/自动提交消息/trailer
+336	rust	apps/desktop/src-tauri/src/core/diff.rs	\ No newline at end of file	git 原始输出/自动提交消息/trailer
+338	rust	apps/desktop/src-tauri/src/core/history.rs	{} {}	纯占位符/模板变量
+339	rust	apps/desktop/src-tauri/src/core/history.rs	{} {} {}	纯占位符/模板变量
+343	rust	apps/desktop/src-tauri/src/core/remote.rs	{}_{suffix}	纯占位符/模板变量
+344	rust	apps/desktop/src-tauri/src/core/remote.rs	{branch_name} has diverged from {upstream_name} — check it out to merge	纯占位符/模板变量
+345	rust	apps/desktop/src-tauri/src/core/remote.rs	{branch_name} is ahead of {upstream_name} — nothing to pull	纯占位符/模板变量
+346	rust	apps/desktop/src-tauri/src/core/remote.rs	{branch_name} is already up to date	纯占位符/模板变量
+347	rust	apps/desktop/src-tauri/src/core/remote.rs	{remote_name}/{branch_name}	路径/标识符/键名/CSS 类
+348	rust	apps/desktop/src-tauri/src/core/remote.rs	{remote_name}/{local_branch}	路径/标识符/键名/CSS 类
+349	rust	apps/desktop/src-tauri/src/core/remote.rs	{username}	纯占位符/模板变量
+350	rust	apps/desktop/src-tauri/src/core/remote.rs	+{source_ref}:{PR_HEAD_TMP_REF}	纯占位符/模板变量
+351	rust	apps/desktop/src-tauri/src/core/remote.rs	a>() -> RemoteCallbacks<	代码片段/模板残留
+358	rust	apps/desktop/src-tauri/src/core/remote.rs	git credential fill	CLI 命令/脚本片段/配置项
+362	rust	apps/desktop/src-tauri/src/core/remote.rs	nonsense,=user,host=, GitHub.com=Dara 	演示/示例/测试数据
+363	rust	apps/desktop/src-tauri/src/core/remote.rs	protocol=https\nhost={host}\nusername={username}\npassword={password}\n\n	纯占位符/模板变量
+364	rust	apps/desktop/src-tauri/src/core/remote.rs	pull request checkout	[改判] S9：libgit2 reference() 的 reflog 日志消息（git 元数据自动消息），非 UI 文案
+367	rust	apps/desktop/src-tauri/src/core/remote.rs	url={url}\n	纯占位符/模板变量
+368	rust	apps/desktop/src-tauri/src/core/remote.rs	username={user}\n	纯占位符/模板变量
+369	rust	apps/desktop/src-tauri/src/core/repo.rs	{name}:{target}	纯占位符/模板变量
+370	rust	apps/desktop/src-tauri/src/core/repo.rs	HEAD:{}:{}	纯占位符/模板变量
+371	rust	apps/desktop/src-tauri/src/core/repo.rs	HEAD:unborn	纯占位符/模板变量
+372	rust	apps/desktop/src-tauri/src/core/sign.rs	.ssh/id_ed25519.pub	路径/标识符/键名/CSS 类
+373	rust	apps/desktop/src-tauri/src/core/sign.rs	[GNUPG:] SIG_CREATED	纯占位符/模板变量
+374	rust	apps/desktop/src-tauri/src/core/sign.rs	{} <{}>	纯占位符/模板变量
+375	rust	apps/desktop/src-tauri/src/core/sign.rs	{} could not sign the commit ({e}). {SSH_AGENT_HINT}	纯占位符/模板变量
+376	rust	apps/desktop/src-tauri/src/core/sign.rs	{} refused to sign the commit: {}. {SSH_AGENT_HINT}	纯占位符/模板变量
+377	rust	apps/desktop/src-tauri/src/core/sign.rs	{literal}\n	纯占位符/模板变量
+379	rust	apps/desktop/src-tauri/src/core/sign.rs	commit: {}	纯占位符/模板变量
+380	rust	apps/desktop/src-tauri/src/core/sign.rs	Test User	演示/示例/测试数据
+381	rust	apps/desktop/src-tauri/src/core/stage.rs	{file_header}@@ -{start},{old_count} +{start},{new_count} @@\n{body}	纯占位符/模板变量
+382	rust	apps/desktop/src-tauri/src/core/stage.rs	{header}{hunk}	代码片段/模板残留
+383	rust	apps/desktop/src-tauri/src/core/stage.rs	\\ No newline at end of file\n	git 原始输出/自动提交消息/trailer
+384	rust	apps/desktop/src-tauri/src/core/stage.rs	a>(repo: &	代码片段/模板残留
+390	rust	apps/desktop/src-tauri/src/core/worktree.rs	{} already exists — pick a folder that does not exist yet	纯占位符/模板变量
+391	rust	apps/desktop/src-tauri/src/core/worktree.rs	{base}-{i}	纯占位符/模板变量
+396	rust	apps/desktop/src-tauri/src/core/worktree.rs	ref: 	纯占位符/模板变量
+398	rust	apps/desktop/src-tauri/src/core/worktree.rs	worktree:{name}:{}:{}:{}	纯占位符/模板变量
+399	rust	apps/desktop/src-tauri/src/error.rs	class=Http	路径/标识符/键名/CSS 类
+404	rust	apps/desktop/src-tauri/src/error.rs	unexpected http status code: 	[改判] S3：HTTP_STATUS_MARKER 运行时常量（error.rs:17），翻译破坏 http_status() 对 libgit2 英文消息的 split 解析
+405	rust	apps/desktop/src-tauri/src/error.rs	unexpected http status code: 401	[改判] S10：仅测试输入字面量（error.rs:158），与英文 marker 联动，翻译破坏 http_status() 解析与断言
+406	rust	apps/desktop/src-tauri/src/error.rs	unexpected http status code: 402	[改判] S10：仅测试输入字面量（error.rs:115/132），与英文 marker 联动，翻译破坏 http_status() 解析与断言
+407	rust	apps/desktop/src-tauri/src/error.rs	unexpected http status code: 403; class=Http (34)	[改判] S10：仅测试输入字面量（error.rs:119），与英文 marker 联动，翻译破坏 http_status() 解析与断言
+408	rust	apps/desktop/src-tauri/src/error.rs	unexpected http status code: 500	[改判] S10：仅测试输入字面量（error.rs:140），与英文 marker 联动，翻译破坏 http_status() 解析与断言
+409	rust	apps/desktop/src-tauri/src/forge.rs	{email}:{token}	纯占位符/模板变量
+410	rust	apps/desktop/src-tauri/src/forge.rs	2022-11-28	日期常量
+411	rust	apps/desktop/src-tauri/src/forge.rs	api.{host}	纯占位符/模板变量
+412	rust	apps/desktop/src-tauri/src/forge.rs	application/vnd.github+json	路径/标识符/键名/CSS 类
+413	rust	apps/desktop/src-tauri/src/forge.rs	Basic {basic}	纯占位符/模板变量
+414	rust	apps/desktop/src-tauri/src/forge.rs	Bearer {token}	纯占位符/模板变量
+415	rust	apps/desktop/src-tauri/src/forge.rs	Bearer tok	纯占位符/模板变量
+418	rust	apps/desktop/src-tauri/src/forge.rs	github.corp.dev:8443	协议常量/MIME/host
+421	rust	apps/desktop/src-tauri/src/http.rs	failed to read response: {e}	[改判] S5：与 forge/store.ts:63 正则 /^request failed:|failed to read response/i 运行时耦合，翻译 rust 侧消息导致 transport 错误识别失效
+423	rust	apps/desktop/src-tauri/src/http.rs	request failed: {e}	[改判] S5：与 forge/store.ts:63 正则 ^request failed: 运行时耦合，翻译 rust 侧消息导致 transport 错误识别失效
+426	rust	apps/desktop/src-tauri/src/proc.rs	Command::new(	代码片段/模板残留
+438	rust	apps/desktop/src-tauri/src/watcher.rs	worktrees/	路径/标识符/键名/CSS 类
+439	ui	apps/desktop/src/app/App.tsx	mod+shift+=	快捷键键名序列
+440	ui	apps/desktop/src/components/CommandPalette.tsx	 : ''}	代码片段/模板残留
+442	ui	apps/desktop/src/components/Toolbar.tsx	 : ''}	代码片段/模板残留
+444	ui	apps/desktop/src/components/Toolbar.tsx	block truncate	路径/标识符/键名/CSS 类
+445	ui	apps/desktop/src/core/ipc.ts	__TAURI_INTERNALS__	路径/标识符/键名/CSS 类
+446	ui	apps/desktop/src/core/ipc.ts	--- demo staged patch ---	演示/示例/测试数据
+447	ui	apps/desktop/src/core/ipc.ts	Already up to date (demo)	演示/示例/测试数据
+448	ui	apps/desktop/src/core/ipc.ts	Demo User	演示/示例/测试数据
+449	ui	apps/desktop/src/core/ipc.ts	Rebase complete (demo)	演示/示例/测试数据
+450	ui	apps/desktop/src/core/ipc.ts	Reverted (demo)	演示/示例/测试数据
+451	ui	apps/desktop/src/core/ipc.ts	src/app/App.tsx	路径/标识符/键名/CSS 类
+452	ui	apps/desktop/src/core/ipc.ts	src/features/graph/drawGraph.ts	路径/标识符/键名/CSS 类
+453	ui	apps/desktop/src/core/ipc.ts	src/graph/layout.ts	路径/标识符/键名/CSS 类
+454	ui	apps/desktop/src/core/ipc.ts	src/main.ts	路径/标识符/键名/CSS 类
+455	ui	apps/desktop/src/core/ipc.ts	vendor/libfoo	路径/标识符/键名/CSS 类
+456	ui	apps/desktop/src/features/commit/draftStore.ts	zustand/middleware	路径/标识符/键名/CSS 类
+481	ui	apps/desktop/src/features/diff/DiffViewer.tsx	image/svg+xml	路径/标识符/键名/CSS 类
+488	ui	apps/desktop/src/features/forge/CreatePrDialog.tsx	 : ''}	代码片段/模板残留
+495	ui	apps/desktop/src/features/graph/WipRow.tsx	3 2.5	代码片段/模板残留
+496	ui	apps/desktop/src/features/hello/HelloPanel.ts	Some brand new untranslated phrase from upstream	文件不存在于上游 HEAD（过期待译行）
+499	ui	apps/desktop/src/features/inspector/CommitDetails.tsx	).join('\n')}	代码片段/模板残留

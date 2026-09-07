@@ -1,0 +1,25 @@
+# 跳过文件清单（相对仓库根的 glob，每行一个；命中即不翻译、不进待译清单）
+**/.git/**
+**/node_modules/**
+apps/desktop/src-tauri/icons/**
+**/*.png
+**/*.icns
+**/*.ico
+**/*.webp
+**/*.jpg
+**/*.jpeg
+**/*.gif
+**/*.svg
+Cargo.lock
+pnpm-lock.yaml
+**/public/screenshots/**
+**/public/og.png
+docs/assets/**
+scripts/**
+.github/**
+zh-dict/**
+README.md
+docs/README.zh.md
+**/target/**
+**/dist/**
+apps/desktop/src/core/demo.ts

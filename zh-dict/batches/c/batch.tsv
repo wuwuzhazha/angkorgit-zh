@@ -1,0 +1,142 @@
+# batch-3.tsv — 第 3 批译文（pending.tsv 行 501–814，314 行：可译 135 / 跳过 179）
+# 生成者：translator-c（t5，按 t1 契约 §6.1 格式）
+# 列：scope<TAB>source<TAB>target<TAB>anchor(可选)
+# 特例执行（契约 §2.3-3）：Amend/Review 无空格裸词带 anchor（\+ ' Amend' / \+ ' Review'）；' 6 changes' 前导空格规避（source 去空格 + anchor ' 6 changes'）；前导空格 Discard all/Stage all/Unstage all/Mark resolved 只做 dict scope 扩展。
+# TR 复用 18 条（scope 并集）；大小写变体 folder missing 按 §2.3-2 产出小写 source。
+# ============ ui（pending.tsv 行 501–599） ============
+ui	In use here	此处使用中
+ui,website	In use	使用中
+ui	Browse destination	浏览目标文件夹
+ui	Choose destination folder	选择目标文件夹
+ui	Connecting…	正在连接…	'Connecting…'
+ui	Destination folder	目标文件夹
+ui	Repository cloned	仓库已克隆
+ui	At the current HEAD	在当前 HEAD 处
+ui	From the current HEAD	从当前 HEAD 起
+ui	each new message	每条新消息
+ui	the new message	这条新消息
+ui	Stash message (optional)	暂存消息（可选）
+ui	Tag message (optional)	标签消息（可选）
+ui	Open a folder that already has a .git directory, or clone one from a URL. Everything you open shows up here.	打开一个已有 .git 目录的文件夹，或从 URL 克隆一个。你打开的所有内容都会显示在这里。
+ui	This folder no longer exists. Remove it from recents or open it from its new location.	此文件夹已不存在。请从最近记录中移除，或从其新位置打开。
+ui	Add account	添加账户
+ui	API token with read:repository:bitbucket + write:repository:bitbucket scopes	具有 read:repository:bitbucket + write:repository:bitbucket 权限范围的 API 令牌
+ui	Atlassian account email	Atlassian 账户邮箱
+ui	Atlassian account email (your Bitbucket username is detected)	Atlassian 账户邮箱（已检测到你的 Bitbucket 用户名）
+ui	Bitbucket username is detected	已检测到 Bitbucket 用户名
+ui	Connect your first account	连接你的第一个账户
+ui	detected from the token	从令牌中检测到
+ui	enter a username to save without verification	输入用户名即可不经验证保存
+ui	enter your Atlassian account email so the token can be verified	输入你的 Atlassian 账户邮箱以验证令牌
+ui	Other host	其他主机
+ui	Paste the token	粘贴令牌
+ui	Personal access token with "read_repository" + "write_repository" scopes	具有“read_repository” + “write_repository”权限范围的个人访问令牌
+ui	Personal access token with the "repo" scope	具有“repo”权限范围的个人访问令牌
+ui	Remove account	移除账户
+ui	The token is deleted from the system keychain. Pushes to this host fall back to your other accounts or the credential helper.	令牌将从系统钥匙串中删除。推送到该主机时将回退到你的其他账户或凭据助手。
+ui	Token or password used for HTTPS git access	用于 HTTPS git 访问的令牌或密码
+ui	Used automatically when a remote's host matches — push and pull over HTTPS with no SSH setup. Several accounts per host are fine; one is the default and profiles can pick another.	当远端的主机匹配时自动使用——无需 SSH 配置即可通过 HTTPS 推送和拉取。每个主机可以有多个账户；其中一个是默认账户，各配置可选用其他账户。
+ui	username (detected from the token)	用户名（从令牌中检测到）
+ui	username is required for this provider	此提供方需要用户名
+ui	folder missing	文件夹缺失
+ui	New branch	新建分支
+ui	New stash	新建暂存
+ui	New tag	新建标签
+ui	Prune worktrees	清理工作树
+ui	Browse for a parent folder	浏览父文件夹
+ui	Choose a branch	选择分支
+ui	Choose where to create the worktree	选择工作树的创建位置
+ui	Ignored files such as node_modules are not copied. Run your install step in its terminal when you need it.	node_modules 等被忽略的文件不会被复制。需要时请在其终端中运行安装步骤。
+ui	the current HEAD	当前 HEAD
+ui	just now	刚刚
+# ============ website（pending.tsv 行 600–814） ============
+website	AngKorGit (Angkor Git) — fast, free Git client and Git GUI for macOS, Windows & Linux	AngKorGit（Angkor Git）——快速、免费的 Git 客户端与 Git GUI，支持 macOS、Windows 和 Linux
+website	No telemetry, no crash reporting, no account. The only network traffic is git itself, the update check against GitHub releases, and whatever AI provider you choose to enable.	无遥测、无崩溃报告、无需账户。唯一的网络流量是 git 本身、针对 GitHub releases 的更新检查，以及你选择启用的 AI 提供方。
+website	One word, AngKorGit. People also write Angkor Git, angkorgit or GitAngkor, and they all mean this app. angkorgit.app is the only official site, and the code lives on GitHub under cheat2001/angkorgit.	一个词，AngKorGit。也有人写作 Angkor Git、angkorgit 或 GitAngkor，指的都是这个应用。angkorgit.app 是唯一的官方网站，代码托管在 GitHub 的 cheat2001/angkorgit 仓库。
+website	SmartScreen will say the publisher is unknown. More info, then Run anyway. An .msi is on the releases page too.	SmartScreen 会提示发布者未知。点击“更多信息”，然后“仍要运行”。发布页面也提供 .msi 安装包。
+website	Yes. MIT licensed, the whole source is on GitHub, and there is no paid tier hiding behind a feature. If it saves you time and you feel like it, there is a coffee link in the footer.	是的。MIT 许可，全部源代码都在 GitHub 上，没有任何隐藏在功能背后的付费层级。如果它为你节省了时间，页脚还有一个咖啡链接。
+website	⌘K palette with every command, shortcuts shown next to menu items	⌘K 命令面板包含所有命令，菜单项旁显示快捷键
+website	Pull requests: list, check out, create, pick reviewers (GitHub, GitLab, Bitbucket)	拉取请求：列表、检出、创建、挑选审查人（GitHub、GitLab、Bitbucket）
+website	Amend, revert, reset (soft, mixed, hard)	修订、还原、重置（软、混合、硬）
+website	Working copy watcher, so the WIP row is always right	工作副本监听，让 WIP 行始终准确
+website	The forge does this better, with CI logs and suggestions. There is an Open in browser button.	托管平台在这方面做得更好，有 CI 日志与建议。界面提供“在浏览器中打开”按钮。
+website	Undo and redo for commits, checkouts, merges, rebases	提交、检出、合并、变基的撤销与重做
+website	Commit signing through your existing git config (SSH or GPG)	通过你现有的 git 配置进行提交签名（SSH 或 GPG）
+website	Commit with summary and description, drafts saved per repository	带摘要和说明提交，草稿按仓库保存
+website	Drag one branch onto another to merge or rebase	把一个分支拖到另一个分支上以合并或变基
+website	Drag a branch onto another	把一个分支拖到另一个分支上
+website	Edit the result in place, or the whole file	就地编辑结果，或编辑整个文件
+website	Fetch, pull, push, with the credential chain git itself uses	抓取、拉取、推送，使用 git 自身的凭据链
+website	Identity profiles stored per repository, never in the global gitconfig	身份配置按仓库保存，绝不写入全局 gitconfig
+website	Inline or side by side, word level highlighting	内联或并排，词级高亮
+website	Interactive rebase: reorder, squash, reword, drop	交互式变基：重排、压缩、改写、丢弃
+website	Not yet. The palette and sidebar are list driven, so it is possible later.	还没有。命令面板和侧边栏由列表驱动，以后有可能实现。
+website	Nothing phones home. There is nothing to sign up for.	不会回传任何数据，也无需注册。
+website	Previous and next change, previous and next file	上一个/下一个更改，上一个/下一个文件
+website	Real confirmation dialogs before anything destructive	任何破坏性操作前都有真正的确认对话框
+website	SSH keys and access tokens. Several accounts on one host	SSH 密钥与访问令牌。一个主机可关联多个账户
+website	Stage files, hunks, or single lines	暂存文件、代码块或单行
+website	Whole file view, image diffs, a minimap you can click	整文件视图、图片 diff、可点击的缩略图
+website	Worktrees: list, create, remove, prune	工作树：列表、创建、移除、清理
+website	Table of contents drawn as a commit graph	以提交图绘制的目录
+website	Conflicts you can <em>read</em>.	能读懂的<em>冲突</em>。
+website	⌘K, then <em>type</em>.	⌘K，然后<em>输入</em>。
+website	16 themes, dark and light, five accents	16 款主题，深浅双色，五种强调色
+website	AI explanation of a conflict on request	按需对冲突进行 AI 解释
+website	Both sides aligned, line numbers on each	两侧对齐，每侧带行号
+website	Branch folders in the sidebar	侧边栏中的分支文件夹
+website	Commit search by text, author, branch, or hash	按文本、作者、分支或哈希搜索提交
+website	Auto fetch in the background	后台自动拉取
+website	Take a side, a block, or one line	选择一侧、一块或一行
+website	Telemetry, accounts, a cloud	遥测、账户、云服务
+website	Reading changes	阅读更改
+website	Remotes and accounts	远端与账户
+website	Stashes, tags, submodules	暂存、标签、子模块
+website	Native, not a browser	原生应用，而非浏览器
+website	Conflicts you can read	能读懂的冲突
+website	Uses the AI you already have	使用你已有的 AI
+website	CLI you already log into	你已登录的 CLI
+website	AppImage, .deb and .rpm	AppImage、.deb 和 .rpm
+website	Intel and Apple Silicon, one file	Intel 与 Apple Silicon，单文件
+website	Windows (PowerShell)	Windows（PowerShell）
+website	x64 installer	x64 安装程序
+website	Scroll long lines	滚动长行
+ui,website	Wrap long lines	自动换行
+website	Toggle theme	切换主题
+website	AngKorGit home	AngKorGit 主页
+website	Close menu	关闭菜单
+website	Open menu	打开菜单
+website	View source on GitHub	在 GitHub 上查看源代码
+website	⌘K, then type	⌘K，然后输入
+website	that part is yours	那部分属于你
+ui,website	Two branches, two folders	两个分支，两个文件夹
+ui,website	Uncommitted changes	未提交的更改
+website	local, no key	本地运行，无需密钥
+website	AngKorGit or Angkor Git?	AngKorGit 还是 Angkor Git？
+website	Does it send anything anywhere?	它会把任何数据发送出去吗？
+website	How does it compare to GitKraken or Fork?	它与 GitKraken 或 Fork 相比如何？
+website	Is it really free?	它真的免费吗？
+website	Why does macOS warn me on first launch?	为什么 macOS 在首次启动时警告我？
+website	Every day	每天
+website	The rest	其余
+website	A blame view	blame 视图
+website	A plugin marketplace	插件市场
+ui,website	File history…	文件历史…
+ui,website	File history	文件历史
+ui,website	New worktree…	新建工作树…
+ui,website	Stash changes…	暂存更改…
+ui,website	Create branch…	新建分支…
+ui,website	Create tag…	新建标签…
+ui,website	Fetch (with tags)	拉取（含标签）
+ui,e2e,website	Pull requests	拉取请求
+ui,e2e,website	Mark resolved	标记已解决
+ui,website	Discard all	全部丢弃
+ui,e2e,website	Stage all	全部暂存
+ui,website	Unstage all	全部取消暂存
+website	Amend	修订	\+ ' Amend'
+website	Review	审查	\+ ' Review'
+website	6 changes	6 个更改	' 6 changes'
+website	Git client	Git 客户端
+website	Page not found — AngKorGit	页面未找到 —— AngKorGit
+ui,website	API key	API 密钥
+website	let me just commit this WIP	让我先提交这个 WIP

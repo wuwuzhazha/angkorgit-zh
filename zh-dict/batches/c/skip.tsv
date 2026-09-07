@@ -1,0 +1,181 @@
+# batch-3 skip 清单（pending.tsv 行 501–814）
+# 列：line<TAB>scope<TAB>file<TAB>source<TAB>类别码（S1–S16，t1 契约 §2.1）
+512	ui	apps/desktop/src/features/repository/RepositoryPage.tsx	mod+shift+z	S11
+517	ui	apps/desktop/src/features/settings/AccountsTab.tsx	application/vnd.github+json	S4
+535	ui	apps/desktop/src/features/settings/SettingsDialog.tsx	[ / ]	S11
+536	ui	apps/desktop/src/features/settings/SettingsDialog.tsx	[{suffix}]	S11
+537	ui	apps/desktop/src/features/settings/SettingsDialog.tsx	↑ / ↓	S11
+538	ui	apps/desktop/src/features/settings/SettingsDialog.tsx	+ / − / 0	S11
+539	ui	apps/desktop/src/features/settings/SettingsDialog.tsx	A / C	S11
+540	ui	apps/desktop/src/features/settings/SettingsDialog.tsx	Home / End	S11
+543	ui	apps/desktop/src/features/settings/SettingsDialog.tsx	K / P	S11
+544	ui	apps/desktop/src/features/settings/SettingsDialog.tsx	P / N	S11
+545	ui	apps/desktop/src/features/settings/SettingsDialog.tsx	Z / ⇧Z	S11
+546	ui	apps/desktop/src/features/settings/store.ts	AngKor Dark	S8
+547	ui	apps/desktop/src/features/settings/store.ts	Angkor Dawn	S8
+548	ui	apps/desktop/src/features/settings/store.ts	Angkor Dusk	S8
+549	ui	apps/desktop/src/features/settings/store.ts	AngKor Light	S8
+550	ui	apps/desktop/src/features/settings/store.ts	Ayu Dark	S8
+551	ui	apps/desktop/src/features/settings/store.ts	Ayu Light	S8
+552	ui	apps/desktop/src/features/settings/store.ts	Catppuccin Latte	S8
+553	ui	apps/desktop/src/features/settings/store.ts	Catppuccin Mocha	S8
+554	ui	apps/desktop/src/features/settings/store.ts	GitHub Dark	S8
+555	ui	apps/desktop/src/features/settings/store.ts	GitHub Light	S8
+556	ui	apps/desktop/src/features/settings/store.ts	One Dark Pro	S8
+557	ui	apps/desktop/src/features/settings/store.ts	Temple Gold	S8
+558	ui	apps/desktop/src/features/settings/store.ts	Tokyo Night	S8
+559	ui	apps/desktop/src/features/settings/store.ts	VS Code Dark+	S8
+560	ui	apps/desktop/src/features/settings/store.ts	VS Code Light+	S8
+561	ui	apps/desktop/src/features/settings/store.ts	zustand/middleware	S4
+567	ui	apps/desktop/src/features/terminal/TerminalPanel.tsx	'JetBrains Mono', monospace	S3
+568	ui	apps/desktop/src/features/terminal/TerminalPanel.tsx	\b \b	S3
+569	ui	apps/desktop/src/features/terminal/TerminalPanel.tsx	\r\n$ 	S3
+570	ui	apps/desktop/src/features/terminal/theme.ts	--foreground	S5
+571	ui	apps/desktop/src/features/ui/store.ts	zustand/middleware	S4
+572	ui	apps/desktop/src/features/worktrees/CreateWorktreeDialog.tsx	 : ''}	S3
+578	ui	apps/desktop/src/shared/highlight.ts	highlight.js/lib/core	S4
+579	ui	apps/desktop/src/shared/highlight.ts	highlight.js/lib/languages/bash	S4
+580	ui	apps/desktop/src/shared/highlight.ts	highlight.js/lib/languages/cpp	S4
+581	ui	apps/desktop/src/shared/highlight.ts	highlight.js/lib/languages/csharp	S4
+582	ui	apps/desktop/src/shared/highlight.ts	highlight.js/lib/languages/css	S4
+583	ui	apps/desktop/src/shared/highlight.ts	highlight.js/lib/languages/go	S4
+584	ui	apps/desktop/src/shared/highlight.ts	highlight.js/lib/languages/java	S4
+585	ui	apps/desktop/src/shared/highlight.ts	highlight.js/lib/languages/javascript	S4
+586	ui	apps/desktop/src/shared/highlight.ts	highlight.js/lib/languages/json	S4
+587	ui	apps/desktop/src/shared/highlight.ts	highlight.js/lib/languages/kotlin	S4
+588	ui	apps/desktop/src/shared/highlight.ts	highlight.js/lib/languages/markdown	S4
+589	ui	apps/desktop/src/shared/highlight.ts	highlight.js/lib/languages/php	S4
+590	ui	apps/desktop/src/shared/highlight.ts	highlight.js/lib/languages/python	S4
+591	ui	apps/desktop/src/shared/highlight.ts	highlight.js/lib/languages/ruby	S4
+592	ui	apps/desktop/src/shared/highlight.ts	highlight.js/lib/languages/rust	S4
+593	ui	apps/desktop/src/shared/highlight.ts	highlight.js/lib/languages/sql	S4
+594	ui	apps/desktop/src/shared/highlight.ts	highlight.js/lib/languages/swift	S4
+595	ui	apps/desktop/src/shared/highlight.ts	highlight.js/lib/languages/typescript	S4
+596	ui	apps/desktop/src/shared/highlight.ts	highlight.js/lib/languages/xml	S4
+597	ui	apps/desktop/src/shared/highlight.ts	highlight.js/lib/languages/yaml	S4
+598	ui	apps/desktop/src/shared/useShortcuts.ts	mod+shift+=	S11
+601	website	apps/website/src/components/AiSection.astro	Claude Code	S8
+603	website	apps/website/src/components/AiSection.astro	Gemini CLI	S8
+604	website	apps/website/src/components/AiSection.astro	LM Studio	S8
+606	website	apps/website/src/components/Commit.astro	0 0 28 56	S12
+607	website	apps/website/src/components/Commit.astro	M0 0 C0 34 28 22 28 56	S12
+608	website	apps/website/src/components/Commit.astro	M28 0 C28 34 0 22 0 56	S12
+609	website	apps/website/src/components/Footer.astro	0 0 640 160	S12
+610	website	apps/website/src/components/Footer.astro	M0 160 H640	S12
+611	website	apps/website/src/components/Footer.astro	M120 70 L110 110 L110 160 M120 70 L130 110 L130 160	S12
+612	website	apps/website/src/components/Footer.astro	M220 40 L205 90 L205 160 M220 40 L235 90 L235 160	S12
+613	website	apps/website/src/components/Footer.astro	M320 10 L300 70 L300 160 M320 10 L340 70 L340 160	S12
+614	website	apps/website/src/components/Footer.astro	M420 40 L405 90 L405 160 M420 40 L435 90 L435 160	S12
+615	website	apps/website/src/components/Footer.astro	M520 70 L510 110 L510 160 M520 70 L530 110 L530 160	S12
+616	website	apps/website/src/components/Header.astro	0 0 24 24	S12
+619	website	apps/website/src/components/Header.astro	M4 6h16M4 12h16M4 18h16	S12
+620	website	apps/website/src/components/Header.astro	nav a	S4
+623	website	apps/website/src/components/Hero.astro	0 0 24 24	S12
+625	website	apps/website/src/components/HeroGraph.astro	0 0 24 24	S12
+628	website	apps/website/src/components/HeroGraph.astro	feat/worktrees	S4
+629	website	apps/website/src/components/HeroGraph.astro	init: why I made this	S10
+630	website	apps/website/src/components/HeroGraph.astro	M12 2H2v10l9.29 9.29a1 1 0 0 0 1.42 0l8.58-8.58a1 1 0 0 0 0-1.42L12 2Z	S12
+631	website	apps/website/src/components/HeroGraph.astro	M7 7h.01	S12
+632	website	apps/website/src/components/HeroGraph.astro	M8 21h8M12 17v4	S12
+639	website	apps/website/src/components/Install.astro	0 0 24 24	S12
+641	website	apps/website/src/components/Install.astro	brew install --cask cheat2001/tap/angkorgit	S5
+642	website	apps/website/src/components/Install.astro	chmod +x and run. Needs WebKitGTK 4.1 and libssl, which most desktops already have.	S5
+644	website	apps/website/src/components/Install.astro	m9 6 6 6-6 6	S12
+648	website	apps/website/src/components/Logo.astro	0 0 64 64	S12
+649	website	apps/website/src/components/Logo.astro	M16 16 L12.5 26 L12.5 34 L19.5 34 L19.5 26 Z	S12
+650	website	apps/website/src/components/Logo.astro	M16 40 C16 48 24 46 32 46	S12
+651	website	apps/website/src/components/Logo.astro	M32 36 V 54	S12
+652	website	apps/website/src/components/Logo.astro	M32 6 L27 20 L27 30 L37 30 L37 20 Z	S12
+653	website	apps/website/src/components/Logo.astro	M48 16 L44.5 26 L44.5 34 L51.5 34 L51.5 26 Z	S12
+654	website	apps/website/src/components/Logo.astro	M48 40 C48 48 40 46 32 46	S12
+655	website	apps/website/src/components/mock/AppFrame.astro	 100%	S12
+657	website	apps/website/src/components/mock/AppFrame.astro	 main	S10
+658	website	apps/website/src/components/mock/AppFrame.astro	0 0 64 64	S12
+659	website	apps/website/src/components/mock/AppFrame.astro	M16 16 L12.5 26 L12.5 34 L19.5 34 L19.5 26 Z	S12
+660	website	apps/website/src/components/mock/AppFrame.astro	M16 40 C16 48 24 46 32 46	S12
+661	website	apps/website/src/components/mock/AppFrame.astro	M32 36 V 54	S12
+662	website	apps/website/src/components/mock/AppFrame.astro	M32 6 L27 20 L27 30 L37 30 L37 20 Z	S12
+663	website	apps/website/src/components/mock/AppFrame.astro	M48 16 L44.5 26 L44.5 34 L51.5 34 L51.5 26 Z	S12
+664	website	apps/website/src/components/mock/AppFrame.astro	M48 40 C48 48 40 46 32 46	S12
+665	website	apps/website/src/components/mock/Conflicts.astro	  const colors = legacyColors();	S12
+666	website	apps/website/src/components/mock/Conflicts.astro	  const palette = useThemePalette();	S12
+667	website	apps/website/src/components/mock/Conflicts.astro	  return render(rows, { colors });	S12
+668	website	apps/website/src/components/mock/Conflicts.astro	  return render(rows, { palette, animate: true });	S12
+670	website	apps/website/src/components/mock/Conflicts.astro	export function drawGraph(rows: Row[]) {	S12
+671	website	apps/website/src/components/mock/Conflicts.astro	import { render } from './renderer';	S12
+672	website	apps/website/src/components/mock/Graph.astro	Dara Kim	S10
+673	website	apps/website/src/components/mock/Graph.astro	docs: update architecture overview	S10
+674	website	apps/website/src/components/mock/Graph.astro	feat(ai): provider registry + adapters	S10
+675	website	apps/website/src/components/mock/Graph.astro	feat(graph): virtualize commit rows	S10
+676	website	apps/website/src/components/mock/Graph.astro	feat(stash): quick apply from sidebar	S10
+677	website	apps/website/src/components/mock/Graph.astro	fix(diff): handle renamed files in word diff	S10
+678	website	apps/website/src/components/mock/Graph.astro	fix(remote): retry ssh agent auth once	S10
+679	website	apps/website/src/components/mock/Graph.astro	Maly Sok	S10
+680	website	apps/website/src/components/mock/Graph.astro	refactor(core): extract lane allocator	S10
+681	website	apps/website/src/components/mock/Graph.astro	Sokha Chan	S10
+682	website	apps/website/src/components/mock/Graph.astro	style(inspector): tighten spacing rhythm	S10
+683	website	apps/website/src/components/mock/Graph.astro	test(conflicts): cover diff3 markers	S10
+684	website	apps/website/src/components/mock/GraphScene.astro	0 0 24 24	S12
+685	website	apps/website/src/components/mock/GraphScene.astro	M5 3l14 8.5-6.2 1.6L9.5 19z	S12
+686	website	apps/website/src/components/mock/icons.ts	<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>	S12
+687	website	apps/website/src/components/mock/icons.ts	<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6M8 11h6"/>	S12
+688	website	apps/website/src/components/mock/icons.ts	<circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/>	S12
+689	website	apps/website/src/components/mock/icons.ts	<circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M13 6h3a2 2 0 0 1 2 2v7"/><path d="M6 9v12"/>	S12
+690	website	apps/website/src/components/mock/icons.ts	<circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9a9 9 0 0 0 9 9"/>	S12
+691	website	apps/website/src/components/mock/icons.ts	<path d="M12 17V3"/><path d="m6 11 6 6 6-6"/><path d="M19 21H5"/>	S12
+692	website	apps/website/src/components/mock/icons.ts	<path d="M12 2H2v10l9.29 9.29a1 1 0 0 0 1.42 0l8.58-8.58a1 1 0 0 0 0-1.42L12 2Z"/><path d="M7 7h.01"/>	S12
+693	website	apps/website/src/components/mock/icons.ts	<path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>	S12
+694	website	apps/website/src/components/mock/icons.ts	<path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/>	S12
+695	website	apps/website/src/components/mock/icons.ts	<path d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3"/>	S12
+696	website	apps/website/src/components/mock/icons.ts	<path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/>	S12
+697	website	apps/website/src/components/mock/icons.ts	<path d="M18 6 6 18"/><path d="m6 6 12 12"/>	S12
+698	website	apps/website/src/components/mock/icons.ts	<path d="m18 9-6-6-6 6"/><path d="M12 3v14"/><path d="M5 21h14"/>	S12
+699	website	apps/website/src/components/mock/icons.ts	<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/>	S12
+700	website	apps/website/src/components/mock/icons.ts	<path d="M21.17 2.83a2.83 2.83 0 0 0-4 0L4 16v4h4L21.17 6.83a2.83 2.83 0 0 0 0-4Z"/>	S12
+701	website	apps/website/src/components/mock/icons.ts	<path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/>	S12
+702	website	apps/website/src/components/mock/icons.ts	<path d="M3 12h.01M3 18h.01M3 6h.01M8 12h13M8 18h13M8 6h13"/>	S12
+703	website	apps/website/src/components/mock/icons.ts	<path d="M3 7v6h6"/><path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"/>	S12
+704	website	apps/website/src/components/mock/icons.ts	<path d="m4 17 6-5-6-5"/><path d="M12 19h8"/>	S12
+705	website	apps/website/src/components/mock/icons.ts	<path d="M5 12h14"/>	S12
+706	website	apps/website/src/components/mock/icons.ts	<path d="M5 12h14"/><path d="M12 5v14"/>	S12
+707	website	apps/website/src/components/mock/icons.ts	<path d="M6 3v12"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/>	S12
+708	website	apps/website/src/components/mock/icons.ts	<path d="M6 3v12"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/><path d="M15 3h6M18 0v6"/>	S12
+709	website	apps/website/src/components/mock/icons.ts	<path d="m6 9 6 6 6-6"/>	S12
+710	website	apps/website/src/components/mock/icons.ts	<path d="m9 6 6 6-6 6"/>	S12
+711	website	apps/website/src/components/mock/icons.ts	<rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/>	S12
+712	website	apps/website/src/components/mock/icons.ts	<rect width="20" height="14" x="2" y="3" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/>	S12
+713	website	apps/website/src/components/mock/icons.ts	<rect width="20" height="5" x="2" y="3" rx="1"/><path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8"/><path d="M10 12h4"/>	S12
+726	website	apps/website/src/components/mock/WorkingCopy.astro	src/features/graph	S4
+727	website	apps/website/src/components/mock/WorkingCopy.astro	WorkingCopyFileListItemContaine…	S4
+729	website	apps/website/src/components/Questions.astro	application/ld+json	S4
+775	website	apps/website/src/components/TerminalBlock.astro	0 0 24 24	S12
+776	website	apps/website/src/components/TerminalBlock.astro	M4 6h16M4 12h16M4 18h7	S12
+777	website	apps/website/src/components/TerminalBlock.astro	m5 7 4 4-4 4M13 17h6	S12
+780	website	apps/website/src/components/ThemeToggle.astro	0 0 24 24	S12
+781	website	apps/website/src/components/ThemeToggle.astro	M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4m11.4-11.4 1.4-1.4	S12
+782	website	apps/website/src/components/ThemeToggle.astro	M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z	S12
+784	website	apps/website/src/content.config.ts	!Launch-Checklist.md	S4
+785	website	apps/website/src/content.config.ts	astro:content	S4
+786	website	apps/website/src/content.config.ts	astro/loaders	S4
+787	website	apps/website/src/layouts/Base.astro	AngKorGit contributors	S8
+788	website	apps/website/src/layouts/Base.astro	application/ld+json	S4
+789	website	apps/website/src/layouts/Base.astro	application/xml	S4
+791	website	apps/website/src/layouts/Base.astro	image/svg+xml	S4
+792	website	apps/website/src/layouts/Base.astro	index, follow	S4
+793	website	apps/website/src/layouts/Base.astro	macOS, Windows, Linux	S8
+794	website	apps/website/src/layouts/Base.astro	og:description	S4
+795	website	apps/website/src/layouts/Base.astro	og:image:height	S4
+796	website	apps/website/src/layouts/Base.astro	og:image:width	S4
+797	website	apps/website/src/layouts/Base.astro	og:site_name	S4
+798	website	apps/website/src/layouts/Base.astro	twitter:card	S4
+799	website	apps/website/src/layouts/Base.astro	twitter:description	S4
+800	website	apps/website/src/layouts/Base.astro	twitter:image	S4
+801	website	apps/website/src/layouts/Base.astro	twitter:title	S4
+802	website	apps/website/src/layouts/DocsLayout.astro	0 0 24 24	S12
+803	website	apps/website/src/layouts/DocsLayout.astro	astro:content	S4
+804	website	apps/website/src/layouts/DocsLayout.astro	hidden lg:block	S4
+805	website	apps/website/src/lib/site.ts	Angkor Git	S8
+807	website	apps/website/src/lib/site.ts	application/vnd.github+json	S4
+808	website	apps/website/src/lib/site.ts	Git Angkor	S8
+810	website	apps/website/src/pages/docs/[slug].astro	astro:content	S4
+811	website	apps/website/src/pages/docs/index.astro	astro:content	S4

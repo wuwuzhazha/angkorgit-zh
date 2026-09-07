@@ -1,0 +1,112 @@
+# B1 翻译批次（translator-a · t3）：pending.tsv 第 2–272 行，共 271 行（可译 110 / 跳过 161）
+# 数据行 108 = 110 可译 − 2 组批内同 source 合并（git credential、Always Allow，folder missing 跨 scope 合并）+ 1 条 e2e 配套 ui 词条（契约 §2.3-1，B1 独占）
+# 跳过 161 行清单见 zh-dict/batches/a/skip.tsv；跳过行不产出词条，留在 pending.tsv 属设计预期。
+# 列：scope<TAB>source<TAB>target<TAB>anchor(可选)
+docs	Opening a repository, browsing the commit graph, jumping to a diff and resolving a merge conflict	打开仓库、浏览提交图、跳转至 diff 并解决合并冲突
+docs	The commit graph in the Angkor Dusk theme, with branches, working copy and staged changes	Angkor Dusk 主题下的提交图，含分支、工作副本与已暂存更改
+e2e	a short hash prefix jumps like a full hash and unknown hex words fall back to filtering	短哈希前缀与完整哈希一样跳转，未知的十六进制词回退为过滤
+e2e	clicking a file opens the diff already at its first change, with no scroll animation	点击文件打开的 diff 直接定位到第一处更改，无滚动动画
+e2e	welcome page flags missing folders and opens a repository from the keyboard	欢迎页标记缺失的文件夹并可用键盘打开仓库
+e2e	opening a diff hides the sidebar and toggling it back returns to the graph	打开 diff 会隐藏侧边栏，切回后返回提交图
+docs	The conflict resolver with both sides, line numbers and the result pane	冲突解决器，含两侧内容、行号与结果面板
+e2e	sidebar sections behave as an accordion with collapsed headers pinned	侧边栏分区呈手风琴行为，折叠的标题保持固定
+e2e	graph ref chips show whole labels and fold the rest behind a count	提交图引用标签显示完整名称，其余折叠为计数
+e2e	sidebar lists the demo worktrees and the new worktree dialog opens	侧边栏列出演示工作树并打开新建工作树对话框
+e2e	conflict resolver shows line numbers in both sides and the result	冲突解决器在两侧和结果中都显示行号
+e2e	searching a hash that does not exist keeps the graph and says so	搜索不存在的哈希会保留提交图并提示
+e2e	commit box separates a summary line from a smaller description	提交框将摘要行与较小的描述分隔开
+e2e	branch names line up whether or not the branch is checked out	无论分支是否检出，分支名都对齐
+e2e	folder tree view can collapse and expand every folder at once	文件夹树视图可一次性折叠和展开所有文件夹
+e2e	sidebar lists demo pull requests and opens the create dialog	侧边栏列出演示拉取请求并打开创建对话框
+docs	Push failed: no upstream — push with 'Set upstream' instead.	推送失败：没有上游——请改用“设置上游”推送。
+e2e	interactive rebase dialog opens from the commit context menu	交互式变基对话框可从提交右键菜单打开
+e2e	collapse all folds every sidebar section and branch folder	折叠全部侧边栏分区与分支文件夹
+e2e	commit actions stay inside a narrow working copy panel	提交操作按钮保持在较窄的工作副本面板内
+e2e	graph display menu hides and restores the hash column	提交图显示菜单隐藏并恢复哈希列
+e2e	searching a commit hash jumps to it in the full graph	搜索提交哈希会在完整提交图中跳转到它
+e2e	avatars stay visible after opening and closing a diff	打开并关闭 diff 后头像保持可见
+docs	AngKorGit would like to access files in your … folder	AngKorGit 想要访问你的…文件夹中的文件
+e2e	opens the demo repository and shows the commit graph	打开演示仓库并显示提交图
+e2e	opening a diff keeps the inspector at the same width	打开 diff 时检查器保持相同宽度
+e2e	hovering a working copy file reveals its full path	悬停工作副本文件会显示其完整路径
+e2e	conflict resolver picks lines into a clean output	冲突解决器将所选行合并为干净的结果
+e2e	aside div[title*="drag onto another branch"]	aside div[title*="拖到另一个分支上"]
+e2e	command palette opens with keyboard shortcut	命令面板可通过键盘快捷键打开
+e2e	long paths stay inside confirmation dialogs	长路径保持在确认对话框内
+ui	drag onto another branch to merge or rebase	拖到另一个分支上以合并或变基
+e2e	Virtualized rows keep large graphs smooth	虚拟化行让大型提交图保持流畅
+core	Bitbucket returned an unexpected response	Bitbucket 返回了意外的响应
+e2e	selecting a commit opens the inspector	选择提交会打开检查器
+core	Installed AI CLI (Claude Code, Codex…)	已安装 AI CLI（Claude Code、Codex…）
+docs	The new worktree dialog over the graph	叠加在提交图上的新建工作树对话框
+core	GitHub returned an unexpected response	GitHub 返回了意外的响应
+core	GitLab returned an unexpected response	GitLab 返回了意外的响应
+e2e	splash fades into the welcome screen	启动画面淡入欢迎屏幕
+rust	no account for {username} on {host}	在 {host} 上找不到 {username} 的账户
+e2e	mod+f focuses the commit search box	mod+f 聚焦提交搜索框
+ui,docs	clear state, keep everything as is	清除状态，保持一切原样
+core	CLI agents need the desktop app	CLI 代理需要桌面应用
+docs	Interactively rebase onto here…	在此处交互式变基…
+e2e	commit search filters the graph	提交搜索过滤提交图
+core	Anthropic returned no content	Anthropic 未返回内容
+core	Gemini returned no content	Gemini 未返回内容
+core	Ollama returned no content	Ollama 未返回内容
+docs	Windows protected your PC	Windows 已保护你的电脑
+e2e	no sidebar resize handle	侧边栏无调整大小手柄
+e2e	sidebar geometry missing	缺少侧边栏几何信息
+ui,docs	New worktree from here…	从这里新建工作树…
+docs	Open in new worktree…	在新工作树中打开…
+docs	AngKorGit was blocked	AngKorGit 已被阻止
+ui,docs	Commit message style	提交消息风格
+ui,docs	Explaining conflict…	正在解释冲突…
+ui,docs	replace hand edits?	替换手工编辑？
+e2e	tags header missing	缺少标签标题
+ui,e2e,docs	Create pull request	创建拉取请求
+docs	credentials refused	凭据被拒绝
+docs	The command palette	命令面板
+docs	Appearance settings	外观设置
+docs	Merge into current	合并到当前分支
+e2e	branch row missing	缺少分支行
+docs	Show older changes	显示更早的更改
+ui,docs	Check for updates	检查更新
+ui,docs	Show full message	显示完整消息
+docs	expires in N days	N 天后过期
+e2e	no resize handle	无调整大小手柄
+docs	GitKraken has it	GitKraken 有它
+ui,e2e,docs	Commit not found	找不到提交
+docs	Update available	有可用更新
+ui,e2e,docs	Discard changes?	丢弃更改？
+docs	Built with Tauri	使用 Tauri 构建
+docs	Installed AI CLI	已安装 AI CLI
+docs	SSH private key	SSH 私钥
+docs	Conflict n of m	冲突 n / m
+docs	Explain with AI	用 AI 解释
+docs	could not check	无法检查
+docs	Couldn't fetch	无法获取
+docs	Git executable	Git 可执行文件
+docs	git credential	git 凭据
+ui,docs,e2e	folder missing	文件夹缺失
+docs	Drop N commits	丢弃 N 个提交
+docs	Delete <path>?	删除 <path>？
+docs	Commit N files	提交 N 个文件
+ui,docs	Reduce motion	减少动效
+ui,docs	Create branch	新建分支
+ui,docs	New worktree…	新建工作树…
+ui,docs	File history…	文件历史…
+ui,e2e,docs	Pull requests	拉取请求
+docs	Clear filters	清除过滤条件
+ui,e2e,docs	Mark resolved	标记已解决
+docs	License: MIT	许可证：MIT
+docs	Always Allow	始终允许
+docs	Open Anyway	仍然打开
+docs	AI settings	AI 设置
+ui,docs	Load models	加载模型
+ui,docs	Abort merge	中止合并
+docs	Add account	添加账户
+docs	Take all A	全部取 A
+docs	Select all	全选
+docs	Take all B	全部取 B
+docs	Delete …?	删除…？
+docs	11mo ago	11 个月前
+website,docs	In use	使用中
+docs	n of m	n / m

@@ -1,0 +1,126 @@
+# batch-2.tsv — pending.tsv 第 273–500 行（B2：rust 余 167 行 + ui 前 61 行）
+# 数据行 119 条：覆盖 121 个 translate 行（2 组同源合并：bare repository、keychain unavailable: {e}）
+# 跳过 107 行（99 原 skip + 8 改判，逐条见 zh-dict/batches/b/batch-skip.tsv）
+# 改判 8 条：error.rs 运行时常量/测试输入 5 条、http.rs 与 forge/store.ts 正则耦合 2 条、remote.rs reflog 消息 1 条
+# 特例：no file / plan limit / reference not found / Settings → Authentication 仅出现在测试行，
+#       带 anchor 限定（与 dict.tsv 471–481 片段译文一致，翻译后断言保持成立）
+# 占位符 ${...} / {e} / {branch} 等原样保留；'...' 按 dict.tsv 既有风格转 “...”
+rust	failed to launch: {e}	启动失败：{e}
+rust	missing {dir} in {joined}	{dir} 在 {joined} 中缺失
+rust	timed out after {}s	{} 秒后超时
+rust	could not open path	无法打开路径
+rust	file is larger than 5 MB — open it in an external editor	文件超过 5 MB——请在外部编辑器中打开
+rust	file is not valid UTF-8 text	文件不是有效的 UTF-8 文本
+rust	config dir not initialized	配置目录未初始化
+rust	could not store token in keychain: {e}	无法将令牌存入钥匙串：{e}
+rust	host, username and token are all required	主机、用户名和令牌均为必填
+rust	keychain unavailable: {e}	钥匙串不可用：{e}
+rust	could not store key in keychain: {e}	无法将密钥存入钥匙串：{e}
+rust	provider is required	必须指定提供方
+rust	; {n} more commits are waiting	；另有 {n} 个提交正在等待
+rust	; 1 more commit is waiting	；另有 1 个提交正在等待
+rust	'{}' is a merge commit — interactive rebase across merges isn't supported	“{}”是一个合并提交——不支持跨合并的交互式变基
+rust	'{}' would conflict at this position — reorder or drop it (nothing was changed)	“{}”在此位置会产生冲突——请重新排序或丢弃它（未做任何更改）
+rust	'{branch}' is already checked out in the worktree at {location}. Switch to that worktree to work on it, or check out a different branch here.	“{branch}”已在位于 {location} 的工作树中检出。请切换到该工作树继续操作，或在此检出其他分支。
+rust	Already up to date with {branch}	已与 {branch} 保持最新
+rust	cannot branch: repository has no commits	无法创建分支：仓库没有提交
+rust	Conflicts are still unresolved.	冲突仍未解决。
+rust	Merge of {branch} has conflicts to resolve	合并 {branch} 存在待解决的冲突
+rust	Merged {branch}	已合并 {branch}
+rust	Rebase complete	变基完成
+rust	Rebase paused on conflicts. Resolve them, then continue.	变基因冲突暂停。请解决冲突后继续。
+rust	Rebased onto {upstream}	已变基到 {upstream}
+rust	the rebase plan lists a commit twice	变基计划中某个提交出现了两次
+rust	unknown reset mode: {mode}	未知的重置模式：{mode}
+rust	Git identity is not configured. Set user.name and user.email in Settings.	未配置 Git 身份。请在设置中设置 user.name 和 user.email。
+rust	nothing to amend: repository has no commits	没有可修订的内容：仓库没有提交
+rust	Reverted {}	已还原 {}
+rust	bare repository	裸仓库
+rust	delta out of range	增量超出范围
+rust	cannot tag: repository has no commits	无法创建标签：仓库没有提交
+rust	 (forced)	（强制）
+rust	'{local_branch}' is not a valid branch name	“{local_branch}”不是有效的分支名
+rust	branch {branch_name} has no upstream to pull from	分支 {branch_name} 没有可拉取的上游
+rust	branch {branch_name} has no upstream	分支 {branch_name} 没有上游
+rust	branch has no target	分支没有目标
+rust	choose a path for the key	为密钥选择路径
+rust	could not write to git credential	无法写入 git 凭据
+rust	Fetched {remote_name}	已拉取 {remote_name}
+rust	HEAD is detached; cannot pull	HEAD 处于游离状态；无法拉取
+rust	HEAD is detached; cannot push	HEAD 处于游离状态；无法推送
+rust	invalid upstream name	无效的上游名称
+rust	Pushed tag {tag} to {remote_name}	已将标签 {tag} 推送到 {remote_name}
+rust	upstream has no target	上游没有目标
+rust	commit content is not valid UTF-8	提交内容不是有效的 UTF-8
+rust	hunk {hunk_index} not found	找不到代码块 {hunk_index}
+rust	no textual diff for this file	此文件没有文本 diff
+rust	'{branch}' is not a valid branch name	“{branch}”不是有效的分支名
+rust	'{local_name}' is already checked out in {location}. Open that worktree instead, or pick another branch.	“{local_name}”已在 {location} 中检出。请改为打开该工作树，或选择其他分支。
+rust	bare repositories have no working tree	裸仓库没有工作树
+rust	branch '{branch}' does not exist	分支“{branch}”不存在
+rust	choose a branch for the new worktree	为新工作树选择分支
+rust	choose a folder for the new worktree	为新工作树选择文件夹
+rust	worktree '{name}' not found	找不到工作树“{name}”
+rust	no file	无文件	ErrorKind::NotFound, "no file"
+rust	plan limit	套餐限制	contains\("plan limit"\)
+rust	reference not found	找不到引用	git_error\("reference not found"\)
+rust	Settings → Authentication	设置 → 身份验证	contains\("Settings → Authentication"\)
+rust	forge request to {url_host} does not match the remote host {host}	发往 {url_host} 的 forge 请求与远端主机 {host} 不匹配
+rust	forge requests need an absolute http(s) URL	forge 请求需要使用绝对的 http(s) URL
+rust	no connected {host} account — connect one in Settings → Authentication	没有已连接的 {host} 账户——请在“设置 → 身份验证”中连接
+rust	unsupported hosting provider '{other}'	不支持的托管平台“{other}”
+rust	only http(s) URLs are allowed	只允许 http(s) URL
+rust	unsupported method {other}	不支持的方法 {other}
+rust	error while running AngKorGit	运行 AngKorGit 时出错
+rust	read source	读取源文件
+rust	read src dir	读取 src 目录
+rust	spawn without proc::hidden (flashes a console window on Windows): {}	未使用 proc::hidden 启动（在 Windows 上会闪现控制台窗口）：{}
+rust	failed to clone pty reader: {e}	无法克隆 pty 读取端：{e}
+rust	failed to open pty: {e}	无法打开 pty：{e}
+rust	failed to spawn shell: {e}	无法启动 shell：{e}
+rust	failed to take pty writer: {e}	无法获取 pty 写入端：{e}
+rust	resize failed: {e}	调整大小失败：{e}
+rust	terminal session not found	找不到终端会话
+rust	could not create watcher: {e}	无法创建监视器：{e}
+rust	could not watch {path}: {e}	无法监视 {path}：{e}
+ui	Open a repository	打开仓库
+ui	 · worktree	 · 工作树
+ui	Discard manual edits and rebuild from the checkboxes	丢弃手工编辑并从勾选项重建
+ui	Edit output by hand	手工编辑输出
+ui	Edit the output by hand	手工编辑输出
+ui	Pick lines from A and B — click any result to edit it by hand	从 A 和 B 中选择行——点击任意结果即可手工编辑
+ui	Reset manual edits	重置手工编辑
+ui	Change overview — click to jump, drag to scroll	更改概览——点击跳转，拖动滚动
+ui	Discard line	丢弃行
+ui	Discard this line?	丢弃此行？
+ui	Hunk operation	代码块操作
+ui	Next change	下一个更改
+ui	Next file	下一个文件
+ui	Previous change	上一个更改
+ui	Previous file	上一个文件
+ui	Stage line	暂存行
+ui	Unstage line	取消暂存行
+ui	Wrapping is off for large files to keep scrolling smooth	大文件已关闭自动换行，以保持滚动流畅
+ui	Close search	关闭搜索
+ui	Find in diff…	在 diff 中查找…
+ui	Match case	区分大小写
+ui	Next match (↩)	下一个匹配 (↩)
+ui	Next match	下一个匹配	aria-label="Next match"
+ui	No results	无结果	'No results'
+ui	Previous match (⇧↩)	上一个匹配 (⇧↩)
+ui	Previous match	上一个匹配	aria-label="Previous match"
+ui	New version	新版本
+ui	Previous version	上一个版本
+ui	Close editor	关闭编辑器
+ui	This file has unsaved edits. Close without saving?	此文件有未保存的编辑。关闭但不保存？
+ui	Close without saving	关闭但不保存
+ui	Discard unsaved changes?	丢弃未保存的更改？
+ui	request failed	请求失败
+ui	Commit history	提交历史
+ui	HEAD is detached at this commit	HEAD 游离在该提交处
+ui	Drag to reorder	拖动以重新排序
+ui,e2e	interactive rebase	交互式变基
+ui	Rebase plan	变基计划
+ui	Show older changes	显示更早的更改
+ui	nothing to reset to	没有可重置的目标
+ui	Flat list	扁平列表

@@ -1,0 +1,172 @@
+name: 🤖 自动同步上游 · 中文化 · 构建 · 发布
+
+# ============================================================
+# 全自动流水线：上游 cheat2001/angkorgit 更新后，本工作流自动完成
+#   ① 拉取上游 → ② 分析更新内容 → ③ 合并 + 中文化 → ④ 构建安装包
+#   → ⑤ 发布 GitHub Release（含 updater 签名与 latest.json）
+# 全程无需人工介入；异常时工作流以失败状态呈现，可手动重跑。
+# 触发：每 6 小时轮询一次 + 手动 dispatch。
+# 前置：仓库 Secrets 中配置 TAURI_SIGNING_PRIVATE_KEY（= build/signing/angkorgit.key 内容）。
+# ============================================================
+
+on:
+  schedule:
+    - cron: '23 */6 * * *'      # 每 6 小时第 23 分钟（错峰）
+  workflow_dispatch: {}          # 支持手动触发
+
+permissions:
+  contents: write                # 推送 main + 创建 Release
+
+concurrency:
+  group: auto-zh-release
+  cancel-in-progress: false
+
+jobs:
+  auto-sync-localize-build-release:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+
+      - name: ① 添加上游并拉取最新代码
+        shell: pwsh
+        run: |
+          git remote remove upstream 2>$null | Out-Null
+          git remote add upstream https://github.com/cheat2001/angkorgit.git
+          git fetch upstream main --tags --force
+          git config user.name "angkorgit-zh bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: ② 分析上游是否有更新（无更新则跳过全部后续步骤）
+        id: check
+        shell: pwsh
+        run: |
+          git merge-base --is-ancestor upstream/main HEAD
+          if ($LASTEXITCODE -eq 0) {
+            Write-Output "上游无新提交（HEAD 已包含 upstream/main），本次跳过。"
+            exit 0
+          }
+          # 保存本次合并的上游提交清单（放临时目录，避免被脚本提交）
+          git log --oneline HEAD..upstream/main | Out-String | Set-Content -Path "$env:RUNNER_TEMP\upstream-changes.txt" -Encoding utf8
+          Write-Output "HAS_UPDATE=true" >> $env:GITHUB_OUTPUT
+          $head = git rev-parse HEAD
+          $up   = git rev-parse upstream/main
+          Write-Output "检测到上游更新：$head → $up"
+
+      - name: ③ 合并上游（代码以上游为准，中文化随后重放）
+        if: steps.check.outputs.HAS_UPDATE == 'true'
+        shell: pwsh
+        run: |
+          git merge upstream/main -X theirs --no-edit
+          # 恢复自维护文件：中文 README / updater 公钥
+          Copy-Item docs/README.zh.md README.md -Force
+          $pub = (Get-Content -Raw zh-dict/updater-pubkey.txt).Trim()
+          $conf = 'apps/desktop/src-tauri/tauri.conf.json'
+          $raw = Get-Content -Raw $conf
+          $raw = [regex]::Replace($raw, '"pubkey": "[^"]*"', ('"pubkey": "' + $pub + '"'))
+          [System.IO.File]::WriteAllText((Join-Path $env:GITHUB_WORKSPACE $conf), $raw, (New-Object System.Text.UTF8Encoding($false)))
+          # 先提交恢复，保证工作区干净，供一键脚本的干净校验通过
+          git add -A
+          git commit -m "chore: 恢复中文 README 与 updater 公钥" --no-verify
+
+      - name: 计算下一个版本号（树内版本 patch+1，与已有 tag 冲突则继续递增）
+        id: ver
+        if: steps.check.outputs.HAS_UPDATE == 'true'
+        shell: pwsh
+        run: |
+          $v = (Get-Content package.json | ConvertFrom-Json).version
+          do {
+            $parts = $v -split '\.'
+            $v = "$($parts[0]).$($parts[1]).$([int]$parts[2] + 1)"
+          } while (git rev-parse -q --verify "refs/tags/v$v")
+          Write-Output "NEXT_VERSION=$v" >> $env:GITHUB_OUTPUT
+
+      - name: ③' 同步+中文化+提交+推送（一键脚本）
+        if: steps.check.outputs.HAS_UPDATE == 'true'
+        shell: pwsh
+        env:
+          FORK_REPO: ${{ github.repository }}
+          NEXT_VERSION: ${{ steps.ver.outputs.NEXT_VERSION }}
+        run: |
+          pwsh -NoProfile -File scripts/sync-localize.ps1 `
+            -Repo $env:GITHUB_WORKSPACE `
+            -SkipSync `
+            -ForkRepo $env:FORK_REPO `
+            -BumpVersion $env:NEXT_VERSION `
+            -Push
+        # 脚本默认 dry-run；-Push 显式推送到本 fork 的 main（凭据来自 actions/checkout，零泄露）
+
+      - uses: pnpm/action-setup@v4
+        if: steps.check.outputs.HAS_UPDATE == 'true'
+        with:
+          version: 10.32.1
+      - uses: actions/setup-node@v4
+        if: steps.check.outputs.HAS_UPDATE == 'true'
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
+      - uses: dtolnay/rust-toolchain@stable
+        if: steps.check.outputs.HAS_UPDATE == 'true'
+      - uses: swatinem/rust-cache@v2
+        if: steps.check.outputs.HAS_UPDATE == 'true'
+        with:
+          workspaces: apps/desktop/src-tauri
+
+      - name: 安装依赖
+        if: steps.check.outputs.HAS_UPDATE == 'true'
+        run: pnpm install --frozen-lockfile
+
+      - name: ④ 构建安装包（NSIS + MSI，含 updater 签名）
+        if: steps.check.outputs.HAS_UPDATE == 'true'
+        shell: pwsh
+        env:
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+        run: pnpm tauri:build
+
+      - name: 生成发布说明（上游变更 + 中文化统计）
+        id: notes
+        if: steps.check.outputs.HAS_UPDATE == 'true'
+        shell: pwsh
+        env:
+          NEXT_VERSION: ${{ steps.ver.outputs.NEXT_VERSION }}
+        run: |
+          $changes = if (Test-Path "$env:RUNNER_TEMP\upstream-changes.txt") { Get-Content "$env:RUNNER_TEMP\upstream-changes.txt" } else { @('（手动触发重建）') }
+          $dictCount = (Get-Content zh-dict/dict.tsv | Where-Object { $_ -and -not $_.StartsWith('#') }).Count
+          $pendingCount = (Get-Content zh-dict/pending.tsv | Where-Object { $_ -and -not $_.StartsWith('#') }).Count
+          $body = @"
+          ## 🤖 自动流水线产物（AngKorGit 中文版 v$env:NEXT_VERSION）
+
+          ### 📥 本次合并的上游提交
+          ~~~text
+          $($changes -join "`n")
+          ~~~
+
+          ### 🌐 中文化状态
+          - 词库条目：$dictCount 条
+          - 待译清单（zh-dict/pending.tsv）：$pendingCount 条（未覆盖英文串；人工翻译后推入即可，下次运行自动生效）
+
+          ### ⚠️ 说明
+          - 安装包未做商业代码签名，SmartScreen 首次运行提示“更多信息 → 仍要运行”。
+          - 应用内自动更新指向本仓库 Releases 的 latest.json（已用 CI 密钥签名）。
+          "@
+          $body | Set-Content -Path release-notes.md -Encoding utf8
+
+      - name: ⑤ 发布 GitHub Release（安装包 + 签名 + latest.json）
+        if: steps.check.outputs.HAS_UPDATE == 'true'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.ver.outputs.NEXT_VERSION }}
+          name: AngKorGit 中文版 v${{ steps.ver.outputs.NEXT_VERSION }}
+          body_path: release-notes.md
+          fail_on_unmatched_files: false
+          make_latest: true
+          files: |
+            apps/desktop/src-tauri/target/release/bundle/nsis/*.exe
+            apps/desktop/src-tauri/target/release/bundle/nsis/*.sig
+            apps/desktop/src-tauri/target/release/bundle/msi/*.msi
+            apps/desktop/src-tauri/target/release/bundle/msi/*.sig
+            apps/desktop/src-tauri/target/release/bundle/latest.json
