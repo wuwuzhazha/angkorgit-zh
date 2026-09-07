@@ -1660,7 +1660,7 @@ fn worktree_add_refuses_a_branch_checked_out_elsewhere() {
         },
     )
     .expect_err("adding a worktree for the checked-out branch must fail");
-    assert!(err.to_string().contains("工作树中检出"), "{err}");
+    assert!(err.to_string().contains("中检出"), "{err}");
     assert!(!dir.exists());
 }
 

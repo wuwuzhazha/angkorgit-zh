@@ -978,7 +978,7 @@ website	Review	审查	\+ ' Review'
 website	Amend	修订	\+ ' Amend'
 
 # ============ e2e 断言（tests/e2e，与 UI 同步改写） ============
-e2e	1 modified	1 个修改
+e2e	1 modified	1 已修改
 e2e	0 of 1 resolved	0 / 1 已解决
 e2e	1 of 1 resolved	1 / 1 已解决
 e2e	Unresolved conflict	未解决的冲突
