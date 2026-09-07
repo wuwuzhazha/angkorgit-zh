@@ -1023,3 +1023,12 @@ e2e	sidebar geometry missing	缺少侧边栏几何信息
 e2e	tags header missing	缺少标签标题
 e2e	branch row missing	缺少分支行
 e2e	no resize handle	无调整大小手柄
+
+# ============ G. 单元测试断言（tests/unit，与中文化后的源码断言同步） ============
+test	toContain('conventional-commit')	toContain('用约定式提交风格写消息')	toContain\('conventional-commit'\)
+test	toContain('no type prefix')	toContain('无类型前缀')
+test	returned no content	未返回内容
+test	invalid JSON	无效的 JSON
+# 注：'conventional-commit' 是 AI 提示词译文「用约定式提交风格写消息」的子串等价断言；'no type prefix' 对应译文「无类型前缀」。
+# rust scope 补充：error.rs 内部测试断言 401 提示消息包含「已过期」
+rust	contains("expired")	contains("已过期")	contains\("expired"\)

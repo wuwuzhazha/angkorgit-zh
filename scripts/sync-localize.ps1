@@ -541,6 +541,7 @@ $globDefs = @{
   meta    = @('apps/desktop/src-tauri/tauri.conf.json', 'package.json', 'apps/desktop/package.json', 'apps/desktop/src-tauri/Cargo.toml', 'apps/desktop/index.html')
   docs    = @('README.md', 'docs/**/*.md', 'CHANGELOG.md', 'SECURITY.md', 'CODE_OF_CONDUCT.md')
   e2e     = @('tests/e2e/**/*.ts')
+  test    = @('tests/unit/**/*.ts')
 }
 if ($IncludeClaudeMd) { $globDefs.docs += @('CLAUDE.md') }
 $script:ScopeFiles = @{}
