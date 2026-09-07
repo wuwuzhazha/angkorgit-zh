@@ -86,11 +86,11 @@ describe('resolveCommitPrefix', () => {
 
 describe('commitStyleInstructions', () => {
   it('defaults to conventional commits', () => {
-    expect(commitStyleInstructions(style(), null)).toContain('conventional-commit');
+    expect(commitStyleInstructions(style(), null)).toContain('用约定式提交风格写消息');
   });
 
   it('plain preset forbids type prefixes', () => {
-    expect(commitStyleInstructions(style({ preset: 'plain' }), null)).toContain('no type prefix');
+    expect(commitStyleInstructions(style({ preset: 'plain' }), null)).toContain('无类型前缀');
   });
 
   it('custom preset uses the user instructions and falls back when empty', () => {
@@ -127,6 +127,6 @@ describe('generateCommitMessage with style', () => {
     const requests: AiCompletionRequest[] = [];
     const message = await aiCapabilities.generateCommitMessage(fakeAi('feat: x', requests), 'diff');
     expect(message).toBe('feat: x');
-    expect(requests[0].messages[1].content).toContain('conventional-commit');
+    expect(requests[0].messages[1].content).toContain('用约定式提交风格写消息');
   });
 });

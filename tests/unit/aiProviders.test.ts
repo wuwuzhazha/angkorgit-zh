@@ -16,7 +16,7 @@ describe('ai providers empty-content handling', () => {
       openAiConfig,
       fakeHttp(JSON.stringify({ choices: [{ message: { content: '' } }] })),
     );
-    await expect(provider.complete(request)).rejects.toThrow(/returned no content/);
+    await expect(provider.complete(request)).rejects.toThrow(/未返回内容/);
   });
 
   it('openai-compatible rejects whitespace-only content', async () => {
@@ -24,12 +24,12 @@ describe('ai providers empty-content handling', () => {
       openAiConfig,
       fakeHttp(JSON.stringify({ choices: [{ message: { content: '  \n ' } }] })),
     );
-    await expect(provider.complete(request)).rejects.toThrow(/returned no content/);
+    await expect(provider.complete(request)).rejects.toThrow(/未返回内容/);
   });
 
   it('openai-compatible rejects a missing choices array', async () => {
     const provider = createAiProvider(openAiConfig, fakeHttp(JSON.stringify({})));
-    await expect(provider.complete(request)).rejects.toThrow(/returned no content/);
+    await expect(provider.complete(request)).rejects.toThrow(/未返回内容/);
   });
 
   it('openai-compatible surfaces HTTP error status and body', async () => {
@@ -53,7 +53,7 @@ describe('ai providers empty-content handling', () => {
       ollamaConfig,
       fakeHttp(JSON.stringify({ message: { content: '' } })),
     );
-    await expect(provider.complete(request)).rejects.toThrow(/returned no content/);
+    await expect(provider.complete(request)).rejects.toThrow(/未返回内容/);
   });
 
   it('ollama returns real content untouched', async () => {

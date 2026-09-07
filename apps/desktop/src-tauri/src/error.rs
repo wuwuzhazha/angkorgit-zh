@@ -157,7 +157,7 @@ mod tests {
     fn unauthorized_errors_hint_at_token_expiry() {
         let error = git_error("unexpected http status code: 401");
         assert_eq!(error.code(), "auth");
-        assert!(error.message().contains("expired"));
+        assert!(error.message().contains("已过期"));
         assert!(error.message().contains("设置 → 身份验证"));
     }
 }

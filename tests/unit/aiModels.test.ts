@@ -47,8 +47,8 @@ describe('ai model list parsing', () => {
     expect(parseOllamaModels(body)).toEqual(['llama3.1:8b', 'qwen2.5-coder:7b']);
   });
 
-  it('throws a descriptive error on invalid JSON', () => {
-    expect(() => parseOpenAiModels('<html>oops</html>')).toThrowError(/invalid JSON/);
+  it('throws a descriptive error on 无效的 JSON', () => {
+    expect(() => parseOpenAiModels('<html>oops</html>')).toThrowError(/无效的 JSON/);
   });
 });
 

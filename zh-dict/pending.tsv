@@ -237,6 +237,255 @@ rust	apps/desktop/src-tauri/src/http.rs	failed to read response: {e}
 rust	apps/desktop/src-tauri/src/http.rs	request failed: {e}
 rust	apps/desktop/src-tauri/src/proc.rs	Command::new(
 rust	apps/desktop/src-tauri/src/watcher.rs	worktrees/
+test	tests/unit/aiCapabilities.test.ts	  \n 
+test	tests/unit/aiCapabilities.test.ts	…(truncated)
+test	tests/unit/aiCapabilities.test.ts	clips very long instructions
+test	tests/unit/aiCapabilities.test.ts	diff --git a/x b/x
+test	tests/unit/aiCapabilities.test.ts	Flag any raw SQL.
+test	tests/unit/aiCapabilities.test.ts	General review conventions:\nFlag any raw SQL.
+test	tests/unit/aiCapabilities.test.ts	includes general instructions when configured
+test	tests/unit/aiCapabilities.test.ts	includes no convention blocks by default
+test	tests/unit/aiCapabilities.test.ts	includes project instructions after general ones and marks precedence
+test	tests/unit/aiCapabilities.test.ts	looks good
+test	tests/unit/aiCapabilities.test.ts	only as guidance
+test	tests/unit/aiCapabilities.test.ts	Prefer tabs.
+test	tests/unit/aiCapabilities.test.ts	Project review conventions
+test	tests/unit/aiCapabilities.test.ts	review conventions
+test	tests/unit/aiCapabilities.test.ts	reviewStagedChanges conventions
+test	tests/unit/aiCapabilities.test.ts	This project uses spaces.
+test	tests/unit/aiCapabilities.test.ts	win over the general ones
+test	tests/unit/aiModels.test.ts	<html>oops</html>
+test	tests/unit/aiModels.test.ts	ai model list parsing
+test	tests/unit/aiModels.test.ts	hits the anthropic models endpoint with api key headers
+test	tests/unit/aiModels.test.ts	hits the ollama tags endpoint without auth
+test	tests/unit/aiModels.test.ts	listAiModels request shapes
+test	tests/unit/aiModels.test.ts	llama3.1:8b
+test	tests/unit/aiModels.test.ts	parses anthropic model lists
+test	tests/unit/aiModels.test.ts	parses ollama tag lists
+test	tests/unit/aiModels.test.ts	qwen2.5-coder:7b
+test	tests/unit/aiModels.test.ts	returns an empty list for the cli provider without any request
+test	tests/unit/aiModels.test.ts	should not be called
+test	tests/unit/aiModels.test.ts	surfaces http errors with the status
+test	tests/unit/aiProviders.test.ts	  \n 
+test	tests/unit/aiProviders.test.ts	invalid api key
+test	tests/unit/aiProviders.test.ts	looks good
+test	tests/unit/aiProviders.test.ts	ollama rejects an empty content string
+test	tests/unit/aiProviders.test.ts	ollama returns real content untouched
+test	tests/unit/aiTextSegments.test.ts	 and 
+test	tests/unit/aiTextSegments.test.ts	**has * inside**
+test	tests/unit/aiTextSegments.test.ts	**line1\nline2**
+test	tests/unit/aiTextSegments.test.ts	**open and `open
+test	tests/unit/aiTextSegments.test.ts	`a ** b`
+test	tests/unit/aiTextSegments.test.ts	`code\nmore`
+test	tests/unit/aiTextSegments.test.ts	a ** b
+test	tests/unit/aiTextSegments.test.ts	a **b** and `c` end
+test	tests/unit/aiTextSegments.test.ts	keeps bold spans with inner asterisks literal
+test	tests/unit/aiTextSegments.test.ts	keeps unclosed markers literal
+test	tests/unit/aiTextSegments.test.ts	never spans tokens across newlines
+test	tests/unit/aiTextSegments.test.ts	parses bold and code tokens between plain text
+test	tests/unit/aiTextSegments.test.ts	treats asterisks inside backticks as code content
+test	tests/unit/cliAgents.test.ts	  \u001b[32mfeat: colored\u001b[0m \n
+test	tests/unit/cliAgents.test.ts	\n \n
+test	tests/unit/cliAgents.test.ts	\u001b]0;title\u0007hello\u001b[1m!\u001b[0m 
+test	tests/unit/cliAgents.test.ts	antigravity puts -p last so the appended prompt becomes its value
+test	tests/unit/cliAgents.test.ts	cleanCliOutput / composeCliPrompt
+test	tests/unit/cliAgents.test.ts	cli agent specs
+test	tests/unit/cliAgents.test.ts	every agent builds argument lists without the prompt embedded
+test	tests/unit/cliAgents.test.ts	feat: colored
+test	tests/unit/cliAgents.test.ts	feat: hello
+test	tests/unit/cliAgents.test.ts	fix: from file
+test	tests/unit/cliAgents.test.ts	joins message contents with blank lines
+test	tests/unit/cliAgents.test.ts	not logged in
+test	tests/unit/cliAgents.test.ts	passes a model override through to the CLI
+test	tests/unit/cliAgents.test.ts	ping reports true on success and false on failure
+test	tests/unit/cliAgents.test.ts	removes OSC sequences and trims
+test	tests/unit/cliAgents.test.ts	sends the prompt as the final argument for Codex with an output file
+test	tests/unit/cliAgents.test.ts	sends the prompt via stdin for Claude Code with text output format
+test	tests/unit/cliAgents.test.ts	strips ANSI escapes and whitespace from output
+test	tests/unit/cliAgents.test.ts	sys\n\ndiff
+test	tests/unit/cliAgents.test.ts	the diff
+test	tests/unit/cliAgents.test.ts	throws AiError when the CLI produces no output
+test	tests/unit/cliAgents.test.ts	uses the resolved binary path when configured
+test	tests/unit/commitMessage.test.ts	a\r\n\r\nb\r\nc
+test	tests/unit/commitMessage.test.ts	body line
+test	tests/unit/commitMessage.test.ts	feat: add worktrees
+test	tests/unit/commitMessage.test.ts	feat: add worktrees\n\nList, create and remove.\n
+test	tests/unit/commitMessage.test.ts	fix(ui): wrap paths\n\nLong paths bled out of dialogs.\n\nFixes #2
+test	tests/unit/commitMessage.test.ts	just a summary
+test	tests/unit/commitMessage.test.ts	keeps a single line as summary only
+test	tests/unit/commitMessage.test.ts	List, create and remove.\n
+test	tests/unit/commitMessage.test.ts	never lets a newline into the summary line
+test	tests/unit/commitMessage.test.ts	normalizes Windows line endings
+test	tests/unit/commitMessage.test.ts	omits the blank line when there is no body
+test	tests/unit/commitMessage.test.ts	one two\n\nbody
+test	tests/unit/commitMessage.test.ts	separates the summary from a body after a blank line
+test	tests/unit/commitMessage.test.ts	summary\n\nbody
+test	tests/unit/commitMessage.test.ts	summary\nbody line
+test	tests/unit/commitMessage.test.ts	treats a second line without a blank line as body
+test	tests/unit/commitStyle.test.ts	"[support] "
+test	tests/unit/commitStyle.test.ts	({branch})
+test	tests/unit/commitStyle.test.ts	(hotfix/x)
+test	tests/unit/commitStyle.test.ts	[{branch}]
+test	tests/unit/commitStyle.test.ts	[{suffix}]
+test	tests/unit/commitStyle.test.ts	[{ticket}]
+test	tests/unit/commitStyle.test.ts	[fix/a$&b]
+test	tests/unit/commitStyle.test.ts	[support] fix it
+test	tests/unit/commitStyle.test.ts	[support] fix login redirect
+test	tests/unit/commitStyle.test.ts	custom preset uses the user instructions and falls back when empty
+test	tests/unit/commitStyle.test.ts	defaults to conventional commits
+test	tests/unit/commitStyle.test.ts	does not let regex metacharacters in patterns escape
+test	tests/unit/commitStyle.test.ts	enforces the prefix even when the model ignores it
+test	tests/unit/commitStyle.test.ts	expands {branch} and {ticket}
+test	tests/unit/commitStyle.test.ts	expands {suffix} from the branch name
+test	tests/unit/commitStyle.test.ts	feat: x
+test	tests/unit/commitStyle.test.ts	feature/ABC-123-login
+test	tests/unit/commitStyle.test.ts	first matching rule wins and blank rules are ignored
+test	tests/unit/commitStyle.test.ts	fix it
+test	tests/unit/commitStyle.test.ts	fix login redirect
+test	tests/unit/commitStyle.test.ts	generateCommitMessage with style
+test	tests/unit/commitStyle.test.ts	keeps dollar sequences in branch names literal
+test	tests/unit/commitStyle.test.ts	keeps the plain behavior when no style is passed
+test	tests/unit/commitStyle.test.ts	maps environment branches to a fixed prefix
+test	tests/unit/commitStyle.test.ts	plain preset forbids type prefixes
+test	tests/unit/commitStyle.test.ts	returns null with no branch or no match
+test	tests/unit/commitStyle.test.ts	skips a {ticket} rule when the branch has no ticket and falls through
+test	tests/unit/commitStyle.test.ts	tells the model about a resolved prefix
+test	tests/unit/commitStyle.test.ts	Write in past tense.
+test	tests/unit/conflicts.test.ts	<<<<<<<\nours\n=======\ntheirs\n>>>>>>>
+test	tests/unit/conflicts.test.ts	a\n<<<<<<< HEAD\nno closing marker\n
+test	tests/unit/conflicts.test.ts	a\n<<<<<<< HEAD\nours\n>>>>>>> other\nb
+test	tests/unit/conflicts.test.ts	a\r\n<<<<<<< HEAD\r\nours\r\n=======\r\ntheirs\r\n>>>>>>> feat\r\nb\r\n
+test	tests/unit/conflicts.test.ts	conflict parsing
+test	tests/unit/conflicts.test.ts	keeps malformed markers as plain text
+test	tests/unit/conflicts.test.ts	line 1\nours line\nline 2
+test	tests/unit/conflicts.test.ts	line 1\nours line\ntheirs line\nline 2
+test	tests/unit/conflicts.test.ts	line 1\ntheirs line\nline 2
+test	tests/unit/conflicts.test.ts	ours body
+test	tests/unit/conflicts.test.ts	ours line
+test	tests/unit/conflicts.test.ts	parses a single conflict with surrounding text
+test	tests/unit/conflicts.test.ts	serializes each resolution mode correctly
+test	tests/unit/conflicts.test.ts	theirs line
+test	tests/unit/conflicts.test.ts	treats a close marker without a separator as plain text
+test	tests/unit/conflicts.test.ts	treats content lines of 8+ marker characters as content, not markers
+test	tests/unit/forge.test.ts	2026-08-20T10:00:00Z
+test	tests/unit/forge.test.ts	2026-08-21T11:30:00Z
+test	tests/unit/forge.test.ts	401 Unauthorized
+test	tests/unit/forge.test.ts	A pull request already exists
+test	tests/unit/forge.test.ts	A pull request already exists for feature/thing.
+test	tests/unit/forge.test.ts	Add worktrees
+test	tests/unit/forge.test.ts	Adds the thing.
+test	tests/unit/forge.test.ts	Another open merge request
+test	tests/unit/forge.test.ts	Another open merge request already exists
+test	tests/unit/forge.test.ts	bitbucket lists workspace members and embeds reviewer uuids on create
+test	tests/unit/forge.test.ts	cheat2001/angkorgit
+test	tests/unit/forge.test.ts	creates a merge request with a draft title prefix
+test	tests/unit/forge.test.ts	creates a pull request and returns the mapped result
+test	tests/unit/forge.test.ts	creates a pull request with source and destination branches
+test	tests/unit/forge.test.ts	creates providers for github, gitlab and bitbucket cloud
+test	tests/unit/forge.test.ts	Dara Kim
+test	tests/unit/forge.test.ts	docs/update
+test	tests/unit/forge.test.ts	Draft: Fix pipeline
+test	tests/unit/forge.test.ts	expected a parsed remote
+test	tests/unit/forge.test.ts	falls back to origin, then the first remote
+test	tests/unit/forge.test.ts	feature/thing
+test	tests/unit/forge.test.ts	feature/worktrees
+test	tests/unit/forge.test.ts	Fix pipeline
+test	tests/unit/forge.test.ts	fix/pipeline
+test	tests/unit/forge.test.ts	github lists collaborators and requests reviewers after creating
+test	tests/unit/forge.test.ts	github still returns the created pr when the reviewer request fails
+test	tests/unit/forge.test.ts	github validation errors
+test	tests/unit/forge.test.ts	github.corp.dev:8443
+test	tests/unit/forge.test.ts	github/feature/test1
+test	tests/unit/forge.test.ts	gitlab lists project members and embeds reviewer_ids on create
+test	tests/unit/forge.test.ts	gitlab scheme fallback safety
+test	tests/unit/forge.test.ts	gone/branch
+test	tests/unit/forge.test.ts	group/subgroup
+test	tests/unit/forge.test.ts	has no api provider for bitbucket server
+test	tests/unit/forge.test.ts	keeps a valid base when concurrent requests fall back together
+test	tests/unit/forge.test.ts	lists open pull requests from the values envelope
+test	tests/unit/forge.test.ts	lists open pull requests with mapped fields
+test	tests/unit/forge.test.ts	Maly Sok
+test	tests/unit/forge.test.ts	never retries a POST over http
+test	tests/unit/forge.test.ts	New feature
+test	tests/unit/forge.test.ts	not a url
+test	tests/unit/forge.test.ts	parses bitbucket cloud and server shapes
+test	tests/unit/forge.test.ts	parses github https, scp and ssh remotes
+test	tests/unit/forge.test.ts	parses gitlab subgroups into the owner
+test	tests/unit/forge.test.ts	prefers the remote of the current branch upstream
+test	tests/unit/forge.test.ts	reads the default branch with a fallback
+test	tests/unit/forge.test.ts	rejects github paths that are not owner/repo
+test	tests/unit/forge.test.ts	request failed: error sending request for url
+test	tests/unit/forge.test.ts	reviewer candidates and requests
+test	tests/unit/forge.test.ts	Reviews may not be requested
+test	tests/unit/forge.test.ts	Sokha Chan
+test	tests/unit/forge.test.ts	someone/angkorgit
+test	tests/unit/forge.test.ts	source branch not found
+test	tests/unit/forge.test.ts	surfaces bitbucket error messages
+test	tests/unit/forge.test.ts	surfaces github error messages with the status
+test	tests/unit/forge.test.ts	surfaces gitlab array error messages
+test	tests/unit/forge.test.ts	the source branch does not exist on this remote
+test	tests/unit/forge.test.ts	Update docs
+test	tests/unit/forge.test.ts	uses api.github.com for github.com and /api/v3 for enterprise hosts
+test	tests/unit/forge.test.ts	Validation Failed
+test	tests/unit/graphLayout.test.ts	assigns a second lane to a parallel branch
+test	tests/unit/graphLayout.test.ts	explodes lanes when parents are filtered out (why filtered views need flatGraphRows)
+test	tests/unit/graphLayout.test.ts	is stable under incremental feeding (pagination)
+test	tests/unit/graphLayout.test.ts	keeps every commit on lane 0 with no connecting lines
+test	tests/unit/graphLayout.test.ts	lays out a linear history on a single lane
+test	tests/unit/graphLayout.test.ts	marks merge commits and opens merge lanes
+test	tests/unit/graphLayout.test.ts	numbers rows from startRow for pagination and keeps merge markers
+test	tests/unit/graphLayout.test.ts	reuses freed lanes to keep the graph narrow
+test	tests/unit/highlight.test.ts	  still a comment &lt;b&gt;not a tag&lt;/b&gt;
+test	tests/unit/highlight.test.ts	  still a comment <b>not a tag</b>
+test	tests/unit/highlight.test.ts	 * Free Bet funding dimension. Stored and transmitted PascalCase.
+test	tests/unit/highlight.test.ts	 end of note */ const after = 1;
+test	tests/unit/highlight.test.ts	<!-- header
+test	tests/unit/highlight.test.ts	carries a JSDoc block across lines and closes it on */
+test	tests/unit/highlight.test.ts	const a = 1; /* trailing */
+test	tests/unit/highlight.test.ts	const files = glob('src/**/*.ts');
+test	tests/unit/highlight.test.ts	const glob = pattern + "/" + name/*
+test	tests/unit/highlight.test.ts	const x = 1; /* trailing note
+test	tests/unit/highlight.test.ts	does not carry a /* that is glued to a word, such as JSX text like feature/*
+test	tests/unit/highlight.test.ts	does not treat line comments or glob strings as open block comments
+test	tests/unit/highlight.test.ts	done -->
+test	tests/unit/highlight.test.ts	export enum EnumSponsorType {
+test	tests/unit/highlight.test.ts	handles html comments with the xml opener
+test	tests/unit/highlight.test.ts	ignores the continuation flag for languages without block comments
+test	tests/unit/highlight.test.ts	run(/* inline start
+test	tests/unit/highlight.test.ts	x = 1
+test	tests/unit/pullRequestUrl.test.ts	builds a Bitbucket pull request URL
+test	tests/unit/pullRequestUrl.test.ts	builds a GitHub compare URL from an https remote
+test	tests/unit/pullRequestUrl.test.ts	drops the ssh port instead of leaking it into the web link
+test	tests/unit/pullRequestUrl.test.ts	feature/test1
+test	tests/unit/pullRequestUrl.test.ts	handles ssh:// remotes with a user
+test	tests/unit/pullRequestUrl.test.ts	preserves plain http for LAN remotes
+test	tests/unit/pullRequestUrl.test.ts	returns null for unknown forges and unparseable urls
+test	tests/unit/pullRequestUrl.test.ts	strips .git even behind a trailing slash
+test	tests/unit/pullRequestUrl.test.ts	uses the Bitbucket Server shape for /scm/ clone paths
+test	tests/unit/reviewSignature.test.ts	changes when a staged file gains an unstaged edit
+test	tests/unit/reviewSignature.test.ts	changes when the staged set changes
+test	tests/unit/reviewSignature.test.ts	diff a
+test	tests/unit/reviewSignature.test.ts	diff b
+test	tests/unit/reviewSignature.test.ts	differs for different content and repeats for identical content
+test	tests/unit/reviewSignature.test.ts	does not collide on filenames containing newlines
+test	tests/unit/reviewSignature.test.ts	includes only staged files
+test	tests/unit/wordDiff.test.ts	const a = 1;
+test	tests/unit/wordDiff.test.ts	const count = 1;
+test	tests/unit/wordDiff.test.ts	const total = 1;
+test	tests/unit/wordDiff.test.ts	function render(items) { return items.map(f); }
+test	tests/unit/wordDiff.test.ts	function render(rows) { return rows.flatMap(f); }
+test	tests/unit/wordDiff.test.ts	handles insertion at the end
+test	tests/unit/wordDiff.test.ts	highlights only the changed word
+test	tests/unit/wordDiff.test.ts	marks identical lines as fully equal
+test	tests/unit/wordDiff.test.ts	return value
+test	tests/unit/wordDiff.test.ts	return value ?? fallback
+test	tests/unit/worktree.test.ts	C:\\code\\
+test	tests/unit/worktree.test.ts	hotfix/login
+test	tests/unit/worktree.test.ts	joins the repository name with a slug of the branch
+test	tests/unit/worktree.test.ts	keeps Windows separators when the parent uses them
+test	tests/unit/worktree.test.ts	never yields a bare separator or an empty name
+test	tests/unit/worktree.test.ts	places the folder beside the repository
+test	tests/unit/worktree.test.ts	returns the containing folder
 ui	apps/desktop/src/app/App.tsx	mod+shift+=
 ui	apps/desktop/src/components/CommandPalette.tsx	 : ''}
 ui	apps/desktop/src/components/Toolbar.tsx	 : ''}
