@@ -107,7 +107,7 @@ ui	// WIP	// 未提交
 ui	{counts.conflicted} conflicted	{counts.conflicted} 个冲突
 ui	{counts.staged} staged	{counts.staged} 个已暂存
 ui,website	 modified	 个修改	modified<
-ui	 of {total} resolved	/ {total} 已解决
+ui	{resolvedCount}/ {total}	{resolvedCount} / {total}
 ui	commit${status.ahead === 1 ? '' : 's'} to push	个提交待推送
 ui	commit${status.behind === 1 ? '' : 's'} to pull	个提交待拉取
 ui	${Math.floor(diff / 60)}m ago	${Math.floor(diff / 60)} 分钟前
