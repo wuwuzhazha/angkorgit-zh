@@ -39,24 +39,35 @@ jobs:
           git config user.name "angkorgit-zh bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-      - name: ② 分析上游是否有更新（无更新则跳过全部后续步骤）
+      - name: ② 分析上游是否有更新（无更新仅定时轮询跳过；手动 dispatch 强制构建发布）
         id: check
         shell: pwsh
         run: |
+          # NEED_MERGE：上游 main 是否有 HEAD 尚未包含的新提交
+          $needMerge = $false
           git merge-base --is-ancestor upstream/main HEAD
           if ($LASTEXITCODE -eq 0) {
-            Write-Output "上游无新提交（HEAD 已包含 upstream/main），本次跳过。"
+            Write-Output "上游无新提交（HEAD 已包含 upstream/main）。"
+          } else {
+            $needMerge = $true
+            # 保存本次合并的上游提交清单（放临时目录，避免被脚本提交）
+            git log --oneline HEAD..upstream/main | Out-String | Set-Content -Path "$env:RUNNER_TEMP\upstream-changes.txt" -Encoding utf8
+            $head = git rev-parse HEAD
+            $up   = git rev-parse upstream/main
+            Write-Output "检测到上游更新：$head → $up"
+          }
+          Write-Output "NEED_MERGE=$needMerge" >> $env:GITHUB_OUTPUT
+          # HAS_UPDATE：有上游更新，或手动 dispatch（强制走完整构建发布链路）
+          if ($needMerge -or $env:GITHUB_EVENT_NAME -eq 'workflow_dispatch') {
+            Write-Output "HAS_UPDATE=true" >> $env:GITHUB_OUTPUT
+          } else {
+            Write-Output "定时轮询且上游无更新，本次跳过（不构建不发布）。"
             exit 0
           }
-          # 保存本次合并的上游提交清单（放临时目录，避免被脚本提交）
-          git log --oneline HEAD..upstream/main | Out-String | Set-Content -Path "$env:RUNNER_TEMP\upstream-changes.txt" -Encoding utf8
-          Write-Output "HAS_UPDATE=true" >> $env:GITHUB_OUTPUT
-          $head = git rev-parse HEAD
-          $up   = git rev-parse upstream/main
-          Write-Output "检测到上游更新：$head → $up"
 
       - name: ③ 合并上游（代码以上游为准，中文化随后重放）
-        if: steps.check.outputs.HAS_UPDATE == 'true'
+        # 仅在有实际上游提交时合并；dispatch 无更新时跳过，避免空 merge + “nothing to commit” 失败
+        if: steps.check.outputs.NEED_MERGE == 'true'
         shell: pwsh
         run: |
           git merge upstream/main -X theirs --no-edit
