@@ -213,13 +213,13 @@ fn sign_with_ssh(config: &SigningConfig, content: &str) -> AppResult<String> {
         .env("PATH", search_path(None));
     let captured = capture(command, "", SIGN_TIMEOUT).map_err(|e| {
         AppError::other(format!(
-            "{} could not sign the commit ({e}). {SSH_AGENT_HINT}",
+            "{} 无法签署提交（{e}）。{SSH_AGENT_HINT}",
             config.program
         ))
     })?;
     if captured.status != 0 {
         return Err(AppError::other(format!(
-            "{} refused to sign the commit: {}. {SSH_AGENT_HINT}",
+            "{} 拒绝签署提交：{}。{SSH_AGENT_HINT}",
             config.program,
             captured.stderr.trim()
         )));
@@ -242,8 +242,8 @@ fn sign_with_gpg(config: &SigningConfig, content: &str) -> AppResult<String> {
         .env("PATH", search_path(None));
     let captured = capture(command, content, SIGN_TIMEOUT).map_err(|e| {
         AppError::other(format!(
-            "{} could not sign the commit ({e}). If the key has a passphrase, gpg needs a \
-             graphical pinentry (for example pinentry-mac) — the app has no terminal to ask on.",
+            "{} 无法签署提交（{e}）。如果密钥有口令，gpg 需要 \
+             图形化 pinentry（例如 pinentry-mac）——应用没有可询问的终端。",
             config.program
         ))
     })?;
@@ -255,7 +255,7 @@ fn sign_with_gpg(config: &SigningConfig, content: &str) -> AppResult<String> {
             .collect::<Vec<_>>()
             .join(" ");
         return Err(AppError::other(format!(
-            "{} refused to sign the commit: {}. Check user.signingKey and that a graphical \
+            "{} 拒绝签署提交：{}。请检查 user.signingKey 并确认已配置图形化 \
              pinentry is configured.",
             config.program,
             detail.trim()

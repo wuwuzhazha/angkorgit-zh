@@ -61,7 +61,7 @@ function hostMatches(a: string, b: string): boolean {
 
 function friendlyForgeError(raw: string, host: string): string {
   if (/error sending request|^请求失败:|failed to read response/i.test(raw)) {
-    return `Could not reach ${host} — check your network or VPN, then retry.`;
+    return `无法访问 ${host}——请检查网络或 VPN 后重试。`;
   }
   return raw;
 }

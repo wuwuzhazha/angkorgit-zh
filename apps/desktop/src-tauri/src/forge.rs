@@ -35,7 +35,7 @@ fn auth_headers(
         "bitbucket" => {
             let email = email.ok_or_else(|| {
                 AppError::other(
-                    "the Bitbucket account has no Atlassian email stored — reconnect it in \
+                    "该 Bitbucket 账户未存储 Atlassian 邮箱——请在 \
                      Settings → Authentication",
                 )
             })?;

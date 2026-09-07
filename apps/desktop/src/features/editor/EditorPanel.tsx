@@ -47,7 +47,7 @@ export function EditorPanel({ file }: { file: string }) {
     try {
       await ipc.writeFile(path, file, content);
       setSavedContent(content);
-      toast.success(`${file} saved`);
+      toast.success(`${file} 已保存`);
       await refreshStatus();
     } catch (error) {
       toast.error(`Save failed: ${(error as { message?: string }).message ?? error}`);
@@ -85,7 +85,7 @@ export function EditorPanel({ file }: { file: string }) {
       initial={{ opacity: 0, y: 6 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
-      aria-label={`Editing ${file}`}
+      aria-label={`正在编辑 ${file}`}
     >
       <div className="flex h-10 shrink-0 items-center gap-2 border-b border-border-subtle bg-surface px-3">
         <Hint
@@ -127,7 +127,7 @@ export function EditorPanel({ file }: { file: string }) {
           onChange={(e) => setContent(e.target.value)}
           spellCheck={false}
           autoFocus
-          aria-label={`Contents of ${file}`}
+          aria-label={`${file} 的内容`}
           className="min-h-0 flex-1 resize-none bg-transparent px-4 py-3 font-mono text-xs leading-5 text-foreground focus:outline-none"
           style={{ tabSize: 4 }}
           onKeyDown={(e) => {

@@ -403,7 +403,7 @@ export function CommitGraph() {
         {rows.length === 0 && !loading ? (
           error ? (
             <div className="flex h-full flex-col items-center justify-center gap-2 px-6 text-center text-sm text-danger">
-              <span className="[overflow-wrap:anywhere]">Could not load the history: {error}</span>
+              <span className="[overflow-wrap:anywhere]">无法加载历史记录： {error}</span>
               <Button variant="ghost" size="sm" onClick={() => void reload(path)}>
                 重试
               </Button>
@@ -470,7 +470,7 @@ export function CommitGraph() {
         )}
         {error && rows.length > 0 && !loading && (
           <div className="flex items-center justify-center gap-2 px-3 py-2 text-xs text-danger">
-            <span className="[overflow-wrap:anywhere]">Could not load more commits: {error}</span>
+            <span className="[overflow-wrap:anywhere]">无法加载更多提交： {error}</span>
             <button className="shrink-0 underline underline-offset-2" onClick={() => void reload(path)}>
               重试
             </button>

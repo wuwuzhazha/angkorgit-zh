@@ -10,7 +10,7 @@ const platforms = [
     name: 'macOS',
     detail: 'Intel 与 Apple Silicon，单文件',
     asset: `AngKorGit_${version}_universal.dmg`,
-    note: 'Not signed with an Apple certificate, so macOS asks once. Right-click, Open, or use Homebrew below and it never asks.',
+    note: '未用 Apple 证书签名，所以 macOS 会询问一次。右键点击并选择“打开”，或使用下方的 Homebrew，之后就再也不会询问。',
   },
   {
     name: 'Windows',
@@ -33,7 +33,7 @@ const brew = 'brew install --cask cheat2001/tap/angkorgit';
   <div class="container-site rail-offset">
     <div class="grid gap-12 lg:grid-cols-12">
       <div class="min-w-0 lg:col-span-5" data-reveal>
-        <p class="font-mono text-xs uppercase tracking-[0.18em] text-primary">Install · v{version}</p>
+        <p class="font-mono text-xs uppercase tracking-[0.18em] text-primary">安装 · v{version}</p>
         <h2 class="display mt-3 text-4xl leading-[1.02] sm:text-5xl">选择你的平台。</h2>
         <p class="mt-6 text-[17px] leading-relaxed text-muted">
           Every build is compiled in public by GitHub Actions from the source you can read, and the app checks for
@@ -64,7 +64,7 @@ const brew = 'brew install --cask cheat2001/tap/angkorgit';
                   href={SITE.assetUrl(version, p.asset)}
                   class="inline-flex h-9 items-center gap-2 self-start rounded-md border border-border px-3.5 text-sm font-medium text-foreground transition-colors hover:border-primary hover:text-primary"
                 >
-                  Download
+                  下载
                   <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                     <path d="M12 5v14m0 0 6-6m-6 6-6-6" />
                   </svg>
@@ -77,7 +77,7 @@ const brew = 'brew install --cask cheat2001/tap/angkorgit';
         <details class="group mt-6">
           <summary class="flex cursor-pointer list-none items-center gap-2 text-sm text-muted hover:text-foreground">
             <svg class="h-3.5 w-3.5 transition-transform group-open:rotate-90" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6" /></svg>
-            Install from the terminal without Homebrew
+            不使用 Homebrew，从终端安装
           </summary>
           <div class="mt-4 grid gap-4">
             <TerminalBlock
@@ -110,8 +110,8 @@ const brew = 'brew install --cask cheat2001/tap/angkorgit';
         </details>
 
         <p class="mt-6 text-sm text-muted">
-          Something odd on first launch? The <a href="/docs/getting-started/" class="link-underline text-foreground">getting started page</a>
-          walks through each prompt. All versions are on the <a href={SITE.releases} class="link-underline text-foreground">releases page</a>.
+          首次启动遇到奇怪的问题？请查看<a href="/docs/getting-started/" class="link-underline text-foreground">快速开始页面</a>
+          ，它会逐步讲解每个提示。所有版本都在<a href={SITE.releases} class="link-underline text-foreground">发布页面</a>上。
         </p>
       </div>
     </div>

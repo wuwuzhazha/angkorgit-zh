@@ -1,47 +1,47 @@
 # 路线图
 
-Updated for v0.10.0 (September 2026). [CHANGELOG.md](../CHANGELOG.md) is the
-authoritative record of what shipped in each release; this file tracks
+更新至 v0.10.0（2026 年 9 月）。[CHANGELOG.md](../CHANGELOG.md) 是
+每个版本发布内容的权威记录；本文件跟踪
 direction.
 
 ## Shipped (0.1.0 → 0.10.0)
 
-- [x] Repository: open, clone (with progress), recents, search, repository tabs (drag to reorder)
-- [x] Commit: stage files, hunks, and individual lines; unstage, commit, amend; per-repo commit drafts
-- [x] History: virtualized animated graph, search, author/branch filters, refs/tags/HEAD/merges, file history
-- [x] Branch: create, delete, rename, checkout (incl. remote), merge, rebase (+continue/abort), interactive rebase (reorder/reword/squash/fixup/drop), cherry-pick (single or multi-commit, optional "(cherry picked from commit …)" reference), reset (soft/mixed/hard) — explicit merges always record a merge commit; abort merge from the commit box
-- [x] Remote: fetch, pull, push, force push, push/fetch tags, background auto fetch
-- [x] Conflicts: visual resolver — aligned A/B panes with line numbers, one take-all checkbox per side plus hover-to-pick lines, a Result pane with in-place editing and its own line numbers, conflict navigation, AI explanations
-- [x] Worktrees: sidebar section with branch/dirty/missing state, open any worktree as its own tab, create from a branch or commit into a sibling folder, safe remove and prune, branches held elsewhere marked in the sidebar and graph
-- [x] Stash: create, apply, pop, drop · Tags: create (annotated/lightweight), delete, checkout · Submodules: list & update
-- [x] Built-in PTY terminal at repo root; built-in file editor
-- [x] Diff: inline & side-by-side, syntax highlight, word diff, image diff, find in diff (⌘F), minimap, previous/next change and file navigation (N/P, [/]), opens directly at the first change (no scroll animation)
-- [x] Settings: sixteen themes (Angkor Dusk default) with accents & zoom, identity profiles (repo-local) with linked accounts, SSH key management & generation, hosting accounts with verified tokens, AI providers & commit style, keyboard reference
-- [x] Sidebar: accordion sections with pinned headers and collapse-all, row menus on hover and right-click everywhere, empty-state cards; graph display options and column headers; welcome page with keyboard navigation and missing-folder detection
-- [x] AI: provider-agnostic (OpenAI, Anthropic, Gemini, Ollama, LM Studio) plus installed AI CLIs (Claude Code, Codex, Gemini CLI, OpenCode, Antigravity) — commit messages, diff/conflict explanations, PR descriptions, staged-change review with team conventions (global + per-repo `.angkorgit/review.md`), background execution with stop, full-size reading views
-- [x] Undo/redo for recent operations; drag-and-drop merge/rebase
-- [x] Auto-update: pull-based from GitHub releases, signature-verified
-- [x] Commit signing: SSH and GPG, driven by existing git config (commit.gpgSign, gpg.format, user.signingKey) — covers commit, amend, merge
+- [x] 仓库：打开、克隆（带进度）、最近、搜索、仓库标签页（可拖动排序）
+- [x] 提交：暂存文件、代码块与单行；取消暂存、提交、修订；按仓库保存提交草稿
+- [x] 历史：虚拟化动画提交图、搜索、作者/分支过滤、refs/tags/HEAD/合并、文件历史
+- [x] 分支：创建、删除、重命名、检出（含远端）、合并、变基（+继续/中止）、交互式变基（重排/改写/压缩/丢弃）、拣选（单个或多个提交，可选“(cherry picked from commit …)”引用）、重置（软/混合/硬）——显式合并始终记录合并提交；可从提交框中止合并
+- [x] 远端：拉取、拉取、推送、强制推送、推送/拉取标签、后台自动拉取
+- [x] 冲突：可视化解决器——对齐的 A/B 面板带行号，每侧一个全选复选框并可悬停选行，结果面板支持就地编辑且自带行号，冲突导航，AI 解释
+- [x] 工作树：侧边栏分区显示分支/脏/缺失状态，任意工作树可作独立标签页打开，可从分支或提交在相邻文件夹创建，安全移除与清理，别处持有的分支在侧边栏与提交图中标记
+- [x] 暂存：创建、应用、弹出、丢弃 · 标签：创建（附注/轻量）、删除、检出 · 子模块：列出与更新
+- [x] 仓库根目录内置 PTY 终端；内置文件编辑器
+- [x] Diff：内联与并排、语法高亮、词级 diff、图片 diff、diff 内查找（⌘F）、缩略图、上一处/下一处更改与文件导航（N/P、[/]），直接打开到第一处更改（无滚动动画）
+- [x] 设置：十六款主题（默认 Angkor Dusk）带强调色与缩放、身份配置（仓库级）关联账户、SSH 密钥管理与生成、带已验证令牌的托管账户、AI 提供方与提交风格、键盘参考
+- [x] 侧边栏：手风琴分区，标题固定且可全部折叠，处处支持悬停与右键行菜单，空状态卡片；提交图显示选项与列标题；欢迎页支持键盘导航并检测缺失文件夹
+- [x] AI：与提供方无关（OpenAI、Anthropic、Gemini、Ollama、LM Studio），外加已安装的 AI CLI（Claude Code、Codex、Gemini CLI、OpenCode、Antigravity）——提交消息、diff/冲突解释、PR 描述、按团队约定的暂存更改审查（全局 + 每仓库 `.angkorgit/review.md`）、可停止的后台执行、全尺寸阅读视图
+- [x] 最近操作的撤销/重做；拖放式合并/变基
+- [x] 自动更新：从 GitHub releases 拉取，签名校验
+- [x] 提交签名：SSH 与 GPG，由现有 git 配置驱动（commit.gpgSign、gpg.format、user.signingKey）——覆盖提交、修订、合并
 - [x] 拉取请求: sidebar list, checkout and in-app create with reviewer selection for GitHub, GitLab (incl. self-hosted) and Bitbucket Cloud, through the connected account; browser fallback without one
-- [x] Graph search: a commit hash (full or a short prefix down to 4 characters) jumps to the commit in the full graph, centered and highlighted; ⌘F focuses the search
-- [x] Performance: fast startup (splash waits for the app, not a timer; heavy views load on first use), a quiet file watcher, on-demand commit diffs, loading overlay on slow repository switches
+- [x] 提交图搜索：提交哈希（完整或短至 4 字符的前缀）跳转到完整图中的对应提交，居中并高亮；⌘F 聚焦搜索框
+- [x] 性能：快速启动（启动画面等应用就绪而非定时器；重型视图首次使用时才加载）、安静的文件监视器、按需的提交 diff、慢速仓库切换时的加载遮罩
 
 ## Next
 
 - [ ] Blame view
-- [ ] Worktrees: start an installed AI CLI inside a worktree from its row, a per-repo post-create setup command, merged badge with one-step cleanup
-- [ ] Provider avatars via connected accounts, layered over Gravatar
+- [ ] 工作树：从其行内在工作树中启动已安装的 AI CLI、每仓库创建后设置命令、合并徽标与一键清理
+- [ ] 通过关联账户获取提供方头像，叠加在 Gravatar 之上
 
-## Later — Connected (architecture in place, see Architecture.md)
+## 以后——互联（架构已就位，见 Architecture.md）
 
-- [ ] Azure DevOps and Bitbucket Server adapters (GitHub, GitLab and Bitbucket Cloud are in)
-- [ ] Read-only pull request detail view (commits, CI status, review state)
-- [ ] Issue viewer
+- [ ] Azure DevOps 与 Bitbucket Server 适配器（GitHub、GitLab 与 Bitbucket Cloud 已完成）
+- [ ] 只读拉取请求详情视图（提交、CI 状态、审查状态）
+- [ ] Issue 查看器
 
-## Later — Power
+## 以后——强力功能
 
-- [ ] Plugin host (palette commands, sidebar sections, inspector tabs)
-- [ ] Multi-repo workspaces
-- [ ] Performance: commit-graph file support for instant cold opens
+- [ ] 插件宿主（命令面板命令、侧边栏分区、检查器标签页）
+- [ ] 多仓库工作区
+- [ ] 性能：提交图文件支持，实现瞬时冷启动
 
-Non-goals: enterprise admin tooling, built-in CI dashboards, in-app code review (commenting, approving and merging live on the forge's web UI, one click away), anything else that duplicates a forge's web UI without daily value.
+非目标：企业级管理工具、内置 CI 仪表盘、应用内代码审查（评论、批准与合并都在 forge 的网页 UI 上实时进行，一键可达），以及任何复制 forge 网页 UI 却没有日常价值的东西。

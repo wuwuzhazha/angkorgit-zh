@@ -89,7 +89,7 @@ pub fn revert(path: &str, oid: &str) -> AppResult<OpOutcome> {
     if repo.index()?.has_conflicts() {
         return Ok(OpOutcome {
             status: "conflicts".into(),
-            message: "Revert has conflicts to resolve".into(),
+            message: "还原存在待解决的冲突".into(),
         });
     }
 

@@ -12,7 +12,7 @@ const qa = [
   },
   {
     q: '为什么 macOS 在首次启动时警告我？',
-    a: "The build isn't signed with an Apple developer certificate yet, so Gatekeeper asks once. Right-click and Open, or install through Homebrew, which clears the flag for you. After that the updater handles new versions and verifies each one with a signature.",
+    a: "构建目前还没有用 Apple 开发者证书签名，所以 Gatekeeper 会询问一次。右键点击并选择“打开”，或通过 Homebrew 安装，它会自动清除该标记。之后更新器会接管新版本，并逐一用签名验证。",
   },
   {
     q: '它会把任何数据发送出去吗？',
@@ -20,7 +20,7 @@ const qa = [
   },
   {
     q: '它与 GitKraken 或 Fork 相比如何？',
-    a: 'Faster to open, lighter, and narrower on purpose. GitKraken took the workflow ideas further than anyone and I learned from it, but I wanted the twenty-five features that matter rather than the hundred. Fork is closer in spirit, though it is not open source and not on Linux.',
+    a: '打开更快、更轻，而且刻意做得更克制。GitKraken 把工作流理念推得比任何人都远，我从它那里学到很多，但我想要的是真正要紧的二十五个功能，而不是一百个。Fork 在精神上更接近，但它不是开源的，也没有 Linux 版。',
   },
 ];
 
@@ -44,7 +44,7 @@ const faqLd = {
         <p class="font-mono text-xs uppercase tracking-[0.18em] text-faint">常见问题</p>
         <h2 class="display mt-3 text-3xl leading-[1.05] sm:text-4xl">大家常问的问题</h2>
         <p class="mt-4 text-[15px] leading-relaxed text-muted">
-          Anything else, <a href={`${SITE.repo}/issues`} class="link-underline text-foreground">open an issue</a>. I read them all.
+          还有其他问题，<a href={`${SITE.repo}/issues`} class="link-underline text-foreground">开一个 issue</a>，我都会读。
         </p>
       </div>
       <dl class="divide-y divide-border-subtle" data-reveal style={{ '--reveal-delay': '100ms' }}>

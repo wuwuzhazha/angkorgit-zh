@@ -65,7 +65,7 @@ const PROVIDERS: Record<ProviderKind, ProviderPreset> = {
     usernameHint: '用户名（从令牌中检测到）',
   },
   'gitlab-self': {
-    label: 'GitLab (self-hosted)',
+    label: 'GitLab（自托管）',
     defaultHost: '',
     hostEditable: true,
     tokenUrl: (host) => (host ? `http://${host}/-/user_settings/personal_access_tokens` : null),
@@ -135,7 +135,7 @@ async function validateToken(
           `Bitbucket rejected these credentials (${res.status}) — check that this is your Atlassian 账户邮箱 and that the API token carries the read:repository:bitbucket scope`,
         );
       }
-      if (res.status !== 200) throw new Error(`Bitbucket rejected the token (${res.status})`);
+      if (res.status !== 200) throw new Error(`Bitbucket 拒绝了该令牌（${res.status}）`);
       return { login: (JSON.parse(res.body) as { username: string }).username };
     }
     if (provider === 'github') {
@@ -148,7 +148,7 @@ async function validateToken(
           'user-agent': 'AngKorGit',
         },
       });
-      if (res.status !== 200) throw new Error(`GitHub rejected the token (${res.status})`);
+      if (res.status !== 200) throw new Error(`GitHub 拒绝了该令牌（${res.status}）`);
       return { login: (JSON.parse(res.body) as { login: string }).login };
     }
     if (provider === 'gitlab' || provider === 'gitlab-self') {
@@ -163,7 +163,7 @@ async function validateToken(
             return { login: (JSON.parse(res.body) as { username: string }).username };
           }
           if (res.status === 401 || res.status === 403) {
-            throw new Error(`GitLab rejected the token (${res.status})`);
+            throw new Error(`GitLab 拒绝了该令牌（${res.status}）`);
           }
         } catch (error) {
           if ((error as Error).message?.includes('rejected')) throw error;
@@ -305,7 +305,7 @@ export function AccountsTab() {
       let isVerified = false;
       const verified = await validateToken(provider, cleanHost, finalUsername, token.trim());
       if (verified === 'unreachable') {
-        toast.warning(`${cleanHost} is unreachable right now — saving without verification`);
+        toast.warning(`${cleanHost} 当前不可达——将不经验证保存`);
         if (!finalUsername) throw new Error('输入用户名即可不经验证保存');
       } else if (verified) {
         finalUsername = verified.login;
@@ -327,8 +327,8 @@ export function AccountsTab() {
       setToken('');
       setUsername('');
       setAdding(false);
-      if (isVerified) toast.success(`Connected ${cleanHost} as ${finalUsername}`);
-      else toast.warning(`Saved ${cleanHost} as ${finalUsername} — token not verified`);
+      if (isVerified) toast.success(`已以 ${finalUsername} 身份连接到 ${cleanHost}`);
+      else toast.warning(`已将 ${finalUsername} 保存到 ${cleanHost}——令牌未验证`);
       const added = updated.find((a) => a.host === cleanHost && a.username === finalUsername);
       if (added) void runChecks([added]);
     } catch (error) {
@@ -341,7 +341,7 @@ export function AccountsTab() {
   const remove = async (account: HostingAccount) => {
     try {
       setAccounts(await ipc.accountRemove(account.host, account.username));
-      toast.success(`Removed ${account.username} on ${account.host}`);
+      toast.success(`已移除 ${account.host} 上的 ${account.username}`);
     } catch (error) {
       toast.error(`Remove failed: ${(error as { message?: string }).message ?? error}`);
     }
@@ -350,7 +350,7 @@ export function AccountsTab() {
   const makeDefault = async (account: HostingAccount) => {
     try {
       setAccounts(await ipc.accountSetDefault(account.host, account.username));
-      toast.success(`${account.username} is now the default for ${account.host}`);
+      toast.success(`${account.username} 现在是 ${account.host} 的默认账户`);
     } catch (error) {
       toast.error(`Could not set default: ${(error as { message?: string }).message ?? error}`);
     }
@@ -366,7 +366,7 @@ export function AccountsTab() {
 
   const confirmRemove = async (account: HostingAccount) => {
     const ok = await confirmDialog({
-      title: `Remove ${account.username} on ${account.host}?`,
+      title: `移除 ${account.host} 上的 ${account.username}？`,
       description:
         '令牌将从系统钥匙串中删除。推送到该主机时将回退到你的其他账户或凭据助手。',
       confirmLabel: '移除账户',
@@ -423,8 +423,8 @@ export function AccountsTab() {
                   </p>
                   <p className="flex flex-wrap items-center gap-x-2 text-xs text-faint">
                     <AccountStatus account={account} check={checks[key]} />
-                    <span>· token in the system keychain</span>
-                    {account.verified && account.verifiedAt && <span>· checked {timeAgo(account.verifiedAt)}</span>}
+                    <span>· 令牌保存在系统钥匙串中</span>
+                    {account.verified && account.verifiedAt && <span>· 已验证 {timeAgo(account.verifiedAt)}</span>}
                   </p>
                 </div>
                 {!account.verified && (
@@ -498,7 +498,7 @@ export function AccountsTab() {
                 />
               </Field>
               <Field
-                label="Token"
+                label="令牌"
                 hint={
                   tokenPage ? (
                     <button

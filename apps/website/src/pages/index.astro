@@ -28,12 +28,12 @@ import Footer from '../components/Footer.astro';
     <Scene id="conflicts" lane={0} kicker="Conflicts" title="能读懂的<em>冲突</em>。">
       <Fragment slot="body">
         <p>
-          Both sides in one view, with line numbers on each so you can talk about line 43 with a colleague. One
-          checkbox takes a whole side. Hover a line and a plus takes just that one.
+          两侧同屏，各带行号，你可以和同事聊“第 43 行”。一个
+          复选框即可取走整侧。悬停某行，加号只取那一行。
         </p>
         <p>
-          The result pane is an editor. Click a line and type. Nothing touches the file until you press Mark
-          resolved, and the markers are guarded so you can't save half a conflict by accident.
+          结果面板就是编辑器：点一行就能输入。在你按下“标记已解决”之前，文件不会有任何改动，
+          并且标记受到保护，所以你不可能意外保存半个冲突。
         </p>
       </Fragment>
       <Conflicts slot="mock" />
@@ -42,13 +42,13 @@ import Footer from '../components/Footer.astro';
     <Scene id="worktrees" lane={1} kicker="0.10 新增" title="两个分支、<em>两个文件夹</em>，一个窗口。" flip>
       <Fragment slot="body">
         <p>
-          A worktree is a second checkout of the same repository in a sibling folder. Run a hotfix or an AI agent
-          there while your real work sits untouched. No stash, no "让我先提交这个 WIP".
+          工作树是同一仓库在相邻文件夹中的第二份检出。在那里跑热修复或 AI 代理，
+          而你的正式工作保持不动。无需暂存，也不会有“让我先提交这个 WIP”。
         </p>
         <p>
-          The sidebar lists every worktree with its branch and whether it has changes. Each opens as its own tab.
-          Try to check out a branch that's already open in another folder and it takes you there instead, the same
-          way git refuses on the command line.
+          侧边栏列出每个工作树及其分支与是否有改动，每个都可作为独立标签页打开。
+          尝试检出已在另一个文件夹中打开的分支时，它会直接带你到那里，就像
+          git 在命令行中也会拒绝一样。
         </p>
       </Fragment>
       <Worktree slot="mock" />
@@ -57,12 +57,12 @@ import Footer from '../components/Footer.astro';
     <Scene id="graph" lane={2} kicker="Graph" title="把一个分支拖到另一个分支上。<em>这就是合并。</em>">
       <Fragment slot="body">
         <p>
-          The graph is virtualized, so a hundred thousand commits scroll like fifty. Ref chips show the whole name or
-          fold behind a count, never half a word. Paste a hash into the search and it jumps there.
+          提交图已虚拟化，十万次提交滚动起来像五十次。引用标签显示完整名称，或
+          折叠成计数，绝不显示半个词。把哈希粘贴进搜索框，它就会跳过去。
         </p>
         <p>
-          Merges from the app are always real merge commits. Right-click does what you'd expect, and ⌘Z undoes the
-          merge if you picked the wrong branch.
+          应用内的合并始终是真正的合并提交。右键做你期望的事，⌘Z 撤销
+          你选错分支时的合并。
         </p>
       </Fragment>
       <GraphScene slot="mock" />
@@ -71,12 +71,12 @@ import Footer from '../components/Footer.astro';
     <Scene id="palette" lane={2} kicker="Keyboard" title="⌘K，然后<em>输入</em>。" flip>
       <Fragment slot="body">
         <p>
-          Every command in the app is in the palette, including the ones buried in a right-click menu. Shortcuts are
-          printed next to the menu items so you learn them by using the mouse.
+          应用里的每个命令都在命令面板中，包括藏在右键菜单里的那些。快捷键会显示在
+          菜单项旁边，用着用着鼠标就学会了。
         </p>
         <p>
-          ⌘Z undoes, ⌘⇧Z redoes, ⌘B hides the sidebar, [ and ] move between files in a diff. The Escape key closes
-          exactly one thing at a time.
+          ⌘Z 撤销、⌘⇧Z 重做、⌘B 隐藏侧边栏，[ 和 ] 在 diff 中切换文件。Esc 一次只关闭
+          一样东西。
         </p>
       </Fragment>
       <Palette slot="mock" />

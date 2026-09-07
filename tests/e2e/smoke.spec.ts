@@ -221,7 +221,7 @@ test('长路径保持在确认对话框内', async ({ page }) => {
     }
   };
 
-  const discard = page.getByRole('button', { name: `Discard ${longPath}` });
+  const discard = page.getByRole('button', { name: `丢弃 ${longPath}` });
   await discard.scrollIntoViewIfNeeded();
   await discard.click({ force: true });
   await expect(page.getByRole('dialog').getByText('丢弃更改？')).toBeVisible();

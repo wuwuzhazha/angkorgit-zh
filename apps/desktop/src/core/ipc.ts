@@ -139,7 +139,7 @@ export const ipc = {
   },
 
   async configGet(path: string | null, key: string): Promise<string | null> {
-    if (!isTauri()) return key === 'user.name' ? 'Demo User' : key === 'user.email' ? 'demo@angkorgit.dev' : null;
+    if (!isTauri()) return key === 'user.name' ? '演示用户' : key === 'user.email' ? 'demo@angkorgit.dev' : null;
     return invoke('config_get', { path, key });
   },
   async configSet(path: string | null, key: string, value: string, global: boolean): Promise<void> {
@@ -192,7 +192,7 @@ export const ipc = {
     return invoke('discard_line', { path, file, kind, lineNo });
   },
   async readFile(path: string, file: string): Promise<string> {
-    if (!isTauri()) return '// demo mode — editing is available in the desktop app\n';
+    if (!isTauri()) return '// 演示模式——编辑功能可在桌面应用中使用\n';
     return invoke('read_file', { path, file });
   },
   async writeFile(path: string, file: string, content: string): Promise<void> {
@@ -491,7 +491,7 @@ export const ipc = {
     });
   },
   async stagedPatch(path: string): Promise<string> {
-    if (!isTauri()) return '--- demo staged patch ---';
+    if (!isTauri()) return '--- 演示暂存补丁 ---';
     return invoke('staged_patch', { path });
   },
 
@@ -689,7 +689,7 @@ export async function appVersion(): Promise<string> {
 
 export async function pickDirectory(title: string): Promise<string | null> {
   if (!isTauri()) {
-    return window.prompt(`${title} — enter a path (demo mode)`) || null;
+    return window.prompt(`${title} — 输入路径（演示模式）`) || null;
   }
   const { open } = await import('@tauri-apps/plugin-dialog');
   const result = await open({ directory: true, multiple: false, title });
@@ -698,7 +698,7 @@ export async function pickDirectory(title: string): Promise<string | null> {
 
 export async function pickFile(title: string, defaultPath?: string): Promise<string | null> {
   if (!isTauri()) {
-    return window.prompt(`${title} — enter a path (demo mode)`) || null;
+    return window.prompt(`${title} — 输入路径（演示模式）`) || null;
   }
   const { open } = await import('@tauri-apps/plugin-dialog');
   const result = await open({ directory: false, multiple: false, title, defaultPath });

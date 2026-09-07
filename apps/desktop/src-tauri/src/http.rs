@@ -52,11 +52,11 @@ pub async fn request(req: HttpRequest) -> AppResult<HttpResponse> {
     let response = builder
         .send()
         .await
-        .map_err(|e| AppError::other(format!("request failed: {e}")))?;
+        .map_err(|e| AppError::other(format!("请求失败：{e}")))?;
     let status = response.status().as_u16();
     let body = response
         .text()
         .await
-        .map_err(|e| AppError::other(format!("failed to read response: {e}")))?;
+        .map_err(|e| AppError::other(format!("读取响应失败：{e}")))?;
     Ok(HttpResponse { status, body })
 }

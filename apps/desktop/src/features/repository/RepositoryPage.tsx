@@ -72,7 +72,7 @@ function RepoLoadingOverlay() {
     <div className="animate-fade-in absolute inset-0 z-40 flex flex-col items-center justify-center gap-4 bg-background/95 backdrop-blur-sm">
       <Logo size={64} animated="loop" className="logo-draw-loop text-foreground" />
       {name && (
-        <span className="max-w-md truncate text-sm text-muted">Opening {name}…</span>
+        <span className="max-w-md truncate text-sm text-muted">正在打开 {name}…</span>
       )}
     </div>
   );

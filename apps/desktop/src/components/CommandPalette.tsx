@@ -202,7 +202,7 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
     close();
     void (async () => {
       const ok = await confirmDialog({
-        title: `Clear ${repoState} state?`,
+        title: `清除 ${repoState} 状态？`,
         description:
           `Git 仍会将此仓库标记为进行中的 ${repoState}。清除将移除该标记，并保持所有文件和提交原样不变。当 ${repoState} 已经完成时使用。`,
         confirmLabel: '清除状态',
@@ -423,11 +423,11 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
               icon={<Check />}
               label={branch.name}
               onSelect={() =>
-                run(`Checkout ${branch.name}`, () =>
+                run(`检出 ${branch.name}`, () =>
                   useUndo.getState().tracked({
                     path,
                     kind: 'checkout',
-                    label: `Checkout ${branch.name}`,
+                    label: `检出 ${branch.name}`,
                     action: () => ipc.checkout(path, branch.name),
                   }),
                 )

@@ -772,7 +772,7 @@ export function ConflictResolver({ file, onResolved }: { file: string; onResolve
             <Checkbox
               checked={isPicked(index, side, EMPTY_SIDE)}
               onCheckedChange={() => void toggleLine(index, side, EMPTY_SIDE)}
-              aria-label={`Take empty ${side} side (deletes this section)`}
+              aria-label={`选择空的 ${side} 侧（删除此部分）`}
             />
             <span className="font-mono text-xs italic leading-5 text-faint">（无行——删除此部分）</span>
           </label>
@@ -817,7 +817,7 @@ export function ConflictResolver({ file, onResolved }: { file: string; onResolve
               <Checkbox
                 checked={isPicked(index, side, EMPTY_SIDE)}
                 onCheckedChange={() => void toggleLine(index, side, EMPTY_SIDE)}
-                aria-label={`Take empty ${side} side (deletes this section)`}
+                aria-label={`选择空的 ${side} 侧（删除此部分）`}
               />
               <span className="font-mono text-xs italic leading-5 text-faint">（无行——删除此部分）</span>
             </label>

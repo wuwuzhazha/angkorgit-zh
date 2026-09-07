@@ -52,7 +52,7 @@ const rows: Row[] = [
     joinBelow: 0,
   },
   { id: 'conflicts', lane: 0, msg: '能读懂的冲突', hash: 'd41ab88', through: [], up: true, down: true },
-  { id: 'why', lane: 0, msg: 'init: why I made this', hash: 'a1b2c3d', through: [], up: true, down: false },
+  { id: 'why', lane: 0, msg: 'init：为什么做这个', hash: 'a1b2c3d', through: [], up: true, down: false },
 ];
 
 const H = 46;
@@ -153,6 +153,6 @@ const color = (lane: number) => `hsl(var(${laneColor[lane]}))`;
     }
   </ol>
   <p class="mt-3 text-center font-mono text-[10.5px] text-faint">
-    Newest on top, like a real graph. Click a commit to jump.
+    最新在上，如同真实提交图。点击提交即可跳转。
   </p>
 </div>

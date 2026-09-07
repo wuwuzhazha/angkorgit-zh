@@ -48,7 +48,7 @@ export function ProfilePromptHost() {
         }}
       >
         <DialogHeader>
-          <DialogTitle>Which profile for {request?.repoName}?</DialogTitle>
+          <DialogTitle>为 {request?.repoName} 选择哪个配置文件？</DialogTitle>
           <DialogDescription>
             Commits and pushes in this repository will use the chosen profile's identity and
             accounts. Asked once — change it later from the toolbar.

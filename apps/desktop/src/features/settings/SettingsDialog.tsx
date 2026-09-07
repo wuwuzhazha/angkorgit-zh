@@ -255,7 +255,7 @@ function ModelField() {
     <div className="flex flex-col gap-1.5">
       <div className="flex items-center justify-between">
         <span className="text-xs font-medium text-muted">
-          Model <span className="font-normal text-faint">· type any name or load the list your key can access</span>
+          Model <span className="font-normal text-faint">· 输入任意名称，或加载你的密钥可访问的列表</span>
         </span>
         <div className="flex items-center gap-1">
           {models.length > 0 && !open && (
@@ -744,7 +744,7 @@ export function SettingsDialog() {
               {section === 'appearance' && (
                 <div className="flex flex-col gap-4">
                   <SettingCard
-                    title="Theme"
+                    title="主题"
                     description="常用编辑器配色——界面与语法颜色跟随主题。"
                   >
                     <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
@@ -821,7 +821,7 @@ export function SettingsDialog() {
                   </SettingCard>
 
                   <SettingCard
-                    title="Zoom"
+                    title="缩放"
                     description={
                       <>
                         Also <Kbd>{modKey()}</Kbd> <Kbd>+</Kbd> / <Kbd>{modKey()}</Kbd> <Kbd>−</Kbd> anywhere
@@ -938,7 +938,7 @@ export function SettingsDialog() {
                   </SettingCard>
 
                   <SettingCard
-                    title="Profiles"
+                    title="配置文件"
                     description="工作与个人身份，各自关联托管平台账户。仓库在首次提交或推送时被分配到某个配置，该选择随仓库保留。"
                     action={
                       !addingProfile && settings.profiles.length > 0 ? (
@@ -1031,7 +1031,7 @@ export function SettingsDialog() {
                                         </span>
                                         <Switch
                                           checked={linked}
-                                          aria-label={`Link ${account.username} on ${account.host} to ${profile.label}`}
+                                          aria-label={`将 ${account.host} 上的 ${account.username} 关联到 ${profile.label}`}
                                           onCheckedChange={(on) => setAccountLinked(profile, account, on === true)}
                                         />
                                       </label>
@@ -1064,7 +1064,7 @@ export function SettingsDialog() {
                             <Field label="Label">
                               <Input
                                 autoFocus
-                                placeholder="Work"
+                                placeholder="工作"
                                 value={profileLabel}
                                 onChange={(e) => setProfileLabel(e.target.value)}
                                 onKeyDown={(e) => {
@@ -1131,7 +1131,7 @@ export function SettingsDialog() {
               {section === 'ai' && (
                 <div className="flex flex-col gap-4">
                   <SettingCard
-                    title="Provider"
+                    title="提供方"
                     description={
                       settings.ai.provider === 'cli'
                         ? 'Uses an AI CLI already installed on this machine — Claude Code, Codex, Gemini CLI, OpenCode or Antigravity — with its own login and quota. No API 密钥 needed.'

@@ -1,31 +1,31 @@
 # 为 AngKorGit 做贡献
 
-Thank you for helping make everyday Git delightful! 🙏
+感谢你让日常 Git 变得令人愉悦！🙏
 
-## Ground rules
+## 基本规则
 
-- Be kind. We follow the [Contributor Covenant](https://www.contributor-covenant.org/version/2/1/code_of_conduct/).
+- 友善待人。我们遵循[贡献者公约](https://www.contributor-covenant.org/version/2/1/code_of_conduct/)。
 - **Quality over quantity.** AngKorGit deliberately implements few features exceptionally well. New feature proposals should explain why the feature is *daily-use* — "GitKraken 有它" is not a reason.
-- Discuss before building: open an issue for anything larger than a fix.
+- 先讨论再动手：任何大于一次修复的改动，先开 issue。
 
 ## Workflow
 
-1. Fork and branch from `main`: `feature/<short-name>` or `fix/<short-name>`.
-2. Set up per [Development.md](Development.md); make your change following [Coding-Standards.md](Coding-Standards.md).
-3. Make sure the gates pass locally:
+1. Fork 并从 `main` 建分支：`feature/<short-name>` 或 `fix/<short-name>`。
+2. 按 [Development.md](Development.md) 搭建环境；按 [Coding-Standards.md](Coding-Standards.md) 做出改动。
+3. 确保本地门禁通过：
    ```bash
    pnpm typecheck && pnpm test
    cd apps/desktop/src-tauri && cargo fmt --check && cargo clippy --all-targets -- -D warnings && cargo test
    ```
-4. Open a PR with a conventional-commit title, a short "why", and screenshots for UI changes.
+4. 打开一个 PR：约定式提交标题、简短的“为什么”，UI 改动附截图。
 
-## What makes a good first contribution
+## 怎样的首个贡献最合适
 
-- New language for syntax highlighting (`src/shared/highlight.ts`)
-- A new AI provider adapter (`packages/core/src/ai/providers.ts`)
-- Graph rendering polish, additional keyboard shortcuts, accessibility passes
-- Engine test coverage in `tests/git_engine.rs`
+- 新增语法高亮语言（`src/shared/highlight.ts`）
+- 新增 AI 提供方适配器（`packages/core/src/ai/providers.ts`）
+- 提交图渲染打磨、新增键盘快捷键、无障碍改进
+- 引擎测试覆盖（`tests/git_engine.rs`）
 
-## Reporting bugs
+## 报告缺陷
 
-Include: OS, app version, the operation you ran, expected vs. actual, and — if the repo state matters — a minimal script that reproduces the repository shape. Never include private repository contents.
+请包含：操作系统、应用版本、你执行的操作、预期与实际，以及——若仓库状态相关——一个能复现仓库形态的最小脚本。切勿包含私有仓库内容。

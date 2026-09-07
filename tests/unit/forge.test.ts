@@ -457,7 +457,7 @@ describe('github validation errors', () => {
         draft: false,
       }),
     ).rejects.toMatchObject({
-      message: expect.stringContaining('the source branch does not exist on this remote'),
+      message: expect.stringContaining('源分支在此远端上不存在'),
     });
   });
 });

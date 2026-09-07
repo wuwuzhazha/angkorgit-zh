@@ -380,9 +380,9 @@ export function Toolbar({ onRefresh }: { onRefresh: () => Promise<void> }) {
     try {
       const outcome = await op();
       if (outcome && 'message' in outcome) {
-        toastOutcome(outcome, `${label} complete`);
+        toastOutcome(outcome, `${label} 完成`);
       } else {
-        toast.success(`${label} complete`);
+        toast.success(`${label} 完成`);
       }
       await onRefresh();
     } catch (error) {

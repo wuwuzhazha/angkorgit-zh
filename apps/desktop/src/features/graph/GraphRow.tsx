@@ -305,7 +305,7 @@ function RefCell({
                 ? group.detachedHead
                   ? 'HEAD 游离在该提交处'
                   : group.label
-                : `${group.label}${group.local ? ' · local' : ''}${group.remote ? ' · origin' : ''}${worktree ? ` · in worktree ${worktree}` : ''} — ${worktree ? 'double-click to switch to that worktree' : 'double-click to checkout'}, right-click for actions`
+                : `${group.label}${group.local ? ' · 本地' : ''}${group.remote ? ' · 远端' : ''}${worktree ? ` · in worktree ${worktree}` : ''} — ${worktree ? '双击切换到该工作树' : '双击检出'}, right-click for actions`
             }
             onDoubleClick={(e) => {
               if (group.tag || group.detachedHead) return;
@@ -416,7 +416,7 @@ export const CommitRow = memo(function CommitRow({
         <>
           {isMergeCommit && <GitMerge className="size-3.5 shrink-0 text-faint" />}
           <span className={cn('min-w-0 flex-1 truncate', isMergeCommit && !selected && 'text-muted')}>
-            {commit.summary || <span className="text-faint">(no message)</span>}
+            {commit.summary || <span className="text-faint">（无消息）</span>}
           </span>
         </>
       ) : null}

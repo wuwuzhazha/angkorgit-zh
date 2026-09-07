@@ -50,7 +50,7 @@ export function Inspector() {
         .catch((error) => {
           if (cancelled) return;
           const message = String((error as { message?: string }).message ?? error);
-          toast.error(`Could not load commit: ${message}`);
+          toast.error(`无法加载提交：${message}`);
           setCommitError(message);
         });
     }

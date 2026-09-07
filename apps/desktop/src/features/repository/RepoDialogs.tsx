@@ -108,14 +108,14 @@ export function RepoDialogs({ onDone }: { onDone: () => Promise<void> }) {
           label:
             oids.length === 1
               ? `Cherry-pick ${oids[0].slice(0, 8)}`
-              : `Cherry-pick ${oids.length} commits`,
+              : `拣选 ${oids.length} 个提交`,
           action: () =>
             oids.length === 1
               ? ipc.cherryPick(path, oids[0], cherryPickRecordOrigin)
               : ipc.cherryPickMany(path, oids, cherryPickRecordOrigin),
           shouldRecord: (r) => (r as OpOutcome | undefined)?.status === 'ok',
         })) as OpOutcome | undefined;
-        toastOutcome(outcome, 'Cherry-pick done');
+        toastOutcome(outcome, '拣选完成');
         closeDialog();
         await onDone();
       } catch (error) {

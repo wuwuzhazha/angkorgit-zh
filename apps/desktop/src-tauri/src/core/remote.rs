@@ -175,7 +175,7 @@ pub fn ssh_key_generate(base: &str, comment: &str) -> AppResult<GeneratedKey> {
         .args(["-t", "ed25519", "-N", "", "-C", comment, "-f"])
         .arg(&private)
         .output()
-        .map_err(|e| AppError::other(format!("could not run ssh-keygen: {e}")))?;
+        .map_err(|e| AppError::other(format!("无法运行 ssh-keygen：{e}")))?;
     if !output.status.success() {
         return Err(AppError::other(format!(
             "ssh-keygen 失败：{}",
@@ -286,8 +286,8 @@ fn refused_account_hint(offered: &Mutex<Option<(String, String)>>) -> String {
     };
     let _ = super::accounts::mark_unverified(&host, &username);
     format!(
-        " The connected {host} account '{username}' was refused — its token may have expired \
-         or been revoked. Reconnect it in Settings → Authentication."
+        " 已关联的 {host} 账户“{username}”被拒绝——其令牌可能已过期 \
+         或已被吊销。请在“设置 → 身份验证”中重新连接。"
     )
 }
 
@@ -301,7 +301,7 @@ pub(crate) fn make_callbacks<'a>() -> RemoteCallbacks<'a> {
         if attempt > 6 {
             return Err(git2::Error::from_str(&format!(
                 "{url} 的身份验证被拒绝——服务器拒绝了凭据 \
-                 offered by your SSH agent / git credential helper.{}",
+                 由你的 SSH 代理 / git 凭据助手提供。{}",
                 refused_account_hint(&offered_account)
             )));
         }
@@ -556,29 +556,29 @@ pub fn pull_branch(path: &str, branch_name: &str) -> AppResult<OpOutcome> {
     if local_oid == upstream_oid {
         return Ok(OpOutcome {
             status: "up_to_date".into(),
-            message: format!("{branch_name} is already up to date"),
+            message: format!("{branch_name} 已是最新"),
         });
     }
     let (ahead, behind) = repo.graph_ahead_behind(local_oid, upstream_oid)?;
     if behind == 0 {
         return Ok(OpOutcome {
             status: "up_to_date".into(),
-            message: format!("{branch_name} is ahead of {upstream_name} — nothing to pull"),
+            message: format!("{branch_name} 领先 {upstream_name}——无需拉取"),
         });
     }
     if ahead > 0 {
         return Err(AppError::other(format!(
-            "{branch_name} has diverged from {upstream_name} — check it out to merge"
+            "{branch_name} 与 {upstream_name} 已分叉——请将其检出以合并"
         )));
     }
     let mut reference = repo.find_reference(&format!("refs/heads/{branch_name}"))?;
     reference.set_target(
         upstream_oid,
-        &format!("pull: fast-forward to {upstream_name}"),
+        &format!("拉取：快进到 {upstream_name}"),
     )?;
     Ok(OpOutcome {
         status: "fast_forward".into(),
-        message: format!("Fast-forwarded {branch_name} to {upstream_name}"),
+        message: format!("已将 {branch_name} 快进到 {upstream_name}"),
     })
 }
 
@@ -647,8 +647,8 @@ fn point_branch_and_checkout(
     {
         if current != target && !repo.graph_descendant_of(target, current)? {
             return Err(AppError::other(format!(
-                "local branch {local_branch} has commits that are not on the pull request — \
-                 delete or rename it first"
+                "本地分支 {local_branch} 有不在该拉取请求上的提交—— \
+                 请先将其删除或重命名"
             )));
         }
     }

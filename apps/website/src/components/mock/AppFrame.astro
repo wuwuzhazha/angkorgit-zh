@@ -40,10 +40,10 @@ const { dim = false, highlightRow } = Astro.props;
       <span class="ml-4 flex h-8 w-8 items-center justify-center text-faint" set:html={icon('undo')} />
       <span class="flex h-8 w-8 items-center justify-center text-faint" set:html={icon('redo')} />
       <span class="mx-2 h-5 w-px bg-border-subtle"></span>
-      <span class="flex h-8 items-center gap-2 rounded-md px-2.5 text-[13px] text-foreground"><span set:html={icon('refresh')} /> Fetch</span>
-      <span class="flex h-8 items-center gap-2 rounded-md px-2.5 text-[13px] text-foreground"><span set:html={icon('down')} /> Pull</span>
+      <span class="flex h-8 items-center gap-2 rounded-md px-2.5 text-[13px] text-foreground"><span set:html={icon('refresh')} /> 获取</span>
+      <span class="flex h-8 items-center gap-2 rounded-md px-2.5 text-[13px] text-foreground"><span set:html={icon('down')} /> 拉取</span>
       <span class="flex h-8 items-center gap-2 rounded-md px-2.5 text-[13px] text-foreground">
-        <span set:html={icon('up')} /> Push
+        <span set:html={icon('up')} /> 推送
         <span class="flex h-5 min-w-5 items-center justify-center rounded-full bg-primary/20 px-1.5 font-mono text-[11px] text-primary">2</span>
       </span>
       <span class="flex h-8 w-6 items-center justify-center" set:html={icon('chevronDown', 'h-3.5 w-3.5')} />

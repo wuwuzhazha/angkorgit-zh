@@ -1376,7 +1376,7 @@ fn pr_checkout_refuses_a_diverged_local_branch() {
 
     let err = core::checkout_remote_ref(local.path(), "origin", "refs/pull/1/head", "pr/1", false)
         .unwrap_err();
-    assert!(err.to_string().contains("delete or rename"));
+    assert!(err.to_string().contains("删除或重命名"));
     let head = Command::new("git")
         .args(["rev-parse", "HEAD"])
         .current_dir(&local.dir)
@@ -1445,7 +1445,7 @@ fn pr_checkout_tracks_the_source_branch_for_same_repo_pull_requests() {
         true,
     )
     .unwrap_err();
-    assert!(err.to_string().contains("delete or rename"));
+    assert!(err.to_string().contains("删除或重命名"));
     assert_eq!(local.read("pr.txt"), "two\n");
 }
 

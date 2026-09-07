@@ -167,21 +167,21 @@ export const useUndo = create<UndoState>((set, get) => ({
     try {
       if (HEAD_KINDS.has(entry.kind) && !(await headMatches(path, entry.after))) {
         pop();
-        toast.warning(`Can't undo "${entry.label}" — the repository has changed since`);
+        toast.warning(`无法撤销“${entry.label}”——仓库此后已发生变化`);
         return false;
       }
       if (entry.kind === 'branchCreate') {
         const expected = entry.extra.oid || entry.before.headOid;
         if (!(await branchTipMatches(path, entry.extra.branch, expected))) {
           pop();
-          toast.warning(`Can't undo "${entry.label}" — the branch has moved since`);
+          toast.warning(`无法撤销“${entry.label}”——分支此后已移动`);
           return false;
         }
       }
       await applyTransition(entry, entry.after, entry.before, 'undo');
       pop();
       set((s) => ({ redoStack: [...s.redoStack, entry] }));
-      toast.success(`Undid: ${entry.label}`);
+      toast.success(`已撤销：${entry.label}`);
       return true;
     } catch (error) {
       toast.error(`Undo failed: ${(error as { message?: string }).message ?? error}`);
@@ -198,20 +198,20 @@ export const useUndo = create<UndoState>((set, get) => ({
     try {
       if (HEAD_KINDS.has(entry.kind) && !(await headMatches(path, entry.before))) {
         pop();
-        toast.warning(`Can't redo "${entry.label}" — the repository has changed since`);
+        toast.warning(`无法重做“${entry.label}”——仓库此后已发生变化`);
         return false;
       }
       if (entry.kind === 'branchDelete') {
         if (!(await branchTipMatches(path, entry.extra.branch, entry.extra.oid || null))) {
           pop();
-          toast.warning(`Can't redo "${entry.label}" — the branch has moved since`);
+          toast.warning(`无法重做“${entry.label}”——分支此后已移动`);
           return false;
         }
       }
       await applyTransition(entry, entry.before, entry.after, 'redo');
       pop();
       set((s) => ({ undoStack: [...s.undoStack, entry] }));
-      toast.success(`Redid: ${entry.label}`);
+      toast.success(`已重做：${entry.label}`);
       return true;
     } catch (error) {
       toast.error(`Redo failed: ${(error as { message?: string }).message ?? error}`);

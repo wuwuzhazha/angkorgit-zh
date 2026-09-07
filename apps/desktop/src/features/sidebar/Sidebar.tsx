@@ -323,7 +323,7 @@ export function Sidebar() {
   const removeWorktree = async (wt: WorktreeInfo) => {
     if (wt.isMain) return;
     if (wt.isMissing) {
-      await act(`Forget ${wt.name}`, () => ipc.worktreeRemove(path, wt.name, false));
+      await act(`忘记 ${wt.name}`, () => ipc.worktreeRemove(path, wt.name, false));
       return;
     }
     const dirty = worktreeDirty(wt);
@@ -332,7 +332,7 @@ export function Sidebar() {
       title: `移除工作树 "${wt.name}"?`,
       description: dirty
         ? `此文件夹有未提交的更改。移除它将删除该文件夹及其中的所有内容。${branchNote}`
-        : `The folder is deleted.${branchNote}`,
+        : `此文件夹已删除。${branchNote}`,
       path: wt.path,
       confirmLabel: dirty ? '删除更改并移除' : '移除工作树',
       destructive: true,
@@ -354,7 +354,7 @@ export function Sidebar() {
     killTerminalSession(wt.path);
     try {
       await ipc.worktreeRemove(main.path, wt.name, dirty);
-      toast.success(`Removed worktree ${wt.name}`);
+      toast.success(`已移除工作树 ${wt.name}`);
       await useRepo.getState().refresh();
       await graphReload(main.path);
     } catch (error) {
@@ -370,11 +370,11 @@ export function Sidebar() {
         await useUndo.getState().tracked({
           path,
           kind: 'checkout',
-          label: `Checkout ${target}`,
+          label: `检出 ${target}`,
           action: () => ipc.checkout(path, target),
         });
       }
-      await act(`Merge ${source} into ${target}`, () => ipc.merge(path, source, noFf), { kind: 'merge' });
+      await act(`将 ${source} 合并到 ${target}`, () => ipc.merge(path, source, noFf), { kind: 'merge' });
     } catch (error) {
       toast.error(`Merge failed: ${(error as { message?: string }).message ?? error}`);
     }
@@ -388,11 +388,11 @@ export function Sidebar() {
         await useUndo.getState().tracked({
           path,
           kind: 'checkout',
-          label: `Checkout ${source}`,
+          label: `检出 ${source}`,
           action: () => ipc.checkout(path, source),
         });
       }
-      await act(`Rebase ${source} onto ${target}`, () => ipc.rebase(path, target), { kind: 'rebase' });
+      await act(`将 ${source} 变基到 ${target}`, () => ipc.rebase(path, target), { kind: 'rebase' });
     } catch (error) {
       toast.error(`Rebase failed: ${(error as { message?: string }).message ?? error}`);
     }
@@ -418,7 +418,7 @@ export function Sidebar() {
       return;
     }
     void act(
-      `Checkout #${pr.number}`,
+      `检出 #${pr.number}`,
       () =>
         ipc.prCheckout(path, forgeRemoteName ?? 'origin', spec.sourceRef, spec.localBranch, spec.track),
       { kind: 'checkout' },
@@ -469,7 +469,7 @@ export function Sidebar() {
     const edit = editRemote;
     if (!edit || !edit.name.trim() || !edit.url.trim() || savingRemote) return;
     setSavingRemote(true);
-    await act(`Update remote ${edit.original}`, () => ipc.remoteEdit(path, edit.original, edit.name, edit.url));
+    await act(`更新远端 ${edit.original}`, () => ipc.remoteEdit(path, edit.original, edit.name, edit.url));
     setSavingRemote(false);
     setEditRemote(null);
   };
@@ -549,10 +549,10 @@ export function Sidebar() {
         )}
         title={
           wt.isMissing
-            ? `${wt.path} — this folder no longer exists`
+            ? `${wt.path} — 此文件夹已不存在`
             : wt.isCurrent
-              ? `${wt.path} — open in this tab`
-              : `${wt.path} — click to switch to this worktree`
+              ? `${wt.path} — 在此标签页中打开`
+              : `${wt.path} — 点击切换到该工作树`
         }
       >
         <HeadMark active={wt.isCurrent} />
@@ -573,7 +573,7 @@ export function Sidebar() {
           variant="ghost"
           size="icon-sm"
           className="shrink-0 opacity-0 focus-visible:opacity-100 group-hover:opacity-100"
-          aria-label={`${wt.name} actions`}
+          aria-label={`工作树 ${wt.name} 的操作`}
           onClick={(e) => {
             e.stopPropagation();
             const rect = e.currentTarget.getBoundingClientRect();
@@ -645,13 +645,13 @@ export function Sidebar() {
         onDoubleClick={() => {
           const held = heldBy.get(branch.name);
           if (held) openWorktree(held);
-          else void act(`Checkout ${branch.name}`, () => ipc.checkout(path, branch.name), { kind: 'checkout' });
+          else void act(`检出 ${branch.name}`, () => ipc.checkout(path, branch.name), { kind: 'checkout' });
         }}
         onClick={() => setFilters(path, { branch: filters.branch === branch.name ? '' : branch.name })}
         title={
           heldBy.has(branch.name)
             ? `${branch.name} — checked out in worktree ${heldBy.get(branch.name)?.name}; double-click to switch there`
-            : `${branch.name} — click to filter graph, double-click to checkout`
+            : `${branch.name} — 点击筛选提交图，双击检出`
         }
       >
         <HeadMark active={branch.isHead} />
@@ -669,7 +669,7 @@ export function Sidebar() {
         variant="ghost"
         size="icon-sm"
         className="shrink-0 opacity-0 focus-visible:opacity-100 group-hover:opacity-100"
-        aria-label={`${branch.name} actions`}
+        aria-label={`分支 ${branch.name} 的操作`}
         onClick={(e) => {
           e.stopPropagation();
           const rect = e.currentTarget.getBoundingClientRect();
@@ -703,12 +703,12 @@ export function Sidebar() {
         'group flex cursor-grab items-center gap-2 rounded-md px-2 py-1 text-sm text-muted hover:bg-surface-raised active:cursor-grabbing',
         dragging === branch.name && 'opacity-40',
       )}
-      title={`${branch.name} — drag onto a local branch to merge or rebase`}
+      title={`${branch.name} — 拖到本地分支上进行合并或变基`}
     >
       <button
         className="flex min-w-0 flex-1 items-center gap-2 text-left"
-        onDoubleClick={() => void act(`Checkout ${branch.name}`, () => ipc.checkout(path, branch.name), { kind: 'checkout' })}
-        title={`${branch.name} — double-click to checkout`}
+        onDoubleClick={() => void act(`检出 ${branch.name}`, () => ipc.checkout(path, branch.name), { kind: 'checkout' })}
+        title={`${branch.name} — 双击检出`}
       >
         <HeadMark active={false} />
         <span className="min-w-0 truncate">{label}</span>
@@ -717,7 +717,7 @@ export function Sidebar() {
         variant="ghost"
         size="icon-sm"
         className="shrink-0 opacity-0 focus-visible:opacity-100 group-hover:opacity-100"
-        aria-label={`${branch.name} actions`}
+        aria-label={`分支 ${branch.name} 的操作`}
         onClick={(e) => {
           e.stopPropagation();
           const rect = e.currentTarget.getBoundingClientRect();
@@ -775,7 +775,7 @@ export function Sidebar() {
                 variant="ghost"
                 size="icon-sm"
                 className="mr-0.5 shrink-0 opacity-0 focus-visible:opacity-100 group-hover:opacity-100"
-                aria-label={`Remote ${remote.name} actions`}
+                aria-label={`远端 ${remote.name} 的操作`}
                 onClick={(e) => {
                   e.stopPropagation();
                   const rect = e.currentTarget.getBoundingClientRect();
@@ -814,7 +814,7 @@ export function Sidebar() {
         variant="ghost"
         size="icon-sm"
         className="mr-0.5 shrink-0 opacity-0 focus-visible:opacity-100 group-hover:opacity-100"
-        aria-label={`Remote ${remote.name} actions`}
+        aria-label={`远端 ${remote.name} 的操作`}
         onClick={(e) => {
           e.stopPropagation();
           const rect = e.currentTarget.getBoundingClientRect();
@@ -1007,7 +1007,7 @@ export function Sidebar() {
               <div
                 key={pr.number}
                 className="group flex items-center gap-2 rounded-md px-2 py-1 pl-7 text-sm hover:bg-surface-raised"
-                title={`#${pr.number} ${pr.title} — ${pr.author} wants to merge ${pr.sourceBranch} into ${pr.targetBranch}. Double-click to check out, right-click for actions.`}
+                title={`#${pr.number} ${pr.title} — ${pr.author} 想要将 ${pr.sourceBranch} 合并到 ${pr.targetBranch}。双击检出，右键查看更多操作。`}
                 onDoubleClick={() => checkoutPullRequest(pr)}
                 onContextMenu={(e) => {
                   e.preventDefault();
@@ -1017,12 +1017,12 @@ export function Sidebar() {
                 <span className="min-w-0 flex-1 truncate">
                   <span className="text-faint">#{pr.number}</span> {pr.title}
                 </span>
-                {pr.isDraft && <Badge>Draft</Badge>}
+                {pr.is草稿 && <Badge>草稿</Badge>}
                 <Button
                   variant="ghost"
                   size="icon-sm"
                   className="shrink-0 opacity-0 focus-visible:opacity-100 group-hover:opacity-100"
-                  aria-label={`Pull request #${pr.number} actions`}
+                  aria-label={`拉取请求 #${pr.number} 的操作`}
                   onClick={(e) => {
                     e.stopPropagation();
                     const rect = e.currentTarget.getBoundingClientRect();
@@ -1104,7 +1104,7 @@ export function Sidebar() {
                 variant="ghost"
                 size="icon-sm"
                 className="shrink-0 opacity-0 focus-visible:opacity-100 group-hover:opacity-100"
-                aria-label={`${tag.name} actions`}
+                aria-label={`标签 ${tag.name} 的操作`}
                 onClick={(e) => {
                   e.stopPropagation();
                   const rect = e.currentTarget.getBoundingClientRect();
@@ -1193,7 +1193,7 @@ export function Sidebar() {
                   variant="ghost"
                   size="icon-sm"
                   className="shrink-0 opacity-0 focus-visible:opacity-100 group-hover:opacity-100"
-                  aria-label={`${sub.name} actions`}
+                  aria-label={`子模块 ${sub.name} 的操作`}
                   onClick={(e) => {
                     e.stopPropagation();
                     const rect = e.currentTarget.getBoundingClientRect();
@@ -1223,7 +1223,7 @@ export function Sidebar() {
             <DropdownMenuItem
               onClick={() => {
                 const sub = subMenu.sub;
-                void act(`Update ${sub.name}`, () => ipc.submoduleUpdate(path, sub.name));
+                void act(`更新 ${sub.name}`, () => ipc.submoduleUpdate(path, sub.name));
               }}
             >
               <ListRestart /> Update (checkout recorded commit)
@@ -1278,7 +1278,7 @@ export function Sidebar() {
             <DropdownMenuItem
               onClick={() => {
                 const tag = tagMenu.tag;
-                void act(`Checkout ${tag.name}`, () => ipc.checkoutDetached(path, tag.name), { kind: 'checkout' });
+                void act(`检出 ${tag.name}`, () => ipc.checkoutDetached(path, tag.name), { kind: 'checkout' });
               }}
             >
               <Check /> Checkout (detached)
@@ -1286,7 +1286,7 @@ export function Sidebar() {
             <DropdownMenuItem
               onClick={() => {
                 const tag = tagMenu.tag;
-                void act(`Push tag ${tag.name}`, () => ipc.pushTag(path, remotes[0]?.name ?? 'origin', tag.name));
+                void act(`推送标签 ${tag.name}`, () => ipc.pushTag(path, remotes[0]?.name ?? 'origin', tag.name));
               }}
             >
               <Cloud /> Push to remote
@@ -1296,7 +1296,7 @@ export function Sidebar() {
               destructive
               onClick={() => {
                 const tag = tagMenu.tag;
-                void act(`Delete tag ${tag.name}`, () => ipc.tagDelete(path, tag.name));
+                void act(`删除标签 ${tag.name}`, () => ipc.tagDelete(path, tag.name));
               }}
             >
               <Trash2 /> Delete
@@ -1399,7 +1399,7 @@ export function Sidebar() {
             <DropdownMenuItem
               onClick={() => {
                 const r = remoteMenu.remote;
-                void act(`Fetch ${r.name}`, () => ipc.fetch(path, r.name, true, true));
+                void act(`获取 ${r.name}`, () => ipc.fetch(path, r.name, true, true));
               }}
             >
               <ArrowDownToLine /> Fetch {remoteMenu.remote.name}
@@ -1424,7 +1424,7 @@ export function Sidebar() {
                   confirmLabel: '移除远端',
                   destructive: true,
                 }).then((ok) => {
-                  if (ok) void act(`Remove ${r.name}`, () => ipc.remoteRemove(path, r.name));
+                  if (ok) void act(`移除 ${r.name}`, () => ipc.remoteRemove(path, r.name));
                 });
               }}
             >
@@ -1495,7 +1495,7 @@ export function Sidebar() {
               <DropdownMenuItem
                 disabled={branchMenu.branch.isHead}
                 onClick={() =>
-                  void act(`Checkout ${branchMenu.branch.name}`, () => ipc.checkout(path, branchMenu.branch.name), {
+                  void act(`检出 ${branchMenu.branch.name}`, () => ipc.checkout(path, branchMenu.branch.name), {
                     kind: 'checkout',
                   })
                 }
@@ -1511,7 +1511,7 @@ export function Sidebar() {
             <DropdownMenuItem
               disabled={branchMenu.branch.isHead}
               onClick={() =>
-                void act(`Merge ${branchMenu.branch.name}`, () => ipc.merge(path, branchMenu.branch.name, true), {
+                void act(`合并 ${branchMenu.branch.name}`, () => ipc.merge(path, branchMenu.branch.name, true), {
                   kind: 'merge',
                 })
               }
@@ -1522,7 +1522,7 @@ export function Sidebar() {
               <DropdownMenuItem
                 disabled={branchMenu.branch.isHead}
                 onClick={() =>
-                  void act(`Rebase onto ${branchMenu.branch.name}`, () => ipc.rebase(path, branchMenu.branch.name), {
+                  void act(`变基到 ${branchMenu.branch.name}`, () => ipc.rebase(path, branchMenu.branch.name), {
                     kind: 'rebase',
                   })
                 }
@@ -1536,7 +1536,7 @@ export function Sidebar() {
                 <DropdownMenuItem
                   disabled={!branchMenu.branch.upstream}
                   onClick={() =>
-                    void act(`Pull ${branchMenu.branch.name}`, () => ipc.pullBranch(path, branchMenu.branch.name))
+                    void act(`拉取 ${branchMenu.branch.name}`, () => ipc.pullBranch(path, branchMenu.branch.name))
                   }
                 >
                   <ArrowDownToLine /> Pull
@@ -1544,7 +1544,7 @@ export function Sidebar() {
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   onClick={() =>
-                    void act(`Push ${branchMenu.branch.name}`, () =>
+                    void act(`推送 ${branchMenu.branch.name}`, () =>
                       ipc.push(path, remotes[0]?.name ?? 'origin', false, false, true, branchMenu.branch.name),
                     )
                   }
@@ -1568,7 +1568,7 @@ export function Sidebar() {
                   disabled={branchMenu.branch.isHead}
                   onClick={() =>
                     void act(
-                      `Delete branch ${branchMenu.branch.name}`,
+                      `删除分支 ${branchMenu.branch.name}`,
                       () => ipc.deleteBranch(path, branchMenu.branch.name, false),
                       { kind: 'branchDelete', extra: { branch: branchMenu.branch.name, oid: branchMenu.branch.targetOid } },
                     )
@@ -1596,7 +1596,7 @@ export function Sidebar() {
             </DialogTitle>
             <DialogDescription>
               {dropAction && useRepo.getState().repo?.headBranch !== dropAction.target
-                ? `${dropAction.target} will be checked out first when merging.`
+                ? `合并时将先检出 ${dropAction.target}。`
                 : '选择要对这些分支执行的操作。'}
             </DialogDescription>
           </DialogHeader>
@@ -1644,7 +1644,7 @@ export function Sidebar() {
                     Rebase {dropAction.source} onto {dropAction.target}
                   </span>
                   <span className="text-[11px] font-normal text-muted">
-                    Replays {dropAction.source}'s commits on top of {dropAction.target} — rewrites history
+                    重放 {dropAction.source} 在 {dropAction.target} 之上的提交——这会重写历史
                   </span>
                 </span>
               </Button>

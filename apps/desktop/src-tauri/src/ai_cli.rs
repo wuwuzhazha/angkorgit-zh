@@ -287,7 +287,7 @@ fn temp_output_path() -> PathBuf {
 pub fn run(request: CliRunRequest) -> AppResult<CliRunResult> {
     if !is_supported(&request.program) {
         return Err(AppError::other(format!(
-            "{} is not a supported AI CLI",
+            "{} 不是受支持的 AI CLI",
             request.program
         )));
     }

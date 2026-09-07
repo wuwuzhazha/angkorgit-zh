@@ -82,7 +82,7 @@ export function RepoTabs() {
               role="tab"
               aria-selected={active}
               data-tab-path={path}
-              title={worktreeTabs.includes(path) ? `${path} (worktree)` : path}
+              title={worktreeTabs.includes(path) ? `${path}（工作树）` : path}
               draggable
               onDragStart={(e) => {
                 setDraggingTab(path);
@@ -124,7 +124,7 @@ export function RepoTabs() {
               {worktreeTabs.includes(path) && (
                 <FolderTree
                   className={cn('size-3 shrink-0', active ? 'text-primary' : 'text-faint')}
-                  aria-label="Worktree"
+                  aria-label="工作树"
                 />
               )}
               <span className="min-w-0 truncate">{label(path)}</span>

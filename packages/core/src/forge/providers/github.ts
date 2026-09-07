@@ -53,7 +53,7 @@ function githubErrorDetail(entry: GithubErrorEntry | string): string {
   const parts = [entry.resource, entry.field, entry.code].filter(Boolean).join(' ');
   if (!parts) return '';
   if (entry.field === 'head' && entry.code === 'invalid') {
-    return `${parts} — the source branch does not exist on this remote (is it pushed there?)`;
+    return `${parts} — 源分支在此远端上不存在（是否已推送？）`;
   }
   return parts;
 }

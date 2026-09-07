@@ -262,7 +262,7 @@ export function FileHistoryPanel({ file }: { file: string }) {
         <div ref={listScrollRef} className="w-72 shrink-0 overflow-y-auto border-r border-border-subtle bg-surface">
           {historyError ? (
             <div className="flex h-full flex-col items-center justify-center gap-3 px-4 text-center">
-              <p className="text-sm text-danger">Could not load file history: {historyError}</p>
+              <p className="text-sm text-danger">无法加载文件历史： {historyError}</p>
               <Button variant="ghost" size="sm" onClick={() => setHistoryAttempt((n) => n + 1)}>
                 重试
               </Button>

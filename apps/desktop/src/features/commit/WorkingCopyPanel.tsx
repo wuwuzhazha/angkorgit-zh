@@ -92,7 +92,7 @@ const FileRow = memo(function FileRow({
       >
         <Checkbox
           checked={staged}
-          aria-label={staged ? `Unstage ${file.path}` : `Stage ${file.path}`}
+          aria-label={staged ? `取消暂存 ${file.path}` : `暂存 ${file.path}`}
           onCheckedChange={() => onPrimary(file, staged)}
           onClick={(e) => e.stopPropagation()}
         />
@@ -107,7 +107,7 @@ const FileRow = memo(function FileRow({
           <Button
             variant="ghost"
             size="icon-sm"
-            aria-label={`Discard ${file.path}`}
+            aria-label={`丢弃 ${file.path}`}
             className="opacity-0 focus-visible:opacity-100 group-hover:opacity-100"
             onClick={(e) => {
               e.stopPropagation();
@@ -347,7 +347,7 @@ export function WorkingCopyPanel() {
           toast.error(
             useRepo.getState().submodules.some((s) => s.path === file)
               ? `"${file}" is a submodule — open it as its own repository to discard the changes inside it.`
-              : `Could not discard "${file}" — the change is still present.`,
+              : `无法丢弃“${file}”——更改仍然存在。`,
           );
         }
       } catch (error) {
@@ -480,7 +480,7 @@ export function WorkingCopyPanel() {
       }
       const projectInstructions = await ipc.readFile(target, PROJECT_REVIEW_FILE).catch((error) => {
         if (stillRunning() && (error as { code?: string } | null)?.code !== 'not_found') {
-          toast.warning(`Could not read ${PROJECT_REVIEW_FILE} — reviewing without project conventions`);
+          toast.warning(`无法读取 ${PROJECT_REVIEW_FILE}——将不按项目约定进行审查`);
         }
         return '';
       });
@@ -532,7 +532,7 @@ export function WorkingCopyPanel() {
         await useUndo.getState().tracked({
           path,
           kind: 'commit',
-          label: `commit "${summary}"`,
+          label: `提交“${summary}”`,
           action: () => ipc.commit(path, message.trim()),
         });
         toast.success('已提交');

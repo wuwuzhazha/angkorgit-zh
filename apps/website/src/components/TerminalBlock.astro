@@ -41,14 +41,14 @@ const { label, lines, copy } = Astro.props;
         type="button"
         data-copy
         data-copy-target={copy}
-        aria-label={`Copy ${label} install command`}
+        aria-label={`复制 ${label} 安装命令`}
         class="ml-1 inline-flex items-center gap-1.5 rounded-md border border-border px-2.5 py-1 font-mono text-xs text-muted transition-colors hover:bg-surface hover:text-foreground"
       >
         <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-copy-icon>
           <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
           <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
         </svg>
-        <span data-copy-label>Copy</span>
+        <span data-copy-label>复制</span>
       </button>
     </div>
   </div>
@@ -101,13 +101,13 @@ const { label, lines, copy } = Astro.props;
       }
 
       if (label && icon) {
-        label.textContent = 'Copied!';
+        label.textContent = '已复制！';
         icon.innerHTML =
           '<path d="M20 6 9 17l-5-5" />';
         button.classList.add('border-primary', 'text-primary');
 
         setTimeout(() => {
-          label.textContent = 'Copy';
+          label.textContent = '复制';
           icon.innerHTML =
             '<rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />';
           button.classList.remove('border-primary', 'text-primary');

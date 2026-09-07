@@ -185,7 +185,7 @@ pub fn merge(path: &str, branch: &str, no_ff: bool) -> AppResult<OpOutcome> {
         head_ref.set_target(target, &format!("fast-forward merge {branch}"))?;
         return Ok(OpOutcome {
             status: "fast_forward".into(),
-            message: format!("Fast-forwarded to {branch}"),
+            message: format!("已快进到 {branch}"),
         });
     }
 
@@ -339,7 +339,7 @@ pub fn rebase_commits(path: &str, base: &str) -> AppResult<Vec<CommitInfo>> {
             return Err(AppError::other("变基范围过大——请选择更近的基础提交"));
         }
         let parent = current.parent(0).map_err(|_| {
-            AppError::other("the selected base is not a first-parent ancestor of HEAD")
+            AppError::other("所选基础提交不是 HEAD 的第一父级祖先")
         })?;
         if parent.id() == base_oid {
             break;
@@ -485,7 +485,7 @@ pub fn cherry_pick(path: &str, oid: &str, record_origin: bool) -> AppResult<OpOu
     if index.has_conflicts() {
         return Ok(OpOutcome {
             status: "conflicts".into(),
-            message: "Cherry-pick has conflicts to resolve".into(),
+            message: "拣选存在待解决的冲突".into(),
         });
     }
 
@@ -510,13 +510,13 @@ pub fn cherry_pick(path: &str, oid: &str, record_origin: bool) -> AppResult<OpOu
     repo.cleanup_state()?;
     Ok(OpOutcome {
         status: "ok".into(),
-        message: format!("Cherry-picked {}", &oid[..8.min(oid.len())]),
+        message: format!("已拣选 {}", &oid[..8.min(oid.len())]),
     })
 }
 
 pub fn cherry_pick_many(path: &str, oids: &[String], record_origin: bool) -> AppResult<OpOutcome> {
     if oids.is_empty() {
-        return Err(AppError::other("no commits to cherry-pick"));
+        return Err(AppError::other("没有可拣选的提交"));
     }
     if oids.len() == 1 {
         return cherry_pick(path, &oids[0], record_origin);

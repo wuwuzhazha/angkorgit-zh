@@ -1,6 +1,6 @@
 # 架构
 
-AngKorGit follows Clean Architecture with feature-based folders. Dependencies point inward: UI → application state → domain; the Rust engine is behind a single typed IPC boundary.
+AngKorGit 遵循 Clean Architecture，按功能划分文件夹。依赖方向朝内：UI → 应用状态 → 领域；Rust 引擎位于单一类型化 IPC 边界之后。
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -29,38 +29,38 @@ AngKorGit follows Clean Architecture with feature-based folders. Dependencies po
 └─────────────────────────────────────────────────────────────┘
 ```
 
-## Key decisions
+## 关键决策
 
-**Tauri v2 + libgit2 (git2-rs).** A native Rust engine gives sub-millisecond status/diff operations and avoids shelling out to `git` for hot paths. `vendored-libgit2` keeps builds hermetic across macOS/Windows/Linux. Every command runs on a blocking thread (`spawn_blocking`) so the UI thread never waits on I/O.
+**Tauri v2 + libgit2（git2-rs）。** 原生 Rust 引擎让 status/diff 操作达到亚毫秒级，热路径不外调 `git`。`vendored-libgit2` 让构建在 macOS/Windows/Linux 上保持可复现。每个命令都在阻塞线程（`spawn_blocking`）上运行，UI 线程从不等待 I/O。
 
-**One typed IPC surface.** `src/core/ipc.ts` is the only place that calls `invoke`. It also ships a deterministic demo backend used when the app runs in a plain browser — this is what makes UI development and Playwright e2e possible without a native build.
+**单一类型化 IPC 界面。** `src/core/ipc.ts` 是唯一调用 `invoke` 的地方。它还内置一个确定性 demo 后端，在纯浏览器中运行时使用——这正是无需原生构建即可进行 UI 开发与 Playwright e2e 的原因。
 
-**Graph layout in the domain layer.** Lane assignment (`GraphLayout`) is pure TypeScript, incremental, and unit-tested. Feeding page N+1 never changes rows from page N, which keeps the virtualized list stable while history streams in. Rendering is a per-row SVG slice — O(visible rows), regardless of repository size.
+**领域层的提交图布局。** 泳道分配（`GraphLayout`）是纯 TypeScript、增量式且经过单元测试。喂入第 N+1 页不会改变第 N 页的行，因此历史流式加载时虚拟化列表保持稳定。渲染是逐行 SVG 切片——O(可见行数)，与仓库大小无关。
 
-**Performance strategy for 100k commits.**
-- History is paginated (200 commits per request) via libgit2 revwalk; filters run engine-side.
-- `@tanstack/react-virtual` renders only visible rows; rows are `memo`ized.
-- Ref decorations are computed once per page in Rust, not per row in JS.
-- Diffs load lazily per selected file/commit; images stream as base64 only when an image diff is opened.
+**10 万次提交的性能策略。**
+- 历史通过 libgit2 revwalk 分页（每请求 200 次提交）；过滤在引擎侧运行。
+- `@tanstack/react-virtual` 只渲染可见行；行已 `memo` 化。
+- 引用装饰在 Rust 中每页计算一次，而不是在 JS 中逐行计算。
+- diff 按所选文件/提交懒加载；只有打开图片 diff 时才以 base64 流式传输图片。
 
-**Conflict resolution as data.** Conflicted files are parsed into text/conflict blocks (`parseConflicts`), the resolver mutates block resolutions, and `serializeResolution` writes the result. Unresolved blocks re-emit their markers, so a half-finished session never destroys data.
+**冲突解决即数据。** 冲突文件被解析为文本/冲突块（`parseConflicts`），解决器修改块的解决方案，`serializeResolution` 写出结果。未解决的块会重新输出其标记，因此半途而废的会话绝不会破坏数据。
 
-**AI is an adapter registry.** Features call capabilities (`generateCommitMessage`, `explainConflict`, …) against the `AiProvider` interface. API providers (OpenAI, Anthropic, Gemini, Ollama, LM Studio) are created from config; HTTP goes through an injected transport implemented by a Rust proxy (no CORS, keys stay out of webview fetch). The `cli` provider is different: it runs an AI CLI already installed on the machine (Claude Code, Codex, Gemini CLI, OpenCode) as an allowlisted local subprocess via `ai_cli.rs` — the user's own login and quota, no API key. Adding an API provider touches one file; adding a CLI agent touches `cliAgents.ts` plus the `ai_cli.rs` allowlist.
+**AI 是一个适配器注册表。** 功能通过 `AiProvider` 接口调用能力（`generateCommitMessage`、`explainConflict`、…）。API 提供方（OpenAI、Anthropic、Gemini、Ollama、LM Studio）由配置创建；HTTP 经注入的传输层实现，该传输层由 Rust 代理实现（无 CORS，密钥不进入 webview fetch）。`cli` 提供方不同：它运行机器上已安装的 AI CLI（Claude Code、Codex、Gemini CLI、OpenCode），作为白名单本地子进程经 `ai_cli.rs` 运行——用用户自己的登录与配额，无需 API 密钥。新增 API 提供方只需动一个文件；新增 CLI 代理需要动 `cliAgents.ts` 和 `ai_cli.rs` 白名单。
 
 **Credentials are layered, host-scoped, and never global.** App-managed accounts (tokens in the OS keyring under AngKorGit's own service, matched to remotes by host) come first, then SSH agent/keys, then the system `git 凭据` stack — so a GitLab token is never offered to GitHub. The same philosophy applies to committer identity: profiles apply to a repository's local config only, never the shared global gitconfig other tools fight over.
 
-**Undo/redo as recorded transitions.** Every mutating operation runs through a `tracked()` wrapper that snapshots HEAD before/after. Undo applies the inverse (soft reset for commits, ref restore for branch deletion, …) and validates the repository hasn't moved since — corrupting-the-repo is structurally prevented, and hard-reset-style undos refuse to run over uncommitted work.
+**撤销/重做即记录状态变迁。** 每个变更操作都经 `tracked()` 包装，记录 HEAD 前后快照。撤销应用逆操作（提交用软重置、分支删除用引用恢复、…），并校验仓库在此期间没有变动——破坏仓库在结构上被阻止，硬重置式撤销拒绝在未提交的工作之上运行。
 
-**Live updates via a debounced watcher.** A `notify`-based filesystem watcher (400 ms debounce, `.git` noise filtered down to HEAD/refs/index movements) emits a single `repo-changed` event; the frontend refreshes status — or everything, when HEAD moved externally. Editing in an IDE or committing from a terminal reflects in the UI within half a second.
+**防抖监视器的实时更新。** 基于 `notify` 的文件系统监视器（400 ms 防抖，`.git` 噪音过滤到仅 HEAD/refs/index 变动）发出单个 `repo-changed` 事件；前端刷新状态——若 HEAD 在外部移动则刷新一切。在 IDE 中编辑或从终端提交，半秒内即反映到 UI。
 
-**Verified destructive operations.** Discard (file or all) re-checks status afterwards and reports what could *not* be discarded, so cases libgit2 silently skips (submodule pointer changes) surface as actionable messages instead of silent no-ops.
+**可核验的破坏性操作。** 丢弃（文件或全部）之后会重新检查状态，并报告无法丢弃的内容，因此 libgit2 静默跳过的情形（子模块指针变化）会以可操作的提示呈现，而不是静默无操作。
 
-## Extension points (future features)
+## 扩展点（未来功能）
 
-- **Plugins** — the command palette, sidebar sections and inspector tabs are list-driven; a plugin host can contribute entries without touching feature internals. The IPC layer is a single object that can be wrapped/instrumented.
-- **Forge integrations (GitHub/GitLab/Azure/Bitbucket)** — planned as `packages/forge` with one adapter per provider mirroring the AI registry pattern; PR/issue viewers become new `features/*` folders.
-- **Worktrees** — the engine already opens repositories by path; a worktree list command and a repo-switcher entry are the only additions needed.
+- **插件** ——命令面板、侧边栏分区与检查器标签页都是列表驱动；插件宿主可以贡献条目而无需触碰功能内部。IPC 层是单个对象，可被包装/插桩。
+- **Forge 集成（GitHub/GitLab/Azure/Bitbucket）** ——计划为 `packages/forge`，每个提供方一个适配器，镜像 AI 注册表模式；PR/issue 查看器成为新的 `features/*` 文件夹。
+- **工作树** ——引擎已经按路径打开仓库；只需新增工作树列表命令和仓库切换器入口。
 
-## Error handling
+## 错误处理
 
-Rust errors serialize as `{ code, message }` (`AppError`). Codes (`conflict`, `auth`, `non_fast_forward`, …) let the UI offer recovery actions instead of raw library messages. Toasts surface every failed operation; conflict outcomes are warnings, not errors.
+Rust 错误序列化为 `{ code, message }`（`AppError`）。错误码（`conflict`、`auth`、`non_fast_forward`、…）让 UI 提供恢复操作而不是原始库消息。toast 呈现每个失败操作；冲突结果是警告，不是错误。

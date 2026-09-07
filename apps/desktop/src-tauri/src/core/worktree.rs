@@ -234,7 +234,7 @@ pub fn add(path: &str, request: &WorktreeAddRequest) -> AppResult<String> {
     }
     if target.exists() {
         return Err(AppError::other(format!(
-            "{} already exists — pick a folder that does not exist yet",
+            "{} 已存在——请选择尚不存在的文件夹",
             clean_string(&target)
         )));
     }

@@ -44,7 +44,7 @@ const result = [...a.map((l) => ({ ...l, side: false })), { n: 4, code: aBlock[0
             {a.map((l) => (
               <div class="flex h-[26px] items-center gap-3 text-muted"><span class="w-9 shrink-0"></span><span class="w-6 text-right text-faint">{l.n}</span><span class="whitespace-pre">{l.code}</span></div>
             ))}
-            <div class="flex h-[26px] items-center border-y border-primary/30 bg-surface-raised/50 px-3 font-sans text-[11px] uppercase tracking-[0.12em] text-faint">Conflict 1 {pane.tone === 'success' && <span class="ml-auto text-primary" set:html={icon('sparkles', 'h-3.5 w-3.5')} />}</div>
+            <div class="flex h-[26px] items-center border-y border-primary/30 bg-surface-raised/50 px-3 font-sans text-[11px] uppercase tracking-[0.12em] text-faint">冲突 1 {pane.tone === 'success' && <span class="ml-auto text-primary" set:html={icon('sparkles', 'h-3.5 w-3.5')} />}</div>
             {pane.block.map((code, i) => (
               <div class:list={['flex h-[26px] items-center gap-3 border-l-2 text-foreground', pane.tone === 'info' ? 'border-info' : 'border-success', pane.picked && 'bg-info/10']}>
                 <span class="flex w-9 shrink-0 items-center justify-center">
@@ -68,10 +68,10 @@ const result = [...a.map((l) => ({ ...l, side: false })), { n: 4, code: aBlock[0
 
     <div class="flex min-h-0 flex-1 flex-col border-t border-border-subtle">
       <div class="flex h-10 shrink-0 items-center gap-3 border-b border-border-subtle px-3">
-        <span class="text-[11px] font-semibold uppercase tracking-[0.12em] text-foreground">Result</span>
-        <span class="flex h-6 items-center gap-2 rounded-md border border-border px-2 text-[12px] text-muted"><span set:html={icon('chevronDown', 'h-3 w-3 rotate-180')} /> Conflict 1 of 1 <span set:html={icon('chevronDown', 'h-3 w-3')} /></span>
+        <span class="text-[11px] font-semibold uppercase tracking-[0.12em] text-foreground">结果</span>
+        <span class="flex h-6 items-center gap-2 rounded-md border border-border px-2 text-[12px] text-muted"><span set:html={icon('chevronDown', 'h-3 w-3 rotate-180')} /> 冲突 1 / 1 <span set:html={icon('chevronDown', 'h-3 w-3')} /></span>
         <span class="text-[12px] text-faint">可以标记已解决——点击任意结果进行编辑</span>
-        <span class="ml-auto flex items-center gap-4 text-muted"><span set:html={icon('pencil', 'h-4 w-4')} /><span class="text-[13px]">Reset</span></span>
+        <span class="ml-auto flex items-center gap-4 text-muted"><span set:html={icon('pencil', 'h-4 w-4')} /><span class="text-[13px]">重置</span></span>
       </div>
       <div class="py-1 font-mono text-[12.5px]">
         {
