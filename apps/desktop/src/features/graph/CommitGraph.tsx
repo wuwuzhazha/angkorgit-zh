@@ -574,7 +574,7 @@ export function CommitGraph() {
                 <DropdownMenuItem
                   onClick={() => void act('应用暂存', () => ipc.stashApply(path, stashIndexOf(refMenu.ref)))}
                 >
-                  <Archive /> 应用暂存 (keep it)
+                  <Archive /> 应用暂存（保留）
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   onClick={() => void act('弹出暂存', () => ipc.stashPop(path, stashIndexOf(refMenu.ref)))}
