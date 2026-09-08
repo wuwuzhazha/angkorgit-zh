@@ -199,3 +199,6 @@ ui	未提交的更改 are discarded and cannot be recovered.	未提交的更改�
 ui	This branch is not checked out. It is checked out first, then hard reset to 	此分支当前未检出。将先检出它，再硬重置到
 # ---- t20 补录：应用暂存 (keep it) 混杂尾段 ----
 ui	应用暂存 (keep it)	应用暂存（保留）
+# ---- t23 F8 修复：stash 节点 title 三元 + Inspector 面板头三元（裸词词条 anchor 不覆盖三元分支）----
+ui	title={isStash ? 'Stash' : author.name}	title={isStash ? '暂存' : author.name}
+ui	(isStash ? 'Stash' : 'Commit')	(isStash ? '暂存' : '提交')

@@ -300,6 +300,8 @@ def scan_ts_lines(scope, rel, text, out):
                     attr = mm.group(1) if mm else None
                     if attr:
                         kind = f'attr:{attr}'
+                    elif re.search(r'\?\s*$', before) or (re.search(r':\s*$', before.rstrip()) and re.search(r'\?', before)):
+                        kind = 'ternary'          # t23 F8：三元分支字符串字面量（裸词 dict 词条 anchor 可能不覆盖，须独立裁决）
                     elif re.search(r'(test|it|describe)\s*\(\s*$', before):
                         kind = 'test-name'
                     else:
@@ -620,7 +622,7 @@ def classify(c, protect, dict_sources, demo_sources):
         v, r, h = FILE_SKIP_VERDICT[file_key]
         return v, r, h
     s = c.source
-    if s in dict_sources:
+    if s in dict_sources and c.kind != 'ternary':
         return 'skip', 'dup', '已入词库'
     if has_cjk(s):
         # t11 升级规则③：中英混杂行（英文占优 / 前缀片段）不算已译，须修复

@@ -385,6 +385,8 @@ ui	Stash {menuMulti.paths.length} files…	暂存 {menuMulti.paths.length} 个�
 ui,e2e	Stash selected changes	暂存选中的更改
 ui	aria-label="Stash"	aria-label="暂存"	aria-label="Stash"
 ui	Stash this file…	暂存此文件…
+ui	title={isStash ? 'Stash' : author.name}	title={isStash ? '暂存' : author.name}
+ui	(isStash ? 'Stash' : 'Commit')	(isStash ? '暂存' : '提交')
 ui	'Stash'	'暂存'	submit\('Stash'
 ui	Stash	暂存	^\s*Stash$
 ui	Rename	重命名	^\s*Rename$
