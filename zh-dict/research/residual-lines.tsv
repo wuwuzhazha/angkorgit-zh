@@ -508,8 +508,6 @@ core	packages/core/src/index.ts	21	./forge/providers/github	string
 core	packages/core/src/index.ts	22	./forge/providers/gitlab	string
 core	packages/core/src/index.ts	23	./forge/providers/bitbucket	string
 docs	docs/Launch-Checklist.md	6	## 1. DNS（Hostinger）	md-prose
-docs	docs/Roadmap.md	3	Updated for v0.11.0 (September 2026). [CHANGELOG.md](../CHANGELOG.md) is the	md-prose-fmt
-docs	docs/Roadmap.md	16	- [x] Stash: create (whole tree or chosen files), apply, pop (one click from the toolbar), drop; stashes as rows in the graph with their own node and menu; apply single files from a stash · Tags: create (annotated/lightweight), delete, checkout · Submodules: list & update	md-prose
 e2e	tests/e2e/playwright.config.ts	1	@playwright/test	string
 e2e	tests/e2e/playwright.config.ts	8	http://localhost:1420	string
 e2e	tests/e2e/playwright.config.ts	12	pnpm --filter @angkorgit/desktop dev	string
@@ -614,6 +612,7 @@ e2e	tests/e2e/smoke.spec.ts	237	dialog	string
 e2e	tests/e2e/smoke.spec.ts	238	dialog	string
 e2e	tests/e2e/smoke.spec.ts	244	angkorgit	string
 e2e	tests/e2e/smoke.spec.ts	246	aside button[title="feature"]	string
+e2e	tests/e2e/smoke.spec.ts	252	aside div[title*="拖到另一个分支上"]	string
 e2e	tests/e2e/smoke.spec.ts	253	title	string
 e2e	tests/e2e/smoke.spec.ts	253	${name} —	template
 e2e	tests/e2e/smoke.spec.ts	256	button span.truncate	string
@@ -757,10 +756,8 @@ e2e	tests/e2e/smoke.spec.ts	645	angkorgit	string
 e2e	tests/e2e/smoke.spec.ts	647	[data-graph-tail]	string
 e2e	tests/e2e/smoke.spec.ts	648	button	string
 e2e	tests/e2e/smoke.spec.ts	649	menuitemcheckbox	string
-e2e	tests/e2e/smoke.spec.ts	649	Lane color band	string
 e2e	tests/e2e/smoke.spec.ts	650	[data-graph-tail]	string
 e2e	tests/e2e/smoke.spec.ts	651	menuitemcheckbox	string
-e2e	tests/e2e/smoke.spec.ts	651	Lane color band	string
 e2e	tests/e2e/smoke.spec.ts	652	[data-graph-tail]	string
 e2e	tests/e2e/smoke.spec.ts	657	angkorgit	string
 e2e	tests/e2e/smoke.spec.ts	660	button	string
@@ -789,9 +786,7 @@ e2e	tests/e2e/smoke.spec.ts	720	angkorgit	string
 e2e	tests/e2e/smoke.spec.ts	732	double-clicking a separated origin chip offers to reset the local branch	test-name
 e2e	tests/e2e/smoke.spec.ts	734	angkorgit	string
 e2e	tests/e2e/smoke.spec.ts	737	dialog	string
-e2e	tests/e2e/smoke.spec.ts	738	Reset branch to its remote?	string
 e2e	tests/e2e/smoke.spec.ts	742	button	string
-e2e	tests/e2e/smoke.spec.ts	742	Reset branch	string
 e2e	tests/e2e/smoke.spec.ts	743	dialog geometry missing	string
 e2e	tests/e2e/smoke.spec.ts	745	button	string
 e2e	tests/e2e/smoke.spec.ts	749	the diff header opens the history of the file being viewed	test-name
@@ -807,12 +802,10 @@ e2e	tests/e2e/smoke.spec.ts	767	ipc.ts	string
 e2e	tests/e2e/smoke.spec.ts	767	right	string
 e2e	tests/e2e/smoke.spec.ts	768	menuitem	string
 e2e	tests/e2e/smoke.spec.ts	769	dialog	string
-e2e	tests/e2e/smoke.spec.ts	770	Stash selected changes	string
 e2e	tests/e2e/smoke.spec.ts	771	ipc.ts	string
 e2e	tests/e2e/smoke.spec.ts	772	src/core	string
 e2e	tests/e2e/smoke.spec.ts	773	Escape	string
 e2e	tests/e2e/smoke.spec.ts	776	button	string
-e2e	tests/e2e/smoke.spec.ts	776	Pop latest stash	string
 e2e	tests/e2e/smoke.spec.ts	779	tooltip	string
 e2e	tests/e2e/smoke.spec.ts	779	WIP on main: experiment with lane colors	string
 e2e	tests/e2e/smoke.spec.ts	784	shift-click selects a range of working copy files and the menu acts on all of them	test-name
@@ -824,10 +817,8 @@ e2e	tests/e2e/smoke.spec.ts	791	[data-selected-file-row]	string
 e2e	tests/e2e/smoke.spec.ts	793	palette-seed.sql	string
 e2e	tests/e2e/smoke.spec.ts	793	right	string
 e2e	tests/e2e/smoke.spec.ts	794	menuitem	string
-e2e	tests/e2e/smoke.spec.ts	794	Stage 3 files	string
 e2e	tests/e2e/smoke.spec.ts	795	menuitem	string
 e2e	tests/e2e/smoke.spec.ts	796	dialog	string
-e2e	tests/e2e/smoke.spec.ts	797	Stash selected changes	string
 e2e	tests/e2e/smoke.spec.ts	798	ipc.ts	string
 e2e	tests/e2e/smoke.spec.ts	799	palette-seed.sql	string
 e2e	tests/e2e/smoke.spec.ts	800	Architecture.md	string
@@ -836,32 +827,22 @@ e2e	tests/e2e/smoke.spec.ts	803	ipc.ts	string
 e2e	tests/e2e/smoke.spec.ts	804	[data-selected-file-row]	string
 e2e	tests/e2e/smoke.spec.ts	807	the working copy filter narrows both lists and shows counts	test-name
 e2e	tests/e2e/smoke.spec.ts	809	angkorgit	string
-e2e	tests/e2e/smoke.spec.ts	812	Filter changed files…	string
 e2e	tests/e2e/smoke.spec.ts	813	button	string
-e2e	tests/e2e/smoke.spec.ts	813	Filter files	string
-e2e	tests/e2e/smoke.spec.ts	814	Filter changed files…	string
 e2e	tests/e2e/smoke.spec.ts	816	graph	string
 e2e	tests/e2e/smoke.spec.ts	817	CommitGraph.tsx	string
 e2e	tests/e2e/smoke.spec.ts	818	ipc.ts	string
 e2e	tests/e2e/smoke.spec.ts	820	1 of 2	string
 e2e	tests/e2e/smoke.spec.ts	822	button	string
-e2e	tests/e2e/smoke.spec.ts	822	Clear filter	string
 e2e	tests/e2e/smoke.spec.ts	824	ipc.ts	string
 e2e	tests/e2e/smoke.spec.ts	825	row	string
 e2e	tests/e2e/smoke.spec.ts	827	button	string
-e2e	tests/e2e/smoke.spec.ts	828	Filter changed files…	string
-e2e	tests/e2e/smoke.spec.ts	829	Filter changed files…	string
-e2e	tests/e2e/smoke.spec.ts	830	Filter changed files…	string
 e2e	tests/e2e/smoke.spec.ts	830	Escape	string
-e2e	tests/e2e/smoke.spec.ts	831	Filter changed files…	string
 e2e	tests/e2e/smoke.spec.ts	834	the commit file list can be filtered by path	test-name
 e2e	tests/e2e/smoke.spec.ts	836	angkorgit	string
 e2e	tests/e2e/smoke.spec.ts	838	feat(graph): virtualize commit rows	string
 e2e	tests/e2e/smoke.spec.ts	840	complementary	string
 e2e	tests/e2e/smoke.spec.ts	841	GraphRow.tsx	string
 e2e	tests/e2e/smoke.spec.ts	842	button	string
-e2e	tests/e2e/smoke.spec.ts	842	Filter files	string
-e2e	tests/e2e/smoke.spec.ts	843	Filter files…	string
 e2e	tests/e2e/smoke.spec.ts	844	docs	string
 e2e	tests/e2e/smoke.spec.ts	845	Architecture.md	string
 e2e	tests/e2e/smoke.spec.ts	846	GraphRow.tsx	string
@@ -869,27 +850,20 @@ e2e	tests/e2e/smoke.spec.ts	847	1 of 5	string
 e2e	tests/e2e/smoke.spec.ts	849	Escape	string
 e2e	tests/e2e/smoke.spec.ts	851	GraphRow.tsx	string
 e2e	tests/e2e/smoke.spec.ts	852	button	string
-e2e	tests/e2e/smoke.spec.ts	852	Hide file filter	string
-e2e	tests/e2e/smoke.spec.ts	853	Filter files…	string
 e2e	tests/e2e/smoke.spec.ts	856	a stash lists its files and one file can be restored on its own	test-name
 e2e	tests/e2e/smoke.spec.ts	858	angkorgit	string
 e2e	tests/e2e/smoke.spec.ts	861	feat(graph): virtualize commit rows	string
 e2e	tests/e2e/smoke.spec.ts	862	WIP on main: experiment with lane colors	string
 e2e	tests/e2e/smoke.spec.ts	863	complementary	string
-e2e	tests/e2e/smoke.spec.ts	864	This is a stash.	string
 e2e	tests/e2e/smoke.spec.ts	865	button	string
-e2e	tests/e2e/smoke.spec.ts	865	Apply src/features/graph/GraphRow.tsx from the stash	string
+e2e	tests/e2e/smoke.spec.ts	865	从暂存中应用 src/features/graph/GraphRow.tsx	string
 e2e	tests/e2e/smoke.spec.ts	866	GraphRow.tsx	string
-e2e	tests/e2e/smoke.spec.ts	868	Applied GraphRow.tsx from the stash	string
 e2e	tests/e2e/smoke.spec.ts	870	checkbox	string
-e2e	tests/e2e/smoke.spec.ts	870	Select src/features/graph/CommitGraph.tsx to apply	string
+e2e	tests/e2e/smoke.spec.ts	870	选择 src/features/graph/CommitGraph.tsx 以应用	string
 e2e	tests/e2e/smoke.spec.ts	871	Architecture.md	string
 e2e	tests/e2e/smoke.spec.ts	871	Shift	string
 e2e	tests/e2e/smoke.spec.ts	872	4 of 5 selected	string
 e2e	tests/e2e/smoke.spec.ts	873	button	string
-e2e	tests/e2e/smoke.spec.ts	873	Apply 4 files	string
-e2e	tests/e2e/smoke.spec.ts	874	Applied 4 files from the stash	string
-e2e	tests/e2e/smoke.spec.ts	875	This is a stash.	string
 e2e	tests/e2e/smoke.spec.ts	878	staged files can be discarded from the row, the menu and the header	test-name
 e2e	tests/e2e/smoke.spec.ts	880	angkorgit	string
 e2e	tests/e2e/smoke.spec.ts	883	button	string
@@ -917,12 +891,13 @@ e2e	tests/e2e/smoke.spec.ts	920	angkorgit	string
 e2e	tests/e2e/smoke.spec.ts	922	table	string
 e2e	tests/e2e/smoke.spec.ts	924	xpath=ancestor::*[@role="row"]	string
 e2e	tests/e2e/smoke.spec.ts	925	img	string
-e2e	tests/e2e/smoke.spec.ts	925	Stash	string
 e2e	tests/e2e/smoke.spec.ts	926	right	string
 e2e	tests/e2e/smoke.spec.ts	927	menuitem	string
+e2e	tests/e2e/smoke.spec.ts	927	应用暂存 (keep it)	string
 e2e	tests/e2e/smoke.spec.ts	928	Escape	string
 e2e	tests/e2e/smoke.spec.ts	929	right	string
 e2e	tests/e2e/smoke.spec.ts	930	menuitem	string
+e2e	tests/e2e/smoke.spec.ts	930	应用暂存 (keep it)	string
 e2e	tests/e2e/smoke.spec.ts	931	menuitem	string
 e2e	tests/e2e/smoke.spec.ts	935	arrow keys walk from the graph into a commit\u2019s files and back	test-name
 e2e	tests/e2e/smoke.spec.ts	937	angkorgit	string
@@ -935,7 +910,6 @@ e2e	tests/e2e/smoke.spec.ts	943	true	string
 e2e	tests/e2e/smoke.spec.ts	944	button.font-mono	string
 e2e	tests/e2e/smoke.spec.ts	945	complementary	string
 e2e	tests/e2e/smoke.spec.ts	947	ArrowRight	string
-e2e	tests/e2e/smoke.spec.ts	948	Commit files	string
 e2e	tests/e2e/smoke.spec.ts	950	section[aria-label="文件差异：src/features/graph/CommitGraph.tsx"]	string
 e2e	tests/e2e/smoke.spec.ts	952	ArrowDown	string
 e2e	tests/e2e/smoke.spec.ts	953	section[aria-label="文件差异：src/features/graph/GraphRow.tsx"]	string
@@ -1435,9 +1409,6 @@ rust	apps/desktop/src-tauri/src/core/history.rs	233	refs/heads/*	rust
 rust	apps/desktop/src-tauri/src/core/history.rs	234	refs/remotes/*	rust
 rust	apps/desktop/src-tauri/src/core/history.rs	235	refs/tags/*	rust
 rust	apps/desktop/src-tauri/src/core/misc.rs	60	(no branch)	rust
-rust	apps/desktop/src-tauri/src/core/misc.rs	79	{file} is untracked	rust-fmt
-rust	apps/desktop/src-tauri/src/core/misc.rs	89	{file} has no changes to stash	rust-fmt
-rust	apps/desktop/src-tauri/src/core/misc.rs	106	nothing to stash in the selected files	rust
 rust	apps/desktop/src-tauri/src/core/misc.rs	113	index on {branch}: {short} {summary}	rust-fmt
 rust	apps/desktop/src-tauri/src/core/misc.rs	122	untracked files on {branch}: {short} {summary}	rust-fmt
 rust	apps/desktop/src-tauri/src/core/misc.rs	130	On {branch}: {m}	rust-fmt
@@ -1452,13 +1423,10 @@ rust	apps/desktop/src-tauri/src/core/misc.rs	262	stash	rust
 rust	apps/desktop/src-tauri/src/core/misc.rs	262	--quiet	rust
 rust	apps/desktop/src-tauri/src/core/misc.rs	262	stash@{{{index}}}	rust-fmt
 rust	apps/desktop/src-tauri/src/core/misc.rs	264	GIT_TERMINAL_PROMPT	rust
-rust	apps/desktop/src-tauri/src/core/misc.rs	266	could not run git stash {verb}: {e}	rust-fmt
 rust	apps/desktop/src-tauri/src/core/misc.rs	272	git stash {verb} failed	rust-fmt
-rust	apps/desktop/src-tauri/src/core/misc.rs	288	stash {index} does not exist	rust-fmt
 rust	apps/desktop/src-tauri/src/core/misc.rs	296	untracked files on	rust
 rust	apps/desktop/src-tauri/src/core/misc.rs	312	{dir}{}	rust-fmt
 rust	apps/desktop/src-tauri/src/core/misc.rs	324	new	rust
-rust	apps/desktop/src-tauri/src/core/misc.rs	375	{file} is not part of this stash	rust-fmt
 rust	apps/desktop/src-tauri/src/core/misc.rs	411	refs/tags/	rust
 rust	apps/desktop/src-tauri/src/core/remote.rs	18	id_ed25519	rust
 rust	apps/desktop/src-tauri/src/core/remote.rs	18	id_rsa	rust
@@ -2097,7 +2065,6 @@ rust	apps/desktop/src-tauri/tests/git_engine.rs	486	a.txt	rust
 rust	apps/desktop/src-tauri/tests/git_engine.rs	487	new/fresh.txt	rust
 rust	apps/desktop/src-tauri/tests/git_engine.rs	488	b.txt	rust
 rust	apps/desktop/src-tauri/tests/git_engine.rs	490	nope.txt	rust
-rust	apps/desktop/src-tauri/tests/git_engine.rs	491	not part of this stash	rust
 rust	apps/desktop/src-tauri/tests/git_engine.rs	497	a.txt	rust
 rust	apps/desktop/src-tauri/tests/git_engine.rs	497	base\n	rust
 rust	apps/desktop/src-tauri/tests/git_engine.rs	498	base	rust
@@ -3961,14 +3928,9 @@ ui	apps/desktop/src/components/CommandPalette.tsx	94	fileHistory	string
 ui	apps/desktop/src/components/CommandPalette.tsx	117	fileHistory	string
 ui	apps/desktop/src/components/CommandPalette.tsx	124	commands	string
 ui	apps/desktop/src/components/CommandPalette.tsx	132	) =>	jsx-text
-ui	apps/desktop/src/components/CommandPalette.tsx	140	${label} 失败：${(error as { message?: string }).message ?? error}	template
 ui	apps/desktop/src/components/CommandPalette.tsx	145	undo	string
 ui	apps/desktop/src/components/CommandPalette.tsx	145	redo	string
 ui	apps/desktop/src/components/CommandPalette.tsx	147	undo	string
-ui	apps/desktop/src/components/CommandPalette.tsx	160	无法打开：${(error as { message?: string }).message ?? error}	template
-ui	apps/desktop/src/components/CommandPalette.tsx	171	继续失败：${(error as { message?: string }).message ?? error}	template
-ui	apps/desktop/src/components/CommandPalette.tsx	192	中止失败：${(error as { message?: string }).message ?? error}	template
-ui	apps/desktop/src/components/CommandPalette.tsx	217	清除失败：${(error as { message?: string }).message ?? error}	template
 ui	apps/desktop/src/components/CommandPalette.tsx	228	commands	string
 ui	apps/desktop/src/components/CommandPalette.tsx	229	fixed left-1/2 top-24 z-50 w-full max-w-lg -translate-x-1/2 overflow-hidden rounded-lg border border-border bg-surface-overlay shadow-soft	attr:className
 ui	apps/desktop/src/components/CommandPalette.tsx	235	fileHistory	string
@@ -3983,14 +3945,12 @@ ui	apps/desktop/src/components/CommandPalette.tsx	260	fileHistory	string
 ui	apps/desktop/src/components/CommandPalette.tsx	276	commands	string
 ui	apps/desktop/src/components/CommandPalette.tsx	280	run('拉取', () => ipc.pull(path, remote))} />	jsx-text
 ui	apps/desktop/src/components/CommandPalette.tsx	281	run('推送', () => ipc.push(path, remote, false, false, true))} />	jsx-text
-ui	apps/desktop/src/components/CommandPalette.tsx	290	Create ${forgeNoun(forgeCurrent ? forgeKind : null)}	attr:label
 ui	apps/desktop/src/components/CommandPalette.tsx	293	createPullRequest	string
 ui	apps/desktop/src/components/CommandPalette.tsx	299	run('获取', () => ipc.fetch(path, remote, true, true))} />	jsx-text
 ui	apps/desktop/src/components/CommandPalette.tsx	305	createBranch	string
 ui	apps/desktop/src/components/CommandPalette.tsx	313	createWorktree	string
 ui	apps/desktop/src/components/CommandPalette.tsx	321	createTag	string
 ui	apps/desktop/src/components/CommandPalette.tsx	329	createStash	string
-ui	apps/desktop/src/components/CommandPalette.tsx	335	Pop latest stash: ${stashes[0].message}	attr:label
 ui	apps/desktop/src/components/CommandPalette.tsx	340	runHistory('undo')} />	jsx-text
 ui	apps/desktop/src/components/CommandPalette.tsx	343	runHistory('redo')} />	jsx-text
 ui	apps/desktop/src/components/CommandPalette.tsx	355	clean	string
@@ -3999,7 +3959,6 @@ ui	apps/desktop/src/components/CommandPalette.tsx	363	merge	string
 ui	apps/desktop/src/components/CommandPalette.tsx	377	clone	string
 ui	apps/desktop/src/components/CommandPalette.tsx	385	/welcome	string
 ui	apps/desktop/src/components/CommandPalette.tsx	398	${w.name}${w.branch ? ` · ${w.branch}` : ''}	attr:label
-ui	apps/desktop/src/components/CommandPalette.tsx	420	无法打开：${(error as { message?: string }).message ?? error}	template
 ui	apps/desktop/src/components/CommandPalette.tsx	438	checkout	string
 ui	apps/desktop/src/components/CommandPalette.tsx	494	dark	string
 ui	apps/desktop/src/components/CommandPalette.tsx	495	dark	string
@@ -4012,21 +3971,18 @@ ui	apps/desktop/src/components/CommandPalette.tsx	542	flex cursor-default select
 ui	apps/desktop/src/components/ErrorBoundary.tsx	1	react	string
 ui	apps/desktop/src/components/ErrorBoundary.tsx	2	lucide-react	string
 ui	apps/desktop/src/components/ErrorBoundary.tsx	3	@angkorgit/design-system	string
-ui	apps/desktop/src/components/ErrorBoundary.tsx	17	AngKorGit 崩溃了：	string
-ui	apps/desktop/src/components/ErrorBoundary.tsx	23	AngKorGit error report\n\n${error?.name}: ${error?.message}\n\n${error?.stack ?? ''}	template
-ui	apps/desktop/src/components/ErrorBoundary.tsx	23	AngKorGit error report\n\n	tmpl-seg
+ui	apps/desktop/src/components/ErrorBoundary.tsx	23	AngKorGit 错误报告\n\n${error?.name}: ${error?.message}\n\n${error?.stack ?? ''}	template
+ui	apps/desktop/src/components/ErrorBoundary.tsx	23	AngKorGit 错误报告\n\n	tmpl-seg
 ui	apps/desktop/src/components/ErrorBoundary.tsx	47	window.location.reload()}>	jsx-text
 ui	apps/desktop/src/components/FileFilterInput.tsx	1	react	string
 ui	apps/desktop/src/components/FileFilterInput.tsx	2	lucide-react	string
 ui	apps/desktop/src/components/FileFilterInput.tsx	3	@angkorgit/design-system	string
-ui	apps/desktop/src/components/FileFilterInput.tsx	12	Filter files…	attr:placeholder
 ui	apps/desktop/src/components/FileFilterInput.tsx	22	(null);	jsx-text
 ui	apps/desktop/src/components/FileFilterInput.tsx	38	Escape	string
 ui	apps/desktop/src/components/FileFilterInput.tsx	44	h-7 border-transparent bg-surface-raised pl-8 text-xs	string
 ui	apps/desktop/src/components/FileFilterInput.tsx	44	pr-7	string
 ui	apps/desktop/src/components/FileFilterInput.tsx	48	ghost	attr:variant
 ui	apps/desktop/src/components/FileFilterInput.tsx	49	icon-sm	attr:size
-ui	apps/desktop/src/components/FileFilterInput.tsx	50	Clear filter	attr:aria-label
 ui	apps/desktop/src/components/FileFilterInput.tsx	51	absolute right-0.5 top-1/2 size-6 -translate-y-1/2	attr:className
 ui	apps/desktop/src/components/FileTree.tsx	1	react	string
 ui	apps/desktop/src/components/FileTree.tsx	2	lucide-react	string
@@ -4066,7 +4022,6 @@ ui	apps/desktop/src/components/RepoTabs.tsx	16	(null);	jsx-text
 ui	apps/desktop/src/components/RepoTabs.tsx	23	[data-tab-path="${CSS.escape(activePath)}"]	template
 ui	apps/desktop/src/components/RepoTabs.tsx	24	nearest	string
 ui	apps/desktop/src/components/RepoTabs.tsx	24	nearest	string
-ui	apps/desktop/src/components/RepoTabs.tsx	34	无法打开：${(error as { message?: string }).message ?? error}	template
 ui	apps/desktop/src/components/RepoTabs.tsx	70	scrollbar-none flex min-w-0 flex-1 items-end gap-0.5 overflow-x-auto	attr:className
 ui	apps/desktop/src/components/RepoTabs.tsx	82	tab	attr:role
 ui	apps/desktop/src/components/RepoTabs.tsx	89	text/angkorgit-repo-tab	string
@@ -4099,16 +4054,7 @@ ui	apps/desktop/src/components/StatusBar.tsx	15	@/features/settings/store	string
 ui	apps/desktop/src/components/StatusBar.tsx	16	@/features/ui/store	string
 ui	apps/desktop/src/components/StatusBar.tsx	17	@/shared/utils	string
 ui	apps/desktop/src/components/StatusBar.tsx	18	@angkorgit/core	string
-ui	apps/desktop/src/components/StatusBar.tsx	36	detached @ ${repo.headOid?.slice(0, 8) ?? '?'}	template
-ui	apps/desktop/src/components/StatusBar.tsx	36	detached @	tmpl-seg
 ui	apps/desktop/src/components/StatusBar.tsx	73	0 && 'text-primary')}>	jsx-text
-ui	apps/desktop/src/components/StatusBar.tsx	75	${changes} change${changes === 1 ? '' : 's'}	template
-ui	apps/desktop/src/components/StatusBar.tsx	75	Clean	string
-ui	apps/desktop/src/components/StatusBar.tsx	81	Create a ${prNoun} for ${repo?.headBranch} without leaving AngKorGit	template
-ui	apps/desktop/src/components/StatusBar.tsx	81	Create a	tmpl-seg
-ui	apps/desktop/src/components/StatusBar.tsx	81	without leaving AngKorGit	tmpl-seg
-ui	apps/desktop/src/components/StatusBar.tsx	82	Open a pre-filled pull request page for ${repo?.headBranch}	template
-ui	apps/desktop/src/components/StatusBar.tsx	82	Open a pre-filled pull request page for	tmpl-seg
 ui	apps/desktop/src/components/StatusBar.tsx	86	button	attr:type
 ui	apps/desktop/src/components/StatusBar.tsx	87	flex items-center gap-1 rounded px-1 hover:bg-surface-raised hover:text-foreground	attr:className
 ui	apps/desktop/src/components/StatusBar.tsx	89	createPullRequest	string
@@ -4147,9 +4093,6 @@ ui	apps/desktop/src/components/Toolbar.tsx	131	void switchTo(recent.path)}>	jsx-
 ui	apps/desktop/src/components/Toolbar.tsx	152	openDialog('clone')}>	jsx-text
 ui	apps/desktop/src/components/Toolbar.tsx	166	void assignProfile(profile)}>	jsx-text
 ui	apps/desktop/src/components/Toolbar.tsx	194	clean	string
-ui	apps/desktop/src/components/Toolbar.tsx	206	继续失败：${(error as { message?: string }).message ?? error}	template
-ui	apps/desktop/src/components/Toolbar.tsx	225	中止失败：${(error as { message?: string }).message ?? error}	template
-ui	apps/desktop/src/components/Toolbar.tsx	245	清除失败：${(error as { message?: string }).message ?? error}	template
 ui	apps/desktop/src/components/Toolbar.tsx	255	button	attr:type
 ui	apps/desktop/src/components/Toolbar.tsx	257	flex items-center gap-1 rounded-md border border-danger/40 bg-danger/10 px-2 py-1	string
 ui	apps/desktop/src/components/Toolbar.tsx	258	font-mono text-[11px] text-danger hover:bg-danger/20	string
@@ -4167,7 +4110,6 @@ ui	apps/desktop/src/components/Toolbar.tsx	349	icon	attr:size
 ui	apps/desktop/src/components/Toolbar.tsx	352	redo	string
 ui	apps/desktop/src/components/Toolbar.tsx	377	origin	string
 ui	apps/desktop/src/components/Toolbar.tsx	385	message	string
-ui	apps/desktop/src/components/Toolbar.tsx	392	${label} 失败：${(error as { message?: string }).message ?? error}	template
 ui	apps/desktop/src/components/Toolbar.tsx	403	@/features/forge/store	string
 ui	apps/desktop/src/components/Toolbar.tsx	409	navigate('/welcome')}>	jsx-text
 ui	apps/desktop/src/components/Toolbar.tsx	422	ghost	attr:variant
@@ -4185,7 +4127,6 @@ ui	apps/desktop/src/components/Toolbar.tsx	504	openDialog('createTag')}>	jsx-tex
 ui	apps/desktop/src/components/Toolbar.tsx	509	openDialog('createStash')}>	jsx-text
 ui	apps/desktop/src/components/Toolbar.tsx	515	ghost	attr:variant
 ui	apps/desktop/src/components/Toolbar.tsx	516	icon	attr:size
-ui	apps/desktop/src/components/Toolbar.tsx	517	Pop latest stash	attr:aria-label
 ui	apps/desktop/src/components/Toolbar.tsx	539	setPaletteOpen(true)}>	jsx-text
 ui	apps/desktop/src/components/Toolbar.tsx	557	ghost	attr:variant
 ui	apps/desktop/src/components/Toolbar.tsx	558	icon	attr:size
@@ -4469,39 +4410,12 @@ ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	256	${fixed}px	attr:hei
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	259	auto	attr:height
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	260	${Math.max(COMMIT_BOX_MIN, Math.min(el.scrollHeight, COMMIT_BOX_AUTO_MAX))}px	attr:height
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	354	conflicted	string
-ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	385	丢弃失败：${(error as { message?: string }).message ?? error}	template
-ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	398	+${remaining.length - 3} more	template
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	413	, errorLabel: string) =>	jsx-text
-ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	418	${errorLabel}: ${(error as { message?: string }).message ?? error}	template
-ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	438	丢弃失败：${(error as { message?: string }).message ?? error}	template
-ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	442	+${leftovers.length - 3} more	template
-ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	445	${leftovers.length} change${leftovers.length === 1 ? '' : 's'} could not be discarded (${listed}). Submodule changes must be discarded inside the submodule repository.	template
-ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	445	could not be discarded (	tmpl-seg
-ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	445	). Submodule changes must be discarded inside the submodule repository.	tmpl-seg
-ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	446	${leftovers.length} change${leftovers.length === 1 ? '' : 's'} could not be discarded: ${listed}	template
-ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	446	could not be discarded:	tmpl-seg
-ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	449	Discarded ${paths.length} change${paths.length === 1 ? '' : 's'}	template
-ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	455	Discard changes in ${paths.length} files?	template
-ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	457	These files go back to the last commit — staged and unstaged changes alike. New files are deleted. This cannot be undone.	string
-ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	458	All changes in these files will be reverted. Untracked files among them are deleted. This cannot be undone.	string
-ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	459	Discard	string
-ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	472	+${remaining.length - 3} more	template
-ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	473	${remaining.length} staged change${remaining.length === 1 ? '' : 's'} could not be discarded: ${listed}	template
-ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	473	staged change	tmpl-seg
-ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	473	could not be discarded:	tmpl-seg
-ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	475	Discarded ${before} staged change${before === 1 ? '' : 's'}	template
-ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	475	staged change	tmpl-seg
-ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	478	丢弃失败：${(error as { message?: string }).message ?? error}	template
+ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	418	${errorLabel}：${(error as { message?: string }).message ?? error}	template
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	502	new	string
-ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	503	This file is new — discarding removes it from the index and deletes the file. This cannot be undone.	string
-ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	504	The file goes back to the last commit — its staged and unstaged changes are both reverted. This cannot be undone.	string
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	505	untracked	string
-ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	509	Discard	string
-ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	548	AI 请求失败：${(error as { message?: string } | null)?.message ?? String(error)}	template
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	576	not_found	string
-ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	601	AI 请求失败：${(error as { message?: string } | null)?.message ?? String(error)}	template
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	628	commit	string
-ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	640	提交失败：${(error as { message?: string }).message ?? error}	template
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	718	[data-selected-file-row]	string
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	719	nearest	string
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	732	ArrowLeft	string
@@ -4513,7 +4427,6 @@ ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	768	Enter	string
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	776	Enter	string
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	789	u-${file.path}	attr:key
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	804	s-${file.path}	attr:key
-ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	835	Filter changed files…	attr:placeholder
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	844	relative min-h-0 flex-1 overflow-y-auto p-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/40	attr:className
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	859	openConflict(conflicts[0])}>	jsx-text
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	864	merge	string
@@ -4532,12 +4445,8 @@ ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	957	void run(() => ipc.
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	962	ghost	attr:variant
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	963	icon-sm	attr:size
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	965	text-muted hover:text-danger	attr:className
-ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	970	Every staged file goes back to the last commit, unstaged edits to those files included, and new files are deleted. This cannot be undone — not even with ⌘Z.	string
-ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	986	No staged files match the filter.	string
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	1010	!o && setFileMenu(null)}>	jsx-text
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	1018	void stageMany(menuMulti.paths, menuMulti.staged)}>	jsx-text
-ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	1020	Unstage ${menuMulti.paths.length} files	template
-ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	1020	Stage ${menuMulti.paths.length} files	template
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	1023	createStash	string
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	1028	requestDiscardMany(menuMulti.paths, menuMulti.staged)}>	jsx-text
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	1042	requestDiscard(fileMenu.file, true)}>	jsx-text
@@ -4547,7 +4456,6 @@ ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	1064	openEditor(fileMen
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	1067	useUi.getState().openFileHistory(fileMenu.file.path)}>	jsx-text
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	1073	${path}/${fileMenu.file.path}	template
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	1086	${path}/${fileMenu.file.path}	template
-ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	1089	无法在 Finder 中显示文件：${(error as { message?: string }).message ?? error}	template
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	1089	无法在 Finder 中显示文件：	tmpl-seg
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	1112	untracked	string
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	1116	Delete	string
@@ -4645,7 +4553,6 @@ ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	155	(null);	jsx-text
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	156	(null);	jsx-text
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	157	(null);	jsx-text
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	158	(null);	jsx-text
-ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	176	无法读取 ${file}：${(error as { message?: string }).message ?? error}	template
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	185	conflict	string
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	191	();	jsx-text
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	195	text	string
@@ -4684,7 +4591,6 @@ ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	397	current	string
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	421	current	string
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	442	[data-line]	string
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	443	data-line	string
-ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	485	Discard	string
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	505	center	string
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	510	auto	string
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	510	smooth	string
@@ -4693,8 +4599,6 @@ ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	518	center	string
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	523	auto	string
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	523	smooth	string
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	524	center	string
-ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	568	AI 请求失败：${(error as { message?: string } | null)?.message ?? String(error)}	template
-ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	589	保存失败：${(error as { message?: string }).message ?? error}	template
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	599	ghost	attr:variant
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	600	icon-sm	attr:size
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	601	h-5 w-5 border border-border bg-surface shadow-soft	attr:className
@@ -4894,7 +4798,6 @@ ui	apps/desktop/src/features/diff/DiffPanel.tsx	159	auto	string
 ui	apps/desktop/src/features/diff/DiffPanel.tsx	188	${statusEntry?.staged ?? ''}|${statusEntry?.unstaged ?? ''}|${statusVersion}	template
 ui	apps/desktop/src/features/diff/DiffPanel.tsx	195	${path}|${target.path}|${target.oid ?? ''}|${target.staged ?? false}|${fullFileDiff}|${reloadToken}	attr:key
 ui	apps/desktop/src/features/diff/DiffPanel.tsx	241	, label: string) =>	jsx-text
-ui	apps/desktop/src/features/diff/DiffPanel.tsx	246	${label} 失败：${(error as { message?: string }).message ?? error}	template
 ui	apps/desktop/src/features/diff/DiffPanel.tsx	252	flex h-full flex-col bg-background	attr:className
 ui	apps/desktop/src/features/diff/DiffPanel.tsx	262	Esc	jsx-text
 ui	apps/desktop/src/features/diff/DiffPanel.tsx	287	ghost	attr:variant
@@ -5089,7 +4992,6 @@ ui	apps/desktop/src/features/diff/diffCopy.tsx	14	new	string
 ui	apps/desktop/src/features/diff/diffCopy.tsx	17	new	string
 ui	apps/desktop/src/features/diff/diffCopy.tsx	17	deletion	string
 ui	apps/desktop/src/features/diff/diffCopy.tsx	17	addition	string
-ui	apps/desktop/src/features/diff/diffCopy.tsx	31	Copied ${lines} line${lines === 1 ? '' : 's'} (${side} text)	template
 ui	apps/desktop/src/features/diff/diffCopy.tsx	36	INPUT	string
 ui	apps/desktop/src/features/diff/diffCopy.tsx	36	TEXTAREA	string
 ui	apps/desktop/src/features/diff/diffCopy.tsx	42	(null);	jsx-text
@@ -5184,8 +5086,6 @@ ui	apps/desktop/src/features/editor/EditorPanel.tsx	9	@/components/confirm	strin
 ui	apps/desktop/src/features/editor/EditorPanel.tsx	10	@/shared/utils	string
 ui	apps/desktop/src/features/editor/EditorPanel.tsx	18	(null);	jsx-text
 ui	apps/desktop/src/features/editor/EditorPanel.tsx	19	('');	jsx-text
-ui	apps/desktop/src/features/editor/EditorPanel.tsx	36	无法打开 ${file}：${(error as { message?: string }).message ?? error}	template
-ui	apps/desktop/src/features/editor/EditorPanel.tsx	53	保存失败：${(error as { message?: string }).message ?? error}	template
 ui	apps/desktop/src/features/editor/EditorPanel.tsx	84	flex h-full flex-col bg-background	attr:className
 ui	apps/desktop/src/features/editor/EditorPanel.tsx	94	Esc	jsx-text
 ui	apps/desktop/src/features/editor/EditorPanel.tsx	113	void save()}>	jsx-text
@@ -5273,20 +5173,10 @@ ui	apps/desktop/src/features/graph/CommitGraph.tsx	190	end	string
 ui	apps/desktop/src/features/graph/CommitGraph.tsx	192	arrowright	string
 ui	apps/desktop/src/features/graph/CommitGraph.tsx	200	mod+f	string
 ui	apps/desktop/src/features/graph/CommitGraph.tsx	229	fast_forward	string
-ui	apps/desktop/src/features/graph/CommitGraph.tsx	238	${label} 失败：${(error as { message?: string }).message ?? error}	template
 ui	apps/desktop/src/features/graph/CommitGraph.tsx	246	stash	string
 ui	apps/desktop/src/features/graph/CommitGraph.tsx	289	localBranch	string
-ui	apps/desktop/src/features/graph/CommitGraph.tsx	295	无法打开 ${held.name}：${(error as { message?: string }).message ?? error}	template
 ui	apps/desktop/src/features/graph/CommitGraph.tsx	300	checkout	string
-ui	apps/desktop/src/features/graph/CommitGraph.tsx	322	${local.ahead} commit${local.ahead === 1 ? '' : 's'} only on the local branch will be lost.	template
-ui	apps/desktop/src/features/graph/CommitGraph.tsx	322	only on the local branch will be lost.	tmpl-seg
-ui	apps/desktop/src/features/graph/CommitGraph.tsx	325	Reset branch to its remote?	string
-ui	apps/desktop/src/features/graph/CommitGraph.tsx	330	Reset branch	string
 ui	apps/desktop/src/features/graph/CommitGraph.tsx	338	checkout	string
-ui	apps/desktop/src/features/graph/CommitGraph.tsx	339	Checkout ${name}	template
-ui	apps/desktop/src/features/graph/CommitGraph.tsx	343	Checkout ${name} failed: ${(error as { message?: string }).message ?? error}	template
-ui	apps/desktop/src/features/graph/CommitGraph.tsx	343	failed:	tmpl-seg
-ui	apps/desktop/src/features/graph/CommitGraph.tsx	347	Reset ${name} to ${ref.shorthand}	template
 ui	apps/desktop/src/features/graph/CommitGraph.tsx	347	hard	string
 ui	apps/desktop/src/features/graph/CommitGraph.tsx	348	reset	string
 ui	apps/desktop/src/features/graph/CommitGraph.tsx	371	Enter	string
@@ -5310,8 +5200,6 @@ ui	apps/desktop/src/features/graph/CommitGraph.tsx	528	translateY(${item.start}p
 ui	apps/desktop/src/features/graph/CommitGraph.tsx	556	void reload(path)}>	jsx-text
 ui	apps/desktop/src/features/graph/CommitGraph.tsx	564	!o && setRefMenu(null)}>	jsx-text
 ui	apps/desktop/src/features/graph/CommitGraph.tsx	572	stash	string
-ui	apps/desktop/src/features/graph/CommitGraph.tsx	589	Drop this stash?	string
-ui	apps/desktop/src/features/graph/CommitGraph.tsx	590	The stashed changes are deleted and cannot be recovered.	string
 ui	apps/desktop/src/features/graph/CommitGraph.tsx	604	tag	string
 ui	apps/desktop/src/features/graph/CommitGraph.tsx	604	stash	string
 ui	apps/desktop/src/features/graph/CommitGraph.tsx	606	checkoutRef(refMenu.ref)}>	jsx-text
@@ -5330,6 +5218,8 @@ ui	apps/desktop/src/features/graph/CommitGraph.tsx	699	revert	string
 ui	apps/desktop/src/features/graph/CommitGraph.tsx	708	interactiveRebase	string
 ui	apps/desktop/src/features/graph/CommitGraph.tsx	721	interactiveRebase	string
 ui	apps/desktop/src/features/graph/CommitGraph.tsx	731	openDialog('interactiveRebase', menu.commit.oid)}>	jsx-text
+ui	apps/desktop/src/features/graph/CommitGraph.tsx	736	void act(`软重置到 $	jsx-text
+ui	apps/desktop/src/features/graph/CommitGraph.tsx	739	void act(`混合重置到 $	jsx-text
 ui	apps/desktop/src/features/graph/CommitGraph.tsx	753	hard	string
 ui	apps/desktop/src/features/graph/CommitGraph.tsx	754	reset	string
 ui	apps/desktop/src/features/graph/GraphRow.tsx	1	react	string
@@ -5344,7 +5234,6 @@ ui	apps/desktop/src/features/graph/GraphRow.tsx	9	@/features/ui/store	string
 ui	apps/desktop/src/features/graph/GraphRow.tsx	32	hsl(var(--graph-${color % 10}))	template
 ui	apps/desktop/src/features/graph/GraphRow.tsx	32	hsl(var(--graph-	tmpl-seg
 ui	apps/desktop/src/features/graph/GraphRow.tsx	74	img	attr:role
-ui	apps/desktop/src/features/graph/GraphRow.tsx	75	Stash	attr:aria-label
 ui	apps/desktop/src/features/graph/GraphRow.tsx	76	flex items-center justify-center	attr:className
 ui	apps/desktop/src/features/graph/GraphRow.tsx	80	hsl(var(--muted-foreground))	string
 ui	apps/desktop/src/features/graph/GraphRow.tsx	88	author	string
@@ -5513,7 +5402,6 @@ ui	apps/desktop/src/features/history/FileHistoryPanel.tsx	84	(null);	jsx-text
 ui	apps/desktop/src/features/history/FileHistoryPanel.tsx	85	(null);	jsx-text
 ui	apps/desktop/src/features/history/FileHistoryPanel.tsx	87	(null);	jsx-text
 ui	apps/desktop/src/features/history/FileHistoryPanel.tsx	88	(null);	jsx-text
-ui	apps/desktop/src/features/history/FileHistoryPanel.tsx	165	无法加载 diff：${(error as { message?: string }).message ?? error}	template
 ui	apps/desktop/src/features/history/FileHistoryPanel.tsx	165	无法加载 diff：	tmpl-seg
 ui	apps/desktop/src/features/history/FileHistoryPanel.tsx	178	flex h-full flex-col bg-background	attr:className
 ui	apps/desktop/src/features/history/FileHistoryPanel.tsx	188	Esc	jsx-text
@@ -5589,12 +5477,8 @@ ui	apps/desktop/src/features/history/undoStore.ts	111	branchRename	string
 ui	apps/desktop/src/features/history/undoStore.ts	112	undo	string
 ui	apps/desktop/src/features/history/undoStore.ts	173	branchCreate	string
 ui	apps/desktop/src/features/history/undoStore.ts	181	undo	string
-ui	apps/desktop/src/features/history/undoStore.ts	187	Undo failed: ${(error as { message?: string }).message ?? error}	template
-ui	apps/desktop/src/features/history/undoStore.ts	187	Undo failed:	tmpl-seg
 ui	apps/desktop/src/features/history/undoStore.ts	204	branchDelete	string
 ui	apps/desktop/src/features/history/undoStore.ts	211	redo	string
-ui	apps/desktop/src/features/history/undoStore.ts	217	Redo failed: ${(error as { message?: string }).message ?? error}	template
-ui	apps/desktop/src/features/history/undoStore.ts	217	Redo failed:	tmpl-seg
 ui	apps/desktop/src/features/inspector/CommitDetails.tsx	1	react	string
 ui	apps/desktop/src/features/inspector/CommitDetails.tsx	2	@tanstack/react-virtual	string
 ui	apps/desktop/src/features/inspector/CommitDetails.tsx	3	sonner	string
@@ -5632,8 +5516,6 @@ ui	apps/desktop/src/features/inspector/CommitDetails.tsx	58	modified	string
 ui	apps/desktop/src/features/inspector/CommitDetails.tsx	58	new	string
 ui	apps/desktop/src/features/inspector/CommitDetails.tsx	58	deleted	string
 ui	apps/desktop/src/features/inspector/CommitDetails.tsx	58	renamed	string
-ui	apps/desktop/src/features/inspector/CommitDetails.tsx	67	${count} ${statusMeta[status].label}	attr:title
-ui	apps/desktop/src/features/inspector/CommitDetails.tsx	68	${count} ${statusMeta[status].label}	attr:aria-label
 ui	apps/desktop/src/features/inspector/CommitDetails.tsx	69	flex items-center gap-1 tabular-nums	string
 ui	apps/desktop/src/features/inspector/CommitDetails.tsx	83	--- ${d.oldPath ?? d.path}\n+++ ${d.path}\n	template
 ui	apps/desktop/src/features/inspector/CommitDetails.tsx	85	addition	string
@@ -5657,22 +5539,14 @@ ui	apps/desktop/src/features/inspector/CommitDetails.tsx	242	ArrowDown	string
 ui	apps/desktop/src/features/inspector/CommitDetails.tsx	252	ArrowRight	string
 ui	apps/desktop/src/features/inspector/CommitDetails.tsx	252	Enter	string
 ui	apps/desktop/src/features/inspector/CommitDetails.tsx	259	ArrowLeft	string
-ui	apps/desktop/src/features/inspector/CommitDetails.tsx	275	Applied ${basename(files[0])} from the stash	template
-ui	apps/desktop/src/features/inspector/CommitDetails.tsx	275	from the stash	tmpl-seg
-ui	apps/desktop/src/features/inspector/CommitDetails.tsx	276	Applied ${files.length} files from the stash	template
-ui	apps/desktop/src/features/inspector/CommitDetails.tsx	277	The stash itself is unchanged.	string
-ui	apps/desktop/src/features/inspector/CommitDetails.tsx	281	应用失败：${(error as { message?: string }).message ?? error}	template
 ui	apps/desktop/src/features/inspector/CommitDetails.tsx	294	group flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left text-xs transition-colors	string
 ui	apps/desktop/src/features/inspector/CommitDetails.tsx	295	bg-primary/10 text-foreground	string
 ui	apps/desktop/src/features/inspector/CommitDetails.tsx	295	hover:bg-surface-raised	string
 ui	apps/desktop/src/features/inspector/CommitDetails.tsx	296	bg-primary/5	string
-ui	apps/desktop/src/features/inspector/CommitDetails.tsx	311	Select ${diff.path} to apply	attr:aria-label
 ui	apps/desktop/src/features/inspector/CommitDetails.tsx	323	flex min-w-0 flex-1 items-center gap-2 text-left	attr:className
 ui	apps/desktop/src/features/inspector/CommitDetails.tsx	348	ghost	attr:variant
 ui	apps/desktop/src/features/inspector/CommitDetails.tsx	349	icon-sm	attr:size
-ui	apps/desktop/src/features/inspector/CommitDetails.tsx	350	Apply ${diff.path} from the stash	attr:aria-label
 ui	apps/desktop/src/features/inspector/CommitDetails.tsx	351	-my-1 -mr-1 shrink-0 opacity-0 focus-visible:opacity-100 group-hover:opacity-100	attr:className
-ui	apps/desktop/src/features/inspector/CommitDetails.tsx	381	AI 请求失败：${(error as { message?: string } | null)?.message ?? String(error)}	template
 ui	apps/desktop/src/features/inspector/CommitDetails.tsx	398	whitespace-pre-wrap break-words font-sans text-xs leading-relaxed text-muted	string
 ui	apps/desktop/src/features/inspector/CommitDetails.tsx	399	line-clamp-[8]	string
 ui	apps/desktop/src/features/inspector/CommitDetails.tsx	406	button	attr:type
@@ -5692,7 +5566,6 @@ ui	apps/desktop/src/features/inspector/CommitDetails.tsx	466	head	string
 ui	apps/desktop/src/features/inspector/CommitDetails.tsx	475	void explain()} disabled=	jsx-text
 ui	apps/desktop/src/features/inspector/CommitDetails.tsx	497	ghost	attr:variant
 ui	apps/desktop/src/features/inspector/CommitDetails.tsx	498	icon-sm	attr:size
-ui	apps/desktop/src/features/inspector/CommitDetails.tsx	523	Commit files	attr:aria-label
 ui	apps/desktop/src/features/inspector/CommitDetails.tsx	525	rounded-md p-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/40	attr:className
 ui	apps/desktop/src/features/inspector/CommitDetails.tsx	545	setFold((f) => nextFold(f, mode))} />	jsx-text
 ui	apps/desktop/src/features/inspector/CommitDetails.tsx	557	ghost	attr:variant
@@ -5700,10 +5573,6 @@ ui	apps/desktop/src/features/inspector/CommitDetails.tsx	559	h-6 shrink-0 px-2 t
 ui	apps/desktop/src/features/inspector/CommitDetails.tsx	571	ghost	attr:variant
 ui	apps/desktop/src/features/inspector/CommitDetails.tsx	573	h-6 shrink-0 px-2 text-[11px]	attr:className
 ui	apps/desktop/src/features/inspector/CommitDetails.tsx	580	h-6 shrink-0 px-2 text-[11px]	attr:className
-ui	apps/desktop/src/features/inspector/CommitDetails.tsx	583	file	string
-ui	apps/desktop/src/features/inspector/CommitDetails.tsx	583	files	string
-ui	apps/desktop/src/features/inspector/CommitDetails.tsx	596	Filter files…	attr:placeholder
-ui	apps/desktop/src/features/inspector/CommitDetails.tsx	616	No files match the filter.	jsx-text
 ui	apps/desktop/src/features/inspector/CommitDetails.tsx	626	!o && setStashFileMenu(null)}>	jsx-text
 ui	apps/desktop/src/features/inspector/CommitDetails.tsx	632	void restoreFromStash([stashFileMenu.path])}>	jsx-text
 ui	apps/desktop/src/features/inspector/CommitDetails.tsx	636	void restoreFromStash([...picked])}>	jsx-text
@@ -5726,8 +5595,6 @@ ui	apps/desktop/src/features/inspector/Inspector.tsx	83	Stash	string
 ui	apps/desktop/src/features/inspector/Inspector.tsx	83	Commit	string
 ui	apps/desktop/src/features/inspector/Inspector.tsx	88	ghost	attr:variant
 ui	apps/desktop/src/features/inspector/Inspector.tsx	89	icon-sm	attr:size
-ui	apps/desktop/src/features/inspector/Inspector.tsx	90	Hide file filter	string
-ui	apps/desktop/src/features/inspector/Inspector.tsx	90	Filter files	string
 ui	apps/desktop/src/features/inspector/Inspector.tsx	92	bg-surface-raised text-foreground	string
 ui	apps/desktop/src/features/inspector/Inspector.tsx	101	ghost	attr:variant
 ui	apps/desktop/src/features/inspector/Inspector.tsx	102	icon-sm	attr:size
@@ -5748,7 +5615,6 @@ ui	apps/desktop/src/features/repository/CloneDialog.tsx	23	(null);	jsx-text
 ui	apps/desktop/src/features/repository/CloneDialog.tsx	32	clone-progress	string
 ui	apps/desktop/src/features/repository/CloneDialog.tsx	46	repository	string
 ui	apps/desktop/src/features/repository/CloneDialog.tsx	47	${into.replace(/\/$/, '')}/${name}	attr:target
-ui	apps/desktop/src/features/repository/CloneDialog.tsx	53	克隆失败：${(error as { message?: string }).message ?? error}	template
 ui	apps/desktop/src/features/repository/CloneDialog.tsx	59	!o && closeDialog()}>	jsx-text
 ui	apps/desktop/src/features/repository/CloneDialog.tsx	71	git@github.com:user/repo.git	attr:placeholder
 ui	apps/desktop/src/features/repository/CloneDialog.tsx	75	Enter	string
@@ -5781,31 +5647,17 @@ ui	apps/desktop/src/features/repository/RepoDialogs.tsx	48	string	string
 ui	apps/desktop/src/features/repository/RepoDialogs.tsx	48	paths	string
 ui	apps/desktop/src/features/repository/RepoDialogs.tsx	61	rename	string
 ui	apps/desktop/src/features/repository/RepoDialogs.tsx	68	) =>	jsx-text
-ui	apps/desktop/src/features/repository/RepoDialogs.tsx	77	${label} 失败：${(error as { message?: string }).message ?? error}	template
 ui	apps/desktop/src/features/repository/RepoDialogs.tsx	88	branchCreate	string
-ui	apps/desktop/src/features/repository/RepoDialogs.tsx	89	create branch ${name.trim()}	template
-ui	apps/desktop/src/features/repository/RepoDialogs.tsx	89	create branch	tmpl-seg
-ui	apps/desktop/src/features/repository/RepoDialogs.tsx	104	Stash	test-name
 ui	apps/desktop/src/features/repository/RepoDialogs.tsx	117	cherryPick	string
-ui	apps/desktop/src/features/repository/RepoDialogs.tsx	120	Cherry-pick ${oids[0].slice(0, 8)}	template
-ui	apps/desktop/src/features/repository/RepoDialogs.tsx	132	拣选失败：${(error as { message?: string }).message ?? error}	template
 ui	apps/desktop/src/features/repository/RepoDialogs.tsx	144	branchRename	string
-ui	apps/desktop/src/features/repository/RepoDialogs.tsx	145	rename ${dialogContext} → ${name.trim()}	template
 ui	apps/desktop/src/features/repository/RepoDialogs.tsx	154	!o && closeDialog()}>	jsx-text
-ui	apps/desktop/src/features/repository/RepoDialogs.tsx	159	From commit ${dialogContext.slice(0, 8)}	template
-ui	apps/desktop/src/features/repository/RepoDialogs.tsx	159	From commit	tmpl-seg
 ui	apps/desktop/src/features/repository/RepoDialogs.tsx	165	feature/my-branch	attr:placeholder
 ui	apps/desktop/src/features/repository/RepoDialogs.tsx	169	Enter	string
 ui	apps/desktop/src/features/repository/RepoDialogs.tsx	173	setCheckout(v === true)} />	jsx-text
 ui	apps/desktop/src/features/repository/RepoDialogs.tsx	188	!o && closeDialog()}>	jsx-text
-ui	apps/desktop/src/features/repository/RepoDialogs.tsx	193	At commit ${dialogContext.slice(0, 8)}	template
-ui	apps/desktop/src/features/repository/RepoDialogs.tsx	193	At commit	tmpl-seg
 ui	apps/desktop/src/features/repository/RepoDialogs.tsx	199	v1.0.0	attr:placeholder
 ui	apps/desktop/src/features/repository/RepoDialogs.tsx	203	Enter	string
 ui	apps/desktop/src/features/repository/RepoDialogs.tsx	223	!o && closeDialog()}>	jsx-text
-ui	apps/desktop/src/features/repository/RepoDialogs.tsx	226	Stash selected changes	string
-ui	apps/desktop/src/features/repository/RepoDialogs.tsx	229	Only this file is stashed. Everything else stays in your working copy.	string
-ui	apps/desktop/src/features/repository/RepoDialogs.tsx	231	Only these ${stashPaths.length} files are stashed. Everything else stays in your working copy.	template
 ui	apps/desktop/src/features/repository/RepoDialogs.tsx	252	Enter	string
 ui	apps/desktop/src/features/repository/RepoDialogs.tsx	257	setIncludeUntracked(v === true)} />	jsx-text
 ui	apps/desktop/src/features/repository/RepoDialogs.tsx	273	!o && closeDialog()}>	jsx-text
@@ -5925,8 +5777,6 @@ ui	apps/desktop/src/features/repository/merge.ts	3	@/components/confirm	string
 ui	apps/desktop/src/features/repository/merge.ts	4	@/features/repository/store	string
 ui	apps/desktop/src/features/repository/merge.ts	5	@/features/graph/store	string
 ui	apps/desktop/src/features/repository/merge.ts	6	@/features/commit/draftStore	string
-ui	apps/desktop/src/features/repository/merge.ts	19	中止失败：${(error as { message?: string }).message ?? error}	template
-ui	apps/desktop/src/features/repository/merge.ts	28	刷新失败：${(error as { message?: string }).message ?? error}	template
 ui	apps/desktop/src/features/repository/store.ts	1	zustand	string
 ui	apps/desktop/src/features/repository/store.ts	12	@angkorgit/core	string
 ui	apps/desktop/src/features/repository/store.ts	13	@/core/ipc	string
@@ -5951,14 +5801,13 @@ ui	apps/desktop/src/features/settings/AccountsTab.tsx	55	https://github.com/sett
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	60	GitLab.com	string
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	61	gitlab.com	string
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	63	https://gitlab.com/-/user_settings/personal_access_tokens	string
-ui	apps/desktop/src/features/settings/AccountsTab.tsx	64	具有“read_repository” + “write_repository”权限范围的个人访问令牌	string
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	67	gitlab-self	string
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	71	http://${host}/-/user_settings/personal_access_tokens	template
-ui	apps/desktop/src/features/settings/AccountsTab.tsx	72	具有“read_repository” + “write_repository”权限范围的个人访问令牌	string
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	76	Bitbucket	string
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	77	bitbucket.org	string
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	79	https://id.atlassian.com/manage-profile/security/api-tokens	string
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	80	具有 read:repository:bitbucket + write:repository:bitbucket 权限范围的 API 令牌	string
+ui	apps/desktop/src/features/settings/AccountsTab.tsx	88	用于 HTTPS git 访问的令牌或密码	string
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	89	username	string
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	94	github	string
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	95	gitlab	string
@@ -6009,8 +5858,6 @@ ui	apps/desktop/src/features/settings/AccountsTab.tsx	291	other	string
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	294	bitbucket	string
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	307	unreachable	string
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	317	bitbucket	string
-ui	apps/desktop/src/features/settings/AccountsTab.tsx	335	连接失败：${(error as { message?: string }).message ?? error}	template
-ui	apps/desktop/src/features/settings/AccountsTab.tsx	346	移除失败：${(error as { message?: string }).message ?? error}	template
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	359	((acc, a) =>	jsx-text
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	384	setAdding(true)}>	jsx-text
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	413	flex items-center gap-3 rounded-lg border border-border-subtle bg-surface-raised/40 p-3	attr:className
@@ -6022,7 +5869,6 @@ ui	apps/desktop/src/features/settings/AccountsTab.tsx	468	changeProvider(v as Pr
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	483	gitlab.example.com	attr:placeholder
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	487	font-mono	attr:className
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	491	bitbucket	string
-ui	apps/desktop/src/features/settings/AccountsTab.tsx	491	Atlassian 账户邮箱	string
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	491	Username	string
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	492	bitbucket	string
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	492	other	string
@@ -6090,6 +5936,7 @@ ui	apps/desktop/src/features/settings/SettingsDialog.tsx	351	border-border-subtl
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	356	flex size-8 shrink-0 items-center justify-center rounded-md	string
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	357	bg-primary/15 text-primary	string
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	357	bg-surface text-muted	string
+ui	apps/desktop/src/features/settings/SettingsDialog.tsx	389	未找到 AI CLI	attr:title
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	390	请安装 Claude Code、Codex CLI、Gemini CLI、OpenCode 或 Antigravity CLI，然后重新扫描。	attr:description
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	392	void scan()}>	jsx-text
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	445	custom	string
@@ -6105,6 +5952,7 @@ ui	apps/desktop/src/features/settings/SettingsDialog.tsx	510	{suffix}	string
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	515	{branch}	string
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	515	{suffix}	string
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	516	{ticket}	string
+ui	apps/desktop/src/features/settings/SettingsDialog.tsx	550	例如：标记仓库层之外的裸 SQL。我们只使用 React hooks，不用类组件；对缺失的错误处理和缺失的测试要严格。	string
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	565	mod	string
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	565	K / P	string
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	566	mod	string
@@ -6117,9 +5965,7 @@ ui	apps/desktop/src/features/settings/SettingsDialog.tsx	570	mod	string
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	571	mod	string
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	572	↑ / ↓	string
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	573	Home / End	string
-ui	apps/desktop/src/features/settings/SettingsDialog.tsx	574	Open the commit\u2019s files / back to the graph	string
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	574	→ / ←	string
-ui	apps/desktop/src/features/settings/SettingsDialog.tsx	575	Previous / next file (file list)	string
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	575	↑ / ↓	string
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	576	mod	string
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	578	mod	string
@@ -6140,10 +5986,8 @@ ui	apps/desktop/src/features/settings/SettingsDialog.tsx	606	user.name	string
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	610	user.email	string
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	625	user.name	string
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	626	user.email	string
-ui	apps/desktop/src/features/settings/SettingsDialog.tsx	629	保存失败：${(error as { message?: string }).message ?? error}	template
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	638	user.name	string
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	639	user.email	string
-ui	apps/desktop/src/features/settings/SettingsDialog.tsx	649	应用失败：${(error as { message?: string }).message ?? error}	template
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	690	fail	string
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	692	fail	string
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	698	unknown	string
@@ -6201,6 +6045,7 @@ ui	apps/desktop/src/features/settings/SettingsDialog.tsx	1106	setAddingProfile(f
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	1125	accounts	string
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	1138	cli	string
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	1139	使用本机已安装的 AI CLI——Claude Code、Codex、Gemini CLI、OpenCode 或 Antigravity——以其自身的登录与配额运行，无需 API 密钥。	string
+ui	apps/desktop/src/features/settings/SettingsDialog.tsx	1140	用于提交消息、diff 解释、冲突帮助与审查。通过 Ollama 或 LM Studio 的本地模型无需 API 密钥。	string
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	1161	cli	string
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	1177	password	attr:type
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	1180	sk-…	attr:placeholder
@@ -6451,17 +6296,11 @@ ui	apps/desktop/src/features/sidebar/Sidebar.tsx	252	(null);	jsx-text
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	253	(null);	jsx-text
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	268	${path}/${sub.path}	template
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	279	();	jsx-text
-ui	apps/desktop/src/features/sidebar/Sidebar.tsx	291	无法打开 ${wt.name}：${(error as { message?: string }).message ?? error}	template
-ui	apps/desktop/src/features/sidebar/Sidebar.tsx	319	${label} 失败：${(error as { message?: string }).message ?? error}	template
-ui	apps/desktop/src/features/sidebar/Sidebar.tsx	350	无法切换到 ${main.name}：${(error as { message?: string }).message ?? error}	template
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	372	checkout	string
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	377	merge	string
-ui	apps/desktop/src/features/sidebar/Sidebar.tsx	379	合并失败：${(error as { message?: string }).message ?? error}	template
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	390	checkout	string
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	395	rebase	string
-ui	apps/desktop/src/features/sidebar/Sidebar.tsx	397	变基失败：${(error as { message?: string }).message ?? error}	template
-ui	apps/desktop/src/features/sidebar/Sidebar.tsx	416	This ${forgeNoun(forgeRemote?.kind)} cannot be checked out from AngKorGit — open it in the browser instead.	template
-ui	apps/desktop/src/features/sidebar/Sidebar.tsx	416	cannot be checked out from AngKorGit — open it in the browser instead.	tmpl-seg
+ui	apps/desktop/src/features/sidebar/Sidebar.tsx	416	无法从 AngKorGit 检出此	tmpl-seg
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	423	origin	string
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	424	checkout	string
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	452	#${pr.number}	template
@@ -6473,8 +6312,6 @@ ui	apps/desktop/src/features/sidebar/Sidebar.tsx	497	remotes	string
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	498	tags	string
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	499	stashes	string
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	500	submodules	string
-ui	apps/desktop/src/features/sidebar/Sidebar.tsx	531	detached @ ${wt.headOid?.slice(0, 8) ?? '?'}	template
-ui	apps/desktop/src/features/sidebar/Sidebar.tsx	531	detached @	tmpl-seg
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	536	button	attr:role
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	540	Enter	string
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	547	group flex items-center gap-2 rounded-md px-2 py-1 pl-7 text-sm hover:bg-surface-raised	string
@@ -6640,8 +6477,7 @@ ui	apps/desktop/src/features/terminal/TerminalPanel.tsx	45	\x7f	string
 ui	apps/desktop/src/features/terminal/TerminalPanel.tsx	45	\b \b	string
 ui	apps/desktop/src/features/terminal/TerminalPanel.tsx	58	term-data-${id}	template
 ui	apps/desktop/src/features/terminal/TerminalPanel.tsx	66	term-exit-${id}	template
-ui	apps/desktop/src/features/terminal/TerminalPanel.tsx	81	\r\n[could not start shell: ${(error as { message?: string }).message ?? error}]	template
-ui	apps/desktop/src/features/terminal/TerminalPanel.tsx	81	\r\n[could not start shell:	tmpl-seg
+ui	apps/desktop/src/features/terminal/TerminalPanel.tsx	81	\r\n[无法启动 shell：	tmpl-seg
 ui	apps/desktop/src/features/terminal/TerminalPanel.tsx	92	(null);	jsx-text
 ui	apps/desktop/src/features/terminal/TerminalPanel.tsx	137	Terminal	jsx-text
 ui	apps/desktop/src/features/terminal/sessions.ts	1	@xterm/xterm	string
@@ -6691,7 +6527,6 @@ ui	apps/desktop/src/features/updater/check.ts	10	@tauri-apps/plugin-updater	stri
 ui	apps/desktop/src/features/updater/check.ts	26	updater	string
 ui	apps/desktop/src/features/updater/check.ts	28	updater	string
 ui	apps/desktop/src/features/updater/check.ts	29	@tauri-apps/plugin-process	string
-ui	apps/desktop/src/features/updater/check.ts	32	更新失败：${(error as { message?: string }).message ?? error}	template
 ui	apps/desktop/src/features/updater/check.ts	33	updater	string
 ui	apps/desktop/src/features/worktrees/CreateWorktreeDialog.tsx	1	react	string
 ui	apps/desktop/src/features/worktrees/CreateWorktreeDialog.tsx	2	sonner	string
@@ -6721,8 +6556,6 @@ ui	apps/desktop/src/features/worktrees/CreateWorktreeDialog.tsx	110	existing	str
 ui	apps/desktop/src/features/worktrees/CreateWorktreeDialog.tsx	114	new	string
 ui	apps/desktop/src/features/worktrees/CreateWorktreeDialog.tsx	126	new	string
 ui	apps/desktop/src/features/worktrees/CreateWorktreeDialog.tsx	127	new	string
-ui	apps/desktop/src/features/worktrees/CreateWorktreeDialog.tsx	130	Worktree ready · ${basename(created)}	template
-ui	apps/desktop/src/features/worktrees/CreateWorktreeDialog.tsx	130	Worktree ready ·	tmpl-seg
 ui	apps/desktop/src/features/worktrees/CreateWorktreeDialog.tsx	151	new	string
 ui	apps/desktop/src/features/worktrees/CreateWorktreeDialog.tsx	155	${baseOid.slice(0, 8)}${baseSummary ? ` · ${baseSummary}` : ''}	template
 ui	apps/desktop/src/features/worktrees/CreateWorktreeDialog.tsx	159	!o && closeDialog()}>	jsx-text
@@ -6951,7 +6784,7 @@ website	apps/website/src/components/Hero.astro	6	background:	attr:style
 website	apps/website/src/components/Hero.astro	12	true	attr:aria-hidden
 website	apps/website/src/components/Hero.astro	13	pointer-events-none absolute inset-x-0 bottom-0 h-px	attr:class
 website	apps/website/src/components/Hero.astro	14	background: linear-gradient(to right, transparent, hsl(var(--primary) / 0.5) 30%, hsl(var(--primary) / 0.5) 70%, transparent);	attr:style
-website	apps/website/src/components/Hero.astro	20	AngKorGit · Git 客户端 for macOS, Windows, Linux	jsx-text
+website	apps/website/src/components/Hero.astro	20	AngKorGit · 面向 macOS、Windows、Linux 的 Git 客户端	jsx-text
 website	apps/website/src/components/Hero.astro	29	#install	attr:href
 website	apps/website/src/components/Hero.astro	30	group inline-flex items-center gap-2 rounded-md bg-primary px-5 py-3 text-sm font-medium text-primary-foreground shadow-soft transition-all hover:opacity-90 hover:shadow-none	attr:class
 website	apps/website/src/components/HeroGraph.astro	3	branch	string
@@ -7052,6 +6885,7 @@ website	apps/website/src/components/Logo.astro	9	AngKorGit	attr:aria-label
 website	apps/website/src/components/Questions.astro	1	../lib/site	string
 website	apps/website/src/components/Questions.astro	5	AngKorGit 还是 Angkor Git？	string
 website	apps/website/src/components/Questions.astro	6	一个词，AngKorGit。也有人写作 Angkor Git、angkorgit 或 GitAngkor，指的都是这个应用。angkorgit.app 是唯一的官方网站，代码托管在 GitHub 的 cheat2001/angkorgit 仓库。	string
+website	apps/website/src/components/Questions.astro	18	无遥测、无崩溃报告、无需账户。唯一的网络流量是 git 本身、针对 GitHub releases 的更新检查，以及你选择启用的 AI 提供方。	string
 website	apps/website/src/components/Questions.astro	27	@context	string
 website	apps/website/src/components/Questions.astro	27	https://schema.org	string
 website	apps/website/src/components/Questions.astro	28	@type	string
@@ -7077,8 +6911,7 @@ website	apps/website/src/components/Size.astro	1	./Commit.astro	string
 website	apps/website/src/components/SpecSheet.astro	1	./Commit.astro	string
 website	apps/website/src/components/SpecSheet.astro	16	Branches	string
 website	apps/website/src/components/SpecSheet.astro	48	Conflicts	string
-website	apps/website/src/components/SpecSheet.astro	71	blame 视图	string
-website	apps/website/src/components/SpecSheet.astro	71	文件历史 is there. Line-level blame is on the list.	string
+website	apps/website/src/components/SpecSheet.astro	63	来自 GitHub releases 的签名验证更新	string
 website	apps/website/src/components/Splash.astro	1	./Logo.astro	string
 website	apps/website/src/components/Splash.astro	3	splash	attr:id
 website	apps/website/src/components/Splash.astro	4	fixed inset-0 z-[100] flex flex-col items-center justify-center gap-6 bg-background text-foreground	attr:class
@@ -7386,7 +7219,6 @@ website	apps/website/src/layouts/Base.astro	30	Offer	string
 website	apps/website/src/layouts/Base.astro	30	USD	string
 website	apps/website/src/layouts/Base.astro	32	@type	string
 website	apps/website/src/layouts/Base.astro	32	Organization	string
-website	apps/website/src/layouts/Base.astro	33	AngKorGit contributors	string
 website	apps/website/src/layouts/Base.astro	34	icon.png	string
 website	apps/website/src/layouts/Base.astro	38	graph	string
 website	apps/website/src/layouts/Base.astro	39	diff	string
@@ -7460,7 +7292,7 @@ website	apps/website/src/lib/site.ts	19	Git Angkor	string
 website	apps/website/src/lib/site.ts	19	GitAngkor	string
 website	apps/website/src/lib/site.ts	19	gitangkor	string
 website	apps/website/src/lib/site.ts	21	AngKorGit（Angkor Git）——快速、免费的 Git 客户端与 Git GUI，支持 macOS、Windows 和 Linux	string
-website	apps/website/src/lib/site.ts	23	Angkor Git (AngKorGit) is a fast, free, open-source Git 客户端 and Git GUI for macOS, Windows, and Linux, built native with Tauri v2, Rust and libgit2. Visual commit graphs, side-by-side diff review, visual conflict resolution, and AI assistance.	string
+website	apps/website/src/lib/site.ts	23	Angkor Git (AngKorGit) 是一款快速、免费、开源的 Git 客户端与 Git GUI，适用于 macOS、Windows 和 Linux，基于 Tauri v2、Rust 与 libgit2 原生构建。可视化提交图、并排 diff 审查、可视化冲突解决与 AI 辅助。	string
 website	apps/website/src/lib/site.ts	24	https://github.com/wuwuzhazha/angkorgit-zh	string
 website	apps/website/src/lib/site.ts	25	https://github.com/wuwuzhazha/angkorgit-zh/releases	string
 website	apps/website/src/lib/site.ts	26	https://github.com/wuwuzhazha/angkorgit-zh/blob/main/LICENSE	string

@@ -209,11 +209,38 @@ MIN_LEN = 3
 SIMPLE_EXPR = re.compile(r'^[A-Za-z_$][\w$]*(?:\.[A-Za-z_$][\w$]*|\[[^\]]*\])*$')
 # t11 升级规则③（含中文混杂行）：先剥 ${…} 占位符再统计——英文占优（ascii > 2×cjk）才算待修混杂行
 # （'Bitbucket rejected these credentials …账户邮箱… scope' → 待修；'…无需 API 密钥。' → 已译跳过）
+def _strip_placeholders(s):
+    """平衡括号地剥除 ${...}（含嵌套 { message?: string } 等），供混杂行判定使用"""
+    out = []
+    i = 0
+    n = len(s)
+    while i < n:
+        c = s[i]
+        if c == '$' and i + 1 < n and s[i + 1] == '{':
+            depth = 1
+            i += 2
+            while i < n and depth > 0:
+                if s[i] == '{':
+                    depth += 1
+                elif s[i] == '}':
+                    depth -= 1
+                i += 1
+            continue
+        out.append(c)
+        i += 1
+    return ''.join(out)
+
 def _needs_fix(s):
     if not has_cjk(s):
         return True
-    st = re.sub(r'\$\{[^}]*\}', '', s)
-    return (len(re.findall(r'[A-Za-z]', st)) > 2 * len(CJK.findall(st)))
+    st = _strip_placeholders(s)
+    # 剥占位符后仍有连续英文短语 → 待修（Bitbucket rejected these credentials…账户邮箱…）
+    if re.search(r'[A-Za-z]{2,}(?: [A-Za-z]{2,}){1,}', st):
+        return True
+    # 否则按比例：英文显著占优才算待修（避免品牌/术语混排的已译串误报）
+    ascii_n = len(re.findall(r'[A-Za-z]', st))
+    cjk_n = len(CJK.findall(st))
+    return ascii_n > 3 * cjk_n
 # 片段混杂：≥4 字母英文词后随非字母（'failed: '、'right-click for'），用于模板字面量前缀串
 SEG_MIXED = re.compile(r'[A-Za-z]{4,}[^A-Za-z]|^[A-Za-z]{4,}$')
 

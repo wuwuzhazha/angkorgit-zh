@@ -152,3 +152,22 @@ core	\n\nStaged diff:\n\n	prompt	packages/core/src/ai/capabilities.ts:34	提示�
 core	\n\nDiff stat:\n	prompt	packages/core/src/ai/capabilities.ts:77	提示词片段
 # ---- test：夹具（1 条） ----
 test	col${i + 1}	fixture	tests/unit/wordDiff.test.ts:33	词级 diff 夹具列名
+# ---- t20 补录：扫描器升级噪声裁决（已中文化误报/代码片段，source=当前文件文本）----
+ui	Angkor Git (AngKorGit) 是一款快速、免费、开源的 Git 客户端与 Git GUI，适用于 macOS、Windows 和 Linux，基于 Tauri v2、Rust 与 libgit2 原生构建。可视化提交图、并排 diff 审查、可视化冲突解决与 AI 辅助。	zh-misreport	已中文化误报（品牌词触发扫描器，ui-web batch4:6 词条 target 回扫）
+ui	AngKorGit 错误报告\n\n${error?.name}: ${error?.message}\n\n${error?.stack ?? '}	zh-misreport	已中文化误报（batch4:18 词条 target 回扫）
+website	无遥测、无崩溃报告、无需账户。唯一的网络流量是 git 本身、针对 GitHub releases 的更新检查，以及你选择启用的 AI 提供方。	zh-misreport	已中文化误报
+ui	${errorLabel}：${(error as { message?: string }).message ?? error}	zh-misreport	已中文化误报（batch4:24 target 回扫）
+ui	用于提交消息、diff 解释、冲突帮助与审查。通过 Ollama 或 LM Studio 的本地模型无需 API 密钥。	zh-misreport	已中文化误报（batch4 词条 target 回扫）
+ui	例如：标记仓库层之外的裸 SQL。我们只使用 React hooks，不用类组件；对缺失的错误处理和缺失的测试要严格。	zh-misreport	已中文化误报
+website	AngKorGit · 面向 macOS、Windows、Linux 的 Git 客户端	zh-misreport	已中文化误报（batch4:37 target 回扫）
+e2e	选择 src/features/graph/CommitGraph.tsx 以应用	zh-misreport	已中文化误报（e2e 断言词条 target 回扫）
+e2e	从暂存中应用 src/features/graph/GraphRow.tsx	zh-misreport	已中文化误报（e2e 断言词条 target 回扫）
+e2e	aside div[title*="拖到另一个分支上"]	zh-misreport	已中文化误报（e2e 词条 target 回扫）
+website	来自 GitHub releases 的签名验证更新	zh-misreport	已中文化误报
+ui	用于 HTTPS git 访问的令牌或密码	zh-misreport	已中文化误报
+ui	AngKorGit 错误报告\n\n	zh-misreport	已中文化误报（batch4:18 词条片段回扫）
+ui	void act(`混合重置到 $	code	代码片段（JSX 模板重建噪声）
+ui	无法从 AngKorGit 检出此	zh-misreport	已中文化误报（batch4:12 target 片段回扫）
+ui	\r\n[无法启动 shell：	zh-misreport	已中文化误报（batch4:19 target 片段回扫）
+ui	void act(`软重置到 $	code	代码片段（JSX 模板重建噪声）
+ui	未找到 AI CLI	zh-misreport	已中文化误报

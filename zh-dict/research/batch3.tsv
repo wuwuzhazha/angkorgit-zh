@@ -1,4 +1,4 @@
-# 批次 batch3.tsv（rust + core + meta + e2e/test 其余）：translate 236 条；source 按长度降序（长串优先）
+# 批次 batch3.tsv（rust + core + meta + e2e/test 其余）：translate 215 条；source 按长度降序（长串优先）
 # 列：scope<TAB>source<TAB>require_anchor<TAB>sync<TAB>hint<TAB>first_loc<TAB>occurrences
 core	Review this staged diff. List concrete issues (bugs, edge cases, naming, missing tests) ordered by severity. If it looks good, say so briefly.${conventions ? `\n\n${conventions}\n\n${guard}` : ''}\n\n${clip(stagedDiff)}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	packages/core/src/ai/capabilities.ts:125	1
 core	Write a pull request description in markdown (## Summary, ## Changes, ## Testing) for these commits and diff stat.\n\nCommits:\n${clip(commits, 8000)}\n\nDiff stat:\n${clip(diffStat, 4000)}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	packages/core/src/ai/capabilities.ts:77	1
@@ -18,12 +18,10 @@ rust	Revert \"{summary}\"\n\nThis reverts commit {full_oid}.	translate	fmt	模�
 rust	checkout must refuse a branch checked out in a worktree	translate	new	Rust 字符串	apps/desktop/src-tauri/tests/git_engine.rs:2001	1
 rust	adding a worktree for the checked-out branch must fail	translate	new	Rust 字符串	apps/desktop/src-tauri/tests/git_engine.rs:1986	1
 rust	feat: two\n\n(cherry picked from commit {second})\n\n	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src-tauri/tests/git_engine.rs:630	1
-e2e	Apply src/features/graph/GraphRow.tsx from the stash	translate	new	待译	tests/e2e/smoke.spec.ts:865	1
 rust	feat: one\n\n(cherry picked from commit {first})\n\n	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src-tauri/tests/git_engine.rs:639	1
 core	General review conventions:\n${clip(general, 4000)}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	packages/core/src/ai/capabilities.ts:103	1
 rust	checkout: fast-forward {local_name} to its upstream	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src-tauri/src/core/branch.rs:173	1
 rust	diff mentioning {OUTPUT_FILE_PLACEHOLDER} literally	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src-tauri/src/ai_cli.rs:418	1
-e2e	Select src/features/graph/CommitGraph.tsx to apply	translate	new	待译	tests/e2e/smoke.spec.ts:870	1
 rust	unexpected http status code: 403; class=Http (34)	translate	new	Rust 字符串	apps/desktop/src-tauri/src/error.rs:119	1
 e2e	section[aria-label^="文件差异："] div.overflow-y-auto	translate	new	待译	tests/e2e/smoke.spec.ts:179	1
 test	A pull request already exists for feature/thing.	translate	new	待译	tests/unit/forge.test.ts:174	1
@@ -34,9 +32,10 @@ test	still a comment &lt;b&gt;not a tag&lt;/b&gt;	translate	new	待译	tests/uni
 e2e	section[aria-label^="文件差异："] span.font-mono	translate	new	待译	tests/e2e/smoke.spec.ts:501	1
 rust	missing origin line in: {engine_message:?}	translate	new	Rust 字符串	apps/desktop/src-tauri/tests/git_engine.rs:698	1
 e2e	Virtualized rows keep large graphs smooth	translate	new	待译	tests/e2e/smoke.spec.ts:502	1
+e2e	选择 src/features/graph/CommitGraph.tsx 以应用	translate	new	待译	tests/e2e/smoke.spec.ts:870	1
 test	Another open merge request already exists	translate	new	待译	tests/unit/forge.test.ts:289	1
 e2e	src/features/graph/CommitGraph.tsx 的历史	translate	new	待译	tests/e2e/smoke.spec.ts:758	1
-rust	nothing to stash in the selected files	translate	new	Rust 字符串	apps/desktop/src-tauri/src/core/misc.rs:106	1
+e2e	从暂存中应用 src/features/graph/GraphRow.tsx	translate	new	待译	tests/e2e/smoke.spec.ts:865	1
 rust	uncommitted changes exist in the index	translate	new	Rust 字符串	apps/desktop/src-tauri/src/core/misc.rs:254	1
 test	line 1\nours line\ntheirs line\nline 2	translate	new	待译	tests/unit/conflicts.test.ts:53	1
 e2e	丢弃 src/features/graph/CommitGraph.tsx	translate	new	待译	tests/e2e/smoke.spec.ts:883	1
@@ -44,31 +43,25 @@ rust	github.com=dara-work, gitlab.com=dara	translate	new	Rust 字符串	apps/des
 rust	nonsense,=user,host=, GitHub.com=Dara	translate	new	Rust 字符串	apps/desktop/src-tauri/src/core/remote.rs:730	1
 rust	index on {branch}: {short} {summary}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src-tauri/src/core/misc.rs:113	1
 core	${text.slice(0, max)}\n…(truncated)	translate	fmt	模板串：${x}/{} 占位符必须原样保留	packages/core/src/ai/capabilities.ts:14	1
-e2e	Applied GraphRow.tsx from the stash	translate	new	待译	tests/e2e/smoke.spec.ts:868	1
-rust	could not run git stash {verb}: {e}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src-tauri/src/core/misc.rs:266	1
 test	\u001b[32mfeat: colored\u001b[0m \n	translate	new	待译	tests/unit/cliAgents.test.ts:65	1
 rust	WIP on {branch}: {short} {summary}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src-tauri/src/core/misc.rs:131	1
 rust	dirty worktree must not be removed	translate	new	Rust 字符串	apps/desktop/src-tauri/tests/git_engine.rs:2028	1
 rust	unexpected http status code: 401	translate	new	Rust 字符串	apps/desktop/src-tauri/src/error.rs:158	1
 rust	unexpected http status code: 402	translate	new	Rust 字符串	apps/desktop/src-tauri/src/error.rs:115	2
 rust	unexpected http status code: 500	translate	new	Rust 字符串	apps/desktop/src-tauri/src/error.rs:140	1
-rust	{file} is not part of this stash	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src-tauri/src/core/misc.rs:375	1
 test	still a comment <b>not a tag</b>	translate	new	待译	tests/unit/highlight.test.ts:59	1
 core	Explain this merge conflict in	translate	new	待译	packages/core/src/ai/capabilities.ts:64	1
 core	已安装 AI CLI（Claude Code、Codex…）	translate	new	待译	packages/core/src/ai/providers.ts:228	1
-e2e	Applied 4 files from the stash	translate	new	待译	tests/e2e/smoke.spec.ts:874	1
 rust	\\ No newline at end of file\n	translate	new	Rust 字符串	apps/desktop/src-tauri/src/core/stage.rs:225	2
-rust	{file} has no changes to stash	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src-tauri/src/core/misc.rs:89	1
 core	General review conventions:\n	translate	new	待译	packages/core/src/ai/capabilities.ts:103	1
 test	A pull request already exists	translate	new	待译	tests/unit/forge.test.ts:182	1
 test	export enum EnumSponsorType {	translate	new	待译	tests/unit/highlight.test.ts:26	1
 e2e	${String(name)} spills right	translate	fmt	模板串：${x}/{} 占位符必须原样保留	tests/e2e/smoke.spec.ts:367	1
-rust	stash {index} does not exist	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src-tauri/src/core/misc.rs:288	1
+e2e	aside div[title*="拖到另一个分支上"]	translate	new	待译	tests/e2e/smoke.spec.ts:252	1
 rust	unexpected http status code:	translate	new	Rust 字符串	apps/desktop/src-tauri/src/error.rs:17	1
 test	Reviews may not be requested	translate	new	待译	tests/unit/forge.test.ts:546	1
 test	[support] fix login redirect	translate	new	待译	tests/unit/commitStyle.test.ts:117	1
 e2e	${String(name)} spills left	translate	fmt	模板串：${x}/{} 占位符必须原样保留	tests/e2e/smoke.spec.ts:370	1
-e2e	Reset branch to its remote?	translate	new	待译	tests/e2e/smoke.spec.ts:738	1
 e2e	section[aria-label*=" 的历史"]	translate	new	待译	tests/e2e/smoke.spec.ts:757	1
 rust	fast-forward merge {branch}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src-tauri/src/core/branch.rs:219	1
 test	line 1\ntheirs line\nline 2	translate	new	待译	tests/unit/conflicts.test.ts:50	1
@@ -86,12 +79,9 @@ core	Bearer ${config.apiKey}	translate	fmt	模板串：${x}/{} 占位符必须�
 e2e	dialog geometry missing	translate	new	待译	tests/e2e/smoke.spec.ts:743	1
 rust	Revert \"add bad file\"	translate	new	Rust 字符串	apps/desktop/src-tauri/tests/git_engine.rs:741	1
 test	source branch not found	translate	new	待译	tests/unit/forge.test.ts:389	2
-e2e	Stash selected changes	translate	new	待译	tests/e2e/smoke.spec.ts:770	2
 rust	kept across checkout\n	translate	new	Rust 字符串	apps/desktop/src-tauri/tests/git_engine.rs:517	2
 rust	main repo stays intact	translate	new	Rust 字符串	apps/desktop/src-tauri/tests/git_engine.rs:2037	1
-rust	not part of this stash	translate	new	Rust 字符串	apps/desktop/src-tauri/tests/git_engine.rs:491	1
 core	Draft: ${input.title}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	packages/core/src/forge/providers/gitlab.ts:114	1
-e2e	Filter changed files…	translate	new	待译	tests/e2e/smoke.spec.ts:812	6
 e2e	clipped: ${part.text}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	tests/e2e/smoke.spec.ts:219	1
 rust	line should be staged	translate	new	Rust 字符串	apps/desktop/src-tauri/tests/git_engine.rs:936	1
 rust	pull request checkout	translate	new	Rust 字符串	apps/desktop/src-tauri/src/core/remote.rs:656	1
@@ -104,7 +94,6 @@ test	Write in past tense.	translate	new	待译	tests/unit/commitStyle.test.ts:97
 test	should not be called	translate	new	待译	tests/unit/aiModels.test.ts:93	1
 rust	message {message:?}	translate	new	Rust 字符串	apps/desktop/src-tauri/tests/git_engine.rs:714	1
 rust	production change\n	translate	new	Rust 字符串	apps/desktop/src-tauri/tests/git_engine.rs:1348	2
-rust	{file} is untracked	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src-tauri/src/core/misc.rs:79	1
 test	Draft: Fix pipeline	translate	new	待译	tests/unit/forge.test.ts:279	1
 test	a **b** and `c` end	translate	new	待译	tests/unit/aiTextSegments.test.ts:6	1
 test	run(/* inline start	translate	new	待译	tests/unit/highlight.test.ts:39	1
@@ -121,9 +110,6 @@ rust	diverge on master	translate	new	Rust 字符串	apps/desktop/src-tauri/tests
 rust	production change	translate	new	Rust 字符串	apps/desktop/src-tauri/tests/git_engine.rs:1349	1
 test	Validation Failed	translate	new	待译	tests/unit/forge.test.ts:173	2
 core	\n\nDiff stat:\n	translate	new	待译	packages/core/src/ai/capabilities.ts:77	1
-e2e	Hide file filter	translate	new	待译	tests/e2e/smoke.spec.ts:852	1
-e2e	Pop latest stash	translate	new	待译	tests/e2e/smoke.spec.ts:776	1
-e2e	This is a stash.	translate	new	待译	tests/e2e/smoke.spec.ts:864	2
 rust	local divergence	translate	new	Rust 字符串	apps/desktop/src-tauri/tests/git_engine.rs:1695	2
 rust	resolved by hand	translate	new	Rust 字符串	apps/desktop/src-tauri/tests/git_engine.rs:1146	1
 rust	stash decoration	translate	new	Rust 字符串	apps/desktop/src-tauri/tests/git_engine.rs:394	1
@@ -133,13 +119,13 @@ test	/* at line start	translate	new	待译	tests/unit/highlight.test.ts:40	1
 test	401 Unauthorized	translate	new	待译	tests/unit/forge.test.ts:496	1
 test	[support] fix it	translate	new	待译	tests/unit/commitStyle.test.ts:122	3
 test	only as guidance	translate	new	待译	tests/unit/aiCapabilities.test.ts:59	1
-e2e	Lane color band	translate	new	待译	tests/e2e/smoke.spec.ts:649	2
 rust	add picked file	translate	new	Rust 字符串	apps/desktop/src-tauri/tests/git_engine.rs:588	1
 rust	master change\n	translate	new	Rust 字符串	apps/desktop/src-tauri/tests/git_engine.rs:154	3
 rust	source change\n	translate	new	Rust 字符串	apps/desktop/src-tauri/tests/git_engine.rs:652	1
 test	Adds the thing.	translate	new	待译	tests/unit/forge.test.ts:152	2
 test	invalid api key	translate	new	待译	tests/unit/aiProviders.test.ts:38	1
 test	one two\n\nbody	translate	new	待译	tests/unit/commitMessage.test.ts:36	1
+e2e	应用暂存 (keep it)	translate	new	待译	tests/e2e/smoke.spec.ts:927	2
 rust	Bearer {token}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src-tauri/src/account_check.rs:99	2
 rust	WIP on master:	translate	new	Rust 字符串	apps/desktop/src-tauri/tests/git_engine.rs:313	1
 rust	change a add c	translate	new	Rust 字符串	apps/desktop/src-tauri/tests/git_engine.rs:1832	1
@@ -148,9 +134,6 @@ rust	feature work\n	translate	new	Rust 字符串	apps/desktop/src-tauri/tests/gi
 rust	other change\n	translate	new	Rust 字符串	apps/desktop/src-tauri/tests/git_engine.rs:150	2
 test	// just a note	translate	new	待译	tests/unit/highlight.test.ts:44	1
 test	just a summary	translate	new	待译	tests/unit/commitMessage.test.ts:17	2
-e2e	Apply 4 files	translate	new	待译	tests/e2e/smoke.spec.ts:873	1
-e2e	Filter files…	translate	new	待译	tests/e2e/smoke.spec.ts:843	2
-e2e	Stage 3 files	translate	new	待译	tests/e2e/smoke.spec.ts:794	1
 rust	Basic {basic}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src-tauri/src/account_check.rs:189	3
 rust	change b only	translate	new	Rust 字符串	apps/desktop/src-tauri/tests/git_engine.rs:968	1
 rust	checked above	translate	new	Rust 字符串	apps/desktop/src-tauri/src/core/stage.rs:180	1
@@ -161,10 +144,6 @@ rust	three renamed	translate	new	Rust 字符串	apps/desktop/src-tauri/tests/git
 test	Add worktrees	translate	new	待译	tests/unit/forge.test.ts:32	2
 test	commit ${oid}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	tests/unit/graphLayout.test.ts:10	1
 test	not logged in	translate	new	待译	tests/unit/cliAgents.test.ts:71	1
-e2e	Clear filter	translate	new	待译	tests/e2e/smoke.spec.ts:822	1
-e2e	Commit files	translate	new	待译	tests/e2e/smoke.spec.ts:948	1
-e2e	Filter files	translate	new	待译	tests/e2e/smoke.spec.ts:813	2
-e2e	Reset branch	translate	new	待译	tests/e2e/smoke.spec.ts:742	1
 e2e	spills right	translate	new	待译	tests/e2e/smoke.spec.ts:367	1
 rust	add bad file	translate	new	Rust 字符串	apps/desktop/src-tauri/tests/git_engine.rs:724	1
 rust	change a {i}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src-tauri/tests/git_engine.rs:1160	1

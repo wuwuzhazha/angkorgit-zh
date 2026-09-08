@@ -7,7 +7,6 @@ website	curl -L ${SITE.assetUrl(version, `AngKorGit_${version}_amd64.AppImage`)}
 ui	0 0 0 ${NODE_HALO}px hsl(var(--background)), 0 0 0 ${NODE_HALO + NODE_RING}px ${laneColor(node.color)}	verify	含受保护片段（URL/哈希/路径/版本），译时须原样保留	apps/desktop/src/features/graph/GraphRow.tsx:223
 website	-o ~/Downloads/AngKorGit.dmg && xattr -cr ~/Downloads/AngKorGit.dmg && open ~/Downloads/AngKorGit.dmg	verify	含受保护片段（URL/哈希/路径/版本），译时须原样保留	apps/website/src/components/Install.astro:60
 website	curl -L ${SITE.assetUrl(version, `AngKorGit_${version}_universal.dmg`)} -o ~/Downloads/AngKorGit.dmg	verify	含受保护片段（URL/哈希/路径/版本），译时须原样保留	apps/website/src/components/Install.astro:56
-docs	Updated for v0.11.0 (September 2026). [CHANGELOG.md](../CHANGELOG.md) is the	verify	含受保护片段（URL/哈希/路径/版本），译时须原样保留	docs/Roadmap.md:3
 test	checks out same-repo branches with tracking and fork PRs via refs/pull	verify	含受保护片段（URL/哈希/路径/版本），译时须原样保留	tests/unit/forge.test.ts:196
 e2e	arrow keys walk from the graph into a commit\u2019s files and back	verify	含受保护片段（URL/哈希/路径/版本），译时须原样保留	tests/e2e/smoke.spec.ts:935
 website	</span><span class="font-mono text-[11px] font-normal text-faint">	verify	含受保护片段（URL/哈希/路径/版本），译时须原样保留	apps/website/src/components/mock/Sidebar.astro:4
@@ -15,7 +14,6 @@ rust	fix: adjust\n\nSigned-off-by: Test User <test@angkorgit.dev>	verify	含受�
 test	checks out fork merge requests via refs/merge-requests	verify	含受保护片段（URL/哈希/路径/版本），译时须原样保留	tests/unit/forge.test.ts:299
 test	strips refs/heads and collapses unsafe characters	verify	含受保护片段（URL/哈希/路径/版本），译时须原样保留	tests/unit/worktree.test.ts:9
 website	hsl(var(${alt ? '--graph-2' : laneColors[lane]}))	verify	含受保护片段（URL/哈希/路径/版本），译时须原样保留	apps/website/src/components/mock/Graph.astro:48
-ui	Open the commit\u2019s files / back to the graph	verify	含受保护片段（URL/哈希/路径/版本），译时须原样保留	apps/desktop/src/features/settings/SettingsDialog.tsx:574
 ui	hsl(var(--primary) / ${current ? 0.28 : 0.14})	verify	含受保护片段（URL/哈希/路径/版本），译时须原样保留	apps/desktop/src/features/diff/DiffViewer.tsx:21
 meta	pnpm --filter @angkorgit/desktop tauri build	verify	含受保护片段（URL/哈希/路径/版本），译时须原样保留	package.json:21
 ui	max(2px, ${((end - start) / total) * 100}%)	verify	含受保护片段（URL/哈希/路径/版本），译时须原样保留	apps/desktop/src/features/diff/DiffMinimap.tsx:193

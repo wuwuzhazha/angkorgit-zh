@@ -197,3 +197,5 @@ ui	全部丢弃 ${allUnstaged.length} change${allUnstaged.length === 1 ? '' : 's
 ui	Stash — click the row to see its files, right-click to apply, pop or drop	暂存——点击行查看其文件，右键可应用、弹出或丢弃
 ui	未提交的更改 are discarded and cannot be recovered.	未提交的更改将被丢弃且无法恢复。
 ui	This branch is not checked out. It is checked out first, then hard reset to 	此分支当前未检出。将先检出它，再硬重置到
+# ---- t20 补录：应用暂存 (keep it) 混杂尾段 ----
+ui	应用暂存 (keep it)	应用暂存（保留）

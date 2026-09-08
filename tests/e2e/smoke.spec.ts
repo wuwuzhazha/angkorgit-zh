@@ -924,10 +924,10 @@ test('a stash shows up in the graph with its own node and a menu to pop it', asy
   const row = chip.locator('xpath=ancestor::*[@role="row"]');
   await expect(row.getByRole('img', { name: '暂存' })).toBeVisible();
   await row.click({ button: 'right', position: { x: 400, y: 10 } });
-  await expect(page.getByRole('menuitem', { name: '应用暂存 (keep it)' })).toBeVisible();
+  await expect(page.getByRole('menuitem', { name: '应用暂存（保留）' })).toBeVisible();
   await page.keyboard.press('Escape');
   await chip.click({ button: 'right' });
-  await expect(page.getByRole('menuitem', { name: '应用暂存 (keep it)' })).toBeVisible();
+  await expect(page.getByRole('menuitem', { name: '应用暂存（保留）' })).toBeVisible();
   await page.getByRole('menuitem', { name: '弹出暂存' }).click();
   await expect(page.getByText('弹出暂存 已完成')).toBeVisible();
 });

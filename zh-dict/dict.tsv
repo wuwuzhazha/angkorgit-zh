@@ -889,6 +889,7 @@ ui,e2e	Filter files	过滤文件
 ui,e2e	Reset branch	重置分支
 ui	'Discard'	'丢弃'	confirmLabel: 'Discard'
 ui	'Clean'	'干净'	: 'Clean'}
+ui	应用暂存 (keep it)	应用暂存（保留）
 
 # ============ B. Rust 引擎错误消息（apps/desktop/src-tauri/src） ============
 rust	no repository is open	没有打开任何仓库
