@@ -394,7 +394,7 @@ rust	apps/desktop/src-tauri/tests/git_engine.rs	one\nplus\n
 rust	apps/desktop/src-tauri/tests/git_engine.rs	one\ntwo\n
 rust	apps/desktop/src-tauri/tests/git_engine.rs	one\ntwo\nthree
 rust	apps/desktop/src-tauri/tests/git_engine.rs	one\ntwo\nthree\n
-rust	apps/desktop/src-tauri/tests/git_engine.rs	one\nTWO\nthree\nFOUR\nfive\n
+rust	apps/desktop/src-tauri/tests/git_engine.rs	one\ntwo\nthree\nfour\nfive\n
 rust	apps/desktop/src-tauri/tests/git_engine.rs	only a
 rust	apps/desktop/src-tauri/tests/git_engine.rs	other change\n
 rust	apps/desktop/src-tauri/tests/git_engine.rs	plain commit
