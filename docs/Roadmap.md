@@ -1,6 +1,6 @@
 # 路线图
 
-Updated for v0.11.0 (September 2026). [CHANGELOG.md](../CHANGELOG.md) is the
+更新至 v0.11.0（2026 年 9 月）。[CHANGELOG.md](../CHANGELOG.md) 是
 每个版本发布内容的权威记录；本文件跟踪
 direction.
 
@@ -13,7 +13,7 @@ direction.
 - [x] 远端：拉取、拉取、推送、强制推送、推送/拉取标签、后台自动拉取
 - [x] 冲突：可视化解决器——对齐的 A/B 面板带行号，每侧一个全选复选框并可悬停选行，结果面板支持就地编辑且自带行号，冲突导航，AI 解释
 - [x] 工作树：侧边栏分区显示分支/脏/缺失状态，任意工作树可作独立标签页打开，可从分支或提交在相邻文件夹创建，安全移除与清理，别处持有的分支在侧边栏与提交图中标记
-- [x] Stash: create (whole tree or chosen files), apply, pop (one click from the toolbar), drop; stashes as rows in the graph with their own node and menu; apply single files from a stash · Tags: create (annotated/lightweight), delete, checkout · Submodules: list & update
+- [x] 暂存：创建（整棵树或所选文件）、应用、弹出（工具栏一键）、丢弃；暂存作为提交图中的行，带有自己的节点与菜单；可从暂存中应用单个文件 · 标签：创建（附注/轻量）、删除、检出 · 子模块：列出与更新
 - [x] 仓库根目录内置 PTY 终端；内置文件编辑器
 - [x] Diff：内联与并排、语法高亮、词级 diff、图片 diff、diff 内查找（⌘F）、缩略图、上一处/下一处更改与文件导航（N/P、[/]），直接打开到第一处更改（无滚动动画）, reloads live as the file changes on disk, file history one click from the header; → / ↑ ↓ / ← walk from the graph into a commit's files and back
 - [x] 设置：十六款主题（默认 Angkor Dusk）带强调色与缩放、身份配置（仓库级）关联账户、SSH 密钥管理与生成、带已验证令牌的托管账户、AI 提供方与提交风格、键盘参考

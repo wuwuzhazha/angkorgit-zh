@@ -86,7 +86,7 @@ export function RepoDialogs({ onDone }: { onDone: () => Promise<void> }) {
       useUndo.getState().tracked({
         path,
         kind: 'branchCreate',
-        label: `create branch ${name.trim()}`,
+        label: `创建分支 ${name.trim()}`,
         extra: { branch: name.trim(), oid: dialogContext ?? (repo?.headOid ?? '') },
         action: () => ipc.createBranch(path, name.trim(), dialogContext, checkout),
       }),
@@ -101,7 +101,7 @@ export function RepoDialogs({ onDone }: { onDone: () => Promise<void> }) {
   };
 
   const submitStash = () => {
-    void submit('Stash', () =>
+    void submit('暂存', () =>
       ipc.stashCreate(path, message.trim() || null, stashPaths.length > 0 || includeUntracked, stashPaths),
     );
   };
@@ -117,7 +117,7 @@ export function RepoDialogs({ onDone }: { onDone: () => Promise<void> }) {
           kind: 'cherryPick',
           label:
             oids.length === 1
-              ? `Cherry-pick ${oids[0].slice(0, 8)}`
+              ? `拣选 ${oids[0].slice(0, 8)}`
               : `拣选 ${oids.length} 个提交`,
           action: () =>
             oids.length === 1
@@ -142,7 +142,7 @@ export function RepoDialogs({ onDone }: { onDone: () => Promise<void> }) {
       useUndo.getState().tracked({
         path,
         kind: 'branchRename',
-        label: `rename ${dialogContext} → ${name.trim()}`,
+        label: `将 ${dialogContext} 重命名为 ${name.trim()}`,
         extra: { from: dialogContext ?? '', to: name.trim() },
         action: () => ipc.renameBranch(path, dialogContext ?? '', name.trim()),
       }),
@@ -156,7 +156,7 @@ export function RepoDialogs({ onDone }: { onDone: () => Promise<void> }) {
           <DialogHeader>
             <DialogTitle>新建分支</DialogTitle>
             <DialogDescription>
-              {dialogContext ? `From commit ${dialogContext.slice(0, 8)}` : '从当前 HEAD 起'}
+              {dialogContext ? `来自提交 ${dialogContext.slice(0, 8)}` : '从当前 HEAD 起'}
             </DialogDescription>
           </DialogHeader>
           <div className="flex flex-col gap-3">
@@ -171,7 +171,7 @@ export function RepoDialogs({ onDone }: { onDone: () => Promise<void> }) {
             />
             <label className="flex cursor-pointer items-center gap-2 text-xs text-muted">
               <Checkbox checked={checkout} onCheckedChange={(v) => setCheckout(v === true)} />
-              Checkout after creating
+              创建后检出
             </label>
           </div>
           <DialogFooter>
@@ -190,7 +190,7 @@ export function RepoDialogs({ onDone }: { onDone: () => Promise<void> }) {
           <DialogHeader>
             <DialogTitle>新建标签</DialogTitle>
             <DialogDescription>
-              {dialogContext ? `At commit ${dialogContext.slice(0, 8)}` : '在当前 HEAD 处'} — add a message for an annotated tag.
+              {dialogContext ? `在提交 ${dialogContext.slice(0, 8)}` : '在当前 HEAD 处'} — 为附注标签添加一条消息。
             </DialogDescription>
           </DialogHeader>
           <div className="flex flex-col gap-3">
@@ -223,12 +223,12 @@ export function RepoDialogs({ onDone }: { onDone: () => Promise<void> }) {
       <Dialog open={dialog === 'createStash'} onOpenChange={(o) => !o && closeDialog()}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>{stashPaths.length > 0 ? 'Stash selected changes' : '暂存更改'}</DialogTitle>
+            <DialogTitle>{stashPaths.length > 0 ? '暂存选中的更改' : '暂存更改'}</DialogTitle>
             <DialogDescription>
               {stashPaths.length === 1
-                ? 'Only this file is stashed. Everything else stays in your working copy.'
+                ? '仅此文件被暂存，其余内容保留在工作副本中。'
                 : stashPaths.length > 1
-                  ? `Only these ${stashPaths.length} files are stashed. Everything else stays in your working copy.`
+                  ? `仅这 ${stashPaths.length} 个文件被暂存，其余内容保留在工作副本中。`
                   : '保存你的工作更改并恢复干净的工作区。'}
             </DialogDescription>
           </DialogHeader>

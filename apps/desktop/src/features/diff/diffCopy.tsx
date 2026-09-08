@@ -28,7 +28,7 @@ function copySide(diff: FileDiff, side: DiffSide): void {
   const text = diffText(diff, side);
   void navigator.clipboard.writeText(text);
   const lines = text.length === 0 ? 0 : text.split('\n').length;
-  toast.success(`Copied ${lines} line${lines === 1 ? '' : 's'} (${side} text)`);
+  toast.success(`已复制 ${lines} 行（${side} 文本）`);
 }
 
 const isEditableTarget = (): boolean => {

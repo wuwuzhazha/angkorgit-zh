@@ -78,7 +78,7 @@ function spawnShell(session: TerminalSession, repoPath: string): void {
       if (session.killed) return;
       session.exited = true;
       terminal.writeln(
-        `\r\n[could not start shell: ${(error as { message?: string }).message ?? error}]`,
+        `\r\n[无法启动 shell：${(error as { message?: string }).message ?? error}]`,
       );
     }
   })();

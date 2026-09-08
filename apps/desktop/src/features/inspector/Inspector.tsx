@@ -83,11 +83,11 @@ export function Inspector() {
           {commit || commitError ? (isStash ? 'Stash' : 'Commit') : '工作副本'}
         </span>
         <div className="ml-auto flex items-center gap-0.5">
-          <Hint label={fileFilterOpen ? 'Hide file filter' : 'Filter files'}>
+          <Hint label={fileFilterOpen ? '隐藏文件过滤' : '过滤文件'}>
             <Button
               variant="ghost"
               size="icon-sm"
-              aria-label={fileFilterOpen ? 'Hide file filter' : 'Filter files'}
+              aria-label={fileFilterOpen ? '隐藏文件过滤' : '过滤文件'}
               aria-pressed={fileFilterOpen}
               className={cn(fileFilterOpen && 'bg-surface-raised text-foreground')}
               onClick={() => setFileFilterOpen(!fileFilterOpen)}

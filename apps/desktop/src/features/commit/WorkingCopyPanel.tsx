@@ -395,7 +395,7 @@ export function WorkingCopyPanel() {
       await refreshStatus();
       if (remaining.length > 0) {
         const submoduleCount = remaining.filter(isSubmodule).length;
-        const listed = remaining.slice(0, 3).join(', ') + (remaining.length > 3 ? ` +${remaining.length - 3} more` : '');
+        const listed = remaining.slice(0, 3).join(', ') + (remaining.length > 3 ? ` +${remaining.length - 3} 更多` : '');
         toast.error(
           submoduleCount > 0
             ? `${remaining.length} 个更改无法丢弃（${listed}）。子模块的更改必须在子模块仓库内丢弃。`
@@ -415,7 +415,7 @@ export function WorkingCopyPanel() {
         await op();
         await refreshStatus();
       } catch (error) {
-        toast.error(`${errorLabel}: ${(error as { message?: string }).message ?? error}`);
+        toast.error(`${errorLabel}：${(error as { message?: string }).message ?? error}`);
       }
     },
     [refreshStatus],
@@ -439,24 +439,24 @@ export function WorkingCopyPanel() {
     }
     await refreshStatus();
     if (leftovers.length > 0) {
-      const listed = leftovers.slice(0, 3).join(', ') + (leftovers.length > 3 ? ` +${leftovers.length - 3} more` : '');
+      const listed = leftovers.slice(0, 3).join(', ') + (leftovers.length > 3 ? ` +${leftovers.length - 3} 更多` : '');
       toast.error(
         leftovers.some(isSubmodule)
-          ? `${leftovers.length} change${leftovers.length === 1 ? '' : 's'} could not be discarded (${listed}). Submodule changes must be discarded inside the submodule repository.`
-          : `${leftovers.length} change${leftovers.length === 1 ? '' : 's'} could not be discarded: ${listed}`,
+          ? `${leftovers.length} 个更改无法丢弃（${listed}）。子模块的更改必须在子模块仓库内丢弃。`
+          : `${leftovers.length} 个更改无法丢弃：${listed}`,
       );
     } else {
-      toast.success(`Discarded ${paths.length} change${paths.length === 1 ? '' : 's'}`);
+      toast.success(`已丢弃 ${paths.length} 个更改`);
     }
   };
 
   const requestDiscardMany = (paths: string[], staged: boolean) => {
     void confirmDialog({
-      title: `Discard changes in ${paths.length} files?`,
+      title: `丢弃 ${paths.length} 个文件中的更改？`,
       description: staged
-        ? 'These files go back to the last commit — staged and unstaged changes alike. New files are deleted. This cannot be undone.'
-        : 'All changes in these files will be reverted. Untracked files among them are deleted. This cannot be undone.',
-      confirmLabel: 'Discard',
+        ? '这些文件将回到最后一次提交——已暂存与未暂存的更改都会一并还原。新文件会被删除。此操作无法撤销。'
+        : '这些文件中的所有更改将被还原，其中的未跟踪文件会被删除。此操作无法撤销。',
+      confirmLabel: '丢弃',
       destructive: true,
     }).then((ok) => {
       if (ok) void discardMany(paths, staged);
@@ -469,10 +469,10 @@ export function WorkingCopyPanel() {
       const remaining = await ipc.discardStagedAll(path);
       await refreshStatus();
       if (remaining.length > 0) {
-        const listed = remaining.slice(0, 3).join(', ') + (remaining.length > 3 ? ` +${remaining.length - 3} more` : '');
-        toast.error(`${remaining.length} staged change${remaining.length === 1 ? '' : 's'} could not be discarded: ${listed}`);
+        const listed = remaining.slice(0, 3).join(', ') + (remaining.length > 3 ? ` +${remaining.length - 3} 更多` : '');
+        toast.error(`${remaining.length} 个已暂存更改无法丢弃：${listed}`);
       } else if (before > 0) {
-        toast.success(`Discarded ${before} staged change${before === 1 ? '' : 's'}`);
+        toast.success(`已丢弃 ${before} 个已暂存更改`);
       }
     } catch (error) {
       toast.error(`丢弃失败：${(error as { message?: string }).message ?? error}`);
@@ -500,13 +500,13 @@ export function WorkingCopyPanel() {
         title: '丢弃更改？',
         description: staged
           ? file.staged === 'new'
-            ? 'This file is new — discarding removes it from the index and deletes the file. This cannot be undone.'
-            : 'The file goes back to the last commit — its staged and unstaged changes are both reverted. This cannot be undone.'
+            ? '该文件是新增文件——丢弃会将其从索引中移除并删除文件。此操作无法撤销。'
+            : '该文件将回到最后一次提交——其已暂存与未暂存的更改都会被还原。此操作无法撤销。'
           : file.unstaged === 'untracked'
             ? '该文件是新增文件——丢弃将还原并删除它，此操作无法撤销。'
             : '该文件的所有更改将被还原，此操作无法撤销。',
         path: file.path,
-        confirmLabel: 'Discard',
+        confirmLabel: '丢弃',
         destructive: true,
       }).then((ok) => {
         if (ok) void discardOne(file.path, staged);
@@ -832,7 +832,7 @@ export function WorkingCopyPanel() {
             onChange={setFileQuery}
             onClose={() => useUi.getState().setFileFilterOpen(false)}
             focusSeq={fileFilterFocusSeq}
-            placeholder="Filter changed files…"
+            placeholder="过滤更改的文件…"
           />
         </div>
       )}
@@ -967,7 +967,7 @@ export function WorkingCopyPanel() {
                     void confirmDialog({
                       title: `全部丢弃 ${allStaged.length} 个已暂存更改？`,
                       description:
-                        'Every staged file goes back to the last commit, unstaged edits to those files included, and new files are deleted. This cannot be undone — not even with ⌘Z.',
+                        '每个已暂存的文件都会回到最后一次提交，这些文件的未暂存编辑也一并还原，新文件会被删除。此操作无法撤销——即使按 ⌘Z 也不行。',
                       confirmLabel: '全部丢弃',
                       destructive: true,
                     }).then((ok) => {
@@ -983,7 +983,7 @@ export function WorkingCopyPanel() {
         </div>
         {stagedFiles.length === 0 && (
           <p className="px-2 pb-2 text-xs text-faint">
-            {filtering && allStaged.length > 0 ? 'No staged files match the filter.' : '尚未暂存任何内容。'}
+            {filtering && allStaged.length > 0 ? '没有匹配过滤条件的已暂存文件。' : '尚未暂存任何内容。'}
           </p>
         )}
         {fileTree ? (
@@ -1017,12 +1017,12 @@ export function WorkingCopyPanel() {
                 <DropdownMenuLabel>{menuMulti.paths.length} files selected</DropdownMenuLabel>
                 <DropdownMenuItem onClick={() => void stageMany(menuMulti.paths, menuMulti.staged)}>
                   {menuMulti.staged ? <Minus /> : <Plus />}
-                  {menuMulti.staged ? `Unstage ${menuMulti.paths.length} files` : `Stage ${menuMulti.paths.length} files`}
+                  {menuMulti.staged ? `取消暂存 ${menuMulti.paths.length} 个文件` : `暂存 ${menuMulti.paths.length} 个文件`}
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   onClick={() => useUi.getState().openDialog('createStash', { paths: menuMulti.paths })}
                 >
-                  <Archive /> Stash {menuMulti.paths.length} files…
+                  <Archive /> 暂存 {menuMulti.paths.length} 个文件…
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem destructive onClick={() => requestDiscardMany(menuMulti.paths, menuMulti.staged)}>
@@ -1058,7 +1058,7 @@ export function WorkingCopyPanel() {
             <DropdownMenuItem
               onClick={() => useUi.getState().openDialog('createStash', { paths: [fileMenu.file.path] })}
             >
-              <Archive /> Stash this file…
+              <Archive /> 暂存此文件…
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={() => openEditor(fileMenu.file.path)}>
@@ -1091,7 +1091,7 @@ export function WorkingCopyPanel() {
                   )
               }
             >
-              <FolderOpen /> Show in Finder
+              <FolderOpen /> 在 Finder 中显示
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => {

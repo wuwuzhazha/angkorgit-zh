@@ -114,19 +114,12 @@ e2e	tests/e2e/smoke.spec.ts	4 of 5 selected
 e2e	tests/e2e/smoke.spec.ts	a single file can be stashed from its row menu and the toolbar pops the latest stash
 e2e	tests/e2e/smoke.spec.ts	a stash lists its files and one file can be restored on its own
 e2e	tests/e2e/smoke.spec.ts	a stash shows up in the graph with its own node and a menu to pop it
-e2e	tests/e2e/smoke.spec.ts	Applied 4 files from the stash
-e2e	tests/e2e/smoke.spec.ts	Applied GraphRow.tsx from the stash
-e2e	tests/e2e/smoke.spec.ts	Apply 4 files
-e2e	tests/e2e/smoke.spec.ts	Apply src/features/graph/GraphRow.tsx from the stash
 e2e	tests/e2e/smoke.spec.ts	aside button[title="feature"]
 e2e	tests/e2e/smoke.spec.ts	aside button[title="feature"] span.truncate
-e2e	tests/e2e/smoke.spec.ts	Back to working copy
 e2e	tests/e2e/smoke.spec.ts	button span.truncate
 e2e	tests/e2e/smoke.spec.ts	cherry-pick opens a dialog with the source reference option
 e2e	tests/e2e/smoke.spec.ts	Cherry-picked (demo)
 e2e	tests/e2e/smoke.spec.ts	Cherry-picked 2 commits (demo)
-e2e	tests/e2e/smoke.spec.ts	Clear filter
-e2e	tests/e2e/smoke.spec.ts	Commit files
 e2e	tests/e2e/smoke.spec.ts	conflict result can be hand-edited per block
 e2e	tests/e2e/smoke.spec.ts	const palette = mergedThemePalette();
 e2e	tests/e2e/smoke.spec.ts	const palette = useThemePalette();
@@ -140,29 +133,18 @@ e2e	tests/e2e/smoke.spec.ts	feat(worktrees): list, create and remove linked work
 e2e	tests/e2e/smoke.spec.ts	feature/diff-viewer
 e2e	tests/e2e/smoke.spec.ts	feature/parallel agents
 e2e	tests/e2e/smoke.spec.ts	feature/parallel-task
-e2e	tests/e2e/smoke.spec.ts	Filter changed files…
-e2e	tests/e2e/smoke.spec.ts	Filter files
-e2e	tests/e2e/smoke.spec.ts	Filter files…
 e2e	tests/e2e/smoke.spec.ts	fix(diff): handle renamed files in word diff
 e2e	tests/e2e/smoke.spec.ts	graph display menu can switch the lane color band off and on
 e2e	tests/e2e/smoke.spec.ts	h2, p
-e2e	tests/e2e/smoke.spec.ts	Hide file filter
 e2e	tests/e2e/smoke.spec.ts	img[src*="gravatar"]
 e2e	tests/e2e/smoke.spec.ts	iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==
-e2e	tests/e2e/smoke.spec.ts	Lane color band
 e2e	tests/e2e/smoke.spec.ts	multi-line comments in a diff stay highlighted as comments
 e2e	tests/e2e/smoke.spec.ts	multi-select cherry-pick lists every commit in the dialog
 e2e	tests/e2e/smoke.spec.ts	multi-select offers squash and pre-fills the rebase plan
-e2e	tests/e2e/smoke.spec.ts	Pop latest stash
-e2e	tests/e2e/smoke.spec.ts	Reset branch
-e2e	tests/e2e/smoke.spec.ts	Reset branch to its remote?
-e2e	tests/e2e/smoke.spec.ts	Select src/features/graph/CommitGraph.tsx to apply
 e2e	tests/e2e/smoke.spec.ts	shift-click selects a range of working copy files and the menu acts on all of them
 e2e	tests/e2e/smoke.spec.ts	single conflict shows jump nav and per-conflict take-all
 e2e	tests/e2e/smoke.spec.ts	src/features/repository/components/working-copy/deeply/nested/WorkingCopyFileListItemContainerFactory.tsx
-e2e	tests/e2e/smoke.spec.ts	Stage 3 files
 e2e	tests/e2e/smoke.spec.ts	staged files can be discarded from the row, the menu and the header
-e2e	tests/e2e/smoke.spec.ts	Stash selected changes
 e2e	tests/e2e/smoke.spec.ts	temple gold
 e2e	tests/e2e/smoke.spec.ts	text selection in a diff survives the right-click copy menu
 e2e	tests/e2e/smoke.spec.ts	the checked-out branch chip is filled while other local chips stay tinted
@@ -171,7 +153,6 @@ e2e	tests/e2e/smoke.spec.ts	the commit file list can be filtered by path
 e2e	tests/e2e/smoke.spec.ts	the diff header opens the history of the file being viewed
 e2e	tests/e2e/smoke.spec.ts	the sidebar comes back after a relaunch that happened with a diff open
 e2e	tests/e2e/smoke.spec.ts	the working copy filter narrows both lists and shows counts
-e2e	tests/e2e/smoke.spec.ts	This is a stash.
 e2e	tests/e2e/smoke.spec.ts	Virtualized rows keep large graphs smooth
 e2e	tests/e2e/smoke.spec.ts	WIP on main: experiment with lane colors
 e2e	tests/e2e/smoke.spec.ts	xpath=ancestor::*[@role="row"]
@@ -251,17 +232,11 @@ rust	apps/desktop/src-tauri/src/core/history.rs	{} {}
 rust	apps/desktop/src-tauri/src/core/history.rs	{} {} {}
 rust	apps/desktop/src-tauri/src/core/history.rs	stash@{{{}}}
 rust	apps/desktop/src-tauri/src/core/misc.rs	(no branch)
-rust	apps/desktop/src-tauri/src/core/misc.rs	{file} has no changes to stash
-rust	apps/desktop/src-tauri/src/core/misc.rs	{file} is not part of this stash
-rust	apps/desktop/src-tauri/src/core/misc.rs	{file} is untracked
-rust	apps/desktop/src-tauri/src/core/misc.rs	could not run git stash {verb}: {e}
 rust	apps/desktop/src-tauri/src/core/misc.rs	git stash {verb} failed
 rust	apps/desktop/src-tauri/src/core/misc.rs	index on {branch}: {short} {summary}
-rust	apps/desktop/src-tauri/src/core/misc.rs	nothing to stash in the selected files
 rust	apps/desktop/src-tauri/src/core/misc.rs	On {branch}: {m}
 rust	apps/desktop/src-tauri/src/core/misc.rs	r>(repo: &
 rust	apps/desktop/src-tauri/src/core/misc.rs	r>) -> Option<Tree<
-rust	apps/desktop/src-tauri/src/core/misc.rs	stash {index} does not exist
 rust	apps/desktop/src-tauri/src/core/misc.rs	stash@{{{index}}}
 rust	apps/desktop/src-tauri/src/core/misc.rs	uncommitted changes exist in the index
 rust	apps/desktop/src-tauri/src/core/misc.rs	untracked files on 
@@ -413,14 +388,13 @@ rust	apps/desktop/src-tauri/tests/git_engine.rs	missing origin line in: {engine_
 rust	apps/desktop/src-tauri/tests/git_engine.rs	new staged\n
 rust	apps/desktop/src-tauri/tests/git_engine.rs	new/fresh.txt
 rust	apps/desktop/src-tauri/tests/git_engine.rs	not a rev
-rust	apps/desktop/src-tauri/tests/git_engine.rs	not part of this stash
 rust	apps/desktop/src-tauri/tests/git_engine.rs	On master: only a
 rust	apps/desktop/src-tauri/tests/git_engine.rs	On master: wip graph
 rust	apps/desktop/src-tauri/tests/git_engine.rs	one\nplus\n
 rust	apps/desktop/src-tauri/tests/git_engine.rs	one\ntwo\n
 rust	apps/desktop/src-tauri/tests/git_engine.rs	one\ntwo\nthree
 rust	apps/desktop/src-tauri/tests/git_engine.rs	one\ntwo\nthree\n
-rust	apps/desktop/src-tauri/tests/git_engine.rs	one\ntwo\nthree\nfour\nfive\n
+rust	apps/desktop/src-tauri/tests/git_engine.rs	one\nTWO\nthree\nFOUR\nfive\n
 rust	apps/desktop/src-tauri/tests/git_engine.rs	only a
 rust	apps/desktop/src-tauri/tests/git_engine.rs	other change\n
 rust	apps/desktop/src-tauri/tests/git_engine.rs	plain commit
@@ -761,8 +735,6 @@ ui	apps/desktop/src/app/App.tsx	mod+shift+=
 ui	apps/desktop/src/components/CommandPalette.tsx	 : ''}
 ui	apps/desktop/src/components/ErrorBoundary.tsx	max-w-md text-sm text-muted
 ui	apps/desktop/src/components/ErrorBoundary.tsx	text-lg font-semibold text-foreground
-ui	apps/desktop/src/components/FileFilterInput.tsx	Clear filter
-ui	apps/desktop/src/components/FileFilterInput.tsx	Filter files…
 ui	apps/desktop/src/components/profilePrompt.tsx	block text-sm font-medium
 ui	apps/desktop/src/components/profilePrompt.tsx	block truncate text-xs text-faint
 ui	apps/desktop/src/components/profilePrompt.tsx	flex justify-end
@@ -773,8 +745,6 @@ ui	apps/desktop/src/components/RepoTabs.tsx	text/angkorgit-repo-tab
 ui	apps/desktop/src/components/Toolbar.tsx	 : ''}
 ui	apps/desktop/src/components/Toolbar.tsx	block truncate
 ui	apps/desktop/src/components/Toolbar.tsx	flex items-center
-ui	apps/desktop/src/components/Toolbar.tsx	Pop latest stash
-ui	apps/desktop/src/components/Toolbar.tsx	Pop latest stash (nothing stashed)
 ui	apps/desktop/src/core/ipc.ts	__TAURI_INTERNALS__
 ui	apps/desktop/src/core/ipc.ts	Already up to date (demo)
 ui	apps/desktop/src/core/ipc.ts	Cherry-picked (demo)
@@ -789,27 +759,20 @@ ui	apps/desktop/src/features/ai/AiResultDialog.tsx	text-sm leading-relaxed text-
 ui	apps/desktop/src/features/ai/AiText.tsx	font-semibold text-foreground
 ui	apps/desktop/src/features/commit/draftStore.ts	zustand/middleware
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	[data-selected-file-row]
-ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	All changes in these files will be reverted. Untracked files among them are deleted. This cannot be undone.
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	bg-primary/10
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	bg-transparent group-hover/handle:bg-primary/60
-ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	Every staged file goes back to the last commit, unstaged edits to those files included, and new files are deleted. This cannot be undone — not even with ⌘Z.
-ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	Filter changed files…
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	flex h-full flex-col
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	flex h-full items-center justify-center
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	flex items-center
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	font-normal normal-case tracking-normal
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	font-normal text-faint
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	hover:bg-surface-raised
-ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	No staged files match the filter.
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	placeholder:font-normal placeholder:text-faint
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	relative flex items-center
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	rounded-md border border-border bg-surface shadow-sm transition-colors
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	text-danger hover:text-danger
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	text-muted hover:text-danger
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	text-xs font-semibold uppercase tracking-wide text-muted
-ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	The file goes back to the last commit — its staged and unstaged changes are both reverted. This cannot be undone.
-ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	These files go back to the last commit — staged and unstaged changes alike. New files are deleted. This cannot be undone.
-ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	This file is new — discarding removes it from the index and deletes the file. This cannot be undone.
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	[data-line]
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	bg-info/10
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	bg-primary/5
@@ -857,12 +820,8 @@ ui	apps/desktop/src/features/forge/CreatePrDialog.tsx	 : ''}
 ui	apps/desktop/src/features/forge/CreatePrDialog.tsx	text-xs text-danger [overflow-wrap:anywhere]
 ui	apps/desktop/src/features/forge/CreatePrDialog.tsx	text-xs text-info
 ui	apps/desktop/src/features/graph/CommitGraph.tsx	[overflow-wrap:anywhere]
-ui	apps/desktop/src/features/graph/CommitGraph.tsx	Drop this stash?
 ui	apps/desktop/src/features/graph/CommitGraph.tsx	relative flex h-full flex-col bg-background
-ui	apps/desktop/src/features/graph/CommitGraph.tsx	Reset branch
-ui	apps/desktop/src/features/graph/CommitGraph.tsx	Reset branch to its remote?
 ui	apps/desktop/src/features/graph/CommitGraph.tsx	text-xs text-danger
-ui	apps/desktop/src/features/graph/CommitGraph.tsx	The stashed changes are deleted and cannot be recovered.
 ui	apps/desktop/src/features/graph/GraphRow.tsx	absolute overflow-hidden rounded-full
 ui	apps/desktop/src/features/graph/GraphRow.tsx	bg-primary/10
 ui	apps/desktop/src/features/graph/GraphRow.tsx	border-success bg-success text-background shadow-soft hover:!bg-success
@@ -884,25 +843,18 @@ ui	apps/desktop/src/features/inspector/CommitDetails.tsx	).join('\n')}
 ui	apps/desktop/src/features/inspector/CommitDetails.tsx	[data-active-file]
 ui	apps/desktop/src/features/inspector/CommitDetails.tsx	bg-primary/10 text-foreground
 ui	apps/desktop/src/features/inspector/CommitDetails.tsx	bg-primary/5
-ui	apps/desktop/src/features/inspector/CommitDetails.tsx	Commit files
-ui	apps/desktop/src/features/inspector/CommitDetails.tsx	Filter files…
 ui	apps/desktop/src/features/inspector/CommitDetails.tsx	flex h-full flex-col overflow-y-auto
 ui	apps/desktop/src/features/inspector/CommitDetails.tsx	font-normal normal-case tracking-normal
 ui	apps/desktop/src/features/inspector/CommitDetails.tsx	hover:bg-surface-raised
 ui	apps/desktop/src/features/inspector/CommitDetails.tsx	line-clamp-[8]
 ui	apps/desktop/src/features/inspector/CommitDetails.tsx	text-sm font-semibold leading-snug text-foreground [overflow-wrap:anywhere]
-ui	apps/desktop/src/features/inspector/CommitDetails.tsx	The stash itself is unchanged.
 ui	apps/desktop/src/features/inspector/CommitDetails.tsx	truncate text-xs font-medium text-foreground
 ui	apps/desktop/src/features/inspector/CommitDetails.tsx	whitespace-pre-wrap break-words font-sans text-xs leading-relaxed text-muted
 ui	apps/desktop/src/features/inspector/Inspector.tsx	bg-surface-raised text-foreground
-ui	apps/desktop/src/features/inspector/Inspector.tsx	Filter files
 ui	apps/desktop/src/features/inspector/Inspector.tsx	flex h-full flex-col bg-surface
-ui	apps/desktop/src/features/inspector/Inspector.tsx	Hide file filter
 ui	apps/desktop/src/features/inspector/Inspector.tsx	text-xs text-danger [overflow-wrap:anywhere]
 ui	apps/desktop/src/features/repository/CloneDialog.tsx	text-xs text-muted
 ui	apps/desktop/src/features/repository/RepoDialogs.tsx	feature/my-branch
-ui	apps/desktop/src/features/repository/RepoDialogs.tsx	Only this file is stashed. Everything else stays in your working copy.
-ui	apps/desktop/src/features/repository/RepoDialogs.tsx	Stash selected changes
 ui	apps/desktop/src/features/repository/RepoDialogs.tsx	truncate text-foreground
 ui	apps/desktop/src/features/repository/RepositoryPage.tsx	flex h-full flex-col
 ui	apps/desktop/src/features/repository/RepositoryPage.tsx	h-px bg-border-subtle
@@ -959,7 +911,6 @@ ui	apps/desktop/src/features/settings/SettingsDialog.tsx	Home / End
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	hover:bg-surface-raised
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	K / P
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	P / N
-ui	apps/desktop/src/features/settings/SettingsDialog.tsx	Previous / next file (file list)
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	text-base font-semibold
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	text-muted group-hover:text-foreground
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	text-muted hover:bg-surface-raised hover:text-foreground
@@ -1204,7 +1155,6 @@ website	apps/website/src/content.config.ts	astro:content
 website	apps/website/src/content.config.ts	astro/loaders
 website	apps/website/src/layouts/Base.astro	(prefers-reduced-motion: reduce)
 website	apps/website/src/layouts/Base.astro	[data-reveal]
-website	apps/website/src/layouts/Base.astro	AngKorGit contributors
 website	apps/website/src/layouts/Base.astro	application/ld+json
 website	apps/website/src/layouts/Base.astro	application/xml
 website	apps/website/src/layouts/Base.astro	bg-background text-foreground

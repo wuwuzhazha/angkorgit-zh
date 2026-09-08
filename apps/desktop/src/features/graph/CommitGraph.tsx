@@ -319,15 +319,15 @@ export function CommitGraph() {
       }
       const losing =
         local.upstream === ref.shorthand && local.ahead > 0
-          ? ` ${local.ahead} commit${local.ahead === 1 ? '' : 's'} only on the local branch will be lost.`
+          ? ` ${local.ahead} 个提交仅存在于本地分支，将被丢弃。`
           : '';
       void confirmDialog({
-        title: 'Reset branch to its remote?',
+        title: '将分支重置到其远端？',
         description: local.isHead
           ? `硬重置到 ${ref.shorthand} (${commit.shortOid}).${losing} 未提交的更改将被丢弃且无法恢复。`
           : `此分支当前未检出。将先检出它，再硬重置到${ref.shorthand} (${commit.shortOid}).${losing} 未提交的更改将被丢弃且无法恢复。`,
         path: name,
-        confirmLabel: 'Reset branch',
+        confirmLabel: '重置分支',
         destructive: true,
       }).then(async (ok) => {
         if (!ok) return;
@@ -336,15 +336,15 @@ export function CommitGraph() {
             await useUndo.getState().tracked({
               path,
               kind: 'checkout',
-              label: `Checkout ${name}`,
+              label: `检出 ${name}`,
               action: () => ipc.checkout(path, name),
             });
           } catch (error) {
-            toast.error(`Checkout ${name} failed: ${(error as { message?: string }).message ?? error}`);
+            toast.error(`检出 ${name} 失败：${(error as { message?: string }).message ?? error}`);
             return;
           }
         }
-        await act(`Reset ${name} to ${ref.shorthand}`, () => ipc.reset(path, commit.oid, 'hard'), {
+        await act(`将 ${name} 重置到 ${ref.shorthand}`, () => ipc.reset(path, commit.oid, 'hard'), {
           kind: 'reset',
         });
       });
@@ -437,7 +437,7 @@ export function CommitGraph() {
                 onSelect={(e) => e.preventDefault()}
                 onCheckedChange={(checked) => setGraphTail(checked === true)}
               >
-                Lane color band
+                泳道色带
               </DropdownMenuCheckboxItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -500,7 +500,7 @@ export function CommitGraph() {
                     setFilters(path, { search: '', author: '', branch: '' });
                   }}
                 >
-                  Clear filters
+                  清除过滤条件
                 </Button>
               )}
             </div>
@@ -586,8 +586,8 @@ export function CommitGraph() {
                   onClick={() => {
                     const ref = refMenu.ref;
                     void confirmDialog({
-                      title: 'Drop this stash?',
-                      description: 'The stashed changes are deleted and cannot be recovered.',
+                      title: '丢弃此暂存？',
+                      description: '暂存的更改将被删除且无法恢复。',
                       path: ref.shorthand,
                       confirmLabel: '丢弃暂存',
                       destructive: true,

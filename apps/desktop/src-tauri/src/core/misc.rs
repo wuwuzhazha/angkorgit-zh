@@ -76,7 +76,7 @@ fn stash_paths(
         let is_untracked = status.contains(git2::Status::WT_NEW);
         if is_untracked {
             if !include_untracked {
-                return Err(AppError::other(format!("{file} is untracked")));
+                return Err(AppError::other(format!("{file} 是未跟踪文件")));
             }
             if let Some(entry) = workdir_entry(&repo, &workdir, file)? {
                 untracked_tree.add(&entry)?;
@@ -86,7 +86,7 @@ fn stash_paths(
             continue;
         }
         if status.is_empty() {
-            return Err(AppError::other(format!("{file} has no changes to stash")));
+            return Err(AppError::other(format!("{file} 没有可暂存的更改")));
         }
         match real_index.get_path(Path::new(file), 0) {
             Some(entry) => index_tree.add(&entry)?,
@@ -103,7 +103,7 @@ fn stash_paths(
         tracked.push(file.clone());
     }
     if tracked.is_empty() && !has_untracked {
-        return Err(AppError::other("nothing to stash in the selected files"));
+        return Err(AppError::other("所选文件中没有可暂存的内容"));
     }
 
     let index_commit = repo.find_commit(repo.commit(
@@ -263,7 +263,7 @@ fn stash_via_cli(repo: &Repository, verb: &str, index: usize) -> AppResult<()> {
         .current_dir(workdir)
         .env("GIT_TERMINAL_PROMPT", "0")
         .output()
-        .map_err(|e| AppError::other(format!("could not run git stash {verb}: {e}")))?;
+        .map_err(|e| AppError::other(format!("无法运行 git stash {verb}：{e}")))?;
     if output.status.success() {
         return Ok(());
     }
@@ -285,7 +285,7 @@ fn stash_oid(repo: &mut Repository, index: usize) -> AppResult<Oid> {
             true
         }
     })?;
-    found.ok_or_else(|| AppError::other(format!("stash {index} does not exist")))
+    found.ok_or_else(|| AppError::other(format!("暂存 {index} 不存在")))
 }
 
 fn untracked_tree<'r>(repo: &'r Repository, stash: &git2::Commit<'r>) -> Option<Tree<'r>> {
@@ -372,7 +372,7 @@ pub fn stash_restore_files(path: &str, index: usize, paths: &[String]) -> AppRes
                 restored.push(file.clone());
             }
             None => {
-                return Err(AppError::other(format!("{file} is not part of this stash")));
+                return Err(AppError::other(format!("{file} 不属于此暂存")));
             }
         }
     }

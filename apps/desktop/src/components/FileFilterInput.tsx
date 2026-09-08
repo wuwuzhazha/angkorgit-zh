@@ -9,7 +9,7 @@ export function FileFilterInput({
   onChange,
   onClose,
   focusSeq = 0,
-  placeholder = 'Filter files…',
+  placeholder = '过滤文件…',
   className,
 }: {
   value: string;
@@ -47,7 +47,7 @@ export function FileFilterInput({
         <Button
           variant="ghost"
           size="icon-sm"
-          aria-label="Clear filter"
+          aria-label="清除过滤条件"
           className="absolute right-0.5 top-1/2 size-6 -translate-y-1/2"
           onClick={() => onChange('')}
         >

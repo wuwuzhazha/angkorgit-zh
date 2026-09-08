@@ -510,11 +510,11 @@ export function Toolbar({ onRefresh }: { onRefresh: () => Promise<void> }) {
           <Archive />
         </Button>
       </Hint>
-      <Hint label={latestStash ? `Pop latest stash: ${latestStash.message}` : 'Pop latest stash (nothing stashed)'}>
+      <Hint label={latestStash ? `弹出最新暂存：${latestStash.message}` : '弹出最新暂存（当前没有暂存）'}>
         <Button
           variant="ghost"
           size="icon"
-          aria-label="Pop latest stash"
+          aria-label="弹出最新暂存"
           disabled={!latestStash || !!busy}
           onClick={() => void run('弹出暂存', () => ipc.stashPop(repo.path, 0))}
         >

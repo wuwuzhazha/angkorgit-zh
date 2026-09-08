@@ -488,7 +488,7 @@ fn stash_restore_files_brings_back_only_the_chosen_files_and_keeps_the_stash() {
     assert!(!paths.contains(&"b.txt"));
 
     let err = core::stash_restore_files(repo.path(), 0, &["nope.txt".into()]).unwrap_err();
-    assert!(err.to_string().contains("not part of this stash"));
+    assert!(err.to_string().contains("不属于此暂存"));
 }
 
 #[test]

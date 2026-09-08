@@ -64,8 +64,8 @@ function ChangeSummary({ diffs }: { diffs: CommitFileInfo[] }) {
       {parts.map(({ status, count }) => (
         <span
           key={status}
-          title={`${count} ${statusMeta[status].label}`}
-          aria-label={`${count} ${statusMeta[status].label}`}
+          title={`${count} 个${statusMeta[status].label}`}
+          aria-label={`${count} 个${statusMeta[status].label}`}
           className={cn('flex items-center gap-1 tabular-nums', statusMeta[status].className)}
         >
           <span className="font-mono">{statusMeta[status].mark}</span>
@@ -272,9 +272,9 @@ export function CommitDetails({
       await refreshStatus();
       toast.success(
         files.length === 1
-          ? `Applied ${basename(files[0])} from the stash`
-          : `Applied ${files.length} files from the stash`,
-        { description: 'The stash itself is unchanged.' },
+          ? `已从暂存中应用 ${basename(files[0])}`
+          : `已从暂存中应用 ${files.length} 个文件`,
+        { description: '暂存本身保持不变。' },
       );
       setPicked(new Set());
     } catch (error) {
@@ -308,7 +308,7 @@ export function CommitDetails({
         {stash && (
           <Checkbox
             checked={picked.has(diff.path)}
-            aria-label={`Select ${diff.path} to apply`}
+            aria-label={`选择 ${diff.path} 以应用`}
             onCheckedChange={() => togglePick(diff.path, false)}
             onClick={(e) => {
               e.stopPropagation();
@@ -347,7 +347,7 @@ export function CommitDetails({
           <Button
             variant="ghost"
             size="icon-sm"
-            aria-label={`Apply ${diff.path} from the stash`}
+            aria-label={`从暂存中应用 ${diff.path}`}
             className="-my-1 -mr-1 shrink-0 opacity-0 focus-visible:opacity-100 group-hover:opacity-100"
             onClick={() => void restoreFromStash([diff.path])}
           >
@@ -520,7 +520,7 @@ export function CommitDetails({
       <div
         ref={filesRef}
         tabIndex={0}
-        aria-label="Commit files"
+        aria-label="提交文件"
         onKeyDown={onFilesKeyDown}
         className="rounded-md p-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/40"
       >
@@ -551,7 +551,7 @@ export function CommitDetails({
             {picked.size === 0 ? (
               <>
                 <span className="min-w-0 flex-1 text-faint">
-                  This is a stash. Tick files to apply only those to the working copy.
+                  这是一个暂存。勾选文件即可只将这些文件应用到工作副本。
                 </span>
                 <Button
                   variant="ghost"
@@ -580,7 +580,7 @@ export function CommitDetails({
                   className="h-6 shrink-0 px-2 text-[11px]"
                   onClick={() => void restoreFromStash([...picked])}
                 >
-                  <ArchiveRestore className="size-3" /> Apply {picked.size} {picked.size === 1 ? 'file' : 'files'}
+                  <ArchiveRestore className="size-3" /> 应用 {picked.size} 个文件
                 </Button>
               </>
             )}
@@ -593,7 +593,7 @@ export function CommitDetails({
               onChange={setFileQuery}
               onClose={() => useUi.getState().setFileFilterOpen(false)}
             focusSeq={fileFilterFocusSeq}
-              placeholder="Filter files…"
+              placeholder="过滤文件…"
             />
           </div>
         )}
@@ -613,7 +613,7 @@ export function CommitDetails({
             </Button>
           </div>
         ) : shownDiffs.length === 0 && filtering ? (
-          <p className="px-2 py-1.5 text-xs text-faint">No files match the filter.</p>
+          <p className="px-2 py-1.5 text-xs text-faint">没有匹配过滤条件的文件。</p>
         ) : fileTree ? (
           <FileTree items={shownDiffs} pathOf={diffPath} renderFile={renderDiffRow} fold={fold} onFoldState={setFoldState} />
         ) : shownDiffs.length > VIRTUAL_FILE_THRESHOLD ? (

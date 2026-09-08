@@ -33,7 +33,7 @@ export function StatusBar() {
 
   const branches = useRepo((s) => s.branches);
   const changes = status?.files.length ?? 0;
-  const branch = repo?.isDetached ? `detached @ ${repo.headOid?.slice(0, 8) ?? '?'}` : repo?.headBranch;
+  const branch = repo?.isDetached ? `游离于 ${repo.headOid?.slice(0, 8) ?? '?'}` : repo?.headBranch;
   const headUpstream = branches.find((b) => !b.isRemote && b.isHead)?.upstream ?? null;
   const prUrl = currentPullRequestUrl(repo, pickForgeRemote(remotes, headUpstream)?.url);
   const forgeRepoPath = useForge((s) => s.repoPath);
@@ -72,14 +72,14 @@ export function StatusBar() {
       )}
       <span className={cn('flex items-center gap-1.5', changes > 0 && 'text-primary')}>
         {changes > 0 ? <Pencil className="size-3" /> : <Check className="size-3 text-success" />}
-        {changes > 0 ? `${changes} change${changes === 1 ? '' : 's'}` : 'Clean'}
+        {changes > 0 ? `${changes} 个更改` : '干净'}
       </span>
       {prUrl && (
         <Hint
           label={
             createInApp
-              ? `Create a ${prNoun} for ${repo?.headBranch} without leaving AngKorGit`
-              : `Open a pre-filled pull request page for ${repo?.headBranch}`
+              ? `为 ${repo?.headBranch} 创建 ${prNoun}，无需离开 AngKorGit`
+              : `为 ${repo?.headBranch} 打开预填的拉取请求页面`
           }
         >
           <button

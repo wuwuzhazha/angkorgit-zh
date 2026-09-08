@@ -20,7 +20,7 @@ export const SITE = {
   title:
     'AngKorGit（Angkor Git）——快速、免费的 Git 客户端与 Git GUI，支持 macOS、Windows 和 Linux',
   description:
-    'Angkor Git (AngKorGit) is a fast, free, open-source Git 客户端 and Git GUI for macOS, Windows, and Linux, built native with Tauri v2, Rust and libgit2. Visual commit graphs, side-by-side diff review, visual conflict resolution, and AI assistance.',
+    'Angkor Git (AngKorGit) 是一款快速、免费、开源的 Git 客户端与 Git GUI，适用于 macOS、Windows 和 Linux，基于 Tauri v2、Rust 与 libgit2 原生构建。可视化提交图、并排 diff 审查、可视化冲突解决与 AI 辅助。',
   repo: 'https://github.com/wuwuzhazha/angkorgit-zh',
   releases: 'https://github.com/wuwuzhazha/angkorgit-zh/releases',
   license: 'https://github.com/wuwuzhazha/angkorgit-zh/blob/main/LICENSE',

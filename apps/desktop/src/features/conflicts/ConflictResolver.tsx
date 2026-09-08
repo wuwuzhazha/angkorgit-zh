@@ -482,7 +482,7 @@ export function ConflictResolver({ file, onResolved }: { file: string; onResolve
     const ok = await confirmDialog({
       title: '丢弃手工编辑的结果？',
       description: '此冲突将回到从 A 和 B 中选择的行，或回到未解决状态。',
-      confirmLabel: 'Discard',
+      confirmLabel: '丢弃',
       destructive: true,
     });
     if (!ok) return;

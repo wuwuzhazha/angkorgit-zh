@@ -287,7 +287,7 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
             return prUrl ? (
               <PaletteItem
                 icon={<GitPullRequest />}
-                label={`Create ${forgeNoun(forgeCurrent ? forgeKind : null)}`}
+                label={`创建 ${forgeNoun(forgeCurrent ? forgeKind : null)}`}
                 onSelect={() => {
                   close();
                   if (inApp) openDialog('createPullRequest');
@@ -332,7 +332,7 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
           {stashes.length > 0 && (
             <PaletteItem
               icon={<ArchiveRestore />}
-              label={`Pop latest stash: ${stashes[0].message}`}
+              label={`弹出最新暂存：${stashes[0].message}`}
               onSelect={() => run('弹出暂存', () => ipc.stashPop(path, 0))}
             />
           )}

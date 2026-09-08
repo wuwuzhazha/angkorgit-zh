@@ -20,7 +20,7 @@ export class ErrorBoundary extends Component<{ children: ReactNode }, State> {
   private copyDetails = () => {
     const { error } = this.state;
     void navigator.clipboard.writeText(
-      `AngKorGit error report\n\n${error?.name}: ${error?.message}\n\n${error?.stack ?? ''}`,
+      `AngKorGit 错误报告\n\n${error?.name}: ${error?.message}\n\n${error?.stack ?? ''}`,
     );
   };
 

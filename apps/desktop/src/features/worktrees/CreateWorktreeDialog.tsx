@@ -127,7 +127,7 @@ export function CreateWorktreeDialog() {
         base: mode === 'new' ? baseOid : null,
       });
       setWorktreeRoot(parentDirectory(created));
-      toast.success(`Worktree ready · ${basename(created)}`, {
+      toast.success(`工作树已就绪 · ${basename(created)}`, {
         description:
           'node_modules 等被忽略的文件不会被复制。需要时请在其终端中运行安装步骤。',
       });

@@ -413,7 +413,7 @@ export function Sidebar() {
     const spec = forgeRemote ? pullRequestCheckoutSpec(forgeRemote.kind, pr) : null;
     if (!spec) {
       toast.error(
-        `This ${forgeNoun(forgeRemote?.kind)} cannot be checked out from AngKorGit — open it in the browser instead.`,
+        `无法从 AngKorGit 检出此${forgeNoun(forgeRemote?.kind)}——请改在浏览器中打开。`,
       );
       return;
     }
@@ -528,7 +528,7 @@ export function Sidebar() {
     const subtitle = wt.isMissing
       ? '文件夹缺失'
       : wt.isDetached
-        ? `detached @ ${wt.headOid?.slice(0, 8) ?? '?'}`
+        ? `游离于 ${wt.headOid?.slice(0, 8) ?? '?'}`
         : wt.branch ?? '无分支';
     return (
       <div
@@ -1158,7 +1158,7 @@ export function Sidebar() {
                 setStashMenu({ x: e.clientX, y: e.clientY, stash });
               }}
             >
-              <span className="min-w-0 flex-1 truncate" title={`${stash.message} — click to preview, right-click for actions`}>
+              <span className="min-w-0 flex-1 truncate" title={`${stash.message} — 点击预览，右键查看更多操作`}>
                 {stash.message}
               </span>
               <Button

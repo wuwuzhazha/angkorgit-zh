@@ -72,7 +72,7 @@ function StashNode({ color }: { color?: number }) {
   return (
     <span
       role="img"
-      aria-label="Stash"
+      aria-label="暂存"
       className="flex items-center justify-center"
       style={{
         width: AVATAR_SIZE,

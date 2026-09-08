@@ -184,7 +184,7 @@ export const useUndo = create<UndoState>((set, get) => ({
       toast.success(`已撤销：${entry.label}`);
       return true;
     } catch (error) {
-      toast.error(`Undo failed: ${(error as { message?: string }).message ?? error}`);
+      toast.error(`撤销失败：${(error as { message?: string }).message ?? error}`);
       return false;
     }
   },
@@ -214,7 +214,7 @@ export const useUndo = create<UndoState>((set, get) => ({
       toast.success(`已重做：${entry.label}`);
       return true;
     } catch (error) {
-      toast.error(`Redo failed: ${(error as { message?: string }).message ?? error}`);
+      toast.error(`重做失败：${(error as { message?: string }).message ?? error}`);
       return false;
     }
   },
