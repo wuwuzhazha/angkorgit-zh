@@ -1,0 +1,120 @@
+=== verify.tsv rust/e2e rows ===
+e2e | verify | arrow keys walk from the graph into a commit\u2019s files and back | 1
+rust | verify | fix: adjust\n\nSigned-off-by: Test User <test@angkorgit.dev> | 1
+e2e | verify | pnpm --filter @angkorgit/desktop dev | 1
+e2e | verify | .font-mono | 1
+
+=== batch3.tsv rust rows ===
+rust	{file_header}@@ -{start},{old_count} +{start},{new_count} @@\n{body}
+rust	Revert \"{summary}\"\n\nThis reverts commit {full_oid}.
+rust	checkout must refuse a branch checked out in a worktree
+rust	adding a worktree for the checked-out branch must fail
+rust	feat: two\n\n(cherry picked from commit {second})\n\n
+rust	feat: one\n\n(cherry picked from commit {first})\n\n
+rust	checkout: fast-forward {local_name} to its upstream
+rust	diff mentioning {OUTPUT_FILE_PLACEHOLDER} literally
+rust	unexpected http status code: 403; class=Http (34)
+rust	untracked files on {branch}: {short} {summary}
+rust	missing origin line in: {engine_message:?}
+rust	nothing to stash in the selected files
+rust	uncommitted changes exist in the index
+rust	github.com=dara-work, gitlab.com=dara
+rust	nonsense,=user,host=, GitHub.com=Dara
+rust	index on {branch}: {short} {summary}
+rust	could not run git stash {verb}: {e}
+rust	WIP on {branch}: {short} {summary}
+rust	dirty worktree must not be removed
+rust	unexpected http status code: 401
+rust	unexpected http status code: 402
+rust	unexpected http status code: 500
+rust	{file} is not part of this stash
+rust	\\ No newline at end of file\n
+rust	{file} has no changes to stash
+rust	stash {index} does not exist
+rust	unexpected http status code:
+rust	fast-forward merge {branch}
+rust	command -v {name} || true
+rust	Revert \"add bad file\"
+rust	kept across checkout\n
+rust	main repo stays intact
+rust	not part of this stash
+rust	line should be staged
+rust	pull request checkout
+rust	On master: wip graph
+rust	[GNUPG:] SIG_CREATED
+rust	staged then edited\n
+rust	message {message:?}
+rust	production change\n
+rust	{file} is untracked
+rust	local feature work
+rust	resolved content\n
+rust	untracked files on
+rust	On master: only a
+rust	add picked file\n
+rust	diverge on master
+rust	production change
+rust	local divergence
+rust	resolved by hand
+rust	stash decoration
+rust	add picked file
+rust	master change\n
+rust	source change\n
+rust	Bearer {token}
+rust	WIP on master:
+rust	change a add c
+rust	feature commit
+rust	feature work\n
+rust	other change\n
+rust	Basic {basic}
+rust	change b only
+rust	checked above
+rust	demo change\n
+rust	master change
+rust	master commit
+rust	three renamed
+rust	add bad file
+rust	change a {i}
+rust	change b {i}
+rust	feature work
+rust	local edit\n
+rust	local work\n
+rust	new staged\n
+rust	plain commit
+rust	release work
+rust	stash listed
+rust	topic change
+rust	add a and b
+rust	change both
+rust	demo change
+rust	demo work\n
+rust	feature one
+rust	feature two
+rust	feature {i}
+rust	from engine
+rust	master work
+rust	merge other
+rust	prod work\n
+rust	change a 0
+rust	change a 1
+rust	change a 2
+rust	change a 3
+rust	change a 4
+rust	commit {i}
+rust	commit: {}
+rust	local base
+rust	topic work
+rust	Test User
+rust	a dirty\n
+rust	add files
+rust	b dirty\n
+rust	chore {i}
+rust	demo work
+rust	not a rev
+rust	prod work
+rust	wip graph
+rust	change a
+rust	index on
+rust	pr third
+rust	pr work
+rust	AI CLI
+rust	only a

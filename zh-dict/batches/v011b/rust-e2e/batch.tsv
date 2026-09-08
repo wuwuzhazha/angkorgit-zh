@@ -1,0 +1,31 @@
+# 0.11.0 rust + e2e 翻译批次（translator-b · t18）
+# 数据行 27：e2e 20（F7 断言同步 + forward e2e 断言）+ rust 6 + test 断言同步 1
+# 列：scope<TAB>source<TAB>target<TAB>anchor(可选)；按长度降序
+# e2e 目标与 t17 ui-web 词条一致（F7 家族）；rust 仅译用户可见错误，耦合串/夹具进 skip
+e2e	Apply src/features/graph/GraphRow.tsx from the stash	从暂存中应用 src/features/graph/GraphRow.tsx
+e2e	Select src/features/graph/CommitGraph.tsx to apply	选择 src/features/graph/CommitGraph.tsx 以应用
+e2e	/2 commits only on the local branch will be lost/	/2 个提交仅存在于本地分支，将被丢弃/
+rust	nothing to stash in the selected files	所选文件中没有可暂存的内容
+e2e	Applied GraphRow.tsx from the stash	已从暂存中应用 GraphRow.tsx
+rust	could not run git stash {verb}: {e}	无法运行 git stash {verb}：{e}
+rust	{file} is not part of this stash	{file} 不属于此暂存
+e2e	Applied 4 files from the stash	已从暂存中应用 4 个文件
+rust	{file} has no changes to stash	{file} 没有可暂存的更改
+rust	stash {index} does not exist	暂存 {index} 不存在
+e2e	Reset branch to its remote?	将分支重置到其远端？
+e2e	Stash selected changes	暂存选中的更改
+test	not part of this stash	不属于此暂存
+e2e	Filter changed files…	过滤更改的文件…
+rust	{file} is untracked	{file} 是未跟踪文件
+e2e	/Stash this file/	/暂存此文件/
+e2e	Hide file filter	隐藏文件过滤
+e2e	Pop latest stash	弹出最新暂存
+e2e	This is a stash.	这是一个暂存。
+e2e	/Stash 3 files/	/暂存 3 个文件/
+e2e	Filter files…	过滤文件…
+e2e	Stage 3 files	暂存 3 个文件
+e2e	name: 'Stash'	name: '暂存'	name: 'Stash'
+e2e	Clear filter	清除过滤条件
+e2e	Commit files	提交文件
+e2e	Filter files	过滤文件
+e2e	Reset branch	重置分支

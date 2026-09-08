@@ -1,0 +1,37 @@
+=== residual e2e translate+verify full ===
+verify | arrow keys walk from the graph into a commit\u2019s files and back | protect-mixed | 含受保护片段（URL/哈希/路径/版本），译时须原样保留 | tests/e2e/smoke.spec.ts:935
+translate | feat(worktrees): list, create and remove linked worktrees | new | 待译 | tests/e2e/smoke.spec.ts:566
+translate | Apply src/features/graph/GraphRow.tsx from the stash | new | 待译 | tests/e2e/smoke.spec.ts:865
+translate | Select src/features/graph/CommitGraph.tsx to apply | new | 待译 | tests/e2e/smoke.spec.ts:870
+translate | section[aria-label^="文件差异："] div.overflow-y-auto | new | 待译 | tests/e2e/smoke.spec.ts:179
+translate | section[aria-label^="文件差异："] span.font-mono | new | 待译 | tests/e2e/smoke.spec.ts:501
+translate | Virtualized rows keep large graphs smooth | new | 待译 | tests/e2e/smoke.spec.ts:502
+translate | src/features/graph/CommitGraph.tsx 的历史 | new | 待译 | tests/e2e/smoke.spec.ts:758
+translate | 丢弃 src/features/graph/CommitGraph.tsx | new | 待译 | tests/e2e/smoke.spec.ts:883
+verify | pnpm --filter @angkorgit/desktop dev | protect-mixed | 含受保护片段（URL/哈希/路径/版本），译时须原样保留 | tests/e2e/playwright.config.ts:12
+translate | Applied GraphRow.tsx from the stash | new | 待译 | tests/e2e/smoke.spec.ts:868
+translate | Applied 4 files from the stash | new | 待译 | tests/e2e/smoke.spec.ts:874
+translate | ${String(name)} spills right | fmt | 模板串：${x}/{} 占位符必须原样保留 | tests/e2e/smoke.spec.ts:367
+translate | ${String(name)} spills left | fmt | 模板串：${x}/{} 占位符必须原样保留 | tests/e2e/smoke.spec.ts:370
+translate | Reset branch to its remote? | new | 待译 | tests/e2e/smoke.spec.ts:738
+translate | section[aria-label*=" 的历史"] | new | 待译 | tests/e2e/smoke.spec.ts:757
+translate | dialog geometry missing | new | 待译 | tests/e2e/smoke.spec.ts:743
+translate | Stash selected changes | new | 待译 | tests/e2e/smoke.spec.ts:770
+translate | Filter changed files… | new | 待译 | tests/e2e/smoke.spec.ts:812
+translate | clipped: ${part.text} | fmt | 模板串：${x}/{} 占位符必须原样保留 | tests/e2e/smoke.spec.ts:219
+translate | spills: ${part.text} | fmt | 模板串：${x}/{} 占位符必须原样保留 | tests/e2e/smoke.spec.ts:220
+translate | Explains the why. | new | 待译 | tests/e2e/smoke.spec.ts:570
+translate | Hide file filter | new | 待译 | tests/e2e/smoke.spec.ts:852
+translate | Pop latest stash | new | 待译 | tests/e2e/smoke.spec.ts:776
+translate | This is a stash. | new | 待译 | tests/e2e/smoke.spec.ts:864
+translate | Lane color band | new | 待译 | tests/e2e/smoke.spec.ts:649
+translate | Apply 4 files | new | 待译 | tests/e2e/smoke.spec.ts:873
+translate | Filter files… | new | 待译 | tests/e2e/smoke.spec.ts:843
+translate | Stage 3 files | new | 待译 | tests/e2e/smoke.spec.ts:794
+translate | Clear filter | new | 待译 | tests/e2e/smoke.spec.ts:822
+translate | Commit files | new | 待译 | tests/e2e/smoke.spec.ts:948
+translate | Filter files | new | 待译 | tests/e2e/smoke.spec.ts:813
+translate | Reset branch | new | 待译 | tests/e2e/smoke.spec.ts:742
+translate | spills right | new | 待译 | tests/e2e/smoke.spec.ts:367
+translate | spills left | new | 待译 | tests/e2e/smoke.spec.ts:370
+verify | .font-mono | single-word | 裸词：须配 anchor，e2e 断言同步 | tests/e2e/smoke.spec.ts:147

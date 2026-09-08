@@ -1,0 +1,154 @@
+# skip-misc.tsv（t19 · translator-c 产出，F7-3）——misc 候选判定为不译的行（含 verify 裁决）
+# 列：scope<TAB>source<TAB>reason<TAB>first_loc<TAB>note
+# reason 类目见 t1 契约 §3.2：code/ident/css/test-name/demo/brand/protect/command/gitraw/fixture/prompt/dup/cjk
+# 另增本批次惯例类目：zh=行已中文化（扫描器对品牌/技术词误报）；covered=长词条整行替换已覆盖（不单独成条）
+# ---- ui：已中文化（扫描器对品牌/技术词误报，34→35 条含 verify 1 条） ----
+ui	AI 请求失败：${(error as { message?: string } | null)?.message ?? String(error)}	zh	apps/desktop/src/features/commit/WorkingCopyPanel.tsx:548	已中文化；${} 为代码模板
+ui	使用本机已安装的 AI CLI——Claude Code、Codex、Gemini CLI、OpenCode 或 Antigravity——以其自身的登录与配额运行，无需 API 密钥。	zh	apps/desktop/src/features/settings/SettingsDialog.tsx:1139	已中文化；品牌名保留
+ui	请安装 Claude Code、Codex CLI、Gemini CLI、OpenCode 或 Antigravity CLI，然后重新扫描。	zh	apps/desktop/src/features/settings/SettingsDialog.tsx:390	已中文化；品牌名保留
+ui	具有 read:repository:bitbucket + write:repository:bitbucket 权限范围的 API 令牌	zh	apps/desktop/src/features/settings/AccountsTab.tsx:80	已中文化；scope 名保留
+ui	无法切换到 ${main.name}：${(error as { message?: string }).message ?? error}	zh	apps/desktop/src/features/sidebar/Sidebar.tsx:350	已中文化
+ui	无法打开 ${held.name}：${(error as { message?: string }).message ?? error}	zh	apps/desktop/src/features/graph/CommitGraph.tsx:295	已中文化
+ui	无法在 Finder 中显示文件：${(error as { message?: string }).message ?? error}	zh	apps/desktop/src/features/commit/WorkingCopyPanel.tsx:1089	已中文化；Finder 品牌保留
+ui	无法打开 ${wt.name}：${(error as { message?: string }).message ?? error}	zh	apps/desktop/src/features/sidebar/Sidebar.tsx:291	已中文化
+ui	无法打开 ${file}：${(error as { message?: string }).message ?? error}	zh	apps/desktop/src/features/editor/EditorPanel.tsx:36	已中文化
+ui	无法读取 ${file}：${(error as { message?: string }).message ?? error}	zh	apps/desktop/src/features/conflicts/ConflictResolver.tsx:176	已中文化
+ui	${label} 失败：${(error as { message?: string }).message ?? error}	zh	apps/desktop/src/components/CommandPalette.tsx:140	已中文化
+ui	无法加载 diff：${(error as { message?: string }).message ?? error}	zh	apps/desktop/src/features/history/FileHistoryPanel.tsx:165	已中文化
+ui	应用失败：${(error as { message?: string }).message ?? error}	zh	apps/desktop/src/features/inspector/CommitDetails.tsx:281	已中文化
+ui	提交失败：${(error as { message?: string }).message ?? error}	zh	apps/desktop/src/features/commit/WorkingCopyPanel.tsx:640	已中文化
+ui	无法打开：${(error as { message?: string }).message ?? error}	zh	apps/desktop/src/components/CommandPalette.tsx:160	已中文化
+ui	拣选失败：${(error as { message?: string }).message ?? error}	zh	apps/desktop/src/features/repository/RepoDialogs.tsx:132	已中文化
+ui	继续失败：${(error as { message?: string }).message ?? error}	zh	apps/desktop/src/components/CommandPalette.tsx:171	已中文化
+ui	清除失败：${(error as { message?: string }).message ?? error}	zh	apps/desktop/src/components/CommandPalette.tsx:217	已中文化
+ui	移除失败：${(error as { message?: string }).message ?? error}	zh	apps/desktop/src/features/settings/AccountsTab.tsx:346	已中文化
+ui	连接失败：${(error as { message?: string }).message ?? error}	zh	apps/desktop/src/features/settings/AccountsTab.tsx:335	已中文化
+ui	更新失败：${(error as { message?: string }).message ?? error}	zh	apps/desktop/src/features/updater/check.ts:32	已中文化
+ui	合并失败：${(error as { message?: string }).message ?? error}	zh	apps/desktop/src/features/sidebar/Sidebar.tsx:379	已中文化
+ui	克隆失败：${(error as { message?: string }).message ?? error}	zh	apps/desktop/src/features/repository/CloneDialog.tsx:53	已中文化
+ui	刷新失败：${(error as { message?: string }).message ?? error}	zh	apps/desktop/src/features/repository/merge.ts:28	已中文化
+ui	保存失败：${(error as { message?: string }).message ?? error}	zh	apps/desktop/src/features/conflicts/ConflictResolver.tsx:589	已中文化
+ui	中止失败：${(error as { message?: string }).message ?? error}	zh	apps/desktop/src/components/CommandPalette.tsx:192	已中文化
+ui	丢弃失败：${(error as { message?: string }).message ?? error}	zh	apps/desktop/src/features/commit/WorkingCopyPanel.tsx:385	已中文化
+ui	变基失败：${(error as { message?: string }).message ?? error}	zh	apps/desktop/src/features/sidebar/Sidebar.tsx:397	已中文化
+ui	将 user.name 和 user.email 写入 ${repo.name}/.git/config	zh	apps/desktop/src/features/settings/SettingsDialog.tsx:934	已中文化；git 配置名保留
+ui	具有“read_repository” + “write_repository”权限范围的个人访问令牌	zh	apps/desktop/src/features/settings/AccountsTab.tsx:64	已中文化；scope 名保留
+ui	将 user.name 和 user.email 写入 ~/.gitconfig	zh	apps/desktop/src/features/settings/SettingsDialog.tsx:934	已中文化（verify 裁决）；路径保留
+ui	无法在 Finder 中显示文件：	zh	apps/desktop/src/features/commit/WorkingCopyPanel.tsx:1089	已中文化（长词条片段）
+ui	AngKorGit 崩溃了：	zh	apps/desktop/src/components/ErrorBoundary.tsx:17	已中文化（console.error 前缀）
+ui	Atlassian 账户邮箱	zh	apps/desktop/src/features/settings/AccountsTab.tsx:491	已中文化；Atlassian 品牌保留
+ui	无法加载 diff：	zh	apps/desktop/src/features/history/FileHistoryPanel.tsx:165	已中文化（长词条片段）
+# ---- ui：代码/协议串（16 条，含 verify 4 条） ----
+ui	${h.header}\n${h.lines.map((l) => `${l.kind === 'addition' ? '+' : l.kind === 'deletion' ? '-' : ' '}${l.content}`).join('\n')}	code	apps/desktop/src/features/inspector/CommitDetails.tsx:85	diff 文本拼接代码
+ui	0 0 0 ${NODE_HALO}px hsl(var(--background)), 0 0 0 ${NODE_HALO + NODE_RING}px ${laneColor(node.color)}	code	apps/desktop/src/features/graph/GraphRow.tsx:223	CSS box-shadow 值（verify 裁决）
+ui	${repoRemotes.map((r) => `${r.name}=${r.url}`).join(',')}|${upstream}	code	apps/desktop/src/features/repository/RepositoryPage.tsx:170	仓库指纹拼接串
+ui	${value.slice(0, selectionStart)}\t${value.slice(selectionEnd)}	code	apps/desktop/src/features/editor/EditorPanel.tsx:144	编辑器 Tab 插入代码
+ui	${(error as { message?: string }).message ?? error}	code	apps/desktop/src/features/settings/SettingsDialog.tsx:101	纯错误取值模板
+ui	${commit.author.name} <${commit.author.email}>	code	apps/desktop/src/features/graph/GraphRow.tsx:500	作者身份字符串（title）
+ui	hsl(var(--primary) / ${current ? 0.28 : 0.14})	code	apps/desktop/src/features/diff/DiffViewer.tsx:21	CSS 颜色值（verify 裁决）
+ui	${w.name}${w.branch ? ` · ${w.branch}` : ''}	code	apps/desktop/src/components/CommandPalette.tsx:398	列表项标签拼接
+ui	max(2px, ${((end - start) / total) * 100}%)	code	apps/desktop/src/features/diff/DiffMinimap.tsx:193	CSS 计算值（verify 裁决）
+ui	translateY(${item.start - outputMargin}px)	code	apps/desktop/src/features/conflicts/ConflictResolver.tsx:1226	CSS transform 值
+ui	translateY(${item.start - scrollMargin}px)	code	apps/desktop/src/features/commit/WorkingCopyPanel.tsx:188	CSS transform 值
+ui	${(el.scrollTop / el.scrollHeight) * 100}%	code	apps/desktop/src/features/diff/DiffMinimap.tsx:140	滚动百分比计算
+ui	translateY(${item.start - topMargin}px)	code	apps/desktop/src/features/conflicts/ConflictResolver.tsx:956	CSS transform 值
+ui	Basic ${btoa(`${identity}:${token}`)}	code	apps/desktop/src/features/settings/AccountsTab.tsx:129	Basic 认证头构造
+ui	${count} ${statusMeta[status].label}	code	apps/desktop/src/features/inspector/CommitDetails.tsx:67	动态标签拼接（title/aria）
+ui	${remoteName ?? 'origin'}/	code	apps/desktop/src/features/forge/CreatePrDialog.tsx:82	远端前缀拼接
+# ---- ui：被更长词条整行替换覆盖（18 条，不单独成条） ----
+ui	). Submodule changes must be discarded inside the submodule repository.	covered	apps/desktop/src/features/commit/WorkingCopyPanel.tsx:445	被 batch 中 "${leftovers.length} change…could not be discarded (${listed}). Submodule changes…" 覆盖
+ui	cannot be checked out from AngKorGit — open it in the browser instead.	covered	apps/desktop/src/features/sidebar/Sidebar.tsx:416	被 "This ${forgeNoun(…)} cannot be checked out…" 覆盖
+ui	Open a pre-filled pull request page for	covered	apps/desktop/src/components/StatusBar.tsx:82	被 "Open a pre-filled pull request page for ${repo?.headBranch}" 覆盖
+ui	only on the local branch will be lost.	covered	apps/desktop/src/features/graph/CommitGraph.tsx:322	被 "${local.ahead} commit…only on the local branch will be lost." 覆盖
+ui	\r\n[could not start shell:	covered	apps/desktop/src/features/terminal/TerminalPanel.tsx:81	被 "\r\n[could not start shell: ${…}]" 覆盖
+ui	AngKorGit error report\n\n	covered	apps/desktop/src/components/ErrorBoundary.tsx:23	被 "AngKorGit error report\n\n${…}" 覆盖
+ui	without leaving AngKorGit	covered	apps/desktop/src/components/StatusBar.tsx:81	被 "Create a ${prNoun} for ${repo?.headBranch} without leaving AngKorGit" 覆盖
+ui	could not be discarded (	covered	apps/desktop/src/features/commit/WorkingCopyPanel.tsx:445	被长词条覆盖
+ui	could not be discarded:	covered	apps/desktop/src/features/commit/WorkingCopyPanel.tsx:446	被长词条覆盖
+ui	Worktree ready ·	covered	apps/desktop/src/features/worktrees/CreateWorktreeDialog.tsx:130	被 "Worktree ready · ${basename(created)}" 覆盖
+ui	from the stash	covered	apps/desktop/src/features/inspector/CommitDetails.tsx:275	被 "Applied ${…} from the stash"/"Apply ${diff.path} from the stash" 覆盖
+ui	staged change	covered	apps/desktop/src/features/commit/WorkingCopyPanel.tsx:473	被 "${remaining.length} staged change…could not be discarded: ${listed}" 覆盖
+ui	Redo failed:	covered	apps/desktop/src/features/history/undoStore.ts:217	被 "Redo failed: ${…}" 覆盖
+ui	Undo failed:	covered	apps/desktop/src/features/history/undoStore.ts:187	被 "Undo failed: ${…}" 覆盖
+ui	From commit	covered	apps/desktop/src/features/repository/RepoDialogs.tsx:159	被 "From commit ${dialogContext.slice(0, 8)}" 覆盖
+ui	detached @	covered	apps/desktop/src/components/StatusBar.tsx:36	被 "detached @ ${repo.headOid?.slice(0, 8) ?? '?'}" 覆盖
+ui	At commit	covered	apps/desktop/src/features/repository/RepoDialogs.tsx:193	被 "At commit ${dialogContext.slice(0, 8)}" 覆盖
+ui	Create a	covered	apps/desktop/src/components/StatusBar.tsx:81	被 "Create a ${prNoun} for ${repo?.headBranch}…" 覆盖
+# ---- website：命令（9 条，含 verify 6 条） ----
+website	curl -L ${SITE.assetUrl(version, `AngKorGit_${version}_amd64.AppImage`)} -o ~/Downloads/AngKorGit.AppImage && chmod +x ~/Downloads/AngKorGit.AppImage && ~/Downloads/AngKorGit.AppImage	command	apps/website/src/components/Install.astro:77	安装命令（verify 裁决）
+website	curl -L ${SITE.assetUrl(version, `AngKorGit_${version}_universal.dmg`)} -o ~/Downloads/AngKorGit.dmg && xattr -cr ~/Downloads/AngKorGit.dmg && open ~/Downloads/AngKorGit.dmg	command	apps/website/src/components/Install.astro:60	安装命令（verify 裁决）
+website	-o ~/Downloads/AngKorGit.AppImage && chmod +x ~/Downloads/AngKorGit.AppImage && ~/Downloads/AngKorGit.AppImage	command	apps/website/src/components/Install.astro:77	命令片段（verify 裁决）
+website	curl -L ${SITE.assetUrl(version, `AngKorGit_${version}_amd64.AppImage`)} -o ~/Downloads/AngKorGit.AppImage	command	apps/website/src/components/Install.astro:73	命令片段（verify 裁决）
+website	-o ~/Downloads/AngKorGit.dmg && xattr -cr ~/Downloads/AngKorGit.dmg && open ~/Downloads/AngKorGit.dmg	command	apps/website/src/components/Install.astro:60	命令片段（verify 裁决）
+website	curl -L ${SITE.assetUrl(version, `AngKorGit_${version}_universal.dmg`)} -o ~/Downloads/AngKorGit.dmg	command	apps/website/src/components/Install.astro:56	命令片段（verify 裁决）
+website	-o "$env:TEMP\\AngKorGit-setup.exe"; Start-Process "$env:TEMP\\AngKorGit-setup.exe"	command	apps/website/src/components/Install.astro:68	PowerShell 安装命令
+website	-o "$env:TEMP\\AngKorGit-setup.exe"	command	apps/website/src/components/Install.astro:65	PowerShell 命令片段
+website	" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">	code	apps/website/src/components/mock/icons.ts:44	SVG 属性片段
+website	</span><span class="font-mono text-[11px] font-normal text-faint">	code	apps/website/src/components/mock/Sidebar.astro:4	HTML/CSS 类片段（verify 裁决）
+website	hsl(var(${alt ? '--graph-2' : laneColors[lane]}))	code	apps/website/src/components/mock/Graph.astro:48	CSS 颜色模板（verify 裁决）
+website	scale(${frame.clientWidth / w})	code	apps/website/src/components/mock/Frame.astro:17	CSS transform 计算
+# ---- website：已中文化（6 条） ----
+website	一个词，AngKorGit。也有人写作 Angkor Git、angkorgit 或 GitAngkor，指的都是这个应用。angkorgit.app 是唯一的官方网站，代码托管在 GitHub 的 cheat2001/angkorgit 仓库。	zh	apps/website/src/components/Questions.astro:6	已中文化；品牌/URL 保留
+website	AngKorGit（Angkor Git）——快速、免费的 Git 客户端与 Git GUI，支持 macOS、Windows 和 Linux	zh	apps/website/src/lib/site.ts:21	已中文化（title）
+website	Intel 与 Apple Silicon，单文件	zh	apps/website/src/components/Install.astro:10	已中文化
+website	AngKorGit 还是 Angkor Git？	zh	apps/website/src/components/Questions.astro:5	已中文化
+website	AppImage、.deb 和 .rpm	zh	apps/website/src/components/Install.astro:22	已中文化；格式名保留
+website	blame 视图	zh	apps/website/src/components/SpecSheet.astro:71	已中文化；术语保留
+# ---- e2e：选择器/断言标签/已中文化（11 条，含 verify 1 条） ----
+e2e	arrow keys walk from the graph into a commit\u2019s files and back	test-name	tests/e2e/smoke.spec.ts:935	测试用例名（verify 裁决）
+e2e	section[aria-label^="文件差异："] div.overflow-y-auto	code	tests/e2e/smoke.spec.ts:179	CSS 选择器
+e2e	section[aria-label^="文件差异："] span.font-mono	code	tests/e2e/smoke.spec.ts:501	CSS 选择器
+e2e	src/features/graph/CommitGraph.tsx 的历史	zh	tests/e2e/smoke.spec.ts:758	已中文化（aria-label 片段）
+e2e	丢弃 src/features/graph/CommitGraph.tsx	zh	tests/e2e/smoke.spec.ts:883	已中文化（按钮名断言）
+e2e	${String(name)} spills right	test-name	tests/e2e/smoke.spec.ts:367	expect 失败标签
+e2e	section[aria-label*=" 的历史"]	code	tests/e2e/smoke.spec.ts:757	CSS 选择器
+e2e	${String(name)} spills left	test-name	tests/e2e/smoke.spec.ts:370	expect 失败标签
+e2e	dialog geometry missing	test-name	tests/e2e/smoke.spec.ts:743	expect 失败标签
+e2e	spills right	test-name	tests/e2e/smoke.spec.ts:367	expect 失败标签（长词条片段）
+e2e	spills left	test-name	tests/e2e/smoke.spec.ts:370	expect 失败标签（长词条片段）
+# ---- rust：git stash 消息惯例 / libgit2 耦合 / 测试夹具（23 条） ----
+rust	checkout: fast-forward {local_name} to its upstream	gitraw	apps/desktop/src-tauri/src/core/branch.rs:173	reflog 消息（repo.reference）
+rust	index on {branch}: {short} {summary}	gitraw	apps/desktop/src-tauri/src/core/misc.rs:113	git stash 提交消息惯例（git stash list 展示；译则与 git CLI 失配）
+rust	untracked files on {branch}: {short} {summary}	gitraw	apps/desktop/src-tauri/src/core/misc.rs:122	git stash 提交消息惯例
+rust	WIP on {branch}: {short} {summary}	gitraw	apps/desktop/src-tauri/src/core/misc.rs:131	git stash 提交消息惯例
+rust	uncommitted changes exist in the index	code	apps/desktop/src-tauri/src/core/misc.rs:254	libgit2 错误消息匹配（stash apply 回退判断），保持英文
+rust	untracked files on	code	apps/desktop/src-tauri/src/core/misc.rs:296	starts_with 前缀匹配（untracked 父提交识别），保持英文
+rust	kept across checkout\n	fixture	apps/desktop/src-tauri/tests/git_engine.rs:517	工作区文件内容夹具
+rust	staged then edited\n	fixture	apps/desktop/src-tauri/tests/git_engine.rs:333	工作区文件内容夹具
+rust	On master: wip graph	fixture	apps/desktop/src-tauri/tests/git_engine.rs:396	stash 消息断言夹具（依赖 gitraw 惯例保留）
+rust	local feature work	fixture	apps/desktop/src-tauri/tests/git_engine.rs:549	提交消息夹具
+rust	On master: only a	fixture	apps/desktop/src-tauri/tests/git_engine.rs:286	stash 消息断言夹具
+rust	stash decoration	test-name	apps/desktop/src-tauri/tests/git_engine.rs:394	expect 失败标签
+rust	WIP on master:	fixture	apps/desktop/src-tauri/tests/git_engine.rs:313	stash 消息前缀断言夹具
+rust	checked above	test-name	apps/desktop/src-tauri/src/core/stage.rs:180	expect() panic 消息（开发向）
+rust	stash listed	test-name	apps/desktop/src-tauri/tests/git_engine.rs:388	expect 失败标签
+rust	new staged\n	fixture	apps/desktop/src-tauri/tests/git_engine.rs:271	文件内容夹具
+rust	feature two	fixture	apps/desktop/src-tauri/tests/git_engine.rs:514	提交消息夹具
+rust	feature one	fixture	apps/desktop/src-tauri/tests/git_engine.rs:501	提交消息夹具
+rust	b dirty\n	fixture	apps/desktop/src-tauri/tests/git_engine.rs:246	文件内容夹具
+rust	a dirty\n	fixture	apps/desktop/src-tauri/tests/git_engine.rs:245	文件内容夹具
+rust	wip graph	fixture	apps/desktop/src-tauri/tests/git_engine.rs:364	stash 消息参数夹具
+rust	index on	fixture	apps/desktop/src-tauri/tests/git_engine.rs:382	前缀断言夹具（gitraw 惯例保留）
+rust	only a	fixture	apps/desktop/src-tauri/tests/git_engine.rs:248	stash 消息参数夹具
+# ---- core：AI 提示词（18 条）+ 已中文化（1 条） ----
+core	Review this staged diff. List concrete issues (bugs, edge cases, naming, missing tests) ordered by severity. If it looks good, say so briefly.${conventions ? `\n\n${conventions}\n\n${guard}` : ''}\n\n${clip(stagedDiff)}	prompt	packages/core/src/ai/capabilities.ts:125	AI 审查提示词（含模板），保持英文
+core	Write a pull request description in markdown (## Summary, ## Changes, ## Testing) for these commits and diff stat.\n\nCommits:\n${clip(commits, 8000)}\n\nDiff stat:\n${clip(diffStat, 4000)}	prompt	packages/core/src/ai/capabilities.ts:77	AI 提示词（PR 描述生成）
+core	Explain this merge conflict in ${file} and suggest a resolution.\n\nCURRENT (ours):\n${clip(current, 8000)}\n\nINCOMING (theirs):\n${clip(incoming, 8000)}	prompt	packages/core/src/ai/capabilities.ts:64	AI 提示词（冲突解释）
+core	Review this staged diff. List concrete issues (bugs, edge cases, naming, missing tests) ordered by severity. If it looks good, say so briefly.	prompt	packages/core/src/ai/capabilities.ts:125	AI 审查提示词
+core	Write a pull request description in markdown (## Summary, ## Changes, ## Testing) for these commits and diff stat.\n\nCommits:\n	prompt	packages/core/src/ai/capabilities.ts:77	提示词片段
+core	Project review conventions (they win over the general ones on conflict):\n${clip(project, 4000)}	prompt	packages/core/src/ai/capabilities.ts:105	AI 提示词（项目约定节）
+core	Summarize this commit history into key themes, as short bullets.\n\n${clip(commits)}	prompt	packages/core/src/ai/capabilities.ts:88	AI 提示词（提交摘要）
+core	${commitStyleInstructions(style, prefix)}\n\nStaged diff:\n\n${clip(stagedDiff)}	prompt	packages/core/src/ai/capabilities.ts:34	AI 提示词（提交消息生成）
+core	Project review conventions (they win over the general ones on conflict):\n	prompt	packages/core/src/ai/capabilities.ts:105	提示词片段
+core	Summarize this commit history into key themes, as short bullets.\n\n	prompt	packages/core/src/ai/capabilities.ts:88	提示词片段
+core	General review conventions:\n${clip(general, 4000)}	prompt	packages/core/src/ai/capabilities.ts:103	AI 提示词（通用约定节）
+core	and suggest a resolution.\n\nCURRENT (ours):\n	prompt	packages/core/src/ai/capabilities.ts:64	提示词片段
+core	${text.slice(0, max)}\n…(truncated)	prompt	packages/core/src/ai/capabilities.ts:14	clip() 截断标记（提示词内容）
+core	已安装 AI CLI（Claude Code、Codex…）	zh	packages/core/src/ai/providers.ts:228	已中文化；品牌名保留
+core	Explain this merge conflict in	prompt	packages/core/src/ai/capabilities.ts:64	提示词片段
+core	General review conventions:\n	prompt	packages/core/src/ai/capabilities.ts:103	提示词片段
+core	\n\nINCOMING (theirs):\n	prompt	packages/core/src/ai/capabilities.ts:64	提示词片段
+core	\n\nStaged diff:\n\n	prompt	packages/core/src/ai/capabilities.ts:34	提示词片段
+core	\n\nDiff stat:\n	prompt	packages/core/src/ai/capabilities.ts:77	提示词片段
+# ---- test：夹具（1 条） ----
+test	col${i + 1}	fixture	tests/unit/wordDiff.test.ts:33	词级 diff 夹具列名

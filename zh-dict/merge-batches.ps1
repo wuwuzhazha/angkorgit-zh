@@ -77,7 +77,10 @@ $scopeTokenRe = '^(ui|rust|core|website|docs|meta|e2e|test)(,(ui|rust|core|websi
 $batchFiles = @(
   @{ N = 1; P = Join-Path $zh 'batches\ui\batch.tsv' },
   @{ N = 2; P = Join-Path $zh 'batches\web\batch.tsv' },
-  @{ N = 3; P = Join-Path $zh 'batches\rust\batch.tsv' }
+  @{ N = 3; P = Join-Path $zh 'batches\rust\batch.tsv' },
+  @{ N = 4; P = Join-Path $zh 'batches\v011b\ui-web\batch.tsv' },
+  @{ N = 5; P = Join-Path $zh 'batches\v011b\rust-e2e\batch.tsv' },
+  @{ N = 6; P = Join-Path $zh 'batches\v011b\misc\batch.tsv' }
 )
 $batchEntries = New-Object System.Collections.Generic.List[object]
 $dropped = New-Object System.Collections.Generic.List[string]

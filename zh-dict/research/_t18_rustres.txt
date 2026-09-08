@@ -1,0 +1,113 @@
+{file_header}@@ -{start},{old_count} +{start},{new_count} @@\n{body} | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/src/core/stage.rs:360
+Revert \"{summary}\"\n\nThis reverts commit {full_oid}. | reason= fmt | kind= rust-fmt | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/src/core/commit.rs:105
+checkout must refuse a branch checked out in a worktree | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:2001
+adding a worktree for the checked-out branch must fail | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:1986
+feat: two\n\n(cherry picked from commit {second})\n\n | reason= fmt | kind= rust-fmt | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:630
+feat: one\n\n(cherry picked from commit {first})\n\n | reason= fmt | kind= rust-fmt | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:639
+checkout: fast-forward {local_name} to its upstream | reason= fmt | kind= rust-fmt | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/src/core/branch.rs:173
+diff mentioning {OUTPUT_FILE_PLACEHOLDER} literally | reason= fmt | kind= rust-fmt | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/src/ai_cli.rs:418
+unexpected http status code: 403; class=Http (34) | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/src/error.rs:119
+untracked files on {branch}: {short} {summary} | reason= fmt | kind= rust-fmt | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/src/core/misc.rs:122
+missing origin line in: {engine_message:?} | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:698
+nothing to stash in the selected files | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/src/core/misc.rs:106
+uncommitted changes exist in the index | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/src/core/misc.rs:254
+github.com=dara-work, gitlab.com=dara | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/src/core/remote.rs:723
+nonsense,=user,host=, GitHub.com=Dara | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/src/core/remote.rs:730
+index on {branch}: {short} {summary} | reason= fmt | kind= rust-fmt | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/src/core/misc.rs:113
+could not run git stash {verb}: {e} | reason= fmt | kind= rust-fmt | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/src/core/misc.rs:266
+WIP on {branch}: {short} {summary} | reason= fmt | kind= rust-fmt | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/src/core/misc.rs:131
+dirty worktree must not be removed | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:2028
+unexpected http status code: 401 | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/src/error.rs:158
+unexpected http status code: 402 | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/src/error.rs:115
+unexpected http status code: 500 | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/src/error.rs:140
+{file} is not part of this stash | reason= fmt | kind= rust-fmt | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/src/core/misc.rs:375
+\\ No newline at end of file\n | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/src/core/stage.rs:225
+{file} has no changes to stash | reason= fmt | kind= rust-fmt | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/src/core/misc.rs:89
+stash {index} does not exist | reason= fmt | kind= rust-fmt | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/src/core/misc.rs:288
+unexpected http status code: | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/src/error.rs:17
+fast-forward merge {branch} | reason= fmt | kind= rust-fmt | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/src/core/branch.rs:219
+command -v {name} || true | reason= fmt | kind= rust-fmt | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/src/ai_cli.rs:196
+Revert \"add bad file\" | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:741
+kept across checkout\n | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:517
+main repo stays intact | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:2037
+not part of this stash | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:491
+line should be staged | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:936
+pull request checkout | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/src/core/remote.rs:656
+On master: wip graph | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:396
+[GNUPG:] SIG_CREATED | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/src/core/sign.rs:250
+staged then edited\n | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:333
+message {message:?} | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:714
+production change\n | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:1348
+{file} is untracked | reason= fmt | kind= rust-fmt | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/src/core/misc.rs:79
+local feature work | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:549
+resolved content\n | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:165
+untracked files on | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/src/core/misc.rs:296
+On master: only a | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:286
+add picked file\n | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:595
+diverge on master | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:659
+production change | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:1349
+local divergence | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:1695
+resolved by hand | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:1146
+stash decoration | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:394
+add picked file | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:588
+master change\n | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:154
+source change\n | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:652
+Bearer {token} | reason= fmt | kind= rust-fmt | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/src/account_check.rs:99
+WIP on master: | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:313
+change a add c | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:1832
+feature commit | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:1220
+feature work\n | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:125
+other change\n | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:150
+Basic {basic} | reason= fmt | kind= rust-fmt | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/src/account_check.rs:189
+change b only | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:968
+checked above | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/src/core/stage.rs:180
+demo change\n | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:1344
+master change | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:1138
+master commit | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:1224
+three renamed | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:1057
+add bad file | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:724
+change a {i} | reason= fmt | kind= rust-fmt | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:1160
+change b {i} | reason= fmt | kind= rust-fmt | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:1162
+feature work | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:126
+local edit\n | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:1326
+local work\n | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:548
+new staged\n | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:271
+plain commit | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:1554
+release work | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:1384
+stash listed | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:388
+topic change | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:1134
+add a and b | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:965
+change both | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:975
+demo change | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:1345
+demo work\n | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:1256
+feature one | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:501
+feature two | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:514
+feature {i} | reason= fmt | kind= rust-fmt | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:839
+from engine | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:1237
+master work | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:138
+merge other | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:167
+prod work\n | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:1280
+change a 0 | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:1183
+change a 1 | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:1182
+change a 2 | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:1181
+change a 3 | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:1180
+change a 4 | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:1179
+commit {i} | reason= fmt | kind= rust-fmt | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:800
+commit: {} | reason= fmt | kind= rust-fmt | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/src/core/sign.rs:118
+local base | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:505
+topic work | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:135
+Test User | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/src/core/sign.rs:324
+a dirty\n | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:245
+add files | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:1829
+b dirty\n | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:246
+chore {i} | reason= fmt | kind= rust-fmt | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:841
+demo work | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:1257
+not a rev | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:1801
+prod work | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:1281
+wip graph | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:364
+change a | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:971
+index on | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:382
+pr third | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:1763
+pr work | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:1656
+AI CLI | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/src/ai_cli.rs:330
+only a | reason= new | kind= rust | req_anchor=  | sync=  | loc= apps/desktop/src-tauri/tests/git_engine.rs:248

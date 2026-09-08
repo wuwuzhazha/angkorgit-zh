@@ -1,0 +1,129 @@
+# 0.11.0 rust + e2e 跳过清单（translator-b · t18）
+# 列：source<TAB>category<TAB>reason
+${String(name)} spills left	test-name	expect 断言标签（开发向）
+${String(name)} spills right	test-name	expect 断言标签（开发向）
+.font-mono	css	CSS 选择器（verify 裁决）
+AI CLI	ident	类别术语（未知 CLI 回退标签）
+Apply 4 files	ui-sync	UI 侧未入词条（CommitDetails:583 模板），断言保持英文与 UI 一致
+Basic {basic}	code	Authorization Basic 协议值
+Bearer {token}	code	Authorization 头协议值
+Explains the why.	fixture	测试输入：提交说明样例
+Lane color band	ui-sync	UI 侧未入词条（CommitGraph:440），断言保持英文与 UI 一致
+On master: only a	fixture	git_engine 夹具提交消息/断言子串
+On master: wip graph	fixture	git_engine 夹具提交消息/断言子串
+Revert \"add bad file\"	fixture	git_engine 夹具提交消息/断言子串
+Revert \"{summary}\"\n\nThis reverts commit {full_oid}.	code	git revert 惯例文案（GitHub 依赖识别）
+Test User	fixture	sign 模块测试 git 身份夹具
+Virtualized rows keep large graphs smooth	demo	demo 提交消息断言（demo.ts 不译）
+WIP on master:	fixture	git_engine 夹具提交消息/断言子串
+WIP on {branch}: {short} {summary}	gitraw	stash 提交消息格式（git 惯例）
+[GNUPG:] SIG_CREATED	code	gpg --status-fd 输出解析标记
+\\ No newline at end of file\n	code	统一 diff 协议标记行
+a dirty\n	fixture	git_engine 夹具提交消息/断言子串
+add a and b	fixture	git_engine 夹具提交消息/断言子串
+add bad file	fixture	git_engine 夹具提交消息/断言子串
+add files	fixture	git_engine 夹具提交消息/断言子串
+add picked file	fixture	git_engine 夹具提交消息/断言子串
+add picked file\n	fixture	git_engine 夹具提交消息/断言子串
+adding a worktree for the checked-out branch must fail	test-name	git_engine 测试用例名
+arrow keys walk from the graph into a commit’s files and back	test-name	e2e 测试用例名（verify 裁决）
+b dirty\n	fixture	git_engine 夹具提交消息/断言子串
+change a	fixture	git_engine 夹具提交消息/断言子串
+change a 0	fixture	git_engine 夹具提交消息/断言子串
+change a 1	fixture	git_engine 夹具提交消息/断言子串
+change a 2	fixture	git_engine 夹具提交消息/断言子串
+change a 3	fixture	git_engine 夹具提交消息/断言子串
+change a 4	fixture	git_engine 夹具提交消息/断言子串
+change a add c	fixture	git_engine 夹具提交消息/断言子串
+change a {i}	fixture	git_engine 夹具提交消息/断言子串
+change b only	fixture	git_engine 夹具提交消息/断言子串
+change b {i}	fixture	git_engine 夹具提交消息/断言子串
+change both	fixture	git_engine 夹具提交消息/断言子串
+checked above	test-name	expect 消息标签
+checkout must refuse a branch checked out in a worktree	test-name	git_engine 测试用例名
+checkout: fast-forward {local_name} to its upstream	gitraw	reflog 消息
+chore {i}	fixture	git_engine 夹具提交消息/断言子串
+clipped: ${part.text}	test-name	expect 断言标签（开发向）
+command -v {name} || true	command	shell 命令片段（PATH 探测）
+commit {i}	fixture	git_engine 夹具提交消息/断言子串
+commit: {}	gitraw	reflog 消息
+demo change	fixture	git_engine 夹具提交消息/断言子串
+demo change\n	fixture	git_engine 夹具提交消息/断言子串
+demo work	fixture	git_engine 夹具提交消息/断言子串
+demo work\n	fixture	git_engine 夹具提交消息/断言子串
+dialog geometry missing	test-name	测试内 throw 的错误消息（开发向）
+diff mentioning {OUTPUT_FILE_PLACEHOLDER} literally	fixture	ai_cli 模块测试提示词夹具
+dirty worktree must not be removed	test-name	git_engine 测试用例名
+diverge on master	fixture	git_engine 夹具提交消息/断言子串
+fast-forward merge {branch}	gitraw	reflog 消息
+feat(worktrees): list, create and remove linked worktrees	fixture	测试输入：提交摘要样例（demo 提交消息）
+feat: one\n\n(cherry picked from commit {first})\n\n	fixture	git_engine 夹具提交消息/断言子串
+feat: two\n\n(cherry picked from commit {second})\n\n	fixture	git_engine 夹具提交消息/断言子串
+feature commit	fixture	git_engine 夹具提交消息/断言子串
+feature one	fixture	git_engine 夹具提交消息/断言子串
+feature two	fixture	git_engine 夹具提交消息/断言子串
+feature work	fixture	git_engine 夹具提交消息/断言子串
+feature work\n	fixture	git_engine 夹具提交消息/断言子串
+feature {i}	fixture	git_engine 夹具提交消息/断言子串
+fix: adjust\n\nSigned-off-by: Test User <test@angkorgit.dev>	fixture	git_engine 夹具提交消息（verify 裁决）
+from engine	fixture	git_engine 夹具提交消息/断言子串
+github.com=dara-work, gitlab.com=dara	fixture	parse_account_bindings 模块测试夹具
+index on	fixture	git_engine 夹具提交消息/断言子串
+index on {branch}: {short} {summary}	gitraw	stash 提交消息格式（git 惯例）
+kept across checkout\n	fixture	git_engine 夹具提交消息/断言子串
+line should be staged	test-name	git_engine 断言消息
+local base	fixture	git_engine 夹具提交消息/断言子串
+local divergence	fixture	git_engine 夹具提交消息/断言子串
+local edit\n	fixture	git_engine 夹具提交消息/断言子串
+local feature work	fixture	git_engine 夹具提交消息/断言子串
+local work\n	fixture	git_engine 夹具提交消息/断言子串
+main repo stays intact	test-name	git_engine 断言消息
+master change	fixture	git_engine 夹具提交消息/断言子串
+master change\n	fixture	git_engine 夹具提交消息/断言子串
+master commit	fixture	git_engine 夹具提交消息/断言子串
+master work	fixture	git_engine 夹具提交消息/断言子串
+merge other	fixture	git_engine 夹具提交消息/断言子串
+message {message:?}	test-name	git_engine 断言消息
+missing origin line in: {engine_message:?}	test-name	git_engine 断言消息
+new staged\n	fixture	git_engine 夹具提交消息/断言子串
+nonsense,=user,host=, GitHub.com=Dara	fixture	parse_account_bindings 模块测试夹具
+not a rev	fixture	git_engine 夹具提交消息/断言子串
+only a	fixture	git_engine 夹具提交消息/断言子串
+other change\n	fixture	git_engine 夹具提交消息/断言子串
+plain commit	fixture	git_engine 夹具提交消息/断言子串
+pnpm --filter @angkorgit/desktop dev	command	启动命令（verify 裁决）
+pr third	fixture	git_engine 夹具提交消息/断言子串
+pr work	fixture	git_engine 夹具提交消息/断言子串
+prod work	fixture	git_engine 夹具提交消息/断言子串
+prod work\n	fixture	git_engine 夹具提交消息/断言子串
+production change	fixture	git_engine 夹具提交消息/断言子串
+production change\n	fixture	git_engine 夹具提交消息/断言子串
+pull request checkout	gitraw	reflog 消息
+release work	fixture	git_engine 夹具提交消息/断言子串
+resolved by hand	fixture	git_engine 夹具提交消息/断言子串
+resolved content\n	fixture	git_engine 夹具提交消息/断言子串
+section[aria-label*=" 的历史"]	css	CSS 选择器（aria 已是中文）
+section[aria-label^="文件差异："] div.overflow-y-auto	css	CSS 选择器（aria 已是中文）
+section[aria-label^="文件差异："] span.font-mono	css	CSS 选择器（aria 已是中文）
+source change\n	fixture	git_engine 夹具提交消息/断言子串
+spills left	test-name	expect 断言标签（开发向）
+spills right	test-name	expect 断言标签（开发向）
+spills: ${part.text}	test-name	expect 断言标签（开发向）
+src/features/graph/CommitGraph.tsx 的历史	cjk	已含中文标签
+staged then edited\n	fixture	git_engine 夹具提交消息/断言子串
+stash decoration	fixture	git_engine 夹具提交消息/断言子串
+stash listed	fixture	git_engine 夹具提交消息/断言子串
+three renamed	fixture	git_engine 夹具提交消息/断言子串
+topic change	fixture	git_engine 夹具提交消息/断言子串
+topic work	fixture	git_engine 夹具提交消息/断言子串
+uncommitted changes exist in the index	code	libgit2 错误文本匹配标记（stash 回退判定）
+unexpected http status code:	code	HTTP_STATUS_MARKER 常量
+unexpected http status code: 401	code	libgit2 错误文本解析标记
+unexpected http status code: 402	code	libgit2 错误文本解析标记
+unexpected http status code: 403; class=Http (34)	code	libgit2 错误文本解析标记
+unexpected http status code: 500	code	libgit2 错误文本解析标记
+untracked files on	gitraw	stash 提交消息格式片段
+untracked files on {branch}: {short} {summary}	gitraw	stash 提交消息格式（git 惯例）
+wip graph	fixture	git_engine 夹具提交消息/断言子串
+{file_header}@@ -{start},{old_count} +{start},{new_count} @@\n{body}	code	diff hunk 头语法拼接串
+丢弃 src/features/graph/CommitGraph.tsx	cjk	已含中文标签

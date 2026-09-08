@@ -374,10 +374,18 @@ ui	Switched to 	已切换到 	Switched to
 ui	aria-label={`${state} in progress — actions`}	aria-label={`${state} 进行中——操作`}
 ui	Cancel	取消	^\s*Cancel$
 ui	Create as draft	以草稿创建
+ui	Create a ${prNoun} for ${repo?.headBranch} without leaving AngKorGit	为 ${repo?.headBranch} 创建 ${prNoun}，无需离开 AngKorGit
+ui	Create ${forgeNoun(forgeCurrent ? forgeKind : null)}	创建 ${forgeNoun(forgeCurrent ? forgeKind : null)}
 ui	Create	创建	^\s*Create$
 ui	Clone failed: 	克隆失败：	Clone failed: 
 ui	Clone	克隆	^\s*Clone$
 ui	Stash — click the row to see its files, right-click to apply, pop or drop	暂存——点击行查看其文件，右键可应用、弹出或丢弃
+ui	Pop latest stash: ${latestStash.message}	弹出最新暂存：${latestStash.message}
+ui	Stash {menuMulti.paths.length} files…	暂存 {menuMulti.paths.length} 个文件…
+ui,e2e	Stash selected changes	暂存选中的更改
+ui	aria-label="Stash"	aria-label="暂存"	aria-label="Stash"
+ui	Stash this file…	暂存此文件…
+ui	'Stash'	'暂存'	submit\('Stash'
 ui	Stash	暂存	^\s*Stash$
 ui	Rename	重命名	^\s*Rename$
 ui	Retry	重试	^\s*Retry$
@@ -525,6 +533,7 @@ ui	Cherry-pick {pickSelection.length} commits onto current branch…	在当前�
 ui	Cherry-pick ${oids.length} commits	拣选 ${oids.length} 个提交
 ui	Cherry-pick done	拣选完成
 ui	Cherry-pick failed: 	拣选失败：	Cherry-pick failed: 
+ui	Cherry-pick ${oids[0].slice(0, 8)}	拣选 ${oids[0].slice(0, 8)}
 ui	Cherry-pick	拣选	'Cherry-pick'
 ui	Squash {multiSelection.count} commits	压缩 {multiSelection.count} 个提交
 ui	Drop {multiSelection.count} commits	丢弃 {multiSelection.count} 个提交
@@ -556,6 +565,7 @@ ui	Commit history	提交历史
 ui	Commits and pushes in this repository will use the chosen profile's identity and	此仓库中的提交与推送将使用所选配置文件的身份和
 ui	Commit failed: 	提交失败：	Commit failed: 
 ui	aria-label="Commits"	aria-label="提交"	aria-label="Commits"
+ui,e2e	Commit files	提交文件
 ui	Commit	提交	Commit\$\{
 ui	Commit	提交	\? 'Commit'
 ui	<Undo2 className="size-3" /> Amend last commit…	<Undo2 className="size-3" /> 修订上一次提交…
@@ -724,6 +734,7 @@ ui	Demo User	演示用户	'Demo User'
 ui	· checked	· 已验证	· checked \{
 ui	Profiles	配置文件	title="Profiles"
 ui	Provider	提供方	title="Provider"
+ui	Worktree ready · ${basename(created)}	工作树已就绪 · ${basename(created)}
 ui	Worktree	工作树	aria-label="Worktree"
 ui	· origin	· 远端	\? ' · origin' :
 ui	· local	· 本地	\? ' · local' :
@@ -766,6 +777,7 @@ ui	Copy error details	复制错误详情
 ui	Restart interface	重启界面
 ui	combine it into.	与之合并。	^\s*combine it into\.$
 ui	below.	详细信息。	^\s*below\.$
+ui	Open a pre-filled pull request page for ${repo?.headBranch}	为 ${repo?.headBranch} 打开预填的拉取请求页面
 ui	Branch	分支	^\s*Branch$
 ui,website	Draft	草稿	>Draft<
 ui	全部丢弃 ${unstagedFiles.length} change${unstagedFiles.length === 1 ? '' : 's'}?	全部丢弃 ${unstagedFiles.length} 个更改？
@@ -812,6 +824,71 @@ ui	未提交的更改 are discarded and cannot be recovered.	未提交的更改�
 ui	无更改 match the filter.	没有匹配过滤条件的更改。
 ui	全部丢弃 staged changes	全部丢弃已暂存的更改
 ui	全部丢弃 changes	全部丢弃未暂存的更改
+ui	${leftovers.length} change${leftovers.length === 1 ? '' : 's'} could not be discarded (${listed}). Submodule changes must be discarded inside the submodule repository.	${leftovers.length} 个更改无法丢弃（${listed}）。子模块的更改必须在子模块仓库内丢弃。
+ui	Every staged file goes back to the last commit, unstaged edits to those files included, and new files are deleted. This cannot be undone — not even with ⌘Z.	每个已暂存的文件都会回到最后一次提交，这些文件的未暂存编辑也一并还原，新文件会被删除。此操作无法撤销——即使按 ⌘Z 也不行。
+ui	These files go back to the last commit — staged and unstaged changes alike. New files are deleted. This cannot be undone.	这些文件将回到最后一次提交——已暂存与未暂存的更改都会一并还原。新文件会被删除。此操作无法撤销。
+ui	The file goes back to the last commit — its staged and unstaged changes are both reverted. This cannot be undone.	该文件将回到最后一次提交——其已暂存与未暂存的更改都会被还原。此操作无法撤销。
+ui	All changes in these files will be reverted. Untracked files among them are deleted. This cannot be undone.	这些文件中的所有更改将被还原，其中的未跟踪文件会被删除。此操作无法撤销。
+ui	This ${forgeNoun(forgeRemote?.kind)} cannot be checked out from AngKorGit — open it in the browser instead.	无法从 AngKorGit 检出此${forgeNoun(forgeRemote?.kind)}——请改在浏览器中打开。
+ui	${remaining.length} staged change${remaining.length === 1 ? '' : 's'} could not be discarded: ${listed}	${remaining.length} 个已暂存更改无法丢弃：${listed}
+ui	This file is new — discarding removes it from the index and deletes the file. This cannot be undone.	该文件是新增文件——丢弃会将其从索引中移除并删除文件。此操作无法撤销。
+ui	${leftovers.length} change${leftovers.length === 1 ? '' : 's'} could not be discarded: ${listed}	${leftovers.length} 个更改无法丢弃：${listed}
+ui	Only these ${stashPaths.length} files are stashed. Everything else stays in your working copy.	仅这 ${stashPaths.length} 个文件被暂存，其余内容保留在工作副本中。
+ui	${local.ahead} commit${local.ahead === 1 ? '' : 's'} only on the local branch will be lost.	${local.ahead} 个提交仅存在于本地分支，将被丢弃。
+ui	AngKorGit error report\n\n${error?.name}: ${error?.message}\n\n${error?.stack ?? ''}	AngKorGit 错误报告\n\n${error?.name}: ${error?.message}\n\n${error?.stack ?? ''}
+ui	\r\n[could not start shell: ${(error as { message?: string }).message ?? error}]	\r\n[无法启动 shell：${(error as { message?: string }).message ?? error}]
+ui	Checkout ${name} failed: ${(error as { message?: string }).message ?? error}	检出 ${name} 失败：${(error as { message?: string }).message ?? error}
+ui	Only this file is stashed. Everything else stays in your working copy.	仅此文件被暂存，其余内容保留在工作副本中。
+ui	This is a stash. Tick files to apply only those to the working copy.	这是一个暂存。勾选文件即可只将这些文件应用到工作副本。
+ui	${errorLabel}: ${(error as { message?: string }).message ?? error}	${errorLabel}：${(error as { message?: string }).message ?? error}
+ui	Discarded ${paths.length} change${paths.length === 1 ? '' : 's'}	已丢弃 ${paths.length} 个更改
+ui	Redo failed: ${(error as { message?: string }).message ?? error}	重做失败：${(error as { message?: string }).message ?? error}
+ui	Undo failed: ${(error as { message?: string }).message ?? error}	撤销失败：${(error as { message?: string }).message ?? error}
+ui	${stash.message} — click to preview, right-click for actions	${stash.message} — 点击预览，右键查看更多操作
+ui	Copied ${lines} line${lines === 1 ? '' : 's'} (${side} text)	已复制 ${lines} 行（${side} 文本）
+ui	Discarded ${before} staged change${before === 1 ? '' : 's'}	已丢弃 ${before} 个已暂存更改
+ui	Apply {picked.size} {picked.size === 1 ? 'file' : 'files'}	应用 {picked.size} 个文件
+ui	The stashed changes are deleted and cannot be recovered.	暂存的更改将被删除且无法恢复。
+ui	Open the commit\u2019s files / back to the graph	打开提交的文件 / 返回提交图
+ui	detached @ ${repo.headOid?.slice(0, 8) ?? '?'}	游离于 ${repo.headOid?.slice(0, 8) ?? '?'}
+ui	${changes} change${changes === 1 ? '' : 's'}	${changes} 个更改
+ui	Applied ${basename(files[0])} from the stash	已从暂存中应用 ${basename(files[0])}
+ui	Applied ${files.length} files from the stash	已从暂存中应用 ${files.length} 个文件
+ui	detached @ ${wt.headOid?.slice(0, 8) ?? '?'}	游离于 ${wt.headOid?.slice(0, 8) ?? '?'}
+ui	Discard changes in ${paths.length} files?	丢弃 ${paths.length} 个文件中的更改？
+ui	From commit ${dialogContext.slice(0, 8)}	来自提交 ${dialogContext.slice(0, 8)}
+ui	rename ${dialogContext} → ${name.trim()}	将 ${dialogContext} 重命名为 ${name.trim()}
+ui	Pop latest stash: ${stashes[0].message}	弹出最新暂存：${stashes[0].message}
+ui	Unstage ${menuMulti.paths.length} files	取消暂存 ${menuMulti.paths.length} 个文件
+ui	At commit ${dialogContext.slice(0, 8)}	在提交 ${dialogContext.slice(0, 8)}
+ui	Stage ${menuMulti.paths.length} files	暂存 ${menuMulti.paths.length} 个文件
+ui	— add a message for an annotated tag.	— 为附注标签添加一条消息。
+ui	${count} ${statusMeta[status].label}	${count} 个${statusMeta[status].label}
+ui	Pop latest stash (nothing stashed)	弹出最新暂存（当前没有暂存）
+ui	Apply ${diff.path} from the stash	从暂存中应用 ${diff.path}
+ui	No staged files match the filter.	没有匹配过滤条件的已暂存文件。
+ui	Reset ${name} to ${ref.shorthand}	将 ${name} 重置到 ${ref.shorthand}
+ui	Previous / next file (file list)	上一个/下一个文件（文件列表）
+ui	The stash itself is unchanged.	暂存本身保持不变。
+ui	+${leftovers.length - 3} more	+${leftovers.length - 3} 更多
+ui	+${remaining.length - 3} more	+${remaining.length - 3} 更多
+ui	Select ${diff.path} to apply	选择 ${diff.path} 以应用
+ui	create branch ${name.trim()}	创建分支 ${name.trim()}
+ui,e2e	Reset branch to its remote?	将分支重置到其远端？
+ui	No files match the filter.	没有匹配过滤条件的文件。
+ui	Checkout after creating	创建后检出
+ui,e2e	Filter changed files…	过滤更改的文件…
+ui	Checkout ${name}	检出 ${name}
+ui	Drop this stash?	丢弃此暂存？
+ui,e2e	Hide file filter	隐藏文件过滤
+ui,e2e	Pop latest stash	弹出最新暂存
+ui,e2e	Lane color band	泳道色带
+ui	Show in Finder	在 Finder 中显示
+ui,e2e	Filter files…	过滤文件…
+ui,e2e	Filter files	过滤文件
+ui,e2e	Reset branch	重置分支
+ui	'Discard'	'丢弃'	confirmLabel: 'Discard'
+ui	'Clean'	'干净'	: 'Clean'}
 
 # ============ B. Rust 引擎错误消息（apps/desktop/src-tauri/src） ============
 rust	no repository is open	没有打开任何仓库
@@ -960,6 +1037,12 @@ rust	delete or rename it first	请先将其删除或重命名
 rust	no commits to cherry-pick	没有可拣选的提交
 rust	request failed: {e}	请求失败：{e}
 rust	delete or rename	删除或重命名
+rust	nothing to stash in the selected files	所选文件中没有可暂存的内容
+rust	could not run git stash {verb}: {e}	无法运行 git stash {verb}：{e}
+rust	{file} is not part of this stash	{file} 不属于此暂存
+rust	{file} has no changes to stash	{file} 没有可暂存的更改
+rust	stash {index} does not exist	暂存 {index} 不存在
+rust	{file} is untracked	{file} 是未跟踪文件
 
 # ============ C. core 措辞（packages/core/src） ============
 core	kind === 'gitlab' ? 'merge request' : 'pull request'	kind === 'gitlab' ? '合并请求' : '拉取请求'
@@ -1032,7 +1115,8 @@ docs	git credential	git 凭据
 docs	Drop N commits	丢弃 N 个提交
 docs	Delete <path>?	删除 <path>？
 docs	Commit N files	提交 N 个文件
-docs	Clear filters	清除过滤条件
+docs,ui	Clear filters	清除过滤条件
+ui,e2e	Clear filter	清除过滤条件
 docs	License: MIT	许可证：MIT
 docs	Always Allow	始终允许
 docs	Open Anyway	仍然打开
@@ -1351,6 +1435,8 @@ docs	## Later — Power	## 以后——强力功能
 docs	## Writing style	## 写作风格
 docs	# UI Guidelines	# UI 指南
 docs	## Ground rules	## 基本规则
+docs	- [x] Stash: create (whole tree or chosen files), apply, pop (one click from the toolbar), drop; stashes as rows in the graph with their own node and menu; apply single files from a stash · Tags: create (annotated/lightweight), delete, checkout · Submodules: list & update	- [x] 暂存：创建（整棵树或所选文件）、应用、弹出（工具栏一键）、丢弃；暂存作为提交图中的行，带有自己的节点与菜单；可从暂存中应用单个文件 · 标签：创建（附注/轻量）、删除、检出 · 子模块：列出与更新
+docs	Updated for v0.11.0 (September 2026). [CHANGELOG.md](../CHANGELOG.md) is the	更新至 v0.11.0（2026 年 9 月）。[CHANGELOG.md](../CHANGELOG.md) 是
 
 # ============ E. 元数据（tauri.conf.json / package.json / Cargo.toml / index.html） ============
 meta	AngKorGit — a modern, fast, beautiful cross-platform Git client inspired by the craftsmanship of Angkor Wat.	AngKorGit —— 一款受吴哥窟匠心启发的现代、快速、美观的跨平台 Git 客户端	"description"
@@ -1590,6 +1676,10 @@ website	Native	原生	>Native<
 website	Reset	重置	>Reset<
 website	Copy	复制	(data-copy-label>Copy<|'Copy')
 website	Home	首页	>Home<
+website	Angkor Git (AngKorGit) is a fast, free, open-source Git 客户端 and Git GUI for macOS, Windows, and Linux, built native with Tauri v2, Rust and libgit2. Visual commit graphs, side-by-side diff review, visual conflict resolution, and AI assistance.	Angkor Git (AngKorGit) 是一款快速、免费、开源的 Git 客户端与 Git GUI，适用于 macOS、Windows 和 Linux，基于 Tauri v2、Rust 与 libgit2 原生构建。可视化提交图、并排 diff 审查、可视化冲突解决与 AI 辅助。
+website	文件历史 is there. Line-level blame is on the list.	文件历史已实现。行级 blame 已在计划中。
+website	AngKorGit · Git 客户端 for macOS, Windows, Linux	AngKorGit · 面向 macOS、Windows、Linux 的 Git 客户端
+website	AngKorGit contributors	AngKorGit 贡献者	AngKorGit contributors
 
 # ============ e2e 断言（tests/e2e，与 UI 同步改写） ============
 e2e	1 modified	1 已修改
@@ -1657,6 +1747,7 @@ rust	contains("already checked out")	contains("中检出")
 rust	contains("worktree")	contains("工作树")	contains\("worktree"\)
 rust	contains("uncommitted")	contains("未提交的更改")	contains\("uncommitted"\)
 test	the source branch does not exist on this remote	源分支在此远端上不存在
+test,rust	not part of this stash	不属于此暂存
 # 纠正：e2e 断言 1 modified 与检查器 ChangeSummary 译文（1 已修改）对齐
 e2e	1 个修改	1 已修改
 # e2e 断言补齐（UI 已中文化，断言同步；demo 数据断言保持英文）
@@ -1755,3 +1846,14 @@ ui	Existing branch	已有分支
 ui	Terminal	终端	"Terminal"
 ui	'staged' : 'unstaged'	'已暂存' : '未暂存'
 e2e	Discard ${longPath}	丢弃 ${longPath}
+e2e	Apply src/features/graph/GraphRow.tsx from the stash	从暂存中应用 src/features/graph/GraphRow.tsx
+e2e	Select src/features/graph/CommitGraph.tsx to apply	选择 src/features/graph/CommitGraph.tsx 以应用
+e2e	/2 commits only on the local branch will be lost/	/2 个提交仅存在于本地分支，将被丢弃/
+e2e	Applied GraphRow.tsx from the stash	已从暂存中应用 GraphRow.tsx
+e2e	Applied 4 files from the stash	已从暂存中应用 4 个文件
+e2e	/Stash this file/	/暂存此文件/
+e2e	This is a stash.	这是一个暂存。
+e2e	/Stash 3 files/	/暂存 3 个文件/
+e2e	Stage 3 files	暂存 3 个文件
+e2e	name: 'Stash'	name: '暂存'	name: 'Stash'
+e2e	Apply 4 files	应用 4 个文件
