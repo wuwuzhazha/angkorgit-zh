@@ -93,7 +93,7 @@ function FlatGutter({ author, isStash }: { author: CommitInfo['author']; isStash
     >
       <span
         className="overflow-hidden rounded-full"
-        title={isStash ? 'Stash' : author.name}
+        title={isStash ? '暂存' : author.name}
         style={{
           width: AVATAR_SIZE,
           height: AVATAR_SIZE,
@@ -214,7 +214,7 @@ function GraphGutter({
       {!node.isMerge && (
         <span
           className="absolute overflow-hidden rounded-full"
-          title={isStash ? 'Stash' : author.name}
+          title={isStash ? '暂存' : author.name}
           style={{
             left: nx - AVATAR_SIZE / 2,
             top: CY - AVATAR_SIZE / 2,

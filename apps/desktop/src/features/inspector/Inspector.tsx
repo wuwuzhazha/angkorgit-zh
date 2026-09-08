@@ -80,7 +80,7 @@ export function Inspector() {
     <aside className="flex h-full flex-col bg-surface" aria-label="检查器">
       <div className="flex h-9 shrink-0 items-center gap-1 border-b border-border-subtle px-2">
         <span className="px-1 text-xs font-semibold uppercase tracking-wide text-muted">
-          {commit || commitError ? (isStash ? 'Stash' : 'Commit') : '工作副本'}
+          {commit || commitError ? (isStash ? '暂存' : '提交') : '工作副本'}
         </span>
         <div className="ml-auto flex items-center gap-0.5">
           <Hint label={fileFilterOpen ? '隐藏文件过滤' : '过滤文件'}>
