@@ -19,7 +19,7 @@ test('选择提交会打开检查器', async ({ page }) => {
   await page.getByText('angkorgit', { exact: true }).first().click();
   await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   await page.getByRole('row').first().click();
-  await expect(page.getByRole('complementary', { name: '检查器' }).getByLabel('4 已修改')).toBeVisible();
+  await expect(page.getByRole('complementary', { name: '检查器' }).getByLabel('4 个已修改')).toBeVisible();
 });
 
 test('命令面板可通过键盘快捷键打开', async ({ page }) => {
@@ -791,7 +791,7 @@ test('shift-click selects a range of working copy files and the menu acts on all
   await expect(page.locator('[data-selected-file-row]')).toHaveCount(3);
 
   await page.getByText('palette-seed.sql', { exact: true }).first().click({ button: 'right' });
-  await expect(page.getByRole('menuitem', { name: '暂存 3 个文件' })).toBeVisible();
+  await expect(page.getByRole('menuitem', { name: '暂存 3 个文件…' })).toBeVisible();
   await page.getByRole('menuitem', { name: /暂存 3 个文件/ }).click();
   const dialog = page.getByRole('dialog');
   await expect(dialog.getByText('暂存选中的更改')).toBeVisible();
@@ -885,7 +885,7 @@ test('staged files can be discarded from the row, the menu and the header', asyn
   await stagedDiscard.click({ force: true });
   const dialog = page.getByRole('dialog');
   await expect(dialog.getByText('丢弃更改？')).toBeVisible();
-  await expect(dialog.getByText(/back to the last commit/)).toBeVisible();
+  await expect(dialog.getByText(/将回到最后一次提交/)).toBeVisible();
   await dialog.getByRole('button', { name: '取消' }).click();
 
   await page.getByText('CommitGraph.tsx', { exact: true }).first().click({ button: 'right' });
