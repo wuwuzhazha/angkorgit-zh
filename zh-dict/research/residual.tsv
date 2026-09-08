@@ -19,7 +19,6 @@ meta	rm -rf /Applications/AngKorGit.app && ditto apps/desktop/src-tauri/target/r
 website	group inline-flex items-center gap-2 rounded-md bg-primary px-5 py-3 text-sm font-medium text-primary-foreground shadow-soft transition-all hover:opacity-90 hover:shadow-none	skip	code	属性值（class）代码	attr:class			apps/website/src/components/Hero.astro:30	1
 website	curl -L ${SITE.assetUrl(version, `AngKorGit_${version}_universal.dmg`)} -o ~/Downloads/AngKorGit.dmg && xattr -cr ~/Downloads/AngKorGit.dmg && open ~/Downloads/AngKorGit.dmg	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	attr:copy			apps/website/src/components/Install.astro:60	1
 ui	flex cursor-default select-none items-center gap-2.5 rounded-md px-2 py-2 text-sm text-foreground data-[selected=true]:bg-surface-raised [&_svg]:size-4 [&_svg]:text-muted	skip	code	属性值（className）代码	attr:className			apps/desktop/src/components/CommandPalette.tsx:542	1
-ui	This branch is not checked out. It is checked out first, then hard reset to ${ref.shorthand} (${commit.shortOid}).${losing} 未提交的更改 are discarded and cannot be recovered.	translate	fmt	模板串：${x}/{} 占位符必须原样保留	template			apps/desktop/src/features/graph/CommitGraph.tsx:328	1
 website	<path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/>	skip	code	SVG/图标数据	string			apps/website/src/components/mock/icons.ts:8	1
 ui	${leftovers.length} change${leftovers.length === 1 ? '' : 's'} could not be discarded (${listed}). Submodule changes must be discarded inside the submodule repository.	translate	fmt	模板串：${x}/{} 占位符必须原样保留	template			apps/desktop/src/features/commit/WorkingCopyPanel.tsx:445	1
 ui	min-h-[72px] resize-none rounded-none border-0 bg-transparent px-3 py-2 text-xs leading-relaxed text-foreground shadow-none focus-visible:ring-0 focus-visible:border-0	skip	css	Tailwind/CSS 类	string			apps/desktop/src/features/commit/WorkingCopyPanel.tsx:1284	1
@@ -115,7 +114,6 @@ website	M${X(row.lane)} ${CY} C ${X(row.lane)} ${MID}, ${X(row.joinBelow)} ${MID
 website	fixed inset-0 z-[100] flex flex-col items-center justify-center gap-6 bg-background text-foreground	skip	code	属性值（class）代码	attr:class			apps/website/src/components/Splash.astro:4	1
 test	https://gitlab.example.com:8443/team/api/-/merge_requests/new?merge_request%5Bsource_branch%5D=dev	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			tests/unit/pullRequestUrl.test.ts:37	1
 ui	mb-0.5 flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 text-left text-sm transition-colors	skip	css	Tailwind/CSS 类	string			apps/desktop/src/features/settings/SettingsDialog.tsx:721	1
-ui	硬重置到 ${ref.shorthand} (${commit.shortOid}).${losing} 未提交的更改 are discarded and cannot be recovered.	translate	fmt	模板串：${x}/{} 占位符必须原样保留	template			apps/desktop/src/features/graph/CommitGraph.tsx:327	1
 core	Explain what this diff changes and why it might matter. Use short bullet points.\n\n${clip(diff)}	skip	prompt	AI 提示词/探针	template			packages/core/src/ai/capabilities.ts:47	1
 test	<span className="font-mono">feature/*</span> → <span className="font-mono">[{'{suffix}'}]</span>.	skip	code	SVG/图标数据	template			tests/unit/highlight.test.ts:33	1
 core	Project review conventions (they win over the general ones on conflict):\n${clip(project, 4000)}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	template			packages/core/src/ai/capabilities.ts:105	1
@@ -136,7 +134,6 @@ ui	${local.ahead} commit${local.ahead === 1 ? '' : 's'} only on the local branch
 ui	group flex cursor-pointer items-center gap-2 rounded-md px-2 py-1 text-xs transition-colors	skip	css	Tailwind/CSS 类	string			apps/desktop/src/features/commit/WorkingCopyPanel.tsx:87	1
 website	inline-flex h-5 shrink-0 items-center gap-1 rounded-md border px-1.5 font-mono text-[10px]	skip	css	Tailwind/CSS 类	string			apps/website/src/components/HeroGraph.astro:52	1
 test	http://gitlab.internal/team/api/-/merge_requests/new?merge_request%5Bsource_branch%5D=dev	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			tests/unit/pullRequestUrl.test.ts:43	1
-ui	${group.label}\nStash — click the row to see its files, right-click to apply, pop or drop	translate	fmt	模板串：${x}/{} 占位符必须原样保留	template			apps/desktop/src/features/graph/GraphRow.tsx:361	1
 ui	flex size-8 items-center justify-center rounded-full transition-transform hover:scale-110	skip	css	Tailwind/CSS 类	string			apps/desktop/src/features/settings/SettingsDialog.tsx:812	1
 ui	M ${nx} ${CY} C ${x(m.lane)} ${CY * 1.6}, ${x(m.lane)} ${CY}, ${x(m.lane)} ${ROW_HEIGHT}	skip	code	属性值（d）代码	attr:d			apps/desktop/src/features/graph/GraphRow.tsx:191	1
 website	<rect width="20" height="14" x="2" y="3" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/>	skip	code	SVG/图标数据	string			apps/website/src/components/mock/icons.ts:36	1
@@ -198,7 +195,6 @@ ui	AI 请求失败：${(error as { message?: string } | null)?.message ?? String
 ui	absolute inset-0 h-full w-full object-cover transition-opacity duration-150	skip	css	Tailwind/CSS 类	string			apps/desktop/src/components/Avatar.tsx:97	1
 ui	border-transparent text-muted hover:bg-surface-raised hover:text-foreground	skip	css	Tailwind/CSS 类	string			apps/desktop/src/components/RepoTabs.tsx:119	1
 ui	mr-0.5 shrink-0 opacity-0 focus-visible:opacity-100 group-hover:opacity-100	skip	code	属性值（className）代码	attr:className			apps/desktop/src/features/sidebar/Sidebar.tsx:782	2
-ui	全部丢弃 ${allStaged.length} staged change${allStaged.length === 1 ? '' : 's'}?	translate	fmt	模板串：${x}/{} 占位符必须原样保留	template			apps/desktop/src/features/commit/WorkingCopyPanel.tsx:968	1
 website	<path d="M21 7v6h-6"/><path d="M3 17a9 9 0 0 1 9-9 9 9 0 0 1 6 2.3l3 2.7"/>	skip	code	SVG/图标数据	string			apps/website/src/components/mock/icons.ts:7	1
 website	M${X(o)} ${H} C ${X(o)} ${MID}, ${X(row.lane)} ${MID}, ${X(row.lane)} ${CY}	skip	code	属性值（d）代码	attr:d			apps/website/src/components/HeroGraph.astro:26	1
 core	Project review conventions (they win over the general ones on conflict):\n	translate	new	待译	tmpl-seg			packages/core/src/ai/capabilities.ts:105	1
@@ -298,7 +294,6 @@ ui	${label} 失败：${(error as { message?: string }).message ?? error}	transla
 ui	${value.slice(0, selectionStart)}\t${value.slice(selectionEnd)}	translate	new	待译	attr:next			apps/desktop/src/features/editor/EditorPanel.tsx:144	1
 ui	run('推送', () => ipc.push(path, remote, false, false, true))} />	skip	code	JSX 代码残渣	jsx-text			apps/desktop/src/components/CommandPalette.tsx:281	1
 website	<path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/>	skip	code	SVG/图标数据	string			apps/website/src/components/mock/icons.ts:24	1
-e2e	section[aria-label="文件差异： src/features/graph/CommitGraph.tsx"]	translate	new	待译	string		e2e/test 断言同步：scope 写 ui,e2e 或同名 e2e 词条	tests/e2e/smoke.spec.ts:950	2
 test	gitlab lists project members and embeds reviewer_ids on create	skip	test-name	vitest test/it/describe 用例名（不译）	test-name			tests/unit/forge.test.ts:561	1
 test	handles adjacent tokens and token-then-text without separators	skip	test-name	vitest test/it/describe 用例名（不译）	test-name			tests/unit/aiTextSegments.test.ts:15	1
 test	keeps a valid base when concurrent requests fall back together	skip	test-name	vitest test/it/describe 用例名（不译）	test-name			tests/unit/forge.test.ts:662	1
@@ -308,6 +303,7 @@ ui	h-full rounded-full bg-primary transition-[width] duration-300	skip	code	属�
 ui	ring-2 ring-foreground/70 ring-offset-2 ring-offset-background	skip	css	Tailwind/CSS 类	string			apps/desktop/src/features/settings/SettingsDialog.tsx:814	1
 ui	size-3.5 shrink-0 text-faint transition-transform duration-150	skip	css	Tailwind/CSS 类	string			apps/desktop/src/features/sidebar/Sidebar.tsx:766	1
 website	bg-primary/10 shadow-[inset_0_0_0_1px_hsl(var(--primary)/0.6)]	skip	css	Tailwind/CSS 类	string			apps/website/src/components/mock/Graph.astro:29	1
+e2e	section[aria-label="文件差异：src/features/graph/CommitGraph.tsx"]	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			tests/e2e/smoke.spec.ts:950	2
 rust	git worktree list did not report the new worktree:\n{listing}	skip	command	CLI 命令/脚本片段	rust			apps/desktop/src-tauri/tests/git_engine.rs:2097	1
 test	degrades to whole-line equal segments beyond the LCS cell cap	skip	test-name	vitest test/it/describe 用例名（不译）	test-name			tests/unit/wordDiff.test.ts:31	1
 test	every agent builds argument lists without the prompt embedded	skip	test-name	vitest test/it/describe 用例名（不译）	test-name			tests/unit/cliAgents.test.ts:88	1
@@ -324,7 +320,6 @@ ui	w-[4.5rem] shrink-0 whitespace-nowrap text-[11px] text-faint	skip	css	Tailwin
 website	https://github.com/wuwuzhazha/angkorgit-zh/blob/main/LICENSE	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/website/src/lib/site.ts:26	1
 core	${baseUrl}/v1beta/models?key=${config.apiKey}&pageSize=1000	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	template			packages/core/src/ai/models.ts:84	1
 e2e	cherry-pick opens a dialog with the source reference option	skip	test-name	vitest test/it/describe 用例名（不译）	test-name			tests/e2e/smoke.spec.ts:117	1
-e2e	section[aria-label="文件差异： src/features/graph/GraphRow.tsx"]	translate	new	待译	string		e2e/test 断言同步：scope 写 ui,e2e 或同名 e2e 词条	tests/e2e/smoke.spec.ts:953	1
 e2e	text selection in a diff survives the right-click copy menu	skip	test-name	vitest test/it/describe 用例名（不译）	test-name			tests/e2e/smoke.spec.ts:315	1
 e2e	the working copy filter narrows both lists and shows counts	skip	test-name	vitest test/it/describe 用例名（不译）	test-name			tests/e2e/smoke.spec.ts:807	1
 test	creates a pull request with source and destination branches	skip	test-name	vitest test/it/describe 用例名（不译）	test-name			tests/unit/forge.test.ts:369	1
@@ -335,6 +330,7 @@ ui	flex size-8 shrink-0 items-center justify-center rounded-md	skip	css	Tailwind
 ui	https://id.atlassian.com/manage-profile/security/api-tokens	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/desktop/src/features/settings/AccountsTab.tsx:79	1
 ui	opacity-0 focus-visible:opacity-100 group-hover:opacity-100	skip	code	属性值（className）代码	attr:className			apps/desktop/src/features/commit/WorkingCopyPanel.tsx:112	1
 e2e	multi-line comments in a diff stay highlighted as comments	skip	test-name	vitest test/it/describe 用例名（不译）	test-name			tests/e2e/smoke.spec.ts:495	1
+e2e	section[aria-label="文件差异：src/features/graph/GraphRow.tsx"]	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			tests/e2e/smoke.spec.ts:953	1
 e2e	the diff header opens the history of the file being viewed	skip	test-name	vitest test/it/describe 用例名（不译）	test-name			tests/e2e/smoke.spec.ts:749	1
 test	drops the ssh port instead of leaking it into the web link	skip	test-name	vitest test/it/describe 用例名（不译）	test-name			tests/unit/pullRequestUrl.test.ts:53	1
 ui	${Math.max((el.clientHeight / el.scrollHeight) * 100, 2)}%	skip	code	属性值（height）代码	attr:height			apps/desktop/src/features/diff/DiffMinimap.tsx:141	1
@@ -512,7 +508,6 @@ ui	void run(() => ipc.stageAll(path), '全量暂存失败')}>	skip	code	JSX 代�
 website	Start-Process "$env:TEMP\\AngKorGit-setup.exe"	translate	new	待译	template			apps/website/src/components/Install.astro:66	1
 core	${baseUrl}/v1beta/models?key=${config.apiKey}	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	template			packages/core/src/ai/providers.ts:161	1
 core	/repos/${repoPath}/collaborators?per_page=100	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	template			packages/core/src/forge/providers/github.ts:120	1
-e2e	History of src/features/graph/CommitGraph.tsx	translate	new	待译	string		e2e/test 断言同步：scope 写 ui,e2e 或同名 e2e 词条	tests/e2e/smoke.spec.ts:758	1
 test	includes general instructions when configured	skip	test-name	vitest test/it/describe 用例名（不译）	test-name			tests/unit/aiCapabilities.test.ts:34	1
 test	keeps bold spans with inner asterisks literal	skip	test-name	vitest test/it/describe 用例名（不译）	test-name			tests/unit/aiTextSegments.test.ts:29	1
 test	request failed: error sending request for url	translate	new	待译	string		e2e/test 断言同步：scope 写 ui,e2e 或同名 e2e 词条	tests/unit/forge.test.ts:471	4
@@ -567,7 +562,6 @@ ui	max(2px, ${((end - start) / total) * 100}%)	verify	protect-mixed	含受保护
 ui	openDialog('cherryPick', menu.commit.oid)}>	skip	code	JSX 代码残渣	jsx-text			apps/desktop/src/features/graph/CommitGraph.tsx:692	1
 ui	run('拉取', () => ipc.pull(path, remote))} />	skip	code	JSX 代码残渣	jsx-text			apps/desktop/src/components/CommandPalette.tsx:280	1
 website	brew install --cask cheat2001/tap/angkorgit	skip	css	Tailwind/CSS 类	attr:brew			apps/website/src/components/Install.astro:28	1
-e2e	Discard src/features/graph/CommitGraph.tsx	translate	new	待译	string		e2e/test 断言同步：scope 写 ui,e2e 或同名 e2e 词条	tests/e2e/smoke.spec.ts:883	1
 meta	pnpm --filter @angkorgit/desktop tauri dev	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	json			package.json:20	1
 rust	+refs/heads/feature/x:refs/heads/feature/x	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust			apps/desktop/src-tauri/src/core/remote.rs:859	1
 rust	missing origin line in: {engine_message:?}	translate	new	Rust 字符串	rust			apps/desktop/src-tauri/tests/git_engine.rs:698	1
@@ -650,6 +644,7 @@ ui	translateY(${item.start - topMargin}px)	translate	fmt	模板串：${x}/{} 占
 website	chmod +x ~/Downloads/AngKorGit.AppImage	skip	protect	命中保护正则	string			apps/website/src/components/Install.astro:74	1
 website	https://buymeacoffee.com/chansocheatsok	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/website/src/lib/site.ts:32	1
 core	/repositories/${repoPath}/pullrequests	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	template			packages/core/src/forge/providers/bitbucket.ts:110	1
+e2e	src/features/graph/CommitGraph.tsx 的历史	translate	new	待译	string		e2e/test 断言同步：scope 写 ui,e2e 或同名 e2e 词条	tests/e2e/smoke.spec.ts:758	1
 meta	pnpm --filter @angkorgit/desktop tauri	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	json			package.json:19	1
 meta	pnpm --filter @angkorgit/website build	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	json			package.json:31	1
 rust	github-authentication-token-expiration	skip	ident	标识符/路径/哈希/日期	rust			apps/desktop/src-tauri/src/account_check.rs:108	1
@@ -672,6 +667,7 @@ website	refactor(core): extract lane allocator	skip	demo	仅演示数据（demo.
 core	/projects/${projectId}/merge_requests	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	template			packages/core/src/forge/providers/gitlab.ts:118	1
 core	refs/merge-requests/${pr.number}/head	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	template			packages/core/src/forge/shared.ts:66	1
 e2e	const palette = mergedThemePalette();	skip	code	选择器/代码片段（测试）	string			tests/e2e/smoke.spec.ts:85	4
+e2e	丢弃 src/features/graph/CommitGraph.tsx	translate	new	待译	string		e2e/test 断言同步：scope 写 ui,e2e 或同名 e2e 词条	tests/e2e/smoke.spec.ts:883	1
 meta	width=device-width, initial-scale=1.0	skip	code	键值对/元标签	attr:content			apps/desktop/index.html:5	1
 rust	Merge branch 'production' into master	skip	gitraw	git 原始输出/消息模板	rust			apps/desktop/src-tauri/tests/git_engine.rs:1404	1
 rust	github.com=dara-work, gitlab.com=dara	translate	new	Rust 字符串	rust			apps/desktop/src-tauri/src/core/remote.rs:723	1
@@ -785,7 +781,6 @@ website	aspect-ratio: ${width} / ${height}	skip	code	属性值（style）代码	
 website	const palette = useThemePalette();	translate	new	待译	string		e2e/test 断言同步：scope 写 ui,e2e 或同名 e2e 词条	apps/website/src/components/mock/Conflicts.astro:10	1
 website	docs: update architecture overview	skip	demo	仅演示数据（demo.ts 被 skip-files 排除）	string			apps/website/src/components/mock/Graph.astro:30	1
 core	Reply with exactly one word: pong	skip	prompt	AI 提示词/探针	string			packages/core/src/ai/cliAgents.ts:111	1
-e2e	section[aria-label^="History of"]	translate	new	待译	string		e2e/test 断言同步：scope 写 ui,e2e 或同名 e2e 词条	tests/e2e/smoke.spec.ts:757	1
 meta	https://schema.tauri.app/config/2	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	json			apps/desktop/src-tauri/tauri.conf.json:2	1
 rust	alpha\nbeta\ngamma\n\n\nkhlhlihho	skip	ident	裸词（rust/meta/test 默认标识符）	rust			apps/desktop/src-tauri/tests/git_engine.rs:917	3
 rust	angkorgit-sign-{}-{nanos}{suffix}	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust			apps/desktop/src-tauri/src/core/sign.rs:156	1
@@ -920,7 +915,6 @@ website	~/Downloads/AngKorGit.AppImage	skip	code	URL/路径/模板/选择器/函
 core	General review conventions:\n	translate	new	待译	tmpl-seg			packages/core/src/ai/capabilities.ts:103	1
 core	https://api.bitbucket.org/2.0	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	attr:apiBase			packages/core/src/forge/providers/bitbucket.ts:44	1
 core	refs/heads/${pr.sourceBranch}	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	template			packages/core/src/forge/shared.ts:59	1
-e2e	Discard all 2 staged changes?	translate	new	待译	string		e2e/test 断言同步：scope 写 ui,e2e 或同名 e2e 词条	tests/e2e/smoke.spec.ts:896	1
 e2e	[data-panel-resize-handle-id]	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			tests/e2e/smoke.spec.ts:536	1
 e2e	angkorgit-feature-diff-viewer	skip	demo	仅演示数据（demo.ts 被 skip-files 排除）	string			tests/e2e/smoke.spec.ts:481	1
 e2e	aside button[title="feature"]	skip	code	选择器/代码片段（测试）	string			tests/e2e/smoke.spec.ts:246	1
@@ -965,7 +959,6 @@ website	Merge branch 'feature/lane-4'	skip	protect	命中保护正则	string			a
 core	${parsed.message}: ${detail}	skip	code	纯占位符拼接	template			packages/core/src/forge/providers/github.ts:68	1
 core	http://${remote.host}/api/v4	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	template			packages/core/src/forge/providers/gitlab.ts:46	1
 e2e	${String(name)} spills right	translate	fmt	模板串：${x}/{} 占位符必须原样保留	template		e2e/test 断言同步：scope 写 ui,e2e 或同名 e2e 词条	tests/e2e/smoke.spec.ts:367	1
-e2e	No changes match the filter.	translate	new	待译	string		e2e/test 断言同步：scope 写 ui,e2e 或同名 e2e 词条	tests/e2e/smoke.spec.ts:819	1
 e2e	section[aria-label^="文件差异："]	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			tests/e2e/smoke.spec.ts:382	5
 rust	/repo/.git/worktrees/wt/HEAD	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust			apps/desktop/src-tauri/src/watcher.rs:213	1
 rust	/repo/.git/worktrees/x/index	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust			apps/desktop/src-tauri/src/watcher.rs:192	1
@@ -1019,6 +1012,7 @@ e2e	${String(name)} spills left	translate	fmt	模板串：${x}/{} 占位符必�
 e2e	<span class="hljs-comment">	skip	code	SVG/图标数据	string			tests/e2e/smoke.spec.ts:506	1
 e2e	Reset branch to its remote?	translate	new	待译	string		e2e/test 断言同步：scope 写 ui,e2e 或同名 e2e 词条	tests/e2e/smoke.spec.ts:738	1
 e2e	[data-panel-id="inspector"]	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			tests/e2e/smoke.spec.ts:534	1
+e2e	section[aria-label*=" 的历史"]	translate	new	待译	string		e2e/test 断言同步：scope 写 ui,e2e 或同名 e2e 词条	tests/e2e/smoke.spec.ts:757	1
 rust	/Users/tester/.ssh/work_key	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust			apps/desktop/src-tauri/src/core/remote.rs:755	1
 rust	/repo/.git/worktrees/x/HEAD	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust			apps/desktop/src-tauri/src/watcher.rs:180	1
 rust	angkorgit-ai-test-prompt-{}	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust-fmt			apps/desktop/src-tauri/src/ai_cli.rs:415	1
@@ -1065,7 +1059,6 @@ website	../components/Install.astro	skip	code	URL/路径/模板/选择器/函数
 website	<path d="M20 6 9 17l-5-5"/>	skip	code	SVG/图标数据	string			apps/website/src/components/mock/icons.ts:28	1
 website	application/vnd.github+json	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/website/src/lib/site.ts:6	1
 core	${bases[index + 1]}${path}	skip	code	纯占位符拼接	template			packages/core/src/forge/providers/gitlab.ts:58	1
-e2e	Discard all staged changes	translate	new	待译	string		e2e/test 断言同步：scope 写 ui,e2e 或同名 e2e 词条	tests/e2e/smoke.spec.ts:895	1
 meta	@fontsource-variable/inter	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	json			apps/desktop/package.json:17	1
 meta	@fontsource/jetbrains-mono	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	json			apps/desktop/package.json:18	1
 meta	@tauri-apps/plugin-process	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	json			apps/desktop/package.json:23	1
@@ -1306,7 +1299,6 @@ core	--output-last-message	skip	code	URL/路径/模板/选择器/函数式（无
 core	--skip-git-repo-check	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			packages/core/src/ai/cliAgents.ts:37	1
 core	./providers/bitbucket	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			packages/core/src/forge/provider.ts:11	1
 core	Draft: ${input.title}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	template			packages/core/src/forge/providers/gitlab.ts:114	1
-e2e	Apply stash (keep it)	translate	new	待译	string		e2e/test 断言同步：scope 写 ui,e2e 或同名 e2e 词条	tests/e2e/smoke.spec.ts:927	2
 e2e	Filter changed files…	translate	new	待译	string		e2e/test 断言同步：scope 写 ui,e2e 或同名 e2e 词条	tests/e2e/smoke.spec.ts:812	6
 e2e	clipped: ${part.text}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	template		e2e/test 断言同步：scope 写 ui,e2e 或同名 e2e 词条	tests/e2e/smoke.spec.ts:219	1
 e2e	feature/parallel-task	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			tests/e2e/smoke.spec.ts:489	1
@@ -1350,7 +1342,6 @@ ui	void refreshAll()} />	skip	code	JSX 代码残渣	jsx-text			apps/desktop/src/
 ui	void saveIdentity()}>	skip	code	JSX 代码残渣	jsx-text			apps/desktop/src/features/settings/SettingsDialog.tsx:936	1
 ui	w-full justify-center	skip	code	属性值（className）代码	attr:className			apps/desktop/src/features/sidebar/Sidebar.tsx:934	1
 ui	w-px bg-border-subtle	skip	css	Tailwind/CSS 类	string			apps/desktop/src/features/repository/RepositoryPage.tsx:345	1
-ui	无更改 match the filter.	translate	new	待译	string			apps/desktop/src/features/commit/WorkingCopyPanel.tsx:926	1
 website	('[data-copy-icon]');	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	jsx-text			apps/website/src/components/TerminalBlock.astro:77	1
 website	../layouts/Base.astro	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/website/src/pages/404.astro:1	2
 website	./TerminalBlock.astro	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/website/src/components/Install.astro:2	1
@@ -1363,7 +1354,6 @@ core	.angkorgit/review.md	skip	code	URL/路径/模板/选择器/函数式（无�
 core	\n\nStaged diff:\n\n	translate	new	待译	tmpl-seg			packages/core/src/ai/capabilities.ts:34	1
 core	refs/heads/${branch}	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	template			packages/core/src/forge/pullRequestUrl.ts:18	1
 docs	## 1. DNS（Hostinger）	translate	new	待译	md-prose			docs/Launch-Checklist.md:6	1
-e2e	Back to working copy	skip	dup	已入词库	string			tests/e2e/smoke.spec.ts:827	1
 e2e	Cherry-picked (demo)	skip	demo	演示数据断言（demo.ts 不译，断言保持英文）	string			tests/e2e/smoke.spec.ts:130	1
 e2e	button span.truncate	skip	css	Tailwind/CSS 类	string			tests/e2e/smoke.spec.ts:256	1
 e2e	img[src*="gravatar"]	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			tests/e2e/smoke.spec.ts:298	1
@@ -1469,7 +1459,6 @@ ui	size-2 rounded-full	skip	code	属性值（className）代码	attr:className		
 ui	src/graph/layout.ts	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/desktop/src/core/ipc.ts:271	1
 ui	stash_restore_files	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/core/ipc.ts:441	1
 ui	void reload(path)}>	skip	code	JSX 代码残渣	jsx-text			apps/desktop/src/features/graph/CommitGraph.tsx:486	2
-ui	全部丢弃 staged changes	translate	attr-ui	属性文案（aria-label）	attr:aria-label			apps/desktop/src/features/commit/WorkingCopyPanel.tsx:964	1
 website	('.terminal-view');	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	jsx-text			apps/website/src/components/TerminalBlock.astro:53	1
 website	('[data-hg-row]'));	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	jsx-text			apps/website/src/components/Rail.astro:12	1
 website	./ThemeToggle.astro	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/website/src/components/Header.astro:2	1
@@ -1485,7 +1474,6 @@ core	${line}\n\n${body}	skip	code	URL/路径/模板/选择器/函数式（无空
 core	./providers/github	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			packages/core/src/forge/provider.ts:9	1
 core	./providers/gitlab	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			packages/core/src/forge/provider.ts:10	1
 core	/repos/${repoPath}	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	template			packages/core/src/forge/providers/github.ts:114	1
-e2e	Pop stash complete	translate	new	待译	string		e2e/test 断言同步：scope 写 ui,e2e 或同名 e2e 词条	tests/e2e/smoke.spec.ts:781	1
 e2e	~/work/api-gateway	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			tests/e2e/smoke.spec.ts:696	1
 meta	@angkorgit/desktop	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	json			apps/desktop/package.json:2	1
 meta	beforeBuildCommand	skip	ident	标识符/路径/哈希/日期	json			apps/desktop/src-tauri/tauri.conf.json:9	1
@@ -1785,7 +1773,6 @@ core	./forge/remote	skip	code	URL/路径/模板/选择器/函数式（无空格�
 core	./forge/shared	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			packages/core/src/index.ts:18	1
 core	./git/worktree	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			packages/core/src/index.ts:2	1
 core	./graph/layout	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			packages/core/src/index.ts:5	1
-e2e	Pop stash done	translate	new	待译	string		e2e/test 断言同步：scope 写 ui,e2e 或同名 e2e 词条	tests/e2e/smoke.spec.ts:932	1
 meta	icons/icon.ico	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	json			apps/desktop/src-tauri/tauri.conf.json:49	1
 meta	packageManager	skip	ident	标识符/路径/哈希/日期	json			package.json:7	1
 meta	website:images	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	json			package.json:33	1
@@ -1953,7 +1940,7 @@ ui	private-token	skip	ident	标识符/路径/哈希/日期	string			apps/desktop
 ui	recent_remove	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/core/ipc.ts:138	1
 ui	reduce-motion	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/settings/store.ts:86	1
 ui	remote_remove	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/core/ipc.ts:371	1
-ui	staged change	translate	new	待译	tmpl-seg			apps/desktop/src/features/commit/WorkingCopyPanel.tsx:473	3
+ui	staged change	translate	new	待译	tmpl-seg			apps/desktop/src/features/commit/WorkingCopyPanel.tsx:473	2
 ui	state_cleanup	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/core/ipc.ts:130	1
 ui	var(--radius)	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/desktop/src/app/App.tsx:139	1
 ui	vendor/libfoo	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/desktop/src/core/ipc.ts:458	2
@@ -1978,7 +1965,6 @@ core	remoteBranch	skip	demo	仅演示数据（demo.ts 被 skip-files 排除）	s
 e2e	000096aaaaaa	skip	ident	标识符/路径/哈希/日期	string			tests/e2e/smoke.spec.ts:433	1
 e2e	Clear filter	translate	new	待译	string		e2e/test 断言同步：scope 写 ui,e2e 或同名 e2e 词条	tests/e2e/smoke.spec.ts:822	1
 e2e	Commit files	translate	new	待译	string		e2e/test 断言同步：scope 写 ui,e2e 或同名 e2e 词条	tests/e2e/smoke.spec.ts:948	1
-e2e	File history	skip	dup	已入词库	string			tests/e2e/smoke.spec.ts:756	1
 e2e	Filter files	translate	new	待译	string		e2e/test 断言同步：scope 写 ui,e2e 或同名 e2e 词条	tests/e2e/smoke.spec.ts:813	2
 e2e	GraphRow.tsx	skip	ident	标识符/路径/哈希/日期	string			tests/e2e/smoke.spec.ts:841	4
 e2e	Reset branch	translate	new	待译	string		e2e/test 断言同步：scope 写 ui,e2e 或同名 e2e 词条	tests/e2e/smoke.spec.ts:742	1
@@ -2267,7 +2253,6 @@ core	gitlab.com	skip	ident	标识符/路径/哈希/日期	string			packages/core
 core	typechange	skip	ident	标识符/路径/哈希/日期	string			packages/core/src/git/types.ts:114	1
 core	unresolved	skip	ident	标识符/路径/哈希/日期	attr:Resolution			packages/core/src/conflicts/parse.ts:25	4
 e2e	.font-mono	verify	single-word	裸词：须配 anchor，e2e 断言同步	string	yes		tests/e2e/smoke.spec.ts:147	1
-e2e	4 modified	skip	css	Tailwind/CSS 类	string			tests/e2e/smoke.spec.ts:22	1
 e2e	ArrowRight	skip	ident	标识符/路径/哈希/日期	string			tests/e2e/smoke.spec.ts:947	1
 e2e	hljs-title	skip	ident	标识符/路径/哈希/日期	string			tests/e2e/smoke.spec.ts:508	1
 e2e	virtualize	skip	ident	标识符/路径/哈希/日期	string			tests/e2e/smoke.spec.ts:37	1
@@ -2425,8 +2410,6 @@ e2e	${name} —	skip	code	纯占位符拼接	template			tests/e2e/smoke.spec.ts:
 e2e	ArrowDown	skip	ident	标识符/路径/哈希/日期	string			tests/e2e/smoke.spec.ts:699	4
 e2e	ArrowLeft	skip	ident	标识符/路径/哈希/日期	string			tests/e2e/smoke.spec.ts:957	1
 e2e	Backspace	skip	ident	标识符/路径/哈希/日期	string			tests/e2e/smoke.spec.ts:583	1
-e2e	Inspector	skip	ident	标识符/路径/哈希/日期	string			tests/e2e/smoke.spec.ts:22	4
-e2e	Pop stash	skip	dup	已入词库	string			tests/e2e/smoke.spec.ts:931	1
 e2e	angkorgit	skip	demo	仅演示数据（demo.ts 被 skip-files 排除）	string			tests/e2e/smoke.spec.ts:11	49
 e2e	image/png	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			tests/e2e/smoke.spec.ts:292	1
 e2e	separator	skip	ident	标识符/路径/哈希/日期	string			tests/e2e/smoke.spec.ts:593	1
@@ -2771,7 +2754,6 @@ core	renamed	skip	ident	标识符/路径/哈希/日期	string			packages/core/sr
 core	unknown	skip	ident	标识符/路径/哈希/日期	string			packages/core/src/forge/providers/bitbucket.ts:56	3
 e2e	<<<<<<<	skip	code	无英文字母（数字/符号）	string			tests/e2e/smoke.spec.ts:48	1
 e2e	ArrowUp	skip	ident	标识符/路径/哈希/日期	string			tests/e2e/smoke.spec.ts:954	1
-e2e	Commits	skip	ident	标识符/路径/哈希/日期	string			tests/e2e/smoke.spec.ts:922	1
 e2e	develop	skip	demo	仅演示数据（demo.ts 被 skip-files 排除）	string			tests/e2e/smoke.spec.ts:262	4
 e2e	heading	skip	ident	标识符/路径/哈希/日期	string			tests/e2e/smoke.spec.ts:145	3
 e2e	tooltip	skip	ident	标识符/路径/哈希/日期	string			tests/e2e/smoke.spec.ts:283	2

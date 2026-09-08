@@ -520,8 +520,6 @@ e2e	tests/e2e/smoke.spec.ts	13	main	string
 e2e	tests/e2e/smoke.spec.ts	19	angkorgit	string
 e2e	tests/e2e/smoke.spec.ts	21	row	string
 e2e	tests/e2e/smoke.spec.ts	22	complementary	string
-e2e	tests/e2e/smoke.spec.ts	22	Inspector	string
-e2e	tests/e2e/smoke.spec.ts	22	4 modified	string
 e2e	tests/e2e/smoke.spec.ts	27	angkorgit	string
 e2e	tests/e2e/smoke.spec.ts	29	ControlOrMeta+k	string
 e2e	tests/e2e/smoke.spec.ts	35	angkorgit	string
@@ -801,9 +799,8 @@ e2e	tests/e2e/smoke.spec.ts	751	angkorgit	string
 e2e	tests/e2e/smoke.spec.ts	753	CommitGraph.tsx	string
 e2e	tests/e2e/smoke.spec.ts	754	section[aria-label^="文件差异："]	string
 e2e	tests/e2e/smoke.spec.ts	756	button	string
-e2e	tests/e2e/smoke.spec.ts	756	File history	string
-e2e	tests/e2e/smoke.spec.ts	757	section[aria-label^="History of"]	string
-e2e	tests/e2e/smoke.spec.ts	758	History of src/features/graph/CommitGraph.tsx	string
+e2e	tests/e2e/smoke.spec.ts	757	section[aria-label*=" 的历史"]	string
+e2e	tests/e2e/smoke.spec.ts	758	src/features/graph/CommitGraph.tsx 的历史	string
 e2e	tests/e2e/smoke.spec.ts	762	a single file can be stashed from its row menu and the toolbar pops the latest stash	test-name
 e2e	tests/e2e/smoke.spec.ts	764	angkorgit	string
 e2e	tests/e2e/smoke.spec.ts	767	ipc.ts	string
@@ -818,7 +815,6 @@ e2e	tests/e2e/smoke.spec.ts	776	button	string
 e2e	tests/e2e/smoke.spec.ts	776	Pop latest stash	string
 e2e	tests/e2e/smoke.spec.ts	779	tooltip	string
 e2e	tests/e2e/smoke.spec.ts	779	WIP on main: experiment with lane colors	string
-e2e	tests/e2e/smoke.spec.ts	781	Pop stash complete	string
 e2e	tests/e2e/smoke.spec.ts	784	shift-click selects a range of working copy files and the menu acts on all of them	test-name
 e2e	tests/e2e/smoke.spec.ts	786	angkorgit	string
 e2e	tests/e2e/smoke.spec.ts	789	ipc.ts	string
@@ -847,14 +843,12 @@ e2e	tests/e2e/smoke.spec.ts	814	Filter changed files…	string
 e2e	tests/e2e/smoke.spec.ts	816	graph	string
 e2e	tests/e2e/smoke.spec.ts	817	CommitGraph.tsx	string
 e2e	tests/e2e/smoke.spec.ts	818	ipc.ts	string
-e2e	tests/e2e/smoke.spec.ts	819	No changes match the filter.	string
 e2e	tests/e2e/smoke.spec.ts	820	1 of 2	string
 e2e	tests/e2e/smoke.spec.ts	822	button	string
 e2e	tests/e2e/smoke.spec.ts	822	Clear filter	string
 e2e	tests/e2e/smoke.spec.ts	824	ipc.ts	string
 e2e	tests/e2e/smoke.spec.ts	825	row	string
 e2e	tests/e2e/smoke.spec.ts	827	button	string
-e2e	tests/e2e/smoke.spec.ts	827	Back to working copy	string
 e2e	tests/e2e/smoke.spec.ts	828	Filter changed files…	string
 e2e	tests/e2e/smoke.spec.ts	829	Filter changed files…	string
 e2e	tests/e2e/smoke.spec.ts	830	Filter changed files…	string
@@ -864,7 +858,6 @@ e2e	tests/e2e/smoke.spec.ts	834	the commit file list can be filtered by path	tes
 e2e	tests/e2e/smoke.spec.ts	836	angkorgit	string
 e2e	tests/e2e/smoke.spec.ts	838	feat(graph): virtualize commit rows	string
 e2e	tests/e2e/smoke.spec.ts	840	complementary	string
-e2e	tests/e2e/smoke.spec.ts	840	Inspector	string
 e2e	tests/e2e/smoke.spec.ts	841	GraphRow.tsx	string
 e2e	tests/e2e/smoke.spec.ts	842	button	string
 e2e	tests/e2e/smoke.spec.ts	842	Filter files	string
@@ -883,7 +876,6 @@ e2e	tests/e2e/smoke.spec.ts	858	angkorgit	string
 e2e	tests/e2e/smoke.spec.ts	861	feat(graph): virtualize commit rows	string
 e2e	tests/e2e/smoke.spec.ts	862	WIP on main: experiment with lane colors	string
 e2e	tests/e2e/smoke.spec.ts	863	complementary	string
-e2e	tests/e2e/smoke.spec.ts	863	Inspector	string
 e2e	tests/e2e/smoke.spec.ts	864	This is a stash.	string
 e2e	tests/e2e/smoke.spec.ts	865	button	string
 e2e	tests/e2e/smoke.spec.ts	865	Apply src/features/graph/GraphRow.tsx from the stash	string
@@ -901,7 +893,7 @@ e2e	tests/e2e/smoke.spec.ts	875	This is a stash.	string
 e2e	tests/e2e/smoke.spec.ts	878	staged files can be discarded from the row, the menu and the header	test-name
 e2e	tests/e2e/smoke.spec.ts	880	angkorgit	string
 e2e	tests/e2e/smoke.spec.ts	883	button	string
-e2e	tests/e2e/smoke.spec.ts	883	Discard src/features/graph/CommitGraph.tsx	string
+e2e	tests/e2e/smoke.spec.ts	883	丢弃 src/features/graph/CommitGraph.tsx	string
 e2e	tests/e2e/smoke.spec.ts	884	CommitGraph.tsx	string
 e2e	tests/e2e/smoke.spec.ts	886	dialog	string
 e2e	tests/e2e/smoke.spec.ts	889	button	string
@@ -910,8 +902,6 @@ e2e	tests/e2e/smoke.spec.ts	891	right	string
 e2e	tests/e2e/smoke.spec.ts	892	menuitem	string
 e2e	tests/e2e/smoke.spec.ts	893	Escape	string
 e2e	tests/e2e/smoke.spec.ts	895	button	string
-e2e	tests/e2e/smoke.spec.ts	895	Discard all staged changes	string
-e2e	tests/e2e/smoke.spec.ts	896	Discard all 2 staged changes?	string
 e2e	tests/e2e/smoke.spec.ts	897	button	string
 e2e	tests/e2e/smoke.spec.ts	900	the sidebar comes back after a relaunch that happened with a diff open	test-name
 e2e	tests/e2e/smoke.spec.ts	902	angkorgit	string
@@ -925,20 +915,15 @@ e2e	tests/e2e/smoke.spec.ts	914	angkorgit-ui	string
 e2e	tests/e2e/smoke.spec.ts	918	a stash shows up in the graph with its own node and a menu to pop it	test-name
 e2e	tests/e2e/smoke.spec.ts	920	angkorgit	string
 e2e	tests/e2e/smoke.spec.ts	922	table	string
-e2e	tests/e2e/smoke.spec.ts	922	Commits	string
 e2e	tests/e2e/smoke.spec.ts	924	xpath=ancestor::*[@role="row"]	string
 e2e	tests/e2e/smoke.spec.ts	925	img	string
 e2e	tests/e2e/smoke.spec.ts	925	Stash	string
 e2e	tests/e2e/smoke.spec.ts	926	right	string
 e2e	tests/e2e/smoke.spec.ts	927	menuitem	string
-e2e	tests/e2e/smoke.spec.ts	927	Apply stash (keep it)	string
 e2e	tests/e2e/smoke.spec.ts	928	Escape	string
 e2e	tests/e2e/smoke.spec.ts	929	right	string
 e2e	tests/e2e/smoke.spec.ts	930	menuitem	string
-e2e	tests/e2e/smoke.spec.ts	930	Apply stash (keep it)	string
 e2e	tests/e2e/smoke.spec.ts	931	menuitem	string
-e2e	tests/e2e/smoke.spec.ts	931	Pop stash	string
-e2e	tests/e2e/smoke.spec.ts	932	Pop stash done	string
 e2e	tests/e2e/smoke.spec.ts	935	arrow keys walk from the graph into a commit\u2019s files and back	test-name
 e2e	tests/e2e/smoke.spec.ts	937	angkorgit	string
 e2e	tests/e2e/smoke.spec.ts	939	row	string
@@ -949,14 +934,13 @@ e2e	tests/e2e/smoke.spec.ts	943	aria-selected	string
 e2e	tests/e2e/smoke.spec.ts	943	true	string
 e2e	tests/e2e/smoke.spec.ts	944	button.font-mono	string
 e2e	tests/e2e/smoke.spec.ts	945	complementary	string
-e2e	tests/e2e/smoke.spec.ts	945	Inspector	string
 e2e	tests/e2e/smoke.spec.ts	947	ArrowRight	string
 e2e	tests/e2e/smoke.spec.ts	948	Commit files	string
-e2e	tests/e2e/smoke.spec.ts	950	section[aria-label="文件差异： src/features/graph/CommitGraph.tsx"]	string
+e2e	tests/e2e/smoke.spec.ts	950	section[aria-label="文件差异：src/features/graph/CommitGraph.tsx"]	string
 e2e	tests/e2e/smoke.spec.ts	952	ArrowDown	string
-e2e	tests/e2e/smoke.spec.ts	953	section[aria-label="文件差异： src/features/graph/GraphRow.tsx"]	string
+e2e	tests/e2e/smoke.spec.ts	953	section[aria-label="文件差异：src/features/graph/GraphRow.tsx"]	string
 e2e	tests/e2e/smoke.spec.ts	954	ArrowUp	string
-e2e	tests/e2e/smoke.spec.ts	955	section[aria-label="文件差异： src/features/graph/CommitGraph.tsx"]	string
+e2e	tests/e2e/smoke.spec.ts	955	section[aria-label="文件差异：src/features/graph/CommitGraph.tsx"]	string
 e2e	tests/e2e/smoke.spec.ts	957	ArrowLeft	string
 e2e	tests/e2e/smoke.spec.ts	958	section[aria-label^="文件差异："]	string
 e2e	tests/e2e/smoke.spec.ts	959	aria-selected	string
@@ -4544,14 +4528,10 @@ ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	897	void run(() => ipc.
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	902	ghost	attr:variant
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	903	icon-sm	attr:size
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	905	text-muted hover:text-danger	attr:className
-ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	926	无更改 match the filter.	string
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	957	void run(() => ipc.unstageAll(path), '全量取消暂存失败')}>	jsx-text
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	962	ghost	attr:variant
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	963	icon-sm	attr:size
-ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	964	全部丢弃 staged changes	attr:aria-label
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	965	text-muted hover:text-danger	attr:className
-ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	968	全部丢弃 ${allStaged.length} staged change${allStaged.length === 1 ? '' : 's'}?	template
-ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	968	staged change	tmpl-seg
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	970	Every staged file goes back to the last commit, unstaged edits to those files included, and new files are deleted. This cannot be undone — not even with ⌘Z.	string
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	986	No staged files match the filter.	string
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	1010	!o && setFileMenu(null)}>	jsx-text
@@ -5301,8 +5281,6 @@ ui	apps/desktop/src/features/graph/CommitGraph.tsx	300	checkout	string
 ui	apps/desktop/src/features/graph/CommitGraph.tsx	322	${local.ahead} commit${local.ahead === 1 ? '' : 's'} only on the local branch will be lost.	template
 ui	apps/desktop/src/features/graph/CommitGraph.tsx	322	only on the local branch will be lost.	tmpl-seg
 ui	apps/desktop/src/features/graph/CommitGraph.tsx	325	Reset branch to its remote?	string
-ui	apps/desktop/src/features/graph/CommitGraph.tsx	327	硬重置到 ${ref.shorthand} (${commit.shortOid}).${losing} 未提交的更改 are discarded and cannot be recovered.	template
-ui	apps/desktop/src/features/graph/CommitGraph.tsx	328	This branch is not checked out. It is checked out first, then hard reset to ${ref.shorthand} (${commit.shortOid}).${losing} 未提交的更改 are discarded and cannot be recovered.	template
 ui	apps/desktop/src/features/graph/CommitGraph.tsx	330	Reset branch	string
 ui	apps/desktop/src/features/graph/CommitGraph.tsx	338	checkout	string
 ui	apps/desktop/src/features/graph/CommitGraph.tsx	339	Checkout ${name}	template
@@ -5414,7 +5392,6 @@ ui	apps/desktop/src/features/graph/GraphRow.tsx	352	min-w-0 shrink whitespace-no
 ui	apps/desktop/src/features/graph/GraphRow.tsx	354	cursor-pointer hover:z-20 hover:shrink-0 hover:!bg-surface-overlay hover:shadow-soft	string
 ui	apps/desktop/src/features/graph/GraphRow.tsx	355	max-w-[11rem] cursor-pointer border-dashed hover:!bg-surface-overlay	string
 ui	apps/desktop/src/features/graph/GraphRow.tsx	357	border-success bg-success text-background shadow-soft hover:!bg-success	string
-ui	apps/desktop/src/features/graph/GraphRow.tsx	361	${group.label}\nStash — click the row to see its files, right-click to apply, pop or drop	template
 ui	apps/desktop/src/features/graph/GraphRow.tsx	394	g.label).join(', ')}>	jsx-text
 ui	apps/desktop/src/features/graph/GraphRow.tsx	400	h-px min-w-1 flex-1	attr:className
 ui	apps/desktop/src/features/graph/GraphRow.tsx	444	stash	string

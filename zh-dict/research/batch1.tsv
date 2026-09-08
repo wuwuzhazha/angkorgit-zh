@@ -1,6 +1,5 @@
-# 批次 batch1.tsv（UI（桌面））：translate 159 条；source 按长度降序（长串优先）
+# 批次 batch1.tsv（UI（桌面））：translate 153 条；source 按长度降序（长串优先）
 # 列：scope<TAB>source<TAB>require_anchor<TAB>sync<TAB>hint<TAB>first_loc<TAB>occurrences
-ui	This branch is not checked out. It is checked out first, then hard reset to ${ref.shorthand} (${commit.shortOid}).${losing} 未提交的更改 are discarded and cannot be recovered.	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/graph/CommitGraph.tsx:328	1
 ui	${leftovers.length} change${leftovers.length === 1 ? '' : 's'} could not be discarded (${listed}). Submodule changes must be discarded inside the submodule repository.	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/commit/WorkingCopyPanel.tsx:445	1
 ui	Every staged file goes back to the last commit, unstaged edits to those files included, and new files are deleted. This cannot be undone — not even with ⌘Z.	translate	new	待译	apps/desktop/src/features/commit/WorkingCopyPanel.tsx:970	1
 ui	${h.header}\n${h.lines.map((l) => `${l.kind === 'addition' ? '+' : l.kind === 'deletion' ? '-' : ' '}${l.content}`).join('\n')}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/inspector/CommitDetails.tsx:85	1
@@ -10,17 +9,14 @@ ui	All changes in these files will be reverted. Untracked files among them are d
 ui	This ${forgeNoun(forgeRemote?.kind)} cannot be checked out from AngKorGit — open it in the browser instead.	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/sidebar/Sidebar.tsx:416	1
 ui	${remaining.length} staged change${remaining.length === 1 ? '' : 's'} could not be discarded: ${listed}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/commit/WorkingCopyPanel.tsx:473	1
 ui	This file is new — discarding removes it from the index and deletes the file. This cannot be undone.	translate	new	待译	apps/desktop/src/features/commit/WorkingCopyPanel.tsx:503	1
-ui	硬重置到 ${ref.shorthand} (${commit.shortOid}).${losing} 未提交的更改 are discarded and cannot be recovered.	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/graph/CommitGraph.tsx:327	1
 ui	${leftovers.length} change${leftovers.length === 1 ? '' : 's'} could not be discarded: ${listed}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/commit/WorkingCopyPanel.tsx:446	1
 ui	Only these ${stashPaths.length} files are stashed. Everything else stays in your working copy.	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/repository/RepoDialogs.tsx:231	1
 ui	使用本机已安装的 AI CLI——Claude Code、Codex、Gemini CLI、OpenCode 或 Antigravity——以其自身的登录与配额运行，无需 API 密钥。	translate	new	待译	apps/desktop/src/features/settings/SettingsDialog.tsx:1139	1
 ui	${local.ahead} commit${local.ahead === 1 ? '' : 's'} only on the local branch will be lost.	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/graph/CommitGraph.tsx:322	1
-ui	${group.label}\nStash — click the row to see its files, right-click to apply, pop or drop	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/graph/GraphRow.tsx:361	1
 ui	AngKorGit error report\n\n${error?.name}: ${error?.message}\n\n${error?.stack ?? ''}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/components/ErrorBoundary.tsx:23	1
 ui	\r\n[could not start shell: ${(error as { message?: string }).message ?? error}]	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/terminal/TerminalPanel.tsx:81	1
 ui	Checkout ${name} failed: ${(error as { message?: string }).message ?? error}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/graph/CommitGraph.tsx:343	1
 ui	AI 请求失败：${(error as { message?: string } | null)?.message ?? String(error)}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/commit/WorkingCopyPanel.tsx:548	4
-ui	全部丢弃 ${allStaged.length} staged change${allStaged.length === 1 ? '' : 's'}?	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/commit/WorkingCopyPanel.tsx:968	1
 ui	). Submodule changes must be discarded inside the submodule repository.	translate	new	待译	apps/desktop/src/features/commit/WorkingCopyPanel.tsx:445	1
 ui	请安装 Claude Code、Codex CLI、Gemini CLI、OpenCode 或 Antigravity CLI，然后重新扫描。	translate	attr-ui	属性文案（description）	apps/desktop/src/features/settings/SettingsDialog.tsx:390	1
 ui	Only this file is stashed. Everything else stays in your working copy.	translate	new	待译	apps/desktop/src/features/repository/RepoDialogs.tsx:229	1
@@ -118,10 +114,8 @@ ui	Stash selected changes	translate	new	待译	apps/desktop/src/features/reposit
 ui	AngKorGit v${version}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/repository/WelcomePage.tsx:302	1
 ui	Filter changed files…	translate	attr-ui	属性文案（placeholder）	apps/desktop/src/features/commit/WorkingCopyPanel.tsx:835	1
 ui	Merged ${name} (demo)	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/core/ipc.ts:301	1
-ui	无更改 match the filter.	translate	new	待译	apps/desktop/src/features/commit/WorkingCopyPanel.tsx:926	1
 ui	Cherry-picked (demo)	translate	new	待译	apps/desktop/src/core/ipc.ts:349	1
 ui	(folder: TreeFolder	translate	jsx-text	JSX 文本	apps/desktop/src/components/FileTree.tsx:109	1
-ui	全部丢弃 staged changes	translate	attr-ui	属性文案（aria-label）	apps/desktop/src/features/commit/WorkingCopyPanel.tsx:964	1
 ui	gitlab.example.com	translate	attr-ui	属性文案（placeholder），裸词须配 anchor	apps/desktop/src/features/settings/AccountsTab.tsx:483	1
 ui	无法在 Finder 中显示文件：	translate	new	待译	apps/desktop/src/features/commit/WorkingCopyPanel.tsx:1089	1
 ui	Checkout ${name}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src/features/graph/CommitGraph.tsx:339	1
@@ -136,7 +130,7 @@ ui	Atlassian 账户邮箱	translate	new	待译	apps/desktop/src/features/setting
 ui	from the stash	translate	new	待译	apps/desktop/src/features/inspector/CommitDetails.tsx:275	1
 ui	Filter files…	translate	attr-ui	属性文案（placeholder）	apps/desktop/src/components/FileFilterInput.tsx:12	2
 ui	create branch	translate	new	待译	apps/desktop/src/features/repository/RepoDialogs.tsx:89	1
-ui	staged change	translate	new	待译	apps/desktop/src/features/commit/WorkingCopyPanel.tsx:473	3
+ui	staged change	translate	new	待译	apps/desktop/src/features/commit/WorkingCopyPanel.tsx:473	2
 ui	Clear filter	translate	attr-ui	属性文案（aria-label）	apps/desktop/src/components/FileFilterInput.tsx:50	1
 ui	Commit files	translate	attr-ui	属性文案（aria-label）	apps/desktop/src/features/inspector/CommitDetails.tsx:523	1
 ui	Filter files	translate	new	待译	apps/desktop/src/features/inspector/Inspector.tsx:90	1
