@@ -19,7 +19,7 @@ meta	pnpm --filter @angkorgit/desktop tauri build	verify	protect-mixed	含受保
 ui	max(2px, ${((end - start) / total) * 100}%)	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	template		apps/desktop/src/features/diff/DiffMinimap.tsx:193	1
 meta	pnpm --filter @angkorgit/desktop tauri dev	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	json		package.json:20	1
 meta	pnpm --filter @angkorgit/website preview	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	json		package.json:32	1
-ui	将 user.name 和 user.email 写入 ~/.gitconfig	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	string		apps/desktop/src/features/settings/SettingsDialog.tsx:934	1
+ui	将 user.name 和 user.email 写入 ~/.gitconfig	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	ternary		apps/desktop/src/features/settings/SettingsDialog.tsx:934	1
 meta	pnpm --filter @angkorgit/website images	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	json		package.json:33	1
 meta	pnpm --filter @angkorgit/desktop tauri	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	json		package.json:19	1
 meta	pnpm --filter @angkorgit/website build	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	json		package.json:31	1

@@ -1,4 +1,4 @@
-# 批次 batch3.tsv（rust + core + meta + e2e/test 其余）：translate 215 条；source 按长度降序（长串优先）
+# 批次 batch3.tsv（rust + core + meta + e2e/test 其余）：translate 214 条；source 按长度降序（长串优先）
 # 列：scope<TAB>source<TAB>require_anchor<TAB>sync<TAB>hint<TAB>first_loc<TAB>occurrences
 core	Review this staged diff. List concrete issues (bugs, edge cases, naming, missing tests) ordered by severity. If it looks good, say so briefly.${conventions ? `\n\n${conventions}\n\n${guard}` : ''}\n\n${clip(stagedDiff)}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	packages/core/src/ai/capabilities.ts:125	1
 core	Write a pull request description in markdown (## Summary, ## Changes, ## Testing) for these commits and diff stat.\n\nCommits:\n${clip(commits, 8000)}\n\nDiff stat:\n${clip(diffStat, 4000)}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	packages/core/src/ai/capabilities.ts:77	1
@@ -125,7 +125,6 @@ rust	source change\n	translate	new	Rust 字符串	apps/desktop/src-tauri/tests/g
 test	Adds the thing.	translate	new	待译	tests/unit/forge.test.ts:152	2
 test	invalid api key	translate	new	待译	tests/unit/aiProviders.test.ts:38	1
 test	one two\n\nbody	translate	new	待译	tests/unit/commitMessage.test.ts:36	1
-e2e	应用暂存 (keep it)	translate	new	待译	tests/e2e/smoke.spec.ts:927	2
 rust	Bearer {token}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	apps/desktop/src-tauri/src/account_check.rs:99	2
 rust	WIP on master:	translate	new	Rust 字符串	apps/desktop/src-tauri/tests/git_engine.rs:313	1
 rust	change a add c	translate	new	Rust 字符串	apps/desktop/src-tauri/tests/git_engine.rs:1832	1

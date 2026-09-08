@@ -76,7 +76,7 @@ core	packages/core/src/ai/cliAgents.ts	64	--output-format	string
 core	packages/core/src/ai/cliAgents.ts	64	text	string
 core	packages/core/src/ai/cliAgents.ts	64	--model	string
 core	packages/core/src/ai/cliAgents.ts	75	\n\n	string
-core	packages/core/src/ai/cliAgents.ts	79	claude	string
+core	packages/core/src/ai/cliAgents.ts	79	claude	ternary
 core	packages/core/src/ai/cliAgents.ts	87	arg	string
 core	packages/core/src/ai/cliAgents.ts	88	stdin	string
 core	packages/core/src/ai/cliAgents.ts	111	user	string
@@ -92,8 +92,8 @@ core	packages/core/src/ai/models.ts	56	cli	string
 core	packages/core/src/ai/models.ts	58	openai	string
 core	packages/core/src/ai/models.ts	59	lmstudio	string
 core	packages/core/src/ai/models.ts	60	openai	string
-core	packages/core/src/ai/models.ts	60	https://api.openai.com/v1	string
-core	packages/core/src/ai/models.ts	60	http://localhost:1234/v1	string
+core	packages/core/src/ai/models.ts	60	https://api.openai.com/v1	ternary
+core	packages/core/src/ai/models.ts	60	http://localhost:1234/v1	ternary
 core	packages/core/src/ai/models.ts	64	${baseUrl}/models	template
 core	packages/core/src/ai/models.ts	65	Bearer ${config.apiKey}	template
 core	packages/core/src/ai/models.ts	70	anthropic	string
@@ -146,8 +146,8 @@ core	packages/core/src/ai/providers.ts	134	\n\n	string
 core	packages/core/src/ai/providers.ts	137	${baseUrl}/v1beta/models/${config.model}:generateContent?key=${config.apiKey}	template
 core	packages/core/src/ai/providers.ts	142	system	string
 core	packages/core/src/ai/providers.ts	144	assistant	string
-core	packages/core/src/ai/providers.ts	144	model	string
-core	packages/core/src/ai/providers.ts	144	user	string
+core	packages/core/src/ai/providers.ts	144	model	ternary
+core	packages/core/src/ai/providers.ts	144	user	ternary
 core	packages/core/src/ai/providers.ts	152	Gemini	string
 core	packages/core/src/ai/providers.ts	155	gemini	string
 core	packages/core/src/ai/providers.ts	156	gemini	string
@@ -296,12 +296,12 @@ core	packages/core/src/forge/providers/bitbucket.ts	48	GET	string
 core	packages/core/src/forge/providers/bitbucket.ts	48	POST	string
 core	packages/core/src/forge/providers/bitbucket.ts	49	${apiBase}${path}	template
 core	packages/core/src/forge/providers/bitbucket.ts	55	#${pull.id}	template
-core	packages/core/src/forge/providers/bitbucket.ts	56	unknown	string
+core	packages/core/src/forge/providers/bitbucket.ts	56	unknown	ternary
 core	packages/core/src/forge/providers/bitbucket.ts	61	MERGED	string
-core	packages/core/src/forge/providers/bitbucket.ts	61	merged	string
+core	packages/core/src/forge/providers/bitbucket.ts	61	merged	ternary
 core	packages/core/src/forge/providers/bitbucket.ts	61	OPEN	string
-core	packages/core/src/forge/providers/bitbucket.ts	61	open	string
-core	packages/core/src/forge/providers/bitbucket.ts	61	closed	string
+core	packages/core/src/forge/providers/bitbucket.ts	61	open	ternary
+core	packages/core/src/forge/providers/bitbucket.ts	61	closed	ternary
 core	packages/core/src/forge/providers/bitbucket.ts	71	bitbucket	string
 core	packages/core/src/forge/providers/bitbucket.ts	72	Bitbucket	string
 core	packages/core/src/forge/providers/bitbucket.ts	75	GET	string
@@ -309,7 +309,7 @@ core	packages/core/src/forge/providers/bitbucket.ts	76	/repositories/${repoPath}
 core	packages/core/src/forge/providers/bitbucket.ts	79	bitbucket	string
 core	packages/core/src/forge/providers/bitbucket.ts	84	GET	string
 core	packages/core/src/forge/providers/bitbucket.ts	84	/repositories/${repoPath}	template
-core	packages/core/src/forge/providers/bitbucket.ts	87	main	string
+core	packages/core/src/forge/providers/bitbucket.ts	87	main	ternary
 core	packages/core/src/forge/providers/bitbucket.ts	92	GET	string
 core	packages/core/src/forge/providers/bitbucket.ts	93	/workspaces/${workspace}/members?pagelen=100	template
 core	packages/core/src/forge/providers/bitbucket.ts	110	POST	string
@@ -321,7 +321,7 @@ core	packages/core/src/forge/providers/github.ts	3	../provider	string
 core	packages/core/src/forge/providers/github.ts	4	../shared	string
 core	packages/core/src/forge/providers/github.ts	11	../types	string
 core	packages/core/src/forge/providers/github.ts	40	github.com	string
-core	packages/core/src/forge/providers/github.ts	40	https://api.github.com	string
+core	packages/core/src/forge/providers/github.ts	40	https://api.github.com	ternary
 core	packages/core/src/forge/providers/github.ts	40	https://${host}/api/v3	template
 core	packages/core/src/forge/providers/github.ts	51	string	string
 core	packages/core/src/forge/providers/github.ts	55	head	string
@@ -334,11 +334,11 @@ core	packages/core/src/forge/providers/github.ts	80	GET	string
 core	packages/core/src/forge/providers/github.ts	80	POST	string
 core	packages/core/src/forge/providers/github.ts	81	${apiBase}${path}	template
 core	packages/core/src/forge/providers/github.ts	87	#${pull.number}	template
-core	packages/core/src/forge/providers/github.ts	88	unknown	string
-core	packages/core/src/forge/providers/github.ts	93	merged	string
+core	packages/core/src/forge/providers/github.ts	88	unknown	ternary
+core	packages/core/src/forge/providers/github.ts	93	merged	ternary
 core	packages/core/src/forge/providers/github.ts	93	closed	string
-core	packages/core/src/forge/providers/github.ts	93	closed	string
-core	packages/core/src/forge/providers/github.ts	93	open	string
+core	packages/core/src/forge/providers/github.ts	93	closed	ternary
+core	packages/core/src/forge/providers/github.ts	93	open	ternary
 core	packages/core/src/forge/providers/github.ts	103	github	string
 core	packages/core/src/forge/providers/github.ts	104	GitHub	string
 core	packages/core/src/forge/providers/github.ts	107	GET	string
@@ -346,7 +346,7 @@ core	packages/core/src/forge/providers/github.ts	108	/repos/${repoPath}/pulls?st
 core	packages/core/src/forge/providers/github.ts	110	github	string
 core	packages/core/src/forge/providers/github.ts	114	GET	string
 core	packages/core/src/forge/providers/github.ts	114	/repos/${repoPath}	template
-core	packages/core/src/forge/providers/github.ts	115	main	string
+core	packages/core/src/forge/providers/github.ts	115	main	ternary
 core	packages/core/src/forge/providers/github.ts	119	GET	string
 core	packages/core/src/forge/providers/github.ts	120	/repos/${repoPath}/collaborators?per_page=100	template
 core	packages/core/src/forge/providers/github.ts	133	POST	string
@@ -372,12 +372,12 @@ core	packages/core/src/forge/providers/gitlab.ts	55	${bases[index]}${path}	templ
 core	packages/core/src/forge/providers/gitlab.ts	57	GET	string
 core	packages/core/src/forge/providers/gitlab.ts	58	${bases[index + 1]}${path}	template
 core	packages/core/src/forge/providers/gitlab.ts	66	!${mr.iid}	template
-core	packages/core/src/forge/providers/gitlab.ts	67	unknown	string
+core	packages/core/src/forge/providers/gitlab.ts	67	unknown	ternary
 core	packages/core/src/forge/providers/gitlab.ts	72	merged	string
-core	packages/core/src/forge/providers/gitlab.ts	72	merged	string
+core	packages/core/src/forge/providers/gitlab.ts	72	merged	ternary
 core	packages/core/src/forge/providers/gitlab.ts	72	closed	string
-core	packages/core/src/forge/providers/gitlab.ts	72	closed	string
-core	packages/core/src/forge/providers/gitlab.ts	72	open	string
+core	packages/core/src/forge/providers/gitlab.ts	72	closed	ternary
+core	packages/core/src/forge/providers/gitlab.ts	72	open	ternary
 core	packages/core/src/forge/providers/gitlab.ts	84	gitlab	string
 core	packages/core/src/forge/providers/gitlab.ts	85	GitLab	string
 core	packages/core/src/forge/providers/gitlab.ts	88	GET	string
@@ -385,7 +385,7 @@ core	packages/core/src/forge/providers/gitlab.ts	89	/projects/${projectId}/merge
 core	packages/core/src/forge/providers/gitlab.ts	91	gitlab	string
 core	packages/core/src/forge/providers/gitlab.ts	95	GET	string
 core	packages/core/src/forge/providers/gitlab.ts	95	/projects/${projectId}	template
-core	packages/core/src/forge/providers/gitlab.ts	96	main	string
+core	packages/core/src/forge/providers/gitlab.ts	96	main	ternary
 core	packages/core/src/forge/providers/gitlab.ts	100	GET	string
 core	packages/core/src/forge/providers/gitlab.ts	101	/projects/${projectId}/members/all?per_page=100	template
 core	packages/core/src/forge/providers/gitlab.ts	105	blocked	string
@@ -429,7 +429,7 @@ core	packages/core/src/forge/shared.ts	3	./types	string
 core	packages/core/src/forge/shared.ts	7	GET	string
 core	packages/core/src/forge/shared.ts	7	POST	string
 core	packages/core/src/forge/shared.ts	21	content-type	string
-core	packages/core/src/forge/shared.ts	21	application/json	string
+core	packages/core/src/forge/shared.ts	21	application/json	ternary
 core	packages/core/src/forge/shared.ts	49	gitlab	string
 core	packages/core/src/forge/shared.ts	50	${base}	template
 core	packages/core/src/forge/shared.ts	59	refs/heads/${pr.sourceBranch}	template
@@ -893,11 +893,9 @@ e2e	tests/e2e/smoke.spec.ts	924	xpath=ancestor::*[@role="row"]	string
 e2e	tests/e2e/smoke.spec.ts	925	img	string
 e2e	tests/e2e/smoke.spec.ts	926	right	string
 e2e	tests/e2e/smoke.spec.ts	927	menuitem	string
-e2e	tests/e2e/smoke.spec.ts	927	应用暂存 (keep it)	string
 e2e	tests/e2e/smoke.spec.ts	928	Escape	string
 e2e	tests/e2e/smoke.spec.ts	929	right	string
 e2e	tests/e2e/smoke.spec.ts	930	menuitem	string
-e2e	tests/e2e/smoke.spec.ts	930	应用暂存 (keep it)	string
 e2e	tests/e2e/smoke.spec.ts	931	menuitem	string
 e2e	tests/e2e/smoke.spec.ts	935	arrow keys walk from the graph into a commit\u2019s files and back	test-name
 e2e	tests/e2e/smoke.spec.ts	937	angkorgit	string
@@ -3398,7 +3396,7 @@ test	tests/unit/forge.test.ts	180	ForgeError	string
 test	tests/unit/forge.test.ts	182	A pull request already exists	string
 test	tests/unit/forge.test.ts	186	reads the default branch with a fallback	test-name
 test	tests/unit/forge.test.ts	189	/repos/cheat2001/angkorgit	string
-test	tests/unit/forge.test.ts	190	develop	string
+test	tests/unit/forge.test.ts	190	develop	ternary
 test	tests/unit/forge.test.ts	193	develop	string
 test	tests/unit/forge.test.ts	196	checks out same-repo branches with tracking and fork PRs via refs/pull	test-name
 test	tests/unit/forge.test.ts	204	feature/worktrees	string
@@ -3583,7 +3581,7 @@ test	tests/unit/forge.test.ts	625	https://a/s	string
 test	tests/unit/forge.test.ts	631	main	string
 test	tests/unit/forge.test.ts	633	{u-1}	string
 test	tests/unit/forge.test.ts	635	POST	string
-test	tests/unit/forge.test.ts	636	{u-1}	string
+test	tests/unit/forge.test.ts	636	{u-1}	ternary
 test	tests/unit/forge.test.ts	640	gitlab scheme fallback safety	test-name
 test	tests/unit/forge.test.ts	641	never retries a POST over http	test-name
 test	tests/unit/forge.test.ts	645	request failed: error sending request for url	string
@@ -3876,7 +3874,7 @@ ui	apps/desktop/src/app/SplashScreen.tsx	1	framer-motion	string
 ui	apps/desktop/src/app/SplashScreen.tsx	2	@angkorgit/design-system	string
 ui	apps/desktop/src/app/SplashScreen.tsx	3	@/features/settings/store	string
 ui	apps/desktop/src/app/SplashScreen.tsx	9	absolute inset-0 z-50 flex flex-col items-center justify-center gap-6 bg-background	attr:className
-ui	apps/desktop/src/app/SplashScreen.tsx	11	easeInOut	string
+ui	apps/desktop/src/app/SplashScreen.tsx	11	easeInOut	ternary
 ui	apps/desktop/src/app/SplashScreen.tsx	18	text-foreground	attr:className
 ui	apps/desktop/src/app/SplashScreen.tsx	26	text-center	attr:className
 ui	apps/desktop/src/app/SplashScreen.tsx	29	Git	jsx-text
@@ -3897,8 +3895,8 @@ ui	apps/desktop/src/components/Avatar.tsx	83	hsl(${avatarHue(email)} 45% 45%)	te
 ui	apps/desktop/src/components/Avatar.tsx	86	${name} <${email}>	template
 ui	apps/desktop/src/components/Avatar.tsx	95	lazy	attr:loading
 ui	apps/desktop/src/components/Avatar.tsx	97	absolute inset-0 h-full w-full object-cover transition-opacity duration-150	string
-ui	apps/desktop/src/components/Avatar.tsx	98	opacity-100	string
-ui	apps/desktop/src/components/Avatar.tsx	98	opacity-0	string
+ui	apps/desktop/src/components/Avatar.tsx	98	opacity-100	ternary
+ui	apps/desktop/src/components/Avatar.tsx	98	opacity-0	ternary
 ui	apps/desktop/src/components/CommandPalette.tsx	1	react	string
 ui	apps/desktop/src/components/CommandPalette.tsx	2	react-router-dom	string
 ui	apps/desktop/src/components/CommandPalette.tsx	3	cmdk	string
@@ -3917,8 +3915,8 @@ ui	apps/desktop/src/components/CommandPalette.tsx	42	@/features/history/undoStor
 ui	apps/desktop/src/components/CommandPalette.tsx	43	@/features/forge/store	string
 ui	apps/desktop/src/components/CommandPalette.tsx	44	@angkorgit/core	string
 ui	apps/desktop/src/components/CommandPalette.tsx	45	@/shared/utils	string
-ui	apps/desktop/src/components/CommandPalette.tsx	73	clean	string
-ui	apps/desktop/src/components/CommandPalette.tsx	74	origin	string
+ui	apps/desktop/src/components/CommandPalette.tsx	73	clean	ternary
+ui	apps/desktop/src/components/CommandPalette.tsx	74	origin	ternary
 ui	apps/desktop/src/components/CommandPalette.tsx	80	commands	string
 ui	apps/desktop/src/components/CommandPalette.tsx	80	fileHistory	string
 ui	apps/desktop/src/components/CommandPalette.tsx	80	commands	string
@@ -3963,8 +3961,8 @@ ui	apps/desktop/src/components/CommandPalette.tsx	438	checkout	string
 ui	apps/desktop/src/components/CommandPalette.tsx	494	dark	string
 ui	apps/desktop/src/components/CommandPalette.tsx	495	dark	string
 ui	apps/desktop/src/components/CommandPalette.tsx	498	dark	string
-ui	apps/desktop/src/components/CommandPalette.tsx	498	light	string
-ui	apps/desktop/src/components/CommandPalette.tsx	498	dark	string
+ui	apps/desktop/src/components/CommandPalette.tsx	498	light	ternary
+ui	apps/desktop/src/components/CommandPalette.tsx	498	dark	ternary
 ui	apps/desktop/src/components/CommandPalette.tsx	507	settings	string
 ui	apps/desktop/src/components/CommandPalette.tsx	515	@/features/updater/check	string
 ui	apps/desktop/src/components/CommandPalette.tsx	542	flex cursor-default select-none items-center gap-2.5 rounded-md px-2 py-2 text-sm text-foreground data-[selected=true]:bg-surface-raised [&_svg]:size-4 [&_svg]:text-muted	attr:className
@@ -4004,8 +4002,8 @@ ui	apps/desktop/src/components/FileTree.tsx	129	mode	string
 ui	apps/desktop/src/components/FileTree.tsx	138	mode	string
 ui	apps/desktop/src/components/FileTree.tsx	145	ghost	attr:variant
 ui	apps/desktop/src/components/FileTree.tsx	146	icon-sm	attr:size
-ui	apps/desktop/src/components/FileTree.tsx	148	expand	string
-ui	apps/desktop/src/components/FileTree.tsx	148	collapse	string
+ui	apps/desktop/src/components/FileTree.tsx	148	expand	ternary
+ui	apps/desktop/src/components/FileTree.tsx	148	collapse	ternary
 ui	apps/desktop/src/components/FileTree.tsx	173	(new Set());	jsx-text
 ui	apps/desktop/src/components/FileTree.tsx	178	collapse	string
 ui	apps/desktop/src/components/RepoTabs.tsx	1	react	string
@@ -4020,8 +4018,8 @@ ui	apps/desktop/src/components/RepoTabs.tsx	14	(null);	jsx-text
 ui	apps/desktop/src/components/RepoTabs.tsx	15	(null);	jsx-text
 ui	apps/desktop/src/components/RepoTabs.tsx	16	(null);	jsx-text
 ui	apps/desktop/src/components/RepoTabs.tsx	23	[data-tab-path="${CSS.escape(activePath)}"]	template
-ui	apps/desktop/src/components/RepoTabs.tsx	24	nearest	string
-ui	apps/desktop/src/components/RepoTabs.tsx	24	nearest	string
+ui	apps/desktop/src/components/RepoTabs.tsx	24	nearest	ternary
+ui	apps/desktop/src/components/RepoTabs.tsx	24	nearest	ternary
 ui	apps/desktop/src/components/RepoTabs.tsx	70	scrollbar-none flex min-w-0 flex-1 items-end gap-0.5 overflow-x-auto	attr:className
 ui	apps/desktop/src/components/RepoTabs.tsx	82	tab	attr:role
 ui	apps/desktop/src/components/RepoTabs.tsx	89	text/angkorgit-repo-tab	string
@@ -4029,17 +4027,17 @@ ui	apps/desktop/src/components/RepoTabs.tsx	90	move	attr:effectAllowed
 ui	apps/desktop/src/components/RepoTabs.tsx	99	move	attr:dropEffect
 ui	apps/desktop/src/components/RepoTabs.tsx	106	text/angkorgit-repo-tab	string
 ui	apps/desktop/src/components/RepoTabs.tsx	116	group flex h-8 min-w-0 max-w-44 shrink-0 cursor-default items-center gap-1.5 rounded-t-md border border-b-0 px-3 text-xs	string
-ui	apps/desktop/src/components/RepoTabs.tsx	118	border-border-subtle bg-background text-foreground	string
+ui	apps/desktop/src/components/RepoTabs.tsx	118	border-border-subtle bg-background text-foreground	ternary
 ui	apps/desktop/src/components/RepoTabs.tsx	119	border-transparent text-muted hover:bg-surface-raised hover:text-foreground	string
 ui	apps/desktop/src/components/RepoTabs.tsx	120	opacity-40	string
 ui	apps/desktop/src/components/RepoTabs.tsx	121	ring-1 ring-inset ring-primary/60	string
 ui	apps/desktop/src/components/RepoTabs.tsx	126	size-3 shrink-0	string
-ui	apps/desktop/src/components/RepoTabs.tsx	126	text-primary	string
-ui	apps/desktop/src/components/RepoTabs.tsx	126	text-faint	string
+ui	apps/desktop/src/components/RepoTabs.tsx	126	text-primary	ternary
+ui	apps/desktop/src/components/RepoTabs.tsx	126	text-faint	ternary
 ui	apps/desktop/src/components/RepoTabs.tsx	132	button	attr:type
 ui	apps/desktop/src/components/RepoTabs.tsx	135	shrink-0 rounded-sm p-0.5 hover:bg-surface-overlay hover:text-foreground	string
-ui	apps/desktop/src/components/RepoTabs.tsx	136	text-muted	string
-ui	apps/desktop/src/components/RepoTabs.tsx	136	text-transparent group-hover:text-muted	string
+ui	apps/desktop/src/components/RepoTabs.tsx	136	text-muted	ternary
+ui	apps/desktop/src/components/RepoTabs.tsx	136	text-transparent group-hover:text-muted	ternary
 ui	apps/desktop/src/components/RepoTabs.tsx	151	ghost	attr:variant
 ui	apps/desktop/src/components/RepoTabs.tsx	152	icon-sm	attr:size
 ui	apps/desktop/src/components/RepoTabs.tsx	153	mb-0.5 shrink-0	attr:className
@@ -4067,7 +4065,7 @@ ui	apps/desktop/src/components/StatusBar.tsx	125	updater	string
 ui	apps/desktop/src/components/StatusBar.tsx	126	@/features/updater/check	string
 ui	apps/desktop/src/components/StatusBar.tsx	128	updater	string
 ui	apps/desktop/src/components/StatusBar.tsx	131	v${version}	template
-ui	apps/desktop/src/components/StatusBar.tsx	131	AngKorGit	string
+ui	apps/desktop/src/components/StatusBar.tsx	131	AngKorGit	ternary
 ui	apps/desktop/src/components/Toolbar.tsx	1	react	string
 ui	apps/desktop/src/components/Toolbar.tsx	2	react-router-dom	string
 ui	apps/desktop/src/components/Toolbar.tsx	3	sonner	string
@@ -4108,13 +4106,13 @@ ui	apps/desktop/src/components/Toolbar.tsx	329	undo	string
 ui	apps/desktop/src/components/Toolbar.tsx	348	ghost	attr:variant
 ui	apps/desktop/src/components/Toolbar.tsx	349	icon	attr:size
 ui	apps/desktop/src/components/Toolbar.tsx	352	redo	string
-ui	apps/desktop/src/components/Toolbar.tsx	377	origin	string
+ui	apps/desktop/src/components/Toolbar.tsx	377	origin	ternary
 ui	apps/desktop/src/components/Toolbar.tsx	385	message	string
 ui	apps/desktop/src/components/Toolbar.tsx	403	@/features/forge/store	string
 ui	apps/desktop/src/components/Toolbar.tsx	409	navigate('/welcome')}>	jsx-text
 ui	apps/desktop/src/components/Toolbar.tsx	422	ghost	attr:variant
 ui	apps/desktop/src/components/Toolbar.tsx	423	icon	attr:size
-ui	apps/desktop/src/components/Toolbar.tsx	425	text-primary	string
+ui	apps/desktop/src/components/Toolbar.tsx	425	text-primary	ternary
 ui	apps/desktop/src/components/Toolbar.tsx	440	ghost	attr:variant
 ui	apps/desktop/src/components/Toolbar.tsx	451	ghost	attr:variant
 ui	apps/desktop/src/components/Toolbar.tsx	464	ghost	attr:variant
@@ -4141,10 +4139,10 @@ ui	apps/desktop/src/components/confirm.tsx	73	(null);	jsx-text
 ui	apps/desktop/src/components/confirm.tsx	75	!open && settle(false)}>	jsx-text
 ui	apps/desktop/src/components/confirm.tsx	77	max-w-sm	attr:className
 ui	apps/desktop/src/components/confirm.tsx	92	settle(false)}>	jsx-text
-ui	apps/desktop/src/components/confirm.tsx	97	danger	string
-ui	apps/desktop/src/components/confirm.tsx	97	default	string
+ui	apps/desktop/src/components/confirm.tsx	97	danger	ternary
+ui	apps/desktop/src/components/confirm.tsx	97	default	ternary
 ui	apps/desktop/src/components/confirm.tsx	98	min-w-0 max-w-full	attr:className
-ui	apps/desktop/src/components/confirm.tsx	101	Confirm	string
+ui	apps/desktop/src/components/confirm.tsx	101	Confirm	ternary
 ui	apps/desktop/src/components/profilePrompt.tsx	1	react	string
 ui	apps/desktop/src/components/profilePrompt.tsx	2	zustand	string
 ui	apps/desktop/src/components/profilePrompt.tsx	3	lucide-react	string
@@ -4185,7 +4183,7 @@ ui	apps/desktop/src/core/ipc.ts	134	recent_repositories	string
 ui	apps/desktop/src/core/ipc.ts	138	recent_remove	string
 ui	apps/desktop/src/core/ipc.ts	142	user.name	string
 ui	apps/desktop/src/core/ipc.ts	142	user.email	string
-ui	apps/desktop/src/core/ipc.ts	142	demo@angkorgit.dev	string
+ui	apps/desktop/src/core/ipc.ts	142	demo@angkorgit.dev	ternary
 ui	apps/desktop/src/core/ipc.ts	143	config_get	string
 ui	apps/desktop/src/core/ipc.ts	147	config_set	string
 ui	apps/desktop/src/core/ipc.ts	152	stage_file	string
@@ -4385,9 +4383,9 @@ ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	50	renamed	string
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	52	conflicted	string
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	81	conflicted	string
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	87	group flex cursor-pointer items-center gap-2 rounded-md px-2 py-1 text-xs transition-colors	string
-ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	88	bg-primary/10	string
-ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	88	hover:bg-surface-raised	string
-ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	100	conflicted	string
+ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	88	bg-primary/10	ternary
+ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	88	hover:bg-surface-raised	ternary
+ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	100	conflicted	ternary
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	109	ghost	attr:variant
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	110	icon-sm	attr:size
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	112	opacity-0 focus-visible:opacity-100 group-hover:opacity-100	attr:className
@@ -4417,7 +4415,7 @@ ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	505	untracked	string
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	576	not_found	string
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	628	commit	string
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	718	[data-selected-file-row]	string
-ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	719	nearest	string
+ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	719	nearest	ternary
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	732	ArrowLeft	string
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	739	ArrowRight	string
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	750	Escape	string
@@ -4430,10 +4428,10 @@ ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	804	s-${file.path}	attr
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	844	relative min-h-0 flex-1 overflow-y-auto p-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/40	attr:className
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	859	openConflict(conflicts[0])}>	jsx-text
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	864	merge	string
-ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	864	merge	string
+ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	864	merge	ternary
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	864	rebase	string
-ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	864	rebase	string
-ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	864	operation	string
+ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	864	rebase	ternary
+ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	864	operation	ternary
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	869	c-${file}	attr:key
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	870	button	attr:type
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	871	group flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left text-xs transition-colors hover:bg-danger/10	attr:className
@@ -4465,8 +4463,8 @@ ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	1140	separator	attr:rol
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	1141	horizontal	attr:aria-orientation
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	1147	group/handle absolute -top-1 left-0 right-0 z-10 flex h-2 cursor-row-resize items-center justify-center	string
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	1152	h-0.5 w-10 rounded-full transition-colors	string
-ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	1153	bg-primary	string
-ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	1153	bg-transparent group-hover/handle:bg-primary/60	string
+ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	1153	bg-primary	ternary
+ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	1153	bg-transparent group-hover/handle:bg-primary/60	ternary
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	1165	ghost	attr:variant
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	1166	icon-sm	attr:size
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	1191	ghost	attr:variant
@@ -4478,18 +4476,18 @@ ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	1219	focus-within:borde
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	1228	Enter	string
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	1237	h-9 min-w-0 flex-1 bg-transparent pl-3 text-sm font-medium text-foreground outline-none	string
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	1238	placeholder:font-normal placeholder:text-faint	string
-ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	1239	pr-24	string
-ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	1239	pr-9	string
+ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	1239	pr-24	ternary
+ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	1239	pr-9	ternary
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	1245	pointer-events-none absolute right-9 font-mono text-[10px] tabular-nums	string
-ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	1246	text-danger	string
-ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	1246	text-faint	string
+ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	1246	text-danger	ternary
+ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	1246	text-faint	ternary
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	1255	ghost	attr:variant
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	1256	icon-sm	attr:size
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	1258	absolute right-1.5	attr:className
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	1276	Backspace	string
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	1284	min-h-[72px] resize-none rounded-none border-0 bg-transparent px-3 py-2 text-xs leading-relaxed text-foreground shadow-none focus-visible:ring-0 focus-visible:border-0	string
-ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	1285	max-h-[260px]	string
-ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	1285	max-h-[600px] overflow-y-auto	string
+ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	1285	max-h-[260px]	ternary
+ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	1285	max-h-[600px] overflow-y-auto	ternary
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	1291	setAmend(v === true)} />	jsx-text
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	1296	outline	attr:variant
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	1309	merge	string
@@ -4537,8 +4535,8 @@ ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	123	current	string
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	124	current	string
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	124	HEAD	string
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	125	current	string
-ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	125	current	string
-ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	125	incoming	string
+ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	125	current	ternary
+ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	125	incoming	ternary
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	131	(null);	jsx-text
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	135	(null);	jsx-text
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	136	(new Map());	jsx-text
@@ -4578,9 +4576,9 @@ ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	280	text	string
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	289	editor	string
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	301	conflict	string
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	303	current	string
-ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	303	current	string
+ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	303	current	ternary
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	304	incoming	string
-ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	304	incoming	string
+ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	304	incoming	ternary
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	309	current	string
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	313	();	jsx-text
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	315	conflict	string
@@ -4592,22 +4590,22 @@ ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	421	current	string
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	442	[data-line]	string
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	443	data-line	string
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	505	center	string
-ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	510	auto	string
-ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	510	smooth	string
+ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	510	auto	ternary
+ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	510	smooth	ternary
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	511	center	string
-ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	518	center	string
-ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	523	auto	string
-ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	523	smooth	string
+ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	518	center	ternary
+ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	523	auto	ternary
+ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	523	smooth	ternary
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	524	center	string
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	599	ghost	attr:variant
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	600	icon-sm	attr:size
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	601	h-5 w-5 border border-border bg-surface shadow-soft	attr:className
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	618	group relative flex cursor-text items-start gap-2 px-2 transition-shadow hover:ring-1 hover:ring-inset hover:ring-primary/40	string
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	619	current	string
-ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	619	bg-info/5	string
+ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	619	bg-info/5	ternary
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	619	incoming	string
-ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	619	bg-success/5	string
-ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	619	bg-primary/5	string
+ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	619	bg-success/5	ternary
+ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	619	bg-primary/5	ternary
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	679	Escape	string
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	683	Enter	string
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	693	ml-2 min-w-0 flex-1 resize-none overflow-hidden bg-transparent p-0 font-mono text-xs leading-5 text-foreground	string
@@ -4618,38 +4616,38 @@ ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	729	current	string
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	739	button	attr:type
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	741	mt-1 flex size-4 shrink-0 items-center justify-center rounded transition-opacity	string
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	743	current	string
-ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	744	text-info	string
+ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	744	text-info	ternary
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	745	text-success	string
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	746	text-muted opacity-0 hover:bg-surface-raised group-hover/line:opacity-100 focus-visible:opacity-100	string
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	760	current	string
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	762	current	string
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	766	min-w-0 border-l-2	string
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	767	current	string
-ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	767	border-r border-border-subtle border-l-info/60	string
-ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	767	border-l-success/60	string
+ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	767	border-r border-border-subtle border-l-info/60	ternary
+ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	767	border-l-success/60	ternary
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	783	button	attr:role
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	786	group/line flex cursor-pointer items-start gap-2 px-3 py-0.5 transition-colors	string
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	788	current	string
-ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	789	bg-info/10	string
+ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	789	bg-info/10	ternary
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	790	bg-success/10	string
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	791	hover:bg-surface-raised/60	string
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	808	current	string
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	809	current	string
-ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	809	border-l-2 border-r border-border-subtle border-l-info/60	string
-ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	809	border-l-2 border-l-success/60	string
+ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	809	border-l-2 border-r border-border-subtle border-l-info/60	ternary
+ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	809	border-l-2 border-l-success/60	ternary
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	811	current	string
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	832	button	attr:role
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	835	group/line flex cursor-pointer items-start gap-2 px-3 py-0.5 transition-colors	string
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	837	current	string
-ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	838	bg-info/10	string
+ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	838	bg-info/10	ternary
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	839	bg-success/10	string
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	840	hover:bg-surface-raised/60	string
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	858	fixed inset-0 z-50 flex flex-col bg-background outline-none	attr:className
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	861	dialog	attr:role
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	862	true	attr:aria-modal
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	880	block h-full rounded-full transition-[width] duration-300	string
-ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	880	bg-success	string
-ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	880	bg-primary	string
+ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	880	bg-success	ternary
+ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	880	bg-primary	ternary
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	881	${Math.round((resolvedCount / total) * 100)}%	template
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	900	void save()}>	jsx-text
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	907	openConflict(null)}>	jsx-text
@@ -4666,17 +4664,17 @@ ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	964	text	string
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	971	text	string
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	975	header	string
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	978	relative border-x border-t	string
-ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	980	border-x-primary/50 border-t-primary/50	string
+ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	980	border-x-primary/50 border-t-primary/50	ternary
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	981	border-x-transparent border-t-border-subtle	string
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	991	ghost	attr:variant
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	992	icon-sm	attr:size
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	993	absolute right-1 top-0.5 z-10 h-6 w-6	attr:className
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	1005	relative border-x	string
-ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	1006	border-x-primary/50	string
-ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	1006	border-x-transparent	string
+ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	1006	border-x-primary/50	ternary
+ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	1006	border-x-transparent	ternary
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	1007	border-b	string
-ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	1007	border-b-primary/50	string
-ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	1007	border-b-border-subtle	string
+ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	1007	border-b-primary/50	ternary
+ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	1007	border-b-border-subtle	ternary
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	1011	current	string
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	1012	incoming	string
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	1022	text	string
@@ -4714,15 +4712,15 @@ ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	1242	edited	string
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	1245	group relative flex cursor-text items-start gap-2 bg-primary/5 px-2 transition-shadow hover:ring-1 hover:ring-inset hover:ring-primary/40	attr:className
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	1264	flex cursor-text items-start gap-2 px-2 transition-shadow hover:ring-1 hover:ring-inset hover:ring-primary/40	string
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	1265	current	string
-ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	1265	bg-info/5	string
-ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	1265	bg-success/5	string
+ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	1265	bg-info/5	ternary
+ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	1265	bg-success/5	ternary
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	1287	text	string
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	1323	group relative cursor-text transition-shadow hover:ring-1 hover:ring-inset hover:ring-primary/40	attr:className
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	1365	cursor-text transition-shadow hover:ring-1 hover:ring-inset hover:ring-primary/40	attr:className
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	1378	flex items-start gap-2 px-2	string
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	1379	current	string
-ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	1379	bg-info/5	string
-ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	1379	bg-success/5	string
+ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	1379	bg-info/5	ternary
+ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	1379	bg-success/5	ternary
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	1387	current	string
 ui	apps/desktop/src/features/diff/DiffMinimap.tsx	1	react	string
 ui	apps/desktop/src/features/diff/DiffMinimap.tsx	2	@angkorgit/core	string
@@ -4744,8 +4742,8 @@ ui	apps/desktop/src/features/diff/DiffMinimap.tsx	32	context	string
 ui	apps/desktop/src/features/diff/DiffMinimap.tsx	52	addition	string
 ui	apps/desktop/src/features/diff/DiffMinimap.tsx	52	deletion	string
 ui	apps/desktop/src/features/diff/DiffMinimap.tsx	52	mixed	string
-ui	apps/desktop/src/features/diff/DiffMinimap.tsx	70	auto	string
-ui	apps/desktop/src/features/diff/DiffMinimap.tsx	70	smooth	string
+ui	apps/desktop/src/features/diff/DiffMinimap.tsx	70	auto	ternary
+ui	apps/desktop/src/features/diff/DiffMinimap.tsx	70	smooth	ternary
 ui	apps/desktop/src/features/diff/DiffMinimap.tsx	75	hsl(var(--success) / 0.5)	string
 ui	apps/desktop/src/features/diff/DiffMinimap.tsx	76	hsl(var(--danger) / 0.5)	string
 ui	apps/desktop/src/features/diff/DiffMinimap.tsx	77	hsl(var(--primary) / 0.55)	string
@@ -4841,7 +4839,7 @@ ui	apps/desktop/src/features/diff/DiffPanel.tsx	544	addition	string
 ui	apps/desktop/src/features/diff/DiffPanel.tsx	564	addition	string
 ui	apps/desktop/src/features/diff/DiffPanel.tsx	592	addition	string
 ui	apps/desktop/src/features/diff/DiffPanel.tsx	610	Copied	string
-ui	apps/desktop/src/features/diff/DiffPanel.tsx	625	new	string
+ui	apps/desktop/src/features/diff/DiffPanel.tsx	625	new	ternary
 ui	apps/desktop/src/features/diff/DiffViewer.tsx	1	react	string
 ui	apps/desktop/src/features/diff/DiffViewer.tsx	2	@angkorgit/core	string
 ui	apps/desktop/src/features/diff/DiffViewer.tsx	3	@angkorgit/design-system	string
@@ -4860,25 +4858,25 @@ ui	apps/desktop/src/features/diff/DiffViewer.tsx	70	text-danger	string
 ui	apps/desktop/src/features/diff/DiffViewer.tsx	73	addition	string
 ui	apps/desktop/src/features/diff/DiffViewer.tsx	73	deletion	string
 ui	apps/desktop/src/features/diff/DiffViewer.tsx	81	deletion	string
-ui	apps/desktop/src/features/diff/DiffViewer.tsx	81	old	string
-ui	apps/desktop/src/features/diff/DiffViewer.tsx	81	new	string
+ui	apps/desktop/src/features/diff/DiffViewer.tsx	81	old	ternary
+ui	apps/desktop/src/features/diff/DiffViewer.tsx	81	new	ternary
 ui	apps/desktop/src/features/diff/DiffViewer.tsx	100	flex w-1/2 border-r border-border-subtle	string
 ui	apps/desktop/src/features/diff/DiffViewer.tsx	101	context	string
-ui	apps/desktop/src/features/diff/DiffViewer.tsx	101	context	string
-ui	apps/desktop/src/features/diff/DiffViewer.tsx	101	deletion	string
-ui	apps/desktop/src/features/diff/DiffViewer.tsx	101	bg-surface-raised/40	string
+ui	apps/desktop/src/features/diff/DiffViewer.tsx	101	context	ternary
+ui	apps/desktop/src/features/diff/DiffViewer.tsx	101	deletion	ternary
+ui	apps/desktop/src/features/diff/DiffViewer.tsx	101	bg-surface-raised/40	ternary
 ui	apps/desktop/src/features/diff/DiffViewer.tsx	113	context	string
 ui	apps/desktop/src/features/diff/DiffViewer.tsx	116	old	attr:side
 ui	apps/desktop/src/features/diff/DiffViewer.tsx	124	flex w-1/2	string
 ui	apps/desktop/src/features/diff/DiffViewer.tsx	125	context	string
-ui	apps/desktop/src/features/diff/DiffViewer.tsx	125	context	string
-ui	apps/desktop/src/features/diff/DiffViewer.tsx	125	addition	string
-ui	apps/desktop/src/features/diff/DiffViewer.tsx	125	bg-surface-raised/40	string
+ui	apps/desktop/src/features/diff/DiffViewer.tsx	125	context	ternary
+ui	apps/desktop/src/features/diff/DiffViewer.tsx	125	addition	ternary
+ui	apps/desktop/src/features/diff/DiffViewer.tsx	125	bg-surface-raised/40	ternary
 ui	apps/desktop/src/features/diff/DiffViewer.tsx	137	context	string
 ui	apps/desktop/src/features/diff/DiffViewer.tsx	140	new	attr:side
 ui	apps/desktop/src/features/diff/DiffViewer.tsx	153	.svg	string
-ui	apps/desktop/src/features/diff/DiffViewer.tsx	153	image/svg+xml	string
-ui	apps/desktop/src/features/diff/DiffViewer.tsx	153	image/png	string
+ui	apps/desktop/src/features/diff/DiffViewer.tsx	153	image/svg+xml	ternary
+ui	apps/desktop/src/features/diff/DiffViewer.tsx	153	image/png	ternary
 ui	apps/desktop/src/features/diff/DiffViewer.tsx	193	split	string
 ui	apps/desktop/src/features/diff/VirtualDiff.tsx	1	react	string
 ui	apps/desktop/src/features/diff/VirtualDiff.tsx	2	@tanstack/react-virtual	string
@@ -4909,15 +4907,15 @@ ui	apps/desktop/src/features/diff/VirtualDiff.tsx	139	addition	string
 ui	apps/desktop/src/features/diff/VirtualDiff.tsx	139	text-success	string
 ui	apps/desktop/src/features/diff/VirtualDiff.tsx	140	deletion	string
 ui	apps/desktop/src/features/diff/VirtualDiff.tsx	140	text-danger	string
-ui	apps/desktop/src/features/diff/VirtualDiff.tsx	146	old	string
+ui	apps/desktop/src/features/diff/VirtualDiff.tsx	146	old	ternary
 ui	apps/desktop/src/features/diff/VirtualDiff.tsx	146	new	string
 ui	apps/desktop/src/features/diff/VirtualDiff.tsx	216	(null);	jsx-text
 ui	apps/desktop/src/features/diff/VirtualDiff.tsx	217	([]);	jsx-text
-ui	apps/desktop/src/features/diff/VirtualDiff.tsx	237	current	string
-ui	apps/desktop/src/features/diff/VirtualDiff.tsx	237	match	string
+ui	apps/desktop/src/features/diff/VirtualDiff.tsx	237	current	ternary
+ui	apps/desktop/src/features/diff/VirtualDiff.tsx	237	match	ternary
 ui	apps/desktop/src/features/diff/VirtualDiff.tsx	239	pointer-events-none absolute rounded-sm	string
-ui	apps/desktop/src/features/diff/VirtualDiff.tsx	240	bg-primary/50 ring-1 ring-primary	string
-ui	apps/desktop/src/features/diff/VirtualDiff.tsx	240	bg-primary/25	string
+ui	apps/desktop/src/features/diff/VirtualDiff.tsx	240	bg-primary/50 ring-1 ring-primary	ternary
+ui	apps/desktop/src/features/diff/VirtualDiff.tsx	240	bg-primary/25	ternary
 ui	apps/desktop/src/features/diff/VirtualDiff.tsx	254	header	string
 ui	apps/desktop/src/features/diff/VirtualDiff.tsx	259	void>();	jsx-text
 ui	apps/desktop/src/features/diff/VirtualDiff.tsx	262	[],	jsx-text
@@ -4930,23 +4928,23 @@ ui	apps/desktop/src/features/diff/VirtualDiff.tsx	339	(null);	jsx-text
 ui	apps/desktop/src/features/diff/VirtualDiff.tsx	347	relative w-[104px] shrink-0 border-r border-border-subtle bg-surface	attr:className
 ui	apps/desktop/src/features/diff/VirtualDiff.tsx	356	absolute left-0 flex w-full	string
 ui	apps/desktop/src/features/diff/VirtualDiff.tsx	357	header	string
-ui	apps/desktop/src/features/diff/VirtualDiff.tsx	357	border-y border-border-subtle bg-surface-raised/60	string
+ui	apps/desktop/src/features/diff/VirtualDiff.tsx	357	border-y border-border-subtle bg-surface-raised/60	ternary
 ui	apps/desktop/src/features/diff/VirtualDiff.tsx	357	line	string
-ui	apps/desktop/src/features/diff/VirtualDiff.tsx	357	context	string
+ui	apps/desktop/src/features/diff/VirtualDiff.tsx	357	context	ternary
 ui	apps/desktop/src/features/diff/VirtualDiff.tsx	359	translateY(${item.start}px)	template
 ui	apps/desktop/src/features/diff/VirtualDiff.tsx	361	line	string
 ui	apps/desktop/src/features/diff/VirtualDiff.tsx	383	absolute left-0 w-full	string
 ui	apps/desktop/src/features/diff/VirtualDiff.tsx	384	header	string
-ui	apps/desktop/src/features/diff/VirtualDiff.tsx	385	border-y border-border-subtle bg-surface-raised/60	string
+ui	apps/desktop/src/features/diff/VirtualDiff.tsx	385	border-y border-border-subtle bg-surface-raised/60	ternary
 ui	apps/desktop/src/features/diff/VirtualDiff.tsx	386	line	string
-ui	apps/desktop/src/features/diff/VirtualDiff.tsx	386	context	string
+ui	apps/desktop/src/features/diff/VirtualDiff.tsx	386	context	ternary
 ui	apps/desktop/src/features/diff/VirtualDiff.tsx	388	translateY(${item.start}px)	template
 ui	apps/desktop/src/features/diff/VirtualDiff.tsx	396	line	string
 ui	apps/desktop/src/features/diff/VirtualDiff.tsx	400	absolute left-0	attr:className
 ui	apps/desktop/src/features/diff/VirtualDiff.tsx	401	translateY(${item.start}px)	template
 ui	apps/desktop/src/features/diff/VirtualDiff.tsx	412	deletion	string
-ui	apps/desktop/src/features/diff/VirtualDiff.tsx	412	old	string
-ui	apps/desktop/src/features/diff/VirtualDiff.tsx	412	new	string
+ui	apps/desktop/src/features/diff/VirtualDiff.tsx	412	old	ternary
+ui	apps/desktop/src/features/diff/VirtualDiff.tsx	412	new	ternary
 ui	apps/desktop/src/features/diff/VirtualDiff.tsx	422	header	string
 ui	apps/desktop/src/features/diff/VirtualDiff.tsx	426	absolute left-0 w-full	attr:className
 ui	apps/desktop/src/features/diff/VirtualDiff.tsx	427	translateY(${item.start}px)	template
@@ -4958,10 +4956,10 @@ ui	apps/desktop/src/features/diff/VirtualDiff.tsx	461	pair	string
 ui	apps/desktop/src/features/diff/VirtualDiff.tsx	462	old	string
 ui	apps/desktop/src/features/diff/VirtualDiff.tsx	463	bg-surface-raised/40	string
 ui	apps/desktop/src/features/diff/VirtualDiff.tsx	464	context	string
-ui	apps/desktop/src/features/diff/VirtualDiff.tsx	464	context	string
+ui	apps/desktop/src/features/diff/VirtualDiff.tsx	464	context	ternary
 ui	apps/desktop/src/features/diff/VirtualDiff.tsx	464	old	string
-ui	apps/desktop/src/features/diff/VirtualDiff.tsx	464	deletion	string
-ui	apps/desktop/src/features/diff/VirtualDiff.tsx	464	addition	string
+ui	apps/desktop/src/features/diff/VirtualDiff.tsx	464	deletion	ternary
+ui	apps/desktop/src/features/diff/VirtualDiff.tsx	464	addition	ternary
 ui	apps/desktop/src/features/diff/VirtualDiff.tsx	472	pair	string
 ui	apps/desktop/src/features/diff/VirtualDiff.tsx	472	old	string
 ui	apps/desktop/src/features/diff/VirtualDiff.tsx	476	absolute left-0 w-full	string
@@ -4990,8 +4988,8 @@ ui	apps/desktop/src/features/diff/diffCopy.tsx	5	@/features/ui/store	string
 ui	apps/desktop/src/features/diff/diffCopy.tsx	14	old	attr:DiffSide
 ui	apps/desktop/src/features/diff/diffCopy.tsx	14	new	string
 ui	apps/desktop/src/features/diff/diffCopy.tsx	17	new	string
-ui	apps/desktop/src/features/diff/diffCopy.tsx	17	deletion	string
-ui	apps/desktop/src/features/diff/diffCopy.tsx	17	addition	string
+ui	apps/desktop/src/features/diff/diffCopy.tsx	17	deletion	ternary
+ui	apps/desktop/src/features/diff/diffCopy.tsx	17	addition	ternary
 ui	apps/desktop/src/features/diff/diffCopy.tsx	36	INPUT	string
 ui	apps/desktop/src/features/diff/diffCopy.tsx	36	TEXTAREA	string
 ui	apps/desktop/src/features/diff/diffCopy.tsx	42	(null);	jsx-text
@@ -5012,8 +5010,8 @@ ui	apps/desktop/src/features/diff/diffCopy.tsx	103	('[data-diff-pane]');	jsx-tex
 ui	apps/desktop/src/features/diff/diffCopy.tsx	106	diff-pane-selected	string
 ui	apps/desktop/src/features/diff/diffCopy.tsx	110	diff-pane-selected	string
 ui	apps/desktop/src/features/diff/diffCopy.tsx	123	old	string
-ui	apps/desktop/src/features/diff/diffCopy.tsx	123	Old	string
-ui	apps/desktop/src/features/diff/diffCopy.tsx	123	New	string
+ui	apps/desktop/src/features/diff/diffCopy.tsx	123	Old	ternary
+ui	apps/desktop/src/features/diff/diffCopy.tsx	123	New	ternary
 ui	apps/desktop/src/features/diff/diffCopy.tsx	129	diff-caret	attr:className
 ui	apps/desktop/src/features/diff/diffSearch.tsx	1	react	string
 ui	apps/desktop/src/features/diff/diffSearch.tsx	2	lucide-react	string
@@ -5025,7 +5023,7 @@ ui	apps/desktop/src/features/diff/diffSearch.tsx	7	./VirtualDiff	string
 ui	apps/desktop/src/features/diff/diffSearch.tsx	39	(null);	jsx-text
 ui	apps/desktop/src/features/diff/diffSearch.tsx	51	(() =>	jsx-text
 ui	apps/desktop/src/features/diff/diffSearch.tsx	68	[data-search-current="true"]	string
-ui	apps/desktop/src/features/diff/diffSearch.tsx	68	center	string
+ui	apps/desktop/src/features/diff/diffSearch.tsx	68	center	ternary
 ui	apps/desktop/src/features/diff/diffSearch.tsx	73	split	string
 ui	apps/desktop/src/features/diff/diffSearch.tsx	77	line	string
 ui	apps/desktop/src/features/diff/diffSearch.tsx	79	pair	string
@@ -5058,8 +5056,8 @@ ui	apps/desktop/src/features/diff/diffShared.tsx	86	old	string
 ui	apps/desktop/src/features/diff/diffShared.tsx	86	new	string
 ui	apps/desktop/src/features/diff/diffShared.tsx	94	equal	string
 ui	apps/desktop/src/features/diff/diffShared.tsx	95	old	string
-ui	apps/desktop/src/features/diff/diffShared.tsx	95	bg-diff-del/40 rounded-sm	string
-ui	apps/desktop/src/features/diff/diffShared.tsx	95	bg-diff-add/40 rounded-sm	string
+ui	apps/desktop/src/features/diff/diffShared.tsx	95	bg-diff-del/40 rounded-sm	ternary
+ui	apps/desktop/src/features/diff/diffShared.tsx	95	bg-diff-add/40 rounded-sm	ternary
 ui	apps/desktop/src/features/diff/diffShared.tsx	96	<span class="${cls}">${highlighted.html}</span>	template
 ui	apps/desktop/src/features/diff/diffShared.tsx	113	old	string
 ui	apps/desktop/src/features/diff/diffShared.tsx	113	new	string
@@ -5067,8 +5065,8 @@ ui	apps/desktop/src/features/diff/diffShared.tsx	118	context	string
 ui	apps/desktop/src/features/diff/diffShared.tsx	119	old	string
 ui	apps/desktop/src/features/diff/diffShared.tsx	120	old	string
 ui	apps/desktop/src/features/diff/diffShared.tsx	128	font-mono text-xs leading-5	string
-ui	apps/desktop/src/features/diff/diffShared.tsx	129	whitespace-pre-wrap break-all	string
-ui	apps/desktop/src/features/diff/diffShared.tsx	129	whitespace-pre	string
+ui	apps/desktop/src/features/diff/diffShared.tsx	129	whitespace-pre-wrap break-all	ternary
+ui	apps/desktop/src/features/diff/diffShared.tsx	129	whitespace-pre	ternary
 ui	apps/desktop/src/features/diff/diffShared.tsx	144	kind	string
 ui	apps/desktop/src/features/diff/diffShared.tsx	145	addition	string
 ui	apps/desktop/src/features/diff/diffShared.tsx	145	bg-diff-add/15	string
@@ -5115,9 +5113,9 @@ ui	apps/desktop/src/features/forge/CreatePrDialog.tsx	82	${remoteName ?? 'origin
 ui	apps/desktop/src/features/forge/CreatePrDialog.tsx	87	HEAD	string
 ui	apps/desktop/src/features/forge/CreatePrDialog.tsx	108	${path}|${remote.webUrl}	template
 ui	apps/desktop/src/features/forge/CreatePrDialog.tsx	166	main	string
-ui	apps/desktop/src/features/forge/CreatePrDialog.tsx	167	main	string
+ui	apps/desktop/src/features/forge/CreatePrDialog.tsx	167	main	ternary
 ui	apps/desktop/src/features/forge/CreatePrDialog.tsx	168	master	string
-ui	apps/desktop/src/features/forge/CreatePrDialog.tsx	169	master	string
+ui	apps/desktop/src/features/forge/CreatePrDialog.tsx	169	master	ternary
 ui	apps/desktop/src/features/forge/CreatePrDialog.tsx	187	${remotePrefix}${base}	template
 ui	apps/desktop/src/features/forge/CreatePrDialog.tsx	192	${c.shortOid} ${c.summary}${c.body ? `\n${c.body}` : ''}	template
 ui	apps/desktop/src/features/forge/CreatePrDialog.tsx	200	${c.shortOid} ${c.summary}	template
@@ -5189,11 +5187,11 @@ ui	apps/desktop/src/features/graph/CommitGraph.tsx	421	author	string
 ui	apps/desktop/src/features/graph/CommitGraph.tsx	422	hash	string
 ui	apps/desktop/src/features/graph/CommitGraph.tsx	423	date	string
 ui	apps/desktop/src/features/graph/CommitGraph.tsx	449	flex h-6 shrink-0 select-none items-center gap-2 border-b border-border-subtle bg-surface pr-4 text-[10px] font-semibold uppercase tracking-wide text-faint	string
-ui	apps/desktop/src/features/graph/CommitGraph.tsx	450	pl-1	string
-ui	apps/desktop/src/features/graph/CommitGraph.tsx	450	pl-4	string
+ui	apps/desktop/src/features/graph/CommitGraph.tsx	450	pl-1	ternary
+ui	apps/desktop/src/features/graph/CommitGraph.tsx	450	pl-4	ternary
 ui	apps/desktop/src/features/graph/CommitGraph.tsx	486	void reload(path)}>	jsx-text
 ui	apps/desktop/src/features/graph/CommitGraph.tsx	495	ghost	attr:variant
-ui	apps/desktop/src/features/graph/CommitGraph.tsx	519	animate-locate rounded-md bg-primary/10 shadow-[inset_3px_0_0_hsl(var(--primary))]	string
+ui	apps/desktop/src/features/graph/CommitGraph.tsx	519	animate-locate rounded-md bg-primary/10 shadow-[inset_3px_0_0_hsl(var(--primary))]	ternary
 ui	apps/desktop/src/features/graph/CommitGraph.tsx	523	absolute	string
 ui	apps/desktop/src/features/graph/CommitGraph.tsx	526	100%	string
 ui	apps/desktop/src/features/graph/CommitGraph.tsx	528	translateY(${item.start}px)	template
@@ -5235,11 +5233,10 @@ ui	apps/desktop/src/features/graph/GraphRow.tsx	32	hsl(var(--graph-${color % 10}
 ui	apps/desktop/src/features/graph/GraphRow.tsx	32	hsl(var(--graph-	tmpl-seg
 ui	apps/desktop/src/features/graph/GraphRow.tsx	74	img	attr:role
 ui	apps/desktop/src/features/graph/GraphRow.tsx	76	flex items-center justify-center	attr:className
-ui	apps/desktop/src/features/graph/GraphRow.tsx	80	hsl(var(--muted-foreground))	string
+ui	apps/desktop/src/features/graph/GraphRow.tsx	80	hsl(var(--muted-foreground))	ternary
 ui	apps/desktop/src/features/graph/GraphRow.tsx	88	author	string
 ui	apps/desktop/src/features/graph/GraphRow.tsx	91	flex shrink-0 items-center justify-center	attr:className
 ui	apps/desktop/src/features/graph/GraphRow.tsx	95	overflow-hidden rounded-full	attr:className
-ui	apps/desktop/src/features/graph/GraphRow.tsx	96	Stash	string
 ui	apps/desktop/src/features/graph/GraphRow.tsx	100	0 0 0 1px hsl(var(--border))	string
 ui	apps/desktop/src/features/graph/GraphRow.tsx	101	hsl(var(--surface))	string
 ui	apps/desktop/src/features/graph/GraphRow.tsx	122	author	string
@@ -5257,7 +5254,6 @@ ui	apps/desktop/src/features/graph/GraphRow.tsx	191	M ${nx} ${CY} C ${x(m.lane)}
 ui	apps/desktop/src/features/graph/GraphRow.tsx	194	none	attr:fill
 ui	apps/desktop/src/features/graph/GraphRow.tsx	208	hsl(var(--surface))	attr:fill
 ui	apps/desktop/src/features/graph/GraphRow.tsx	216	absolute overflow-hidden rounded-full	attr:className
-ui	apps/desktop/src/features/graph/GraphRow.tsx	217	Stash	string
 ui	apps/desktop/src/features/graph/GraphRow.tsx	223	0 0 0 ${NODE_HALO}px hsl(var(--background)), 0 0 0 ${NODE_HALO + NODE_RING}px ${laneColor(node.color)}	template
 ui	apps/desktop/src/features/graph/GraphRow.tsx	223	px hsl(var(--background)), 0 0 0	tmpl-seg
 ui	apps/desktop/src/features/graph/GraphRow.tsx	224	hsl(var(--surface))	string
@@ -5271,12 +5267,12 @@ ui	apps/desktop/src/features/graph/GraphRow.tsx	257	localBranch	string
 ui	apps/desktop/src/features/graph/GraphRow.tsx	266	remoteBranch	string
 ui	apps/desktop/src/features/graph/GraphRow.tsx	275	stash	string
 ui	apps/desktop/src/features/graph/GraphRow.tsx	337	flex h-full shrink-0 items-center gap-1	string
-ui	apps/desktop/src/features/graph/GraphRow.tsx	338	max-w-56	string
-ui	apps/desktop/src/features/graph/GraphRow.tsx	338	-mr-2	string
-ui	apps/desktop/src/features/graph/GraphRow.tsx	350	neutral	string
-ui	apps/desktop/src/features/graph/GraphRow.tsx	350	primary	string
-ui	apps/desktop/src/features/graph/GraphRow.tsx	350	success	string
-ui	apps/desktop/src/features/graph/GraphRow.tsx	350	info	string
+ui	apps/desktop/src/features/graph/GraphRow.tsx	338	max-w-56	ternary
+ui	apps/desktop/src/features/graph/GraphRow.tsx	338	-mr-2	ternary
+ui	apps/desktop/src/features/graph/GraphRow.tsx	350	neutral	ternary
+ui	apps/desktop/src/features/graph/GraphRow.tsx	350	primary	ternary
+ui	apps/desktop/src/features/graph/GraphRow.tsx	350	success	ternary
+ui	apps/desktop/src/features/graph/GraphRow.tsx	350	info	ternary
 ui	apps/desktop/src/features/graph/GraphRow.tsx	352	min-w-0 shrink whitespace-nowrap	string
 ui	apps/desktop/src/features/graph/GraphRow.tsx	354	cursor-pointer hover:z-20 hover:shrink-0 hover:!bg-surface-overlay hover:shadow-soft	string
 ui	apps/desktop/src/features/graph/GraphRow.tsx	355	max-w-[11rem] cursor-pointer border-dashed hover:!bg-surface-overlay	string
@@ -5286,21 +5282,21 @@ ui	apps/desktop/src/features/graph/GraphRow.tsx	400	h-px min-w-1 flex-1	attr:cla
 ui	apps/desktop/src/features/graph/GraphRow.tsx	444	stash	string
 ui	apps/desktop/src/features/graph/GraphRow.tsx	461	row	attr:role
 ui	apps/desktop/src/features/graph/GraphRow.tsx	464	flex h-8 cursor-pointer select-none items-center gap-2 pr-4 text-sm transition-colors	string
-ui	apps/desktop/src/features/graph/GraphRow.tsx	465	pl-1	string
-ui	apps/desktop/src/features/graph/GraphRow.tsx	465	pl-4	string
-ui	apps/desktop/src/features/graph/GraphRow.tsx	466	bg-primary/10	string
-ui	apps/desktop/src/features/graph/GraphRow.tsx	466	hover:bg-surface-raised	string
+ui	apps/desktop/src/features/graph/GraphRow.tsx	465	pl-1	ternary
+ui	apps/desktop/src/features/graph/GraphRow.tsx	465	pl-4	ternary
+ui	apps/desktop/src/features/graph/GraphRow.tsx	466	bg-primary/10	ternary
+ui	apps/desktop/src/features/graph/GraphRow.tsx	466	hover:bg-surface-raised	ternary
 ui	apps/desktop/src/features/graph/GraphRow.tsx	467	font-medium	string
 ui	apps/desktop/src/features/graph/GraphRow.tsx	487	HEAD	jsx-text
 ui	apps/desktop/src/features/graph/GraphRow.tsx	498	shrink-0 truncate text-[11px] text-muted	attr:className
 ui	apps/desktop/src/features/graph/GraphRow.tsx	500	${commit.author.name} <${commit.author.email}>	attr:title
 ui	apps/desktop/src/features/graph/GraphRow.tsx	507	button	attr:type
 ui	apps/desktop/src/features/graph/GraphRow.tsx	509	w-14 shrink-0 rounded px-0.5 font-mono text-[11px] text-faint hover:bg-surface-raised hover:text-foreground	string
-ui	apps/desktop/src/features/graph/GraphRow.tsx	510	text-right	string
-ui	apps/desktop/src/features/graph/GraphRow.tsx	510	text-left	string
+ui	apps/desktop/src/features/graph/GraphRow.tsx	510	text-right	ternary
+ui	apps/desktop/src/features/graph/GraphRow.tsx	510	text-left	ternary
 ui	apps/desktop/src/features/graph/GraphRow.tsx	525	w-[4.5rem] shrink-0 whitespace-nowrap text-[11px] text-faint	string
-ui	apps/desktop/src/features/graph/GraphRow.tsx	526	text-right	string
-ui	apps/desktop/src/features/graph/GraphRow.tsx	526	text-left	string
+ui	apps/desktop/src/features/graph/GraphRow.tsx	526	text-right	ternary
+ui	apps/desktop/src/features/graph/GraphRow.tsx	526	text-left	ternary
 ui	apps/desktop/src/features/graph/InteractiveRebaseDialog.tsx	1	react	string
 ui	apps/desktop/src/features/graph/InteractiveRebaseDialog.tsx	2	sonner	string
 ui	apps/desktop/src/features/graph/InteractiveRebaseDialog.tsx	3	lucide-react	string
@@ -5320,8 +5316,8 @@ ui	apps/desktop/src/features/graph/InteractiveRebaseDialog.tsx	39	${commit.summa
 ui	apps/desktop/src/features/graph/InteractiveRebaseDialog.tsx	43	string	string
 ui	apps/desktop/src/features/graph/InteractiveRebaseDialog.tsx	44	baseOid	string
 ui	apps/desktop/src/features/graph/InteractiveRebaseDialog.tsx	49	interactiveRebase	string
-ui	apps/desktop/src/features/graph/InteractiveRebaseDialog.tsx	59	squash	string
-ui	apps/desktop/src/features/graph/InteractiveRebaseDialog.tsx	59	pick	string
+ui	apps/desktop/src/features/graph/InteractiveRebaseDialog.tsx	59	squash	ternary
+ui	apps/desktop/src/features/graph/InteractiveRebaseDialog.tsx	59	pick	ternary
 ui	apps/desktop/src/features/graph/InteractiveRebaseDialog.tsx	63	drop	string
 ui	apps/desktop/src/features/graph/InteractiveRebaseDialog.tsx	64	pick	string
 ui	apps/desktop/src/features/graph/InteractiveRebaseDialog.tsx	73	interactiveRebase	string
@@ -5365,8 +5361,8 @@ ui	apps/desktop/src/features/graph/WipRow.tsx	7	@/features/ui/store	string
 ui	apps/desktop/src/features/graph/WipRow.tsx	43	button	attr:role
 ui	apps/desktop/src/features/graph/WipRow.tsx	48	Enter	string
 ui	apps/desktop/src/features/graph/WipRow.tsx	51	sticky top-0 z-10 flex h-9 cursor-pointer select-none items-center gap-2 border-b border-dashed border-primary/40 pr-4 text-sm	string
-ui	apps/desktop/src/features/graph/WipRow.tsx	52	pl-1	string
-ui	apps/desktop/src/features/graph/WipRow.tsx	52	pl-4	string
+ui	apps/desktop/src/features/graph/WipRow.tsx	52	pl-1	ternary
+ui	apps/desktop/src/features/graph/WipRow.tsx	52	pl-4	ternary
 ui	apps/desktop/src/features/graph/WipRow.tsx	53	bg-surface/95 backdrop-blur-sm transition-colors hover:bg-primary/10	string
 ui	apps/desktop/src/features/graph/WipRow.tsx	54	bg-primary/10	string
 ui	apps/desktop/src/features/graph/WipRow.tsx	66	hsl(var(--surface))	attr:fill
@@ -5427,12 +5423,12 @@ ui	apps/desktop/src/features/history/FileHistoryPanel.tsx	253	bg-surface-raised 
 ui	apps/desktop/src/features/history/FileHistoryPanel.tsx	266	setHistoryAttempt((n) => n + 1)}>	jsx-text
 ui	apps/desktop/src/features/history/FileHistoryPanel.tsx	285	button	attr:type
 ui	apps/desktop/src/features/history/FileHistoryPanel.tsx	287	flex w-full items-start gap-2.5 border-b border-border-subtle px-3 py-2.5 text-left	string
-ui	apps/desktop/src/features/history/FileHistoryPanel.tsx	289	border-l-2 border-l-primary bg-surface-raised	string
+ui	apps/desktop/src/features/history/FileHistoryPanel.tsx	289	border-l-2 border-l-primary bg-surface-raised	ternary
 ui	apps/desktop/src/features/history/FileHistoryPanel.tsx	290	border-l-2 border-l-transparent hover:bg-surface-raised/60	string
 ui	apps/desktop/src/features/history/FileHistoryPanel.tsx	357	!o && setLineMenu(null)}>	jsx-text
 ui	apps/desktop/src/features/history/FileHistoryPanel.tsx	361	e.preventDefault()}>	jsx-text
 ui	apps/desktop/src/features/history/FileHistoryPanel.tsx	366	Copied	string
-ui	apps/desktop/src/features/history/FileHistoryPanel.tsx	381	new	string
+ui	apps/desktop/src/features/history/FileHistoryPanel.tsx	381	new	ternary
 ui	apps/desktop/src/features/history/undoStore.ts	1	zustand	string
 ui	apps/desktop/src/features/history/undoStore.ts	2	sonner	string
 ui	apps/desktop/src/features/history/undoStore.ts	3	@/core/ipc	string
@@ -5532,7 +5528,7 @@ ui	apps/desktop/src/features/inspector/CommitDetails.tsx	170	(null);	jsx-text
 ui	apps/desktop/src/features/inspector/CommitDetails.tsx	203	(null);	jsx-text
 ui	apps/desktop/src/features/inspector/CommitDetails.tsx	204	(null);	jsx-text
 ui	apps/desktop/src/features/inspector/CommitDetails.tsx	214	[data-active-file]	string
-ui	apps/desktop/src/features/inspector/CommitDetails.tsx	214	nearest	string
+ui	apps/desktop/src/features/inspector/CommitDetails.tsx	214	nearest	ternary
 ui	apps/desktop/src/features/inspector/CommitDetails.tsx	238	ArrowDown	string
 ui	apps/desktop/src/features/inspector/CommitDetails.tsx	238	ArrowUp	string
 ui	apps/desktop/src/features/inspector/CommitDetails.tsx	242	ArrowDown	string
@@ -5540,8 +5536,8 @@ ui	apps/desktop/src/features/inspector/CommitDetails.tsx	252	ArrowRight	string
 ui	apps/desktop/src/features/inspector/CommitDetails.tsx	252	Enter	string
 ui	apps/desktop/src/features/inspector/CommitDetails.tsx	259	ArrowLeft	string
 ui	apps/desktop/src/features/inspector/CommitDetails.tsx	294	group flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left text-xs transition-colors	string
-ui	apps/desktop/src/features/inspector/CommitDetails.tsx	295	bg-primary/10 text-foreground	string
-ui	apps/desktop/src/features/inspector/CommitDetails.tsx	295	hover:bg-surface-raised	string
+ui	apps/desktop/src/features/inspector/CommitDetails.tsx	295	bg-primary/10 text-foreground	ternary
+ui	apps/desktop/src/features/inspector/CommitDetails.tsx	295	hover:bg-surface-raised	ternary
 ui	apps/desktop/src/features/inspector/CommitDetails.tsx	296	bg-primary/5	string
 ui	apps/desktop/src/features/inspector/CommitDetails.tsx	323	flex min-w-0 flex-1 items-center gap-2 text-left	attr:className
 ui	apps/desktop/src/features/inspector/CommitDetails.tsx	348	ghost	attr:variant
@@ -5554,10 +5550,10 @@ ui	apps/desktop/src/features/inspector/CommitDetails.tsx	407	mt-1.5 flex items-c
 ui	apps/desktop/src/features/inspector/CommitDetails.tsx	429	flex h-6 shrink-0 items-center gap-1 rounded-md border border-border bg-surface px-1.5 font-mono text-[11px] text-muted hover:text-foreground	attr:className
 ui	apps/desktop/src/features/inspector/CommitDetails.tsx	448	flex h-5 items-center rounded border border-border-subtle bg-surface px-1.5 font-mono text-[10px] text-muted hover:text-foreground	attr:className
 ui	apps/desktop/src/features/inspector/CommitDetails.tsx	461	tag	string
-ui	apps/desktop/src/features/inspector/CommitDetails.tsx	461	primary	string
+ui	apps/desktop/src/features/inspector/CommitDetails.tsx	461	primary	ternary
 ui	apps/desktop/src/features/inspector/CommitDetails.tsx	461	remoteBranch	string
-ui	apps/desktop/src/features/inspector/CommitDetails.tsx	461	info	string
-ui	apps/desktop/src/features/inspector/CommitDetails.tsx	461	success	string
+ui	apps/desktop/src/features/inspector/CommitDetails.tsx	461	info	ternary
+ui	apps/desktop/src/features/inspector/CommitDetails.tsx	461	success	ternary
 ui	apps/desktop/src/features/inspector/CommitDetails.tsx	462	max-w-48	attr:className
 ui	apps/desktop/src/features/inspector/CommitDetails.tsx	464	tag	string
 ui	apps/desktop/src/features/inspector/CommitDetails.tsx	465	remoteBranch	string
@@ -5591,8 +5587,6 @@ ui	apps/desktop/src/features/inspector/Inspector.tsx	19	(null);	jsx-text
 ui	apps/desktop/src/features/inspector/Inspector.tsx	20	([]);	jsx-text
 ui	apps/desktop/src/features/inspector/Inspector.tsx	22	(null);	jsx-text
 ui	apps/desktop/src/features/inspector/Inspector.tsx	23	(null);	jsx-text
-ui	apps/desktop/src/features/inspector/Inspector.tsx	83	Stash	string
-ui	apps/desktop/src/features/inspector/Inspector.tsx	83	Commit	string
 ui	apps/desktop/src/features/inspector/Inspector.tsx	88	ghost	attr:variant
 ui	apps/desktop/src/features/inspector/Inspector.tsx	89	icon-sm	attr:size
 ui	apps/desktop/src/features/inspector/Inspector.tsx	92	bg-surface-raised text-foreground	string
@@ -5613,7 +5607,7 @@ ui	apps/desktop/src/features/repository/CloneDialog.tsx	16	@/features/ui/store	s
 ui	apps/desktop/src/features/repository/CloneDialog.tsx	20	clone	string
 ui	apps/desktop/src/features/repository/CloneDialog.tsx	23	(null);	jsx-text
 ui	apps/desktop/src/features/repository/CloneDialog.tsx	32	clone-progress	string
-ui	apps/desktop/src/features/repository/CloneDialog.tsx	46	repository	string
+ui	apps/desktop/src/features/repository/CloneDialog.tsx	46	repository	ternary
 ui	apps/desktop/src/features/repository/CloneDialog.tsx	47	${into.replace(/\/$/, '')}/${name}	attr:target
 ui	apps/desktop/src/features/repository/CloneDialog.tsx	59	!o && closeDialog()}>	jsx-text
 ui	apps/desktop/src/features/repository/CloneDialog.tsx	71	git@github.com:user/repo.git	attr:placeholder
@@ -5751,18 +5745,18 @@ ui	apps/desktop/src/features/repository/WelcomePage.tsx	203	h-7 pl-8 text-xs	att
 ui	apps/desktop/src/features/repository/WelcomePage.tsx	219	openDialog('clone')}>	jsx-text
 ui	apps/desktop/src/features/repository/WelcomePage.tsx	235	button	attr:role
 ui	apps/desktop/src/features/repository/WelcomePage.tsx	239	group flex items-center gap-3 rounded-md px-2.5 py-2 transition-colors	string
-ui	apps/desktop/src/features/repository/WelcomePage.tsx	240	cursor-default	string
-ui	apps/desktop/src/features/repository/WelcomePage.tsx	240	cursor-pointer hover:bg-surface-raised	string
+ui	apps/desktop/src/features/repository/WelcomePage.tsx	240	cursor-default	ternary
+ui	apps/desktop/src/features/repository/WelcomePage.tsx	240	cursor-pointer hover:bg-surface-raised	ternary
 ui	apps/desktop/src/features/repository/WelcomePage.tsx	241	bg-surface-raised ring-1 ring-inset ring-primary/40	string
 ui	apps/desktop/src/features/repository/WelcomePage.tsx	246	Enter	string
 ui	apps/desktop/src/features/repository/WelcomePage.tsx	255	flex size-8 shrink-0 items-center justify-center rounded-md	string
-ui	apps/desktop/src/features/repository/WelcomePage.tsx	256	bg-surface-raised text-faint	string
-ui	apps/desktop/src/features/repository/WelcomePage.tsx	256	bg-primary/10 text-primary	string
+ui	apps/desktop/src/features/repository/WelcomePage.tsx	256	bg-surface-raised text-faint	ternary
+ui	apps/desktop/src/features/repository/WelcomePage.tsx	256	bg-primary/10 text-primary	ternary
 ui	apps/desktop/src/features/repository/WelcomePage.tsx	282	ghost	attr:variant
 ui	apps/desktop/src/features/repository/WelcomePage.tsx	283	icon-sm	attr:size
 ui	apps/desktop/src/features/repository/WelcomePage.tsx	284	shrink-0 opacity-0 focus-visible:opacity-100 group-hover:opacity-100	attr:className
 ui	apps/desktop/src/features/repository/WelcomePage.tsx	302	AngKorGit v${version}	template
-ui	apps/desktop/src/features/repository/WelcomePage.tsx	302	AngKorGit	string
+ui	apps/desktop/src/features/repository/WelcomePage.tsx	302	AngKorGit	ternary
 ui	apps/desktop/src/features/repository/WelcomePage.tsx	305	button	attr:type
 ui	apps/desktop/src/features/repository/WelcomePage.tsx	306	hover:text-foreground hover:underline	attr:className
 ui	apps/desktop/src/features/repository/WelcomePage.tsx	308	@/features/updater/check	string
@@ -5845,8 +5839,8 @@ ui	apps/desktop/src/features/settings/AccountsTab.tsx	185	checking	string
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	187	checking	string
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	188	unreachable	string
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	214	flex items-center gap-1 text-xs	string
-ui	apps/desktop/src/features/settings/AccountsTab.tsx	215	text-primary	string
-ui	apps/desktop/src/features/settings/AccountsTab.tsx	215	text-success	string
+ui	apps/desktop/src/features/settings/AccountsTab.tsx	215	text-primary	ternary
+ui	apps/desktop/src/features/settings/AccountsTab.tsx	215	text-success	ternary
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	226	([]);	jsx-text
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	228	('github');	jsx-text
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	236	(null);	jsx-text
@@ -5854,7 +5848,7 @@ ui	apps/desktop/src/features/settings/AccountsTab.tsx	241	other	string
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	241	bitbucket	string
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	245	checking	string
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	255	unreachable	string
-ui	apps/desktop/src/features/settings/AccountsTab.tsx	291	other	string
+ui	apps/desktop/src/features/settings/AccountsTab.tsx	291	other	ternary
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	294	bitbucket	string
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	307	unreachable	string
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	317	bitbucket	string
@@ -5869,12 +5863,12 @@ ui	apps/desktop/src/features/settings/AccountsTab.tsx	468	changeProvider(v as Pr
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	483	gitlab.example.com	attr:placeholder
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	487	font-mono	attr:className
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	491	bitbucket	string
-ui	apps/desktop/src/features/settings/AccountsTab.tsx	491	Username	string
+ui	apps/desktop/src/features/settings/AccountsTab.tsx	491	Username	ternary
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	492	bitbucket	string
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	492	other	string
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	495	bitbucket	string
-ui	apps/desktop/src/features/settings/AccountsTab.tsx	495	you@company.com	string
-ui	apps/desktop/src/features/settings/AccountsTab.tsx	495	optional	string
+ui	apps/desktop/src/features/settings/AccountsTab.tsx	495	you@company.com	ternary
+ui	apps/desktop/src/features/settings/AccountsTab.tsx	495	optional	ternary
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	505	button	attr:type
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	506	flex items-center gap-1 text-primary hover:underline	attr:className
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	516	password	attr:type
@@ -5926,16 +5920,16 @@ ui	apps/desktop/src/features/settings/SettingsDialog.tsx	209	([]);	jsx-text
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	263	void refresh()} disabled=	jsx-text
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	268	void load()} disabled=	jsx-text
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	291	flex w-full items-center gap-2 px-2.5 py-1.5 text-left transition-colors	string
-ui	apps/desktop/src/features/settings/SettingsDialog.tsx	292	bg-primary/10 text-foreground	string
-ui	apps/desktop/src/features/settings/SettingsDialog.tsx	292	hover:bg-surface-raised	string
+ui	apps/desktop/src/features/settings/SettingsDialog.tsx	292	bg-primary/10 text-foreground	ternary
+ui	apps/desktop/src/features/settings/SettingsDialog.tsx	292	hover:bg-surface-raised	ternary
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	308	([]);	jsx-text
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	338	void scan()} disabled=	jsx-text
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	350	flex items-center gap-3 rounded-lg border p-3 text-left transition-colors	string
-ui	apps/desktop/src/features/settings/SettingsDialog.tsx	351	border-primary/40 bg-primary/5	string
-ui	apps/desktop/src/features/settings/SettingsDialog.tsx	351	border-border-subtle bg-surface-raised/40 hover:border-border	string
+ui	apps/desktop/src/features/settings/SettingsDialog.tsx	351	border-primary/40 bg-primary/5	ternary
+ui	apps/desktop/src/features/settings/SettingsDialog.tsx	351	border-border-subtle bg-surface-raised/40 hover:border-border	ternary
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	356	flex size-8 shrink-0 items-center justify-center rounded-md	string
-ui	apps/desktop/src/features/settings/SettingsDialog.tsx	357	bg-primary/15 text-primary	string
-ui	apps/desktop/src/features/settings/SettingsDialog.tsx	357	bg-surface text-muted	string
+ui	apps/desktop/src/features/settings/SettingsDialog.tsx	357	bg-primary/15 text-primary	ternary
+ui	apps/desktop/src/features/settings/SettingsDialog.tsx	357	bg-surface text-muted	ternary
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	389	未找到 AI CLI	attr:title
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	390	请安装 Claude Code、Codex CLI、Gemini CLI、OpenCode 或 Antigravity CLI，然后重新扫描。	attr:description
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	392	void scan()}>	jsx-text
@@ -5988,25 +5982,25 @@ ui	apps/desktop/src/features/settings/SettingsDialog.tsx	625	user.name	string
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	626	user.email	string
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	638	user.name	string
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	639	user.email	string
-ui	apps/desktop/src/features/settings/SettingsDialog.tsx	690	fail	string
+ui	apps/desktop/src/features/settings/SettingsDialog.tsx	690	fail	ternary
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	692	fail	string
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	698	unknown	string
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	707	!o && closeDialog()}>	jsx-text
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	721	mb-0.5 flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 text-left text-sm transition-colors	string
-ui	apps/desktop/src/features/settings/SettingsDialog.tsx	723	bg-primary/10 font-medium text-primary	string
+ui	apps/desktop/src/features/settings/SettingsDialog.tsx	723	bg-primary/10 font-medium text-primary	ternary
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	724	text-muted hover:bg-surface-raised hover:text-foreground	string
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	735	AngKorGit	jsx-text
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	746	appearance	string
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	759	group flex flex-col overflow-hidden rounded-lg border text-left transition-colors	string
-ui	apps/desktop/src/features/settings/SettingsDialog.tsx	761	border-primary ring-1 ring-primary	string
+ui	apps/desktop/src/features/settings/SettingsDialog.tsx	761	border-primary ring-1 ring-primary	ternary
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	762	border-border hover:border-muted	string
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	766	flex h-14 flex-col justify-center gap-1.5 px-3	attr:className
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	773	size-2 rounded-full	attr:className
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	779	h-1.5 w-3/4 rounded-full opacity-60	attr:className
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	783	h-1.5 w-1/2 rounded-full opacity-30	attr:className
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	789	flex items-center justify-between px-3 py-1.5 text-xs	string
-ui	apps/desktop/src/features/settings/SettingsDialog.tsx	790	text-primary	string
-ui	apps/desktop/src/features/settings/SettingsDialog.tsx	790	text-muted group-hover:text-foreground	string
+ui	apps/desktop/src/features/settings/SettingsDialog.tsx	790	text-primary	ternary
+ui	apps/desktop/src/features/settings/SettingsDialog.tsx	790	text-muted group-hover:text-foreground	ternary
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	794	dark	string
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	812	flex size-8 items-center justify-center rounded-full transition-transform hover:scale-110	string
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	814	ring-2 ring-foreground/70 ring-offset-2 ring-offset-background	string
@@ -6018,21 +6012,21 @@ ui	apps/desktop/src/features/settings/SettingsDialog.tsx	852	icon-sm	attr:size
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	871	git	string
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	928	you@example.com	attr:placeholder
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	934	将 user.name 和 user.email 写入 ${repo.name}/.git/config	template
-ui	apps/desktop/src/features/settings/SettingsDialog.tsx	934	将 user.name 和 user.email 写入 ~/.gitconfig	string
+ui	apps/desktop/src/features/settings/SettingsDialog.tsx	934	将 user.name 和 user.email 写入 ~/.gitconfig	ternary
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	936	void saveIdentity()}>	jsx-text
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	947	setAddingProfile(true)}>	jsx-text
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	960	rounded-lg border p-3 transition-colors	string
-ui	apps/desktop/src/features/settings/SettingsDialog.tsx	961	border-primary/40 bg-primary/5	string
-ui	apps/desktop/src/features/settings/SettingsDialog.tsx	961	border-border-subtle bg-surface-raised/40	string
+ui	apps/desktop/src/features/settings/SettingsDialog.tsx	961	border-primary/40 bg-primary/5	ternary
+ui	apps/desktop/src/features/settings/SettingsDialog.tsx	961	border-border-subtle bg-surface-raised/40	ternary
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	980	void applyProfile(profile)}>	jsx-text
-ui	apps/desktop/src/features/settings/SettingsDialog.tsx	981	Use	string
+ui	apps/desktop/src/features/settings/SettingsDialog.tsx	981	Use	ternary
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	991	void applyProfile(profile)}>	jsx-text
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	994	void removeProfile(profile)}>	jsx-text
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	1017	${account.host}:${account.username}	attr:key
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	1018	flex cursor-pointer items-center gap-2.5 px-2.5 py-1.5	attr:className
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	1022	flex size-6 shrink-0 items-center justify-center rounded [&_svg]:size-3.5	string
-ui	apps/desktop/src/features/settings/SettingsDialog.tsx	1023	bg-primary/15 text-primary	string
-ui	apps/desktop/src/features/settings/SettingsDialog.tsx	1023	bg-surface-raised text-muted	string
+ui	apps/desktop/src/features/settings/SettingsDialog.tsx	1023	bg-primary/15 text-primary	ternary
+ui	apps/desktop/src/features/settings/SettingsDialog.tsx	1023	bg-surface-raised text-muted	ternary
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	1055	setAddingProfile(true)}>	jsx-text
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	1073	Enter	string
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	1074	Escape	string
@@ -6044,7 +6038,7 @@ ui	apps/desktop/src/features/settings/SettingsDialog.tsx	1096	Escape	string
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	1106	setAddingProfile(false)}>	jsx-text
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	1125	accounts	string
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	1138	cli	string
-ui	apps/desktop/src/features/settings/SettingsDialog.tsx	1139	使用本机已安装的 AI CLI——Claude Code、Codex、Gemini CLI、OpenCode 或 Antigravity——以其自身的登录与配额运行，无需 API 密钥。	string
+ui	apps/desktop/src/features/settings/SettingsDialog.tsx	1139	使用本机已安装的 AI CLI——Claude Code、Codex、Gemini CLI、OpenCode 或 Antigravity——以其自身的登录与配额运行，无需 API 密钥。	ternary
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	1140	用于提交消息、diff 解释、冲突帮助与审查。通过 Ollama 或 LM Studio 的本地模型无需 API 密钥。	string
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	1161	cli	string
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	1177	password	attr:type
@@ -6218,7 +6212,7 @@ ui	apps/desktop/src/features/settings/store.ts	55	#86b300	string
 ui	apps/desktop/src/features/settings/store.ts	55	#399ee6	string
 ui	apps/desktop/src/features/settings/store.ts	58	dark	string
 ui	apps/desktop/src/features/settings/store.ts	58	light	string
-ui	apps/desktop/src/features/settings/store.ts	59	dark	string
+ui	apps/desktop/src/features/settings/store.ts	59	dark	ternary
 ui	apps/desktop/src/features/settings/store.ts	64	dark	string
 ui	apps/desktop/src/features/settings/store.ts	64	dark	string
 ui	apps/desktop/src/features/settings/store.ts	65	light	string
@@ -6261,8 +6255,8 @@ ui	apps/desktop/src/features/settings/store.ts	218	(prefers-reduced-motion: redu
 ui	apps/desktop/src/features/settings/store.ts	220	ollama	string
 ui	apps/desktop/src/features/settings/store.ts	220	llama3.1	string
 ui	apps/desktop/src/features/settings/store.ts	290	angkorgit-settings	string
-ui	apps/desktop/src/features/settings/store.ts	311	angkor-dusk	string
-ui	apps/desktop/src/features/settings/store.ts	314	gold	string
+ui	apps/desktop/src/features/settings/store.ts	311	angkor-dusk	ternary
+ui	apps/desktop/src/features/settings/store.ts	314	gold	ternary
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1	react	string
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	2	sonner	string
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	3	@/shared/toastOutcome	string
@@ -6301,7 +6295,7 @@ ui	apps/desktop/src/features/sidebar/Sidebar.tsx	377	merge	string
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	390	checkout	string
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	395	rebase	string
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	416	无法从 AngKorGit 检出此	tmpl-seg
-ui	apps/desktop/src/features/sidebar/Sidebar.tsx	423	origin	string
+ui	apps/desktop/src/features/sidebar/Sidebar.tsx	423	origin	ternary
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	424	checkout	string
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	452	#${pr.number}	template
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	477	(new Set());	jsx-text
@@ -6315,9 +6309,9 @@ ui	apps/desktop/src/features/sidebar/Sidebar.tsx	500	submodules	string
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	536	button	attr:role
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	540	Enter	string
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	547	group flex items-center gap-2 rounded-md px-2 py-1 pl-7 text-sm hover:bg-surface-raised	string
-ui	apps/desktop/src/features/sidebar/Sidebar.tsx	548	cursor-default text-primary	string
-ui	apps/desktop/src/features/sidebar/Sidebar.tsx	548	cursor-default text-muted	string
-ui	apps/desktop/src/features/sidebar/Sidebar.tsx	548	cursor-pointer	string
+ui	apps/desktop/src/features/sidebar/Sidebar.tsx	548	cursor-default text-primary	ternary
+ui	apps/desktop/src/features/sidebar/Sidebar.tsx	548	cursor-default text-muted	ternary
+ui	apps/desktop/src/features/sidebar/Sidebar.tsx	548	cursor-pointer	ternary
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	573	ghost	attr:variant
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	574	icon-sm	attr:size
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	575	shrink-0 opacity-0 focus-visible:opacity-100 group-hover:opacity-100	attr:className
@@ -6328,7 +6322,7 @@ ui	apps/desktop/src/features/sidebar/Sidebar.tsx	613	text/angkorgit-branch	strin
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	635	group relative flex cursor-grab items-center gap-2 rounded-md px-2 py-1 text-sm hover:bg-surface-raised active:cursor-grabbing	string
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	636	bg-surface-raised	string
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	638	font-medium text-primary before:absolute before:inset-y-1 before:left-0 before:w-[3px] before:rounded-full before:bg-primary	string
-ui	apps/desktop/src/features/sidebar/Sidebar.tsx	641	bg-primary/20 hover:bg-primary/25	string
+ui	apps/desktop/src/features/sidebar/Sidebar.tsx	641	bg-primary/20 hover:bg-primary/25	ternary
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	642	bg-primary/10 hover:bg-primary/15	string
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	643	opacity-40	string
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	644	bg-primary/10 ring-1 ring-inset ring-primary/60	string
@@ -6427,7 +6421,7 @@ ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1258	checkoutPullRequest(prMenu
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1261	void openExternal(prMenu.pr.url)}>	jsx-text
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1277	!o && setTagMenu(null)}>	jsx-text
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1286	checkout	string
-ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1294	origin	string
+ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1294	origin	ternary
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1314	!o && setStashMenu(null)}>	jsx-text
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1351	!o && setWorktreeMenu(null)}>	jsx-text
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1380	void removeWorktree(worktreeMenu.worktree)}>	jsx-text
@@ -6445,7 +6439,7 @@ ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1504	checkout	string
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1512	openDialog('createWorktree',	jsx-text
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1520	merge	string
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1531	rebase	string
-ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1553	origin	string
+ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1553	origin	ternary
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1563	openDialog('createBranch', branchMenu.branch.targetOid)}>	jsx-text
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1568	openDialog('rename', branchMenu.branch.name)}>	jsx-text
 ui	apps/desktop/src/features/sidebar/Sidebar.tsx	1578	branchDelete	string
@@ -6686,7 +6680,7 @@ ui	apps/desktop/src/shared/utils.ts	18	2-digit	string
 ui	apps/desktop/src/shared/utils.ts	19	2-digit	string
 ui	apps/desktop/src/shared/utils.ts	40	undefined	string
 ui	apps/desktop/src/shared/utils.ts	40	MAC	string
-ui	apps/desktop/src/shared/utils.ts	43	Ctrl	string
+ui	apps/desktop/src/shared/utils.ts	43	Ctrl	ternary
 ui	apps/desktop/src/shared/utils.ts	56	${max}+	template
 ui	apps/desktop/src/shared/utils.ts	59	main	string
 ui	apps/desktop/src/shared/utils.ts	59	master	string
@@ -6713,11 +6707,11 @@ website	apps/website/src/components/Commit.astro	19	true	attr:aria-hidden
 website	apps/website/src/components/Commit.astro	21	--dot-top	string
 website	apps/website/src/components/Commit.astro	22	--dot-top-sm	string
 website	apps/website/src/components/Commit.astro	23	--dot-shift	string
-website	apps/website/src/components/Commit.astro	23	var(--lane-w)	string
-website	apps/website/src/components/Commit.astro	23	0px	string
+website	apps/website/src/components/Commit.astro	23	var(--lane-w)	ternary
+website	apps/website/src/components/Commit.astro	23	0px	ternary
 website	apps/website/src/components/Commit.astro	24	--dot-color	string
 website	apps/website/src/components/Commit.astro	24	var(${laneColor})	template
-website	apps/website/src/components/Commit.astro	24	var(--graph-0)	string
+website	apps/website/src/components/Commit.astro	24	var(--graph-0)	ternary
 website	apps/website/src/components/Commit.astro	27	HEAD	jsx-text
 website	apps/website/src/components/Footer.astro	1	./Logo.astro	string
 website	apps/website/src/components/Footer.astro	2	../lib/site	string
@@ -6790,7 +6784,7 @@ website	apps/website/src/components/Hero.astro	30	group inline-flex items-center
 website	apps/website/src/components/HeroGraph.astro	3	branch	string
 website	apps/website/src/components/HeroGraph.astro	3	tag	string
 website	apps/website/src/components/HeroGraph.astro	5	angkorgit.app	jsx-text
-website	apps/website/src/components/HeroGraph.astro	13	#install	string
+website	apps/website/src/components/HeroGraph.astro	13	#install	ternary
 website	apps/website/src/components/HeroGraph.astro	13	#${row.id}	template
 website	apps/website/src/components/HeroGraph.astro	15	hg-row group flex items-center gap-2 pr-3 transition-colors hover:bg-surface-raised aria-[current=true]:bg-primary/10	attr:class
 website	apps/website/src/components/HeroGraph.astro	16	--i	string
@@ -6824,7 +6818,7 @@ website	apps/website/src/components/HeroGraph.astro	53	d41ab88	string
 website	apps/website/src/components/HeroGraph.astro	53	tag	string
 website	apps/website/src/components/HeroGraph.astro	54	why	string
 website	apps/website/src/components/HeroGraph.astro	54	a1b2c3d	string
-website	apps/website/src/components/HeroGraph.astro	54	border-primary/40 bg-primary/10 text-primary	string
+website	apps/website/src/components/HeroGraph.astro	54	border-primary/40 bg-primary/10 text-primary	ternary
 website	apps/website/src/components/HeroGraph.astro	55	border-success/40 bg-success/10 text-success	string
 website	apps/website/src/components/HeroGraph.astro	58	tag	string
 website	apps/website/src/components/HeroGraph.astro	61	--graph-0	string
@@ -6832,9 +6826,9 @@ website	apps/website/src/components/HeroGraph.astro	61	--graph-1	string
 website	apps/website/src/components/HeroGraph.astro	61	--graph-3	string
 website	apps/website/src/components/HeroGraph.astro	62	hsl(var(${laneColor[lane]}))	template
 website	apps/website/src/components/HeroGraph.astro	74	truncate text-[13px]	string
-website	apps/website/src/components/HeroGraph.astro	75	italic text-muted	string
-website	apps/website/src/components/HeroGraph.astro	75	text-foreground group-hover:text-primary	string
-website	apps/website/src/components/HeroGraph.astro	84	now	string
+website	apps/website/src/components/HeroGraph.astro	75	italic text-muted	ternary
+website	apps/website/src/components/HeroGraph.astro	75	text-foreground group-hover:text-primary	ternary
+website	apps/website/src/components/HeroGraph.astro	84	now	ternary
 website	apps/website/src/components/HeroGraph.astro	84	${i}m	template
 website	apps/website/src/components/Install.astro	1	./Commit.astro	string
 website	apps/website/src/components/Install.astro	2	./TerminalBlock.astro	string
@@ -6880,7 +6874,7 @@ website	apps/website/src/components/Install.astro	77	-o ~/Downloads/AngKorGit.Ap
 website	apps/website/src/components/Logo.astro	5	0 0 64 64	attr:viewBox
 website	apps/website/src/components/Logo.astro	6	none	attr:fill
 website	apps/website/src/components/Logo.astro	8	img	attr:role
-website	apps/website/src/components/Logo.astro	9	angkor-draw 1.6s cubic-bezier(0.6, 0, 0.2, 1) forwards	string
+website	apps/website/src/components/Logo.astro	9	angkor-draw 1.6s cubic-bezier(0.6, 0, 0.2, 1) forwards	ternary
 website	apps/website/src/components/Logo.astro	9	AngKorGit	attr:aria-label
 website	apps/website/src/components/Questions.astro	1	../lib/site	string
 website	apps/website/src/components/Questions.astro	5	AngKorGit 还是 Angkor Git？	string
@@ -6948,7 +6942,7 @@ website	apps/website/src/components/TerminalBlock.astro	62	scroll	string
 website	apps/website/src/components/TerminalBlock.astro	65	bg-surface-raised	string
 website	apps/website/src/components/TerminalBlock.astro	66	text-foreground	string
 website	apps/website/src/components/TerminalBlock.astro	71	click	string
-website	apps/website/src/components/TerminalBlock.astro	71	wrap	string
+website	apps/website/src/components/TerminalBlock.astro	71	wrap	ternary
 website	apps/website/src/components/TerminalBlock.astro	73	wrap	string
 website	apps/website/src/components/TerminalBlock.astro	76	('[data-copy-label]');	jsx-text
 website	apps/website/src/components/TerminalBlock.astro	77	('[data-copy-icon]');	jsx-text
@@ -6968,8 +6962,8 @@ website	apps/website/src/components/ThemeToggle.astro	5	inline-flex h-9 w-9 item
 website	apps/website/src/components/ThemeToggle.astro	17	theme-toggle	string
 website	apps/website/src/components/ThemeToggle.astro	18	click	string
 website	apps/website/src/components/ThemeToggle.astro	20	dark	string
-website	apps/website/src/components/ThemeToggle.astro	20	light	string
-website	apps/website/src/components/ThemeToggle.astro	20	dark	string
+website	apps/website/src/components/ThemeToggle.astro	20	light	ternary
+website	apps/website/src/components/ThemeToggle.astro	20	dark	ternary
 website	apps/website/src/components/ThemeToggle.astro	21	dark	string
 website	apps/website/src/components/ThemeToggle.astro	21	dark	string
 website	apps/website/src/components/ThemeToggle.astro	22	light	string
@@ -6978,8 +6972,8 @@ website	apps/website/src/components/ThemeToggle.astro	23	angkorgit-theme	string
 website	apps/website/src/components/ThemeToggle.astro	24	theme-color	string
 website	apps/website/src/components/ThemeToggle.astro	25	content	string
 website	apps/website/src/components/ThemeToggle.astro	25	dark	string
-website	apps/website/src/components/ThemeToggle.astro	25	#15100C	string
-website	apps/website/src/components/ThemeToggle.astro	25	#F3EFE7	string
+website	apps/website/src/components/ThemeToggle.astro	25	#15100C	ternary
+website	apps/website/src/components/ThemeToggle.astro	25	#F3EFE7	ternary
 website	apps/website/src/components/mock/AppFrame.astro	1	./Frame.astro	string
 website	apps/website/src/components/mock/AppFrame.astro	2	./Sidebar.astro	string
 website	apps/website/src/components/mock/AppFrame.astro	3	./Graph.astro	string
@@ -7011,7 +7005,7 @@ website	apps/website/src/components/mock/Frame.astro	13	('.frame'));	jsx-text
 website	apps/website/src/components/mock/Frame.astro	15	('.frame-inner');	jsx-text
 website	apps/website/src/components/mock/Frame.astro	17	scale(${frame.clientWidth / w})	attr:transform
 website	apps/website/src/components/mock/Graph.astro	1	./icons	string
-website	apps/website/src/components/mock/Graph.astro	13	local	string
+website	apps/website/src/components/mock/Graph.astro	13	local	ternary
 website	apps/website/src/components/mock/Graph.astro	13	tag	string
 website	apps/website/src/components/mock/Graph.astro	13	remote	string
 website	apps/website/src/components/mock/Graph.astro	15	// WIP	jsx-text
@@ -7068,8 +7062,8 @@ website	apps/website/src/components/mock/Graph.astro	37	Merge branch 'feature/la
 website	apps/website/src/components/mock/Graph.astro	37	Dara Kim	string
 website	apps/website/src/components/mock/Graph.astro	37	000183a	string
 website	apps/website/src/components/mock/Graph.astro	37	tag	string
-website	apps/website/src/components/mock/Graph.astro	37	border-primary/40 bg-primary/10 text-primary	string
-website	apps/website/src/components/mock/Graph.astro	37	border-success/40 bg-success/10 text-success	string
+website	apps/website/src/components/mock/Graph.astro	37	border-primary/40 bg-primary/10 text-primary	ternary
+website	apps/website/src/components/mock/Graph.astro	37	border-success/40 bg-success/10 text-success	ternary
 website	apps/website/src/components/mock/Graph.astro	38	feat(stash): quick apply from sidebar	string
 website	apps/website/src/components/mock/Graph.astro	38	Maly Sok	string
 website	apps/website/src/components/mock/Graph.astro	38	000182a	string
@@ -7146,9 +7140,9 @@ website	apps/website/src/components/mock/WorkingCopy.astro	10	CommitGraph.tsx	st
 website	apps/website/src/components/mock/WorkingCopy.astro	10	src/features/graph	string
 website	apps/website/src/components/mock/WorkingCopy.astro	11	old-layout.tsx	string
 website	apps/website/src/components/mock/WorkingCopy.astro	11	src	string
-website	apps/website/src/components/mock/WorkingCopy.astro	13	border-info/40 bg-info/15 text-info	string
-website	apps/website/src/components/mock/WorkingCopy.astro	13	border-success/40 bg-success/15 text-success	string
-website	apps/website/src/components/mock/WorkingCopy.astro	13	border-danger/40 bg-danger/15 text-danger	string
+website	apps/website/src/components/mock/WorkingCopy.astro	13	border-info/40 bg-info/15 text-info	ternary
+website	apps/website/src/components/mock/WorkingCopy.astro	13	border-success/40 bg-success/15 text-success	ternary
+website	apps/website/src/components/mock/WorkingCopy.astro	13	border-danger/40 bg-danger/15 text-danger	ternary
 website	apps/website/src/components/mock/WorkingCopy.astro	20	drawGraph.ts	jsx-text
 website	apps/website/src/components/mock/WorkingCopy.astro	20	src/features/graph	jsx-text
 website	apps/website/src/components/mock/Worktree.astro	1	./AppFrame.astro	string
@@ -7225,8 +7219,8 @@ website	apps/website/src/layouts/Base.astro	39	diff	string
 website	apps/website/src/layouts/Base.astro	39	angkorgit-theme	string
 website	apps/website/src/layouts/Base.astro	40	command-palette	string
 website	apps/website/src/layouts/Base.astro	40	light	string
-website	apps/website/src/layouts/Base.astro	40	light	string
-website	apps/website/src/layouts/Base.astro	40	dark	string
+website	apps/website/src/layouts/Base.astro	40	light	ternary
+website	apps/website/src/layouts/Base.astro	40	dark	ternary
 website	apps/website/src/layouts/Base.astro	41	welcome	string
 website	apps/website/src/layouts/Base.astro	42	theme-setting	string
 website	apps/website/src/layouts/Base.astro	42	dark	string
@@ -7239,8 +7233,8 @@ website	apps/website/src/layouts/Base.astro	44	theme-color	string
 website	apps/website/src/layouts/Base.astro	45	screenshots/${name}.webp	template
 website	apps/website/src/layouts/Base.astro	45	content	string
 website	apps/website/src/layouts/Base.astro	45	dark	string
-website	apps/website/src/layouts/Base.astro	45	#15100C	string
-website	apps/website/src/layouts/Base.astro	45	#F3EFE7	string
+website	apps/website/src/layouts/Base.astro	45	#15100C	ternary
+website	apps/website/src/layouts/Base.astro	45	#F3EFE7	ternary
 website	apps/website/src/layouts/Base.astro	49	@context	string
 website	apps/website/src/layouts/Base.astro	49	https://schema.org	string
 website	apps/website/src/layouts/Base.astro	50	@type	string
@@ -7270,12 +7264,12 @@ website	apps/website/src/layouts/DocsLayout.astro	17	docs	string
 website	apps/website/src/layouts/DocsLayout.astro	17	/docs/${link.slug}/	attr:href
 website	apps/website/src/layouts/DocsLayout.astro	18	shrink-0 rounded-full border px-3 py-1.5 text-xs transition-colors	string
 website	apps/website/src/layouts/DocsLayout.astro	20	.md	string
-website	apps/website/src/layouts/DocsLayout.astro	20	border-primary/40 bg-primary/15 font-medium text-primary	string
+website	apps/website/src/layouts/DocsLayout.astro	20	border-primary/40 bg-primary/15 font-medium text-primary	ternary
 website	apps/website/src/layouts/DocsLayout.astro	21	.md	string
 website	apps/website/src/layouts/DocsLayout.astro	21	border-border text-muted hover:bg-surface-raised hover:text-foreground	string
 website	apps/website/src/layouts/DocsLayout.astro	39	/docs/${link.slug}/	attr:href
 website	apps/website/src/layouts/DocsLayout.astro	40	block rounded-md px-3 py-1.5 text-sm transition-colors	string
-website	apps/website/src/layouts/DocsLayout.astro	42	bg-primary/15 font-medium text-primary	string
+website	apps/website/src/layouts/DocsLayout.astro	42	bg-primary/15 font-medium text-primary	ternary
 website	apps/website/src/layouts/DocsLayout.astro	43	text-muted hover:bg-surface-raised hover:text-foreground	string
 website	apps/website/src/layouts/DocsLayout.astro	54	_blank	attr:target
 website	apps/website/src/layouts/DocsLayout.astro	55	noreferrer	attr:rel

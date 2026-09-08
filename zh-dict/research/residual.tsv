@@ -113,7 +113,7 @@ ui	flex w-full items-center gap-1.5 rounded-md py-1 pr-2 text-xs text-muted hove
 ui	group relative cursor-text transition-shadow hover:ring-1 hover:ring-inset hover:ring-primary/40	skip	code	属性值（className）代码	attr:className			apps/desktop/src/features/conflicts/ConflictResolver.tsx:1323	1
 ui	group flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left text-xs transition-colors	skip	css	Tailwind/CSS 类	string			apps/desktop/src/features/inspector/CommitDetails.tsx:294	1
 ui	min-h-0 flex-1 resize-none bg-transparent px-4 py-2 font-mono text-xs leading-5 text-foreground	skip	css	Tailwind/CSS 类	string			apps/desktop/src/features/conflicts/ConflictResolver.tsx:1206	1
-ui	使用本机已安装的 AI CLI——Claude Code、Codex、Gemini CLI、OpenCode 或 Antigravity——以其自身的登录与配额运行，无需 API 密钥。	translate	new	待译	string			apps/desktop/src/features/settings/SettingsDialog.tsx:1139	1
+ui	使用本机已安装的 AI CLI——Claude Code、Codex、Gemini CLI、OpenCode 或 Antigravity——以其自身的登录与配额运行，无需 API 密钥。	translate	new	待译	ternary			apps/desktop/src/features/settings/SettingsDialog.tsx:1139	1
 website	<circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9a9 9 0 0 0 9 9"/>	skip	code	SVG/图标数据	string			apps/website/src/components/mock/icons.ts:26	1
 core	/projects/${projectId}/merge_requests?state=opened&order_by=updated_at&sort=desc&per_page=50	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	template			packages/core/src/forge/providers/gitlab.ts:89	1
 ui	flex max-h-[min(70vh,var(--radix-dropdown-menu-content-available-height))] min-w-72 flex-col	skip	code	属性值（className）代码	attr:className			apps/desktop/src/components/Toolbar.tsx:124	1
@@ -148,7 +148,7 @@ website	<path d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0
 website	<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>	skip	code	SVG/图标数据	string			apps/website/src/components/mock/icons.ts:19	1
 website	chmod +x and run. Needs WebKitGTK 4.1 and libssl, which most desktops already have.	skip	command	CLI 命令/脚本片段	string			apps/website/src/components/Install.astro:24	1
 e2e	shift-click selects a range of working copy files and the menu acts on all of them	skip	test-name	vitest test/it/describe 用例名（不译）	test-name			tests/e2e/smoke.spec.ts:784	1
-ui	animate-locate rounded-md bg-primary/10 shadow-[inset_3px_0_0_hsl(var(--primary))]	skip	css	Tailwind/CSS 类	string			apps/desktop/src/features/graph/CommitGraph.tsx:519	1
+ui	animate-locate rounded-md bg-primary/10 shadow-[inset_3px_0_0_hsl(var(--primary))]	skip	css	Tailwind/CSS 类	ternary			apps/desktop/src/features/graph/CommitGraph.tsx:519	1
 ui	flex items-center gap-1 rounded px-1 hover:bg-surface-raised hover:text-foreground	skip	code	属性值（className）代码	attr:className			apps/desktop/src/components/StatusBar.tsx:87	2
 ui	cursor-text transition-shadow hover:ring-1 hover:ring-inset hover:ring-primary/40	skip	code	属性值（className）代码	attr:className			apps/desktop/src/features/conflicts/ConflictResolver.tsx:1365	1
 ui	flex flex-col gap-2 rounded-md border border-border-subtle bg-surface px-2 py-1.5	skip	css	Tailwind/CSS 类	string			apps/desktop/src/features/graph/InteractiveRebaseDialog.tsx:234	1
@@ -278,7 +278,7 @@ e2e	section[aria-label="文件差异：src/features/graph/CommitGraph.tsx"]	skip
 rust	git worktree list did not report the new worktree:\n{listing}	skip	command	CLI 命令/脚本片段	rust			apps/desktop/src-tauri/tests/git_engine.rs:2097	1
 test	degrades to whole-line equal segments beyond the LCS cell cap	skip	test-name	vitest test/it/describe 用例名（不译）	test-name			tests/unit/wordDiff.test.ts:31	1
 test	every agent builds argument lists without the prompt embedded	skip	test-name	vitest test/it/describe 用例名（不译）	test-name			tests/unit/cliAgents.test.ts:88	1
-ui	border-border-subtle bg-surface-raised/40 hover:border-border	skip	css	Tailwind/CSS 类	string			apps/desktop/src/features/settings/SettingsDialog.tsx:351	1
+ui	border-border-subtle bg-surface-raised/40 hover:border-border	skip	css	Tailwind/CSS 类	ternary			apps/desktop/src/features/settings/SettingsDialog.tsx:351	1
 website	<path d="M3 12h.01M3 18h.01M3 6h.01M8 12h13M8 18h13M8 6h13"/>	skip	code	SVG/图标数据	string			apps/website/src/components/mock/icons.ts:32	1
 core	${parent}${separator}${worktreeFolderName(repoName, branch)}	skip	code	纯占位符拼接	template			packages/core/src/git/worktree.ts:15	1
 e2e	graph display menu can switch the lane color band off and on	skip	test-name	vitest test/it/describe 用例名（不译）	test-name			tests/e2e/smoke.spec.ts:643	1
@@ -311,7 +311,7 @@ e2e	feat(worktrees): list, create and remove linked worktrees	translate	new	待�
 e2e	multi-select cherry-pick lists every commit in the dialog	skip	test-name	vitest test/it/describe 用例名（不译）	test-name			tests/e2e/smoke.spec.ts:133	1
 test	lists merge requests through the url-encoded project path	skip	test-name	vitest test/it/describe 用例名（不译）	test-name			tests/unit/forge.test.ts:250	1
 ui	block h-full rounded-full transition-[width] duration-300	skip	css	Tailwind/CSS 类	string			apps/desktop/src/features/conflicts/ConflictResolver.tsx:880	1
-ui	border-l-2 border-r border-border-subtle border-l-info/60	skip	css	Tailwind/CSS 类	string			apps/desktop/src/features/conflicts/ConflictResolver.tsx:809	1
+ui	border-l-2 border-r border-border-subtle border-l-info/60	skip	css	Tailwind/CSS 类	ternary			apps/desktop/src/features/conflicts/ConflictResolver.tsx:809	1
 ui	flex max-h-[85vh] w-[min(56rem,90vw)] max-w-none flex-col	skip	code	属性值（className）代码	attr:className			apps/desktop/src/features/ai/AiResultDialog.tsx:30	1
 ui	https://gitlab.com/-/user_settings/personal_access_tokens	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/desktop/src/features/settings/AccountsTab.tsx:63	1
 ui	openDialog('createBranch', branchMenu.branch.targetOid)}>	skip	code	JSX 代码残渣	jsx-text			apps/desktop/src/features/sidebar/Sidebar.tsx:1563	1
@@ -325,7 +325,7 @@ ui	${c.shortOid} ${c.summary}${c.body ? `\n${c.body}` : ''}	skip	code	纯占位�
 ui	relative border-y border-border-subtle transition-shadow	skip	css	Tailwind/CSS 类	string			apps/desktop/src/features/conflicts/ConflictResolver.tsx:1051	1
 ui	run('获取', () => ipc.fetch(path, remote, true, true))} />	skip	code	JSX 代码残渣	jsx-text			apps/desktop/src/components/CommandPalette.tsx:299	1
 ui	text-muted hover:bg-surface-raised hover:text-foreground	skip	css	Tailwind/CSS 类	string			apps/desktop/src/features/settings/SettingsDialog.tsx:724	1
-website	border-primary/40 bg-primary/15 font-medium text-primary	skip	css	Tailwind/CSS 类	string			apps/website/src/layouts/DocsLayout.astro:20	1
+website	border-primary/40 bg-primary/15 font-medium text-primary	skip	css	Tailwind/CSS 类	ternary			apps/website/src/layouts/DocsLayout.astro:20	1
 website	text-muted hover:bg-surface-raised hover:text-foreground	skip	css	Tailwind/CSS 类	string			apps/website/src/layouts/DocsLayout.astro:43	1
 rust	+{source_ref}:refs/remotes/{remote_name}/{local_branch}	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	rust-fmt			apps/desktop/src-tauri/src/core/remote.rs:603	1
 rust	Revert \"{summary}\"\n\nThis reverts commit {full_oid}.	translate	fmt	模板串：${x}/{} 占位符必须原样保留	rust-fmt			apps/desktop/src-tauri/src/core/commit.rs:105	1
@@ -345,7 +345,7 @@ test	returns null for unknown forges and non-remote strings	skip	test-name	vites
 test	round-trips CRLF content without changing line endings	skip	test-name	vitest test/it/describe 用例名（不译）	test-name			tests/unit/conflicts.test.ts:96	1
 ui	flex cursor-pointer items-center gap-2.5 px-2.5 py-1.5	skip	code	属性值（className）代码	attr:className			apps/desktop/src/features/settings/SettingsDialog.tsx:1018	1
 ui	useUi.getState().openFileHistory(fileMenu.file.path)}>	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	jsx-text			apps/desktop/src/features/commit/WorkingCopyPanel.tsx:1067	1
-website	angkor-draw 1.6s cubic-bezier(0.6, 0, 0.2, 1) forwards	skip	css	Tailwind/CSS 类	string			apps/website/src/components/Logo.astro:9	1
+website	angkor-draw 1.6s cubic-bezier(0.6, 0, 0.2, 1) forwards	skip	css	Tailwind/CSS 类	ternary			apps/website/src/components/Logo.astro:9	1
 website	block rounded-md px-3 py-1.5 text-sm transition-colors	skip	css	Tailwind/CSS 类	string			apps/website/src/layouts/DocsLayout.astro:40	1
 rust	feat: two\n\n(cherry picked from commit {second})\n\n	translate	fmt	模板串：${x}/{} 占位符必须原样保留	rust-fmt			apps/desktop/src-tauri/tests/git_engine.rs:630	1
 test	includes length so truncation-style collisions differ	skip	test-name	vitest test/it/describe 用例名（不译）	test-name			tests/unit/reviewSignature.test.ts:54	1
@@ -389,8 +389,8 @@ test	enforces the prefix even when the model ignores it	skip	test-name	vitest te
 test	keeps Windows separators when the parent uses them	skip	test-name	vitest test/it/describe 用例名（不译）	test-name			tests/unit/worktree.test.ts:26	1
 test	throws AiError with stderr detail on non-zero exit	skip	test-name	vitest test/it/describe 用例名（不译）	test-name			tests/unit/cliAgents.test.ts:70	1
 ui	absolute right-0.5 top-1/2 size-6 -translate-y-1/2	skip	code	属性值（className）代码	attr:className			apps/desktop/src/components/FileFilterInput.tsx:51	1
-ui	border-border-subtle bg-background text-foreground	skip	css	Tailwind/CSS 类	string			apps/desktop/src/components/RepoTabs.tsx:118	1
-ui	border-y border-border-subtle bg-surface-raised/60	skip	css	Tailwind/CSS 类	string			apps/desktop/src/features/diff/VirtualDiff.tsx:357	3
+ui	border-border-subtle bg-background text-foreground	skip	css	Tailwind/CSS 类	ternary			apps/desktop/src/components/RepoTabs.tsx:118	1
+ui	border-y border-border-subtle bg-surface-raised/60	skip	css	Tailwind/CSS 类	ternary			apps/desktop/src/features/diff/VirtualDiff.tsx:357	3
 ui	openDialog('interactiveRebase', menu.commit.oid)}>	skip	code	JSX 代码残渣	jsx-text			apps/desktop/src/features/graph/CommitGraph.tsx:731	1
 ui	void run(() => ipc.unstageAll(path), '全量取消暂存失败')}>	skip	code	JSX 代码残渣	jsx-text			apps/desktop/src/features/commit/WorkingCopyPanel.tsx:957	1
 meta	playwright test -c tests/e2e/playwright.config.ts	skip	css	Tailwind/CSS 类	json			package.json:29	1
@@ -429,7 +429,7 @@ test	https://bitbucket.org/team/repo/pull-requests/3	skip	code	URL/路径/模板
 test	matches case-insensitively anywhere in the path	skip	test-name	vitest test/it/describe 用例名（不译）	test-name			tests/unit/fileFilter.test.ts:17	1
 ui	<span class="${cls}">${highlighted.html}</span>	skip	code	SVG/图标数据	template			apps/desktop/src/features/diff/diffShared.tsx:96	1
 ui	bg-primary/10 ring-1 ring-inset ring-primary/60	skip	css	Tailwind/CSS 类	string			apps/desktop/src/features/sidebar/Sidebar.tsx:644	1
-ui	bg-transparent group-hover/handle:bg-primary/60	skip	css	Tailwind/CSS 类	string			apps/desktop/src/features/commit/WorkingCopyPanel.tsx:1153	1
+ui	bg-transparent group-hover/handle:bg-primary/60	skip	css	Tailwind/CSS 类	ternary			apps/desktop/src/features/commit/WorkingCopyPanel.tsx:1153	1
 core	and suggest a resolution.\n\nCURRENT (ours):\n	translate	new	待译	tmpl-seg			packages/core/src/ai/capabilities.ts:64	1
 rust	untracked files on {branch}: {short} {summary}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	rust-fmt			apps/desktop/src-tauri/src/core/misc.rs:122	1
 test	General review conventions:\nFlag any raw SQL.	skip	prompt	AI 提示词/探针	string			tests/unit/aiCapabilities.test.ts:42	1
@@ -444,7 +444,7 @@ test	strips ANSI escapes and whitespace from output	skip	test-name	vitest test/i
 test	surfaces github error messages with the status	skip	test-name	vitest test/it/describe 用例名（不译）	test-name			tests/unit/forge.test.ts:169	1
 test	throws AiError when the CLI produces no output	skip	test-name	vitest test/it/describe 用例名（不译）	test-name			tests/unit/cliAgents.test.ts:76	1
 ui	${commit.author.name} <${commit.author.email}>	translate	attr-ui	属性文案（title）	attr:title			apps/desktop/src/features/graph/GraphRow.tsx:500	1
-ui	border-r border-border-subtle border-l-info/60	skip	css	Tailwind/CSS 类	string			apps/desktop/src/features/conflicts/ConflictResolver.tsx:767	1
+ui	border-r border-border-subtle border-l-info/60	skip	css	Tailwind/CSS 类	ternary			apps/desktop/src/features/conflicts/ConflictResolver.tsx:767	1
 ui	flex h-14 flex-col justify-center gap-1.5 px-3	skip	code	属性值（className）代码	attr:className			apps/desktop/src/features/settings/SettingsDialog.tsx:766	1
 ui	hsl(var(--primary) / ${current ? 0.28 : 0.14})	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	template			apps/desktop/src/features/diff/DiffViewer.tsx:21	1
 ui	openDialog('rename', branchMenu.branch.name)}>	skip	code	JSX 代码残渣	jsx-text			apps/desktop/src/features/sidebar/Sidebar.tsx:1568	1
@@ -460,7 +460,7 @@ test	treats whitespace-only instructions as absent	skip	test-name	vitest test/it
 test	uses the resolved binary path when configured	skip	test-name	vitest test/it/describe 用例名（不译）	test-name			tests/unit/cliAgents.test.ts:57	1
 ui	${Math.round((resolvedCount / total) * 100)}%	skip	code	纯占位符拼接	template			apps/desktop/src/features/conflicts/ConflictResolver.tsx:881	1
 ui	${raw.replace(' ', 'T').replace(' UTC', '')}Z	skip	code	纯占位符拼接	template			apps/desktop/src/features/settings/AccountsTab.tsx:105	1
-ui	border-l-2 border-l-primary bg-surface-raised	skip	css	Tailwind/CSS 类	string			apps/desktop/src/features/history/FileHistoryPanel.tsx:289	1
+ui	border-l-2 border-l-primary bg-surface-raised	skip	css	Tailwind/CSS 类	ternary			apps/desktop/src/features/history/FileHistoryPanel.tsx:289	1
 ui	openDialog('createBranch', menu.commit.oid)}>	skip	code	JSX 代码残渣	jsx-text			apps/desktop/src/features/graph/CommitGraph.tsx:677	1
 ui	void restoreFromStash([stashFileMenu.path])}>	skip	code	JSX 代码残渣	jsx-text			apps/desktop/src/features/inspector/CommitDetails.tsx:632	1
 website	<path d="m4 17 6-5-6-5"/><path d="M12 19h8"/>	skip	code	SVG/图标数据	string			apps/website/src/components/mock/icons.ts:16	1
@@ -479,9 +479,9 @@ ui	${w.name}${w.branch ? ` · ${w.branch}` : ''}	translate	attr-ui	属性文案�
 ui	void removeWorktree(worktreeMenu.worktree)}>	skip	code	JSX 代码残渣	jsx-text			apps/desktop/src/features/sidebar/Sidebar.tsx:1380	1
 website	<path d="M18 6 6 18"/><path d="m6 6 12 12"/>	skip	code	SVG/图标数据	string			apps/website/src/components/mock/icons.ts:29	1
 website	AngKorGit · 面向 macOS、Windows、Linux 的 Git 客户端	translate	jsx-text	JSX 文本	jsx-text			apps/website/src/components/Hero.astro:20	1
-website	border-primary/40 bg-primary/10 text-primary	skip	css	Tailwind/CSS 类	string			apps/website/src/components/HeroGraph.astro:54	2
+website	border-primary/40 bg-primary/10 text-primary	skip	css	Tailwind/CSS 类	ternary			apps/website/src/components/HeroGraph.astro:54	2
 website	border-success/40 bg-success/10 text-success	skip	css	Tailwind/CSS 类	string			apps/website/src/components/HeroGraph.astro:55	2
-website	border-success/40 bg-success/15 text-success	skip	css	Tailwind/CSS 类	string			apps/website/src/components/mock/WorkingCopy.astro:13	1
+website	border-success/40 bg-success/15 text-success	skip	css	Tailwind/CSS 类	ternary			apps/website/src/components/mock/WorkingCopy.astro:13	1
 website	fix(diff): handle renamed files in word diff	skip	demo	仅演示数据（demo.ts 被 skip-files 排除）	string			apps/website/src/components/mock/Graph.astro:25	2
 core	${base}/pull-requests/new?source=${encoded}	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	template			packages/core/src/forge/pullRequestUrl.ts:11	1
 core	${text.length}:${(hash >>> 0).toString(16)}	skip	code	纯占位符拼接	template			packages/core/src/ai/reviewSignature.ts:21	1
@@ -531,11 +531,11 @@ test	https://github.com/o/r/compare/b?expand=1	skip	code	URL/路径/模板/选�
 test	marks merge commits and opens merge lanes	skip	test-name	vitest test/it/describe 用例名（不译）	test-name			tests/unit/graphLayout.test.ts:49	1
 test	serializes each resolution mode correctly	skip	test-name	vitest test/it/describe 用例名（不译）	test-name			tests/unit/conflicts.test.ts:42	1
 ui	@/features/worktrees/CreateWorktreeDialog	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/desktop/src/features/repository/RepositoryPage.tsx:30	1
-ui	border-border-subtle bg-surface-raised/40	skip	css	Tailwind/CSS 类	string			apps/desktop/src/features/settings/SettingsDialog.tsx:961	1
+ui	border-border-subtle bg-surface-raised/40	skip	css	Tailwind/CSS 类	ternary			apps/desktop/src/features/settings/SettingsDialog.tsx:961	1
 ui	flex shrink-0 items-center justify-center	skip	code	属性值（className）代码	attr:className			apps/desktop/src/features/graph/GraphRow.tsx:91	1
 ui	h-0.5 w-10 rounded-full transition-colors	skip	css	Tailwind/CSS 类	string			apps/desktop/src/features/commit/WorkingCopyPanel.tsx:1152	1
 ui	shrink-0 text-faint hover:text-foreground	skip	code	属性值（className）代码	attr:className			apps/desktop/src/features/sidebar/Sidebar.tsx:850	1
-website	border-danger/40 bg-danger/15 text-danger	skip	css	Tailwind/CSS 类	string			apps/website/src/components/mock/WorkingCopy.astro:13	1
+website	border-danger/40 bg-danger/15 text-danger	skip	css	Tailwind/CSS 类	ternary			apps/website/src/components/mock/WorkingCopy.astro:13	1
 core	${remote.scheme}://${remote.host}/api/v4	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	template			packages/core/src/forge/providers/gitlab.ts:44	1
 e2e	WIP on main: experiment with lane colors	skip	demo	仅演示数据（demo.ts 被 skip-files 排除）	string			tests/e2e/smoke.spec.ts:779	2
 meta	pnpm --filter @angkorgit/website preview	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	json			package.json:32	1
@@ -558,11 +558,11 @@ ui	flex w-1/2 border-r border-border-subtle	skip	css	Tailwind/CSS 类	string			a
 ui	openDialog('settings')} aria-label="设置">	skip	code	JSX 代码残渣	jsx-text			apps/desktop/src/features/repository/WelcomePage.tsx:154	1
 ui	shrink-0 truncate text-[11px] text-muted	skip	code	属性值（className）代码	attr:className			apps/desktop/src/features/graph/GraphRow.tsx:498	1
 ui	url(#graph-tail-edge-${node.color % 10})	skip	code	属性值（stroke）代码	attr:stroke			apps/desktop/src/features/graph/GraphRow.tsx:152	1
-ui	将 user.name 和 user.email 写入 ~/.gitconfig	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	string			apps/desktop/src/features/settings/SettingsDialog.tsx:934	1
+ui	将 user.name 和 user.email 写入 ~/.gitconfig	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	ternary			apps/desktop/src/features/settings/SettingsDialog.tsx:934	1
 website	<path d="M5 12h14"/><path d="M12 5v14"/>	skip	code	SVG/图标数据	string			apps/website/src/components/mock/icons.ts:30	1
 website	export function drawGraph(rows: Row[]) {	translate	new	待译	string			apps/website/src/components/mock/Conflicts.astro:8	1
 website	style(inspector): tighten spacing rhythm	skip	demo	仅演示数据（demo.ts 被 skip-files 排除）	string			apps/website/src/components/mock/Graph.astro:32	1
-website	text-foreground group-hover:text-primary	skip	css	Tailwind/CSS 类	string			apps/website/src/components/HeroGraph.astro:75	1
+website	text-foreground group-hover:text-primary	skip	css	Tailwind/CSS 类	ternary			apps/website/src/components/HeroGraph.astro:75	1
 meta	pnpm --filter @angkorgit/website images	verify	protect-mixed	含受保护片段（URL/哈希/路径/版本），译时须原样保留	json			package.json:33	1
 test	<<<<<<<\nours\n=======\ntheirs\n>>>>>>>	skip	gitraw	冲突标记/差异内容	attr:bare			tests/unit/conflicts.test.ts:104	1
 test	a\n<<<<<<< HEAD\nours\n>>>>>>> other\nb	skip	gitraw	冲突标记/差异内容	attr:invalid			tests/unit/conflicts.test.ts:111	1
@@ -571,11 +571,11 @@ test	joins message contents with blank lines	skip	test-name	vitest test/it/descr
 test	places the folder beside the repository	skip	test-name	vitest test/it/describe 用例名（不译）	test-name			tests/unit/worktree.test.ts:20	1
 test	returns null with no branch or no match	skip	test-name	vitest test/it/describe 用例名（不译）	test-name			tests/unit/commitStyle.test.ts:71	1
 test	tells the model about a resolved prefix	skip	test-name	vitest test/it/describe 用例名（不译）	test-name			tests/unit/commitStyle.test.ts:105	1
-ui	border-x-primary/50 border-t-primary/50	skip	css	Tailwind/CSS 类	string			apps/desktop/src/features/conflicts/ConflictResolver.tsx:980	1
+ui	border-x-primary/50 border-t-primary/50	skip	css	Tailwind/CSS 类	ternary			apps/desktop/src/features/conflicts/ConflictResolver.tsx:980	1
 ui	flex h-full shrink-0 items-center gap-1	skip	css	Tailwind/CSS 类	string			apps/desktop/src/features/graph/GraphRow.tsx:337	1
 ui	pointer-events-none absolute rounded-sm	skip	css	Tailwind/CSS 类	string			apps/desktop/src/features/diff/VirtualDiff.tsx:239	1
 ui	rounded-lg border p-3 transition-colors	skip	css	Tailwind/CSS 类	string			apps/desktop/src/features/settings/SettingsDialog.tsx:960	1
-ui	text-transparent group-hover:text-muted	skip	css	Tailwind/CSS 类	string			apps/desktop/src/components/RepoTabs.tsx:136	1
+ui	text-transparent group-hover:text-muted	skip	css	Tailwind/CSS 类	ternary			apps/desktop/src/components/RepoTabs.tsx:136	1
 ui	translateY(${item.start - topMargin}px)	translate	fmt	模板串：${x}/{} 占位符必须原样保留	template			apps/desktop/src/features/conflicts/ConflictResolver.tsx:956	1
 website	chmod +x ~/Downloads/AngKorGit.AppImage	skip	protect	命中保护正则	string			apps/website/src/components/Install.astro:74	1
 website	https://buymeacoffee.com/chansocheatsok	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/website/src/lib/site.ts:32	1
@@ -591,10 +591,10 @@ test	line 1\nours line\ntheirs line\nline 2	translate	new	待译	string		e2e/tes
 test	ollama rejects an empty content string	skip	test-name	vitest test/it/describe 用例名（不译）	test-name			tests/unit/aiProviders.test.ts:51	1
 test	parses gitlab subgroups into the owner	skip	test-name	vitest test/it/describe 用例名（不译）	test-name			tests/unit/forge.test.ts:65	1
 test	throws a descriptive error on 无效的 JSON	skip	test-name	vitest test/it/describe 用例名（不译）	test-name			tests/unit/aiModels.test.ts:50	1
-ui	bg-primary/10 font-medium text-primary	skip	css	Tailwind/CSS 类	string			apps/desktop/src/features/settings/SettingsDialog.tsx:723	1
-ui	cursor-pointer hover:bg-surface-raised	skip	css	Tailwind/CSS 类	string			apps/desktop/src/features/repository/WelcomePage.tsx:240	1
-ui	text-muted group-hover:text-foreground	skip	css	Tailwind/CSS 类	string			apps/desktop/src/features/settings/SettingsDialog.tsx:790	1
-website	bg-primary/15 font-medium text-primary	skip	css	Tailwind/CSS 类	string			apps/website/src/layouts/DocsLayout.astro:42	1
+ui	bg-primary/10 font-medium text-primary	skip	css	Tailwind/CSS 类	ternary			apps/desktop/src/features/settings/SettingsDialog.tsx:723	1
+ui	cursor-pointer hover:bg-surface-raised	skip	css	Tailwind/CSS 类	ternary			apps/desktop/src/features/repository/WelcomePage.tsx:240	1
+ui	text-muted group-hover:text-foreground	skip	css	Tailwind/CSS 类	ternary			apps/desktop/src/features/settings/SettingsDialog.tsx:790	1
+website	bg-primary/15 font-medium text-primary	skip	css	Tailwind/CSS 类	ternary			apps/website/src/layouts/DocsLayout.astro:42	1
 website	feat(ai): provider registry + adapters	skip	demo	仅演示数据（demo.ts 被 skip-files 排除）	string			apps/website/src/components/mock/Graph.astro:33	1
 website	fix(remote): retry ssh agent auth once	skip	demo	仅演示数据（demo.ts 被 skip-files 排除）	string			apps/website/src/components/mock/Graph.astro:29	2
 website	refactor(core): extract lane allocator	skip	demo	仅演示数据（demo.ts 被 skip-files 排除）	string			apps/website/src/components/mock/Graph.astro:26	2
@@ -674,7 +674,7 @@ ui	void removeRecent(menu.repo.path)}>	skip	code	JSX 代码残渣	jsx-text			app
 website	-o "$env:TEMP\\AngKorGit-setup.exe"	translate	new	待译	tmpl-seg			apps/website/src/components/Install.astro:65	1
 website	../components/mock/GraphScene.astro	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/website/src/pages/index.astro:9	1
 website	AngKorGit_${version}_amd64.AppImage	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	template			apps/website/src/components/Install.astro:23	1
-website	border-info/40 bg-info/15 text-info	skip	css	Tailwind/CSS 类	string			apps/website/src/components/mock/WorkingCopy.astro:13	1
+website	border-info/40 bg-info/15 text-info	skip	css	Tailwind/CSS 类	ternary			apps/website/src/components/mock/WorkingCopy.astro:13	1
 website	feat(graph): virtualize commit rows	skip	demo	仅演示数据（demo.ts 被 skip-files 排除）	string			apps/website/src/components/mock/Graph.astro:24	2
 website	xattr -cr ~/Downloads/AngKorGit.dmg	skip	protect	命中保护正则	string			apps/website/src/components/Install.astro:57	1
 core	type(scope)：摘要——feat、fix、refactor…	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			packages/core/src/ai/style.ts:43	1
@@ -697,7 +697,7 @@ ui	@/features/commit/WorkingCopyPanel	skip	code	URL/路径/模板/选择器/函�
 ui	@/features/settings/SettingsDialog	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/desktop/src/features/repository/RepositoryPage.tsx:26	2
 ui	@fontsource/jetbrains-mono/400.css	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/desktop/src/main.tsx:4	1
 ui	@fontsource/jetbrains-mono/500.css	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/desktop/src/main.tsx:5	1
-ui	border-primary ring-1 ring-primary	skip	css	Tailwind/CSS 类	string			apps/desktop/src/features/settings/SettingsDialog.tsx:761	1
+ui	border-primary ring-1 ring-primary	skip	css	Tailwind/CSS 类	ternary			apps/desktop/src/features/settings/SettingsDialog.tsx:761	1
 ui	flex h-full flex-col bg-background	skip	code	属性值（className）代码	attr:className			apps/desktop/src/features/diff/DiffPanel.tsx:252	3
 ui	https://api.bitbucket.org/2.0/user	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/desktop/src/features/settings/AccountsTab.tsx:126	1
 ui	void openExternal(prMenu.pr.url)}>	skip	code	JSX 代码残渣	jsx-text			apps/desktop/src/features/sidebar/Sidebar.tsx:1261	1
@@ -722,8 +722,8 @@ ui	!border-l-[3px] !border-l-success	skip	css	Tailwind/CSS 类	string			apps/des
 ui	@/features/repository/WelcomePage	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/desktop/src/app/App.tsx:10	1
 ui	@/features/terminal/TerminalPanel	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/desktop/src/features/repository/RepositoryPage.tsx:20	1
 ui	bg-primary/10 hover:bg-primary/15	skip	css	Tailwind/CSS 类	string			apps/desktop/src/features/sidebar/Sidebar.tsx:642	1
-ui	bg-primary/20 hover:bg-primary/25	skip	css	Tailwind/CSS 类	string			apps/desktop/src/features/sidebar/Sidebar.tsx:641	1
-ui	bg-primary/50 ring-1 ring-primary	skip	css	Tailwind/CSS 类	string			apps/desktop/src/features/diff/VirtualDiff.tsx:240	1
+ui	bg-primary/20 hover:bg-primary/25	skip	css	Tailwind/CSS 类	ternary			apps/desktop/src/features/sidebar/Sidebar.tsx:641	1
+ui	bg-primary/50 ring-1 ring-primary	skip	css	Tailwind/CSS 类	ternary			apps/desktop/src/features/diff/VirtualDiff.tsx:240	1
 ui	bg-surface-raised text-foreground	skip	css	Tailwind/CSS 类	string			apps/desktop/src/features/diff/DiffPanel.tsx:290	7
 ui	git@github.com:demo/angkorgit.git	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/desktop/src/core/ipc.ts:362	1
 ui	highlight.js/lib/languages/csharp	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/desktop/src/shared/highlight.ts:8	1
@@ -816,8 +816,8 @@ ui	!o && setStashFileMenu(null)}>	skip	code	JSX 代码残渣	jsx-text			apps/des
 ui	${remote.name} — ${remote.url}	skip	code	纯占位符拼接	template			apps/desktop/src/features/sidebar/Sidebar.tsx:763	1
 ui	@/features/inspector/Inspector	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/desktop/src/features/repository/RepositoryPage.tsx:18	1
 ui	bg-surface-raised text-primary	skip	css	Tailwind/CSS 类	string			apps/desktop/src/features/diff/DiffPanel.tsx:312	7
-ui	border-l-2 border-l-success/60	skip	css	Tailwind/CSS 类	string			apps/desktop/src/features/conflicts/ConflictResolver.tsx:809	1
-ui	border-primary/40 bg-primary/5	skip	css	Tailwind/CSS 类	string			apps/desktop/src/features/settings/SettingsDialog.tsx:351	2
+ui	border-l-2 border-l-success/60	skip	css	Tailwind/CSS 类	ternary			apps/desktop/src/features/conflicts/ConflictResolver.tsx:809	1
+ui	border-primary/40 bg-primary/5	skip	css	Tailwind/CSS 类	ternary			apps/desktop/src/features/settings/SettingsDialog.tsx:351	2
 ui	highlight.js/lib/languages/cpp	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/desktop/src/shared/highlight.ts:9	1
 ui	highlight.js/lib/languages/css	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/desktop/src/shared/highlight.ts:10	1
 ui	highlight.js/lib/languages/php	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/desktop/src/shared/highlight.ts:18	1
@@ -859,16 +859,16 @@ test	returns the containing folder	skip	test-name	vitest test/it/describe 用例
 ui	!o && setWorktreeMenu(null)}>	skip	code	JSX 代码残渣	jsx-text			apps/desktop/src/features/sidebar/Sidebar.tsx:1351	1
 ui	${path}/${fileMenu.file.path}	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	template			apps/desktop/src/features/commit/WorkingCopyPanel.tsx:1073	2
 ui	@/features/editor/EditorPanel	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/desktop/src/features/repository/RepositoryPage.tsx:15	1
-ui	bg-primary/10 text-foreground	skip	css	Tailwind/CSS 类	string			apps/desktop/src/features/inspector/CommitDetails.tsx:295	2
+ui	bg-primary/10 text-foreground	skip	css	Tailwind/CSS 类	ternary			apps/desktop/src/features/inspector/CommitDetails.tsx:295	2
 ui	h-6 shrink-0 px-2 text-[11px]	skip	code	属性值（className）代码	attr:className			apps/desktop/src/features/inspector/CommitDetails.tsx:559	3
 ui	highlight.js/lib/languages/go	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/desktop/src/shared/highlight.ts:6	1
-ui	max-h-[600px] overflow-y-auto	skip	css	Tailwind/CSS 类	string			apps/desktop/src/features/commit/WorkingCopyPanel.tsx:1285	1
+ui	max-h-[600px] overflow-y-auto	skip	css	Tailwind/CSS 类	ternary			apps/desktop/src/features/commit/WorkingCopyPanel.tsx:1285	1
 ui	text-danger hover:text-danger	skip	code	属性值（className）代码	attr:className			apps/desktop/src/features/commit/WorkingCopyPanel.tsx:1314	1
 ui	void assignProfile(profile)}>	skip	code	JSX 代码残渣	jsx-text			apps/desktop/src/components/Toolbar.tsx:166	1
 ui	void confirmRemove(account)}>	skip	code	JSX 代码残渣	jsx-text			apps/desktop/src/features/settings/AccountsTab.tsx:451	1
 ui	void openRepository(path)} />	skip	code	JSX 代码残渣	jsx-text			apps/desktop/src/features/repository/WelcomePage.tsx:347	1
 ui	void removeProfile(profile)}>	skip	code	JSX 代码残渣	jsx-text			apps/desktop/src/features/settings/SettingsDialog.tsx:994	1
-ui	whitespace-pre-wrap break-all	skip	css	Tailwind/CSS 类	string			apps/desktop/src/features/diff/diffShared.tsx:129	1
+ui	whitespace-pre-wrap break-all	skip	css	Tailwind/CSS 类	ternary			apps/desktop/src/features/diff/diffShared.tsx:129	1
 website	../components/AiSection.astro	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/website/src/pages/index.astro:13	1
 website	../components/Questions.astro	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/website/src/pages/index.astro:15	1
 website	../components/SpecSheet.astro	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/website/src/pages/index.astro:12	1
@@ -905,10 +905,10 @@ ui	@/features/terminal/sessions	skip	code	URL/路径/模板/选择器/函数式�
 ui	[data-search-current="true"]	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/desktop/src/features/diff/diffSearch.tsx:68	1
 ui	[data-search-mark="current"]	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/desktop/src/features/diff/diffSearch.tsx:85	1
 ui	absolute left-0 top-0 w-full	skip	code	属性值（className）代码	attr:className			apps/desktop/src/features/history/FileHistoryPanel.tsx:57	1
-ui	bg-surface-raised text-faint	skip	css	Tailwind/CSS 类	string			apps/desktop/src/features/repository/WelcomePage.tsx:256	1
-ui	bg-surface-raised text-muted	skip	css	Tailwind/CSS 类	string			apps/desktop/src/features/settings/SettingsDialog.tsx:1023	1
+ui	bg-surface-raised text-faint	skip	css	Tailwind/CSS 类	ternary			apps/desktop/src/features/repository/WelcomePage.tsx:256	1
+ui	bg-surface-raised text-muted	skip	css	Tailwind/CSS 类	ternary			apps/desktop/src/features/settings/SettingsDialog.tsx:1023	1
 ui	git@github.com:user/repo.git	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	attr:placeholder			apps/desktop/src/features/repository/CloneDialog.tsx:71	1
-ui	hsl(var(--muted-foreground))	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/desktop/src/features/graph/GraphRow.tsx:80	1
+ui	hsl(var(--muted-foreground))	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	ternary			apps/desktop/src/features/graph/GraphRow.tsx:80	1
 ui	openConflict(conflicts[0])}>	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	jsx-text			apps/desktop/src/features/commit/WorkingCopyPanel.tsx:859	1
 ui	openDialog('createBranch')}>	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	jsx-text			apps/desktop/src/components/Toolbar.tsx:499	2
 ui	openDialog('createWorktree',	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	jsx-text			apps/desktop/src/features/graph/CommitGraph.tsx:683	2
@@ -958,7 +958,7 @@ ui	@/features/repository/merge	skip	code	URL/路径/模板/选择器/函数式�
 ui	@/features/repository/store	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/desktop/src/app/App.tsx:15	23
 ui	absolute left-0 flex w-full	skip	css	Tailwind/CSS 类	string			apps/desktop/src/features/diff/VirtualDiff.tsx:356	1
 ui	application/vnd.github+json	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/desktop/src/features/settings/AccountsTab.tsx:147	1
-ui	cursor-default text-primary	skip	css	Tailwind/CSS 类	string			apps/desktop/src/features/sidebar/Sidebar.tsx:548	1
+ui	cursor-default text-primary	skip	css	Tailwind/CSS 类	ternary			apps/desktop/src/features/sidebar/Sidebar.tsx:548	1
 ui	flex items-start gap-2 px-2	skip	css	Tailwind/CSS 类	string			apps/desktop/src/features/conflicts/ConflictResolver.tsx:1378	1
 ui	font-mono text-xs leading-5	skip	css	Tailwind/CSS 类	string			apps/desktop/src/features/diff/diffShared.tsx:128	1
 ui	hsl(var(--surface-overlay))	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/desktop/src/app/App.tsx:135	1
@@ -1006,8 +1006,8 @@ ui	@tauri-apps/plugin-updater	skip	code	URL/路径/模板/选择器/函数式（
 ui	@xterm/xterm/css/xterm.css	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/desktop/src/features/terminal/TerminalPanel.tsx:6	1
 ui	Pushed to ${remote} (demo)	translate	fmt	模板串：${x}/{} 占位符必须原样保留	template			apps/desktop/src/core/ipc.ts:397	1
 ui	absolute right-1.5 top-1.5	skip	code	属性值（className）代码	attr:className			apps/desktop/src/features/forge/CreatePrDialog.tsx:308	1
-ui	bg-primary/10 text-primary	skip	css	Tailwind/CSS 类	string			apps/desktop/src/features/repository/WelcomePage.tsx:256	1
-ui	bg-primary/15 text-primary	skip	css	Tailwind/CSS 类	string			apps/desktop/src/features/settings/SettingsDialog.tsx:357	2
+ui	bg-primary/10 text-primary	skip	css	Tailwind/CSS 类	ternary			apps/desktop/src/features/repository/WelcomePage.tsx:256	1
+ui	bg-primary/15 text-primary	skip	css	Tailwind/CSS 类	ternary			apps/desktop/src/features/settings/SettingsDialog.tsx:357	2
 ui	checkoutRef(refMenu.ref)}>	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	jsx-text			apps/desktop/src/features/graph/CommitGraph.tsx:606	1
 ui	hover:bg-surface-raised/60	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/desktop/src/features/conflicts/ConflictResolver.tsx:791	2
 ui	hsl(var(--primary) / 0.55)	skip	css	Tailwind/CSS 类	string			apps/desktop/src/features/diff/DiffMinimap.tsx:77	1
@@ -1021,7 +1021,7 @@ website	../components/Splash.astro	skip	code	URL/路径/模板/选择器/函数�
 website	来自 GitHub releases 的签名验证更新	translate	new	待译	string			apps/website/src/components/SpecSheet.astro:63	1
 core	/repositories/${repoPath}	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	template			packages/core/src/forge/providers/bitbucket.ts:84	1
 core	https://api.anthropic.com	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			packages/core/src/ai/models.ts:71	3
-core	https://api.openai.com/v1	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			packages/core/src/ai/models.ts:60	3
+core	https://api.openai.com/v1	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	ternary			packages/core/src/ai/models.ts:60	3
 e2e	[data-panel-id="sidebar"]	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			tests/e2e/smoke.spec.ts:535	1
 meta	@tauri-apps/plugin-dialog	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	json			apps/desktop/package.json:21	1
 meta	@tauri-apps/plugin-opener	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	json			apps/desktop/package.json:22	1
@@ -1049,9 +1049,9 @@ ui	@/shared/useKeepSelection	skip	code	URL/路径/模板/选择器/函数式（�
 ui	@tauri-apps/plugin-dialog	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/desktop/src/core/ipc.ts:715	2
 ui	@tauri-apps/plugin-opener	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/desktop/src/core/ipc.ts:701	1
 ui	Already up to date (demo)	skip	gitraw	git 原始输出/消息模板	string			apps/desktop/src/core/ipc.ts:383	1
-ui	bg-diff-add/40 rounded-sm	skip	css	Tailwind/CSS 类	string			apps/desktop/src/features/diff/diffShared.tsx:95	1
-ui	bg-diff-del/40 rounded-sm	skip	css	Tailwind/CSS 类	string			apps/desktop/src/features/diff/diffShared.tsx:95	1
-ui	cursor-default text-muted	skip	css	Tailwind/CSS 类	string			apps/desktop/src/features/sidebar/Sidebar.tsx:548	1
+ui	bg-diff-add/40 rounded-sm	skip	css	Tailwind/CSS 类	ternary			apps/desktop/src/features/diff/diffShared.tsx:95	1
+ui	bg-diff-del/40 rounded-sm	skip	css	Tailwind/CSS 类	ternary			apps/desktop/src/features/diff/diffShared.tsx:95	1
+ui	cursor-default text-muted	skip	css	Tailwind/CSS 类	ternary			apps/desktop/src/features/sidebar/Sidebar.tsx:548	1
 ui	h-7 w-28 shrink-0 text-xs	skip	code	属性值（className）代码	attr:className			apps/desktop/src/features/graph/InteractiveRebaseDialog.tsx:254	1
 ui	hsl(var(--success) / 0.5)	skip	css	Tailwind/CSS 类	string			apps/desktop/src/features/diff/DiffMinimap.tsx:75	1
 ui	openDialog('createTag')}>	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	jsx-text			apps/desktop/src/components/Toolbar.tsx:504	3
@@ -1069,7 +1069,7 @@ core	./forge/providers/github	skip	code	URL/路径/模板/选择器/函数式（
 core	./forge/providers/gitlab	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			packages/core/src/index.ts:22	1
 core	/repos/${repoPath}/pulls	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	template			packages/core/src/forge/providers/github.ts:133	1
 core	\n\nINCOMING (theirs):\n	translate	new	待译	tmpl-seg			packages/core/src/ai/capabilities.ts:64	1
-core	http://localhost:1234/v1	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			packages/core/src/ai/models.ts:60	3
+core	http://localhost:1234/v1	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	ternary			packages/core/src/ai/models.ts:60	3
 e2e	**://www.gravatar.com/**	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			tests/e2e/smoke.spec.ts:291	1
 e2e	[data-selected-file-row]	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			tests/e2e/smoke.spec.ts:791	2
 meta	@angkorgit/design-system	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	json			apps/desktop/package.json:16	1
@@ -1147,7 +1147,7 @@ ui	@tanstack/react-virtual	skip	code	URL/路径/模板/选择器/函数式（无
 ui	@tauri-apps/api/webview	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/desktop/src/features/settings/store.ts:109	1
 ui	Pulled ${branch} (demo)	translate	fmt	模板串：${x}/{} 占位符必须原样保留	template			apps/desktop/src/core/ipc.ts:402	1
 ui	angkorgit-commit-drafts	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/commit/draftStore.ts:34	1
-ui	hover:bg-surface-raised	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/desktop/src/features/commit/WorkingCopyPanel.tsx:88	4
+ui	hover:bg-surface-raised	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	ternary			apps/desktop/src/features/commit/WorkingCopyPanel.tsx:88	4
 ui	min-w-0 flex-1 truncate	skip	code	属性值（className）代码	attr:className			apps/desktop/src/features/sidebar/Sidebar.tsx:1103	1
 ui	text/angkorgit-repo-tab	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/desktop/src/components/RepoTabs.tsx:89	2
 ui	void clone()} disabled=	skip	code	JSX 代码残渣	jsx-text			apps/desktop/src/features/repository/CloneDialog.tsx:117	1
@@ -1158,7 +1158,7 @@ core	./forge/pullRequestUrl	skip	code	URL/路径/模板/选择器/函数式（�
 core	/projects/${projectId}	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	template			packages/core/src/forge/providers/gitlab.ts:95	1
 core	http://localhost:11434	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			packages/core/src/ai/models.ts:91	3
 core	https://${host}/api/v3	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	template			packages/core/src/forge/providers/github.ts:40	1
-core	https://api.github.com	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			packages/core/src/forge/providers/github.ts:40	1
+core	https://api.github.com	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	ternary			packages/core/src/forge/providers/github.ts:40	1
 meta	AngKorGit Contributors	skip	brand	品牌/产品名（保留英文）	rust			apps/desktop/src-tauri/Cargo.toml:5	1
 meta	createUpdaterArtifacts	skip	ident	标识符/路径/哈希/日期	json			apps/desktop/src-tauri/tauri.conf.json:43	1
 meta	dark theme-angkor-dusk	skip	code	属性值（class）代码	attr:class			apps/desktop/index.html:2	1
@@ -1186,7 +1186,7 @@ ui	@/features/graph/store	skip	code	URL/路径/模板/选择器/函数式（无�
 ui	Rebase complete (demo)	translate	new	待译	string			apps/desktop/src/core/ipc.ts:321	1
 ui	absolute left-0 w-full	skip	code	属性值（className）代码	attr:className			apps/desktop/src/features/commit/WorkingCopyPanel.tsx:187	9
 ui	angkorgit-demo-ai-keys	skip	ident	标识符/路径/哈希/日期	attr:DEMO_AI_KEYS			apps/desktop/src/core/ipc.ts:83	1
-ui	border-b-border-subtle	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/conflicts/ConflictResolver.tsx:1007	1
+ui	border-b-border-subtle	skip	ident	标识符/路径/哈希/日期	ternary			apps/desktop/src/features/conflicts/ConflictResolver.tsx:1007	1
 ui	h-5 px-1.5 text-[10px]	skip	code	属性值（className）代码	attr:className			apps/desktop/src/features/diff/DiffPanel.tsx:493	1
 ui	hsl(var(--foreground))	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/desktop/src/app/App.tsx:137	1
 ui	navigate('/welcome')}>	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	jsx-text			apps/desktop/src/components/Toolbar.tsx:409	1
@@ -1229,7 +1229,7 @@ ui	@/shared/useShortcuts	skip	code	URL/路径/模板/选择器/函数式（无�
 ui	@tauri-apps/api/event	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/desktop/src/core/ipc.ts:76	1
 ui	AngKorGit v${version}	translate	fmt	模板串：${x}/{} 占位符必须原样保留	template			apps/desktop/src/features/repository/WelcomePage.tsx:302	1
 ui	Merged ${name} (demo)	translate	fmt	模板串：${x}/{} 占位符必须原样保留	template			apps/desktop/src/core/ipc.ts:301	1
-ui	bg-surface text-muted	skip	css	Tailwind/CSS 类	string			apps/desktop/src/features/settings/SettingsDialog.tsx:357	1
+ui	bg-surface text-muted	skip	css	Tailwind/CSS 类	ternary			apps/desktop/src/features/settings/SettingsDialog.tsx:357	1
 ui	feature/parallel-task	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	attr:placeholder			apps/desktop/src/features/worktrees/CreateWorktreeDialog.tsx:185	1
 ui	g.label).join(', ')}>	skip	code	JSX 代码残渣	jsx-text			apps/desktop/src/features/graph/GraphRow.tsx:394	1
 ui	h-8 font-mono text-xs	skip	code	属性值（className）代码	attr:className			apps/desktop/src/features/settings/SettingsDialog.tsx:487	2
@@ -1291,8 +1291,8 @@ ui	@/features/ai/AiText	skip	code	URL/路径/模板/选择器/函数式（无空
 ui	@/features/ai/client	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/desktop/src/features/commit/WorkingCopyPanel.tsx:27	5
 ui	@tauri-apps/api/core	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/desktop/src/core/ipc.ts:70	1
 ui	Cherry-picked (demo)	translate	new	待译	string		e2e/test 断言同步：scope 写 ui,e2e 或同名 e2e 词条	apps/desktop/src/core/ipc.ts:349	1
-ui	bg-surface-raised/40	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/desktop/src/features/diff/DiffViewer.tsx:101	3
-ui	border-x-transparent	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/conflicts/ConflictResolver.tsx:1006	1
+ui	bg-surface-raised/40	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	ternary			apps/desktop/src/features/diff/DiffViewer.tsx:101	3
+ui	border-x-transparent	skip	ident	标识符/路径/哈希/日期	ternary			apps/desktop/src/features/conflicts/ConflictResolver.tsx:1006	1
 ui	credential_prefs_set	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/core/ipc.ts:568	1
 ui	e.preventDefault()}>	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	jsx-text			apps/desktop/src/features/diff/DiffPanel.tsx:532	2
 ui	flex h-full flex-col	skip	code	属性值（className）代码	attr:className			apps/desktop/src/features/repository/RepositoryPage.tsx:309	1
@@ -1350,9 +1350,9 @@ ui	@/features/ui/store	skip	code	URL/路径/模板/选择器/函数式（无空�
 ui	@tauri-apps/api/app	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/desktop/src/core/ipc.ts:707	1
 ui	__TAURI_INTERNALS__	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/desktop/src/core/ipc.ts:63	1
 ui	account_set_default	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/core/ipc.ts:610	1
-ui	border-b-primary/50	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/desktop/src/features/conflicts/ConflictResolver.tsx:1007	1
-ui	border-l-success/60	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/desktop/src/features/conflicts/ConflictResolver.tsx:767	1
-ui	border-x-primary/50	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/desktop/src/features/conflicts/ConflictResolver.tsx:1006	1
+ui	border-b-primary/50	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	ternary			apps/desktop/src/features/conflicts/ConflictResolver.tsx:1007	1
+ui	border-l-success/60	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	ternary			apps/desktop/src/features/conflicts/ConflictResolver.tsx:767	1
+ui	border-x-primary/50	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	ternary			apps/desktop/src/features/conflicts/ConflictResolver.tsx:1006	1
 ui	discard_staged_file	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/core/ipc.ts:176	1
 ui	h-px min-w-1 flex-1	skip	code	属性值（className）代码	attr:className			apps/desktop/src/features/graph/GraphRow.tsx:400	1
 ui	hsl(var(--primary))	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	attr:stroke			apps/desktop/src/features/graph/WipRow.tsx:67	1
@@ -1413,7 +1413,7 @@ ui	[data-active-file]	skip	code	URL/路径/模板/选择器/函数式（无空�
 ui	absolute right-1.5	skip	code	属性值（className）代码	attr:className			apps/desktop/src/features/commit/WorkingCopyPanel.tsx:1258	1
 ui	angkorgit-settings	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/settings/store.ts:290	1
 ui	angkorgit.accounts	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/settings/profiles.ts:24	1
-ui	demo@angkorgit.dev	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/desktop/src/core/ipc.ts:142	1
+ui	demo@angkorgit.dev	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	ternary			apps/desktop/src/core/ipc.ts:142	1
 ui	diff-pane-selected	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/diff/diffCopy.tsx:106	2
 ui	discard_staged_all	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/core/ipc.ts:180	1
 ui	focus:outline-none	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/desktop/src/features/conflicts/ConflictResolver.tsx:694	1
@@ -1485,7 +1485,7 @@ website	-30% 0px -60% 0px	skip	css	Tailwind/CSS 类	string			apps/website/src/co
 website	./HeroGraph.astro	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/website/src/components/Hero.astro:1	1
 website	ai-config-setting	skip	ident	标识符/路径/哈希/日期	string			apps/website/src/layouts/Base.astro:43	1
 website	bg-surface-raised	skip	ident	标识符/路径/哈希/日期	string			apps/website/src/components/TerminalBlock.astro:65	2
-website	italic text-muted	skip	css	Tailwind/CSS 类	string			apps/website/src/components/HeroGraph.astro:75	1
+website	italic text-muted	skip	css	Tailwind/CSS 类	ternary			apps/website/src/components/HeroGraph.astro:75	1
 website	var(${laneColor})	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	template			apps/website/src/components/Commit.astro:24	1
 core	./forge/provider	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			packages/core/src/index.ts:20	1
 core	./git/fileFilter	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			packages/core/src/index.ts:4	1
@@ -1653,7 +1653,7 @@ ui	text-foreground	skip	ident	属性值（className）代码	attr:className			ap
 ui	u${index}:${li}	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	template			apps/desktop/src/features/conflicts/ConflictResolver.tsx:249	1
 ui	void browse()}>	skip	code	JSX 代码残渣	jsx-text			apps/desktop/src/features/worktrees/CreateWorktreeDialog.tsx:239	1
 ui	worktree_remove	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/core/ipc.ts:479	1
-ui	you@company.com	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/desktop/src/features/settings/AccountsTab.tsx:495	2
+ui	you@company.com	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	ternary			apps/desktop/src/features/settings/AccountsTab.tsx:495	2
 ui	you@example.com	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	attr:placeholder			apps/desktop/src/features/settings/SettingsDialog.tsx:928	1
 website	./Sidebar.astro	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/website/src/components/mock/AppFrame.astro:2	1
 website	.terminal-block	verify	single-word	裸词：须配 anchor，e2e 断言同步	string	yes		apps/website/src/components/TerminalBlock.astro:50	1
@@ -1672,7 +1672,6 @@ core	./forge/remote	skip	code	URL/路径/模板/选择器/函数式（无空格�
 core	./forge/shared	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			packages/core/src/index.ts:18	1
 core	./git/worktree	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			packages/core/src/index.ts:2	1
 core	./graph/layout	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			packages/core/src/index.ts:5	1
-e2e	应用暂存 (keep it)	translate	new	待译	string		e2e/test 断言同步：scope 写 ui,e2e 或同名 e2e 词条	tests/e2e/smoke.spec.ts:927	2
 meta	icons/icon.ico	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	json			apps/desktop/src-tauri/tauri.conf.json:49	1
 meta	packageManager	skip	ident	标识符/路径/哈希/日期	json			package.json:7	1
 meta	website:images	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	json			package.json:33	1
@@ -1721,8 +1720,8 @@ ui	bg-diff-add/15	skip	code	URL/路径/模板/选择器/函数式（无空格代
 ui	bg-diff-del/15	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/desktop/src/features/diff/diffShared.tsx:146	1
 ui	clone-progress	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/repository/CloneDialog.tsx:32	1
 ui	createWorktree	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/components/CommandPalette.tsx:313	4
-ui	cursor-default	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/repository/WelcomePage.tsx:240	1
-ui	cursor-pointer	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/sidebar/Sidebar.tsx:548	1
+ui	cursor-default	skip	ident	标识符/路径/哈希/日期	ternary			apps/desktop/src/features/repository/WelcomePage.tsx:240	1
+ui	cursor-pointer	skip	ident	标识符/路径/哈希/日期	ternary			apps/desktop/src/features/sidebar/Sidebar.tsx:548	1
 ui	demo-amend-oid	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/core/ipc.ts:234	1
 ui	history_commit	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/core/ipc.ts:255	1
 ui	line-clamp-[8]	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/desktop/src/features/inspector/CommitDetails.tsx:399	1
@@ -1735,7 +1734,7 @@ ui	submodule_list	skip	ident	标识符/路径/哈希/日期	string			apps/deskto
 ui	theme-${theme}	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	template			apps/desktop/src/features/settings/store.ts:69	1
 ui	u-${file.path}	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	attr:key			apps/desktop/src/features/commit/WorkingCopyPanel.tsx:789	1
 ui	void reset()}>	skip	code	JSX 代码残渣	jsx-text			apps/desktop/src/features/conflicts/ConflictResolver.tsx:1194	1
-ui	whitespace-pre	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/diff/diffShared.tsx:129	1
+ui	whitespace-pre	skip	ident	标识符/路径/哈希/日期	ternary			apps/desktop/src/features/diff/diffShared.tsx:129	1
 ui	worktree_prune	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/core/ipc.ts:483	1
 website	../../lib/site	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/website/src/pages/docs/index.astro:3	1
 website	./Commit.astro	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/website/src/components/AiSection.astro:1	6
@@ -1743,7 +1742,7 @@ website	border-primary	skip	ident	标识符/路径/哈希/日期	string			apps/w
 website	feat/worktrees	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/website/src/components/HeroGraph.astro:47	1
 website	folder missing	skip	dup	已入词库	jsx-text			apps/website/src/components/mock/Sidebar.astro:19	1
 website	old-layout.tsx	skip	ident	标识符/路径/哈希/日期	string			apps/website/src/components/mock/WorkingCopy.astro:11	1
-website	var(--graph-0)	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/website/src/components/Commit.astro:24	1
+website	var(--graph-0)	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	ternary			apps/website/src/components/Commit.astro:24	1
 website	whitespace-pre	skip	ident	标识符/路径/哈希/日期	string			apps/website/src/components/TerminalBlock.astro:62	1
 core	./forge/types	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			packages/core/src/index.ts:19	1
 core	Google Gemini	skip	brand	品牌/产品名（保留英文）	string			packages/core/src/ai/providers.ts:129	2
@@ -1811,8 +1810,8 @@ ui	account_check	skip	ident	标识符/路径/哈希/日期	string			apps/desktop
 ui	ai_cli_detect	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/core/ipc.ts:652	1
 ui	ai_key_delete	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/core/ipc.ts:644	1
 ui	animate-pulse	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/repository/CloneDialog.tsx:103	1
-ui	bg-primary/10	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/desktop/src/features/commit/WorkingCopyPanel.tsx:88	3
-ui	bg-primary/25	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/desktop/src/features/diff/VirtualDiff.tsx:240	1
+ui	bg-primary/10	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	ternary			apps/desktop/src/features/commit/WorkingCopyPanel.tsx:88	3
+ui	bg-primary/25	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	ternary			apps/desktop/src/features/diff/VirtualDiff.tsx:240	1
 ui	bg-success/10	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/desktop/src/features/conflicts/ConflictResolver.tsx:790	2
 ui	bitbucket.org	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/settings/AccountsTab.tsx:77	1
 ui	branch_create	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/core/ipc.ts:282	1
@@ -1825,8 +1824,8 @@ ui	conflict_list	skip	ident	标识符/路径/哈希/日期	string			apps/desktop
 ui	conflict_read	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/core/ipc.ts:525	1
 ui	forge_request	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/core/ipc.ts:667	1
 ui	framer-motion	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/app/App.tsx:3	8
-ui	image/svg+xml	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/desktop/src/features/diff/DiffViewer.tsx:153	1
-ui	max-h-[260px]	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/desktop/src/features/commit/WorkingCopyPanel.tsx:1285	1
+ui	image/svg+xml	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	ternary			apps/desktop/src/features/diff/DiffViewer.tsx:153	1
+ui	max-h-[260px]	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	ternary			apps/desktop/src/features/commit/WorkingCopyPanel.tsx:1285	1
 ui	merge_message	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/core/ipc.ts:310	1
 ui	private-token	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/settings/AccountsTab.tsx:160	1
 ui	recent_remove	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/core/ipc.ts:138	1
@@ -1847,7 +1846,7 @@ website	aria-expanded	skip	ident	标识符/路径/哈希/日期	string			apps/we
 website	astro/loaders	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/website/src/content.config.ts:2	1
 website	astro:content	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/website/src/content.config.ts:1	4
 website	theme-setting	skip	ident	标识符/路径/哈希/日期	string			apps/website/src/layouts/Base.astro:42	1
-website	var(--lane-w)	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/website/src/components/Commit.astro:23	1
+website	var(--lane-w)	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	ternary			apps/website/src/components/Commit.astro:23	1
 core	../git/types	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			packages/core/src/forge/remote.ts:1	2
 core	^${escaped}$	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	template			packages/core/src/ai/style.ts:62	1
 core	content-type	skip	ident	标识符/路径/哈希/日期	string			packages/core/src/ai/providers.ts:23	2
@@ -1923,8 +1922,8 @@ ui	GitHub Light	skip	brand	品牌/产品名（保留英文）	string			apps/desk
 ui	One Dark Pro	skip	brand	品牌/产品名（保留英文）	string			apps/desktop/src/features/settings/store.ts:48	1
 ui	account_list	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/core/ipc.ts:591	1
 ui	angkorgit-ui	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/ui/store.ts:254	1
-ui	bg-primary/5	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/desktop/src/features/conflicts/ConflictResolver.tsx:619	2
-ui	bg-success/5	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/desktop/src/features/conflicts/ConflictResolver.tsx:619	3
+ui	bg-primary/5	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	ternary			apps/desktop/src/features/conflicts/ConflictResolver.tsx:619	2
+ui	bg-success/5	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	ternary			apps/desktop/src/features/conflicts/ConflictResolver.tsx:619	3
 ui	branchCreate	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/history/undoStore.ts:13	4
 ui	branchDelete	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/history/undoStore.ts:14	4
 ui	branchRename	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/history/undoStore.ts:15	3
@@ -1949,7 +1948,7 @@ ui	remote_fetch	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/
 ui	repo-changed	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/repository/RepositoryPage.tsx:151	1
 ui	staged_patch	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/core/ipc.ts:516	1
 ui	stash_create	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/core/ipc.ts:421	1
-ui	text-primary	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/components/RepoTabs.tsx:126	5
+ui	text-primary	skip	ident	标识符/路径/哈希/日期	ternary			apps/desktop/src/components/RepoTabs.tsx:126	5
 ui	text-success	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/conflicts/ConflictResolver.tsx:745	5
 ui	unauthorized	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/core/ipc.ts:54	1
 ui	unstage_file	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/core/ipc.ts:156	1
@@ -2083,7 +2082,7 @@ ui	max-content	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/s
 ui	merge_abort	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/core/ipc.ts:306	1
 ui	mod+shift+=	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/desktop/src/app/App.tsx:28	1
 ui	mod+shift+z	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/desktop/src/features/repository/RepositoryPage.tsx:247	1
-ui	opacity-100	skip	protect	命中保护正则	string			apps/desktop/src/components/Avatar.tsx:98	1
+ui	opacity-100	skip	protect	命中保护正则	ternary			apps/desktop/src/components/Avatar.tsx:98	1
 ui	paths_exist	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/core/ipc.ts:216	1
 ui	pr_checkout	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/core/ipc.ts:680	1
 ui	remote_edit	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/core/ipc.ts:367	1
@@ -2098,7 +2097,7 @@ ui	stash_files	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/s
 ui	term_create	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/core/ipc.ts:534	1
 ui	term_resize	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/core/ipc.ts:542	1
 ui	text-center	skip	ident	属性值（className）代码	attr:className			apps/desktop/src/app/SplashScreen.tsx:26	1
-ui	text-danger	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/commit/WorkingCopyPanel.tsx:1246	4
+ui	text-danger	skip	ident	标识符/路径/哈希/日期	ternary			apps/desktop/src/features/commit/WorkingCopyPanel.tsx:1246	4
 ui	tokyo-night	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/settings/store.ts:24	2
 ui	unreachable	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/core/ipc.ts:54	6
 ui	unstage_all	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/core/ipc.ts:164	1
@@ -2217,9 +2216,9 @@ ui	ai_key_get	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/sr
 ui	ai_key_set	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/core/ipc.ts:635	1
 ui	appearance	skip	ident	标识符/路径/哈希/日期	attr:SectionId			apps/desktop/src/features/settings/SettingsDialog.tsx:73	3
 ui	arrowright	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/graph/CommitGraph.tsx:192	1
-ui	bg-info/10	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/desktop/src/features/conflicts/ConflictResolver.tsx:789	2
-ui	bg-primary	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/commit/WorkingCopyPanel.tsx:1153	2
-ui	bg-success	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/conflicts/ConflictResolver.tsx:880	1
+ui	bg-info/10	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	ternary			apps/desktop/src/features/conflicts/ConflictResolver.tsx:789	2
+ui	bg-primary	skip	ident	标识符/路径/哈希/日期	ternary			apps/desktop/src/features/commit/WorkingCopyPanel.tsx:1153	2
+ui	bg-success	skip	ident	标识符/路径/哈希/日期	ternary			apps/desktop/src/features/conflicts/ConflictResolver.tsx:880	1
 ui	c${c.lane}	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	attr:key			apps/desktop/src/features/graph/GraphRow.tsx:181	1
 ui	cherryPick	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/history/undoStore.ts:9	7
 ui	config_get	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/core/ipc.ts:143	1
@@ -2237,7 +2236,7 @@ ui	opacity-40	skip	protect	命中保护正则	string			apps/desktop/src/componen
 ui	p${p.lane}	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	attr:key			apps/desktop/src/features/graph/GraphRow.tsx:170	1
 ui	repo_clone	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/core/ipc.ts:122	1
 ui	repo_files	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/core/ipc.ts:273	1
-ui	repository	skip	dup	已入词库	string			apps/desktop/src/features/repository/CloneDialog.tsx:46	1
+ui	repository	skip	ident	标识符/路径/哈希/日期	ternary			apps/desktop/src/features/repository/CloneDialog.tsx:46	1
 ui	self-start	skip	ident	属性值（className）代码	attr:className			apps/desktop/src/features/settings/SettingsDialog.tsx:179	1
 ui	stage_file	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/core/ipc.ts:152	1
 ui	stage_hunk	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/core/ipc.ts:184	1
@@ -2248,9 +2247,9 @@ ui	submodules	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/sr
 ui	tag_create	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/core/ipc.ts:450	1
 ui	tag_delete	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/core/ipc.ts:454	1
 ui	term_write	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/core/ipc.ts:538	1
-ui	text-faint	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/components/RepoTabs.tsx:126	2
-ui	text-muted	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/components/RepoTabs.tsx:136	1
-ui	text-right	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/graph/GraphRow.tsx:510	2
+ui	text-faint	skip	ident	标识符/路径/哈希/日期	ternary			apps/desktop/src/components/RepoTabs.tsx:126	2
+ui	text-muted	skip	ident	标识符/路径/哈希/日期	ternary			apps/desktop/src/components/RepoTabs.tsx:136	1
+ui	text-right	skip	ident	标识符/路径/哈希/日期	ternary			apps/desktop/src/features/graph/GraphRow.tsx:510	2
 ui	typescript	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/shared/highlight.ts:22	4
 ui	unresolved	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/conflicts/ConflictResolver.tsx:47	3
 ui	up_to_date	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/core/ipc.ts:29	2
@@ -2380,7 +2379,7 @@ ui	--primary	skip	code	URL/路径/模板/选择器/函数式（无空格代码�
 ui	--success	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/desktop/src/features/terminal/theme.ts:64	1
 ui	--surface	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/desktop/src/features/terminal/theme.ts:55	1
 ui	./app/App	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/desktop/src/main.tsx:7	1
-ui	AngKorGit	skip	brand	品牌/产品名（保留英文）	string			apps/desktop/src/components/StatusBar.tsx:131	7
+ui	AngKorGit	skip	brand	品牌/产品名（保留英文）	ternary			apps/desktop/src/components/StatusBar.tsx:131	7
 ui	ArrowDown	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/commit/WorkingCopyPanel.tsx:756	4
 ui	ArrowLeft	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/commit/WorkingCopyPanel.tsx:732	2
 ui	Ayu Light	skip	brand	品牌/产品名（保留英文）	string			apps/desktop/src/features/settings/store.ts:55	1
@@ -2389,7 +2388,7 @@ ui	Bitbucket	skip	brand	品牌/产品名（保留英文）	string			apps/desktop
 ui	README.md	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/core/ipc.ts:271	1
 ui	arrowdown	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/graph/CommitGraph.tsx:187	1
 ui	ayu-light	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/settings/store.ts:30	2
-ui	bg-info/5	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/desktop/src/features/conflicts/ConflictResolver.tsx:619	3
+ui	bg-info/5	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	ternary			apps/desktop/src/features/conflicts/ConflictResolver.tsx:619	3
 ui	bitbucket	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/settings/AccountsTab.tsx:39	8
 ui	c-${file}	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	attr:key			apps/desktop/src/features/commit/WorkingCopyPanel.tsx:869	1
 ui	conflicts	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/core/ipc.ts:29	2
@@ -2398,18 +2397,18 @@ ui	d${index}	skip	code	URL/路径/模板/选择器/函数式（无空格代码�
 ui	data-line	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/conflicts/ConflictResolver.tsx:443	1
 ui	demo-user	skip	demo	仅演示数据（demo.ts 被 skip-files 排除）	string			apps/desktop/src/core/ipc.ts:585	1
 ui	diff_file	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/core/ipc.ts:488	1
-ui	easeInOut	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/app/SplashScreen.tsx:11	1
+ui	easeInOut	skip	ident	标识符/路径/哈希/日期	ternary			apps/desktop/src/app/SplashScreen.tsx:11	1
 ui	feature/*	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	attr:placeholder			apps/desktop/src/features/settings/SettingsDialog.tsx:486	2
 ui	font-mono	skip	ident	属性值（className）代码	attr:className			apps/desktop/src/features/settings/AccountsTab.tsx:487	4
-ui	image/png	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/desktop/src/features/diff/DiffViewer.tsx:153	1
+ui	image/png	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	ternary			apps/desktop/src/features/diff/DiffViewer.tsx:153	1
 ui	inspector	skip	ident	属性值（id）代码	attr:id			apps/desktop/src/features/repository/RepositoryPage.tsx:381	1
 ui	mod+enter	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/desktop/src/features/repository/RepositoryPage.tsx:257	1
 ui	mousedown	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/diff/diffCopy.tsx:93	2
 ui	mousemove	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/commit/WorkingCopyPanel.tsx:237	4
 ui	not_found	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/commit/WorkingCopyPanel.tsx:576	1
-ui	opacity-0	skip	protect	命中保护正则	string			apps/desktop/src/components/Avatar.tsx:98	1
+ui	opacity-0	skip	protect	命中保护正则	ternary			apps/desktop/src/components/Avatar.tsx:98	1
 ui	open_path	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/core/ipc.ts:212	1
-ui	operation	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/commit/WorkingCopyPanel.tsx:864	1
+ui	operation	skip	ident	标识符/路径/哈希/日期	ternary			apps/desktop/src/features/commit/WorkingCopyPanel.tsx:864	1
 ui	react-dom	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/diff/diffCopy.tsx:2	1
 ui	read_file	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/core/ipc.ts:204	1
 ui	repo_info	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/core/ipc.ts:107	1
@@ -2423,8 +2422,8 @@ ui	shortcuts	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src
 ui	stage_all	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/core/ipc.ts:160	1
 ui	stash_pop	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/core/ipc.ts:429	1
 ui	term_kill	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/core/ipc.ts:546	1
-ui	text-info	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/conflicts/ConflictResolver.tsx:744	2
-ui	text-left	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/graph/GraphRow.tsx:510	2
+ui	text-info	skip	ident	标识符/路径/哈希/日期	ternary			apps/desktop/src/features/conflicts/ConflictResolver.tsx:744	2
+ui	text-left	skip	ident	标识符/路径/哈希/日期	ternary			apps/desktop/src/features/graph/GraphRow.tsx:510	2
 ui	undefined	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/core/ipc.ts:63	4
 ui	untracked	skip	demo	仅演示数据（demo.ts 被 skip-files 排除）	string			apps/desktop/src/features/commit/WorkingCopyPanel.tsx:44	3
 ui	user.name	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/core/ipc.ts:142	5
@@ -2561,10 +2560,10 @@ ui	Sapphire	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/
 ui	Settings	skip	dup	已入词库	string			apps/desktop/src/features/settings/SettingsDialog.tsx:570	1
 ui	TEXTAREA	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/app/App.tsx:109	3
 ui	Terminal	skip	dup	已入词库	jsx-text			apps/desktop/src/features/terminal/TerminalPanel.tsx:137	1
-ui	Username	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/settings/AccountsTab.tsx:491	1
+ui	Username	skip	ident	标识符/路径/哈希/日期	ternary			apps/desktop/src/features/settings/AccountsTab.tsx:491	1
 ui	absolute	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/graph/CommitGraph.tsx:523	1
 ui	accounts	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/settings/SettingsDialog.tsx:73	3
-ui	addition	skip	demo	仅演示数据（demo.ts 被 skip-files 排除）	string			apps/desktop/src/features/diff/diffCopy.tsx:17	18
+ui	addition	skip	demo	仅演示数据（demo.ts 被 skip-files 排除）	ternary			apps/desktop/src/features/diff/diffCopy.tsx:17	18
 ui	ayu-dark	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/settings/store.ts:29	2
 ui	border-b	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/conflicts/ConflictResolver.tsx:1007	1
 ui	branches	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/sidebar/Sidebar.tsx:168	4
@@ -2573,7 +2572,7 @@ ui	checkout	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/
 ui	collapse	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/components/FileTree.tsx:119	3
 ui	commands	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/components/CommandPalette.tsx:80	7
 ui	conflict	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/conflicts/ConflictResolver.tsx:38	6
-ui	deletion	skip	demo	仅演示数据（demo.ts 被 skip-files 排除）	string			apps/desktop/src/features/diff/diffCopy.tsx:17	17
+ui	deletion	skip	demo	仅演示数据（demo.ts 被 skip-files 排除）	ternary			apps/desktop/src/features/diff/diffCopy.tsx:17	17
 ui	existing	skip	ident	标识符/路径/哈希/日期	attr:Mode			apps/desktop/src/features/worktrees/CreateWorktreeDialog.tsx:33	4
 ui	incoming	skip	dup	已入词库	string			apps/desktop/src/features/conflicts/ConflictResolver.tsx:23	9
 ui	listitem	skip	ident	属性值（role）代码	attr:role			apps/desktop/src/features/graph/InteractiveRebaseDialog.tsx:207	1
@@ -2581,11 +2580,11 @@ ui	llama3.1	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/
 ui	lmstudio	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/ai/client.ts:20	1
 ui	markdown	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/shared/highlight.ts:35	2
 ui	max-w-48	skip	ident	属性值（className）代码	attr:className			apps/desktop/src/features/inspector/CommitDetails.tsx:462	1
-ui	max-w-56	skip	protect	命中保护正则	string			apps/desktop/src/features/graph/GraphRow.tsx:338	1
+ui	max-w-56	skip	protect	命中保护正则	ternary			apps/desktop/src/features/graph/GraphRow.tsx:338	1
 ui	max-w-sm	skip	ident	属性值（className）代码	attr:className			apps/desktop/src/components/confirm.tsx:77	2
 ui	modified	skip	demo	仅演示数据（demo.ts 被 skip-files 排除）	string			apps/desktop/src/features/commit/WorkingCopyPanel.tsx:46	2
 ui	no_token	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/core/ipc.ts:54	1
-ui	optional	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/settings/AccountsTab.tsx:495	1
+ui	optional	skip	ident	标识符/路径/哈希/日期	ternary			apps/desktop/src/features/settings/AccountsTab.tsx:495	1
 ui	password	skip	ident	属性值（type）代码	attr:type			apps/desktop/src/features/settings/AccountsTab.tsx:516	2
 ui	provider	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/settings/store.ts:121	1
 ui	rejected	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/settings/AccountsTab.tsx:169	1
@@ -2628,7 +2627,7 @@ core	deleted	skip	demo	仅演示数据（demo.ts 被 skip-files 排除）	string
 core	invalid	skip	ident	标识符/路径/哈希/日期	string			packages/core/src/forge/providers/github.ts:55	1
 core	removed	skip	ident	标识符/路径/哈希/日期	string			packages/core/src/diff/wordDiff.ts:4	3
 core	renamed	skip	ident	标识符/路径/哈希/日期	string			packages/core/src/git/types.ts:113	3
-core	unknown	skip	ident	标识符/路径/哈希/日期	string			packages/core/src/forge/providers/bitbucket.ts:56	3
+core	unknown	skip	ident	标识符/路径/哈希/日期	ternary			packages/core/src/forge/providers/bitbucket.ts:56	3
 e2e	<<<<<<<	skip	code	无英文字母（数字/符号）	string			tests/e2e/smoke.spec.ts:48	1
 e2e	ArrowUp	skip	ident	标识符/路径/哈希/日期	string			tests/e2e/smoke.spec.ts:954	1
 e2e	develop	skip	demo	仅演示数据（demo.ts 被 skip-files 排除）	string			tests/e2e/smoke.spec.ts:262	4
@@ -2702,7 +2701,7 @@ test	[first]	skip	code	URL/路径/模板/选择器/函数式（无空格代码�
 test	blocked	skip	ident	标识符/路径/哈希/日期	string			tests/unit/forge.test.ts:570	1
 test	col${i}	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	template			tests/unit/wordDiff.test.ts:32	1
 test	current	skip	dup	已入词库	attr:resolution			tests/unit/conflicts.test.ts:46	1
-test	develop	skip	demo	仅演示数据（demo.ts 被 skip-files 排除）	string			tests/unit/forge.test.ts:190	2
+test	develop	skip	demo	仅演示数据（demo.ts 被 skip-files 排除）	ternary			tests/unit/forge.test.ts:190	2
 test	feat: x	skip	css	Tailwind/CSS 类	string			tests/unit/commitStyle.test.ts:128	2
 test	invalid	skip	ident	标识符/路径/哈希/日期	string			tests/unit/forge.test.ts:448	1
 test	project	skip	ident	标识符/路径/哈希/日期	string			tests/unit/forge.test.ts:69	1
@@ -2800,7 +2799,7 @@ ui	./store	skip	code	URL/路径/模板/选择器/函数式（无空格代码串�
 ui	./theme	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/desktop/src/features/terminal/TerminalPanel.tsx:12	1
 ui	2-digit	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/shared/utils.ts:18	2
 ui	ArrowUp	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/commit/WorkingCopyPanel.tsx:762	3
-ui	Confirm	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/components/confirm.tsx:101	1
+ui	Confirm	skip	ident	标识符/路径/哈希/日期	ternary			apps/desktop/src/components/confirm.tsx:101	1
 ui	Crimson	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/settings/store.ts:79	1
 ui	Dracula	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/settings/store.ts:52	1
 ui	Replace	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/conflicts/ConflictResolver.tsx:346	1
@@ -2812,7 +2811,7 @@ ui	comment	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/s
 ui	context	skip	demo	仅演示数据（demo.ts 被 skip-files 排除）	string			apps/desktop/src/features/diff/DiffMinimap.tsx:6	14
 ui	crimson	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/settings/store.ts:72	2
 ui	current	skip	dup	已入词库	attr:Side			apps/desktop/src/features/conflicts/ConflictResolver.tsx:23	31
-ui	default	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/components/confirm.tsx:97	1
+ui	default	skip	ident	标识符/路径/哈希/日期	ternary			apps/desktop/src/components/confirm.tsx:97	1
 ui	deleted	skip	demo	仅演示数据（demo.ts 被 skip-files 排除）	string			apps/desktop/src/features/commit/WorkingCopyPanel.tsx:48	6
 ui	dracula	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/settings/store.ts:27	2
 ui	h-5 w-5	skip	code	属性值（className）代码	attr:className			apps/desktop/src/features/conflicts/ConflictResolver.tsx:1123	2
@@ -2820,22 +2819,22 @@ ui	icon-sm	skip	ident	属性值（size）代码	attr:size			apps/desktop/src/com
 ui	keydown	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/diff/diffCopy.tsx:92	6
 ui	message	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/components/Toolbar.tsx:385	2
 ui	mouseup	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/commit/WorkingCopyPanel.tsx:238	4
-ui	nearest	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/components/RepoTabs.tsx:24	4
-ui	neutral	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/graph/GraphRow.tsx:350	1
+ui	nearest	skip	ident	标识符/路径/哈希/日期	ternary			apps/desktop/src/components/RepoTabs.tsx:24	4
+ui	neutral	skip	ident	标识符/路径/哈希/日期	ternary			apps/desktop/src/features/graph/GraphRow.tsx:350	1
 ui	numeric	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/shared/utils.ts:15	2
 ui	outline	skip	ident	属性值（variant）代码	attr:variant			apps/desktop/src/features/ai/AiResultDialog.tsx:42	3
-ui	primary	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/graph/GraphRow.tsx:350	4
+ui	primary	skip	ident	标识符/路径/哈希/日期	ternary			apps/desktop/src/features/graph/GraphRow.tsx:350	4
 ui	remotes	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/sidebar/Sidebar.tsx:171	3
 ui	renamed	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/commit/WorkingCopyPanel.tsx:50	2
 ui	sidebar	skip	ident	属性值（id）代码	attr:id			apps/desktop/src/features/repository/RepositoryPage.tsx:321	1
 ui	stashes	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/sidebar/Sidebar.tsx:173	4
-ui	success	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/graph/GraphRow.tsx:350	4
+ui	success	skip	ident	标识符/路径/哈希/日期	ternary			apps/desktop/src/features/graph/GraphRow.tsx:350	4
 ui	text-xs	skip	ident	属性值（className）代码	attr:className			apps/desktop/src/features/graph/InteractiveRebaseDialog.tsx:271	2
 ui	unknown	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/settings/SettingsDialog.tsx:596	4
 ui	updater	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/components/StatusBar.tsx:125	5
 ui	zustand	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/components/confirm.tsx:2	10
-website	#15100C	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/website/src/components/ThemeToggle.astro:25	2
-website	#F3EFE7	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/website/src/components/ThemeToggle.astro:25	2
+website	#15100C	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	ternary			apps/website/src/components/ThemeToggle.astro:25	2
+website	#F3EFE7	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	ternary			apps/website/src/components/ThemeToggle.astro:25	2
 website	./icons	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/website/src/components/mock/AppFrame.astro:5	8
 website	000181a	skip	ident	标识符/路径/哈希/日期	string			apps/website/src/components/mock/Graph.astro:39	1
 website	000182a	skip	ident	标识符/路径/哈希/日期	string			apps/website/src/components/mock/Graph.astro:38	1
@@ -3021,7 +3020,6 @@ test	vitest	skip	command	CLI 命令/脚本片段	string			tests/unit/aiCapabilit
 ui	(() =>	skip	code	无英文字母（数字/符号）	jsx-text			apps/desktop/src/features/diff/diffSearch.tsx:51	1
 ui	--info	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/desktop/src/features/terminal/theme.ts:65	1
 ui	./demo	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/desktop/src/core/ipc.ts:26	2
-ui	Commit	skip	dup	已入词库	string			apps/desktop/src/features/inspector/Inspector.tsx:83	1
 ui	Copied	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/ai/AiResultDialog.tsx:47	3
 ui	Delete	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/commit/WorkingCopyPanel.tsx:1116	1
 ui	Escape	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/components/FileFilterInput.tsx:38	11
@@ -3036,7 +3034,7 @@ ui	center	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/fe
 ui	commit	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/commit/WorkingCopyPanel.tsx:628	4
 ui	csharp	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/shared/highlight.ts:28	2
 ui	custom	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/settings/SettingsDialog.tsx:445	1
-ui	danger	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/components/confirm.tsx:97	3
+ui	danger	skip	ident	标识符/路径/哈希/日期	ternary			apps/desktop/src/components/confirm.tsx:97	3
 ui	dialog	skip	ident	属性值（role）代码	attr:role			apps/desktop/src/features/conflicts/ConflictResolver.tsx:861	1
 ui	edited	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/conflicts/ConflictResolver.tsx:49	3
 ui	editor	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/conflicts/ConflictResolver.tsx:51	4
@@ -3052,7 +3050,7 @@ ui	manual	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/fe
 ui	master	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/forge/CreatePrDialog.tsx:168	3
 ui	object	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/graph/InteractiveRebaseDialog.tsx:95	2
 ui	ollama	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/ai/client.ts:20	2
-ui	origin	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/components/CommandPalette.tsx:74	9
+ui	origin	skip	ident	标识符/路径/哈希/日期	ternary			apps/desktop/src/components/CommandPalette.tsx:74	9
 ui	python	skip	command	CLI 命令/脚本片段	string			apps/desktop/src/shared/highlight.ts:25	2
 ui	rebase	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/components/CommandPalette.tsx:357	12
 ui	remote	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/sidebar/Sidebar.tsx:737	4
@@ -3061,7 +3059,7 @@ ui	revert	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/fe
 ui	reword	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/graph/InteractiveRebaseDialog.tsx:30	4
 ui	scroll	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/diff/DiffMinimap.tsx:147	2
 ui	size-6	skip	protect	命中保护正则	string			apps/desktop/src/features/diff/diffSearch.tsx:145	1
-ui	smooth	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/conflicts/ConflictResolver.tsx:510	3
+ui	smooth	skip	ident	标识符/路径/哈希/日期	ternary			apps/desktop/src/features/conflicts/ConflictResolver.tsx:510	3
 ui	sonner	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/app/App.tsx:4	29
 ui	squash	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/graph/InteractiveRebaseDialog.tsx:30	5
 ui	status	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/inspector/CommitDetails.tsx:47	2
@@ -3096,7 +3094,7 @@ core	equal	skip	ident	标识符/路径/哈希/日期	string			packages/core/src/
 core	fixup	skip	ident	标识符/路径/哈希/日期	string			packages/core/src/git/types.ts:199	1
 core	https	skip	ident	标识符/路径/哈希/日期	string			packages/core/src/forge/remote.ts:14	3
 core	merge	skip	ident	标识符/路径/哈希/日期	string			packages/core/src/git/types.ts:36	1
-core	model	skip	ident	标识符/路径/哈希/日期	string			packages/core/src/ai/providers.ts:144	1
+core	model	skip	ident	标识符/路径/哈希/日期	ternary			packages/core/src/ai/providers.ts:144	1
 core	plain	skip	ident	标识符/路径/哈希/日期	string			packages/core/src/ai/style.ts:1	2
 core	stash	skip	demo	仅演示数据（demo.ts 被 skip-files 排除）	string			packages/core/src/git/types.ts:66	1
 core	stdin	skip	ident	标识符/路径/哈希/日期	string			packages/core/src/ai/cliAgents.ts:18	4
@@ -3183,7 +3181,7 @@ test	{u-1}	skip	code	URL/路径/模板/选择器/函数式（无空格代码串�
 ui	&amp;	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/desktop/src/shared/highlight.ts:198	1
 ui	('');	skip	code	无英文字母（数字/符号）	jsx-text			apps/desktop/src/features/editor/EditorPanel.tsx:19	1
 ui	([]);	skip	code	无英文字母（数字/符号）	jsx-text			apps/desktop/src/components/CommandPalette.tsx:82	11
-ui	-mr-2	skip	protect	命中保护正则	string			apps/desktop/src/features/graph/GraphRow.tsx:338	1
+ui	-mr-2	skip	protect	命中保护正则	ternary			apps/desktop/src/features/graph/GraphRow.tsx:338	1
 ui	/repo	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/desktop/src/features/repository/WelcomePage.tsx:102	1
 ui	3 2.5	skip	code	无英文字母（数字/符号）	attr:strokeDasharray			apps/desktop/src/features/graph/WipRow.tsx:69	1
 ui	A / C	translate	new	待译	string			apps/desktop/src/features/settings/SettingsDialog.tsx:578	1
@@ -3193,11 +3191,10 @@ ui	K / P	translate	new	待译	string			apps/desktop/src/features/settings/Settin
 ui	Lotus	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/settings/store.ts:78	1
 ui	P / N	translate	new	待译	string			apps/desktop/src/features/settings/SettingsDialog.tsx:581	1
 ui	Stage	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/diff/DiffPanel.tsx:446	1
-ui	Stash	skip	dup	已入词库	string			apps/desktop/src/features/graph/GraphRow.tsx:96	3
 ui	[ / ]	skip	code	无英文字母（数字/符号）	string			apps/desktop/src/features/settings/SettingsDialog.tsx:582	1
 ui	\b \b	translate	new	待译	string			apps/desktop/src/features/terminal/TerminalPanel.tsx:45	1
 ui	\r\n$	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/desktop/src/features/terminal/TerminalPanel.tsx:44	1
-ui	clean	skip	demo	仅演示数据（demo.ts 被 skip-files 排除）	string			apps/desktop/src/components/CommandPalette.tsx:73	3
+ui	clean	skip	demo	仅演示数据（demo.ts 被 skip-files 排除）	ternary			apps/desktop/src/components/CommandPalette.tsx:73	3
 ui	clone	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/components/CommandPalette.tsx:377	4
 ui	equal	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/diff/diffShared.tsx:94	1
 ui	fixup	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/graph/InteractiveRebaseDialog.tsx:30	2
@@ -3205,10 +3202,10 @@ ui	focus	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/fea
 ui	gap-2	skip	protect	命中保护正则	string			apps/desktop/src/features/worktrees/CreateWorktreeDialog.tsx:258	1
 ui	ghost	skip	ident	属性值（variant）代码	attr:variant			apps/desktop/src/components/FileFilterInput.tsx:48	68
 ui	https	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/settings/AccountsTab.tsx:155	1
-ui	light	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/components/CommandPalette.tsx:498	14
+ui	light	skip	ident	标识符/路径/哈希/日期	ternary			apps/desktop/src/components/CommandPalette.tsx:498	14
 ui	local	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/sidebar/Sidebar.tsx:737	3
 ui	lotus	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/settings/store.ts:72	2
-ui	match	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/diff/VirtualDiff.tsx:237	1
+ui	match	skip	ident	标识符/路径/哈希/日期	ternary			apps/desktop/src/features/diff/VirtualDiff.tsx:237	1
 ui	merge	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/components/CommandPalette.tsx:363	14
 ui	mixed	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/core/ipc.ts:356	6
 ui	mod+,	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/desktop/src/features/repository/RepositoryPage.tsx:259	1
@@ -3224,7 +3221,7 @@ ui	mod+r	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）
 ui	mod+z	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/desktop/src/features/repository/RepositoryPage.tsx:237	1
 ui	other	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/settings/AccountsTab.tsx:39	4
 ui	paths	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/repository/RepoDialogs.tsx:48	2
-ui	pr-24	skip	protect	命中保护正则	string			apps/desktop/src/features/commit/WorkingCopyPanel.tsx:1239	1
+ui	pr-24	skip	protect	命中保护正则	ternary			apps/desktop/src/features/commit/WorkingCopyPanel.tsx:1239	1
 ui	react	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/main.tsx:1	43
 ui	reset	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/graph/CommitGraph.tsx:348	6
 ui	shift	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/shared/useShortcuts.ts:14	1
@@ -3250,8 +3247,8 @@ website	cloud	skip	ident	标识符/路径/哈希/日期	string			apps/website/sr
 website	false	skip	ident	标识符/路径/哈希/日期	attr:aria-expanded			apps/website/src/components/Header.astro:52	2
 website	fixed	skip	ident	标识符/路径/哈希/日期	attr:position			apps/website/src/components/TerminalBlock.astro:86	1
 website	graph	skip	ident	标识符/路径/哈希/日期	string			apps/website/src/components/HeroGraph.astro:41	2
-website	light	skip	ident	标识符/路径/哈希/日期	string			apps/website/src/components/ThemeToggle.astro:20	7
-website	local	skip	ident	标识符/路径/哈希/日期	string			apps/website/src/components/mock/Graph.astro:13	6
+website	light	skip	ident	标识符/路径/哈希/日期	ternary			apps/website/src/components/ThemeToggle.astro:20	7
+website	local	skip	ident	标识符/路径/哈希/日期	ternary			apps/website/src/components/mock/Graph.astro:13	6
 website	macOS	skip	brand	品牌/产品名（保留英文）	string			apps/website/src/components/Install.astro:9	2
 website	round	skip	ident	属性值（stroke-linejoin）代码	attr:stroke-linejoin			apps/website/src/components/Footer.astro:10	1
 core	OPEN	skip	ident	标识符/路径/哈希/日期	string			packages/core/src/forge/providers/bitbucket.ts:61	1
@@ -3266,7 +3263,7 @@ core	drop	skip	ident	标识符/路径/哈希/日期	string			packages/core/src/g
 core	exec	skip	ident	标识符/路径/哈希/日期	string			packages/core/src/ai/cliAgents.ts:36	1
 core	head	skip	ident	标识符/路径/哈希/日期	string			packages/core/src/forge/providers/github.ts:55	2
 core	kind	skip	ident	标识符/路径/哈希/日期	string			packages/core/src/diff/wordDiff.ts:44	2
-core	main	skip	demo	仅演示数据（demo.ts 被 skip-files 排除）	string			packages/core/src/forge/providers/bitbucket.ts:87	3
+core	main	skip	demo	仅演示数据（demo.ts 被 skip-files 排除）	ternary			packages/core/src/forge/providers/bitbucket.ts:87	3
 core	open	skip	demo	仅演示数据（demo.ts 被 skip-files 排除）	attr:PullRequestState			packages/core/src/forge/types.ts:1	4
 core	pick	skip	ident	标识符/路径/哈希/日期	attr:RebaseTodoAction			packages/core/src/git/types.ts:199	1
 core	ping	skip	ident	标识符/路径/哈希/日期	string			packages/core/src/ai/providers.ts:114	1
@@ -3390,7 +3387,7 @@ ui	) =>	skip	code	无英文字母（数字/符号）	jsx-text			apps/desktop/src
 ui	.svg	verify	single-word	裸词：须配 anchor，e2e 断言同步	string	yes		apps/desktop/src/features/diff/DiffViewer.tsx:153	1
 ui	100%	skip	code	无英文字母（数字/符号）	string			apps/desktop/src/features/diff/VirtualDiff.tsx:117	4
 ui	<!--	skip	code	无英文字母（数字/符号）	string			apps/desktop/src/shared/highlight.ts:101	1
-ui	Ctrl	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/shared/utils.ts:43	1
+ui	Ctrl	skip	ident	标识符/路径/哈希/日期	ternary			apps/desktop/src/shared/utils.ts:43	1
 ui	HEAD	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/conflicts/ConflictResolver.tsx:124	4
 ui	Jade	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/settings/store.ts:76	1
 ui	Nord	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/settings/store.ts:53	1
@@ -3416,7 +3413,7 @@ ui	head	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/feat
 ui	home	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/graph/CommitGraph.tsx:164	4
 ui	http	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/settings/AccountsTab.tsx:155	1
 ui	icon	skip	ident	属性值（size）代码	attr:size			apps/desktop/src/components/Toolbar.tsx:326	7
-ui	info	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/graph/GraphRow.tsx:350	4
+ui	info	skip	ident	标识符/路径/哈希/日期	ternary			apps/desktop/src/features/graph/GraphRow.tsx:350	4
 ui	jade	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/settings/store.ts:72	2
 ui	java	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/shared/highlight.ts:27	2
 ui	json	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/shared/highlight.ts:32	2
@@ -3435,11 +3432,11 @@ ui	nord	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/feat
 ui	oids	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/repository/RepoDialogs.tsx:35	2
 ui	pair	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/diff/diffSearch.tsx:79	8
 ui	pick	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/conflicts/ConflictResolver.tsx:48	5
-ui	pl-1	skip	protect	命中保护正则	string			apps/desktop/src/features/graph/CommitGraph.tsx:450	3
-ui	pl-4	skip	protect	命中保护正则	string			apps/desktop/src/features/graph/CommitGraph.tsx:450	3
+ui	pl-1	skip	protect	命中保护正则	ternary			apps/desktop/src/features/graph/CommitGraph.tsx:450	3
+ui	pl-4	skip	protect	命中保护正则	ternary			apps/desktop/src/features/graph/CommitGraph.tsx:450	3
 ui	pl-8	skip	ident	属性值（className）代码	attr:className			apps/desktop/src/features/settings/SettingsDialog.tsx:141	1
 ui	pr-7	skip	protect	命中保护正则	string			apps/desktop/src/components/FileFilterInput.tsx:44	1
-ui	pr-9	skip	protect	命中保护正则	string			apps/desktop/src/features/commit/WorkingCopyPanel.tsx:1239	1
+ui	pr-9	skip	protect	命中保护正则	ternary			apps/desktop/src/features/commit/WorkingCopyPanel.tsx:1239	1
 ui	redo	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/components/CommandPalette.tsx:145	5
 ui	refs	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/graph/CommitGraph.tsx:419	1
 ui	root	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/main.tsx:9	1
@@ -3556,12 +3553,12 @@ ui	Esc	translate	jsx-text	JSX 文本裸词，须配 anchor	jsx-text	yes		apps/de
 ui	GET	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/settings/AccountsTab.tsx:127	3
 ui	Git	skip	brand	品牌/产品名（保留英文）	jsx-text			apps/desktop/src/app/SplashScreen.tsx:29	3
 ui	MAC	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/shared/utils.ts:40	1
-ui	New	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/diff/diffCopy.tsx:123	1
-ui	Old	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/diff/diffCopy.tsx:123	1
+ui	New	skip	ident	标识符/路径/哈希/日期	ternary			apps/desktop/src/features/diff/diffCopy.tsx:123	1
+ui	Old	skip	ident	标识符/路径/哈希/日期	ternary			apps/desktop/src/features/diff/diffCopy.tsx:123	1
 ui	SSH	translate	attr-ui	属性文案（title），裸词须配 anchor	attr:title	yes		apps/desktop/src/features/settings/SettingsDialog.tsx:126	1
 ui	Tab	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/editor/EditorPanel.tsx:140	1
 ui	UTC	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/settings/AccountsTab.tsx:105	2
-ui	Use	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/features/settings/SettingsDialog.tsx:981	1
+ui	Use	skip	ident	标识符/路径/哈希/日期	ternary			apps/desktop/src/features/settings/SettingsDialog.tsx:981	1
 ui	[],	skip	code	无英文字母（数字/符号）	jsx-text			apps/desktop/src/features/diff/VirtualDiff.tsx:262	2
 ui	[];	skip	code	无英文字母（数字/符号）	jsx-text			apps/desktop/src/components/FileTree.tsx:8	1
 ui	alt	skip	ident	标识符/路径/哈希/日期	string			apps/desktop/src/shared/useShortcuts.ts:15	1
@@ -3586,13 +3583,13 @@ website	#11	skip	code	无英文字母（数字/符号）	jsx-text			apps/website
 website	#12	skip	code	无英文字母（数字/符号）	jsx-text			apps/website/src/components/mock/Sidebar.astro:22	1
 website	--i	skip	code	URL/路径/模板/选择器/函数式（无空格代码串）	string			apps/website/src/components/HeroGraph.astro:16	1
 website	.md	verify	single-word	裸词：须配 anchor，e2e 断言同步	string	yes		apps/website/src/layouts/DocsLayout.astro:20	6
-website	0px	skip	protect	命中保护正则	string			apps/website/src/components/Commit.astro:23	1
+website	0px	skip	protect	命中保护正则	ternary			apps/website/src/components/Commit.astro:23	1
 website	404	skip	code	无英文字母（数字/符号）	jsx-text			apps/website/src/pages/404.astro:7	1
 website	Git	skip	brand	品牌/产品名（保留英文）	jsx-text			apps/website/src/components/Splash.astro:13	1
 website	USD	skip	ident	标识符/路径/哈希/日期	string			apps/website/src/layouts/Base.astro:30	1
 website	box	skip	ident	标识符/路径/哈希/日期	string			apps/website/src/components/HeroGraph.astro:38	1
 website	img	skip	ident	属性值（role）代码	attr:role			apps/website/src/components/Logo.astro:8	1
-website	now	skip	ident	标识符/路径/哈希/日期	string			apps/website/src/components/HeroGraph.astro:84	1
+website	now	skip	ident	标识符/路径/哈希/日期	ternary			apps/website/src/components/HeroGraph.astro:84	1
 website	src	skip	ident	标识符/路径/哈希/日期	string			apps/website/src/components/mock/WorkingCopy.astro:11	1
 website	tag	skip	demo	仅演示数据（demo.ts 被 skip-files 排除）	string			apps/website/src/components/HeroGraph.astro:3	10
 website	why	skip	ident	标识符/路径/哈希/日期	string			apps/website/src/components/HeroGraph.astro:54	1
