@@ -792,7 +792,7 @@ test('shift-click selects a range of working copy files and the menu acts on all
 
   await page.getByText('palette-seed.sql', { exact: true }).first().click({ button: 'right' });
   await expect(page.getByRole('menuitem', { name: '暂存 3 个文件…' })).toBeVisible();
-  await page.getByRole('menuitem', { name: /暂存 3 个文件/ }).click();
+  await page.getByRole('menuitem', { name: '暂存 3 个文件…', exact: true }).click();
   const dialog = page.getByRole('dialog');
   await expect(dialog.getByText('暂存选中的更改')).toBeVisible();
   await expect(dialog.getByText('ipc.ts', { exact: true })).toBeVisible();
