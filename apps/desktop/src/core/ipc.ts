@@ -517,15 +517,18 @@ export const ipc = {
   },
 
   async conflicts(path: string): Promise<string[]> {
-    if (!isTauri()) return ['src/features/graph/drawGraph.ts'];
+    if (!isTauri()) return demo.demoConflicts();
     return invoke('conflict_list', { path });
   },
   async conflictRead(path: string, file: string): Promise<ConflictFile> {
-    if (!isTauri()) return { path: file, content: demo.demoConflictContent, hasMarkers: true };
+    if (!isTauri()) return { path: file, content: demo.demoConflictFile(file), hasMarkers: true };
     return invoke('conflict_read', { path, file });
   },
   async conflictResolve(path: string, file: string, content: string): Promise<void> {
-    if (!isTauri()) return;
+    if (!isTauri()) {
+      demo.resolveDemoConflict(file);
+      return;
+    }
     return invoke('conflict_resolve', { path, file, content });
   },
 

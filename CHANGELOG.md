@@ -6,7 +6,26 @@ All notable changes to AngKorGit are documented here. The format follows
 
 ## [Unreleased]
 
+### Changed
+- **Conflict resolver, reworked around how people actually use it.** Picked lines
+  now land in the result in file order (all of A, then all of B) no matter which
+  you clicked first. A conflict's side checkbox shows a dash while only some of its
+  lines are taken, each conflict header says "resolved" or "edited by hand", and
+  unresolved blocks in the result carry a small "Conflict n · unresolved" tag so a
+  dimmed preview is never mistaken for a choice. The split between the two sides
+  and the result is draggable. The keyboard works: ↑/↓ move between conflicts, A
+  and B take a whole side for the current one, ⌘⏎ marks the file resolved, Escape
+  closes. Marking a file resolved opens the next conflicted file by itself (a file
+  switcher in the header lets you jump around), and the last one tells you how to
+  finish the merge, rebase or cherry-pick. Hovering "current" and "incoming"
+  explains which side is which, including the swapped meaning during a rebase.
+
 ### Fixed
+- Closing the conflict resolver, switching files or pressing Escape with picks or
+  hand edits in progress used to drop them silently. It now asks first, and the
+  hand-written whole-file result can no longer be discarded with one stray click.
+- ⌘⏎ and ⌘Z inside the conflict resolver reached the commit box and repo undo
+  underneath it.
 - The inspector could be dragged past its minimum width until it vanished, with no way
   to bring it back short of switching repositories. It now stops at its minimum; only
   file history still folds it away, and it returns at the width it had.

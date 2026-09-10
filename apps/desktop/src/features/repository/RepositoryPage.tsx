@@ -264,8 +264,8 @@ export function RepositoryPage() {
         combo: 'escape',
         handler: () => {
           const ui = useUi.getState();
-          if (ui.conflictFile) ui.openConflict(null);
-          else if (ui.centerEditor) editorCloseShortcut.current?.();
+          if (ui.conflictFile) return;
+          if (ui.centerEditor) editorCloseShortcut.current?.();
           else if (ui.centerDiff) closeCenterDiff();
           else if (ui.centerFileHistory) ui.closeFileHistory();
         },

@@ -370,6 +370,56 @@ export function demoCommitFiles(): CommitFileInfo[] {
   ];
 }
 
+const demoLaneColorsConflict = `import type { Lane } from './types';
+import { paletteFor } from './palette';
+
+const FALLBACK = '#888888';
+
+export function laneColor(lane: Lane, palette: string[]): string {
+<<<<<<< HEAD
+  if (palette.length === 0) return FALLBACK;
+  return palette[lane.index % palette.length];
+=======
+  const index = lane.index % Math.max(palette.length, 1);
+  return palette[index] ?? FALLBACK;
+>>>>>>> feature/lane-colors
+}
+
+export function laneWidth(count: number): number {
+  const base = 20;
+<<<<<<< HEAD
+  const min = 11;
+  const max = 190;
+  return Math.max(min, Math.min(base, Math.floor(max / Math.max(count, 1))));
+=======
+  return Math.max(11, Math.min(base, Math.floor(190 / Math.max(count, 1))));
+>>>>>>> feature/lane-colors
+}
+
+export function laneLabel(lane: Lane): string {
+<<<<<<< HEAD
+  return \`lane \${lane.index + 1}\`;
+=======
+>>>>>>> feature/lane-colors
+}
+
+export const defaultPalette = paletteFor('angkor-dusk');
+`;
+
+const DEMO_CONFLICT_FILES = new Map<string, string>();
+
+export function demoConflicts(): string[] {
+  return [...DEMO_CONFLICT_FILES.keys()];
+}
+
+export function demoConflictFile(file: string): string {
+  return DEMO_CONFLICT_FILES.get(file) ?? '';
+}
+
+export function resolveDemoConflict(file: string): void {
+  DEMO_CONFLICT_FILES.delete(file);
+}
+
 export const demoConflictContent = `import { render } from './renderer';
 
 export function drawGraph(rows: Row[]) {
@@ -382,6 +432,9 @@ export function drawGraph(rows: Row[]) {
 >>>>>>> feature/lane-colors
 }
 `;
+
+DEMO_CONFLICT_FILES.set('src/features/graph/drawGraph.ts', demoConflictContent);
+DEMO_CONFLICT_FILES.set('src/features/graph/laneColors.ts', demoLaneColorsConflict);
 
 const demoPull = (
   number: number,
