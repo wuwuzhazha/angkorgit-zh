@@ -188,7 +188,14 @@ function AccountStatus({
   if (check === 'unreachable') {
     return <span className="text-xs text-muted">Could not check (offline?)</span>;
   }
-  if (!account.verified) {
+  if (check === 'no_token') {
+    return (
+      <span className="flex items-center gap-1 text-xs text-danger">
+        <AlertTriangle className="size-3.5" /> Token missing from the keychain
+      </span>
+    );
+  }
+  if (!account.verified || check === 'unauthorized') {
     if (!account.verifiedAt) {
       return <span className="text-xs text-faint">Not verified</span>;
     }
@@ -427,7 +434,7 @@ export function AccountsTab() {
                     {account.verified && account.verifiedAt && <span>· checked {timeAgo(account.verifiedAt)}</span>}
                   </p>
                 </div>
-                {!account.verified && (
+                {(!account.verified || checks[key] === 'no_token' || checks[key] === 'unauthorized') && (
                   <Button variant="secondary" size="sm" onClick={() => reconnect(account)}>
                     <RefreshCw className="size-3.5" /> Reconnect
                   </Button>

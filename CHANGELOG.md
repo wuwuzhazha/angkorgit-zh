@@ -35,6 +35,12 @@ All notable changes to AngKorGit are documented here. The format follows
   profile is applied first, as it is from the toolbar.
 
 ### Fixed
+- **Linux: tokens now live in the desktop Secret Service** (GNOME Keyring, KWallet)
+  instead of the kernel keyring, which forgot them between sessions. Accounts whose
+  token is gone are flagged "Token missing from the keychain" with a Reconnect
+  button as soon as the check runs, and pull request loading says the token is
+  missing rather than claiming no account is connected. Building on Linux now needs
+  `libdbus-1-dev`. (#7)
 - Closing the conflict resolver, switching files or pressing Escape with picks or
   hand edits in progress used to drop them silently. It now asks first, and the
   hand-written whole-file result can no longer be discarded with one stray click.
