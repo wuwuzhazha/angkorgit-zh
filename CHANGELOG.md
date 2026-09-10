@@ -34,6 +34,11 @@ All notable changes to AngKorGit are documented here. The format follows
   branch chip's own Push entry now goes through the same flow, so a repo-bound
   profile is applied first, as it is from the toolbar.
 
+- **Open the whole commit from a file's history.** Each row in the file history
+  panel has an open-commit button on hover, a right-click menu, and responds to
+  double-click: the panel closes and the graph jumps to that commit with all of its
+  files in the inspector. (#9)
+
 ### Fixed
 - **Linux: tokens now live in the desktop Secret Service** (GNOME Keyring, KWallet)
   instead of the kernel keyring, which forgot them between sessions. Accounts whose

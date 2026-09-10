@@ -87,6 +87,25 @@ test('reconnecting an account opens the token form with the account prefilled', 
     .toEqual(expect.arrayContaining(['demo-user', 'github.com']));
 });
 
+test('a file history row can open the full commit in the graph', async ({ page }) => {
+  await page.goto('/');
+  await page.getByText('angkorgit', { exact: true }).first().click();
+  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await page.getByText('CommitGraph.tsx').first().click();
+  await page.locator('section[aria-label^="Diff for"]').getByRole('button', { name: 'File history' }).click();
+  const history = page.locator('section[aria-label^="History of"]');
+  await expect(history).toBeVisible();
+  const firstRow = history.getByRole('button', { name: /^Open commit [0-9a-f]+$/ }).first();
+  await firstRow.focus();
+  const label = await firstRow.getAttribute('aria-label');
+  const short = label?.replace('Open commit ', '') ?? '';
+  await firstRow.click();
+  await expect(history).toBeHidden();
+  await expect(page.getByPlaceholder('Search commits…')).toBeVisible();
+  const inspector = page.getByLabel('Inspector');
+  await expect(inspector.getByText('Commit', { exact: true })).toBeVisible();
+  await expect(inspector.getByText(new RegExp(`^${short}`)).first()).toBeVisible();
+  await expect(page.locator('[role="row"][aria-selected="true"]')).toContainText(short.slice(0, 7));
 });
 
 test('conflict resolver picks lines into a clean output', async ({ page }) => {

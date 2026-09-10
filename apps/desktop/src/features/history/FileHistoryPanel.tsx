@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { motion } from 'framer-motion';
 import { toast } from 'sonner';
-import { Columns2, Copy, FileText, History, Rows3, TextSelect, WholeWord, WrapText, X } from 'lucide-react';
+import { Columns2, Copy, FileText, GitCommitHorizontal, History, Rows3, TextSelect, WholeWord, WrapText, X } from 'lucide-react';
 import type { CommitInfo, FileDiff } from '@angkorgit/core';
 import {
   Badge,
@@ -19,6 +19,7 @@ import {
 import { Avatar } from '@/components/Avatar';
 import { ipc } from '@/core/ipc';
 import { useRepo } from '@/features/repository/store';
+import { useGraph } from '@/features/graph/store';
 import { useUi } from '@/features/ui/store';
 import { timeAgo } from '@/shared/utils';
 import { captureSelectionRanges, useKeepSelection } from '@/shared/useKeepSelection';
@@ -89,6 +90,18 @@ export function FileHistoryPanel({ file }: { file: string }) {
   const textDiff = diff && !diff.isBinary && !diff.isImage ? diff : null;
   const { findBar, search } = useDiffFind(textDiff, scrollRef);
   const { selectAllOverlay, selectSide } = useDiffSelectAll(textDiff, scrollRef);
+  const [commitMenu, setCommitMenu] = useState<{ x: number; y: number; commit: CommitInfo } | null>(null);
+  const openCommit = (commit: CommitInfo) => {
+    const path = repo?.path;
+    if (!path) return;
+    closeFileHistory();
+    void useGraph
+      .getState()
+      .revealCommit(path, commit.oid)
+      .then((found) => {
+        if (!found) toast.error(`${commit.shortOid} is not in the current graph`);
+      });
+  };
   const [lineMenu, setLineMenu] = useState<{
     x: number;
     y: number;
@@ -281,15 +294,27 @@ export function FileHistoryPanel({ file }: { file: string }) {
                 commits={commits}
                 scrollRef={listScrollRef}
                 renderRow={(commit) => (
-                  <button
-                    type="button"
+                  <div
+                    role="button"
+                    tabIndex={0}
                     className={cn(
-                      'flex w-full items-start gap-2.5 border-b border-border-subtle px-3 py-2.5 text-left',
+                      'group flex w-full cursor-pointer items-start gap-2.5 border-b border-border-subtle px-3 py-2.5 text-left',
                       selected === commit.oid
                         ? 'border-l-2 border-l-primary bg-surface-raised'
                         : 'border-l-2 border-l-transparent hover:bg-surface-raised/60',
                     )}
                     onClick={() => setSelected(commit.oid)}
+                    onDoubleClick={() => openCommit(commit)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        setSelected(commit.oid);
+                      }
+                    }}
+                    onContextMenu={(e) => {
+                      e.preventDefault();
+                      setCommitMenu({ x: e.clientX, y: e.clientY, commit });
+                    }}
                   >
                     <Avatar name={commit.author.name} email={commit.author.email} size={24} />
                     <span className="min-w-0 flex-1">
@@ -298,10 +323,26 @@ export function FileHistoryPanel({ file }: { file: string }) {
                         {commit.author.name} · {timeAgo(commit.author.time)}
                       </span>
                     </span>
-                    <Badge tone="neutral" className="shrink-0 font-mono text-[10px]">
-                      {commit.shortOid}
-                    </Badge>
-                  </button>
+                    <span className="flex shrink-0 flex-col items-end gap-1">
+                      <Badge tone="neutral" className="font-mono text-[10px]">
+                        {commit.shortOid}
+                      </Badge>
+                      <Hint label="Open this commit in the graph with all its files">
+                        <Button
+                          variant="ghost"
+                          size="icon-sm"
+                          className="h-5 w-5 opacity-0 transition-opacity group-hover:opacity-100 focus-visible:opacity-100"
+                          aria-label={`Open commit ${commit.shortOid}`}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            openCommit(commit);
+                          }}
+                        >
+                          <GitCommitHorizontal className="size-3.5" />
+                        </Button>
+                      </Hint>
+                    </span>
+                  </div>
                 )}
               />
               {hasMore && (
@@ -352,6 +393,27 @@ export function FileHistoryPanel({ file }: { file: string }) {
           )}
         </div>
       </div>
+
+      {commitMenu && (
+        <DropdownMenu open onOpenChange={(o) => !o && setCommitMenu(null)}>
+          <DropdownMenuTrigger asChild>
+            <span style={{ position: 'fixed', left: commitMenu.x, top: commitMenu.y }} />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="start" side="bottom">
+            <DropdownMenuItem onClick={() => openCommit(commitMenu.commit)}>
+              <GitCommitHorizontal /> Open commit with all its files
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => {
+                void navigator.clipboard.writeText(commitMenu.commit.oid);
+                toast.success('Hash copied');
+              }}
+            >
+              <Copy /> Copy hash
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      )}
 
       {lineMenu && (
         <DropdownMenu open onOpenChange={(o) => !o && setLineMenu(null)}>
