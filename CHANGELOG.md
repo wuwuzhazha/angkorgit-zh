@@ -41,6 +41,9 @@ All notable changes to AngKorGit are documented here. The format follows
   button as soon as the check runs, and pull request loading says the token is
   missing rather than claiming no account is connected. Building on Linux now needs
   `libdbus-1-dev`. (#7)
+- "Reconnect with a new token…" on an account did nothing when the account form was
+  hidden. It now opens the form prefilled with the provider, host and username and
+  puts the cursor in the token field. (#8)
 - Closing the conflict resolver, switching files or pressing Escape with picks or
   hand edits in progress used to drop them silently. It now asks first, and the
   hand-written whole-file result can no longer be discarded with one stray click.

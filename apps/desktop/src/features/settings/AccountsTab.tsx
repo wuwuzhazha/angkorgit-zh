@@ -241,6 +241,13 @@ export function AccountsTab() {
   const [loadFailed, setLoadFailed] = useState(false);
   const [adding, setAdding] = useState(false);
   const tokenInputRef = useRef<HTMLInputElement>(null);
+  const focusTokenRef = useRef(false);
+  const skipMenuRefocusRef = useRef(false);
+  useEffect(() => {
+    if (!adding || !focusTokenRef.current) return;
+    focusTokenRef.current = false;
+    tokenInputRef.current?.focus();
+  }, [adding]);
 
   const runChecks = async (list: HostingAccount[]) => {
     const eligible = list.filter(
@@ -300,7 +307,12 @@ export function AccountsTab() {
     setHost(account.host);
     setUsername(kind === 'bitbucket' ? (account.email ?? '') : account.username);
     setToken('');
-    tokenInputRef.current?.focus();
+    if (adding) {
+      requestAnimationFrame(() => tokenInputRef.current?.focus());
+      return;
+    }
+    focusTokenRef.current = true;
+    setAdding(true);
   };
 
   const connect = async () => {
@@ -445,13 +457,26 @@ export function AccountsTab() {
                       <MoreHorizontal className="size-3.5" />
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
+                  <DropdownMenuContent
+                    align="end"
+                    onCloseAutoFocus={(e) => {
+                      if (!skipMenuRefocusRef.current) return;
+                      skipMenuRefocusRef.current = false;
+                      e.preventDefault();
+                      tokenInputRef.current?.focus();
+                    }}
+                  >
                     {multi && !account.isDefault && (
                       <DropdownMenuItem onClick={() => void makeDefault(account)}>
                         <Star /> Make default for {account.host}
                       </DropdownMenuItem>
                     )}
-                    <DropdownMenuItem onClick={() => reconnect(account)}>
+                    <DropdownMenuItem
+                      onClick={() => {
+                        skipMenuRefocusRef.current = true;
+                        reconnect(account);
+                      }}
+                    >
                       <RefreshCw /> Reconnect with a new token…
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />

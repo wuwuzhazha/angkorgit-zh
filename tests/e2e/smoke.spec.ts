@@ -68,6 +68,25 @@ test('the author box finds commits without flattening the graph', async ({ page 
   await expect(page.getByText(/^2 of \d+$/)).toBeVisible();
 });
 
+test('reconnecting an account opens the token form with the account prefilled', async ({ page }) => {
+  await page.goto('/');
+  await page.getByText('angkorgit', { exact: true }).first().click();
+  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await page.getByRole('button', { name: 'Settings', exact: true }).click();
+  const dialog = page.getByRole('dialog');
+  await dialog.getByRole('button', { name: 'Authentication', exact: true }).click();
+  await expect(dialog.getByText('demo-user', { exact: true })).toBeVisible();
+  await expect(dialog.getByPlaceholder('Paste the token')).toBeHidden();
+  await dialog.getByRole('button', { name: 'demo-user on github.com actions' }).click();
+  await page.getByRole('menuitem', { name: /Reconnect with a new token/ }).click();
+  const token = dialog.getByPlaceholder('Paste the token');
+  await expect(token).toBeVisible();
+  await expect(token).toBeFocused();
+  await expect
+    .poll(() => dialog.locator('input').evaluateAll((els) => els.map((el) => (el as HTMLInputElement).value)))
+    .toEqual(expect.arrayContaining(['demo-user', 'github.com']));
+});
+
 });
 
 test('conflict resolver picks lines into a clean output', async ({ page }) => {
