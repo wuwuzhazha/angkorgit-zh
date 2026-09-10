@@ -110,6 +110,8 @@ jobs:
           GH_PAT: ${{ secrets.GH_PAT }}
         run: |
           if ($env:GH_PAT) {
+            # 先清除 actions/checkout 设置的 extraheader，避免覆盖 PAT
+            git config --local --unset-all http.https://github.com/.extraheader 2>$null
             $url = "https://x-access-token:$($env:GH_PAT)@github.com/$env:GITHUB_REPOSITORY.git"
             git remote set-url origin $url
             Write-Output "已切换推送凭据为 GH_PAT"
