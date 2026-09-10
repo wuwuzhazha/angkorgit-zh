@@ -984,7 +984,7 @@ e2e	Unresolved conflict	未解决的冲突
 ui	Conflict {activeConflict + 1} of {total}	冲突 {activeConflict + 1} / {total}
 ui	Conflict {conflictIndices.indexOf(row.block) + 1}	冲突 {conflictIndices.indexOf(row.block) + 1}
 ui	Conflict {conflictIndices.indexOf(index) + 1}	冲突 {conflictIndices.indexOf(index) + 1}
-ui	aria-label="Close"	aria-label="关闭"
+ui	Close	关闭	aria-label="Close"
 e2e	Conflict 1 of 1	冲突 1 / 1
 e2e	a short hash prefix jumps like a full hash and unknown hex words fall back to filtering	短哈希前缀与完整哈希一样跳转，未知的十六进制词回退为过滤
 e2e	clicking a file opens the diff already at its first change, with no scroll animation	点击文件打开的 diff 直接定位到第一处更改，无滚动动画
