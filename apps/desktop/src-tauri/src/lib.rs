@@ -22,7 +22,9 @@ pub mod test_api {
         list as conflict_list, read as conflict_read, resolve as conflict_resolve,
     };
     pub use crate::core::diff::{commit_file_diff, commit_files, file_diff};
-    pub use crate::core::history::{file_history, list as history, position as history_position};
+    pub use crate::core::history::{
+        file_history, list as history, position as history_position, search as history_search,
+    };
     pub use crate::core::misc::{
         stash_create, stash_files, stash_list, stash_pop, stash_restore_files, tag_create,
         tag_delete, tag_list,
@@ -36,6 +38,7 @@ pub mod test_api {
         stage_hunk, stage_line, unstage_all, unstage_file, unstage_hunk, unstage_line,
     };
     pub use crate::core::types::HistoryQuery;
+    pub use crate::core::types::HistorySearchQuery;
     pub use crate::core::types::RebaseTodoEntry;
     pub use crate::core::types::WorktreeAddRequest;
     pub use crate::core::worktree::{
@@ -97,6 +100,7 @@ pub fn run() {
             commands::commit_revert,
             commands::history_list,
             commands::history_position,
+            commands::history_search,
             commands::history_commit,
             commands::history_file,
             commands::repo_files,

@@ -30,12 +30,82 @@ test('命令面板可通过键盘快捷键打开', async ({ page }) => {
   await expect(page.getByPlaceholder('输入命令或分支名…')).toBeVisible();
 });
 
-test('提交搜索过滤提交图', async ({ page }) => {
+test('commit search finds matches in the full graph and steps through them', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  const search = page.getByPlaceholder('搜索提交…');
+  const search = page.getByPlaceholder('Search commits…');
+  await expect(search).toBeVisible({ timeout: 10_000 });
   await search.fill('virtualize');
-  await expect(page.getByText(/feat\(graph\): virtualize commit rows/).first()).toBeVisible();
+  await expect(page.getByText(/^1 of \d+$/)).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByText(/200\+ commits/)).toBeVisible();
+  await expect(page.locator('[data-search-match="active"]')).toHaveText(/virtualize commit rows/);
+  await expect(page.locator('[data-search-match]').first()).toBeVisible();
+  await search.press('Enter');
+  await expect(page.getByText(/^2 of \d+$/)).toBeVisible();
+  await page.getByLabel('Previous match').click();
+  await expect(page.getByText(/^1 of \d+$/)).toBeVisible();
+  await page.getByText('fix(diff): handle renamed files in word diff').first().click();
+  await expect(search).toHaveValue('virtualize');
+  await expect(page.locator('[data-search-match="active"]')).toHaveCount(0);
+  await search.press('Escape');
+  await expect(search).toHaveValue('');
+  await expect(page.getByText(/^1 of \d+$/)).toBeHidden();
+});
+
+test('the author box finds commits without flattening the graph', async ({ page }) => {
+  await page.goto('/');
+  await page.getByText('angkorgit', { exact: true }).first().click();
+  const author = page.getByPlaceholder('Find author…');
+  await expect(author).toBeVisible({ timeout: 10_000 });
+  await author.fill('Dara');
+  await expect(page.getByText(/^1 of \d+$/)).toBeVisible({ timeout: 10_000 });
+  await expect(page.locator('[data-search-match="active"]')).toContainText('Dara Kim');
+  await expect(page.getByText(/200\+ commits/)).toBeVisible();
+  await expect(page.locator('[data-graph-tail]').first()).toBeVisible();
+  await page.getByPlaceholder('Search commits…').fill('renamed');
+  await expect(page.locator('[data-search-match="active"]')).toContainText('fix(diff): handle renamed files');
+  await author.press('Enter');
+  await expect(page.getByText(/^2 of \d+$/)).toBeVisible();
+});
+
+test('reconnecting an account opens the token form with the account prefilled', async ({ page }) => {
+  await page.goto('/');
+  await page.getByText('angkorgit', { exact: true }).first().click();
+  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await page.getByRole('button', { name: 'Settings', exact: true }).click();
+  const dialog = page.getByRole('dialog');
+  await dialog.getByRole('button', { name: 'Authentication', exact: true }).click();
+  await expect(dialog.getByText('demo-user', { exact: true })).toBeVisible();
+  await expect(dialog.getByPlaceholder('Paste the token')).toBeHidden();
+  await dialog.getByRole('button', { name: 'demo-user on github.com actions' }).click();
+  await page.getByRole('menuitem', { name: /Reconnect with a new token/ }).click();
+  const token = dialog.getByPlaceholder('Paste the token');
+  await expect(token).toBeVisible();
+  await expect(token).toBeFocused();
+  await expect
+    .poll(() => dialog.locator('input').evaluateAll((els) => els.map((el) => (el as HTMLInputElement).value)))
+    .toEqual(expect.arrayContaining(['demo-user', 'github.com']));
+});
+
+test('a file history row can open the full commit in the graph', async ({ page }) => {
+  await page.goto('/');
+  await page.getByText('angkorgit', { exact: true }).first().click();
+  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await page.getByText('CommitGraph.tsx').first().click();
+  await page.locator('section[aria-label^="Diff for"]').getByRole('button', { name: 'File history' }).click();
+  const history = page.locator('section[aria-label^="History of"]');
+  await expect(history).toBeVisible();
+  const firstRow = history.getByRole('button', { name: /^Open commit [0-9a-f]+$/ }).first();
+  await firstRow.focus();
+  const label = await firstRow.getAttribute('aria-label');
+  const short = label?.replace('Open commit ', '') ?? '';
+  await firstRow.click();
+  await expect(history).toBeHidden();
+  await expect(page.getByPlaceholder('Search commits…')).toBeVisible();
+  const inspector = page.getByLabel('Inspector');
+  await expect(inspector.getByText('Commit', { exact: true })).toBeVisible();
+  await expect(inspector.getByText(new RegExp(`^${short}`)).first()).toBeVisible();
+  await expect(page.locator('[role="row"][aria-selected="true"]')).toContainText(short.slice(0, 7));
 });
 
 test('冲突解决器将所选行合并为干净的结果', async ({ page }) => {
@@ -99,7 +169,89 @@ test('conflict result can be hand-edited per block', async ({ page }) => {
   await expect(page.getByText('1 / 1 已解决')).toBeVisible();
 });
 
-test('交互式变基对话框可从提交右键菜单打开', async ({ page }) => {
+test('conflict picks land in file order and a half-picked side shows as mixed', async ({ page }) => {
+  await page.goto('/');
+  await page.getByText('angkorgit', { exact: true }).first().click();
+  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await page.getByRole('button', { name: /drawGraph\.ts/ }).first().click();
+  await expect(page.getByText('0 of 1 resolved')).toBeVisible();
+  await page.getByText('return render(rows, { colors });').first().click();
+  await page.getByText('const palette = useThemePalette();').first().click();
+  await expect(page.getByText('1 of 1 resolved')).toBeVisible();
+  await expect(page.getByText('resolved', { exact: true })).toBeVisible();
+  const resultLines = page.locator('[data-line] pre');
+  await expect(resultLines).toHaveCount(2);
+  await expect(resultLines.nth(0)).toHaveText(/const palette = useThemePalette\(\);/);
+  await expect(resultLines.nth(1)).toHaveText(/return render\(rows, \{ colors \}\);/);
+  await expect(page.getByLabel('Take all lines from A for this conflict')).toHaveAttribute('aria-checked', 'mixed');
+  await expect(page.getByLabel('Take all lines from B for this conflict')).toHaveAttribute('aria-checked', 'mixed');
+  await page.getByLabel('Take all lines from A for this conflict').click();
+  await expect(page.getByLabel('Take all lines from A for this conflict')).toHaveAttribute('aria-checked', 'true');
+  await expect(resultLines).toHaveCount(3);
+});
+
+test('the resolver picks with the keyboard and opens the next conflicted file after saving', async ({ page }) => {
+  await page.goto('/');
+  await page.getByText('angkorgit', { exact: true }).first().click();
+  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await page.getByRole('button', { name: /laneColors\.ts/ }).first().click();
+  await expect(page.getByText('0 of 3 resolved')).toBeVisible();
+  await expect(page.getByText('File 2 of 2')).toBeVisible();
+  await page.keyboard.press('a');
+  await expect(page.getByText('1 of 3 resolved')).toBeVisible();
+  await page.keyboard.press('ArrowDown');
+  await expect(page.getByText('Conflict 2 of 3')).toBeVisible();
+  await page.keyboard.press('b');
+  await page.keyboard.press('ArrowDown');
+  await page.keyboard.press('b');
+  await expect(page.getByText('3 of 3 resolved')).toBeVisible();
+  await expect(page.getByText('(section deleted)')).toBeVisible();
+  await page.keyboard.press('ControlOrMeta+Enter');
+  await expect(page.getByText('laneColors.ts resolved')).toBeVisible();
+  await expect(page.getByText('1 more file to resolve')).toBeVisible();
+  await expect(page.getByRole('dialog', { name: /Resolve conflicts in src\/features\/graph\/drawGraph\.ts/ })).toBeVisible();
+  await expect(page.getByText('File 1 of 2')).toBeHidden();
+});
+
+test('leaving a conflict with picks asks first while a clean resolver closes on Escape', async ({ page }) => {
+  await page.goto('/');
+  await page.getByText('angkorgit', { exact: true }).first().click();
+  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  const open = () => page.getByRole('button', { name: /drawGraph\.ts/ }).first().click();
+  const resolver = page.getByRole('dialog', { name: /Resolve conflicts/ });
+  await open();
+  await expect(resolver).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(resolver).toBeHidden();
+  await open();
+  await page.getByLabel('Take all lines from A for this conflict').click();
+  await page.keyboard.press('Escape');
+  const confirm = page.getByRole('dialog').filter({ hasText: 'Leave this file unresolved?' });
+  await expect(confirm).toBeVisible();
+  await confirm.getByRole('button', { name: 'Cancel' }).click();
+  await expect(confirm).toBeHidden();
+  await expect(page.getByText('1 of 1 resolved')).toBeVisible();
+  await resolver.getByRole('button', { name: 'Close', exact: true }).click();
+  await expect(confirm).toBeVisible();
+  await confirm.getByRole('button', { name: 'Leave' }).click();
+  await expect(resolver).toBeHidden();
+});
+
+test('right-clicking a branch tip offers to push that branch', async ({ page }) => {
+  await page.goto('/');
+  await page.getByText('angkorgit', { exact: true }).first().click();
+  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await page.getByRole('row').nth(0).click({ button: 'right' });
+  const pushItem = page.getByRole('menuitem', { name: /^Push main/ });
+  await expect(pushItem).toBeVisible();
+  await expect(pushItem).toContainText('↑2');
+  await page.keyboard.press('Escape');
+  await page.getByRole('row').nth(3).click({ button: 'right' });
+  await expect(page.getByRole('menuitem', { name: /Cherry-pick onto current branch/ })).toBeVisible();
+  await expect(page.getByRole('menuitem', { name: /^Push/ })).toHaveCount(0);
+});
+
+test('interactive rebase dialog opens from the commit context menu', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
   await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
@@ -433,13 +585,13 @@ test('搜索提交哈希会在完整提交图中跳转到它', async ({ page }) 
   await search.fill('000096aaaaaa');
   await expect(page.getByText('400 个提交')).toBeVisible({ timeout: 10_000 });
   await expect(page.getByText('000096aa').first()).toBeVisible();
+  await expect(page.getByText('1 of 1')).toBeVisible();
 
   await page.getByText('fix(diff): handle renamed files in word diff').first().click();
-  await expect(search).toHaveValue('');
-  await expect(page.getByText('400 个提交')).toBeVisible();
+  await expect(page.getByText('400 commits')).toBeVisible();
 });
 
-test('短哈希前缀与完整哈希一样跳转，未知的十六进制词回退为过滤', async ({ page }) => {
+test('a short hash prefix jumps like a full hash and an unknown hex word reports no matches', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
   const search = page.getByPlaceholder('搜索提交…');
@@ -450,8 +602,8 @@ test('短哈希前缀与完整哈希一样跳转，未知的十六进制词回�
   await expect(page.getByText('000096aa').first()).toBeVisible();
 
   await search.fill('dedede');
-  await expect(page.getByText('没有提交匹配这些过滤条件')).toBeVisible({ timeout: 10_000 });
-  await expect(page.getByText('找不到提交')).not.toBeVisible();
+  await expect(page.getByText('No matches')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByText('400 commits')).toBeVisible();
 });
 
 test('搜索不存在的哈希会保留提交图并提示', async ({ page }) => {
@@ -460,8 +612,8 @@ test('搜索不存在的哈希会保留提交图并提示', async ({ page }) => 
   const search = page.getByPlaceholder('搜索提交…');
   await expect(search).toBeVisible({ timeout: 10_000 });
   await search.fill('deadbeef123');
-  await expect(page.getByText('找不到提交')).toBeVisible({ timeout: 10_000 });
-  await expect(page.getByText(/200\+ 个提交/)).toBeVisible();
+  await expect(page.getByText('No matches')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByText(/200\+ commits/)).toBeVisible();
 });
 
 test('mod+f 聚焦提交搜索框', async ({ page }) => {
@@ -556,7 +708,60 @@ test('打开 diff 时检查器保持相同宽度', async ({ page }) => {
   await expect.poll(async () => Math.abs((await widthOf(inspector)) - inspectorBefore)).toBeLessThan(2);
 });
 
-test('提交框将摘要行与较小的描述分隔开', async ({ page }) => {
+test('the inspector stops at its minimum width when dragged and comes back after file history', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('/');
+  await page.getByText('angkorgit', { exact: true }).first().click();
+  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  const inspector = page.locator('[data-panel-id="inspector"]');
+  const widthOf = async () => (await inspector.boundingBox())?.width ?? 0;
+  const handle = page.locator('[data-panel-resize-handle-id]').nth(1);
+  const grip = await handle.boundingBox();
+  if (!grip) throw new Error('no inspector resize handle');
+  await page.mouse.move(grip.x + grip.width / 2, grip.y + 300);
+  await page.mouse.down();
+  await page.mouse.move(1430, grip.y + 300, { steps: 12 });
+  await page.mouse.up();
+  const minimum = await widthOf();
+  expect(minimum).toBeGreaterThan(200);
+  await expect(page.getByLabel('Inspector')).toBeVisible();
+  await expect(page.getByText('ipc.ts', { exact: true }).first()).toBeVisible();
+
+  await page.getByText('CommitGraph.tsx').first().click();
+  await page.locator('section[aria-label^="Diff for"]').getByRole('button', { name: 'File history' }).click();
+  await expect(page.locator('section[aria-label^="History of"]')).toBeVisible();
+  await expect.poll(widthOf).toBeLessThan(2);
+  await page.getByRole('button', { name: 'Close file history' }).click();
+  await expect(page.getByPlaceholder('Search commits…')).toBeVisible();
+  await expect.poll(async () => Math.abs((await widthOf()) - minimum)).toBeLessThan(2);
+});
+
+test('dragging the sidebar shut and back open shows its content again', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('/');
+  await page.getByText('angkorgit', { exact: true }).first().click();
+  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  const sidebar = page.locator('[data-panel-id="sidebar"]');
+  const filter = page.getByPlaceholder('Filter refs…');
+  await expect(filter).toBeVisible();
+  const handle = page.locator('[data-panel-resize-handle-id]').first();
+  const grip = await handle.boundingBox();
+  if (!grip) throw new Error('no sidebar resize handle');
+  await page.mouse.move(grip.x + grip.width / 2, grip.y + 300);
+  await page.mouse.down();
+  await page.mouse.move(4, grip.y + 300, { steps: 12 });
+  await expect(filter).toBeHidden();
+  await expect.poll(async () => (await sidebar.boundingBox())?.width ?? 0).toBeLessThan(2);
+  await page.mouse.move(grip.x + 40, grip.y + 300, { steps: 12 });
+  await page.mouse.up();
+  await expect(filter).toBeVisible();
+  expect((await sidebar.boundingBox())?.width ?? 0).toBeGreaterThan(200);
+  await expect(page.getByRole('button', { name: /^Branches/ })).toBeVisible();
+});
+
+test('commit box separates a summary line from a smaller description', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
   await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
@@ -708,7 +913,7 @@ test('冲突解决器在两侧和结果中都显示行号', async ({ page }) => 
   await page.getByRole('button', { name: /drawGraph\.ts/ }).first().click();
   const dialog = page.getByRole('dialog', { name: /解决冲突/ });
   await expect(dialog).toBeVisible();
-  const gutters = dialog.locator('span.w-9.tabular-nums');
+  const gutters = dialog.locator('span[data-line-no]');
   const values = (await gutters.allInnerTexts()).map((t) => t.trim()).filter(Boolean).map(Number);
   expect(values.length).toBeGreaterThan(6);
   expect(values.filter((n) => n === 1).length).toBeGreaterThanOrEqual(3);

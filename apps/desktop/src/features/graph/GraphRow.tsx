@@ -12,12 +12,10 @@ export const ROW_HEIGHT = 32;
 export const REF_COL_WIDTH = 150;
 export const GUTTER_GAP = 10;
 export const AUTHOR_COL_WIDTH = 112;
-const FLAT_REF_WIDTH = 224;
 const OVERFLOW_BADGE_WIDTH = 34;
 const CHAR_WIDTH = 6.4;
 const CHIP_PADDING = 18;
 const CHIP_ICON = 14;
-export const FLAT_GUTTER_WIDTH = 28;
 export const LANE_WIDTH = 20;
 export const LANE_WIDTH_MIN = 11;
 export const GUTTER_MAX_WIDTH = 190;
@@ -85,27 +83,6 @@ function StashNode({ color }: { color?: number }) {
   );
 }
 
-function FlatGutter({ author, isStash }: { author: CommitInfo['author']; isStash: boolean }) {
-  return (
-    <div
-      className="flex shrink-0 items-center justify-center"
-      style={{ width: FLAT_GUTTER_WIDTH, height: ROW_HEIGHT }}
-    >
-      <span
-        className="overflow-hidden rounded-full"
-        title={isStash ? '暂存' : author.name}
-        style={{
-          width: AVATAR_SIZE,
-          height: AVATAR_SIZE,
-          boxShadow: '0 0 0 1px hsl(var(--border))',
-          background: 'hsl(var(--surface))',
-        }}
-      >
-        {isStash ? <StashNode /> : <Avatar name={author.name} email={author.email} size={AVATAR_SIZE} />}
-      </span>
-    </div>
-  );
-}
 
 function GraphGutter({
   row,
@@ -307,7 +284,6 @@ function RefCell({
   refs,
   isHead,
   color,
-  flat,
   width,
   worktrees,
   resettableBranches,
@@ -318,7 +294,6 @@ function RefCell({
   refs: RefInfo[];
   isHead: boolean;
   color: number;
-  flat?: boolean;
   width: number;
   worktrees?: ReadonlyMap<string, string>;
   resettableBranches?: ReadonlySet<string>;
@@ -328,17 +303,10 @@ function RefCell({
 }) {
   const groups = groupRefs(refs);
   let headMarked = false;
-  if (flat && groups.length === 0) return null;
-  const shown = fitGroups(groups, (flat ? FLAT_REF_WIDTH : width) - 8, isHead);
+  const shown = fitGroups(groups, width - 8, isHead);
   const hidden = groups.slice(shown.length);
   return (
-    <span
-      className={cn(
-        'flex h-full shrink-0 items-center gap-1',
-        flat ? 'max-w-56' : '-mr-2',
-      )}
-      style={flat ? undefined : { width }}
-    >
+    <span className="-mr-2 flex h-full shrink-0 items-center gap-1" style={{ width }}>
       {shown.map((group) => {
         const head = (isHead && group.local && !headMarked) || group.detachedHead;
         if (head) headMarked = true;
@@ -395,7 +363,7 @@ function RefCell({
           +{hidden.length}
         </Badge>
       )}
-      {!flat && groups.length > 0 && (
+      {groups.length > 0 && (
         <span
           className="h-px min-w-1 flex-1"
           style={{ background: laneColor(color), opacity: 0.45 }}
@@ -409,7 +377,6 @@ interface Props {
   commit: CommitInfo;
   row: GraphRowData;
   gutterWidth: number;
-  flat?: boolean;
   selected: boolean;
   laneWidth?: number;
   columns?: GraphColumns;
@@ -427,7 +394,6 @@ export const CommitRow = memo(function CommitRow({
   commit,
   row,
   gutterWidth,
-  flat,
   selected,
   laneWidth = LANE_WIDTH,
   columns = DEFAULT_GRAPH_COLUMNS,
@@ -447,7 +413,6 @@ export const CommitRow = memo(function CommitRow({
       refs={commit.refs}
       isHead={commit.isHead}
       color={row.node.color}
-      flat={flat}
       width={REF_COL_WIDTH}
       worktrees={worktrees}
       resettableBranches={resettableBranches}
@@ -462,28 +427,23 @@ export const CommitRow = memo(function CommitRow({
       aria-selected={selected}
       className={cn(
         'flex h-8 cursor-pointer select-none items-center gap-2 pr-4 text-sm transition-colors',
-        columns.refs || flat ? 'pl-1' : 'pl-4',
+        columns.refs ? 'pl-1' : 'pl-4',
         selected ? 'bg-primary/10' : 'hover:bg-surface-raised',
         commit.isHead && 'font-medium',
       )}
       onClick={(e) => onSelect(commit.oid, e)}
       onContextMenu={(e) => onContextMenu(e, commit)}
     >
-      {!flat && refCell}
-      {flat ? (
-        <FlatGutter author={commit.author} isStash={isStash} />
-      ) : (
-        <GraphGutter
-          row={row}
-          width={gutterWidth}
-          laneWidth={laneWidth}
-          author={commit.author}
-          hasRefs={columns.refs && commit.refs.length > 0}
-          isStash={isStash}
-          showTail={showTail}
-        />
-      )}
-      {flat && refCell}
+      {refCell}
+      <GraphGutter
+        row={row}
+        width={gutterWidth}
+        laneWidth={laneWidth}
+        author={commit.author}
+        hasRefs={columns.refs && commit.refs.length > 0}
+        isStash={isStash}
+        showTail={showTail}
+      />
       {commit.isHead && commit.refs.length === 0 && <Badge tone="primary">HEAD</Badge>}
       {columns.message ? (
         <>

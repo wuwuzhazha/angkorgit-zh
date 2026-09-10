@@ -295,6 +295,11 @@ pub async fn history_list(path: String, query: HistoryQuery) -> AppResult<Histor
 }
 
 #[tauri::command]
+pub async fn history_search(path: String, query: HistorySearchQuery) -> AppResult<HistorySearch> {
+    blocking(move || history::search(&path, query)).await
+}
+
+#[tauri::command]
 pub async fn history_commit(path: String, oid: String) -> AppResult<CommitInfo> {
     blocking(move || history::single(&path, &oid)).await
 }

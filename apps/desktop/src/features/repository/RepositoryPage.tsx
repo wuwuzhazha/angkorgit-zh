@@ -1,4 +1,4 @@
-import { Suspense, lazy, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Suspense, lazy, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Panel, PanelGroup, PanelResizeHandle, type ImperativePanelHandle } from 'react-resizable-panels';
 import { motion } from 'framer-motion';
@@ -40,6 +40,7 @@ const OVERLAY_SHOW_DELAY = 250;
 const OVERLAY_MIN_VISIBLE = 450;
 const SIDEBAR_DEFAULT_SIZE = 18;
 const INSPECTOR_DEFAULT_SIZE = 28;
+const INSPECTOR_MIN_SIZE = 20;
 
 function useRepoLoadingOverlay(): boolean {
   const active = useRepo((s) => s.opening !== null || s.refreshing);
@@ -263,8 +264,8 @@ export function RepositoryPage() {
         combo: 'escape',
         handler: () => {
           const ui = useUi.getState();
-          if (ui.conflictFile) ui.openConflict(null);
-          else if (ui.centerEditor) editorCloseShortcut.current?.();
+          if (ui.conflictFile) return;
+          if (ui.centerEditor) editorCloseShortcut.current?.();
           else if (ui.centerDiff) closeCenterDiff();
           else if (ui.centerFileHistory) ui.closeFileHistory();
         },
@@ -283,6 +284,7 @@ export function RepositoryPage() {
   const sidebarDragging = useRef(false);
   const sidebarPanel = useRef<ImperativePanelHandle>(null);
   const inspectorPanel = useRef<ImperativePanelHandle>(null);
+  const inspectorSizeBeforeFocus = useRef<number | null>(null);
   useEffect(() => {
     const panel = sidebarPanel.current;
     if (!panel) return;
@@ -292,13 +294,18 @@ export function RepositoryPage() {
       panel.collapse();
     }
   }, [showSidebar, repo]);
-  useEffect(() => {
+  useLayoutEffect(() => {
     const panel = inspectorPanel.current;
     if (!panel) return;
     if (focusMode) {
-      if (!panel.isCollapsed()) panel.collapse();
-    } else if (panel.isCollapsed()) {
-      panel.expand(INSPECTOR_DEFAULT_SIZE);
+      if (!panel.isCollapsed()) {
+        inspectorSizeBeforeFocus.current = panel.getSize();
+        panel.collapse();
+      }
+    } else {
+      const restore = inspectorSizeBeforeFocus.current;
+      inspectorSizeBeforeFocus.current = null;
+      if (restore != null && restore >= INSPECTOR_MIN_SIZE) panel.resize(restore);
     }
   }, [focusMode, repo]);
 
@@ -337,6 +344,11 @@ export function RepositoryPage() {
                   if (panel && showSidebarRef.current && panel.isCollapsed()) panel.expand(SIDEBAR_DEFAULT_SIZE);
                 });
               }
+            }}
+            onExpand={() => {
+              if (!sidebarDragging.current) return;
+              const ui = useUi.getState();
+              if (!ui.sidebarOpen && !ui.sidebarHiddenForDiff && !focusModeRef.current) ui.setSidebarOpen(true);
             }}
           >
             {showSidebar && <Sidebar />}
@@ -381,9 +393,9 @@ export function RepositoryPage() {
             id="inspector"
             order={3}
             defaultSize={INSPECTOR_DEFAULT_SIZE}
-            minSize={20}
+            minSize={INSPECTOR_MIN_SIZE}
             maxSize={45}
-            collapsible
+            collapsible={focusMode}
             collapsedSize={0}
           >
             {!focusMode && <Inspector />}

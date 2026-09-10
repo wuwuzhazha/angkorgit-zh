@@ -196,6 +196,17 @@ export interface HistoryPosition {
   oid: string;
 }
 
+export interface HistorySearchQuery {
+  search: string;
+  author?: string;
+  branch?: string;
+}
+
+export interface HistorySearch {
+  matches: HistoryPosition[];
+  truncated: boolean;
+}
+
 export type RebaseTodoAction = 'pick' | 'reword' | 'squash' | 'fixup' | 'drop';
 
 export interface RebaseTodoEntry {

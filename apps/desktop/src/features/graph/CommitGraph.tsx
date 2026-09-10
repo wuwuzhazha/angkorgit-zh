@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { toast } from 'sonner';
 import { toastOutcome } from '@/shared/toastOutcome';
-import { Archive, ArchiveRestore, ArrowDownToLine, ArrowUpFromLine, Check, Combine, Copy, Filter, FolderTree, GitBranchPlus, Settings2, GitMerge, ListOrdered, ListRestart, RotateCcw, Search, Tag as TagIcon, Trash2, Undo2, User, X } from 'lucide-react';
+import { Archive, ArchiveRestore, ArrowDownToLine, ArrowUpFromLine, Check, ChevronDown, ChevronUp, Combine, Copy, Filter, FolderTree, GitBranchPlus, Settings2, GitMerge, ListOrdered, ListRestart, RotateCcw, Search, Tag as TagIcon, Trash2, Undo2, User, X } from 'lucide-react';
 import type { CommitInfo, RefInfo } from '@angkorgit/core';
 import {
   Button,
@@ -19,17 +19,15 @@ import {
   cn,
 } from '@angkorgit/design-system';
 import { ipc } from '@/core/ipc';
+import { ensureRepoProfile } from '@/features/settings/profiles';
 import { useRepo } from '@/features/repository/store';
 import { useGraph } from './store';
 import { useUi } from '@/features/ui/store';
 import { useUndo, type UndoKind } from '@/features/history/undoStore';
-import { AUTHOR_COL_WIDTH, CommitRow, FLAT_GUTTER_WIDTH, GUTTER_GAP, GraphTailDefs, REF_COL_WIDTH, ROW_HEIGHT, gutterWidthFor, laneWidthFor } from './GraphRow';
+import { AUTHOR_COL_WIDTH, CommitRow, GUTTER_GAP, GraphTailDefs, REF_COL_WIDTH, ROW_HEIGHT, gutterWidthFor, laneWidthFor } from './GraphRow';
 import { WipRow } from './WipRow';
 import { confirmDialog } from '@/components/confirm';
 import { useShortcuts } from '@/shared/useShortcuts';
-
-const HASH_QUERY = /^[0-9a-f]{4,40}$/i;
-const AMBIGUOUS_HASH_MAX = 6;
 
 interface MenuState {
   x: number;
@@ -50,7 +48,8 @@ export function CommitGraph() {
   const refresh = useRepo((s) => s.refresh);
   const worktrees = useRepo((s) => s.worktrees);
   const branches = useRepo((s) => s.branches);
-  const { rows, commits, maxLane, hasMore, loading, error, filters, selectedOid, selectedOids, pendingScrollIndex, loadMore, reload, setFilters, select, toggleSelect, rangeSelect, jumpTo, clearPendingScroll } =
+  const remotes = useRepo((s) => s.remotes);
+  const { rows, commits, maxLane, hasMore, loading, error, filters, find, locatedOid, selectedOid, selectedOids, pendingScrollIndex, loadMore, reload, setFilters, setFind, stepFind, select, toggleSelect, rangeSelect, clearPendingScroll } =
     useGraph();
   const openDialog = useUi((s) => s.openDialog);
   const graphColumns = useUi((s) => s.graphColumns);
@@ -60,13 +59,8 @@ export function CommitGraph() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [menu, setMenu] = useState<MenuState | null>(null);
   const [refMenu, setRefMenu] = useState<RefMenuState | null>(null);
-  const [searchDraft, setSearchDraft] = useState(filters.search);
-  const [authorDraft, setAuthorDraft] = useState(filters.author);
-  const [jumpedOid, setJumpedOid] = useState<string | null>(null);
-  const [jumpMiss, setJumpMiss] = useState(false);
-  const jumpedRef = useRef('');
-  const draftsRef = useRef({ search: '', author: '' });
-  draftsRef.current = { search: searchDraft, author: authorDraft };
+  const [searchDraft, setSearchDraft] = useState(find?.text ?? '');
+  const [authorDraft, setAuthorDraft] = useState(find?.author ?? '');
   const searchInputRef = useRef<HTMLInputElement>(null);
 
   const path = repo?.path ?? '';
@@ -96,58 +90,31 @@ export function CommitGraph() {
     }
   }, [items, rows.length, hasMore, loading, error, path, loadMore]);
 
-  const runJump = useCallback(
-    (rev: string) => {
-      void jumpTo(path, rev).then((oid) => {
-        if (useGraph.getState().lastPath !== path) return;
-        if (draftsRef.current.search.trim() !== rev || draftsRef.current.author) return;
-        if (oid) {
-          jumpedRef.current = rev;
-          setJumpedOid(oid);
-          setJumpMiss(false);
-          return;
-        }
-        if (rev.length <= AMBIGUOUS_HASH_MAX) {
-          jumpedRef.current = rev;
-          setJumpedOid(null);
-          setJumpMiss(false);
-          setFilters(path, { search: rev, author: '' });
-          return;
-        }
-        setJumpMiss(true);
-      });
-    },
-    [jumpTo, path, setFilters],
-  );
-
   useEffect(() => {
-    const trimmed = searchDraft.trim();
-    const hashLike = HASH_QUERY.test(trimmed);
-    if (jumpedRef.current && jumpedRef.current !== trimmed) {
-      jumpedRef.current = '';
-      setJumpMiss(false);
-    }
+    const text = searchDraft.trim();
+    const author = authorDraft.trim();
+    const current = useGraph.getState().find;
+    if ((current?.text ?? '') === text && (current?.author ?? '') === author) return;
     const timer = setTimeout(() => {
-      if (hashLike && !authorDraft) {
-        if (jumpedRef.current !== trimmed) runJump(trimmed);
-        return;
-      }
-      if (searchDraft !== filters.search || authorDraft !== filters.author) {
-        setJumpedOid(null);
-        setJumpMiss(false);
-        setFilters(path, { search: searchDraft, author: authorDraft });
-      }
+      void setFind(path, { text, author });
     }, 300);
     return () => clearTimeout(timer);
-  }, [searchDraft, authorDraft, filters.search, filters.author, path, setFilters, runJump]);
+  }, [searchDraft, authorDraft, path, setFind]);
 
-  useEffect(() => {
-    if (!jumpedOid || selectedOid === jumpedOid) return;
-    setJumpedOid(null);
-    setJumpMiss(false);
-    jumpedRef.current = '';
-    setSearchDraft('');
-  }, [selectedOid, jumpedOid]);
+  const onFindKeyDown = (draft: string, clear: () => void) => (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Escape') {
+      if (!draft) return;
+      e.preventDefault();
+      clear();
+      return;
+    }
+    if (e.key !== 'Enter' && e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
+    e.preventDefault();
+    const backwards = e.key === 'ArrowUp' || (e.key === 'Enter' && e.shiftKey);
+    void stepFind(path, backwards ? -1 : 1);
+  };
+
+  const matchOids = useMemo(() => new Set(find?.matches.map((m) => m.oid) ?? []), [find]);
 
   useEffect(() => {
     if (pendingScrollIndex === null || pendingScrollIndex >= rows.length) return;
@@ -155,10 +122,9 @@ export function CommitGraph() {
     clearPendingScroll();
   }, [pendingScrollIndex, rows.length, virtualizer, clearPendingScroll]);
 
-  const flat = Boolean(filters.search || filters.author);
   const laneWidth = laneWidthFor(maxLane);
-  const gutterWidth = flat ? FLAT_GUTTER_WIDTH : gutterWidthFor(maxLane, laneWidth);
-  const filtersActive = Boolean(filters.search || filters.author || filters.branch);
+  const gutterWidth = gutterWidthFor(maxLane, laneWidth);
+  const filtersActive = Boolean(filters.branch);
 
   const moveSelection = useCallback(
     (step: 1 | -1 | 'home' | 'end') => {
@@ -240,6 +206,23 @@ export function CommitGraph() {
     },
     [refresh, reload, path],
   );
+
+  const pushRemoteFor = (branch: string): string => {
+    const upstream = branches.find((b) => !b.isRemote && b.name === branch)?.upstream;
+    if (upstream) {
+      const remoteName = upstream.split('/')[0];
+      if (remotes.some((r) => r.name === remoteName)) return remoteName;
+    }
+    return remotes[0]?.name ?? 'origin';
+  };
+
+  const pushBranch = async (branch: string) => {
+    await ensureRepoProfile(path);
+    await act(`Push ${branch}`, () => ipc.push(path, pushRemoteFor(branch), false, false, true, branch));
+    void import('@/features/forge/store').then(({ useForge }) => useForge.getState().load(true));
+  };
+
+  const aheadOf = (branch: string): number => branches.find((b) => !b.isRemote && b.name === branch)?.ahead ?? 0;
 
   const onContextMenu = useCallback((event: React.MouseEvent, commit: CommitInfo) => {
     event.preventDefault();
@@ -367,25 +350,56 @@ export function CommitGraph() {
             ref={searchInputRef}
             value={searchDraft}
             onChange={(e) => setSearchDraft(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key !== 'Enter') return;
-              const trimmed = searchDraft.trim();
-              if (HASH_QUERY.test(trimmed) && !authorDraft) {
-                jumpedRef.current = '';
-                runJump(trimmed);
-              }
-            }}
-            placeholder="搜索提交…"
+            onKeyDown={onFindKeyDown(searchDraft, () => setSearchDraft(''))}
+            placeholder="Search commits…"
             className="h-7 pl-8 text-xs"
           />
         </div>
-        {jumpMiss && <span className="text-xs text-danger">找不到提交</span>}
+        {find &&
+          (find.loading && find.matches.length === 0 ? (
+            <Spinner className="size-3.5 text-faint" />
+          ) : find.matches.length === 0 ? (
+            <span className="text-xs text-danger">No matches</span>
+          ) : (
+            <span
+              className="flex items-center gap-0.5 rounded-md border border-border-subtle bg-surface-raised/60 px-1"
+              aria-label={`Match ${find.active + 1} of ${find.matches.length}${find.truncated ? ' or more' : ''}`}
+            >
+              <Hint label="Previous match (Shift+Enter)">
+                <Button
+                  variant="ghost"
+                  size="icon-sm"
+                  className="h-5 w-5"
+                  aria-label="Previous match"
+                  onClick={() => void stepFind(path, -1)}
+                >
+                  <ChevronUp className="size-3.5" />
+                </Button>
+              </Hint>
+              <span className="whitespace-nowrap px-1 text-[10px] font-medium tabular-nums text-muted">
+                {find.active + 1} of {find.matches.length}
+                {find.truncated ? '+' : ''}
+              </span>
+              <Hint label="Next match (Enter)">
+                <Button
+                  variant="ghost"
+                  size="icon-sm"
+                  className="h-5 w-5"
+                  aria-label="Next match"
+                  onClick={() => void stepFind(path, 1)}
+                >
+                  <ChevronDown className="size-3.5" />
+                </Button>
+              </Hint>
+            </span>
+          ))}
         <div className="relative w-44">
           <User className="absolute left-2.5 top-1/2 size-3.5 -translate-y-1/2 text-faint" />
           <Input
             value={authorDraft}
             onChange={(e) => setAuthorDraft(e.target.value)}
-            placeholder="按作者过滤…"
+            onKeyDown={onFindKeyDown(authorDraft, () => setAuthorDraft(''))}
+            placeholder="Find author…"
             className="h-7 pl-8 text-xs"
           />
         </div>
@@ -447,21 +461,21 @@ export function CommitGraph() {
       <div
         className={cn(
           'flex h-6 shrink-0 select-none items-center gap-2 border-b border-border-subtle bg-surface pr-4 text-[10px] font-semibold uppercase tracking-wide text-faint',
-          graphColumns.refs || flat ? 'pl-1' : 'pl-4',
+          graphColumns.refs ? 'pl-1' : 'pl-4',
         )}
         aria-hidden
       >
-        {!flat && graphColumns.refs && (
+        {graphColumns.refs && (
           <span className="-mr-2 shrink-0 truncate" style={{ width: REF_COL_WIDTH }}>
             分支 / 标签
           </span>
         )}
-        <span className="shrink-0 truncate" style={{ width: gutterWidth, marginRight: flat ? 0 : GUTTER_GAP }}>
-          {flat ? '' : '图表'}
+        <span className="shrink-0 truncate" style={{ width: gutterWidth, marginRight: GUTTER_GAP }}>
+          Graph
         </span>
-        {(graphColumns.message || flat) && (
+        {graphColumns.message && (
           <span className="min-w-0 flex-1 truncate">
-            {flat && graphColumns.refs ? '分支 / 标签 · 消息' : graphColumns.message ? '消息' : ''}
+            Message
           </span>
         )}
         {graphColumns.author && (
@@ -475,10 +489,10 @@ export function CommitGraph() {
         {graphColumns.date && (
           <span className={cn('w-[4.5rem] shrink-0', graphColumns.message ? 'text-right' : 'text-left')}>日期</span>
         )}
-        {!graphColumns.message && !flat && <span className="min-w-0 flex-1" />}
+        {!graphColumns.message && <span className="min-w-0 flex-1" />}
       </div>
-      <div ref={scrollRef} tabIndex={-1} className="min-h-0 flex-1 overflow-y-auto outline-none" role="table" aria-label="提交">
-        <WipRow gutterWidth={gutterWidth} flat={flat} showRefs={graphColumns.refs} />
+      <div ref={scrollRef} tabIndex={-1} className="min-h-0 flex-1 overflow-y-auto outline-none" role="table" aria-label="Commits">
+        <WipRow gutterWidth={gutterWidth} showRefs={graphColumns.refs} />
         {rows.length === 0 && !loading ? (
           error ? (
             <div className="flex h-full flex-col items-center justify-center gap-2 px-6 text-center text-sm text-danger">
@@ -494,11 +508,7 @@ export function CommitGraph() {
                 <Button
                   variant="ghost"
                   size="sm"
-                  onClick={() => {
-                    setSearchDraft('');
-                    setAuthorDraft('');
-                    setFilters(path, { search: '', author: '', branch: '' });
-                  }}
+                  onClick={() => setFilters(path, { branch: '' })}
                 >
                   清除过滤条件
                 </Button>
@@ -514,11 +524,12 @@ export function CommitGraph() {
               return (
                 <div
                   key={commit.oid}
-                  className={
-                    jumpedOid === commit.oid
+                  className={cn(
+                    locatedOid === commit.oid
                       ? 'animate-locate rounded-md bg-primary/10 shadow-[inset_3px_0_0_hsl(var(--primary))]'
-                      : undefined
-                  }
+                      : matchOids.has(commit.oid) && 'shadow-[inset_2px_0_0_hsl(var(--primary)/0.45)]',
+                  )}
+                  data-search-match={matchOids.has(commit.oid) ? (locatedOid === commit.oid ? 'active' : 'true') : undefined}
                   style={{
                     position: 'absolute',
                     top: 0,
@@ -532,7 +543,6 @@ export function CommitGraph() {
                     commit={commit}
                     row={row}
                     gutterWidth={gutterWidth}
-                    flat={flat}
                     selected={selectedOid === commit.oid || selectedOids.includes(commit.oid)}
                     laneWidth={laneWidth}
                     columns={graphColumns}
@@ -636,13 +646,7 @@ export function CommitGraph() {
                     >
                       <ArrowDownToLine /> Pull
                     </DropdownMenuItem>
-                    <DropdownMenuItem
-                      onClick={() =>
-                        void act(`推送 ${refMenu.ref.shorthand}`, () =>
-                          ipc.push(path, 'origin', false, false, true, refMenu.ref.shorthand),
-                        )
-                      }
-                    >
+                    <DropdownMenuItem onClick={() => void pushBranch(refMenu.ref.shorthand)}>
                       <ArrowUpFromLine /> Push
                     </DropdownMenuItem>
                   </>
@@ -684,6 +688,22 @@ export function CommitGraph() {
               <FolderTree /> 从这里新建工作树…
             </DropdownMenuItem>
             <DropdownMenuSeparator />
+            {menu.commit.refs.some((ref) => ref.kind === 'localBranch') && (
+              <>
+                {menu.commit.refs
+                  .filter((ref) => ref.kind === 'localBranch')
+                  .map((ref) => (
+                    <DropdownMenuItem key={ref.name} onClick={() => void pushBranch(ref.shorthand)}>
+                      <ArrowUpFromLine />
+                      <span className="max-w-64 truncate">Push {ref.shorthand}</span>
+                      {aheadOf(ref.shorthand) > 0 && (
+                        <span className="ml-auto pl-3 text-[11px] tabular-nums text-muted">↑{aheadOf(ref.shorthand)}</span>
+                      )}
+                    </DropdownMenuItem>
+                  ))}
+                <DropdownMenuSeparator />
+              </>
+            )}
             {pickSelection ? (
               <DropdownMenuItem onClick={() => openDialog('cherryPick', { oids: pickSelection })}>
                 <ListRestart /> 在当前分支上拣选 {pickSelection.length} 个提交…

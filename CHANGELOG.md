@@ -6,6 +6,70 @@ All notable changes to AngKorGit are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.12.0] — 2026-09-10
+
+The find and fix release. Searching the graph now finds instead of filters, so
+the lanes stay put while you step through matches by message, hash or author. The
+conflict resolver was rebuilt around how people actually use it: predictable pick
+order, a keyboard, one file flowing into the next, and nothing lost to a stray
+Escape. A branch tip pushes from its own menu, a file's history opens the whole
+commit, and the first community reports are fixed: Linux tokens survive a restart,
+reconnecting an account works, and the panels stop where they should when dragged.
+
+### Changed
+- **Conflict resolver, reworked around how people actually use it.** Picked lines
+  now land in the result in file order (all of A, then all of B) no matter which
+  you clicked first. A conflict's side checkbox shows a dash while only some of its
+  lines are taken, each conflict header says "resolved" or "edited by hand", and
+  unresolved blocks in the result carry a small "Conflict n · unresolved" tag so a
+  dimmed preview is never mistaken for a choice. The split between the two sides
+  and the result is draggable. The keyboard works: ↑/↓ move between conflicts, A
+  and B take a whole side for the current one, ⌘⏎ marks the file resolved, Escape
+  closes. Marking a file resolved opens the next conflicted file by itself (a file
+  switcher in the header lets you jump around), and the last one tells you how to
+  finish the merge, rebase or cherry-pick. Hovering "current" and "incoming"
+  explains which side is which, including the swapped meaning during a rebase.
+
+- **Search finds, it no longer filters.** Typing in the commit search keeps the
+  graph exactly as it is and jumps to the first match. A "n of m" control next to
+  the box steps through the matches (Enter and ↓ forward, Shift+Enter and ↑ back),
+  every match carries a thin marker on its left edge, the active one glows, and
+  Escape clears the search. Hashes, prefixes and message text all go through the
+  same search, so "Commit not found" is now simply "No matches". Clicking another
+  commit keeps the search so you can carry on stepping. The author box works the
+  same way, alone or together with the text, so the graph never collapses into a
+  flat list any more.
+- **Push from the graph.** Right-clicking the tip commit of a local branch offers
+  "Push <branch>" with the ahead count, using the branch's upstream remote. The
+  branch chip's own Push entry now goes through the same flow, so a repo-bound
+  profile is applied first, as it is from the toolbar.
+
+- **Open the whole commit from a file's history.** Each row in the file history
+  panel has an open-commit button on hover, a right-click menu, and responds to
+  double-click: the panel closes and the graph jumps to that commit with all of its
+  files in the inspector. (#9)
+
+### Fixed
+- **Linux: tokens now live in the desktop Secret Service** (GNOME Keyring, KWallet)
+  instead of the kernel keyring, which forgot them between sessions. Accounts whose
+  token is gone are flagged "Token missing from the keychain" with a Reconnect
+  button as soon as the check runs, and pull request loading says the token is
+  missing rather than claiming no account is connected. Building on Linux now needs
+  `libdbus-1-dev`. (#7)
+- "Reconnect with a new token…" on an account did nothing when the account form was
+  hidden. It now opens the form prefilled with the provider, host and username and
+  puts the cursor in the token field. (#8)
+- Closing the conflict resolver, switching files or pressing Escape with picks or
+  hand edits in progress used to drop them silently. It now asks first, and the
+  hand-written whole-file result can no longer be discarded with one stray click.
+- ⌘⏎ and ⌘Z inside the conflict resolver reached the commit box and repo undo
+  underneath it.
+- The inspector could be dragged past its minimum width until it vanished, with no way
+  to bring it back short of switching repositories. It now stops at its minimum; only
+  file history still folds it away, and it returns at the width it had.
+- Dragging the sidebar shut and then back open in the same gesture left an empty
+  column where the sidebar should be until the toggle button was pressed.
+
 ## [0.11.0] — 2026-09-07
 
 The working-copy release. Stashes become first-class: stash only the files you
@@ -1047,7 +1111,8 @@ The first release. 🏛️
 - AI assistant with pluggable providers (OpenAI, Anthropic, Gemini, Ollama,
   LM Studio): commit messages, diff/conflict explanations, PR descriptions, reviews
 
-[Unreleased]: https://github.com/cheat2001/angkorgit/compare/v0.11.0...HEAD
+[Unreleased]: https://github.com/cheat2001/angkorgit/compare/v0.12.0...HEAD
+[0.12.0]: https://github.com/cheat2001/angkorgit/compare/v0.11.0...v0.12.0
 [0.11.0]: https://github.com/cheat2001/angkorgit/compare/v0.10.0...v0.11.0
 [0.10.0]: https://github.com/cheat2001/angkorgit/compare/v0.9.0...v0.10.0
 [0.9.0]: https://github.com/cheat2001/angkorgit/compare/v0.8.0...v0.9.0

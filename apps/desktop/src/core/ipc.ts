@@ -9,6 +9,8 @@ import type {
   FileDiff,
   HistoryPage,
   HistoryPosition,
+  HistorySearch,
+  HistorySearchQuery,
   HistoryQuery,
   HttpRequest,
   HttpResponse,
@@ -249,6 +251,13 @@ export const ipc = {
   async historyPosition(path: string, rev: string): Promise<HistoryPosition | null> {
     if (!isTauri()) return demo.demoHistoryPosition(rev);
     return invoke('history_position', { path, rev });
+  },
+  async historySearch(path: string, query: HistorySearchQuery): Promise<HistorySearch> {
+    if (!isTauri()) {
+      await delay(40);
+      return demo.demoHistorySearch(query);
+    }
+    return invoke('history_search', { path, query });
   },
   async commitInfo(path: string, oid: string): Promise<CommitInfo> {
     if (!isTauri()) return demo.demoHistory({ skip: 0, limit: 1 }).commits[0];
@@ -517,15 +526,18 @@ export const ipc = {
   },
 
   async conflicts(path: string): Promise<string[]> {
-    if (!isTauri()) return ['src/features/graph/drawGraph.ts'];
+    if (!isTauri()) return demo.demoConflicts();
     return invoke('conflict_list', { path });
   },
   async conflictRead(path: string, file: string): Promise<ConflictFile> {
-    if (!isTauri()) return { path: file, content: demo.demoConflictContent, hasMarkers: true };
+    if (!isTauri()) return { path: file, content: demo.demoConflictFile(file), hasMarkers: true };
     return invoke('conflict_read', { path, file });
   },
   async conflictResolve(path: string, file: string, content: string): Promise<void> {
-    if (!isTauri()) return;
+    if (!isTauri()) {
+      demo.resolveDemoConflict(file);
+      return;
+    }
     return invoke('conflict_resolve', { path, file, content });
   },
 
