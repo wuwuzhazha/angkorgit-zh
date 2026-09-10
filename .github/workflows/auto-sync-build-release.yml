@@ -16,7 +16,6 @@ on:
 
 permissions:
   contents: write                # 推送 main + 创建 Release
-  workflows: write               # 推送 workflow 文件变更（上游可能更新 .github/workflows/）
 
 concurrency:
   group: auto-zh-release
@@ -103,6 +102,18 @@ jobs:
           }
           Write-Host "NEXT_VERSION=$v"
           Write-Output "NEXT_VERSION=$v" >> $env:GITHUB_OUTPUT
+
+      - name: ③' 配置推送凭据（若设置 GH_PAT 则优先使用，否则走默认 GITHUB_TOKEN）
+        if: steps.check.outputs.HAS_UPDATE == 'true'
+        shell: pwsh
+        run: |
+          if ($env:GH_PAT) {
+            $url = "https://x-access-token:$($env:GH_PAT)@github.com/$env:GITHUB_REPOSITORY.git"
+            git remote set-url origin $url
+            Write-Output "已切换推送凭据为 GH_PAT"
+          } else {
+            Write-Output "使用默认 GITHUB_TOKEN 推送（如遇 workflow 文件更改被拒，请创建 PAT → 添加 GH_PAT Secret）"
+          }
 
       - name: ③' 同步+中文化+提交+推送（一键脚本）
         if: steps.check.outputs.HAS_UPDATE == 'true'

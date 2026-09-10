@@ -17,7 +17,6 @@ on:
 
 permissions:
   contents: write
-  workflows: write
 
 jobs:
   sync-localize:
@@ -32,6 +31,18 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: 配置推送凭据（若设置 GH_PAT 则优先使用）
+        if: inputs.push
+        shell: pwsh
+        run: |
+          if ($env:GH_PAT) {
+            $url = "https://x-access-token:$($env:GH_PAT)@github.com/$env:GITHUB_REPOSITORY.git"
+            git remote set-url origin $url
+            Write-Output "已切换推送凭据为 GH_PAT"
+          } else {
+            Write-Output "使用默认 GITHUB_TOKEN 推送"
+          }
 
       - name: 运行同步 + 中文化（一键脚本，pwsh）
         shell: pwsh
