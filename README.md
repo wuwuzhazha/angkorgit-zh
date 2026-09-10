@@ -20,7 +20,7 @@
 
 ## 📖 关于本项目与中文化说明
 
-本仓库是开源桌面 Git 客户端 [wuwuzhazha/angkorgit-zh](https://github.com/wuwuzhazha/angkorgit-zh) 的**全面中文化持续同步分支（angkorgit-zh）**。
+本仓库是开源桌面 Git 客户端 [cheat2001/angkorgit](https://github.com/cheat2001/angkorgit) 的**全面中文化持续同步分支（angkorgit-zh）**。
 
 ### 中文化的设计逻辑与方法
 
@@ -131,7 +131,7 @@
 
 本仓库内置 `.github/workflows/auto-sync-build-release.yml`，**无需人工参与**即可跟随上游持续更新并自动发布中文版安装包：
 
-1. 每 6 小时自动轮询上游 `wuwuzhazha/angkorgit-zh`（也可在 Actions 页手动触发）。
+1. 每 6 小时自动轮询上游 `cheat2001/angkorgit`（也可在 Actions 页手动触发）。
 2. 检测到上游更新后：**合并（上游代码优先）→ 重放中文化词库 → 中文 README 恢复 → 版本号自动递增 → 提交推送 main**。
 3. 自动构建 Windows 安装包（NSIS `.exe` + MSI，含 updater 签名与 `latest.json`）。
 4. 自动发布 GitHub Release（Release 说明含本次上游提交清单与词库/待译统计）。
@@ -140,15 +140,14 @@
 
 ## 🚫 故意不做的事情
 
-# macOS, direct download
-curl -L https://github.com/cheat2001/angkorgit/releases/download/v0.12.0/AngKorGit_0.12.0_universal.dmg -o ~/Downloads/AngKorGit.dmg && xattr -cr ~/Downloads/AngKorGit.dmg && open ~/Downloads/AngKorGit.dmg
+- **应用内代码评审（PR Review）**：代码托管平台（GitHub/GitLab）配合 CI 日志与行内评论体验更佳，软件内提供一键“在浏览器中打开”按钮。
+- **遥测数据、强制账号、云服务**：不会向外部发送任何追踪数据，无需注册任何平台。
+- **代码追溯（Blame）视图**：已内置文件历史查看，单行追溯在后续规划中。
+- **插件市场**：暂不支持扩展插件。
 
-# Windows (PowerShell)
-curl -L https://github.com/cheat2001/angkorgit/releases/download/v0.12.0/AngKorGit_0.12.0_x64-setup.exe -o "$env:TEMP\AngKorGit-setup.exe"; Start-Process "$env:TEMP\AngKorGit-setup.exe"
+## 📦 安装与下载
 
-# Linux (AppImage)
-curl -L https://github.com/cheat2001/angkorgit/releases/download/v0.12.0/AngKorGit_0.12.0_amd64.AppImage -o ~/Downloads/AngKorGit.AppImage && chmod +x ~/Downloads/AngKorGit.AppImage && ~/Downloads/AngKorGit.AppImage
-```
+你可以从本项目的 [Releases 发行页面](https://github.com/wuwuzhazha/angkorgit-zh/releases) 下载适合你操作系统的安装包：
 
 - **Windows**：下载 `AngKorGit_0.10.0_x64-setup.exe`（NSIS 一键安装程序）或 `.msi` 安装包。
 - **macOS**：下载 `.dmg` 并拖入 Applications 目录。
