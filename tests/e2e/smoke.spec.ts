@@ -556,6 +556,59 @@ test('opening a diff keeps the inspector at the same width', async ({ page }) =>
   await expect.poll(async () => Math.abs((await widthOf(inspector)) - inspectorBefore)).toBeLessThan(2);
 });
 
+test('the inspector stops at its minimum width when dragged and comes back after file history', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('/');
+  await page.getByText('angkorgit', { exact: true }).first().click();
+  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  const inspector = page.locator('[data-panel-id="inspector"]');
+  const widthOf = async () => (await inspector.boundingBox())?.width ?? 0;
+  const handle = page.locator('[data-panel-resize-handle-id]').nth(1);
+  const grip = await handle.boundingBox();
+  if (!grip) throw new Error('no inspector resize handle');
+  await page.mouse.move(grip.x + grip.width / 2, grip.y + 300);
+  await page.mouse.down();
+  await page.mouse.move(1430, grip.y + 300, { steps: 12 });
+  await page.mouse.up();
+  const minimum = await widthOf();
+  expect(minimum).toBeGreaterThan(200);
+  await expect(page.getByLabel('Inspector')).toBeVisible();
+  await expect(page.getByText('ipc.ts', { exact: true }).first()).toBeVisible();
+
+  await page.getByText('CommitGraph.tsx').first().click();
+  await page.locator('section[aria-label^="Diff for"]').getByRole('button', { name: 'File history' }).click();
+  await expect(page.locator('section[aria-label^="History of"]')).toBeVisible();
+  await expect.poll(widthOf).toBeLessThan(2);
+  await page.getByRole('button', { name: 'Close file history' }).click();
+  await expect(page.getByPlaceholder('Search commits…')).toBeVisible();
+  await expect.poll(async () => Math.abs((await widthOf()) - minimum)).toBeLessThan(2);
+});
+
+test('dragging the sidebar shut and back open shows its content again', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('/');
+  await page.getByText('angkorgit', { exact: true }).first().click();
+  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  const sidebar = page.locator('[data-panel-id="sidebar"]');
+  const filter = page.getByPlaceholder('Filter refs…');
+  await expect(filter).toBeVisible();
+  const handle = page.locator('[data-panel-resize-handle-id]').first();
+  const grip = await handle.boundingBox();
+  if (!grip) throw new Error('no sidebar resize handle');
+  await page.mouse.move(grip.x + grip.width / 2, grip.y + 300);
+  await page.mouse.down();
+  await page.mouse.move(4, grip.y + 300, { steps: 12 });
+  await expect(filter).toBeHidden();
+  await expect.poll(async () => (await sidebar.boundingBox())?.width ?? 0).toBeLessThan(2);
+  await page.mouse.move(grip.x + 40, grip.y + 300, { steps: 12 });
+  await page.mouse.up();
+  await expect(filter).toBeVisible();
+  expect((await sidebar.boundingBox())?.width ?? 0).toBeGreaterThan(200);
+  await expect(page.getByRole('button', { name: /^Branches/ })).toBeVisible();
+});
+
 test('commit box separates a summary line from a smaller description', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();

@@ -6,6 +6,13 @@ All notable changes to AngKorGit are documented here. The format follows
 
 ## [Unreleased]
 
+### Fixed
+- The inspector could be dragged past its minimum width until it vanished, with no way
+  to bring it back short of switching repositories. It now stops at its minimum; only
+  file history still folds it away, and it returns at the width it had.
+- Dragging the sidebar shut and then back open in the same gesture left an empty
+  column where the sidebar should be until the toggle button was pressed.
+
 ## [0.11.0] — 2026-09-07
 
 The working-copy release. Stashes become first-class: stash only the files you
