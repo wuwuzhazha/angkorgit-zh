@@ -1213,7 +1213,7 @@ export function ConflictResolver({ file, onResolved }: { file: string; onResolve
             </span>
           </Hint>
           <Hint label="Close">
-            <Button variant="ghost" size="icon" aria-label="关闭" onClick={() => void request关闭()}>
+            <Button variant="ghost" size="icon" aria-label="关闭" onClick={() => void requestClose()}>
               <X />
             </Button>
           </Hint>
