@@ -30,12 +30,44 @@ test('command palette opens with keyboard shortcut', async ({ page }) => {
   await expect(page.getByPlaceholder('Type a command or branch name…')).toBeVisible();
 });
 
-test('commit search filters the graph', async ({ page }) => {
+test('commit search finds matches in the full graph and steps through them', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
   const search = page.getByPlaceholder('Search commits…');
+  await expect(search).toBeVisible({ timeout: 10_000 });
   await search.fill('virtualize');
-  await expect(page.getByText(/feat\(graph\): virtualize commit rows/).first()).toBeVisible();
+  await expect(page.getByText(/^1 of \d+$/)).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByText(/200\+ commits/)).toBeVisible();
+  await expect(page.locator('[data-search-match="active"]')).toHaveText(/virtualize commit rows/);
+  await expect(page.locator('[data-search-match]').first()).toBeVisible();
+  await search.press('Enter');
+  await expect(page.getByText(/^2 of \d+$/)).toBeVisible();
+  await page.getByLabel('Previous match').click();
+  await expect(page.getByText(/^1 of \d+$/)).toBeVisible();
+  await page.getByText('fix(diff): handle renamed files in word diff').first().click();
+  await expect(search).toHaveValue('virtualize');
+  await expect(page.locator('[data-search-match="active"]')).toHaveCount(0);
+  await search.press('Escape');
+  await expect(search).toHaveValue('');
+  await expect(page.getByText(/^1 of \d+$/)).toBeHidden();
+});
+
+test('the author box finds commits without flattening the graph', async ({ page }) => {
+  await page.goto('/');
+  await page.getByText('angkorgit', { exact: true }).first().click();
+  const author = page.getByPlaceholder('Find author…');
+  await expect(author).toBeVisible({ timeout: 10_000 });
+  await author.fill('Dara');
+  await expect(page.getByText(/^1 of \d+$/)).toBeVisible({ timeout: 10_000 });
+  await expect(page.locator('[data-search-match="active"]')).toContainText('Dara Kim');
+  await expect(page.getByText(/200\+ commits/)).toBeVisible();
+  await expect(page.locator('[data-graph-tail]').first()).toBeVisible();
+  await page.getByPlaceholder('Search commits…').fill('renamed');
+  await expect(page.locator('[data-search-match="active"]')).toContainText('fix(diff): handle renamed files');
+  await author.press('Enter');
+  await expect(page.getByText(/^2 of \d+$/)).toBeVisible();
+});
+
 });
 
 test('conflict resolver picks lines into a clean output', async ({ page }) => {
@@ -515,13 +547,13 @@ test('searching a commit hash jumps to it in the full graph', async ({ page }) =
   await search.fill('000096aaaaaa');
   await expect(page.getByText('400 commits')).toBeVisible({ timeout: 10_000 });
   await expect(page.getByText('000096aa').first()).toBeVisible();
+  await expect(page.getByText('1 of 1')).toBeVisible();
 
   await page.getByText('fix(diff): handle renamed files in word diff').first().click();
-  await expect(search).toHaveValue('');
   await expect(page.getByText('400 commits')).toBeVisible();
 });
 
-test('a short hash prefix jumps like a full hash and unknown hex words fall back to filtering', async ({ page }) => {
+test('a short hash prefix jumps like a full hash and an unknown hex word reports no matches', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
   const search = page.getByPlaceholder('Search commits…');
@@ -532,8 +564,8 @@ test('a short hash prefix jumps like a full hash and unknown hex words fall back
   await expect(page.getByText('000096aa').first()).toBeVisible();
 
   await search.fill('dedede');
-  await expect(page.getByText('No commits match these filters')).toBeVisible({ timeout: 10_000 });
-  await expect(page.getByText('Commit not found')).not.toBeVisible();
+  await expect(page.getByText('No matches')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByText('400 commits')).toBeVisible();
 });
 
 test('searching a hash that does not exist keeps the graph and says so', async ({ page }) => {
@@ -542,7 +574,7 @@ test('searching a hash that does not exist keeps the graph and says so', async (
   const search = page.getByPlaceholder('Search commits…');
   await expect(search).toBeVisible({ timeout: 10_000 });
   await search.fill('deadbeef123');
-  await expect(page.getByText('Commit not found')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByText('No matches')).toBeVisible({ timeout: 10_000 });
   await expect(page.getByText(/200\+ commits/)).toBeVisible();
 });
 

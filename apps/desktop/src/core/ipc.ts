@@ -9,6 +9,8 @@ import type {
   FileDiff,
   HistoryPage,
   HistoryPosition,
+  HistorySearch,
+  HistorySearchQuery,
   HistoryQuery,
   HttpRequest,
   HttpResponse,
@@ -249,6 +251,13 @@ export const ipc = {
   async historyPosition(path: string, rev: string): Promise<HistoryPosition | null> {
     if (!isTauri()) return demo.demoHistoryPosition(rev);
     return invoke('history_position', { path, rev });
+  },
+  async historySearch(path: string, query: HistorySearchQuery): Promise<HistorySearch> {
+    if (!isTauri()) {
+      await delay(40);
+      return demo.demoHistorySearch(query);
+    }
+    return invoke('history_search', { path, query });
   },
   async commitInfo(path: string, oid: string): Promise<CommitInfo> {
     if (!isTauri()) return demo.demoHistory({ skip: 0, limit: 1 }).commits[0];

@@ -15,6 +15,9 @@ import type {
   StatusSummary,
   TagInfo,
   WorktreeInfo,
+  HistoryPosition,
+  HistorySearch,
+  HistorySearchQuery,
 } from '@angkorgit/core';
 
 const AUTHORS = [
@@ -112,6 +115,20 @@ export function demoHistory(query: HistoryQuery): HistoryPage {
   }
   const page = commits.slice(query.skip, query.skip + query.limit);
   return { commits: page, hasMore: query.skip + query.limit < commits.length, total: commits.length };
+}
+
+export function demoHistorySearch(query: HistorySearchQuery): HistorySearch {
+  const q = query.search.trim().toLowerCase();
+  const author = query.author?.trim().toLowerCase() ?? '';
+  const matches: HistoryPosition[] = [];
+  if (q || author) {
+    ALL_COMMITS.forEach((c, index) => {
+      const textOk = !q || c.summary.toLowerCase().includes(q) || c.oid.includes(q);
+      const authorOk = !author || c.author.name.toLowerCase().includes(author);
+      if (textOk && authorOk) matches.push({ index, oid: c.oid });
+    });
+  }
+  return { matches, truncated: false };
 }
 
 export function demoHistoryPosition(rev: string): { index: number; oid: string } | null {

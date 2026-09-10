@@ -1804,6 +1804,114 @@ fn history_position_locates_a_commit_in_the_default_walk() {
 }
 
 #[test]
+fn history_search_lists_match_positions_in_the_displayed_walk() {
+    let repo = TempRepo::new();
+    repo.write("a.txt", "one\n");
+    let first = commit_all(&repo, "feature: lanes");
+    repo.write("a.txt", "two\n");
+    commit_all(&repo, "chore: bump");
+    repo.write("a.txt", "three\n");
+    let third = commit_all(&repo, "fix(lanes): colors");
+
+    let found = core::history_search(
+        repo.path(),
+        core::HistorySearchQuery {
+            search: "LANES".into(),
+            author: None,
+            branch: None,
+        },
+    )
+    .unwrap();
+    let positions: Vec<_> = found
+        .matches
+        .iter()
+        .map(|m| (m.index, m.oid.as_str()))
+        .collect();
+    assert_eq!(positions, vec![(0, third.as_str()), (2, first.as_str())]);
+    assert!(!found.truncated);
+
+    let by_hash = core::history_search(
+        repo.path(),
+        core::HistorySearchQuery {
+            search: first[..7].to_string(),
+            author: None,
+            branch: None,
+        },
+    )
+    .unwrap();
+    assert_eq!(by_hash.matches.len(), 1);
+    assert_eq!(by_hash.matches[0].oid, first);
+
+    let none = core::history_search(
+        repo.path(),
+        core::HistorySearchQuery {
+            search: "nothing here".into(),
+            author: None,
+            branch: None,
+        },
+    )
+    .unwrap();
+    assert!(none.matches.is_empty());
+
+    let blank = core::history_search(
+        repo.path(),
+        core::HistorySearchQuery {
+            search: "   ".into(),
+            author: None,
+            branch: None,
+        },
+    )
+    .unwrap();
+    assert!(blank.matches.is_empty());
+
+    let page = core::history(
+        repo.path(),
+        core::HistoryQuery {
+            skip: 0,
+            limit: 1,
+            search: None,
+            author: None,
+            branch: None,
+        },
+    )
+    .unwrap();
+    let author_name = page.commits[0].author.name.clone();
+    let by_author = core::history_search(
+        repo.path(),
+        core::HistorySearchQuery {
+            search: String::new(),
+            author: Some(author_name.to_uppercase()),
+            branch: None,
+        },
+    )
+    .unwrap();
+    let indices: Vec<_> = by_author.matches.iter().map(|m| m.index).collect();
+    assert_eq!(indices, vec![0, 1, 2]);
+
+    let both = core::history_search(
+        repo.path(),
+        core::HistorySearchQuery {
+            search: "lanes".into(),
+            author: Some(author_name),
+            branch: None,
+        },
+    )
+    .unwrap();
+    assert_eq!(both.matches.len(), 2);
+
+    let stranger = core::history_search(
+        repo.path(),
+        core::HistorySearchQuery {
+            search: String::new(),
+            author: Some("nobody-else".into()),
+            branch: None,
+        },
+    )
+    .unwrap();
+    assert!(stranger.matches.is_empty());
+}
+
+#[test]
 fn ref_fingerprint_tracks_refs_but_not_file_edits() {
     let repo = TempRepo::new();
     repo.write("a.txt", "one\n");

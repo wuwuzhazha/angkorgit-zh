@@ -20,6 +20,15 @@ All notable changes to AngKorGit are documented here. The format follows
   finish the merge, rebase or cherry-pick. Hovering "current" and "incoming"
   explains which side is which, including the swapped meaning during a rebase.
 
+- **Search finds, it no longer filters.** Typing in the commit search keeps the
+  graph exactly as it is and jumps to the first match. A "n of m" control next to
+  the box steps through the matches (Enter and ↓ forward, Shift+Enter and ↑ back),
+  every match carries a thin marker on its left edge, the active one glows, and
+  Escape clears the search. Hashes, prefixes and message text all go through the
+  same search, so "Commit not found" is now simply "No matches". Clicking another
+  commit keeps the search so you can carry on stepping. The author box works the
+  same way, alone or together with the text, so the graph never collapses into a
+  flat list any more.
 - **Push from the graph.** Right-clicking the tip commit of a local branch offers
   "Push <branch>" with the ahead count, using the branch's upstream remote. The
   branch chip's own Push entry now goes through the same flow, so a repo-bound
