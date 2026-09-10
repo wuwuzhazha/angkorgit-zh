@@ -1,30 +1,30 @@
 # 路线图
 
 Updated for v0.12.0 (September 2026). [CHANGELOG.md](../CHANGELOG.md) is the
-authoritative record of what shipped in each release; this file tracks
+每个版本发布内容的权威记录；本文件跟踪
 direction.
 
 ## Shipped (0.1.0 → 0.12.0)
 
-- [x] Repository: open, clone (with progress), recents, search, repository tabs (drag to reorder)
-- [x] Commit: stage files, hunks, and individual lines; unstage, commit, amend; per-repo commit drafts; multi-select in the working copy with bulk stage/unstage/stash/discard; discard for staged files; path filter over changed files and commit files
-- [x] History: virtualized animated graph, find in graph by message, hash or author with an n of m stepper (the lanes never collapse), branch filter, refs/tags/HEAD/merges, file history with a one-click jump to the whole commit
-- [x] Branch: create, delete, rename, checkout (incl. remote), merge, rebase (+continue/abort), interactive rebase (reorder/reword/squash/fixup/drop), cherry-pick (single or multi-commit, optional "(cherry picked from commit …)" reference), reset (soft/mixed/hard) — explicit merges always record a merge commit; abort merge from the commit box
+- [x] 仓库：打开、克隆（带进度）、最近、搜索、仓库标签页（可拖动排序）
+- [x] 提交：暂存文件、代码块与单行；取消暂存、提交、修订；按仓库保存提交草稿; multi-select in the working copy with bulk stage/unstage/stash/discard; discard for staged files; path filter over changed files and commit files
+- [x] History: virtualized animated graph, find in graph by message, hash or author with an n / m stepper (the lanes never collapse), branch filter, refs/tags/HEAD/merges, file history with a one-click jump to the whole commit
+- [x] 分支：创建、删除、重命名、检出（含远端）、合并、变基（+继续/中止）、交互式变基（重排/改写/压缩/丢弃）、拣选（单个或多个提交，可选“(cherry picked from commit …)”引用）、重置（软/混合/硬）——显式合并始终记录合并提交；可从提交框中止合并
 - [x] Remote: fetch, pull, push, force push, push a branch straight from its tip commit's menu, push/fetch tags, background auto fetch
 - [x] Conflicts: visual resolver — aligned A/B panes with line numbers, one take-all checkbox per side (mixed while partly picked) plus hover-to-pick lines that land in file order, a Result pane with in-place editing and its own line numbers behind a draggable split, keyboard control (↑/↓, A/B, ⌘⏎), conflict and file navigation that opens the next conflicted file after each save, guards against losing picks and hand edits, AI explanations
-- [x] Worktrees: sidebar section with branch/dirty/missing state, open any worktree as its own tab, create from a branch or commit into a sibling folder, safe remove and prune, branches held elsewhere marked in the sidebar and graph
-- [x] Stash: create (whole tree or chosen files), apply, pop (one click from the toolbar), drop; stashes as rows in the graph with their own node and menu; apply single files from a stash · Tags: create (annotated/lightweight), delete, checkout · Submodules: list & update
-- [x] Built-in PTY terminal at repo root; built-in file editor
-- [x] Diff: inline & side-by-side, syntax highlight, word diff, image diff, find in diff (⌘F), minimap, previous/next change and file navigation (N/P, [/]), opens directly at the first change (no scroll animation), reloads live as the file changes on disk, file history one click from the header; → / ↑ ↓ / ← walk from the graph into a commit's files and back
+- [x] 工作树：侧边栏分区显示分支/脏/缺失状态，任意工作树可作独立标签页打开，可从分支或提交在相邻文件夹创建，安全移除与清理，别处持有的分支在侧边栏与提交图中标记
+- [x] 暂存：创建（整棵树或所选文件）、应用、弹出（工具栏一键）、丢弃；暂存作为提交图中的行，带有自己的节点与菜单；可从暂存中应用单个文件 · 标签：创建（附注/轻量）、删除、检出 · 子模块：列出与更新
+- [x] 仓库根目录内置 PTY 终端；内置文件编辑器
+- [x] Diff：内联与并排、语法高亮、词级 diff、图片 diff、diff 内查找（⌘F）、缩略图、上一处/下一处更改与文件导航（N/P、[/]），直接打开到第一处更改（无滚动动画）, reloads live as the file changes on disk, file history one click from the header; → / ↑ ↓ / ← walk from the graph into a commit's files and back
 - [x] Settings: sixteen themes (Angkor Dusk default) with accents & zoom, identity profiles (repo-local) with linked accounts, SSH key management & generation, hosting accounts with verified tokens (Secret Service on Linux, missing tokens flagged), AI providers & commit style, keyboard reference
-- [x] Sidebar: accordion sections with pinned headers and collapse-all, row menus on hover and right-click everywhere, empty-state cards; graph display options and column headers; welcome page with keyboard navigation and missing-folder detection
-- [x] AI: provider-agnostic (OpenAI, Anthropic, Gemini, Ollama, LM Studio) plus installed AI CLIs (Claude Code, Codex, Gemini CLI, OpenCode, Antigravity) — commit messages, diff/conflict explanations, PR descriptions, staged-change review with team conventions (global + per-repo `.angkorgit/review.md`), background execution with stop, full-size reading views
-- [x] Undo/redo for recent operations; drag-and-drop merge/rebase
-- [x] Auto-update: pull-based from GitHub releases, signature-verified
-- [x] Commit signing: SSH and GPG, driven by existing git config (commit.gpgSign, gpg.format, user.signingKey) — covers commit, amend, merge
-- [x] Pull requests: sidebar list, checkout and in-app create with reviewer selection for GitHub, GitLab (incl. self-hosted) and Bitbucket Cloud, through the connected account; browser fallback without one
-- [x] Graph search: message text, a hash or prefix, and author all find matches in the full graph, centered and highlighted, with an n of m control; ⌘F focuses the search
-- [x] Performance: fast startup (splash waits for the app, not a timer; heavy views load on first use), a quiet file watcher, on-demand commit diffs, loading overlay on slow repository switches
+- [x] 侧边栏：手风琴分区，标题固定且可全部折叠，处处支持悬停与右键行菜单，空状态卡片；提交图显示选项与列标题；欢迎页支持键盘导航并检测缺失文件夹
+- [x] AI：与提供方无关（OpenAI、Anthropic、Gemini、Ollama、LM Studio），外加已安装的 AI CLI（Claude Code、Codex、Gemini CLI、OpenCode、Antigravity）——提交消息、diff/冲突解释、PR 描述、按团队约定的暂存更改审查（全局 + 每仓库 `.angkorgit/review.md`）、可停止的后台执行、全尺寸阅读视图
+- [x] 最近操作的撤销/重做；拖放式合并/变基
+- [x] 自动更新：从 GitHub releases 拉取，签名校验
+- [x] 提交签名：SSH 与 GPG，由现有 git 配置驱动（commit.gpgSign、gpg.format、user.signingKey）——覆盖提交、修订、合并
+- [x] 拉取请求: sidebar list, checkout and in-app create with reviewer selection for GitHub, GitLab (incl. self-hosted) and Bitbucket Cloud, through the connected account; browser fallback without one
+- [x] Graph search: message text, a hash or prefix, and author all find matches in the full graph, centered and highlighted, with an n / m control; ⌘F focuses the search
+- [x] 性能：快速启动（启动画面等应用就绪而非定时器；重型视图首次使用时才加载）、安静的文件监视器、按需的提交 diff、慢速仓库切换时的加载遮罩
 
 ## Next
 

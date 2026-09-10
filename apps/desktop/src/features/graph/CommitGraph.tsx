@@ -351,7 +351,7 @@ export function CommitGraph() {
             value={searchDraft}
             onChange={(e) => setSearchDraft(e.target.value)}
             onKeyDown={onFindKeyDown(searchDraft, () => setSearchDraft(''))}
-            placeholder="Search commits…"
+            placeholder="搜索提交…"
             className="h-7 pl-8 text-xs"
           />
         </div>
@@ -370,7 +370,7 @@ export function CommitGraph() {
                   variant="ghost"
                   size="icon-sm"
                   className="h-5 w-5"
-                  aria-label="Previous match"
+                  aria-label="上一个匹配"
                   onClick={() => void stepFind(path, -1)}
                 >
                   <ChevronUp className="size-3.5" />
@@ -385,7 +385,7 @@ export function CommitGraph() {
                   variant="ghost"
                   size="icon-sm"
                   className="h-5 w-5"
-                  aria-label="Next match"
+                  aria-label="下一个匹配"
                   onClick={() => void stepFind(path, 1)}
                 >
                   <ChevronDown className="size-3.5" />
@@ -491,7 +491,7 @@ export function CommitGraph() {
         )}
         {!graphColumns.message && <span className="min-w-0 flex-1" />}
       </div>
-      <div ref={scrollRef} tabIndex={-1} className="min-h-0 flex-1 overflow-y-auto outline-none" role="table" aria-label="Commits">
+      <div ref={scrollRef} tabIndex={-1} className="min-h-0 flex-1 overflow-y-auto outline-none" role="table" aria-label="提交">
         <WipRow gutterWidth={gutterWidth} showRefs={graphColumns.refs} />
         {rows.length === 0 && !loading ? (
           error ? (

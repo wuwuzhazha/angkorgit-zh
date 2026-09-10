@@ -2,12 +2,12 @@
 
 ## Prerequisites
 
-- Node 20+ and pnpm 10+ (`corepack enable` — the repo pins the exact version via `packageManager`)
-- Rust stable via [rustup](https://rustup.rs)
-- Tauri v2 system dependencies — see the [official list](https://v2.tauri.app/start/prerequisites/):
-  - **macOS**: Xcode command line tools
+- Node 20+ 与 pnpm 10+（`corepack enable`——仓库通过 `packageManager` 固定精确版本）
+- 通过 [rustup](https://rustup.rs) 安装 Rust stable
+- Tauri v2 系统依赖——见[官方清单](https://v2.tauri.app/start/prerequisites/)：
+  - **macOS**：Xcode 命令行工具
   - **Linux**: `libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf libssl-dev libdbus-1-dev`
-  - **Windows**: WebView2 (preinstalled on Win 11), MSVC build tools
+  - **Windows**：WebView2（Win 11 已预装）、MSVC 构建工具
 
 ## 常用命令
 

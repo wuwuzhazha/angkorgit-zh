@@ -532,7 +532,7 @@ export function ConflictResolver({ file, onResolved }: { file: string; onResolve
     const ok = await confirmDialog({
       title: 'Discard the hand-written result?',
       description: 'The result goes back to the lines picked from A and B.',
-      confirmLabel: 'Discard',
+      confirmLabel: '丢弃',
       destructive: true,
     });
     if (ok) setManualText(null);
@@ -836,7 +836,7 @@ export function ConflictResolver({ file, onResolved }: { file: string; onResolve
           }}
           spellCheck={false}
           rows={Math.max(draftLines.length, 1)}
-          aria-label="Hand-edited result for this conflict"
+          aria-label="此冲突的手工编辑结果"
           className={cn(
             'ml-2 min-w-0 flex-1 resize-none overflow-hidden bg-transparent p-0 font-mono text-xs leading-5 text-foreground',
             'focus:outline-none',
@@ -863,7 +863,7 @@ export function ConflictResolver({ file, onResolved }: { file: string; onResolve
       </pre>
       {first && (
         <span className="shrink-0 select-none whitespace-nowrap pl-3 text-[10px] font-medium leading-5 text-danger/80">
-          Conflict {conflictIndices.indexOf(index) + 1} · unresolved
+          冲突 {conflictIndices.indexOf(index) + 1} · unresolved
         </span>
       )}
     </div>
@@ -1064,7 +1064,7 @@ export function ConflictResolver({ file, onResolved }: { file: string; onResolve
         >
           <div className="flex items-center gap-2 bg-surface-raised/40 px-3 py-1 pr-8">
             <span className="text-[10px] font-semibold uppercase tracking-wide text-faint">
-              Conflict {conflictIndices.indexOf(row.block) + 1}
+              冲突 {conflictIndices.indexOf(row.block) + 1}
             </span>
             {state !== 'unresolved' && (
               <span
@@ -1078,13 +1078,13 @@ export function ConflictResolver({ file, onResolved }: { file: string; onResolve
               </span>
             )}
           </div>
-          <Hint label="Explain this conflict with AI">
+          <Hint label="用 AI 解释此冲突">
             <Button
               variant="ghost"
               size="icon-sm"
               className="absolute right-1 top-0.5 z-10 h-6 w-6"
               disabled={aiBusy}
-              aria-label="Explain this conflict with AI"
+              aria-label="用 AI 解释此冲突"
               onClick={() => void explain(block.current.join('\n'), block.incoming.join('\n'))}
             >
               {aiBusy ? (
@@ -1132,7 +1132,7 @@ export function ConflictResolver({ file, onResolved }: { file: string; onResolve
       animate={{ opacity: 1 }}
       role="dialog"
       aria-modal="true"
-      aria-label={`Resolve conflicts in ${file}`}
+      aria-label={`解决冲突：${file}`}
       onKeyDown={onKeyDown}
     >
       <header className="flex h-14 shrink-0 items-center gap-4 border-b border-border-subtle bg-surface px-4">
@@ -1148,12 +1148,12 @@ export function ConflictResolver({ file, onResolved }: { file: string; onResolve
         </div>
         {conflicts.length > 1 && fileIndex >= 0 && (
           <span className="flex shrink-0 items-center gap-0.5 rounded-md border border-border-subtle bg-surface-raised/60 px-1">
-            <Hint label="Previous conflicted file">
+            <Hint label="上一个冲突ed file">
               <Button
                 variant="ghost"
                 size="icon-sm"
                 className="h-5 w-5"
-                aria-label="Previous file"
+                aria-label="上一个文件"
                 onClick={() => void switchFile(-1)}
               >
                 <ChevronLeft className="size-3.5" />
@@ -1162,12 +1162,12 @@ export function ConflictResolver({ file, onResolved }: { file: string; onResolve
             <span className="whitespace-nowrap px-1 text-[10px] font-medium tabular-nums text-muted">
               File {fileIndex + 1} of {conflicts.length}
             </span>
-            <Hint label="Next conflicted file">
+            <Hint label="下一个冲突ed file">
               <Button
                 variant="ghost"
                 size="icon-sm"
                 className="h-5 w-5"
-                aria-label="Next file"
+                aria-label="下一个文件"
                 onClick={() => void switchFile(1)}
               >
                 <ChevronRight className="size-3.5" />
@@ -1200,7 +1200,7 @@ export function ConflictResolver({ file, onResolved }: { file: string; onResolve
                 'Pick lines for every conflict (or edit the result by hand) first'
               ) : (
                 <span className="flex items-center gap-1.5">
-                  Write the result and mark the file resolved <Kbd>{modKey()}⏎</Kbd>
+                  写入结果并将文件标记为已解决 <Kbd>{modKey()}⏎</Kbd>
                 </span>
               )
             }
@@ -1213,7 +1213,7 @@ export function ConflictResolver({ file, onResolved }: { file: string; onResolve
             </span>
           </Hint>
           <Hint label="Close">
-            <Button variant="ghost" size="icon" aria-label="Close" onClick={() => void requestClose()}>
+            <Button variant="ghost" size="icon" aria-label="关闭" onClick={() => void request关闭()}>
               <X />
             </Button>
           </Hint>
@@ -1233,24 +1233,24 @@ export function ConflictResolver({ file, onResolved }: { file: string; onResolve
                   <Checkbox
                     checked={allOfSidePicked('current')}
                     onCheckedChange={() => void togglePaneSide('current')}
-                    aria-label="Take all lines from side A"
+                    aria-label="取 A 侧全部行"
                   />
                   <Badge tone="info">A</Badge>
                   <span className="min-w-0 flex-1 truncate text-xs font-medium text-info">{aLabel}</span>
                   <Hint label={sideHint(repoState, 'current')}>
-                    <span className="shrink-0 cursor-help text-[10px] uppercase tracking-wide text-faint">current</span>
+                    <span className="shrink-0 cursor-help text-[10px] uppercase tracking-wide text-faint">当前</span>
                   </Hint>
                 </label>
                 <label className="flex cursor-pointer items-center gap-2 border-t-2 border-t-success/60 px-3 py-1.5">
                   <Checkbox
                     checked={allOfSidePicked('incoming')}
                     onCheckedChange={() => void togglePaneSide('incoming')}
-                    aria-label="Take all lines from side B"
+                    aria-label="取 B 侧全部行"
                   />
                   <Badge tone="success">B</Badge>
                   <span className="min-w-0 flex-1 truncate text-xs font-medium text-success">{bLabel}</span>
                   <Hint label={sideHint(repoState, 'incoming')}>
-                    <span className="shrink-0 cursor-help text-[10px] uppercase tracking-wide text-faint">incoming</span>
+                    <span className="shrink-0 cursor-help text-[10px] uppercase tracking-wide text-faint">传入</span>
                   </Hint>
                 </label>
               </div>
@@ -1282,8 +1282,8 @@ export function ConflictResolver({ file, onResolved }: { file: string; onResolve
               <div className="absolute bottom-3 right-3 z-20 flex max-h-[60%] w-[min(480px,90%)] flex-col overflow-hidden rounded-md border border-primary/30 bg-surface-overlay shadow-soft">
                 <div className="flex shrink-0 items-center gap-2 border-b border-border-subtle px-3 py-1.5">
                   <Sparkles className="size-3.5 text-primary" />
-                  <span className="text-xs font-semibold">{aiBusy ? 'Explaining conflict…' : 'AI explanation'}</span>
-                  <Hint label={aiBusy ? 'Stop explaining' : 'Dismiss'}>
+                  <span className="text-xs font-semibold">{aiBusy ? '正在解释冲突…' : 'AI 解释'}</span>
+                  <Hint label={aiBusy ? '停止解释' : '关闭'}>
                     <Button
                       variant="ghost"
                       size="icon-sm"
@@ -1316,7 +1316,7 @@ export function ConflictResolver({ file, onResolved }: { file: string; onResolve
               <span className="text-[10px] font-semibold uppercase tracking-wide text-muted">结果</span>
               {total > 0 && (
                 <span className="flex items-center gap-0.5 rounded-md border border-border-subtle bg-surface-raised/60 px-1">
-                  <Hint label="Previous conflict (↑)">
+                  <Hint label="上一个冲突 (↑)">
                     <Button
                       variant="ghost"
                       size="icon-sm"
@@ -1330,7 +1330,7 @@ export function ConflictResolver({ file, onResolved }: { file: string; onResolve
                   <span className="whitespace-nowrap px-1 text-[10px] font-medium tabular-nums text-muted">
                     冲突 {activeConflict + 1} / {total}
                   </span>
-                  <Hint label="Next conflict (↓)">
+                  <Hint label="下一个冲突 (↓)">
                     <Button
                       variant="ghost"
                       size="icon-sm"
@@ -1355,7 +1355,7 @@ export function ConflictResolver({ file, onResolved }: { file: string; onResolve
                   <span className="min-w-0 truncate text-[10px] text-faint">{resultStatus}</span>
                   {blockEdits.size > 0 && (
                     <Badge tone="primary" className="shrink-0">
-                      <Pencil className="size-2.5" /> {blockEdits.size} edited by hand
+                      <Pencil className="size-2.5" /> {blockEdits.size} 处手工编辑
                     </Badge>
                   )}
                 </>
@@ -1380,7 +1380,7 @@ export function ConflictResolver({ file, onResolved }: { file: string; onResolve
                     <Button
                       variant="ghost"
                       size="icon-sm"
-                      aria-label="Reset manual edits"
+                      aria-label="重置手工编辑"
                       onClick={() => void discardManual()}
                     >
                       <RotateCcw className="size-3.5" />

@@ -401,7 +401,7 @@ export function FileHistoryPanel({ file }: { file: string }) {
           </DropdownMenuTrigger>
           <DropdownMenuContent align="start" side="bottom">
             <DropdownMenuItem onClick={() => openCommit(commitMenu.commit)}>
-              <GitCommitHorizontal /> Open commit with all its files
+              <GitCommitHorizontal /> 打开 commit with all its files
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => {
@@ -409,7 +409,7 @@ export function FileHistoryPanel({ file }: { file: string }) {
                 toast.success('Hash copied');
               }}
             >
-              <Copy /> Copy hash
+              <Copy /> 复制 hash
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

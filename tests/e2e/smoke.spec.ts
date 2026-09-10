@@ -33,11 +33,11 @@ test('命令面板可通过键盘快捷键打开', async ({ page }) => {
 test('commit search finds matches in the full graph and steps through them', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  const search = page.getByPlaceholder('Search commits…');
+  const search = page.getByPlaceholder('搜索提交…');
   await expect(search).toBeVisible({ timeout: 10_000 });
   await search.fill('virtualize');
   await expect(page.getByText(/^1 of \d+$/)).toBeVisible({ timeout: 10_000 });
-  await expect(page.getByText(/200\+ commits/)).toBeVisible();
+  await expect(page.getByText(/200\+ 个提交/)).toBeVisible();
   await expect(page.locator('[data-search-match="active"]')).toHaveText(/virtualize commit rows/);
   await expect(page.locator('[data-search-match]').first()).toBeVisible();
   await search.press('Enter');
@@ -60,9 +60,9 @@ test('the author box finds commits without flattening the graph', async ({ page 
   await author.fill('Dara');
   await expect(page.getByText(/^1 of \d+$/)).toBeVisible({ timeout: 10_000 });
   await expect(page.locator('[data-search-match="active"]')).toContainText('Dara Kim');
-  await expect(page.getByText(/200\+ commits/)).toBeVisible();
+  await expect(page.getByText(/200\+ 个提交/)).toBeVisible();
   await expect(page.locator('[data-graph-tail]').first()).toBeVisible();
-  await page.getByPlaceholder('Search commits…').fill('renamed');
+  await page.getByPlaceholder('搜索提交…').fill('renamed');
   await expect(page.locator('[data-search-match="active"]')).toContainText('fix(diff): handle renamed files');
   await author.press('Enter');
   await expect(page.getByText(/^2 of \d+$/)).toBeVisible();
@@ -71,7 +71,7 @@ test('the author box finds commits without flattening the graph', async ({ page 
 test('reconnecting an account opens the token form with the account prefilled', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   await page.getByRole('button', { name: 'Settings', exact: true }).click();
   const dialog = page.getByRole('dialog');
   await dialog.getByRole('button', { name: 'Authentication', exact: true }).click();
@@ -90,9 +90,9 @@ test('reconnecting an account opens the token form with the account prefilled', 
 test('a file history row can open the full commit in the graph', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   await page.getByText('CommitGraph.tsx').first().click();
-  await page.locator('section[aria-label^="Diff for"]').getByRole('button', { name: 'File history' }).click();
+  await page.locator('section[aria-label^="文件差异："]').getByRole('button', { name: 'File history' }).click();
   const history = page.locator('section[aria-label^="History of"]');
   await expect(history).toBeVisible();
   const firstRow = history.getByRole('button', { name: /^Open commit [0-9a-f]+$/ }).first();
@@ -101,7 +101,7 @@ test('a file history row can open the full commit in the graph', async ({ page }
   const short = label?.replace('Open commit ', '') ?? '';
   await firstRow.click();
   await expect(history).toBeHidden();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible();
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible();
   const inspector = page.getByLabel('Inspector');
   await expect(inspector.getByText('Commit', { exact: true })).toBeVisible();
   await expect(inspector.getByText(new RegExp(`^${short}`)).first()).toBeVisible();
@@ -172,28 +172,28 @@ test('conflict result can be hand-edited per block', async ({ page }) => {
 test('conflict picks land in file order and a half-picked side shows as mixed', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   await page.getByRole('button', { name: /drawGraph\.ts/ }).first().click();
-  await expect(page.getByText('0 of 1 resolved')).toBeVisible();
+  await expect(page.getByText('0 / 1 已解决')).toBeVisible();
   await page.getByText('return render(rows, { colors });').first().click();
   await page.getByText('const palette = useThemePalette();').first().click();
-  await expect(page.getByText('1 of 1 resolved')).toBeVisible();
+  await expect(page.getByText('1 / 1 已解决')).toBeVisible();
   await expect(page.getByText('resolved', { exact: true })).toBeVisible();
   const resultLines = page.locator('[data-line] pre');
   await expect(resultLines).toHaveCount(2);
   await expect(resultLines.nth(0)).toHaveText(/const palette = useThemePalette\(\);/);
   await expect(resultLines.nth(1)).toHaveText(/return render\(rows, \{ colors \}\);/);
-  await expect(page.getByLabel('Take all lines from A for this conflict')).toHaveAttribute('aria-checked', 'mixed');
-  await expect(page.getByLabel('Take all lines from B for this conflict')).toHaveAttribute('aria-checked', 'mixed');
-  await page.getByLabel('Take all lines from A for this conflict').click();
-  await expect(page.getByLabel('Take all lines from A for this conflict')).toHaveAttribute('aria-checked', 'true');
+  await expect(page.getByLabel('取 A 侧全部行解决此冲突')).toHaveAttribute('aria-checked', 'mixed');
+  await expect(page.getByLabel('取 B 侧全部行解决此冲突')).toHaveAttribute('aria-checked', 'mixed');
+  await page.getByLabel('取 A 侧全部行解决此冲突').click();
+  await expect(page.getByLabel('取 A 侧全部行解决此冲突')).toHaveAttribute('aria-checked', 'true');
   await expect(resultLines).toHaveCount(3);
 });
 
 test('the resolver picks with the keyboard and opens the next conflicted file after saving', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   await page.getByRole('button', { name: /laneColors\.ts/ }).first().click();
   await expect(page.getByText('0 of 3 resolved')).toBeVisible();
   await expect(page.getByText('File 2 of 2')).toBeVisible();
@@ -216,21 +216,21 @@ test('the resolver picks with the keyboard and opens the next conflicted file af
 test('leaving a conflict with picks asks first while a clean resolver closes on Escape', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   const open = () => page.getByRole('button', { name: /drawGraph\.ts/ }).first().click();
-  const resolver = page.getByRole('dialog', { name: /Resolve conflicts/ });
+  const resolver = page.getByRole('dialog', { name: /解决冲突/ });
   await open();
   await expect(resolver).toBeVisible();
   await page.keyboard.press('Escape');
   await expect(resolver).toBeHidden();
   await open();
-  await page.getByLabel('Take all lines from A for this conflict').click();
+  await page.getByLabel('取 A 侧全部行解决此冲突').click();
   await page.keyboard.press('Escape');
   const confirm = page.getByRole('dialog').filter({ hasText: 'Leave this file unresolved?' });
   await expect(confirm).toBeVisible();
-  await confirm.getByRole('button', { name: 'Cancel' }).click();
+  await confirm.getByRole('button', { name: '取消' }).click();
   await expect(confirm).toBeHidden();
-  await expect(page.getByText('1 of 1 resolved')).toBeVisible();
+  await expect(page.getByText('1 / 1 已解决')).toBeVisible();
   await resolver.getByRole('button', { name: 'Close', exact: true }).click();
   await expect(confirm).toBeVisible();
   await confirm.getByRole('button', { name: 'Leave' }).click();
@@ -240,18 +240,18 @@ test('leaving a conflict with picks asks first while a clean resolver closes on 
 test('right-clicking a branch tip offers to push that branch', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   await page.getByRole('row').nth(0).click({ button: 'right' });
   const pushItem = page.getByRole('menuitem', { name: /^Push main/ });
   await expect(pushItem).toBeVisible();
   await expect(pushItem).toContainText('↑2');
   await page.keyboard.press('Escape');
   await page.getByRole('row').nth(3).click({ button: 'right' });
-  await expect(page.getByRole('menuitem', { name: /Cherry-pick onto current branch/ })).toBeVisible();
+  await expect(page.getByRole('menuitem', { name: /拣选到当前分支/ })).toBeVisible();
   await expect(page.getByRole('menuitem', { name: /^Push/ })).toHaveCount(0);
 });
 
-test('interactive rebase dialog opens from the commit context menu', async ({ page }) => {
+test('交互式变基对话框可从提交右键菜单打开', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
   await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
@@ -588,7 +588,7 @@ test('搜索提交哈希会在完整提交图中跳转到它', async ({ page }) 
   await expect(page.getByText('1 of 1')).toBeVisible();
 
   await page.getByText('fix(diff): handle renamed files in word diff').first().click();
-  await expect(page.getByText('400 commits')).toBeVisible();
+  await expect(page.getByText('400 个提交')).toBeVisible();
 });
 
 test('a short hash prefix jumps like a full hash and an unknown hex word reports no matches', async ({ page }) => {
@@ -603,7 +603,7 @@ test('a short hash prefix jumps like a full hash and an unknown hex word reports
 
   await search.fill('dedede');
   await expect(page.getByText('No matches')).toBeVisible({ timeout: 10_000 });
-  await expect(page.getByText('400 commits')).toBeVisible();
+  await expect(page.getByText('400 个提交')).toBeVisible();
 });
 
 test('搜索不存在的哈希会保留提交图并提示', async ({ page }) => {
@@ -613,7 +613,7 @@ test('搜索不存在的哈希会保留提交图并提示', async ({ page }) => 
   await expect(search).toBeVisible({ timeout: 10_000 });
   await search.fill('deadbeef123');
   await expect(page.getByText('No matches')).toBeVisible({ timeout: 10_000 });
-  await expect(page.getByText(/200\+ commits/)).toBeVisible();
+  await expect(page.getByText(/200\+ 个提交/)).toBeVisible();
 });
 
 test('mod+f 聚焦提交搜索框', async ({ page }) => {
@@ -714,7 +714,7 @@ test('the inspector stops at its minimum width when dragged and comes back after
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   const inspector = page.locator('[data-panel-id="inspector"]');
   const widthOf = async () => (await inspector.boundingBox())?.width ?? 0;
   const handle = page.locator('[data-panel-resize-handle-id]').nth(1);
@@ -730,11 +730,11 @@ test('the inspector stops at its minimum width when dragged and comes back after
   await expect(page.getByText('ipc.ts', { exact: true }).first()).toBeVisible();
 
   await page.getByText('CommitGraph.tsx').first().click();
-  await page.locator('section[aria-label^="Diff for"]').getByRole('button', { name: 'File history' }).click();
+  await page.locator('section[aria-label^="文件差异："]').getByRole('button', { name: 'File history' }).click();
   await expect(page.locator('section[aria-label^="History of"]')).toBeVisible();
   await expect.poll(widthOf).toBeLessThan(2);
   await page.getByRole('button', { name: 'Close file history' }).click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible();
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible();
   await expect.poll(async () => Math.abs((await widthOf()) - minimum)).toBeLessThan(2);
 });
 
@@ -742,13 +742,13 @@ test('dragging the sidebar shut and back open shows its content again', async ({
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   const sidebar = page.locator('[data-panel-id="sidebar"]');
   const filter = page.getByPlaceholder('Filter refs…');
   await expect(filter).toBeVisible();
   const handle = page.locator('[data-panel-resize-handle-id]').first();
   const grip = await handle.boundingBox();
-  if (!grip) throw new Error('no sidebar resize handle');
+  if (!grip) throw new Error('侧边栏无调整大小手柄');
   await page.mouse.move(grip.x + grip.width / 2, grip.y + 300);
   await page.mouse.down();
   await page.mouse.move(4, grip.y + 300, { steps: 12 });
@@ -758,10 +758,10 @@ test('dragging the sidebar shut and back open shows its content again', async ({
   await page.mouse.up();
   await expect(filter).toBeVisible();
   expect((await sidebar.boundingBox())?.width ?? 0).toBeGreaterThan(200);
-  await expect(page.getByRole('button', { name: /^Branches/ })).toBeVisible();
+  await expect(page.getByRole('button', { name: /^分支/ })).toBeVisible();
 });
 
-test('commit box separates a summary line from a smaller description', async ({ page }) => {
+test('提交框将摘要行与较小的描述分隔开', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
   await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });

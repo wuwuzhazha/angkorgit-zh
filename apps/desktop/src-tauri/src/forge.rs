@@ -63,7 +63,7 @@ fn missing_account_message(host: &str, has_metadata: bool) -> String {
             "the token for {host} is missing from the system keychain — reconnect the account in Settings → Authentication"
         )
     } else {
-        format!("no connected {host} account — connect one in Settings → Authentication")
+        format!("没有已连接的 {host} 账户——请在“设置 → 身份验证”中连接")
     }
 }
 
