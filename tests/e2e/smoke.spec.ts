@@ -167,6 +167,20 @@ test('leaving a conflict with picks asks first while a clean resolver closes on 
   await expect(resolver).toBeHidden();
 });
 
+test('right-clicking a branch tip offers to push that branch', async ({ page }) => {
+  await page.goto('/');
+  await page.getByText('angkorgit', { exact: true }).first().click();
+  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await page.getByRole('row').nth(0).click({ button: 'right' });
+  const pushItem = page.getByRole('menuitem', { name: /^Push main/ });
+  await expect(pushItem).toBeVisible();
+  await expect(pushItem).toContainText('↑2');
+  await page.keyboard.press('Escape');
+  await page.getByRole('row').nth(3).click({ button: 'right' });
+  await expect(page.getByRole('menuitem', { name: /Cherry-pick onto current branch/ })).toBeVisible();
+  await expect(page.getByRole('menuitem', { name: /^Push/ })).toHaveCount(0);
+});
+
 test('interactive rebase dialog opens from the commit context menu', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();

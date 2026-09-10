@@ -20,6 +20,11 @@ All notable changes to AngKorGit are documented here. The format follows
   finish the merge, rebase or cherry-pick. Hovering "current" and "incoming"
   explains which side is which, including the swapped meaning during a rebase.
 
+- **Push from the graph.** Right-clicking the tip commit of a local branch offers
+  "Push <branch>" with the ahead count, using the branch's upstream remote. The
+  branch chip's own Push entry now goes through the same flow, so a repo-bound
+  profile is applied first, as it is from the toolbar.
+
 ### Fixed
 - Closing the conflict resolver, switching files or pressing Escape with picks or
   hand edits in progress used to drop them silently. It now asks first, and the

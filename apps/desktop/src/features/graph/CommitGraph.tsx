@@ -19,6 +19,7 @@ import {
   cn,
 } from '@angkorgit/design-system';
 import { ipc } from '@/core/ipc';
+import { ensureRepoProfile } from '@/features/settings/profiles';
 import { useRepo } from '@/features/repository/store';
 import { useGraph } from './store';
 import { useUi } from '@/features/ui/store';
@@ -50,6 +51,7 @@ export function CommitGraph() {
   const refresh = useRepo((s) => s.refresh);
   const worktrees = useRepo((s) => s.worktrees);
   const branches = useRepo((s) => s.branches);
+  const remotes = useRepo((s) => s.remotes);
   const { rows, commits, maxLane, hasMore, loading, error, filters, selectedOid, selectedOids, pendingScrollIndex, loadMore, reload, setFilters, select, toggleSelect, rangeSelect, jumpTo, clearPendingScroll } =
     useGraph();
   const openDialog = useUi((s) => s.openDialog);
@@ -240,6 +242,23 @@ export function CommitGraph() {
     },
     [refresh, reload, path],
   );
+
+  const pushRemoteFor = (branch: string): string => {
+    const upstream = branches.find((b) => !b.isRemote && b.name === branch)?.upstream;
+    if (upstream) {
+      const remoteName = upstream.split('/')[0];
+      if (remotes.some((r) => r.name === remoteName)) return remoteName;
+    }
+    return remotes[0]?.name ?? 'origin';
+  };
+
+  const pushBranch = async (branch: string) => {
+    await ensureRepoProfile(path);
+    await act(`Push ${branch}`, () => ipc.push(path, pushRemoteFor(branch), false, false, true, branch));
+    void import('@/features/forge/store').then(({ useForge }) => useForge.getState().load(true));
+  };
+
+  const aheadOf = (branch: string): number => branches.find((b) => !b.isRemote && b.name === branch)?.ahead ?? 0;
 
   const onContextMenu = useCallback((event: React.MouseEvent, commit: CommitInfo) => {
     event.preventDefault();
@@ -636,13 +655,7 @@ export function CommitGraph() {
                     >
                       <ArrowDownToLine /> Pull
                     </DropdownMenuItem>
-                    <DropdownMenuItem
-                      onClick={() =>
-                        void act(`Push ${refMenu.ref.shorthand}`, () =>
-                          ipc.push(path, 'origin', false, false, true, refMenu.ref.shorthand),
-                        )
-                      }
-                    >
+                    <DropdownMenuItem onClick={() => void pushBranch(refMenu.ref.shorthand)}>
                       <ArrowUpFromLine /> Push
                     </DropdownMenuItem>
                   </>
@@ -684,6 +697,22 @@ export function CommitGraph() {
               <FolderTree /> New worktree from here…
             </DropdownMenuItem>
             <DropdownMenuSeparator />
+            {menu.commit.refs.some((ref) => ref.kind === 'localBranch') && (
+              <>
+                {menu.commit.refs
+                  .filter((ref) => ref.kind === 'localBranch')
+                  .map((ref) => (
+                    <DropdownMenuItem key={ref.name} onClick={() => void pushBranch(ref.shorthand)}>
+                      <ArrowUpFromLine />
+                      <span className="max-w-64 truncate">Push {ref.shorthand}</span>
+                      {aheadOf(ref.shorthand) > 0 && (
+                        <span className="ml-auto pl-3 text-[11px] tabular-nums text-muted">↑{aheadOf(ref.shorthand)}</span>
+                      )}
+                    </DropdownMenuItem>
+                  ))}
+                <DropdownMenuSeparator />
+              </>
+            )}
             {pickSelection ? (
               <DropdownMenuItem onClick={() => openDialog('cherryPick', { oids: pickSelection })}>
                 <ListRestart /> Cherry-pick {pickSelection.length} commits onto current branch…
