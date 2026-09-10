@@ -16,6 +16,7 @@ on:
 
 permissions:
   contents: write                # 推送 main + 创建 Release
+  workflows: write               # 推送 workflow 文件变更（上游可能更新 .github/workflows/）
 
 concurrency:
   group: auto-zh-release
@@ -66,7 +67,7 @@ jobs:
           }
 
       - name: ③ 合并上游（代码以上游为准，中文化随后重放）
-        # 仅在有实际上游提交时合并；dispatch 无更新时跳过，避免空 merge + “nothing to commit” 失败
+        # 仅在有实际上游提交时合并；dispatch 无更新时跳过，避免空 merge + "nothing to commit" 失败
         if: steps.check.outputs.NEED_MERGE == 'true'
         shell: pwsh
         run: |
@@ -216,7 +217,7 @@ jobs:
           - 若后续发现可译长句，翻译后追加进 zh-dict/dict.tsv 推入即可，下次运行自动生效
 
           ### ⚠️ 说明
-          - 安装包未做商业代码签名，SmartScreen 首次运行提示“更多信息 → 仍要运行”。
+          - 安装包未做商业代码签名，SmartScreen 首次运行提示"更多信息 → 仍要运行"。
           - 应用内自动更新指向本仓库 Releases 的 latest.json（已用 CI 密钥签名）。
           "@
           $body | Set-Content -Path release-notes.md -Encoding utf8

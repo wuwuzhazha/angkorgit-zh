@@ -1,0 +1,45 @@
+name: Sync upstream + zh-CN localization
+
+# 可选工作流：每周自动同步上游 cheat2001/angkorgit 并中文化。
+# 默认 dry-run（只提交到本仓库分支，不推送远端写操作）；手动触发可勾选 push。
+# 前置条件：本仓库已包含 scripts/ 与 zh-dict/（首次把交付物提交到 fork 后启用）。
+# 注意：中文化提交会推到本 fork 的 main；凭据使用 actions/checkout 注入的 GITHUB_TOKEN，脚本本身不接触凭据。
+
+on:
+  workflow_dispatch:
+    inputs:
+      push:
+        description: '推送到 fork 的 main（默认 false = dry-run）'
+        type: boolean
+        default: false
+  schedule:
+    - cron: '17 2 * * 1'
+
+permissions:
+  contents: write
+  workflows: write
+
+jobs:
+  sync-localize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: 配置 git 身份（actions bot）
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: 运行同步 + 中文化（一键脚本，pwsh）
+        shell: pwsh
+        env:
+          FORK_REPO: ${{ github.repository }}
+          PUSH_FLAG: ${{ inputs.push && '-Push' || '' }}
+        run: |
+          ./scripts/sync-localize.ps1 -Repo "$env:GITHUB_WORKSPACE" `
+            -ForkRepo "$env:FORK_REPO" `
+            -UpstreamUrl "https://github.com/cheat2001/angkorgit.git" `
+            $env:PUSH_FLAG
