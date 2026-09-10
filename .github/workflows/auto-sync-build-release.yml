@@ -106,6 +106,8 @@ jobs:
       - name: ③' 配置推送凭据（若设置 GH_PAT 则优先使用，否则走默认 GITHUB_TOKEN）
         if: steps.check.outputs.HAS_UPDATE == 'true'
         shell: pwsh
+        env:
+          GH_PAT: ${{ secrets.GH_PAT }}
         run: |
           if ($env:GH_PAT) {
             $url = "https://x-access-token:$($env:GH_PAT)@github.com/$env:GITHUB_REPOSITORY.git"
