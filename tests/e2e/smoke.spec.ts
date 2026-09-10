@@ -651,7 +651,7 @@ test('multi-line comments in a diff stay highlighted as comments', async ({ page
   await page.getByText('CommitGraph.tsx').first().click();
   const inner = page
     .locator('section[aria-label^="文件差异："] span.font-mono')
-    .filter({ hasText: 'Virtualized rows keep large graphs smooth' })
+    .filter({ hasText: '虚拟化行让大型提交图保持流畅' })
     .first();
   await expect(inner).toBeVisible();
   const html = await inner.evaluate((el) => el.innerHTML);
