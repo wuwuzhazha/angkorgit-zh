@@ -6,6 +6,16 @@ All notable changes to AngKorGit are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.12.0] — 2026-09-10
+
+The find and fix release. Searching the graph now finds instead of filters, so
+the lanes stay put while you step through matches by message, hash or author. The
+conflict resolver was rebuilt around how people actually use it: predictable pick
+order, a keyboard, one file flowing into the next, and nothing lost to a stray
+Escape. A branch tip pushes from its own menu, a file's history opens the whole
+commit, and the first community reports are fixed: Linux tokens survive a restart,
+reconnecting an account works, and the panels stop where they should when dragged.
+
 ### Changed
 - **Conflict resolver, reworked around how people actually use it.** Picked lines
   now land in the result in file order (all of A, then all of B) no matter which
@@ -1101,7 +1111,8 @@ The first release. 🏛️
 - AI assistant with pluggable providers (OpenAI, Anthropic, Gemini, Ollama,
   LM Studio): commit messages, diff/conflict explanations, PR descriptions, reviews
 
-[Unreleased]: https://github.com/cheat2001/angkorgit/compare/v0.11.0...HEAD
+[Unreleased]: https://github.com/cheat2001/angkorgit/compare/v0.12.0...HEAD
+[0.12.0]: https://github.com/cheat2001/angkorgit/compare/v0.11.0...v0.12.0
 [0.11.0]: https://github.com/cheat2001/angkorgit/compare/v0.10.0...v0.11.0
 [0.10.0]: https://github.com/cheat2001/angkorgit/compare/v0.9.0...v0.10.0
 [0.9.0]: https://github.com/cheat2001/angkorgit/compare/v0.8.0...v0.9.0
