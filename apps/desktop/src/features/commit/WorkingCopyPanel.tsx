@@ -37,7 +37,7 @@ import { useCommitDraft } from './draftStore';
 import { confirmDialog } from '@/components/confirm';
 import { FileFilterInput } from '@/components/FileFilterInput';
 import { FileTree, treeIndent as sharedTreeIndent, FileTreeFoldButton, INITIAL_FOLD, nextFold, type FileTreeFold, type FileTreeFoldState } from '@/components/FileTree';
-import { basename, dirname } from '@/shared/utils';
+import { basename, dirname, isMac } from '@/shared/utils';
 
 function statusBadge(kind: string | null) {
   switch (kind) {
@@ -1104,7 +1104,7 @@ export function WorkingCopyPanel() {
                   )
               }
             >
-              <FolderOpen /> Show in Finder
+              <FolderOpen /> {isMac ? 'Show in Finder' : 'Show in file manager'}
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => {

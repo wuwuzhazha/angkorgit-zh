@@ -313,7 +313,15 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
               />
             ) : null;
           })()}
-          <PaletteItem icon={<RefreshCw />} label="Fetch (with tags)" onSelect={() => run('Fetch', () => ipc.fetch(path, remote, true, true))} />
+          <PaletteItem
+            icon={<RefreshCw />}
+            label={remotes.length > 1 ? 'Fetch all remotes (with tags)' : 'Fetch (with tags)'}
+            onSelect={() =>
+              run('Fetch', async () => {
+                for (const r of remotes.length > 0 ? remotes : [{ name: remote }]) await ipc.fetch(path, r.name, true, true);
+              })
+            }
+          />
           <PaletteItem
             icon={<GitBranchPlus />}
             label="Create branch…"

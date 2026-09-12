@@ -6,6 +6,18 @@ All notable changes to AngKorGit are documented here. The format follows
 
 ## [Unreleased]
 
+### Changed
+- **Fetch reaches every remote.** Auto fetch, the toolbar Fetch and the palette's
+  fetch now walk all remotes instead of the first one, so a fork sees `upstream`
+  move without a manual fetch. (#18)
+- **Zed and Flatpak editors are detected on Linux.** Zed's `zeditor` package name
+  and the Flatpak exports of Zed, VS Code, Sublime Text, GNOME Builder and Kate are
+  recognised by the External editor picker. (#18)
+
+### Fixed
+- The commit and working copy file menus said "Show in Finder" on Linux and
+  Windows; they say "Show in file manager" there. (#18)
+
 ## [0.13.0] — 2026-09-12
 
 The terminal and editor release. `akg` opens or clones a repository from the shell,

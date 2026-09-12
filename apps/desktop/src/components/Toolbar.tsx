@@ -442,12 +442,16 @@ export function Toolbar({ onRefresh }: { onRefresh: () => Promise<void> }) {
 
       <Separator orientation="vertical" className="mx-2 h-6" />
 
-      <Hint label={`Fetch ${remote}`}>
+      <Hint label={remotes.length > 1 ? `Fetch all remotes (${remotes.map((r) => r.name).join(', ')})` : `Fetch ${remote}`}>
         <Button
           variant="ghost"
           size="sm"
           disabled={!!busy}
-          onClick={() => void run('Fetch', () => ipc.fetch(repo.path, remote, true, true))}
+          onClick={() =>
+            void run('Fetch', async () => {
+              for (const r of remotes.length > 0 ? remotes : [{ name: remote }]) await ipc.fetch(repo.path, r.name, true, true);
+            })
+          }
         >
           <RefreshCw className={busy === 'Fetch' ? 'animate-spin' : ''} />
           Fetch

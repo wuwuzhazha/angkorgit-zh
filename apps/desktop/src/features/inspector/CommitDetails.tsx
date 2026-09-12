@@ -56,7 +56,7 @@ import {
   type FileTreeFold,
   type FileTreeFoldState,
 } from '@/components/FileTree';
-import { basename, dirname, formatDate, timeAgo } from '@/shared/utils';
+import { basename, dirname, formatDate, isMac, timeAgo } from '@/shared/utils';
 
 const diffPath = (diff: CommitFileInfo) => diff.path;
 
@@ -706,7 +706,7 @@ export function CommitDetails({
                   )
               }
             >
-              <FolderOpen /> Show in Finder
+              <FolderOpen /> {isMac ? 'Show in Finder' : 'Show in file manager'}
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => {

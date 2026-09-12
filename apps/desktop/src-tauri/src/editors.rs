@@ -19,100 +19,116 @@ pub struct EditorInfo {
 struct EditorSpec {
     id: &'static str,
     label: &'static str,
-    bin: &'static str,
+    bins: &'static [&'static str],
     app: Option<&'static str>,
+    flatpak: Option<&'static str>,
 }
 
 const EDITORS: &[EditorSpec] = &[
     EditorSpec {
         id: "vscode",
         label: "Visual Studio Code",
-        bin: "code",
+        bins: &["code"],
         app: Some("Visual Studio Code"),
+        flatpak: Some("com.visualstudio.code"),
     },
     EditorSpec {
         id: "vscode-insiders",
         label: "VS Code Insiders",
-        bin: "code-insiders",
+        bins: &["code-insiders"],
         app: Some("Visual Studio Code - Insiders"),
+        flatpak: Some("com.visualstudio.code.insiders"),
     },
     EditorSpec {
         id: "cursor",
         label: "Cursor",
-        bin: "cursor",
+        bins: &["cursor"],
         app: Some("Cursor"),
+        flatpak: None,
     },
     EditorSpec {
         id: "windsurf",
         label: "Windsurf",
-        bin: "windsurf",
+        bins: &["windsurf"],
         app: Some("Windsurf"),
+        flatpak: None,
     },
     EditorSpec {
         id: "zed",
         label: "Zed",
-        bin: "zed",
+        bins: &["zed", "zeditor", "zed-editor"],
         app: Some("Zed"),
+        flatpak: Some("dev.zed.Zed"),
     },
     EditorSpec {
         id: "sublime",
         label: "Sublime Text",
-        bin: "subl",
+        bins: &["subl"],
         app: Some("Sublime Text"),
+        flatpak: Some("com.sublimetext.three"),
     },
     EditorSpec {
         id: "idea",
         label: "IntelliJ IDEA",
-        bin: "idea",
+        bins: &["idea"],
         app: Some("IntelliJ IDEA"),
+        flatpak: None,
     },
     EditorSpec {
         id: "webstorm",
         label: "WebStorm",
-        bin: "webstorm",
+        bins: &["webstorm"],
         app: Some("WebStorm"),
+        flatpak: None,
     },
     EditorSpec {
         id: "pycharm",
         label: "PyCharm",
-        bin: "pycharm",
+        bins: &["pycharm"],
         app: Some("PyCharm"),
+        flatpak: None,
     },
     EditorSpec {
         id: "rider",
         label: "Rider",
-        bin: "rider",
+        bins: &["rider"],
         app: Some("Rider"),
+        flatpak: None,
     },
     EditorSpec {
         id: "fleet",
         label: "Fleet",
-        bin: "fleet",
+        bins: &["fleet"],
         app: Some("Fleet"),
+        flatpak: None,
     },
     EditorSpec {
         id: "nova",
         label: "Nova",
-        bin: "nova",
+        bins: &["nova"],
         app: Some("Nova"),
+        flatpak: None,
     },
     EditorSpec {
         id: "xcode",
         label: "Xcode",
-        bin: "xed",
+        bins: &["xed"],
         app: Some("Xcode"),
+        flatpak: None,
     },
     EditorSpec {
         id: "gnome-builder",
         label: "GNOME Builder",
-        bin: "gnome-builder",
+        bins: &["gnome-builder"],
         app: None,
+        flatpak: Some("org.gnome.Builder"),
     },
     EditorSpec {
         id: "kate",
         label: "Kate",
-        bin: "kate",
+        bins: &["kate"],
         app: None,
+        flatpak: Some("org.kde.kate"),
     },
 ];
 
@@ -129,8 +145,10 @@ pub fn detect() -> Vec<EditorInfo> {
 }
 
 fn locate(spec: &EditorSpec, path_env: &std::ffi::OsStr, cwd: &Path) -> Option<EditorInfo> {
-    if let Ok(path) = which::which_in(spec.bin, Some(path_env), cwd) {
-        return Some(info(spec, &path, LAUNCH_BINARY));
+    for bin in spec.bins {
+        if let Ok(path) = which::which_in(bin, Some(path_env), cwd) {
+            return Some(info(spec, &path, LAUNCH_BINARY));
+        }
     }
     #[cfg(target_os = "macos")]
     if let Some(app) = spec.app {
@@ -143,7 +161,27 @@ fn locate(spec: &EditorSpec, path_env: &std::ffi::OsStr, cwd: &Path) -> Option<E
     }
     #[cfg(not(target_os = "macos"))]
     let _ = spec.app;
+    #[cfg(target_os = "linux")]
+    if let Some(app_id) = spec.flatpak {
+        for root in flatpak_export_roots() {
+            let wrapper = root.join(app_id);
+            if wrapper.is_file() {
+                return Some(info(spec, &wrapper, LAUNCH_BINARY));
+            }
+        }
+    }
+    #[cfg(not(target_os = "linux"))]
+    let _ = spec.flatpak;
     None
+}
+
+#[cfg(target_os = "linux")]
+fn flatpak_export_roots() -> Vec<std::path::PathBuf> {
+    let mut roots = vec![std::path::PathBuf::from("/var/lib/flatpak/exports/bin")];
+    if let Some(home) = crate::ai_cli::home_dir() {
+        roots.push(home.join(".local/share/flatpak/exports/bin"));
+    }
+    roots
 }
 
 fn info(spec: &EditorSpec, path: &Path, launch: &str) -> EditorInfo {
@@ -216,13 +254,18 @@ mod tests {
     #[test]
     fn editor_ids_and_binaries_are_unique() {
         let mut ids: Vec<&str> = EDITORS.iter().map(|spec| spec.id).collect();
-        let mut bins: Vec<&str> = EDITORS.iter().map(|spec| spec.bin).collect();
+        let all_bins: Vec<&str> = EDITORS
+            .iter()
+            .flat_map(|spec| spec.bins.iter().copied())
+            .collect();
+        let mut bins = all_bins.clone();
         ids.sort();
         bins.sort();
         ids.dedup();
         bins.dedup();
         assert_eq!(ids.len(), EDITORS.len());
-        assert_eq!(bins.len(), EDITORS.len());
+        assert_eq!(bins.len(), all_bins.len());
+        assert!(EDITORS.iter().all(|spec| !spec.bins.is_empty()));
     }
 
     #[test]

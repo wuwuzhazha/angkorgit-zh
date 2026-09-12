@@ -201,12 +201,12 @@ export function RepositoryPage() {
       if (Date.now() - lastFetch < 30_000) return;
       const state = useRepo.getState();
       if (state.busy || state.repo?.path !== repoPath) return;
-      const remote = state.remotes[0]?.name;
-      if (!remote) return;
+      const remoteNames = state.remotes.map((remote) => remote.name);
+      if (remoteNames.length === 0) return;
       fetching = true;
       lastFetch = Date.now();
       try {
-        await ipc.fetch(repoPath, remote, true, false);
+        for (const remote of remoteNames) await ipc.fetch(repoPath, remote, true, false);
         if (useRepo.getState().repo?.path === repoPath) useRepo.getState().markFetched();
       } catch {
         lastFetch = Date.now() + 4 * 60_000;

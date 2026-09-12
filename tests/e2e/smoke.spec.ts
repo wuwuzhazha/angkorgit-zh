@@ -1149,7 +1149,7 @@ test('right-clicking a commit file offers the working copy file actions', async 
   await inspector.getByText('GraphRow.tsx', { exact: true }).click({ button: 'right' });
   const menu = page.getByRole('menu');
   await expect(menu.getByRole('menuitem', { name: 'File history' })).toBeVisible();
-  await expect(menu.getByRole('menuitem', { name: 'Show in Finder' })).toBeVisible();
+  await expect(menu.getByRole('menuitem', { name: /Show in (Finder|file manager)/ })).toBeVisible();
   await expect(menu.getByRole('menuitem', { name: 'Copy path' })).toBeVisible();
   await expect(menu.getByRole('menuitem', { name: 'Copy absolute path' })).toBeVisible();
   await expect(menu.getByRole('menuitem', { name: /Apply this file/ })).toHaveCount(0);
