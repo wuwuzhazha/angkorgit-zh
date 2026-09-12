@@ -29,6 +29,7 @@ import {
   Sun,
   Tag as TagIcon,
   Undo2,
+  UserRoundSearch,
   ZoomIn,
   ZoomOut,
 } from 'lucide-react';
@@ -83,7 +84,7 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
   const nextUndo = useMemo(() => [...undoStack].reverse().find((e) => e.repoPath === path), [undoStack, path]);
   const nextRedo = useMemo(() => [...redoStack].reverse().find((e) => e.repoPath === path), [redoStack, path]);
 
-  const [mode, setMode] = useState<'commands' | 'fileHistory'>('commands');
+  const [mode, setMode] = useState<'commands' | 'fileHistory' | 'blame'>('commands');
   const [search, setSearch] = useState('');
   const [files, setFiles] = useState<string[]>([]);
   const [filesLoading, setFilesLoading] = useState(false);
@@ -96,8 +97,8 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
     setSearch('');
   }, [paletteOpen]);
 
-  const enterFileHistory = () => {
-    setMode('fileHistory');
+  const enterFilePicker = (picker: 'fileHistory' | 'blame') => {
+    setMode(picker);
     setSearch('');
     setFiles([]);
     setFilesError(false);
@@ -115,12 +116,12 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
         setFiles([]);
         setFilesError(true);
         setFilesLoading(false);
-        toast.error(`File history failed: ${(error as { message?: string }).message ?? error}`);
+        toast.error(`Listing files failed: ${(error as { message?: string }).message ?? error}`);
       });
   };
 
   const visibleFiles = useMemo(() => {
-    if (mode !== 'fileHistory') return [];
+    if (mode === 'commands') return [];
     const q = search.trim().toLowerCase();
     const matches = q ? files.filter((f) => f.toLowerCase().includes(q)) : files;
     return matches.slice(0, 50);
@@ -241,10 +242,12 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
         placeholder={
           mode === 'fileHistory'
             ? 'Search a file to see who changed it…'
-            : 'Type a command or branch name…'
+            : mode === 'blame'
+              ? 'Search a file to blame…'
+              : 'Type a command or branch name…'
         }
         onKeyDown={(e) => {
-          if (mode === 'fileHistory' && e.key === 'Backspace' && search === '') {
+          if (mode !== 'commands' && e.key === 'Backspace' && search === '') {
             e.preventDefault();
             setMode('commands');
           }
@@ -252,28 +255,29 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
         className="h-11 w-full border-b border-border-subtle bg-transparent px-4 text-sm text-foreground outline-none placeholder:text-faint"
       />
       <Command.List className="max-h-80 overflow-y-auto p-1.5 [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:text-[10px] [&_[cmdk-group-heading]]:font-semibold [&_[cmdk-group-heading]]:uppercase [&_[cmdk-group-heading]]:tracking-wide [&_[cmdk-group-heading]]:text-faint">
-        {!(mode === 'fileHistory' && (filesLoading || filesError)) && (
+        {!(mode !== 'commands' && (filesLoading || filesError)) && (
           <Command.Empty className="py-8 text-center text-sm text-faint">No results.</Command.Empty>
         )}
 
-        {mode === 'fileHistory' && filesLoading && (
+        {mode !== 'commands' && filesLoading && (
           <div className="flex items-center justify-center gap-2 py-8 text-sm text-faint">
             <Spinner /> Loading files…
           </div>
         )}
-        {mode === 'fileHistory' && !filesLoading && filesError && (
+        {mode !== 'commands' && !filesLoading && filesError && (
           <div className="py-8 text-center text-sm text-faint">Could not list files.</div>
         )}
-        {mode === 'fileHistory' && !filesLoading && !filesError && (
-          <Command.Group heading="File history">
+        {mode !== 'commands' && !filesLoading && !filesError && (
+          <Command.Group heading={mode === 'blame' ? 'Blame' : 'File history'}>
             {visibleFiles.map((file) => (
               <PaletteItem
                 key={file}
-                icon={<FileClock />}
+                icon={mode === 'blame' ? <UserRoundSearch /> : <FileClock />}
                 label={file}
                 onSelect={() => {
                   close();
-                  useUi.getState().openFileHistory(file);
+                  if (mode === 'blame') useUi.getState().openBlame(file);
+                  else useUi.getState().openFileHistory(file);
                 }}
               />
             ))}
@@ -283,7 +287,8 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
         {mode === 'commands' && (
         <>
         <Command.Group heading="Actions">
-          <PaletteItem icon={<History />} label="File history…" onSelect={enterFileHistory} />
+          <PaletteItem icon={<History />} label="File history…" onSelect={() => enterFilePicker('fileHistory')} />
+          <PaletteItem icon={<UserRoundSearch />} label="Blame…" onSelect={() => enterFilePicker('blame')} />
           <PaletteItem icon={<ArrowDownToLine />} label="Pull" onSelect={() => run('Pull', () => ipc.pull(path, remote))} />
           <PaletteItem
             icon={<ArrowDownToLine />}

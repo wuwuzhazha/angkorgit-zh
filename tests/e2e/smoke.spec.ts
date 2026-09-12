@@ -1342,3 +1342,17 @@ test('the diff header opens blame with authors per hunk and Escape returns to th
   await expect(blame).toBeHidden();
   await expect(page.getByPlaceholder('Search commits…')).toBeVisible();
 });
+
+test('the palette offers Blame… and picks a file', async ({ page }) => {
+  await page.goto('/');
+  await page.getByText('angkorgit', { exact: true }).first().click();
+  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await page.getByRole('button', { name: 'Command palette' }).click();
+  await page.getByPlaceholder('Type a command or branch name…').fill('Blame');
+  await page.getByText('Blame…', { exact: true }).click();
+  const picker = page.getByPlaceholder('Search a file to blame…');
+  await expect(picker).toBeVisible();
+  await picker.fill('App.tsx');
+  await page.getByText('src/app/App.tsx', { exact: true }).click();
+  await expect(page.locator('section[aria-label="Blame of src/app/App.tsx"]')).toBeVisible();
+});
