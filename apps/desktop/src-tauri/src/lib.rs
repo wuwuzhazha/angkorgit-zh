@@ -2,6 +2,7 @@
 
 mod account_check;
 mod ai_cli;
+mod cli;
 mod commands;
 mod core;
 mod error;
@@ -31,7 +32,7 @@ pub mod test_api {
     };
     pub use crate::core::remote::{checkout_remote_ref, fetch};
     pub use crate::core::repo::{
-        cleanup_state, info as repo_info, init, ref_fingerprint, set_config, status,
+        cleanup_state, discover, info as repo_info, init, ref_fingerprint, set_config, status,
     };
     pub use crate::core::stage::{
         discard_all, discard_line, discard_staged_all, discard_staged_file, stage_all, stage_file,
@@ -48,7 +49,10 @@ pub mod test_api {
 }
 
 pub fn run() {
-    tauri::Builder::default()
+    let app = tauri::Builder::default()
+        .plugin(tauri_plugin_single_instance::init(|app, argv, cwd| {
+            cli::on_second_instance(app, argv, cwd);
+        }))
         .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_opener::init())
         .plugin(tauri_plugin_process::init())
@@ -57,6 +61,10 @@ pub fn run() {
             use tauri::Manager;
             if let Ok(dir) = app.path().app_config_dir() {
                 let _ = core::accounts::CONFIG_DIR.set(dir);
+            }
+            let args: Vec<String> = std::env::args().collect();
+            if let Some(request) = cli::parse_args(&args, None) {
+                cli::queue(request);
             }
             Ok(())
         })
@@ -175,7 +183,24 @@ pub fn run() {
             commands::pr_checkout,
             commands::ai_cli_detect,
             commands::ai_cli_run,
+            commands::cli_pending_open,
+            commands::cli_status,
+            commands::cli_install,
+            commands::cli_uninstall,
         ])
-        .run(tauri::generate_context!())
+        .build(tauri::generate_context!())
         .expect("error while running AngKorGit");
+
+    app.run(|app, event| {
+        #[cfg(target_os = "macos")]
+        if let tauri::RunEvent::Opened { urls } = event {
+            for url in urls {
+                if let Ok(path) = url.to_file_path() {
+                    cli::request_open(app, path.to_string_lossy().into_owned());
+                }
+            }
+        }
+        #[cfg(not(target_os = "macos"))]
+        let _ = (app, event);
+    });
 }

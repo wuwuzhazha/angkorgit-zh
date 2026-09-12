@@ -58,13 +58,14 @@ import {
   Textarea,
   cn,
 } from '@angkorgit/design-system';
-import { ipc, pickFile, type HostingAccount } from '@/core/ipc';
+import { ipc, pickFile, type CliToolStatus, type HostingAccount } from '@/core/ipc';
 import { Avatar } from '@/components/Avatar';
 import { confirmDialog } from '@/components/confirm';
 import { useRepo } from '@/features/repository/store';
 import { useUi } from '@/features/ui/store';
 import { ACCENTS, THEMES, useSettings, ZOOM_MAX, ZOOM_MIN, type IdentityProfile } from './store';
 import { applyProfileToRepo } from './profiles';
+import { installCliTool } from './cliTool';
 import { AccountsTab, providerIcon } from './AccountsTab';
 import { Field, SettingCard, SettingEmpty, SettingRow } from './SettingCard';
 import { getAiProvider } from '@/features/ai/client';
@@ -79,7 +80,7 @@ const SECTIONS: Array<{
   icon: React.ComponentType<{ className?: string }>;
 }> = [
   { id: 'appearance', label: 'Appearance', description: 'Theme, accent color, zoom and motion', icon: Palette },
-  { id: 'git', label: 'Git', description: 'Auto fetch, pull requests, identity and profiles', icon: User },
+  { id: 'git', label: 'Git', description: 'Auto fetch, pull requests, command line, identity and profiles', icon: User },
   { id: 'accounts', label: 'Authentication', description: 'https:// remotes use accounts · git@ remotes use SSH keys', icon: Github },
   { id: 'ai', label: 'AI Assistant', description: 'Provider, connection and message style', icon: Sparkles },
   { id: 'shortcuts', label: 'Shortcuts', description: 'Keyboard reference', icon: Keyboard },
@@ -533,6 +534,66 @@ function CommitStyleCard() {
   );
 }
 
+function CliToolCard() {
+  const [status, setStatus] = useState<CliToolStatus | null>(null);
+  const [busy, setBusy] = useState(false);
+
+  useEffect(() => {
+    void ipc.cliStatus().then(setStatus).catch(() => setStatus(null));
+  }, []);
+
+  const install = async () => {
+    setBusy(true);
+    try {
+      setStatus(await installCliTool());
+    } catch (error) {
+      toast.error(`Could not install: ${(error as { message?: string }).message ?? error}`);
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const uninstall = async () => {
+    setBusy(true);
+    try {
+      await ipc.cliUninstall();
+      setStatus(null);
+      toast.success('Command line tool removed');
+    } catch (error) {
+      toast.error(`Could not uninstall: ${(error as { message?: string }).message ?? error}`);
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  return (
+    <SettingCard
+      title="Command line tool"
+      description="Open or clone a repository from the terminal. Run angkorgit --help for the full usage."
+      action={
+        status ? (
+          <Button variant="secondary" size="sm" disabled={busy} onClick={() => void uninstall()}>
+            Uninstall
+          </Button>
+        ) : (
+          <Button size="sm" disabled={busy} onClick={() => void install()}>
+            Install
+          </Button>
+        )
+      }
+    >
+      <pre className="whitespace-pre-wrap font-mono text-[11px] leading-relaxed text-muted">
+        {`angkorgit
+angkorgit open [path]
+angkorgit clone [-b branch] <url>`}
+      </pre>
+      {status && (
+        <p className="mt-1 text-[11px] leading-relaxed text-faint">{status.path}</p>
+      )}
+    </SettingCard>
+  );
+}
+
 function ReviewStyleCard() {
   const review = useSettings((s) => s.aiStyle.review);
   const setReviewStyle = useSettings((s) => s.setReviewStyle);
@@ -901,6 +962,8 @@ export function SettingsDialog() {
                       />
                     }
                   />
+
+                  <CliToolCard />
 
                   <SettingCard
                     title={repo ? 'Identity for this repository' : 'Global identity'}

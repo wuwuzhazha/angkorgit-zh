@@ -6,6 +6,12 @@ All notable changes to AngKorGit are documented here. The format follows
 
 ## [Unreleased]
 
+### Added
+- **Open or clone a repository from the terminal.** Settings → Git (or the command
+  palette) installs an `angkorgit` command. `angkorgit` and `angkorgit open [path]`
+  open a local folder; `angkorgit clone [-b branch] <url>` opens the clone dialog
+  with the URL, folder and branch filled in. `angkorgit --help` lists the commands.
+
 ## [0.12.0] — 2026-09-10
 
 The find and fix release. Searching the graph now finds instead of filters, so
