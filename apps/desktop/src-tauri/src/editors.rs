@@ -1,4 +1,4 @@
-use std::path::{Path, PathBuf};
+use std::path::Path;
 use std::process::{Command, Stdio};
 
 use serde::Serialize;
@@ -156,8 +156,8 @@ fn info(spec: &EditorSpec, path: &Path, launch: &str) -> EditorInfo {
 }
 
 #[cfg(target_os = "macos")]
-fn app_roots() -> Vec<PathBuf> {
-    let mut roots = vec![PathBuf::from("/Applications")];
+fn app_roots() -> Vec<std::path::PathBuf> {
+    let mut roots = vec![std::path::PathBuf::from("/Applications")];
     if let Some(home) = crate::ai_cli::home_dir() {
         roots.push(home.join("Applications"));
     }
