@@ -21,6 +21,10 @@ All notable changes to AngKorGit are documented here. The format follows
   `rebase = true` setup gets a linear history like it does in the terminal. The
   Pull button has a menu to pick merge or rebase for one pull, and the palette
   has "Pull with rebase".
+- **The status bar says when the repository was last fetched.** Switching to a
+  tab already fetched its remote, but nothing showed it. "Fetched 2m ago" now sits
+  next to the branch, and hovering it tells you the exact time and how often the
+  auto fetch runs.
 - **Right-click on a commit's files.** Files in the commit view now have the same
   menu as the working copy: edit, file history, open in an external app, show in
   Finder and copy path. Stash files keep their Apply entries at the top.

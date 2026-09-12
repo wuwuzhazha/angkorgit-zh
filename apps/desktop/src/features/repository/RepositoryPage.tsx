@@ -207,6 +207,7 @@ export function RepositoryPage() {
       lastFetch = Date.now();
       try {
         await ipc.fetch(repoPath, remote, true, false);
+        if (useRepo.getState().repo?.path === repoPath) useRepo.getState().markFetched();
       } catch {
         lastFetch = Date.now() + 4 * 60_000;
       } finally {

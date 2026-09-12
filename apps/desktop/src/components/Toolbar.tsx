@@ -388,6 +388,7 @@ export function Toolbar({ onRefresh }: { onRefresh: () => Promise<void> }) {
     setBusy(label);
     try {
       const outcome = await op();
+      if (label === 'Fetch' || label.startsWith('Pull')) useRepo.getState().markFetched();
       if (outcome && 'message' in outcome) {
         toastOutcome(outcome, `${label} complete`);
       } else {

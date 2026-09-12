@@ -140,6 +140,7 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
     void (async () => {
       try {
         const result = (await op()) as { status?: string; message?: string } | undefined;
+        if (label === 'Fetch' || label.startsWith('Pull')) useRepo.getState().markFetched();
         toastOutcome(result, `${label} done`);
         await onRefresh();
       } catch (error) {

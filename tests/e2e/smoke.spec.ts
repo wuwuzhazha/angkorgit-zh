@@ -1311,3 +1311,10 @@ test('the pull button offers merge and rebase', async ({ page }) => {
   await expect(page.getByRole('menuitem', { name: 'Pull with rebase' })).toBeVisible();
   await page.keyboard.press('Escape');
 });
+
+test('the status bar says when the repository was last fetched', async ({ page }) => {
+  await page.goto('/');
+  await page.getByText('angkorgit', { exact: true }).first().click();
+  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await expect(page.locator('[data-last-fetch]')).toHaveText(/Fetched just now/);
+});
