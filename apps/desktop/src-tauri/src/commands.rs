@@ -454,8 +454,12 @@ pub async fn remote_fetch(
 }
 
 #[tauri::command]
-pub async fn remote_pull(path: String, remote: String) -> AppResult<OpOutcome> {
-    blocking(move || remote::pull(&path, &remote)).await
+pub async fn remote_pull(
+    path: String,
+    remote: String,
+    mode: Option<String>,
+) -> AppResult<OpOutcome> {
+    blocking(move || remote::pull(&path, &remote, mode.as_deref())).await
 }
 
 #[tauri::command]

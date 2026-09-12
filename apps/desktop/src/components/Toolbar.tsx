@@ -452,18 +452,36 @@ export function Toolbar({ onRefresh }: { onRefresh: () => Promise<void> }) {
           Fetch
         </Button>
       </Hint>
-      <Hint label={`Pull from ${remote}${status?.behind ? ` (${status.behind} behind)` : ''}`}>
-        <Button
-          variant="ghost"
-          size="sm"
-          disabled={!!busy}
-          onClick={() => void run('Pull', () => ipc.pull(repo.path, remote))}
-        >
-          <ArrowDownToLine />
-          Pull
-          {status && status.behind > 0 && <Badge tone="info">{capCount(status.behind)}</Badge>}
-        </Button>
-      </Hint>
+      <div className="flex items-center">
+        <Hint label={`Pull from ${remote}${status?.behind ? ` (${status.behind} behind)` : ''} · merge or rebase per pull.rebase`}>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="rounded-r-none"
+            disabled={!!busy}
+            onClick={() => void run('Pull', () => ipc.pull(repo.path, remote))}
+          >
+            <ArrowDownToLine />
+            Pull
+            {status && status.behind > 0 && <Badge tone="info">{capCount(status.behind)}</Badge>}
+          </Button>
+        </Hint>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" size="icon-sm" className="rounded-l-none" aria-label="Pull options" disabled={!!busy}>
+              <ChevronDown className="size-3.5" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="start">
+            <DropdownMenuItem onClick={() => void run('Pull (merge)', () => ipc.pull(repo.path, remote, 'merge'))}>
+              Pull with merge
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => void run('Pull (rebase)', () => ipc.pull(repo.path, remote, 'rebase'))}>
+              Pull with rebase
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
       <div className="flex items-center">
         <Hint label={`Push to ${remote}${status?.ahead ? ` (${status.ahead} ahead)` : ''}`}>
           <Button

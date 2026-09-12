@@ -1301,3 +1301,13 @@ test('settings lists detected editors and the toolbar opens in the chosen one', 
   await expect(page.getByRole('menuitem', { name: 'Open in Zed' })).toBeVisible();
   await page.keyboard.press('Escape');
 });
+
+test('the pull button offers merge and rebase', async ({ page }) => {
+  await page.goto('/');
+  await page.getByText('angkorgit', { exact: true }).first().click();
+  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await page.getByRole('button', { name: 'Pull options' }).click();
+  await expect(page.getByRole('menuitem', { name: 'Pull with merge' })).toBeVisible();
+  await expect(page.getByRole('menuitem', { name: 'Pull with rebase' })).toBeVisible();
+  await page.keyboard.press('Escape');
+});

@@ -17,6 +17,10 @@ All notable changes to AngKorGit are documented here. The format follows
   Builder and more). The toolbar gets an "Open in <editor>" button whose menu
   offers every detected editor, the palette has "Open repository in <editor>",
   and file rows in the working copy and the commit view open a single file.
+- **Pull with rebase.** Pull now follows `pull.rebase` from your git config, so a
+  `rebase = true` setup gets a linear history like it does in the terminal. The
+  Pull button has a menu to pick merge or rebase for one pull, and the palette
+  has "Pull with rebase".
 - **Right-click on a commit's files.** Files in the commit view now have the same
   menu as the working copy: edit, file history, open in an external app, show in
   Finder and copy path. Stash files keep their Apply entries at the top.

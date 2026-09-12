@@ -403,12 +403,12 @@ export const ipc = {
     }
     return invoke('remote_fetch', { path, remote, tags, prune });
   },
-  async pull(path: string, remote: string): Promise<OpOutcome> {
+  async pull(path: string, remote: string, mode?: 'merge' | 'rebase'): Promise<OpOutcome> {
     if (!isTauri()) {
       await delay(400);
       return { status: 'ok', message: 'Already up to date (demo)' };
     }
-    return invoke('remote_pull', { path, remote });
+    return invoke('remote_pull', { path, remote, mode: mode ?? null });
   },
   async push(
     path: string,

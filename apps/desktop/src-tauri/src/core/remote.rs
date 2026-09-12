@@ -440,7 +440,7 @@ pub fn fetch(path: &str, remote_name: &str, tags: bool, prune: bool) -> AppResul
     })
 }
 
-pub fn pull(path: &str, remote_name: &str) -> AppResult<OpOutcome> {
+pub fn pull(path: &str, remote_name: &str, mode: Option<&str>) -> AppResult<OpOutcome> {
     fetch(path, remote_name, false, false)?;
 
     let repo = super::repo::open(path)?;
@@ -457,11 +457,40 @@ pub fn pull(path: &str, remote_name: &str) -> AppResult<OpOutcome> {
         .name()?
         .ok_or_else(|| AppError::other("invalid upstream name"))?
         .to_string();
+    let local_oid = branch
+        .get()
+        .target()
+        .ok_or_else(|| AppError::other("branch has no target"))?;
+    let upstream_oid = upstream
+        .get()
+        .target()
+        .ok_or_else(|| AppError::other("upstream has no target"))?;
+    let (ahead, behind) = repo.graph_ahead_behind(local_oid, upstream_oid)?;
+    let rebase = match mode {
+        Some("rebase") => true,
+        Some(_) => false,
+        None => pull_rebase_configured(&repo),
+    };
     drop(upstream);
     drop(branch);
     drop(head);
+    drop(repo);
 
+    if rebase && ahead > 0 && behind > 0 {
+        return super::branch::rebase(path, &upstream_name);
+    }
     super::branch::merge(path, &upstream_name, false)
+}
+
+fn pull_rebase_configured(repo: &Repository) -> bool {
+    repo.config()
+        .ok()
+        .and_then(|config| config.get_string("pull.rebase").ok())
+        .map(|value| {
+            let value = value.trim().to_ascii_lowercase();
+            !(value.is_empty() || matches!(value.as_str(), "false" | "no" | "off" | "0"))
+        })
+        .unwrap_or(false)
 }
 
 pub(crate) fn push_refspecs(branch: &str, force: bool, with_tags: bool) -> Vec<String> {

@@ -2294,3 +2294,85 @@ fn push_reports_up_to_date_instead_of_pushing_again() {
 
     let _ = std::fs::remove_dir_all(&origin);
 }
+
+fn clone_of(origin: &std::path::Path, local: &TempRepo, suffix: &str) -> TempRepo {
+    let dir = local.dir.with_file_name(format!(
+        "{}-{suffix}",
+        local.dir.file_name().unwrap().to_string_lossy()
+    ));
+    let status = Command::new("git")
+        .args([
+            "clone",
+            "-q",
+            "-b",
+            "master",
+            origin.to_str().unwrap(),
+            dir.to_str().unwrap(),
+        ])
+        .status()
+        .unwrap();
+    assert!(status.success());
+    let clone = TempRepo { dir };
+    core::set_config(Some(clone.path()), "user.name", "Other User", false).unwrap();
+    core::set_config(
+        Some(clone.path()),
+        "user.email",
+        "other@angkorgit.dev",
+        false,
+    )
+    .unwrap();
+    core::set_config(Some(clone.path()), "core.autocrlf", "false", false).unwrap();
+    clone
+}
+
+fn head_summary_and_parents(repo: &TempRepo) -> (String, usize) {
+    let out = Command::new("git")
+        .args(["log", "-1", "--format=%s%x00%P"])
+        .current_dir(&repo.dir)
+        .output()
+        .unwrap();
+    let text = String::from_utf8_lossy(&out.stdout).trim().to_string();
+    let (summary, parents) = text.split_once('\0').unwrap();
+    (summary.to_string(), parents.split_whitespace().count())
+}
+
+#[test]
+fn pull_rebases_when_asked_or_configured_and_merges_otherwise() {
+    let local = TempRepo::new();
+    local.write("a.txt", "base\n");
+    commit_all(&local, "base");
+    let origin = bare_origin(&local);
+    core::push(local.path(), "origin", None, false, false, true).unwrap();
+    let other = clone_of(&origin, &local, "other");
+
+    local.write("a.txt", "two\n");
+    commit_all(&local, "two");
+    core::push(local.path(), "origin", None, false, false, true).unwrap();
+    other.write("b.txt", "mine\n");
+    commit_all(&other, "mine");
+    let outcome = core::pull(other.path(), "origin", Some("rebase")).unwrap();
+    assert_eq!(outcome.status, "ok", "{}", outcome.message);
+    assert_eq!(head_summary_and_parents(&other), ("mine".to_string(), 1));
+    assert_eq!(other.read("a.txt"), "two\n");
+
+    local.write("a.txt", "three\n");
+    commit_all(&local, "three");
+    core::push(local.path(), "origin", None, false, false, true).unwrap();
+    other.write("c.txt", "again\n");
+    commit_all(&other, "again");
+    core::set_config(Some(other.path()), "pull.rebase", "true", false).unwrap();
+    let outcome = core::pull(other.path(), "origin", None).unwrap();
+    assert_eq!(outcome.status, "ok", "{}", outcome.message);
+    assert_eq!(head_summary_and_parents(&other), ("again".to_string(), 1));
+
+    local.write("a.txt", "four\n");
+    commit_all(&local, "four");
+    core::push(local.path(), "origin", None, false, false, true).unwrap();
+    other.write("d.txt", "merge me\n");
+    commit_all(&other, "merge me");
+    let outcome = core::pull(other.path(), "origin", Some("merge")).unwrap();
+    assert_eq!(outcome.status, "ok", "{}", outcome.message);
+    assert_eq!(head_summary_and_parents(&other).1, 2);
+
+    let _ = std::fs::remove_dir_all(&origin);
+}

@@ -284,6 +284,11 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
         <Command.Group heading="Actions">
           <PaletteItem icon={<History />} label="File history…" onSelect={enterFileHistory} />
           <PaletteItem icon={<ArrowDownToLine />} label="Pull" onSelect={() => run('Pull', () => ipc.pull(path, remote))} />
+          <PaletteItem
+            icon={<ArrowDownToLine />}
+            label="Pull with rebase"
+            onSelect={() => run('Pull (rebase)', () => ipc.pull(path, remote, 'rebase'))}
+          />
           <PaletteItem icon={<ArrowUpFromLine />} label="Push" onSelect={() => run('Push', () => ipc.push(path, remote, false, false, true))} />
           {(() => {
             const headUpstream = branches.find((b) => !b.isRemote && b.isHead)?.upstream ?? null;
