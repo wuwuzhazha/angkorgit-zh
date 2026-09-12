@@ -7,6 +7,7 @@ import {
   ChevronRight,
   ChevronUp,
   Cloud,
+  Code,
   Copy,
   ExternalLink,
   FolderOpen,
@@ -38,6 +39,8 @@ import { FileFilterInput } from '@/components/FileFilterInput';
 import { useGraph } from '@/features/graph/store';
 import { useRepo } from '@/features/repository/store';
 import { focusRequests, useUi } from '@/features/ui/store';
+import { useSettings } from '@/features/settings/store';
+import { openInEditor, preferredEditor, useEditors } from '@/features/settings/editors';
 import { aiConfigured, getAiProvider } from '@/features/ai/client';
 import { AiText } from '@/features/ai/AiText';
 import { AiResultDialog } from '@/features/ai/AiResultDialog';
@@ -165,6 +168,9 @@ export function CommitDetails({
   const centerDiff = useUi((s) => s.centerDiff);
   const fileTree = useUi((s) => s.fileTree);
   const repoPath = useRepo((s) => s.repo?.path ?? '');
+  const editorId = useSettings((s) => s.editorId);
+  const { editors } = useEditors();
+  const editor = preferredEditor(editors, editorId);
   const stash = useRepo((s) => s.stashes.find((entry) => entry.oid === commit.oid) ?? null);
   const refreshStatus = useRepo((s) => s.refreshStatus);
   const explainKey = explainKeyFor(repoPath, commit.oid);
@@ -660,6 +666,14 @@ export function CommitDetails({
             >
               <Pencil /> Edit file
             </DropdownMenuItem>
+            {editor && (
+              <DropdownMenuItem
+                disabled={fileMenu.file.status === 'deleted'}
+                onClick={() => void openInEditor(editor.id, `${repoPath}/${fileMenu.file.path}`)}
+              >
+                <Code /> Open in {editor.label}
+              </DropdownMenuItem>
+            )}
             <DropdownMenuItem onClick={() => useUi.getState().openFileHistory(fileMenu.file.path)}>
               <History /> File history
             </DropdownMenuItem>

@@ -5,6 +5,7 @@ mod ai_cli;
 mod cli;
 mod commands;
 mod core;
+mod editors;
 mod error;
 mod forge;
 mod http;
@@ -187,6 +188,8 @@ pub fn run() {
             commands::cli_status,
             commands::cli_install,
             commands::cli_uninstall,
+            commands::editors_detect,
+            commands::editor_open,
         ])
         .build(tauri::generate_context!())
         .expect("error while running AngKorGit");

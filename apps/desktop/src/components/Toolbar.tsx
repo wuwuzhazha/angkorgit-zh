@@ -7,6 +7,7 @@ import {
   ArrowUpFromLine,
   Check,
   ChevronDown,
+  Code,
   Command,
   FolderGit2,
   FolderOpen,
@@ -50,6 +51,7 @@ import { sidebarVisible, useUi } from '@/features/ui/store';
 import { useUndo } from '@/features/history/undoStore';
 import { useSettings, type IdentityProfile } from '@/features/settings/store';
 import { applyProfileToRepo, ensureRepoProfile } from '@/features/settings/profiles';
+import { openInEditor, preferredEditor, useEditors } from '@/features/settings/editors';
 import { capCount, modKey } from '@/shared/utils';
 
 function RepoSwitcher() {
@@ -377,6 +379,10 @@ export function Toolbar({ onRefresh }: { onRefresh: () => Promise<void> }) {
   const remote = remotes[0]?.name ?? 'origin';
   const latestStash = stashes[0];
 
+  const editorId = useSettings((s) => s.editorId);
+  const { editors } = useEditors();
+  const editor = preferredEditor(editors, editorId);
+
   const run = async (label: string, op: () => Promise<{ status: string; message: string } | void>) => {
     if (busy) return;
     setBusy(label);
@@ -521,6 +527,43 @@ export function Toolbar({ onRefresh }: { onRefresh: () => Promise<void> }) {
           <ArchiveRestore />
         </Button>
       </Hint>
+
+      <Separator orientation="vertical" className="mx-2 h-6" />
+
+      <div className="flex items-center">
+        <Hint label={editor ? `Open in ${editor.label}` : 'Open in editor (none detected, see Settings → Git)'}>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="rounded-r-none"
+            aria-label={editor ? `Open in ${editor.label}` : 'Open in editor'}
+            disabled={!editor}
+            onClick={() => editor && void openInEditor(editor.id, repo.path)}
+          >
+            <Code />
+          </Button>
+        </Hint>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              variant="ghost"
+              size="icon-sm"
+              className="rounded-l-none"
+              aria-label="Editor options"
+              disabled={editors.length === 0}
+            >
+              <ChevronDown className="size-3.5" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="start">
+            {editors.map((candidate) => (
+              <DropdownMenuItem key={candidate.id} onClick={() => void openInEditor(candidate.id, repo.path)}>
+                {candidate.id === editor?.id ? <Check /> : <Code />} Open in {candidate.label}
+              </DropdownMenuItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
 
       <div className="ml-auto flex items-center gap-1">
         {busy && (

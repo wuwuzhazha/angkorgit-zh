@@ -1278,3 +1278,26 @@ test('settings can install the command line tool', async ({ page }) => {
   await expect(dialog.getByText('/usr/local/bin/angkorgit')).toBeVisible();
   await expect(dialog.getByRole('button', { name: 'Uninstall', exact: true })).toBeVisible();
 });
+
+test('settings lists detected editors and the toolbar opens in the chosen one', async ({ page }) => {
+  await page.goto('/');
+  await page.getByText('angkorgit', { exact: true }).first().click();
+  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByRole('button', { name: 'Open in Visual Studio Code' })).toBeVisible();
+
+  await page.getByRole('button', { name: 'Settings', exact: true }).click();
+  const dialog = page.getByRole('dialog');
+  await dialog.getByRole('button', { name: 'Git', exact: true }).click();
+  await expect(dialog.getByText('External editor')).toBeVisible();
+  const zed = dialog.getByRole('button', { name: /^Zed/ });
+  await expect(zed).toBeVisible();
+  await zed.click();
+  await expect(zed).toHaveAttribute('aria-pressed', 'true');
+  await page.keyboard.press('Escape');
+
+  await expect(page.getByRole('button', { name: 'Open in Zed' })).toBeVisible();
+  await page.getByRole('button', { name: 'Editor options' }).click();
+  await expect(page.getByRole('menuitem', { name: 'Open in Visual Studio Code' })).toBeVisible();
+  await expect(page.getByRole('menuitem', { name: 'Open in Zed' })).toBeVisible();
+  await page.keyboard.press('Escape');
+});

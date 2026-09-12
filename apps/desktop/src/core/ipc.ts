@@ -58,6 +58,13 @@ export interface CliToolStatus {
   aliasPath?: string;
 }
 
+export interface EditorInfo {
+  id: string;
+  label: string;
+  path: string;
+  launch: 'binary' | 'app';
+}
+
 export type CliRequest =
   | { kind: 'open'; path: string }
   | { kind: 'clone'; url: string; into: string; branch?: string };
@@ -735,6 +742,22 @@ export const ipc = {
       return;
     }
     return invoke('cli_uninstall');
+  },
+  async editorsDetect(): Promise<EditorInfo[]> {
+    if (!isTauri()) {
+      await delay(200);
+      return demo.demoEditors;
+    }
+    return invoke('editors_detect');
+  },
+  async editorOpen(editorId: string, target: string): Promise<EditorInfo> {
+    if (!isTauri()) {
+      await delay(120);
+      const editor = demo.demoEditors.find((e) => e.id === editorId);
+      if (!editor) throw new Error(`${editorId} is not installed`);
+      return editor;
+    }
+    return invoke('editor_open', { editorId, path: target });
   },
 };
 

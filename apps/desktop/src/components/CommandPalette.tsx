@@ -10,6 +10,7 @@ import {
   ArrowUpFromLine,
   Check,
   ChevronsDownUp,
+  Code,
   Download,
   FileClock,
   FolderGit2,
@@ -40,6 +41,7 @@ import { sidebarVisible, useUi } from '@/features/ui/store';
 import { SIDEBAR_SECTIONS } from '@/features/sidebar/Sidebar';
 import { themeBase, useSettings } from '@/features/settings/store';
 import { installCliTool } from '@/features/settings/cliTool';
+import { openInEditor, preferredEditor, useEditors } from '@/features/settings/editors';
 import { useUndo } from '@/features/history/undoStore';
 import { useForge } from '@/features/forge/store';
 import { forgeNoun, pickForgeRemote } from '@angkorgit/core';
@@ -47,6 +49,9 @@ import { currentPullRequestUrl, modKey } from '@/shared/utils';
 
 export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }) {
   const repo = useRepo((s) => s.repo);
+  const editorId = useSettings((s) => s.editorId);
+  const { editors } = useEditors();
+  const editor = preferredEditor(editors, editorId);
   const branches = useRepo((s) => s.branches);
   const remotes = useRepo((s) => s.remotes);
   const recents = useRepo((s) => s.recents);
@@ -520,6 +525,16 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
               );
             }}
           />
+          {repo && editor && (
+            <PaletteItem
+              icon={<Code />}
+              label={`Open repository in ${editor.label}`}
+              onSelect={() => {
+                close();
+                void openInEditor(editor.id, repo.path);
+              }}
+            />
+          )}
           <PaletteItem
             icon={<Download />}
             label="Check for updates"

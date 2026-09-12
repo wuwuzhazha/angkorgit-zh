@@ -1,7 +1,7 @@
 import { memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { toast } from 'sonner';
-import { AlertTriangle, Archive, Copy, ExternalLink, FolderOpen, History, Maximize2, Minus, Pencil, Plus, SearchCheck, Sparkles, Trash2, Undo2, X } from 'lucide-react';
+import { AlertTriangle, Archive, Code, Copy, ExternalLink, FolderOpen, History, Maximize2, Minus, Pencil, Plus, SearchCheck, Sparkles, Trash2, Undo2, X } from 'lucide-react';
 import type { FileStatus } from '@angkorgit/core';
 import { aiCapabilities, buildStagedReviewSignature, filterFiles, hashText, PROJECT_REVIEW_FILE, joinCommitMessage, splitCommitMessage } from '@angkorgit/core';
 import {
@@ -30,6 +30,7 @@ import { AiResultDialog } from '@/features/ai/AiResultDialog';
 import { useAiWork } from '@/features/ai/workStore';
 import { useSettings } from '@/features/settings/store';
 import { ensureRepoProfile } from '@/features/settings/profiles';
+import { openInEditor, preferredEditor, useEditors } from '@/features/settings/editors';
 import { useUndo } from '@/features/history/undoStore';
 import { abortMergeFlow } from '@/features/repository/merge';
 import { useCommitDraft } from './draftStore';
@@ -205,6 +206,9 @@ export function WorkingCopyPanel() {
   const selectFile = useUi((s) => s.selectFile);
   const openCenterDiff = useUi((s) => s.openCenterDiff);
   const openEditor = useUi((s) => s.openEditor);
+  const editorId = useSettings((s) => s.editorId);
+  const { editors } = useEditors();
+  const editor = preferredEditor(editors, editorId);
   const openConflict = useUi((s) => s.openConflict);
   const fileTree = useUi((s) => s.fileTree);
   const path = repo?.path ?? '';
@@ -1065,6 +1069,11 @@ export function WorkingCopyPanel() {
             <DropdownMenuItem onClick={() => openEditor(fileMenu.file.path)}>
               <Pencil /> Edit file
             </DropdownMenuItem>
+            {editor && (
+              <DropdownMenuItem onClick={() => void openInEditor(editor.id, `${path}/${fileMenu.file.path}`)}>
+                <Code /> Open in {editor.label}
+              </DropdownMenuItem>
+            )}
             <DropdownMenuItem onClick={() => useUi.getState().openFileHistory(fileMenu.file.path)}>
               <History /> File history
             </DropdownMenuItem>

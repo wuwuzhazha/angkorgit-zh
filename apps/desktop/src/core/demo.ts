@@ -1,3 +1,4 @@
+import type { EditorInfo } from './ipc';
 import type {
   BranchInfo,
   CliAgentInfo,
@@ -532,3 +533,8 @@ export function demoCliRun(): CliRunResult {
     output: null,
   };
 }
+
+export const demoEditors: EditorInfo[] = [
+  { id: 'vscode', label: 'Visual Studio Code', path: '/usr/local/bin/code', launch: 'binary' },
+  { id: 'zed', label: 'Zed', path: '/Applications/Zed.app', launch: 'app' },
+];

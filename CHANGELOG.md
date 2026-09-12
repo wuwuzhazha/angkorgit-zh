@@ -12,6 +12,11 @@ All notable changes to AngKorGit are documented here. The format follows
   `akg open [path]` open a local folder; `akg clone [-b branch] <url>` opens the
   clone dialog with the URL, folder and branch filled in. `akg --help` lists the
   commands.
+- **Open in your editor.** Settings → Git lists the editors installed on your
+  machine (VS Code, Cursor, Zed, Sublime Text, the JetBrains IDEs, Xcode, GNOME
+  Builder and more). The toolbar gets an "Open in <editor>" button whose menu
+  offers every detected editor, the palette has "Open repository in <editor>",
+  and file rows in the working copy and the commit view open a single file.
 - **Right-click on a commit's files.** Files in the commit view now have the same
   menu as the working copy: edit, file history, open in an external app, show in
   Finder and copy path. Stash files keep their Apply entries at the top.

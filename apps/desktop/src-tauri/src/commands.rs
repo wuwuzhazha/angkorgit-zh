@@ -855,3 +855,13 @@ pub fn cli_install() -> AppResult<crate::cli::CliToolStatus> {
 pub fn cli_uninstall() -> AppResult<()> {
     crate::cli::uninstall()
 }
+
+#[tauri::command]
+pub async fn editors_detect() -> AppResult<Vec<crate::editors::EditorInfo>> {
+    blocking(|| Ok(crate::editors::detect())).await
+}
+
+#[tauri::command]
+pub async fn editor_open(editorId: String, path: String) -> AppResult<crate::editors::EditorInfo> {
+    blocking(move || crate::editors::open(&editorId, &path)).await
+}
