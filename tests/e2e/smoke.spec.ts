@@ -923,7 +923,7 @@ test('冲突解决器在两侧和结果中都显示行号', async ({ page }) => 
 test('hovering a crowded ref cell stacks every ref in place, folded ones included', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   const rowChip = page.getByTitle(/^feature\/diff-viewer · local/).first();
   const row = page.getByRole('row').filter({ has: rowChip }).first();
   await expect(row.getByText('release/0.4', { exact: true })).toHaveCount(0);
@@ -952,7 +952,7 @@ test('hovering a crowded ref cell stacks every ref in place, folded ones include
 test('the checked-out branch is the visible chip and the only one with the tick', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   const rows = page.getByRole('row');
   const top = rows.first();
   await expect(top.getByTitle(/^main · local/)).toBeVisible();
@@ -978,7 +978,7 @@ test('the checked-out branch is the visible chip and the only one with the tick'
 test('a separated origin chip offers the reset from its right-click menu too', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   await page.getByTitle(/origin\/main — double-click to reset main to it/).first().click({ button: 'right' });
   await page.getByRole('menuitem', { name: 'Reset main to this…' }).click();
   const dialog = page.getByRole('dialog');
@@ -990,15 +990,15 @@ test('a separated origin chip offers the reset from its right-click menu too', a
 test('arrow keys move the working copy diff from file to file', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   await page.getByText('ipc.ts', { exact: true }).first().click();
-  await expect(page.locator('section[aria-label="Diff for src/core/ipc.ts"]')).toBeVisible();
+  await expect(page.locator('section[aria-label="文件差异： src/core/ipc.ts"]')).toBeVisible();
   await page.keyboard.press('ArrowDown');
-  await expect(page.locator('section[aria-label="Diff for src/data/palette-seed.sql"]')).toBeVisible();
+  await expect(page.locator('section[aria-label="文件差异： src/data/palette-seed.sql"]')).toBeVisible();
   await page.keyboard.press('ArrowDown');
-  await expect(page.locator('section[aria-label="Diff for docs/Architecture.md"]')).toBeVisible();
+  await expect(page.locator('section[aria-label="文件差异： docs/Architecture.md"]')).toBeVisible();
   await page.keyboard.press('ArrowUp');
-  await expect(page.locator('section[aria-label="Diff for src/data/palette-seed.sql"]')).toBeVisible();
+  await expect(page.locator('section[aria-label="文件差异： src/data/palette-seed.sql"]')).toBeVisible();
 });
 
 test('the checked-out branch chip is filled while other local chips stay tinted', async ({ page }) => {
@@ -1142,7 +1142,7 @@ test('the commit file list can be filtered by path', async ({ page }) => {
 test('right-clicking a commit file offers the working copy file actions', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   await page.getByText('feat(graph): virtualize commit rows').first().click();
 
   const inspector = page.getByRole('complementary', { name: 'Inspector' });
@@ -1268,7 +1268,7 @@ test('arrow keys walk from the graph into a commit\u2019s files and back', async
 
 test('settings can install the command line tool', async ({ page }) => {
   await page.goto('/');
-  await expect(page.getByText('Recent repositories')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByText('最近仓库')).toBeVisible({ timeout: 10_000 });
   await page.getByRole('button', { name: 'Settings', exact: true }).click();
   const dialog = page.getByRole('dialog');
   await dialog.getByRole('button', { name: 'Git', exact: true }).click();
@@ -1283,7 +1283,7 @@ test('settings can install the command line tool', async ({ page }) => {
 test('settings lists detected editors and the toolbar opens in the chosen one', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   await expect(page.getByRole('button', { name: 'Open in Visual Studio Code' })).toBeVisible();
 
   await page.getByRole('button', { name: 'Settings', exact: true }).click();
@@ -1306,7 +1306,7 @@ test('settings lists detected editors and the toolbar opens in the chosen one', 
 test('the pull button offers merge and rebase', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   await page.getByRole('button', { name: 'Pull options' }).click();
   await expect(page.getByRole('menuitem', { name: 'Pull with merge' })).toBeVisible();
   await expect(page.getByRole('menuitem', { name: 'Pull with rebase' })).toBeVisible();
@@ -1316,16 +1316,16 @@ test('the pull button offers merge and rebase', async ({ page }) => {
 test('the status bar says when the repository was last fetched', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   await expect(page.locator('[data-last-fetch]')).toHaveText(/Fetched just now/);
 });
 
 test('the diff header opens blame inside file history with authors per hunk', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   await page.getByText('CommitGraph.tsx').first().click();
-  await page.locator('section[aria-label^="Diff for"]').getByRole('button', { name: 'Blame' }).click();
+  await page.locator('section[aria-label^="文件差异："]').getByRole('button', { name: 'Blame' }).click();
   const history = page.locator('section[aria-label^="History of"]');
   await expect(history).toBeVisible();
   await expect(history.getByRole('button', { name: 'Blame view' })).toHaveAttribute('aria-pressed', 'true');
@@ -1351,15 +1351,15 @@ test('the diff header opens blame inside file history with authors per hunk', as
 
   await page.keyboard.press('Escape');
   await expect(history).toBeHidden();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible();
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible();
 });
 
 test('the palette offers Blame… and picks a file', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   await page.getByRole('button', { name: 'Command palette' }).click();
-  await page.getByPlaceholder('Type a command or branch name…').fill('Blame');
+  await page.getByPlaceholder('输入命令或分支名…').fill('Blame');
   await page.getByText('Blame…', { exact: true }).click();
   const picker = page.getByPlaceholder('Search a file to blame…');
   await expect(picker).toBeVisible();

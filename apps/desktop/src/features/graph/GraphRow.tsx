@@ -316,7 +316,7 @@ function RefChip({
           ? `${group.label}\nStash — click the row to see its files, right-click to apply, pop or drop`
           : group.tag || group.detachedHead
           ? group.detachedHead
-            ? 'HEAD is detached at this commit'
+            ? 'HEAD 游离在该提交处'
             : group.label
           : separated
             ? `${group.primary.shorthand} — double-click to reset ${group.label} to it, right-click for actions`

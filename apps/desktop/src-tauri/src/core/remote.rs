@@ -456,11 +456,11 @@ pub fn pull(path: &str, remote_name: &str, mode: Option<&str>) -> AppResult<OpOu
     let local_oid = branch
         .get()
         .target()
-        .ok_or_else(|| AppError::other("branch has no target"))?;
+        .ok_or_else(|| AppError::other("分支没有目标"))?;
     let upstream_oid = upstream
         .get()
         .target()
-        .ok_or_else(|| AppError::other("upstream has no target"))?;
+        .ok_or_else(|| AppError::other("上游没有目标"))?;
     let (ahead, behind) = repo.graph_ahead_behind(local_oid, upstream_oid)?;
     let rebase = match mode {
         Some("rebase") => true,

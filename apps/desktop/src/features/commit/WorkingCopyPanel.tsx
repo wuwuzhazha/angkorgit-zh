@@ -1071,7 +1071,7 @@ export function WorkingCopyPanel() {
             </DropdownMenuItem>
             {editor && (
               <DropdownMenuItem onClick={() => void openInEditor(editor.id, `${path}/${fileMenu.file.path}`)}>
-                <Code /> Open in {editor.label}
+                <Code /> 打开 in {editor.label}
               </DropdownMenuItem>
             )}
             <DropdownMenuItem onClick={() => useUi.getState().openFileHistory(fileMenu.file.path)}>
@@ -1104,7 +1104,7 @@ export function WorkingCopyPanel() {
                   )
               }
             >
-              <FolderOpen /> {isMac ? 'Show in Finder' : 'Show in file manager'}
+              <FolderOpen /> {isMac ? 'Show in Finder' : '在文件管理器中显示'}
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => {

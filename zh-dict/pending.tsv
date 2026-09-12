@@ -25,6 +25,8 @@ docs	docs/Coding-Standards.md	docs: …
 docs	docs/Coding-Standards.md	feat(graph): …
 docs	docs/Coding-Standards.md	fix(engine): …
 docs	docs/Coding-Standards.md	tests/unit
+docs	docs/Contributing.md	Commit messages
+docs	docs/Contributing.md	Generated with …
 docs	docs/Contributing.md	packages/core/src/ai/providers.ts
 docs	docs/Contributing.md	src/shared/highlight.ts
 docs	docs/Contributing.md	tests/git_engine.rs
@@ -83,6 +85,7 @@ e2e	tests/e2e/smoke.spec.ts	**://www.gravatar.com/**
 e2e	tests/e2e/smoke.spec.ts	0 of 3 resolved
 e2e	tests/e2e/smoke.spec.ts	000096aaaaaa
 e2e	tests/e2e/smoke.spec.ts	1 more file to resolve
+e2e	tests/e2e/smoke.spec.ts	1 more ref
 e2e	tests/e2e/smoke.spec.ts	1 of 1
 e2e	tests/e2e/smoke.spec.ts	1 of 2
 e2e	tests/e2e/smoke.spec.ts	1 of 3 resolved
@@ -94,16 +97,29 @@ e2e	tests/e2e/smoke.spec.ts	a short hash prefix jumps like a full hash and an un
 e2e	tests/e2e/smoke.spec.ts	a single file can be stashed from its row menu and the toolbar pops the latest stash
 e2e	tests/e2e/smoke.spec.ts	a stash lists its files and one file can be restored on its own
 e2e	tests/e2e/smoke.spec.ts	a stash shows up in the graph with its own node and a menu to pop it
+e2e	tests/e2e/smoke.spec.ts	angkorgit open [path]
+e2e	tests/e2e/smoke.spec.ts	arrow keys move the working copy diff from file to file
 e2e	tests/e2e/smoke.spec.ts	aside button[title="feature"]
 e2e	tests/e2e/smoke.spec.ts	aside button[title="feature"] span.truncate
+e2e	tests/e2e/smoke.spec.ts	Blame at this commit
+e2e	tests/e2e/smoke.spec.ts	Blame view
 e2e	tests/e2e/smoke.spec.ts	button span.truncate
+e2e	tests/e2e/smoke.spec.ts	Checkout release/0.4
+e2e	tests/e2e/smoke.spec.ts	chip geometry missing
 e2e	tests/e2e/smoke.spec.ts	Close file history
+e2e	tests/e2e/smoke.spec.ts	Command line tool
+e2e	tests/e2e/smoke.spec.ts	Command palette
 e2e	tests/e2e/smoke.spec.ts	commit search finds matches in the full graph and steps through them
 e2e	tests/e2e/smoke.spec.ts	Conflict 2 of 3
+e2e	tests/e2e/smoke.spec.ts	Copy absolute path
+e2e	tests/e2e/smoke.spec.ts	Copy path
 e2e	tests/e2e/smoke.spec.ts	Dara Kim
 e2e	tests/e2e/smoke.spec.ts	dialog geometry missing
+e2e	tests/e2e/smoke.spec.ts	Diff view
 e2e	tests/e2e/smoke.spec.ts	dragging the sidebar shut and back open shows its content again
+e2e	tests/e2e/smoke.spec.ts	Editor options
 e2e	tests/e2e/smoke.spec.ts	Explains the why.
+e2e	tests/e2e/smoke.spec.ts	External editor
 e2e	tests/e2e/smoke.spec.ts	feat(graph): virtualize commit rows
 e2e	tests/e2e/smoke.spec.ts	feat(worktrees): list, create and remove linked worktrees
 e2e	tests/e2e/smoke.spec.ts	feature/parallel agents
@@ -116,24 +132,43 @@ e2e	tests/e2e/smoke.spec.ts	fix(diff): handle renamed files
 e2e	tests/e2e/smoke.spec.ts	fix(diff): handle renamed files in word diff
 e2e	tests/e2e/smoke.spec.ts	graph display menu can switch the lane color band off and on
 e2e	tests/e2e/smoke.spec.ts	h2, p
+e2e	tests/e2e/smoke.spec.ts	hovering a crowded ref cell stacks every ref in place, folded ones included
 e2e	tests/e2e/smoke.spec.ts	img[src*="gravatar"]
+e2e	tests/e2e/smoke.spec.ts	Inline diff
 e2e	tests/e2e/smoke.spec.ts	Leave this file unresolved?
 e2e	tests/e2e/smoke.spec.ts	leaving a conflict with picks asks first while a clean resolver closes on Escape
 e2e	tests/e2e/smoke.spec.ts	no inspector resize handle
 e2e	tests/e2e/smoke.spec.ts	No matches
+e2e	tests/e2e/smoke.spec.ts	Not committed yet
 e2e	tests/e2e/smoke.spec.ts	Open commit 
+e2e	tests/e2e/smoke.spec.ts	Open in Visual Studio Code
+e2e	tests/e2e/smoke.spec.ts	Open in Zed
 e2e	tests/e2e/smoke.spec.ts	Paste the token
 e2e	tests/e2e/smoke.spec.ts	Previous match
+e2e	tests/e2e/smoke.spec.ts	Pull options
+e2e	tests/e2e/smoke.spec.ts	Pull with merge
+e2e	tests/e2e/smoke.spec.ts	Pull with rebase
 e2e	tests/e2e/smoke.spec.ts	reconnecting an account opens the token form with the account prefilled
+e2e	tests/e2e/smoke.spec.ts	release/0.4
+e2e	tests/e2e/smoke.spec.ts	Reset branch to its remote?
+e2e	tests/e2e/smoke.spec.ts	Reset main to this…
 e2e	tests/e2e/smoke.spec.ts	return render(rows, { colors });
+e2e	tests/e2e/smoke.spec.ts	Search a file to blame…
+e2e	tests/e2e/smoke.spec.ts	settings can install the command line tool
+e2e	tests/e2e/smoke.spec.ts	settings lists detected editors and the toolbar opens in the chosen one
+e2e	tests/e2e/smoke.spec.ts	src/app/App.tsx
 e2e	tests/e2e/smoke.spec.ts	staged files can be discarded from the row, the menu and the header
 e2e	tests/e2e/smoke.spec.ts	temple gold
 e2e	tests/e2e/smoke.spec.ts	the author box finds commits without flattening the graph
 e2e	tests/e2e/smoke.spec.ts	the commit file list can be filtered by path
+e2e	tests/e2e/smoke.spec.ts	the diff header opens blame inside file history with authors per hunk
 e2e	tests/e2e/smoke.spec.ts	the diff header opens the history of the file being viewed
 e2e	tests/e2e/smoke.spec.ts	the inspector stops at its minimum width when dragged and comes back after file history
+e2e	tests/e2e/smoke.spec.ts	the palette offers Blame… and picks a file
+e2e	tests/e2e/smoke.spec.ts	the pull button offers merge and rebase
 e2e	tests/e2e/smoke.spec.ts	the resolver picks with the keyboard and opens the next conflicted file after saving
 e2e	tests/e2e/smoke.spec.ts	the sidebar comes back after a relaunch that happened with a diff open
+e2e	tests/e2e/smoke.spec.ts	the status bar says when the repository was last fetched
 e2e	tests/e2e/smoke.spec.ts	the working copy filter narrows both lists and shows counts
 e2e	tests/e2e/smoke.spec.ts	WIP on main: experiment with lane colors
 e2e	tests/e2e/smoke.spec.ts	xpath=ancestor::*[@role="row"]
@@ -186,9 +221,23 @@ rust	apps/desktop/src-tauri/src/ai_cli.rs	Gemini CLI
 rust	apps/desktop/src-tauri/src/ai_cli.rs	Library/pnpm
 rust	apps/desktop/src-tauri/src/ai_cli.rs	printf '%s' \"$1\"
 rust	apps/desktop/src-tauri/src/ai_cli.rs	sleep 20
+rust	apps/desktop/src-tauri/src/cli.rs	abs=$(resolve \"$2\") || exit 1
+rust	apps/desktop/src-tauri/src/cli.rs	angkorgit clone [-b branch] <url>
+rust	apps/desktop/src-tauri/src/cli.rs	angkorgit open [path]
+rust	apps/desktop/src-tauri/src/cli.rs	cli pending
+rust	apps/desktop/src-tauri/src/cli.rs	could not find a writable directory for the command line tool
+rust	apps/desktop/src-tauri/src/cli.rs	launch_open \"$(resolve
+rust	apps/desktop/src-tauri/src/cli.rs	open -a \"$APP\"
+rust	apps/desktop/src-tauri/src/cli.rs	Option::is_none
+rust	apps/desktop/src-tauri/src/cli.rs	torvalds/linux
 rust	apps/desktop/src-tauri/src/core/accounts.rs	acct:{host}:{username}
 rust	apps/desktop/src-tauri/src/core/accounts.rs	gitlab.example.com:8443
 rust	apps/desktop/src-tauri/src/core/ai_keys.rs	ai:{provider}
+rust	apps/desktop/src-tauri/src/core/blame.rs	{file} is a binary file
+rust	apps/desktop/src-tauri/src/core/blame.rs	{file} is too large to blame ({} MB)
+rust	apps/desktop/src-tauri/src/core/blame.rs	bare repositories have no working copy to blame
+rust	apps/desktop/src-tauri/src/core/blame.rs	Not committed yet
+rust	apps/desktop/src-tauri/src/core/blame.rs	Uncommitted changes
 rust	apps/desktop/src-tauri/src/core/branch.rs	(cherry picked from commit 
 rust	apps/desktop/src-tauri/src/core/branch.rs	(cherry picked from commit {oid})\n
 rust	apps/desktop/src-tauri/src/core/branch.rs	Merge branch '{branch}' into {into}
@@ -208,6 +257,7 @@ rust	apps/desktop/src-tauri/src/core/misc.rs	untracked files on
 rust	apps/desktop/src-tauri/src/core/misc.rs	untracked files on {branch}: {short} {summary}
 rust	apps/desktop/src-tauri/src/core/misc.rs	WIP on {branch}: {short} {summary}
 rust	apps/desktop/src-tauri/src/core/remote.rs	{}_{suffix}
+rust	apps/desktop/src-tauri/src/core/remote.rs	{branch_name} is already up to date on {remote_name}
 rust	apps/desktop/src-tauri/src/core/remote.rs	{remote_name}/{branch_name}
 rust	apps/desktop/src-tauri/src/core/remote.rs	{remote_name}/{local_branch}
 rust	apps/desktop/src-tauri/src/core/remote.rs	+{source_ref}:{PR_HEAD_TMP_REF}
@@ -217,6 +267,7 @@ rust	apps/desktop/src-tauri/src/core/remote.rs	pull request checkout
 rust	apps/desktop/src-tauri/src/core/remote.rs	url={url}\n
 rust	apps/desktop/src-tauri/src/core/remote.rs	username={user}\n
 rust	apps/desktop/src-tauri/src/core/repo.rs	{name}:{target}
+rust	apps/desktop/src-tauri/src/core/repo.rs	{path}: no such file or directory
 rust	apps/desktop/src-tauri/src/core/repo.rs	HEAD:{}:{}
 rust	apps/desktop/src-tauri/src/core/repo.rs	HEAD:unborn
 rust	apps/desktop/src-tauri/src/core/sign.rs	.ssh/id_ed25519.pub
@@ -234,6 +285,15 @@ rust	apps/desktop/src-tauri/src/core/types.rs	Option::is_none
 rust	apps/desktop/src-tauri/src/core/worktree.rs	{base}-{i}
 rust	apps/desktop/src-tauri/src/core/worktree.rs	ref: 
 rust	apps/desktop/src-tauri/src/core/worktree.rs	worktree:{name}:{}:{}:{}
+rust	apps/desktop/src-tauri/src/editors.rs	.local/share/flatpak/exports/bin
+rust	apps/desktop/src-tauri/src/editors.rs	{editor_id} is not installed on this machine any more — pick another editor in Settings → Git
+rust	apps/desktop/src-tauri/src/editors.rs	#!/bin/sh\necho \"$@\" > '{}'\n
+rust	apps/desktop/src-tauri/src/editors.rs	GNOME Builder
+rust	apps/desktop/src-tauri/src/editors.rs	static [&
+rust	apps/desktop/src-tauri/src/editors.rs	Sublime Text
+rust	apps/desktop/src-tauri/src/editors.rs	Visual Studio Code
+rust	apps/desktop/src-tauri/src/editors.rs	Visual Studio Code - Insiders
+rust	apps/desktop/src-tauri/src/editors.rs	VS Code Insiders
 rust	apps/desktop/src-tauri/src/error.rs	class=Http
 rust	apps/desktop/src-tauri/src/error.rs	unexpected http status code: 
 rust	apps/desktop/src-tauri/src/error.rs	unexpected http status code: 401
@@ -256,6 +316,8 @@ rust	apps/desktop/src-tauri/src/watcher.rs	worktrees/
 rust	apps/desktop/src-tauri/tests/git_engine.rs	--format=%B
 rust	apps/desktop/src-tauri/tests/git_engine.rs	--porcelain
 rust	apps/desktop/src-tauri/tests/git_engine.rs	(cherry picked from commit {picked})
+rust	apps/desktop/src-tauri/tests/git_engine.rs	{}-{suffix}
+rust	apps/desktop/src-tauri/tests/git_engine.rs	{}-origin.git
 rust	apps/desktop/src-tauri/tests/git_engine.rs	{name}-{suffix}
 rust	apps/desktop/src-tauri/tests/git_engine.rs	{summaries:?}
 rust	apps/desktop/src-tauri/tests/git_engine.rs	a dirty\n
@@ -267,6 +329,7 @@ rust	apps/desktop/src-tauri/tests/git_engine.rs	add picked file\n
 rust	apps/desktop/src-tauri/tests/git_engine.rs	alpha\nbeta\ngamma
 rust	apps/desktop/src-tauri/tests/git_engine.rs	alpha\nbeta\ngamma\n\n\n
 rust	apps/desktop/src-tauri/tests/git_engine.rs	alpha\nbeta\ngamma\n\n\nkhlhlihho
+rust	apps/desktop/src-tauri/tests/git_engine.rs	already up to date
 rust	apps/desktop/src-tauri/tests/git_engine.rs	b dirty\n
 rust	apps/desktop/src-tauri/tests/git_engine.rs	change a
 rust	apps/desktop/src-tauri/tests/git_engine.rs	change a {i}
@@ -287,6 +350,7 @@ rust	apps/desktop/src-tauri/tests/git_engine.rs	commit 0
 rust	apps/desktop/src-tauri/tests/git_engine.rs	commit 1
 rust	apps/desktop/src-tauri/tests/git_engine.rs	commit 2
 rust	apps/desktop/src-tauri/tests/git_engine.rs	committed\n
+rust	apps/desktop/src-tauri/tests/git_engine.rs	core.autocrlf=false
 rust	apps/desktop/src-tauri/tests/git_engine.rs	demo change
 rust	apps/desktop/src-tauri/tests/git_engine.rs	demo change\n
 rust	apps/desktop/src-tauri/tests/git_engine.rs	demo work
@@ -340,11 +404,14 @@ rust	apps/desktop/src-tauri/tests/git_engine.rs	Merge branch 'feature'
 rust	apps/desktop/src-tauri/tests/git_engine.rs	Merge branch 'other'
 rust	apps/desktop/src-tauri/tests/git_engine.rs	Merge branch 'production' into master
 rust	apps/desktop/src-tauri/tests/git_engine.rs	Merge branch 'topic' into master
+rust	apps/desktop/src-tauri/tests/git_engine.rs	merge me
+rust	apps/desktop/src-tauri/tests/git_engine.rs	merge me\n
 rust	apps/desktop/src-tauri/tests/git_engine.rs	merge other
 rust	apps/desktop/src-tauri/tests/git_engine.rs	message {message:?}
 rust	apps/desktop/src-tauri/tests/git_engine.rs	missing origin line in: {engine_message:?}
 rust	apps/desktop/src-tauri/tests/git_engine.rs	new staged\n
 rust	apps/desktop/src-tauri/tests/git_engine.rs	new/fresh.txt
+rust	apps/desktop/src-tauri/tests/git_engine.rs	no such file or directory
 rust	apps/desktop/src-tauri/tests/git_engine.rs	not a rev
 rust	apps/desktop/src-tauri/tests/git_engine.rs	nothing here
 rust	apps/desktop/src-tauri/tests/git_engine.rs	On master: only a
@@ -356,6 +423,7 @@ rust	apps/desktop/src-tauri/tests/git_engine.rs	one\ntwo\nthree\n
 rust	apps/desktop/src-tauri/tests/git_engine.rs	one\ntwo\nthree\nfour\nfive\n
 rust	apps/desktop/src-tauri/tests/git_engine.rs	only a
 rust	apps/desktop/src-tauri/tests/git_engine.rs	other change\n
+rust	apps/desktop/src-tauri/tests/git_engine.rs	Other User
 rust	apps/desktop/src-tauri/tests/git_engine.rs	plain commit
 rust	apps/desktop/src-tauri/tests/git_engine.rs	pr third
 rust	apps/desktop/src-tauri/tests/git_engine.rs	pr work
@@ -369,6 +437,7 @@ rust	apps/desktop/src-tauri/tests/git_engine.rs	resolved by hand
 rust	apps/desktop/src-tauri/tests/git_engine.rs	resolved content\n
 rust	apps/desktop/src-tauri/tests/git_engine.rs	resolved\n
 rust	apps/desktop/src-tauri/tests/git_engine.rs	Revert \"add bad file\"
+rust	apps/desktop/src-tauri/tests/git_engine.rs	Second Dev
 rust	apps/desktop/src-tauri/tests/git_engine.rs	source change\n
 rust	apps/desktop/src-tauri/tests/git_engine.rs	SSH SIGNATURE
 rust	apps/desktop/src-tauri/tests/git_engine.rs	staged then edited\n
@@ -378,6 +447,7 @@ rust	apps/desktop/src-tauri/tests/git_engine.rs	Test User
 rust	apps/desktop/src-tauri/tests/git_engine.rs	three renamed
 rust	apps/desktop/src-tauri/tests/git_engine.rs	topic change
 rust	apps/desktop/src-tauri/tests/git_engine.rs	topic work
+rust	apps/desktop/src-tauri/tests/git_engine.rs	Uncommitted changes
 rust	apps/desktop/src-tauri/tests/git_engine.rs	untracked files on
 rust	apps/desktop/src-tauri/tests/git_engine.rs	untracked\n
 rust	apps/desktop/src-tauri/tests/git_engine.rs	wip graph
@@ -625,8 +695,20 @@ test	tests/unit/worktree.test.ts	places the folder beside the repository
 test	tests/unit/worktree.test.ts	returns the containing folder
 ui	apps/desktop/src/app/App.tsx	mod+shift+=
 ui	apps/desktop/src/components/CommandPalette.tsx	 : ''}
+ui	apps/desktop/src/components/CommandPalette.tsx	Fetch all remotes (with tags)
+ui	apps/desktop/src/components/CommandPalette.tsx	Install command line tool
+ui	apps/desktop/src/components/CommandPalette.tsx	Pull (rebase)
+ui	apps/desktop/src/components/CommandPalette.tsx	Pull with rebase
+ui	apps/desktop/src/components/CommandPalette.tsx	Search a file to blame…
 ui	apps/desktop/src/components/Toolbar.tsx	 : ''}
+ui	apps/desktop/src/components/Toolbar.tsx	 : ''} · merge or rebase per pull.rebase
 ui	apps/desktop/src/components/Toolbar.tsx	block truncate
+ui	apps/desktop/src/components/Toolbar.tsx	Editor options
+ui	apps/desktop/src/components/Toolbar.tsx	Open in editor
+ui	apps/desktop/src/components/Toolbar.tsx	Open in editor (none detected, see Settings → Git)
+ui	apps/desktop/src/components/Toolbar.tsx	Pull (merge)
+ui	apps/desktop/src/components/Toolbar.tsx	Pull (rebase)
+ui	apps/desktop/src/components/Toolbar.tsx	Pull options
 ui	apps/desktop/src/core/ipc.ts	__TAURI_INTERNALS__
 ui	apps/desktop/src/core/ipc.ts	Already up to date (demo)
 ui	apps/desktop/src/core/ipc.ts	Rebase complete (demo)
@@ -635,7 +717,11 @@ ui	apps/desktop/src/core/ipc.ts	src/app/App.tsx
 ui	apps/desktop/src/core/ipc.ts	src/graph/layout.ts
 ui	apps/desktop/src/core/ipc.ts	src/main.ts
 ui	apps/desktop/src/core/ipc.ts	vendor/libfoo
+ui	apps/desktop/src/features/blame/BlameView.tsx	Hash copied
+ui	apps/desktop/src/features/blame/BlameView.tsx	Not committed yet
 ui	apps/desktop/src/features/commit/draftStore.ts	zustand/middleware
+ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	Absolute path copied
+ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	Show in Finder
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	Clear every pick and start over
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	Commit to finish the merge.
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	Commit to finish the revert.
@@ -656,25 +742,40 @@ ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	The result goes back
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	What the revert wants to undo.
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	Your branch as it is now.
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	Your commit, being replayed on top of it.
+ui	apps/desktop/src/features/diff/DiffPanel.tsx	Blame at this commit
 ui	apps/desktop/src/features/diff/DiffViewer.tsx	image/svg+xml
 ui	apps/desktop/src/features/forge/CreatePrDialog.tsx	 : ''}
 ui	apps/desktop/src/features/graph/CommitGraph.tsx	Find author…
 ui	apps/desktop/src/features/graph/CommitGraph.tsx	Next match (Enter)
 ui	apps/desktop/src/features/graph/CommitGraph.tsx	Previous match (Shift+Enter)
 ui	apps/desktop/src/features/graph/WipRow.tsx	3 2.5
+ui	apps/desktop/src/features/history/FileHistoryPanel.tsx	Blame view
+ui	apps/desktop/src/features/history/FileHistoryPanel.tsx	Diff view
 ui	apps/desktop/src/features/history/FileHistoryPanel.tsx	Hash copied
+ui	apps/desktop/src/features/history/FileHistoryPanel.tsx	No uncommitted changes to this file.
 ui	apps/desktop/src/features/history/FileHistoryPanel.tsx	Open this commit in the graph with all its files
 ui	apps/desktop/src/features/inspector/CommitDetails.tsx	).join('\n')}
+ui	apps/desktop/src/features/inspector/CommitDetails.tsx	Absolute path copied
+ui	apps/desktop/src/features/inspector/CommitDetails.tsx	Show in Finder
+ui	apps/desktop/src/features/repository/CloneDialog.tsx	Branch (optional)
 ui	apps/desktop/src/features/repository/RepositoryPage.tsx	mod+shift+z
 ui	apps/desktop/src/features/settings/AccountsTab.tsx	application/vnd.github+json
+ui	apps/desktop/src/features/settings/SettingsDialog.tsx	 · also akg
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	[ / ]
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	[{suffix}]
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	→ / ←
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	↑ / ↓
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	+ / − / 0
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	A / C
+ui	apps/desktop/src/features/settings/SettingsDialog.tsx	Command line tool
+ui	apps/desktop/src/features/settings/SettingsDialog.tsx	Command line tool removed
+ui	apps/desktop/src/features/settings/SettingsDialog.tsx	External editor
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	Home / End
+ui	apps/desktop/src/features/settings/SettingsDialog.tsx	Install your editor's command line launcher (VS Code calls it the shell command) and scan again.
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	K / P
+ui	apps/desktop/src/features/settings/SettingsDialog.tsx	No editor found
+ui	apps/desktop/src/features/settings/SettingsDialog.tsx	Open or clone a repository from the terminal as angkorgit or the short akg. Run akg --help for the full usage.
+ui	apps/desktop/src/features/settings/SettingsDialog.tsx	Open the repository or a file in an editor installed on this machine, from the toolbar, the palette and the file menus.
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	P / N
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	Z / ⇧Z
 ui	apps/desktop/src/features/settings/store.ts	Angkor Dawn

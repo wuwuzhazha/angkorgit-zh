@@ -268,7 +268,7 @@ export function FileHistoryPanel({ file }: { file: string }) {
         </div>
         {pane === 'diff' && (
           <>
-        <Hint label="Inline diff">
+        <Hint label="内联 diff">
           <Button
             variant="ghost"
             size="icon-sm"
@@ -368,7 +368,7 @@ export function FileHistoryPanel({ file }: { file: string }) {
                   <Pencil className="size-3" />
                 </span>
                 <span className="min-w-0 flex-1">
-                  <span className="block truncate text-xs text-foreground">Working copy</span>
+                  <span className="block truncate text-xs text-foreground">工作副本</span>
                   <span className="block truncate text-[11px] text-muted">The file as it is on disk right now</span>
                 </span>
               </div>
@@ -477,8 +477,8 @@ export function FileHistoryPanel({ file }: { file: string }) {
                 {selected === WORKING_COPY
                   ? 'No uncommitted changes to this file.'
                   : selected
-                    ? 'No changes for this file in that commit (it may have been renamed).'
-                    : 'Select a commit to see its changes.'}
+                    ? '无更改 for this file in that commit (it may have been renamed).'
+                    : '选择一个提交以查看其更改。'}
               </p>
             )}
           </div>

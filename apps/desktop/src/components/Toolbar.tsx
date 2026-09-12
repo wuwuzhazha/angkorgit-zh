@@ -442,13 +442,13 @@ export function Toolbar({ onRefresh }: { onRefresh: () => Promise<void> }) {
 
       <Separator orientation="vertical" className="mx-2 h-6" />
 
-      <Hint label={remotes.length > 1 ? `Fetch all remotes (${remotes.map((r) => r.name).join(', ')})` : `Fetch ${remote}`}>
+      <Hint label={remotes.length > 1 ? `Fetch all remotes (${remotes.map((r) => r.name).join(', ')})` : `获取 ${remote}`}>
         <Button
           variant="ghost"
           size="sm"
           disabled={!!busy}
           onClick={() =>
-            void run('Fetch', async () => {
+            void run('获取', async () => {
               for (const r of remotes.length > 0 ? remotes : [{ name: remote }]) await ipc.fetch(repo.path, r.name, true, true);
             })
           }
@@ -458,16 +458,16 @@ export function Toolbar({ onRefresh }: { onRefresh: () => Promise<void> }) {
         </Button>
       </Hint>
       <div className="flex items-center">
-        <Hint label={`Pull from ${remote}${status?.behind ? ` (${status.behind} behind)` : ''} · merge or rebase per pull.rebase`}>
+        <Hint label={`从 ${remote} 拉取${status?.behind ? ` (${status.behind} behind)` : ''} · merge or rebase per pull.rebase`}>
           <Button
             variant="ghost"
             size="sm"
             className="rounded-r-none"
             disabled={!!busy}
-            onClick={() => void run('Pull', () => ipc.pull(repo.path, remote))}
+            onClick={() => void run('拉取', () => ipc.pull(repo.path, remote))}
           >
             <ArrowDownToLine />
-            Pull
+            拉取
             {status && status.behind > 0 && <Badge tone="info">{capCount(status.behind)}</Badge>}
           </Button>
         </Hint>

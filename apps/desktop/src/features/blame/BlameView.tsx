@@ -159,7 +159,7 @@ export function BlameView({
           <DropdownMenuContent align="start" side="bottom">
             <DropdownMenuLabel className="max-w-64 truncate">{menu.hunk.summary}</DropdownMenuLabel>
             <DropdownMenuItem disabled={!menu.hunk.committed} onClick={() => onOpenCommit(menu.hunk.oid)}>
-              <GitCommitHorizontal /> Open commit {menu.hunk.shortOid}
+              <GitCommitHorizontal /> 打开 commit {menu.hunk.shortOid}
             </DropdownMenuItem>
             <DropdownMenuItem disabled={!menu.hunk.committed} onClick={() => onBlameAt(menu.hunk.oid)}>
               <UserRoundSearch /> Blame at this commit

@@ -672,11 +672,11 @@ export function CommitDetails({
                 disabled={fileMenu.file.status === 'deleted'}
                 onClick={() => void openInEditor(editor.id, `${repoPath}/${fileMenu.file.path}`)}
               >
-                <Code /> Open in {editor.label}
+                <Code /> 打开 in {editor.label}
               </DropdownMenuItem>
             )}
             <DropdownMenuItem onClick={() => useUi.getState().openFileHistory(fileMenu.file.path)}>
-              <History /> File history
+              <History /> 文件历史
             </DropdownMenuItem>
             <DropdownMenuItem
               disabled={fileMenu.file.status === 'deleted'}
@@ -694,7 +694,7 @@ export function CommitDetails({
                   )
               }
             >
-              <ExternalLink /> Open in external app
+              <ExternalLink /> 打开 in external app
             </DropdownMenuItem>
             <DropdownMenuItem
               disabled={fileMenu.file.status === 'deleted'}
@@ -706,12 +706,12 @@ export function CommitDetails({
                   )
               }
             >
-              <FolderOpen /> {isMac ? 'Show in Finder' : 'Show in file manager'}
+              <FolderOpen /> {isMac ? 'Show in Finder' : '在文件管理器中显示'}
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => {
                 void navigator.clipboard.writeText(fileMenu.file.path);
-                toast.success('Path copied');
+                toast.success('路径已复制');
               }}
             >
               <Copy /> 复制路径

@@ -142,7 +142,7 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
       try {
         const result = (await op()) as { status?: string; message?: string } | undefined;
         if (label === 'Fetch' || label.startsWith('Pull')) useRepo.getState().markFetched();
-        toastOutcome(result, `${label} done`);
+        toastOutcome(result, `${label} 已完成`);
         await onRefresh();
       } catch (error) {
         toast.error(`${label} 失败：${(error as { message?: string }).message ?? error}`);
@@ -241,10 +241,10 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
         onValueChange={setSearch}
         placeholder={
           mode === 'fileHistory'
-            ? 'Search a file to see who changed it…'
+            ? '搜索文件查看修改人…'
             : mode === 'blame'
               ? 'Search a file to blame…'
-              : 'Type a command or branch name…'
+              : '输入命令或分支名…'
         }
         onKeyDown={(e) => {
           if (mode !== 'commands' && e.key === 'Backspace' && search === '') {
@@ -256,7 +256,7 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
       />
       <Command.List className="max-h-80 overflow-y-auto p-1.5 [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:text-[10px] [&_[cmdk-group-heading]]:font-semibold [&_[cmdk-group-heading]]:uppercase [&_[cmdk-group-heading]]:tracking-wide [&_[cmdk-group-heading]]:text-faint">
         {!(mode !== 'commands' && (filesLoading || filesError)) && (
-          <Command.Empty className="py-8 text-center text-sm text-faint">No results.</Command.Empty>
+          <Command.Empty className="py-8 text-center text-sm text-faint">无结果。</Command.Empty>
         )}
 
         {mode !== 'commands' && filesLoading && (
@@ -265,10 +265,10 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
           </div>
         )}
         {mode !== 'commands' && !filesLoading && filesError && (
-          <div className="py-8 text-center text-sm text-faint">Could not list files.</div>
+          <div className="py-8 text-center text-sm text-faint">无法列出文件。</div>
         )}
         {mode !== 'commands' && !filesLoading && !filesError && (
-          <Command.Group heading={mode === 'blame' ? 'Blame' : 'File history'}>
+          <Command.Group heading={mode === 'blame' ? 'Blame' : '文件历史'}>
             {visibleFiles.map((file) => (
               <PaletteItem
                 key={file}
@@ -286,16 +286,16 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
 
         {mode === 'commands' && (
         <>
-        <Command.Group heading="Actions">
-          <PaletteItem icon={<History />} label="File history…" onSelect={() => enterFilePicker('fileHistory')} />
+        <Command.Group heading="操作">
+          <PaletteItem icon={<History />} label="文件历史…" onSelect={() => enterFilePicker('fileHistory')} />
           <PaletteItem icon={<UserRoundSearch />} label="Blame…" onSelect={() => enterFilePicker('blame')} />
-          <PaletteItem icon={<ArrowDownToLine />} label="Pull" onSelect={() => run('Pull', () => ipc.pull(path, remote))} />
+          <PaletteItem icon={<ArrowDownToLine />} label="拉取" onSelect={() => run('拉取', () => ipc.pull(path, remote))} />
           <PaletteItem
             icon={<ArrowDownToLine />}
             label="Pull with rebase"
             onSelect={() => run('Pull (rebase)', () => ipc.pull(path, remote, 'rebase'))}
           />
-          <PaletteItem icon={<ArrowUpFromLine />} label="Push" onSelect={() => run('Push', () => ipc.push(path, remote, false, false, true))} />
+          <PaletteItem icon={<ArrowUpFromLine />} label="推送" onSelect={() => run('推送', () => ipc.push(path, remote, false, false, true))} />
           {(() => {
             const headUpstream = branches.find((b) => !b.isRemote && b.isHead)?.upstream ?? null;
             const prUrl = currentPullRequestUrl(repo, pickForgeRemote(remotes, headUpstream)?.url);
@@ -315,9 +315,9 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
           })()}
           <PaletteItem
             icon={<RefreshCw />}
-            label={remotes.length > 1 ? 'Fetch all remotes (with tags)' : 'Fetch (with tags)'}
+            label={remotes.length > 1 ? 'Fetch all remotes (with tags)' : '拉取（含标签）'}
             onSelect={() =>
-              run('Fetch', async () => {
+              run('获取', async () => {
                 for (const r of remotes.length > 0 ? remotes : [{ name: remote }]) await ipc.fetch(path, r.name, true, true);
               })
             }
@@ -547,7 +547,7 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
           {repo && editor && (
             <PaletteItem
               icon={<Code />}
-              label={`Open repository in ${editor.label}`}
+              label={`打开仓库 in ${editor.label}`}
               onSelect={() => {
                 close();
                 void openInEditor(editor.id, repo.path);

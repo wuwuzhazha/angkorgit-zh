@@ -68,7 +68,7 @@ function Shell() {
         })
         .catch((error) => {
           toast.error(
-            `Could not open repository: ${(error as { message?: string }).message ?? error}`,
+            `无法打开仓库：${(error as { message?: string }).message ?? error}`,
           );
           if (!finished) finishSplash();
         });

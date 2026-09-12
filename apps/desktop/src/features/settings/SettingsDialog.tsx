@@ -81,11 +81,11 @@ const SECTIONS: Array<{
   description: string;
   icon: React.ComponentType<{ className?: string }>;
 }> = [
-  { id: 'appearance', label: 'Appearance', description: 'Theme, accent color, zoom and motion', icon: Palette },
-  { id: 'git', label: 'Git', description: 'Auto fetch, pull requests, command line, identity and profiles', icon: User },
+  { id: 'appearance', label: '外观', description: '主题、强调色、缩放与动效', icon: Palette },
+  { id: 'git', label: 'Git', description: '自动拉取, pull requests, command line, identity and profiles', icon: User },
   { id: 'accounts', label: 'Authentication', description: 'https:// remotes use accounts · git@ remotes use SSH keys', icon: Github },
-  { id: 'ai', label: 'AI Assistant', description: 'Provider, connection and message style', icon: Sparkles },
-  { id: 'shortcuts', label: 'Shortcuts', description: 'Keyboard reference', icon: Keyboard },
+  { id: 'ai', label: 'AI 助手', description: '提供方、连接与消息风格', icon: Sparkles },
+  { id: 'shortcuts', label: '快捷键', description: '键盘参考', icon: Keyboard },
 ];
 
 function SshCard() {
@@ -649,7 +649,7 @@ function EditorCard() {
                     <span className="truncate">{editor.label}</span>
                     {isActive && (
                       <Badge tone="primary">
-                        <Check className="size-3" /> In use
+                        <Check className="size-3" /> 使用中
                       </Badge>
                     )}
                   </p>

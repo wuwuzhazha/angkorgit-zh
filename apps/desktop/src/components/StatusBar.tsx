@@ -82,7 +82,7 @@ export function StatusBar() {
           label={`Last fetched at ${new Date(lastFetchAt).toLocaleTimeString()}. ${
             autoFetchMinutes
               ? `Fetches run when you switch to this tab, when the window gets focus and every ${autoFetchMinutes} min.`
-              : 'Auto fetch is off in Settings → Git.'
+              : '自动拉取 is off in Settings → Git.'
           }`}
         >
           <span className="flex items-center gap-1 text-faint" data-last-fetch>
