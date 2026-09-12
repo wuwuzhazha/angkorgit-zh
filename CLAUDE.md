@@ -1986,8 +1986,8 @@ only, subject = PR title, body = BLANK (the default COMMIT_MESSAGES body would h
 carried a contributor's `Co-authored-by: Cursor` trailer into main); merged head
 branches auto-delete; ruleset "Protect main" (id 22892466) on the default branch
 blocks deletion + force-push, requires a PR with 1 approval, resolved threads and
-the four CI job checks (typecheck/unit/build, Playwright, Rust × 3 OS) — add
-"Commit messages" to its required checks once the `commits` job is on main —
+the six CI job checks (typecheck/unit/build, Playwright, Rust × 3 OS, Commit
+messages — added to the ruleset 2026-09-12 when the `commits` job landed) —
 with RepositoryRole 5 (admin) as an always-bypass actor so the owner's release
 flow (fast-forward main + tag from the terminal) still works; Actions requires
 approval for first-time contributors' fork PRs, so a new contributor's CI run sits

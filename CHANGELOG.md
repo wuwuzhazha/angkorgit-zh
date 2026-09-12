@@ -6,6 +6,13 @@ All notable changes to AngKorGit are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.13.0] — 2026-09-12
+
+The terminal and editor release. `akg` opens or clones a repository from the shell,
+your editor opens from AngKorGit, blame joins file history with a commit list to
+travel through, and pull finally follows your rebase setting. Two community reports
+and one pull request shaped it.
+
 ### Added
 - **Open or clone a repository from the terminal.** Settings → Git (or the command
   palette) installs an `angkorgit` command with a short `akg` alias. `akg` and
@@ -1173,7 +1180,8 @@ The first release. 🏛️
 - AI assistant with pluggable providers (OpenAI, Anthropic, Gemini, Ollama,
   LM Studio): commit messages, diff/conflict explanations, PR descriptions, reviews
 
-[Unreleased]: https://github.com/cheat2001/angkorgit/compare/v0.12.0...HEAD
+[Unreleased]: https://github.com/cheat2001/angkorgit/compare/v0.13.0...HEAD
+[0.13.0]: https://github.com/cheat2001/angkorgit/compare/v0.12.0...v0.13.0
 [0.12.0]: https://github.com/cheat2001/angkorgit/compare/v0.11.0...v0.12.0
 [0.11.0]: https://github.com/cheat2001/angkorgit/compare/v0.10.0...v0.11.0
 [0.10.0]: https://github.com/cheat2001/angkorgit/compare/v0.9.0...v0.10.0

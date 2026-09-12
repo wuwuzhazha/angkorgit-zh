@@ -1,10 +1,10 @@
 # Roadmap
 
-Updated for v0.12.0 (September 2026). [CHANGELOG.md](../CHANGELOG.md) is the
+Updated for v0.13.0 (September 2026). [CHANGELOG.md](../CHANGELOG.md) is the
 authoritative record of what shipped in each release; this file tracks
 direction.
 
-## Shipped (0.1.0 → 0.12.0)
+## Shipped (0.1.0 → 0.13.0)
 
 - [x] Repository: open, clone (with progress), recents, search, repository tabs (drag to reorder)
 - [x] Commit: stage files, hunks, and individual lines; unstage, commit, amend; per-repo commit drafts; multi-select in the working copy with bulk stage/unstage/stash/discard; discard for staged files; path filter over changed files and commit files
@@ -24,11 +24,14 @@ direction.
 - [x] Commit signing: SSH and GPG, driven by existing git config (commit.gpgSign, gpg.format, user.signingKey) — covers commit, amend, merge
 - [x] Pull requests: sidebar list, checkout and in-app create with reviewer selection for GitHub, GitLab (incl. self-hosted) and Bitbucket Cloud, through the connected account; browser fallback without one
 - [x] Graph search: message text, a hash or prefix, and author all find matches in the full graph, centered and highlighted, with an n of m control; ⌘F focuses the search
+- [x] Command line: `angkorgit` / `akg` installed from Settings — open the current folder, a path, or clone by URL or owner/repo into the app
+- [x] Blame: a pane of file history with a Working copy row, per-hunk authors, jump to the commit, blame at or before any commit
+- [x] External editor: detected editors (VS Code, Cursor, Zed, Sublime, JetBrains, Xcode, GNOME Builder…) from the toolbar, palette and file menus
+- [x] Pull with rebase following `pull.rebase`, a merge/rebase choice per pull, and a status bar note of the last fetch
 - [x] Performance: fast startup (splash waits for the app, not a timer; heavy views load on first use), a quiet file watcher, on-demand commit diffs, loading overlay on slow repository switches
 
 ## Next
 
-- [x] Blame view
 - [ ] Worktrees: start an installed AI CLI inside a worktree from its row, a per-repo post-create setup command, merged badge with one-step cleanup
 - [ ] Provider avatars via connected accounts, layered over Gravatar
 
