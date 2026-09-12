@@ -2302,6 +2302,8 @@ fn clone_of(origin: &std::path::Path, local: &TempRepo, suffix: &str) -> TempRep
     ));
     let status = Command::new("git")
         .args([
+            "-c",
+            "core.autocrlf=false",
             "clone",
             "-q",
             "-b",
