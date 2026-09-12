@@ -1139,6 +1139,23 @@ test('the commit file list can be filtered by path', async ({ page }) => {
   await expect(inspector.getByPlaceholder('Filter files…')).toHaveCount(0);
 });
 
+test('right-clicking a commit file offers the working copy file actions', async ({ page }) => {
+  await page.goto('/');
+  await page.getByText('angkorgit', { exact: true }).first().click();
+  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await page.getByText('feat(graph): virtualize commit rows').first().click();
+
+  const inspector = page.getByRole('complementary', { name: 'Inspector' });
+  await inspector.getByText('GraphRow.tsx', { exact: true }).click({ button: 'right' });
+  const menu = page.getByRole('menu');
+  await expect(menu.getByRole('menuitem', { name: 'File history' })).toBeVisible();
+  await expect(menu.getByRole('menuitem', { name: 'Show in Finder' })).toBeVisible();
+  await expect(menu.getByRole('menuitem', { name: 'Copy path' })).toBeVisible();
+  await expect(menu.getByRole('menuitem', { name: /Apply this file/ })).toHaveCount(0);
+  await page.keyboard.press('Escape');
+  await expect(menu).toHaveCount(0);
+});
+
 test('a stash lists its files and one file can be restored on its own', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();

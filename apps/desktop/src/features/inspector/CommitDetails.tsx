@@ -1,7 +1,22 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { toast } from 'sonner';
-import { ArchiveRestore, ChevronDown, ChevronRight, ChevronUp, Cloud, Copy, Maximize2, Monitor, Sparkles, Tag as TagIcon } from 'lucide-react';
+import {
+  ArchiveRestore,
+  ChevronDown,
+  ChevronRight,
+  ChevronUp,
+  Cloud,
+  Copy,
+  ExternalLink,
+  FolderOpen,
+  History,
+  Maximize2,
+  Monitor,
+  Pencil,
+  Sparkles,
+  Tag as TagIcon,
+} from 'lucide-react';
 import type { CommitFileInfo, CommitInfo, FileDiff } from '@angkorgit/core';
 import { aiCapabilities, filterFiles } from '@angkorgit/core';
 import {
@@ -12,6 +27,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
   Hint,
   Logo,
@@ -264,7 +280,7 @@ export function CommitDetails({
     }
   };
 
-  const [stashFileMenu, setStashFileMenu] = useState<{ x: number; y: number; path: string } | null>(null);
+  const [fileMenu, setFileMenu] = useState<{ x: number; y: number; file: CommitFileInfo } | null>(null);
   const restoreFromStash = async (files: string[]) => {
     if (!stash || files.length === 0) return;
     try {
@@ -296,14 +312,10 @@ export function CommitDetails({
             stash && picked.has(diff.path) && !active && 'bg-primary/5',
           )}
           style={fileTree && depth !== undefined ? { paddingLeft: treeIndent(depth) } : undefined}
-          onContextMenu={
-            stash
-              ? (e) => {
-                  e.preventDefault();
-                  setStashFileMenu({ x: e.clientX, y: e.clientY, path: diff.path });
-                }
-              : undefined
-          }
+          onContextMenu={(e) => {
+            e.preventDefault();
+            setFileMenu({ x: e.clientX, y: e.clientY, file: diff });
+          }}
         >
         {stash && (
           <Checkbox
@@ -622,24 +634,62 @@ export function CommitDetails({
           shownDiffs.map((diff) => renderDiffRow(diff))
         )}
       </div>
-      {stashFileMenu && (
-        <DropdownMenu open onOpenChange={(o) => !o && setStashFileMenu(null)}>
+      {fileMenu && (
+        <DropdownMenu open onOpenChange={(o) => !o && setFileMenu(null)}>
           <DropdownMenuTrigger asChild>
-            <span style={{ position: 'fixed', left: stashFileMenu.x, top: stashFileMenu.y }} />
+            <span style={{ position: 'fixed', left: fileMenu.x, top: fileMenu.y }} />
           </DropdownMenuTrigger>
           <DropdownMenuContent align="start" side="bottom">
-            <DropdownMenuLabel className="max-w-64 truncate font-mono">{stashFileMenu.path}</DropdownMenuLabel>
-            <DropdownMenuItem onClick={() => void restoreFromStash([stashFileMenu.path])}>
-              <ArchiveRestore /> Apply this file to the working copy
-            </DropdownMenuItem>
-            {picked.size > 1 && picked.has(stashFileMenu.path) && (
-              <DropdownMenuItem onClick={() => void restoreFromStash([...picked])}>
-                <ArchiveRestore /> Apply {picked.size} selected files
-              </DropdownMenuItem>
+            <DropdownMenuLabel className="max-w-64 truncate font-mono">{fileMenu.file.path}</DropdownMenuLabel>
+            {stash && (
+              <>
+                <DropdownMenuItem onClick={() => void restoreFromStash([fileMenu.file.path])}>
+                  <ArchiveRestore /> Apply this file to the working copy
+                </DropdownMenuItem>
+                {picked.size > 1 && picked.has(fileMenu.file.path) && (
+                  <DropdownMenuItem onClick={() => void restoreFromStash([...picked])}>
+                    <ArchiveRestore /> Apply {picked.size} selected files
+                  </DropdownMenuItem>
+                )}
+                <DropdownMenuSeparator />
+              </>
             )}
             <DropdownMenuItem
+              disabled={fileMenu.file.status === 'deleted'}
+              onClick={() => useUi.getState().openEditor(fileMenu.file.path)}
+            >
+              <Pencil /> Edit file
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => useUi.getState().openFileHistory(fileMenu.file.path)}>
+              <History /> File history
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              disabled={fileMenu.file.status === 'deleted'}
+              onClick={() =>
+                void ipc
+                  .openPath(`${repoPath}/${fileMenu.file.path}`)
+                  .catch((error) =>
+                    toast.error(`Could not open the file: ${(error as { message?: string }).message ?? error}`),
+                  )
+              }
+            >
+              <ExternalLink /> Open in external app
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              disabled={fileMenu.file.status === 'deleted'}
+              onClick={() =>
+                void ipc
+                  .revealPath(`${repoPath}/${fileMenu.file.path}`)
+                  .catch((error) =>
+                    toast.error(`Could not reveal the file: ${(error as { message?: string }).message ?? error}`),
+                  )
+              }
+            >
+              <FolderOpen /> Show in Finder
+            </DropdownMenuItem>
+            <DropdownMenuItem
               onClick={() => {
-                void navigator.clipboard.writeText(stashFileMenu.path);
+                void navigator.clipboard.writeText(fileMenu.file.path);
                 toast.success('Path copied');
               }}
             >
