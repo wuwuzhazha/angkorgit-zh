@@ -920,6 +920,87 @@ test('冲突解决器在两侧和结果中都显示行号', async ({ page }) => 
   expect(values.every((n) => Number.isInteger(n) && n > 0)).toBe(true);
 });
 
+test('hovering a crowded ref cell stacks every ref in place, folded ones included', async ({ page }) => {
+  await page.goto('/');
+  await page.getByText('angkorgit', { exact: true }).first().click();
+  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  const rowChip = page.getByTitle(/^feature\/diff-viewer · local/).first();
+  const row = page.getByRole('row').filter({ has: rowChip }).first();
+  await expect(row.getByText('release/0.4', { exact: true })).toHaveCount(0);
+  await expect(row.getByRole('button', { name: '1 more ref' })).toHaveText('+1');
+  await rowChip.hover();
+  const panel = page.locator('[data-more-refs]');
+  const first = panel.getByTitle(/^feature\/diff-viewer · local/);
+  const second = panel.getByTitle(/^release\/0\.4 · local — double-click to checkout/);
+  await expect(first).toBeVisible();
+  await expect(second).toBeVisible();
+  const rowBox = await rowChip.boundingBox();
+  const firstBox = await first.boundingBox();
+  const secondBox = await second.boundingBox();
+  if (!rowBox || !firstBox || !secondBox) throw new Error('chip geometry missing');
+  expect(Math.abs(firstBox.x - rowBox.x)).toBeLessThanOrEqual(2);
+  expect(Math.abs(firstBox.y - rowBox.y)).toBeLessThanOrEqual(2);
+  expect(secondBox.x).toBeCloseTo(firstBox.x, 0);
+  expect(secondBox.y).toBeGreaterThan(firstBox.y + firstBox.height);
+  await second.click({ button: 'right' });
+  await expect(page.getByRole('menuitem', { name: 'Checkout release/0.4' })).toBeVisible();
+  await expect(page.getByRole('menuitem', { name: /Reset .* to this/ })).toHaveCount(0);
+  await page.keyboard.press('Escape');
+  await expect(page.getByRole('menuitem')).toHaveCount(0);
+});
+
+test('the checked-out branch is the visible chip and the only one with the tick', async ({ page }) => {
+  await page.goto('/');
+  await page.getByText('angkorgit', { exact: true }).first().click();
+  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  const rows = page.getByRole('row');
+  const top = rows.first();
+  await expect(top.getByTitle(/^main · local/)).toBeVisible();
+  await expect(top.getByText('hotfix/lane-colors', { exact: true })).toHaveCount(0);
+  await expect(top.getByRole('button', { name: '1 more ref' })).toHaveText('+1');
+  await top.getByTitle(/^main · local/).hover();
+  const panel = page.locator('[data-more-refs]');
+  const main = panel.getByTitle(/^main · local/);
+  const hotfix = panel.getByTitle(/^hotfix\/lane-colors · local/);
+  await expect(main).toBeVisible();
+  await expect(hotfix).toBeVisible();
+  const mainBox = await main.boundingBox();
+  const hotfixBox = await hotfix.boundingBox();
+  if (!mainBox || !hotfixBox) throw new Error('chip geometry missing');
+  expect(hotfixBox.y).toBeGreaterThan(mainBox.y);
+  const opacity = (color: string) => Number(color.split(',')[3]?.replace(')', '') ?? '1');
+  expect(opacity(await main.evaluate((el) => getComputedStyle(el).backgroundColor))).toBe(1);
+  expect(opacity(await hotfix.evaluate((el) => getComputedStyle(el).backgroundColor))).toBeLessThan(1);
+  await expect(main.locator('svg.lucide-check')).toHaveCount(1);
+  await expect(hotfix.locator('svg.lucide-check')).toHaveCount(0);
+});
+
+test('a separated origin chip offers the reset from its right-click menu too', async ({ page }) => {
+  await page.goto('/');
+  await page.getByText('angkorgit', { exact: true }).first().click();
+  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await page.getByTitle(/origin\/main — double-click to reset main to it/).first().click({ button: 'right' });
+  await page.getByRole('menuitem', { name: 'Reset main to this…' }).click();
+  const dialog = page.getByRole('dialog');
+  await expect(dialog.getByText('Reset branch to its remote?')).toBeVisible();
+  await dialog.getByRole('button', { name: 'Cancel' }).click();
+  await expect(dialog).toBeHidden();
+});
+
+test('arrow keys move the working copy diff from file to file', async ({ page }) => {
+  await page.goto('/');
+  await page.getByText('angkorgit', { exact: true }).first().click();
+  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await page.getByText('ipc.ts', { exact: true }).first().click();
+  await expect(page.locator('section[aria-label="Diff for src/core/ipc.ts"]')).toBeVisible();
+  await page.keyboard.press('ArrowDown');
+  await expect(page.locator('section[aria-label="Diff for src/data/palette-seed.sql"]')).toBeVisible();
+  await page.keyboard.press('ArrowDown');
+  await expect(page.locator('section[aria-label="Diff for docs/Architecture.md"]')).toBeVisible();
+  await page.keyboard.press('ArrowUp');
+  await expect(page.locator('section[aria-label="Diff for src/data/palette-seed.sql"]')).toBeVisible();
+});
+
 test('the checked-out branch chip is filled while other local chips stay tinted', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
@@ -1058,6 +1139,24 @@ test('the commit file list can be filtered by path', async ({ page }) => {
   await expect(inspector.getByPlaceholder('过滤文件…')).toHaveCount(0);
 });
 
+test('right-clicking a commit file offers the working copy file actions', async ({ page }) => {
+  await page.goto('/');
+  await page.getByText('angkorgit', { exact: true }).first().click();
+  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await page.getByText('feat(graph): virtualize commit rows').first().click();
+
+  const inspector = page.getByRole('complementary', { name: 'Inspector' });
+  await inspector.getByText('GraphRow.tsx', { exact: true }).click({ button: 'right' });
+  const menu = page.getByRole('menu');
+  await expect(menu.getByRole('menuitem', { name: 'File history' })).toBeVisible();
+  await expect(menu.getByRole('menuitem', { name: /Show in (Finder|file manager)/ })).toBeVisible();
+  await expect(menu.getByRole('menuitem', { name: 'Copy path' })).toBeVisible();
+  await expect(menu.getByRole('menuitem', { name: 'Copy absolute path' })).toBeVisible();
+  await expect(menu.getByRole('menuitem', { name: /Apply this file/ })).toHaveCount(0);
+  await page.keyboard.press('Escape');
+  await expect(menu).toHaveCount(0);
+});
+
 test('a stash lists its files and one file can be restored on its own', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
@@ -1165,4 +1264,108 @@ test('arrow keys walk from the graph into a commit\u2019s files and back', async
   await expect(rows.nth(1).locator('button.font-mono')).toHaveText(secondHash);
   await page.keyboard.press('ArrowDown');
   await expect(rows.nth(2)).toHaveAttribute('aria-selected', 'true');
+});
+
+test('settings can install the command line tool', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.getByText('Recent repositories')).toBeVisible({ timeout: 10_000 });
+  await page.getByRole('button', { name: 'Settings', exact: true }).click();
+  const dialog = page.getByRole('dialog');
+  await dialog.getByRole('button', { name: 'Git', exact: true }).click();
+  await expect(dialog.getByText('Command line tool')).toBeVisible();
+  await expect(dialog.getByText('angkorgit open [path]')).toBeVisible();
+  await expect(dialog.getByText(/angkorgit clone \[-b branch\]/)).toBeVisible();
+  await dialog.getByRole('button', { name: 'Install', exact: true }).click();
+  await expect(dialog.getByText('/usr/local/bin/angkorgit')).toBeVisible();
+  await expect(dialog.getByRole('button', { name: 'Uninstall', exact: true })).toBeVisible();
+});
+
+test('settings lists detected editors and the toolbar opens in the chosen one', async ({ page }) => {
+  await page.goto('/');
+  await page.getByText('angkorgit', { exact: true }).first().click();
+  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByRole('button', { name: 'Open in Visual Studio Code' })).toBeVisible();
+
+  await page.getByRole('button', { name: 'Settings', exact: true }).click();
+  const dialog = page.getByRole('dialog');
+  await dialog.getByRole('button', { name: 'Git', exact: true }).click();
+  await expect(dialog.getByText('External editor')).toBeVisible();
+  const zed = dialog.getByRole('button', { name: /^Zed/ });
+  await expect(zed).toBeVisible();
+  await zed.click();
+  await expect(zed).toHaveAttribute('aria-pressed', 'true');
+  await page.keyboard.press('Escape');
+
+  await expect(page.getByRole('button', { name: 'Open in Zed' })).toBeVisible();
+  await page.getByRole('button', { name: 'Editor options' }).click();
+  await expect(page.getByRole('menuitem', { name: 'Open in Visual Studio Code' })).toBeVisible();
+  await expect(page.getByRole('menuitem', { name: 'Open in Zed' })).toBeVisible();
+  await page.keyboard.press('Escape');
+});
+
+test('the pull button offers merge and rebase', async ({ page }) => {
+  await page.goto('/');
+  await page.getByText('angkorgit', { exact: true }).first().click();
+  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await page.getByRole('button', { name: 'Pull options' }).click();
+  await expect(page.getByRole('menuitem', { name: 'Pull with merge' })).toBeVisible();
+  await expect(page.getByRole('menuitem', { name: 'Pull with rebase' })).toBeVisible();
+  await page.keyboard.press('Escape');
+});
+
+test('the status bar says when the repository was last fetched', async ({ page }) => {
+  await page.goto('/');
+  await page.getByText('angkorgit', { exact: true }).first().click();
+  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await expect(page.locator('[data-last-fetch]')).toHaveText(/Fetched just now/);
+});
+
+test('the diff header opens blame inside file history with authors per hunk', async ({ page }) => {
+  await page.goto('/');
+  await page.getByText('angkorgit', { exact: true }).first().click();
+  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await page.getByText('CommitGraph.tsx').first().click();
+  await page.locator('section[aria-label^="Diff for"]').getByRole('button', { name: 'Blame' }).click();
+  const history = page.locator('section[aria-label^="History of"]');
+  await expect(history).toBeVisible();
+  await expect(history.getByRole('button', { name: 'Blame view' })).toHaveAttribute('aria-pressed', 'true');
+  await expect(history.locator('[data-working-copy-row]')).toHaveClass(/border-l-primary/);
+  const pane = history.locator('[data-blame-pane]');
+  await expect(pane.locator('[data-blame-line="1"]')).toBeVisible();
+  const authors = pane.getByRole('button', { name: /^Open commit [0-9a-f]+$/ });
+  await expect(authors.first()).toBeVisible();
+  expect(await authors.count()).toBeGreaterThan(1);
+  await expect(pane.getByText('Not committed yet')).toBeVisible();
+
+  await history.locator('li[data-index="0"] [role="button"]').first().click();
+  await expect(pane.getByText('Not committed yet')).toHaveCount(0);
+  await expect(history.locator('[data-working-copy-row]')).not.toHaveClass(/border-l-primary/);
+
+  await pane.locator('[data-blame-line="1"]').click({ button: 'right' });
+  await expect(page.getByRole('menuitem', { name: 'Blame at this commit' })).toBeVisible();
+  await page.keyboard.press('Escape');
+
+  await history.getByRole('button', { name: 'Diff view' }).click();
+  await expect(history.locator('[data-blame-pane]')).toHaveCount(0);
+  await expect(history.getByRole('button', { name: 'Inline diff' })).toBeVisible();
+
+  await page.keyboard.press('Escape');
+  await expect(history).toBeHidden();
+  await expect(page.getByPlaceholder('Search commits…')).toBeVisible();
+});
+
+test('the palette offers Blame… and picks a file', async ({ page }) => {
+  await page.goto('/');
+  await page.getByText('angkorgit', { exact: true }).first().click();
+  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await page.getByRole('button', { name: 'Command palette' }).click();
+  await page.getByPlaceholder('Type a command or branch name…').fill('Blame');
+  await page.getByText('Blame…', { exact: true }).click();
+  const picker = page.getByPlaceholder('Search a file to blame…');
+  await expect(picker).toBeVisible();
+  await picker.fill('App.tsx');
+  await page.getByText('src/app/App.tsx', { exact: true }).click();
+  const history = page.locator('section[aria-label="History of src/app/App.tsx"]');
+  await expect(history).toBeVisible();
+  await expect(history.locator('[data-blame-pane] [data-blame-line="1"]')).toBeVisible();
 });

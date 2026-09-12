@@ -17,7 +17,11 @@
    pnpm typecheck && pnpm test
    cd apps/desktop/src-tauri && cargo fmt --check && cargo clippy --all-targets -- -D warnings && cargo test
    ```
-4. 打开一个 PR：约定式提交标题、简短的“为什么”，UI 改动附截图。
+4. Open a PR with a conventional-commit title, a short "why", and screenshots for UI changes.
+5. Keep commit messages clean. `Co-authored-by` is for people who wrote the change with
+   you. Trailers left by coding tools (`Co-authored-by: Cursor`, `Generated with …`,
+   a robot emoji) fail the "Commit messages" CI check, so amend or squash them away
+   before you push.
 
 ## 怎样的首个贡献最合适
 

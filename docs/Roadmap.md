@@ -1,10 +1,10 @@
 # 路线图
 
-Updated for v0.12.0 (September 2026). [CHANGELOG.md](../CHANGELOG.md) is the
-每个版本发布内容的权威记录；本文件跟踪
+Updated for v0.13.0 (September 2026). [CHANGELOG.md](../CHANGELOG.md) is the
+authoritative record of what shipped in each release; this file tracks
 direction.
 
-## Shipped (0.1.0 → 0.12.0)
+## Shipped (0.1.0 → 0.13.0)
 
 - [x] 仓库：打开、克隆（带进度）、最近、搜索、仓库标签页（可拖动排序）
 - [x] 提交：暂存文件、代码块与单行；取消暂存、提交、修订；按仓库保存提交草稿; multi-select in the working copy with bulk stage/unstage/stash/discard; discard for staged files; path filter over changed files and commit files
@@ -17,20 +17,23 @@ direction.
 - [x] 仓库根目录内置 PTY 终端；内置文件编辑器
 - [x] Diff：内联与并排、语法高亮、词级 diff、图片 diff、diff 内查找（⌘F）、缩略图、上一处/下一处更改与文件导航（N/P、[/]），直接打开到第一处更改（无滚动动画）, reloads live as the file changes on disk, file history one click from the header; → / ↑ ↓ / ← walk from the graph into a commit's files and back
 - [x] Settings: sixteen themes (Angkor Dusk default) with accents & zoom, identity profiles (repo-local) with linked accounts, SSH key management & generation, hosting accounts with verified tokens (Secret Service on Linux, missing tokens flagged), AI providers & commit style, keyboard reference
-- [x] 侧边栏：手风琴分区，标题固定且可全部折叠，处处支持悬停与右键行菜单，空状态卡片；提交图显示选项与列标题；欢迎页支持键盘导航并检测缺失文件夹
-- [x] AI：与提供方无关（OpenAI、Anthropic、Gemini、Ollama、LM Studio），外加已安装的 AI CLI（Claude Code、Codex、Gemini CLI、OpenCode、Antigravity）——提交消息、diff/冲突解释、PR 描述、按团队约定的暂存更改审查（全局 + 每仓库 `.angkorgit/review.md`）、可停止的后台执行、全尺寸阅读视图
-- [x] 最近操作的撤销/重做；拖放式合并/变基
-- [x] 自动更新：从 GitHub releases 拉取，签名校验
-- [x] 提交签名：SSH 与 GPG，由现有 git 配置驱动（commit.gpgSign、gpg.format、user.signingKey）——覆盖提交、修订、合并
-- [x] 拉取请求: sidebar list, checkout and in-app create with reviewer selection for GitHub, GitLab (incl. self-hosted) and Bitbucket Cloud, through the connected account; browser fallback without one
-- [x] Graph search: message text, a hash or prefix, and author all find matches in the full graph, centered and highlighted, with an n / m control; ⌘F focuses the search
-- [x] 性能：快速启动（启动画面等应用就绪而非定时器；重型视图首次使用时才加载）、安静的文件监视器、按需的提交 diff、慢速仓库切换时的加载遮罩
+- [x] Sidebar: accordion sections with pinned headers and collapse-all, row menus on hover and right-click everywhere, empty-state cards; graph display options and column headers; welcome page with keyboard navigation and missing-folder detection
+- [x] AI: provider-agnostic (OpenAI, Anthropic, Gemini, Ollama, LM Studio) plus installed AI CLIs (Claude Code, Codex, Gemini CLI, OpenCode, Antigravity) — commit messages, diff/conflict explanations, PR descriptions, staged-change review with team conventions (global + per-repo `.angkorgit/review.md`), background execution with stop, full-size reading views
+- [x] Undo/redo for recent operations; drag-and-drop merge/rebase
+- [x] Auto-update: pull-based from GitHub releases, signature-verified
+- [x] Commit signing: SSH and GPG, driven by existing git config (commit.gpgSign, gpg.format, user.signingKey) — covers commit, amend, merge
+- [x] Pull requests: sidebar list, checkout and in-app create with reviewer selection for GitHub, GitLab (incl. self-hosted) and Bitbucket Cloud, through the connected account; browser fallback without one
+- [x] Graph search: message text, a hash or prefix, and author all find matches in the full graph, centered and highlighted, with an n of m control; ⌘F focuses the search
+- [x] Command line: `angkorgit` / `akg` installed from Settings — open the current folder, a path, or clone by URL or owner/repo into the app
+- [x] Blame: a pane of file history with a Working copy row, per-hunk authors, jump to the commit, blame at or before any commit
+- [x] External editor: detected editors (VS Code, Cursor, Zed, Sublime, JetBrains, Xcode, GNOME Builder…) from the toolbar, palette and file menus
+- [x] Pull with rebase following `pull.rebase`, a merge/rebase choice per pull, and a status bar note of the last fetch
+- [x] Performance: fast startup (splash waits for the app, not a timer; heavy views load on first use), a quiet file watcher, on-demand commit diffs, loading overlay on slow repository switches
 
 ## Next
 
-- [ ] Blame view
-- [ ] 工作树：从其行内在工作树中启动已安装的 AI CLI、每仓库创建后设置命令、合并徽标与一键清理
-- [ ] 通过关联账户获取提供方头像，叠加在 Gravatar 之上
+- [ ] Worktrees: start an installed AI CLI inside a worktree from its row, a per-repo post-create setup command, merged badge with one-step cleanup
+- [ ] Provider avatars via connected accounts, layered over Gravatar
 
 ## 以后——互联（架构已就位，见 Architecture.md）
 

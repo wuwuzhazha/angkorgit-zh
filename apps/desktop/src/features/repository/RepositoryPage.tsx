@@ -2,6 +2,7 @@ import { Suspense, lazy, useCallback, useEffect, useLayoutEffect, useMemo, useRe
 import { useNavigate } from 'react-router-dom';
 import { Panel, PanelGroup, PanelResizeHandle, type ImperativePanelHandle } from 'react-resizable-panels';
 import { motion } from 'framer-motion';
+import { toast } from 'sonner';
 import { useRepo } from './store';
 import { useGraph } from '@/features/graph/store';
 import { sidebarVisible, useUi } from '@/features/ui/store';
@@ -200,12 +201,13 @@ export function RepositoryPage() {
       if (Date.now() - lastFetch < 30_000) return;
       const state = useRepo.getState();
       if (state.busy || state.repo?.path !== repoPath) return;
-      const remote = state.remotes[0]?.name;
-      if (!remote) return;
+      const remoteNames = state.remotes.map((remote) => remote.name);
+      if (remoteNames.length === 0) return;
       fetching = true;
       lastFetch = Date.now();
       try {
-        await ipc.fetch(repoPath, remote, true, false);
+        for (const remote of remoteNames) await ipc.fetch(repoPath, remote, true, false);
+        if (useRepo.getState().repo?.path === repoPath) useRepo.getState().markFetched();
       } catch {
         lastFetch = Date.now() + 4 * 60_000;
       } finally {
@@ -410,7 +412,18 @@ export function RepositoryPage() {
       <CreatePrDialog />
       <CreateWorktreeDialog />
       <InteractiveRebaseDialog />
-      <CloneDialog onCloned={() => void refreshAll()} />
+      <CloneDialog
+        onCloned={(path) =>
+          void useRepo
+            .getState()
+            .open(path)
+            .catch((error) =>
+              toast.error(
+                `Could not open repository: ${(error as { message?: string }).message ?? error}`,
+              ),
+            )
+        }
+      />
       {conflictFile && (
         <Suspense fallback={null}>
           <ConflictResolver key={conflictFile} file={conflictFile} onResolved={refreshAll} />

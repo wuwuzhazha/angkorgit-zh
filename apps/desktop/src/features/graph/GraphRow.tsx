@@ -1,6 +1,6 @@
-import { memo } from 'react';
+import { memo, useState } from 'react';
 import type { GraphRow as GraphRowData, RefInfo } from '@angkorgit/core';
-import { Badge, cn } from '@angkorgit/design-system';
+import { Badge, HoverCard, HoverCardContent, HoverCardTrigger, cn } from '@angkorgit/design-system';
 import { Archive, Check, Cloud, GitMerge, Monitor, Tag as TagIcon, FolderTree } from 'lucide-react';
 import type { CommitInfo } from '@angkorgit/core';
 import { Avatar } from '@/components/Avatar';
@@ -13,6 +13,8 @@ export const REF_COL_WIDTH = 150;
 export const GUTTER_GAP = 10;
 export const AUTHOR_COL_WIDTH = 112;
 const OVERFLOW_BADGE_WIDTH = 34;
+const REF_STACK_SIDE_OFFSET = -ROW_HEIGHT;
+const REF_STACK_ALIGN_OFFSET = -5;
 const CHAR_WIDTH = 6.4;
 const CHIP_PADDING = 18;
 const CHIP_ICON = 14;
@@ -220,9 +222,10 @@ export interface RefGroup {
   stash?: boolean;
 }
 
-const groupRank = (g: RefGroup) => (g.detachedHead ? 0 : g.local ? 1 : g.remote ? 2 : g.stash ? 4 : 3);
+const groupRank = (g: RefGroup, headBranch: string | null) =>
+  g.detachedHead ? 0 : g.local ? (g.label === headBranch ? 1 : 2) : g.remote ? 3 : g.stash ? 5 : 4;
 
-export function groupRefs(refs: RefInfo[]): RefGroup[] {
+export function groupRefs(refs: RefInfo[], headBranch: string | null = null): RefGroup[] {
   const out: RefGroup[] = [];
   const index = new Map<string, number>();
   const hasLocal = refs.some((r) => r.kind === 'localBranch');
@@ -255,7 +258,7 @@ export function groupRefs(refs: RefInfo[]): RefGroup[] {
       out.push({ label: ref.shorthand, primary: ref, local: false, remote: false, tag: true, detachedHead: false });
     }
   }
-  return out.sort((a, b) => groupRank(a) - groupRank(b));
+  return out.sort((a, b) => groupRank(a, headBranch) - groupRank(b, headBranch));
 }
 
 export function estimateChipWidth(group: RefGroup, head: boolean): number {
@@ -280,11 +283,81 @@ function fitGroups(groups: RefGroup[], available: number, isHead: boolean): RefG
 
 
 
+function RefChip({
+  group,
+  head,
+  worktree,
+  separated,
+  onCheckoutRef,
+  onRefMenu,
+  onResetToRemote,
+}: {
+  group: RefGroup;
+  head: boolean;
+  worktree?: string;
+  separated: boolean;
+  onCheckoutRef: (ref: RefInfo) => void;
+  onRefMenu: (event: React.MouseEvent, ref: RefInfo) => void;
+  onResetToRemote: (ref: RefInfo) => void;
+}) {
+  return (
+    <Badge
+      tone={group.stash ? 'neutral' : group.tag || group.detachedHead ? 'primary' : group.local ? 'success' : 'info'}
+      className={cn(
+        'min-w-0 shrink whitespace-nowrap',
+        !group.tag && !group.stash &&
+          'cursor-pointer hover:z-20 hover:shrink-0 hover:!bg-surface-overlay hover:shadow-soft',
+        group.stash && 'max-w-[11rem] cursor-pointer border-dashed hover:!bg-surface-overlay',
+        head &&
+          'border-success bg-success text-background shadow-soft hover:!bg-success',
+      )}
+      title={
+        group.stash
+          ? `${group.label}\nStash — click the row to see its files, right-click to apply, pop or drop`
+          : group.tag || group.detachedHead
+          ? group.detachedHead
+            ? 'HEAD is detached at this commit'
+            : group.label
+          : separated
+            ? `${group.primary.shorthand} — double-click to reset ${group.label} to it, right-click for actions`
+            : `${group.label}${group.local ? ' · local' : ''}${group.remote ? ' · origin' : ''}${worktree ? ` · in worktree ${worktree}` : ''} — ${worktree ? 'double-click to switch to that worktree' : 'double-click to checkout'}, right-click for actions`
+      }
+      onDoubleClick={(e) => {
+        if (group.tag || group.detachedHead || group.stash) return;
+        e.stopPropagation();
+        if (separated) onResetToRemote(group.primary);
+        else onCheckoutRef(group.primary);
+      }}
+      onContextMenu={(e) => {
+        if (group.detachedHead) return;
+        e.preventDefault();
+        e.stopPropagation();
+        onRefMenu(e, group.primary);
+      }}
+    >
+      {head && <Check className="size-2.5 shrink-0" />}
+      {group.tag && <TagIcon className="size-2.5 shrink-0" />}
+      {group.stash && <Archive className="size-2.5 shrink-0" />}
+      <span className="truncate">{group.label}</span>
+      {group.local && !worktree && <Monitor className="size-2.5 shrink-0" />}
+      {worktree && <FolderTree className="size-2.5 shrink-0" />}
+      {group.remote && <Cloud className="size-2.5 shrink-0" />}
+    </Badge>
+  );
+}
+
+const stopRowGestures = {
+  onClick: (e: React.MouseEvent) => e.stopPropagation(),
+  onDoubleClick: (e: React.MouseEvent) => e.stopPropagation(),
+  onContextMenu: (e: React.MouseEvent) => e.stopPropagation(),
+};
+
 function RefCell({
   refs,
   isHead,
   color,
   width,
+  headBranch = null,
   worktrees,
   resettableBranches,
   onCheckoutRef,
@@ -293,6 +366,7 @@ function RefCell({
 }: {
   refs: RefInfo[];
   isHead: boolean;
+  headBranch?: string | null;
   color: number;
   width: number;
   worktrees?: ReadonlyMap<string, string>;
@@ -301,65 +375,54 @@ function RefCell({
   onRefMenu: (event: React.MouseEvent, ref: RefInfo) => void;
   onResetToRemote: (ref: RefInfo) => void;
 }) {
-  const groups = groupRefs(refs);
-  let headMarked = false;
+  const [more, setMore] = useState(false);
+  const groups = groupRefs(refs, headBranch);
   const shown = fitGroups(groups, width - 8, isHead);
   const hidden = groups.slice(shown.length);
-  return (
+  const headOf = (list: RefGroup[]) => {
+    let marked = false;
+    return list.map((group) => {
+      const head =
+        group.detachedHead ||
+        (isHead && group.local && (headBranch ? group.label === headBranch : !marked));
+      if (head) marked = true;
+      return head;
+    });
+  };
+  const chip = (group: RefGroup, head: boolean) => (
+    <RefChip
+      key={group.primary.name}
+      group={group}
+      head={head}
+      worktree={group.local ? worktrees?.get(group.label) : undefined}
+      separated={group.remote && !group.local && (resettableBranches?.has(group.label) ?? false)}
+      onCheckoutRef={onCheckoutRef}
+      onRefMenu={onRefMenu}
+      onResetToRemote={onResetToRemote}
+    />
+  );
+  const shownHeads = headOf(shown);
+  const cell = (
     <span className="-mr-2 flex h-full shrink-0 items-center gap-1" style={{ width }}>
-      {shown.map((group) => {
-        const head = (isHead && group.local && !headMarked) || group.detachedHead;
-        if (head) headMarked = true;
-        const worktree = group.local ? worktrees?.get(group.label) : undefined;
-        const separated = group.remote && !group.local && (resettableBranches?.has(group.label) ?? false);
-        return (
-          <Badge
-            key={group.primary.name}
-            tone={group.stash ? 'neutral' : group.tag || group.detachedHead ? 'primary' : group.local ? 'success' : 'info'}
-            className={cn(
-              'min-w-0 shrink whitespace-nowrap',
-              !group.tag && !group.stash &&
-                'cursor-pointer hover:z-20 hover:shrink-0 hover:!bg-surface-overlay hover:shadow-soft',
-              group.stash && 'max-w-[11rem] cursor-pointer border-dashed hover:!bg-surface-overlay',
-              head &&
-                'border-success bg-success text-background shadow-soft hover:!bg-success',
-            )}
-            title={
-              group.stash
-                ? `${group.label}\n暂存——点击行查看其文件，右键可应用、弹出或丢弃`
-                : group.tag || group.detachedHead
-                ? group.detachedHead
-                  ? 'HEAD 游离在该提交处'
-                  : group.label
-                : separated
-                  ? `${group.primary.shorthand}——双击将其重置到 ${group.label}，右键查看更多操作`
-                  : `${group.label}${group.local ? ' · 本地' : ''}${group.remote ? ' · 远端' : ''}${worktree ? ` · 在工作树 ${worktree} 中` : ''}——${worktree ? '双击切换到该工作树' : '双击检出'}，右键查看更多操作`
-            }
-            onDoubleClick={(e) => {
-              if (group.tag || group.detachedHead || group.stash) return;
-              e.stopPropagation();
-              if (separated) onResetToRemote(group.primary);
-              else onCheckoutRef(group.primary);
-            }}
-            onContextMenu={(e) => {
-              if (group.detachedHead) return;
-              e.preventDefault();
-              e.stopPropagation();
-              onRefMenu(e, group.primary);
-            }}
-          >
-            {head && <Check className="size-2.5 shrink-0" />}
-            {group.tag && <TagIcon className="size-2.5 shrink-0" />}
-            {group.stash && <Archive className="size-2.5 shrink-0" />}
-            <span className="truncate">{group.label}</span>
-            {group.local && !worktree && <Monitor className="size-2.5 shrink-0" />}
-            {worktree && <FolderTree className="size-2.5 shrink-0" />}
-            {group.remote && <Cloud className="size-2.5 shrink-0" />}
-          </Badge>
-        );
-      })}
+      {shown.map((group, i) => chip(group, shownHeads[i]))}
       {hidden.length > 0 && (
-        <Badge className="shrink-0" title={hidden.map((g) => g.label).join(', ')}>
+        <Badge
+          role="button"
+          aria-label={`${hidden.length} more ${hidden.length === 1 ? 'ref' : 'refs'}`}
+          aria-expanded={more}
+          className="shrink-0 cursor-pointer hover:!bg-surface-overlay"
+          title={hidden.map((g) => g.label).join(', ')}
+          onClick={(e) => {
+            e.stopPropagation();
+            setMore(true);
+          }}
+          onDoubleClick={(e) => e.stopPropagation()}
+          onContextMenu={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setMore(true);
+          }}
+        >
           +{hidden.length}
         </Badge>
       )}
@@ -371,6 +434,24 @@ function RefCell({
       )}
     </span>
   );
+  if (hidden.length === 0) return cell;
+  const allHeads = headOf(groups);
+  return (
+    <HoverCard open={more} onOpenChange={setMore} openDelay={200} closeDelay={150}>
+      <HoverCardTrigger asChild>{cell}</HoverCardTrigger>
+      <HoverCardContent
+        side="bottom"
+        align="start"
+        sideOffset={REF_STACK_SIDE_OFFSET}
+        alignOffset={REF_STACK_ALIGN_OFFSET}
+        data-more-refs
+        className="flex flex-col items-start gap-1 p-1"
+        {...stopRowGestures}
+      >
+        {groups.map((group, i) => chip(group, allHeads[i]))}
+      </HoverCardContent>
+    </HoverCard>
+  );
 }
 
 interface Props {
@@ -381,6 +462,7 @@ interface Props {
   laneWidth?: number;
   columns?: GraphColumns;
   showTail?: boolean;
+  headBranch?: string | null;
   worktrees?: ReadonlyMap<string, string>;
   resettableBranches?: ReadonlySet<string>;
   onSelect: (oid: string, event: React.MouseEvent) => void;
@@ -398,6 +480,7 @@ export const CommitRow = memo(function CommitRow({
   laneWidth = LANE_WIDTH,
   columns = DEFAULT_GRAPH_COLUMNS,
   showTail = true,
+  headBranch = null,
   worktrees,
   resettableBranches,
   onSelect,
@@ -412,6 +495,7 @@ export const CommitRow = memo(function CommitRow({
     <RefCell
       refs={commit.refs}
       isHead={commit.isHead}
+      headBranch={headBranch}
       color={row.node.color}
       width={REF_COL_WIDTH}
       worktrees={worktrees}

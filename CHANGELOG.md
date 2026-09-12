@@ -6,6 +6,87 @@ All notable changes to AngKorGit are documented here. The format follows
 
 ## [Unreleased]
 
+### Changed
+- **Fetch reaches every remote.** Auto fetch, the toolbar Fetch and the palette's
+  fetch now walk all remotes instead of the first one, so a fork sees `upstream`
+  move without a manual fetch. (#18)
+- **Zed and Flatpak editors are detected on Linux.** Zed's `zeditor` package name
+  and the Flatpak exports of Zed, VS Code, Sublime Text, GNOME Builder and Kate are
+  recognised by the External editor picker. (#18)
+
+### Fixed
+- The commit and working copy file menus said "Show in Finder" on Linux and
+  Windows; they say "Show in file manager" there. (#18)
+
+## [0.13.0] — 2026-09-12
+
+The terminal and editor release. `akg` opens or clones a repository from the shell,
+your editor opens from AngKorGit, blame joins file history with a commit list to
+travel through, and pull finally follows your rebase setting. Two community reports
+and one pull request shaped it.
+
+### Added
+- **Open or clone a repository from the terminal.** Settings → Git (or the command
+  palette) installs an `angkorgit` command with a short `akg` alias. `akg` and
+  `akg open [path]` open a local folder; `akg clone [-b branch] <url>` opens the
+  clone dialog with the URL, folder and branch filled in. `akg --help` lists the
+  commands.
+- **Blame.** File history now has a Diff / Blame toggle. Pick a commit on the left
+  and the blame pane shows the file as it was then, every line with who changed it,
+  when, and in which commit; a "Working copy" row at the top blames the file on
+  disk with uncommitted lines marked. Open it from the diff header, from a file's
+  right-click menu in the working copy or a commit, or from the palette with
+  "Blame…". Hover a line to light up every line from the same commit, click the
+  author to jump to that commit in the graph, and right-click to blame the file at
+  that commit or just before it.
+- **Open in your editor.** Settings → Git lists the editors installed on your
+  machine (VS Code, Cursor, Zed, Sublime Text, the JetBrains IDEs, Xcode, GNOME
+  Builder and more). The toolbar gets an "Open in <editor>" button whose menu
+  offers every detected editor, the palette has "Open repository in <editor>",
+  and file rows in the working copy and the commit view open a single file.
+- **Pull with rebase.** Pull now follows `pull.rebase` from your git config, so a
+  `rebase = true` setup gets a linear history like it does in the terminal. The
+  Pull button has a menu to pick merge or rebase for one pull, and the palette
+  has "Pull with rebase".
+- **The status bar says when the repository was last fetched.** Switching to a
+  tab already fetched its remote, but nothing showed it. "Fetched 2m ago" now sits
+  next to the branch, and hovering it tells you the exact time and how often the
+  auto fetch runs.
+- **Right-click on a commit's files.** Files in the commit view now have the same
+  menu as the working copy: edit, file history, open in an external app, show in
+  Finder, copy the relative or the absolute path. Stash files keep their Apply
+  entries at the top.
+- **Crowded ref columns expand on hover.** When a commit carries more refs than fit
+  next to it, hovering its chips (or clicking the `+n` badge) stacks every branch and
+  tag in place, one per line, as real chips: double-click to check out, right-click
+  for the same menu a visible chip gets. That menu also offers "Reset … to this…" on
+  a remote chip whose local branch has drifted ahead, so a folded origin ref can be
+  reset from there.
+- **Pull requests are checked for tool-generated commit trailers.** A CI job fails
+  when a commit carries `Co-authored-by` lines from coding tools or a "Generated
+  with" footer, and the contributing guide says so.
+
+### Security
+- react-router-dom 6.30.6, fixing an open redirect in `<Link>` and `useNavigate`.
+
+### Fixed
+- **The checked-out branch is always the visible chip.** When several local
+  branches sit on the HEAD commit, the graph used to show whichever came first and
+  gave it the tick, so the branch you were actually on could hide behind `+1` while
+  its neighbour looked checked out. The current branch now sorts first and is the
+  only one marked.
+- **↑/↓ in the working copy list now move the diff.** After clicking a changed
+  file, the arrow keys only moved the highlight and the diff stayed on the file you
+  clicked. They now open the previous or next file, like the commit file list.
+- **Cloning from inside a repository opens the clone.** The Clone entry in the
+  repository switcher used to finish with a toast and leave you in the repository
+  you started from. The new one now opens in its own tab.
+- **Pushing a branch that is already up to date no longer pushes.** The toolbar
+  Push, ⌘P and the branch menu used to send the push anyway and toast "Pushed
+  <branch>", so hosts that react to every receive-pack started CI for nothing.
+  When the tip matches the remote-tracking branch AngKorGit now says the branch
+  is already up to date and never contacts the remote, like `git push` (#17).
+
 ## [0.12.0] — 2026-09-10
 
 The find and fix release. Searching the graph now finds instead of filters, so
@@ -1111,7 +1192,8 @@ The first release. 🏛️
 - AI assistant with pluggable providers (OpenAI, Anthropic, Gemini, Ollama,
   LM Studio): commit messages, diff/conflict explanations, PR descriptions, reviews
 
-[Unreleased]: https://github.com/cheat2001/angkorgit/compare/v0.12.0...HEAD
+[Unreleased]: https://github.com/cheat2001/angkorgit/compare/v0.13.0...HEAD
+[0.13.0]: https://github.com/cheat2001/angkorgit/compare/v0.12.0...v0.13.0
 [0.12.0]: https://github.com/cheat2001/angkorgit/compare/v0.11.0...v0.12.0
 [0.11.0]: https://github.com/cheat2001/angkorgit/compare/v0.10.0...v0.11.0
 [0.10.0]: https://github.com/cheat2001/angkorgit/compare/v0.9.0...v0.10.0

@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { motion } from 'framer-motion';
 import { toast } from 'sonner';
-import { Columns2, Copy, FileText, GitCommitHorizontal, History, Rows3, TextSelect, WholeWord, WrapText, X } from 'lucide-react';
+import { Columns2, Copy, FileText, GitCommitHorizontal, History, Pencil, Rows3, TextSelect, UserRoundSearch, WholeWord, WrapText, X } from 'lucide-react';
 import type { CommitInfo, FileDiff } from '@angkorgit/core';
 import {
   Badge,
@@ -25,12 +25,14 @@ import { timeAgo } from '@/shared/utils';
 import { captureSelectionRanges, useKeepSelection } from '@/shared/useKeepSelection';
 import { DiffViewer } from '@/features/diff/DiffViewer';
 import { DiffMinimap } from '@/features/diff/DiffMinimap';
+import { BlameView } from '@/features/blame/BlameView';
 import { useDiffFind } from '@/features/diff/diffSearch';
 import { useDiffSelectAll } from '@/features/diff/diffCopy';
 import type { LineMenuInfo } from '@/features/diff/VirtualDiff';
 
 const HISTORY_PAGE = 500;
 const COMMIT_ROW_ESTIMATE = 54;
+const WORKING_COPY = 'working-copy';
 
 function VirtualCommitList({
   commits,
@@ -68,6 +70,9 @@ function VirtualCommitList({
 export function FileHistoryPanel({ file }: { file: string }) {
   const repo = useRepo((s) => s.repo);
   const closeFileHistory = useUi((s) => s.closeFileHistory);
+  const preset = useUi((s) => s.fileHistoryPreset);
+  const [pane, setPane] = useState<'diff' | 'blame'>(() => useUi.getState().fileHistoryPreset?.pane ?? 'diff');
+  const pendingRev = useRef<string | null>(null);
   const diffView = useUi((s) => s.diffView);
   const setDiffView = useUi((s) => s.setDiffView);
   const wordDiff = useUi((s) => s.wordDiff);
@@ -102,6 +107,17 @@ export function FileHistoryPanel({ file }: { file: string }) {
         if (!found) toast.error(`${commit.shortOid} is not in the current graph`);
       });
   };
+  const openCommitOid = (oid: string) => {
+    const path = repo?.path;
+    if (!path) return;
+    closeFileHistory();
+    void useGraph
+      .getState()
+      .revealCommit(path, oid)
+      .then((found) => {
+        if (!found) toast.error(`${oid.slice(0, 7)} is not in the current graph`);
+      });
+  };
   const [lineMenu, setLineMenu] = useState<{
     x: number;
     y: number;
@@ -112,6 +128,15 @@ export function FileHistoryPanel({ file }: { file: string }) {
   useKeepSelection(lineMenu?.ranges ?? null);
 
   const path = repo?.path ?? '';
+
+  useEffect(() => {
+    if (!preset) return;
+    const rev = preset.rev ?? WORKING_COPY;
+    pendingRev.current = rev;
+    setPane(preset.pane);
+    setSelected(rev);
+    useUi.getState().clearFileHistoryPreset();
+  }, [preset]);
 
   useEffect(() => {
     if (!path) return;
@@ -127,7 +152,8 @@ export function FileHistoryPanel({ file }: { file: string }) {
         if (seq !== historySeq.current) return;
         setCommits(page.commits);
         setHasMore(page.hasMore);
-        setSelected(page.commits[0]?.oid ?? null);
+        setSelected(pendingRev.current ?? page.commits[0]?.oid ?? null);
+        pendingRev.current = null;
       })
       .catch((error) => {
         if (seq !== historySeq.current) return;
@@ -159,18 +185,21 @@ export function FileHistoryPanel({ file }: { file: string }) {
   };
 
   useEffect(() => {
-    if (!path || !selected) {
+    if (!path || !selected || pane === 'blame') {
       setDiff(null);
       return;
     }
     let cancelled = false;
     setDiffLoading(true);
     const context = fullFileDiff ? 10_000_000 : undefined;
-    void ipc
-      .diffCommit(path, selected, context)
-      .then((diffs) => {
+    const request =
+      selected === WORKING_COPY
+        ? ipc.diffFile(path, file, false, context).then((d) => (d.hunks.length > 0 ? d : null))
+        : ipc.diffCommit(path, selected, context).then((diffs) => diffs.find((d) => d.path === file) ?? null);
+    void request
+      .then((found) => {
         if (cancelled) return;
-        setDiff(diffs.find((d) => d.path === file) ?? null);
+        setDiff(found);
         scrollRef.current?.scrollTo({ top: 0 });
       })
       .catch((error) => {
@@ -184,7 +213,7 @@ export function FileHistoryPanel({ file }: { file: string }) {
     return () => {
       cancelled = true;
     };
-  }, [path, selected, file, fullFileDiff]);
+  }, [path, selected, file, fullFileDiff, pane]);
 
   return (
     <motion.section
@@ -214,7 +243,32 @@ export function FileHistoryPanel({ file }: { file: string }) {
             <span className="text-danger">−{diff.deletions}</span>
           </span>
         )}
-        <Hint label="内联 diff">
+        <div className="flex items-center rounded-md border border-border-subtle p-0.5">
+          <Button
+            variant="ghost"
+            size="sm"
+            className={cn('h-6 px-2', pane === 'diff' && 'bg-surface-raised text-foreground')}
+            aria-pressed={pane === 'diff'}
+            aria-label="Diff view"
+            onClick={() => setPane('diff')}
+          >
+            Diff
+          </Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            className={cn('h-6 px-2', pane === 'blame' && 'bg-surface-raised text-foreground')}
+            aria-pressed={pane === 'blame'}
+            aria-label="Blame view"
+            onClick={() => setPane('blame')}
+          >
+            <UserRoundSearch className="size-3.5" />
+            Blame
+          </Button>
+        </div>
+        {pane === 'diff' && (
+          <>
+        <Hint label="Inline diff">
           <Button
             variant="ghost"
             size="icon-sm"
@@ -269,6 +323,8 @@ export function FileHistoryPanel({ file }: { file: string }) {
             <FileText className="size-3.5" />
           </Button>
         </Hint>
+          </>
+        )}
       </div>
 
       <div className="flex min-h-0 flex-1">
@@ -290,6 +346,32 @@ export function FileHistoryPanel({ file }: { file: string }) {
             </p>
           ) : (
             <>
+              <div
+                role="button"
+                tabIndex={0}
+                data-working-copy-row
+                className={cn(
+                  'flex w-full cursor-pointer items-start gap-2.5 border-b border-border-subtle px-3 py-2.5 text-left',
+                  selected === WORKING_COPY
+                    ? 'border-l-2 border-l-primary bg-surface-raised'
+                    : 'border-l-2 border-l-transparent hover:bg-surface-raised/60',
+                )}
+                onClick={() => setSelected(WORKING_COPY)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    setSelected(WORKING_COPY);
+                  }
+                }}
+              >
+                <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-primary/15 text-primary">
+                  <Pencil className="size-3" />
+                </span>
+                <span className="min-w-0 flex-1">
+                  <span className="block truncate text-xs text-foreground">Working copy</span>
+                  <span className="block truncate text-[11px] text-muted">The file as it is on disk right now</span>
+                </span>
+              </div>
               <VirtualCommitList
                 commits={commits}
                 scrollRef={listScrollRef}
@@ -359,6 +441,16 @@ export function FileHistoryPanel({ file }: { file: string }) {
         <div className="relative flex min-h-0 min-w-0 flex-1">
           {findBar}
           {selectAllOverlay}
+          {pane === 'blame' ? (
+            <BlameView
+              file={file}
+              rev={selected === WORKING_COPY ? null : selected}
+              onOpenCommit={openCommitOid}
+              onBlameAt={setSelected}
+              onResolvedRev={setSelected}
+            />
+          ) : (
+            <>
           <div ref={scrollRef} className="min-h-0 min-w-0 flex-1 overflow-y-auto">
             {diffLoading ? (
               <div className="flex h-full items-center justify-center">
@@ -382,14 +474,18 @@ export function FileHistoryPanel({ file }: { file: string }) {
               />
             ) : (
               <p className="py-16 text-center text-sm text-faint">
-                {selected
-                  ? '该提交中此文件无更改（可能已被重命名）。'
-                  : '选择一个提交以查看其更改。'}
+                {selected === WORKING_COPY
+                  ? 'No uncommitted changes to this file.'
+                  : selected
+                    ? 'No changes for this file in that commit (it may have been renamed).'
+                    : 'Select a commit to see its changes.'}
               </p>
             )}
           </div>
           {diff && !diffLoading && (
             <DiffMinimap diff={diff} view={diffView} scrollRef={scrollRef} />
+          )}
+            </>
           )}
         </div>
       </div>

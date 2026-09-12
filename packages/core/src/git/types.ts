@@ -214,3 +214,22 @@ export interface RebaseTodoEntry {
   action: RebaseTodoAction;
   message?: string;
 }
+
+export interface BlameHunk {
+  oid: string;
+  shortOid: string;
+  summary: string;
+  authorName: string;
+  authorEmail: string;
+  time: number;
+  startLine: number;
+  lineCount: number;
+  committed: boolean;
+}
+
+export interface FileBlame {
+  path: string;
+  rev: string | null;
+  lines: string[];
+  hunks: BlameHunk[];
+}

@@ -25,7 +25,8 @@ AngKorGit 遵循 Clean Architecture，按功能划分文件夹。依赖方向朝
 │  branch, remote, accounts, misc, diff, conflict) over       │
 │  git2/libgit2 · terminal.rs (portable-pty) · watcher.rs     │
 │  (filesystem events) · http.rs (AI proxy) · ai_cli.rs       │
-│  (installed AI-CLI runner) · state.rs (recents) · error.rs  │
+│  (installed AI-CLI runner) · cli.rs (angkorgit . opener) ·  │
+│  state.rs (recents) · error.rs                              │
 └─────────────────────────────────────────────────────────────┘
 ```
 

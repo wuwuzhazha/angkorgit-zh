@@ -10,6 +10,7 @@ import {
   ArrowUpFromLine,
   Check,
   ChevronsDownUp,
+  Code,
   Download,
   FileClock,
   FolderGit2,
@@ -28,6 +29,7 @@ import {
   Sun,
   Tag as TagIcon,
   Undo2,
+  UserRoundSearch,
   ZoomIn,
   ZoomOut,
 } from 'lucide-react';
@@ -39,6 +41,8 @@ import { abortMergeFlow } from '@/features/repository/merge';
 import { sidebarVisible, useUi } from '@/features/ui/store';
 import { SIDEBAR_SECTIONS } from '@/features/sidebar/Sidebar';
 import { themeBase, useSettings } from '@/features/settings/store';
+import { installCliTool } from '@/features/settings/cliTool';
+import { openInEditor, preferredEditor, useEditors } from '@/features/settings/editors';
 import { useUndo } from '@/features/history/undoStore';
 import { useForge } from '@/features/forge/store';
 import { forgeNoun, pickForgeRemote } from '@angkorgit/core';
@@ -46,6 +50,9 @@ import { currentPullRequestUrl, modKey } from '@/shared/utils';
 
 export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }) {
   const repo = useRepo((s) => s.repo);
+  const editorId = useSettings((s) => s.editorId);
+  const { editors } = useEditors();
+  const editor = preferredEditor(editors, editorId);
   const branches = useRepo((s) => s.branches);
   const remotes = useRepo((s) => s.remotes);
   const recents = useRepo((s) => s.recents);
@@ -77,7 +84,7 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
   const nextUndo = useMemo(() => [...undoStack].reverse().find((e) => e.repoPath === path), [undoStack, path]);
   const nextRedo = useMemo(() => [...redoStack].reverse().find((e) => e.repoPath === path), [redoStack, path]);
 
-  const [mode, setMode] = useState<'commands' | 'fileHistory'>('commands');
+  const [mode, setMode] = useState<'commands' | 'fileHistory' | 'blame'>('commands');
   const [search, setSearch] = useState('');
   const [files, setFiles] = useState<string[]>([]);
   const [filesLoading, setFilesLoading] = useState(false);
@@ -90,8 +97,8 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
     setSearch('');
   }, [paletteOpen]);
 
-  const enterFileHistory = () => {
-    setMode('fileHistory');
+  const enterFilePicker = (picker: 'fileHistory' | 'blame') => {
+    setMode(picker);
     setSearch('');
     setFiles([]);
     setFilesError(false);
@@ -109,12 +116,12 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
         setFiles([]);
         setFilesError(true);
         setFilesLoading(false);
-        toast.error(`文件历史加载失败：${(error as { message?: string }).message ?? error}`);
+        toast.error(`Listing files failed: ${(error as { message?: string }).message ?? error}`);
       });
   };
 
   const visibleFiles = useMemo(() => {
-    if (mode !== 'fileHistory') return [];
+    if (mode === 'commands') return [];
     const q = search.trim().toLowerCase();
     const matches = q ? files.filter((f) => f.toLowerCase().includes(q)) : files;
     return matches.slice(0, 50);
@@ -134,7 +141,8 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
     void (async () => {
       try {
         const result = (await op()) as { status?: string; message?: string } | undefined;
-        toastOutcome(result, `${label} 已完成`);
+        if (label === 'Fetch' || label.startsWith('Pull')) useRepo.getState().markFetched();
+        toastOutcome(result, `${label} done`);
         await onRefresh();
       } catch (error) {
         toast.error(`${label} 失败：${(error as { message?: string }).message ?? error}`);
@@ -233,11 +241,13 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
         onValueChange={setSearch}
         placeholder={
           mode === 'fileHistory'
-            ? '搜索文件查看修改人…'
-            : '输入命令或分支名…'
+            ? 'Search a file to see who changed it…'
+            : mode === 'blame'
+              ? 'Search a file to blame…'
+              : 'Type a command or branch name…'
         }
         onKeyDown={(e) => {
-          if (mode === 'fileHistory' && e.key === 'Backspace' && search === '') {
+          if (mode !== 'commands' && e.key === 'Backspace' && search === '') {
             e.preventDefault();
             setMode('commands');
           }
@@ -245,28 +255,29 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
         className="h-11 w-full border-b border-border-subtle bg-transparent px-4 text-sm text-foreground outline-none placeholder:text-faint"
       />
       <Command.List className="max-h-80 overflow-y-auto p-1.5 [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:text-[10px] [&_[cmdk-group-heading]]:font-semibold [&_[cmdk-group-heading]]:uppercase [&_[cmdk-group-heading]]:tracking-wide [&_[cmdk-group-heading]]:text-faint">
-        {!(mode === 'fileHistory' && (filesLoading || filesError)) && (
-          <Command.Empty className="py-8 text-center text-sm text-faint">无结果。</Command.Empty>
+        {!(mode !== 'commands' && (filesLoading || filesError)) && (
+          <Command.Empty className="py-8 text-center text-sm text-faint">No results.</Command.Empty>
         )}
 
-        {mode === 'fileHistory' && filesLoading && (
+        {mode !== 'commands' && filesLoading && (
           <div className="flex items-center justify-center gap-2 py-8 text-sm text-faint">
             <Spinner /> Loading files…
           </div>
         )}
-        {mode === 'fileHistory' && !filesLoading && filesError && (
-          <div className="py-8 text-center text-sm text-faint">无法列出文件。</div>
+        {mode !== 'commands' && !filesLoading && filesError && (
+          <div className="py-8 text-center text-sm text-faint">Could not list files.</div>
         )}
-        {mode === 'fileHistory' && !filesLoading && !filesError && (
-          <Command.Group heading="文件历史">
+        {mode !== 'commands' && !filesLoading && !filesError && (
+          <Command.Group heading={mode === 'blame' ? 'Blame' : 'File history'}>
             {visibleFiles.map((file) => (
               <PaletteItem
                 key={file}
-                icon={<FileClock />}
+                icon={mode === 'blame' ? <UserRoundSearch /> : <FileClock />}
                 label={file}
                 onSelect={() => {
                   close();
-                  useUi.getState().openFileHistory(file);
+                  if (mode === 'blame') useUi.getState().openBlame(file);
+                  else useUi.getState().openFileHistory(file);
                 }}
               />
             ))}
@@ -275,10 +286,16 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
 
         {mode === 'commands' && (
         <>
-        <Command.Group heading="操作">
-          <PaletteItem icon={<History />} label="文件历史…" onSelect={enterFileHistory} />
-          <PaletteItem icon={<ArrowDownToLine />} label="拉取" onSelect={() => run('拉取', () => ipc.pull(path, remote))} />
-          <PaletteItem icon={<ArrowUpFromLine />} label="推送" onSelect={() => run('推送', () => ipc.push(path, remote, false, false, true))} />
+        <Command.Group heading="Actions">
+          <PaletteItem icon={<History />} label="File history…" onSelect={() => enterFilePicker('fileHistory')} />
+          <PaletteItem icon={<UserRoundSearch />} label="Blame…" onSelect={() => enterFilePicker('blame')} />
+          <PaletteItem icon={<ArrowDownToLine />} label="Pull" onSelect={() => run('Pull', () => ipc.pull(path, remote))} />
+          <PaletteItem
+            icon={<ArrowDownToLine />}
+            label="Pull with rebase"
+            onSelect={() => run('Pull (rebase)', () => ipc.pull(path, remote, 'rebase'))}
+          />
+          <PaletteItem icon={<ArrowUpFromLine />} label="Push" onSelect={() => run('Push', () => ipc.push(path, remote, false, false, true))} />
           {(() => {
             const headUpstream = branches.find((b) => !b.isRemote && b.isHead)?.upstream ?? null;
             const prUrl = currentPullRequestUrl(repo, pickForgeRemote(remotes, headUpstream)?.url);
@@ -296,7 +313,15 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
               />
             ) : null;
           })()}
-          <PaletteItem icon={<RefreshCw />} label="拉取（含标签）" onSelect={() => run('获取', () => ipc.fetch(path, remote, true, true))} />
+          <PaletteItem
+            icon={<RefreshCw />}
+            label={remotes.length > 1 ? 'Fetch all remotes (with tags)' : 'Fetch (with tags)'}
+            onSelect={() =>
+              run('Fetch', async () => {
+                for (const r of remotes.length > 0 ? remotes : [{ name: remote }]) await ipc.fetch(path, r.name, true, true);
+              })
+            }
+          />
           <PaletteItem
             icon={<GitBranchPlus />}
             label="新建分支…"
@@ -507,6 +532,28 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
               openDialog('settings');
             }}
           />
+          <PaletteItem
+            icon={<SquareTerminal />}
+            label="Install command line tool"
+            onSelect={() => {
+              close();
+              void installCliTool().catch((error) =>
+                toast.error(
+                  `Could not install: ${(error as { message?: string }).message ?? error}`,
+                ),
+              );
+            }}
+          />
+          {repo && editor && (
+            <PaletteItem
+              icon={<Code />}
+              label={`Open repository in ${editor.label}`}
+              onSelect={() => {
+                close();
+                void openInEditor(editor.id, repo.path);
+              }}
+            />
+          )}
           <PaletteItem
             icon={<Download />}
             label="检查更新"

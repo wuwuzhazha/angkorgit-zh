@@ -39,7 +39,10 @@ interface RefMenuState {
   x: number;
   y: number;
   ref: RefInfo;
+  commit: CommitInfo;
 }
+
+const localNameOf = (remote: RefInfo) => remote.shorthand.split('/').slice(1).join('/');
 
 const stashIndexOf = (ref: RefInfo) => Number(/\{(\d+)\}/.exec(ref.name)?.[1] ?? 0);
 
@@ -228,7 +231,7 @@ export function CommitGraph() {
     event.preventDefault();
     const stashRef = commit.refs.find((ref) => ref.kind === 'stash');
     if (stashRef) {
-      setRefMenu({ x: event.clientX, y: event.clientY, ref: stashRef });
+      setRefMenu({ x: event.clientX, y: event.clientY, ref: stashRef, commit });
       return;
     }
     setMenu({ x: event.clientX, y: event.clientY, commit });
@@ -286,8 +289,8 @@ export function CommitGraph() {
     [act, path, worktrees],
   );
 
-  const onRefMenu = useCallback((event: React.MouseEvent, ref: RefInfo) => {
-    setRefMenu({ x: event.clientX, y: event.clientY, ref });
+  const onRefMenu = useCallback((event: React.MouseEvent, ref: RefInfo, commit: CommitInfo) => {
+    setRefMenu({ x: event.clientX, y: event.clientY, ref, commit });
   }, []);
 
   const resetToRemote = useCallback(
@@ -339,6 +342,16 @@ export function CommitGraph() {
     () => new Set(branches.filter((b) => !b.isRemote && b.ahead > 0).map((b) => b.name)),
     [branches],
   );
+
+  const headBranch = useMemo(() => branches.find((b) => b.isHead && !b.isRemote)?.name ?? null, [branches]);
+
+  const refMenuResetTarget = (() => {
+    if (!refMenu || refMenu.ref.kind !== 'remoteBranch') return null;
+    const name = localNameOf(refMenu.ref);
+    if (!localBranchNames.has(name)) return null;
+    if (refMenu.commit.refs.some((r) => r.kind === 'localBranch' && r.shorthand === name)) return null;
+    return name;
+  })();
 
   return (
     <section className="relative flex h-full flex-col bg-background" aria-label="提交历史">
@@ -547,6 +560,7 @@ export function CommitGraph() {
                     laneWidth={laneWidth}
                     columns={graphColumns}
                     showTail={graphTail}
+                    headBranch={headBranch}
                     worktrees={worktreeBranches}
                     resettableBranches={localBranchNames}
                     onSelect={onRowSelect}
@@ -635,6 +649,11 @@ export function CommitGraph() {
                 >
                   <ListRestart /> Rebase current branch onto this
                 </DropdownMenuItem>
+                {refMenuResetTarget && (
+                  <DropdownMenuItem destructive onClick={() => resetToRemote(refMenu.ref, refMenu.commit)}>
+                    <RotateCcw /> Reset {refMenuResetTarget} to this…
+                  </DropdownMenuItem>
+                )}
                 {refMenu.ref.kind === 'localBranch' && (
                   <>
                     <DropdownMenuItem

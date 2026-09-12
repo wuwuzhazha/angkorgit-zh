@@ -1,3 +1,5 @@
+import type { EditorInfo } from './ipc';
+import type { BlameHunk, FileBlame } from '@angkorgit/core';
 import type {
   BranchInfo,
   CliAgentInfo,
@@ -64,7 +66,10 @@ function makeCommits(count: number): CommitInfo[] {
       parents: i === count - 1 ? [] : parents,
       refs:
         i === 0
-          ? [{ kind: 'localBranch', name: 'refs/heads/main', shorthand: 'main' }]
+          ? [
+              { kind: 'localBranch', name: 'refs/heads/hotfix/lane-colors', shorthand: 'hotfix/lane-colors' },
+              { kind: 'localBranch', name: 'refs/heads/main', shorthand: 'main' },
+            ]
           : i === 2
             ? [
                 { kind: 'remoteBranch', name: 'refs/remotes/origin/main', shorthand: 'origin/main' },
@@ -73,7 +78,10 @@ function makeCommits(count: number): CommitInfo[] {
             : i === 5
               ? [{ kind: 'stash', name: 'stash@{0}', shorthand: 'WIP on main: experiment with lane colors' }]
               : i === 7
-                ? [{ kind: 'localBranch', name: 'refs/heads/feature/diff-viewer', shorthand: 'feature/diff-viewer' }]
+                ? [
+                    { kind: 'localBranch', name: 'refs/heads/feature/diff-viewer', shorthand: 'feature/diff-viewer' },
+                    { kind: 'localBranch', name: 'refs/heads/release/0.4', shorthand: 'release/0.4' },
+                  ]
                 : [],
       isHead: i === 0,
     });
@@ -159,7 +167,9 @@ export const demoStatus: StatusSummary = {
 export const demoBranches: BranchInfo[] = [
   { name: 'main', isHead: true, isRemote: false, upstream: 'origin/main', ahead: 2, behind: 0, targetOid: ALL_COMMITS[0].oid },
   { name: 'develop', isHead: false, isRemote: false, upstream: null, ahead: 0, behind: 0, targetOid: ALL_COMMITS[20].oid },
+  { name: 'hotfix/lane-colors', isHead: false, isRemote: false, upstream: null, ahead: 0, behind: 0, targetOid: ALL_COMMITS[0].oid },
   { name: 'feature/diff-viewer', isHead: false, isRemote: false, upstream: null, ahead: 0, behind: 0, targetOid: ALL_COMMITS[7].oid },
+  { name: 'release/0.4', isHead: false, isRemote: false, upstream: null, ahead: 0, behind: 0, targetOid: ALL_COMMITS[7].oid },
   { name: 'fix/stash-race', isHead: false, isRemote: false, upstream: null, ahead: 0, behind: 0, targetOid: ALL_COMMITS[12].oid },
   { name: 'origin/main', isHead: false, isRemote: true, upstream: null, ahead: 0, behind: 0, targetOid: ALL_COMMITS[2].oid },
 ];
@@ -523,4 +533,46 @@ export function demoCliRun(): CliRunResult {
     stderr: '',
     output: null,
   };
+}
+
+export const demoEditors: EditorInfo[] = [
+  { id: 'vscode', label: 'Visual Studio Code', path: '/usr/local/bin/code', launch: 'binary' },
+  { id: 'zed', label: 'Zed', path: '/Applications/Zed.app', launch: 'app' },
+];
+
+export function demoBlame(file: string, rev: string | null): FileBlame {
+  const lines = demoConflictContent.split('\n');
+  const hunks: BlameHunk[] = [];
+  let line = 1;
+  let i = 0;
+  while (line <= lines.length) {
+    const commit = ALL_COMMITS[(i * 3) % 7];
+    const count = Math.min(lines.length - line + 1, 2 + (i % 4));
+    hunks.push({
+      oid: commit.oid,
+      shortOid: commit.shortOid,
+      summary: commit.summary,
+      authorName: commit.author.name,
+      authorEmail: commit.author.email,
+      time: commit.author.time,
+      startLine: line,
+      lineCount: count,
+      committed: true,
+    });
+    line += count;
+    i += 1;
+  }
+  if (!rev && hunks.length > 0) {
+    const last = hunks[hunks.length - 1];
+    hunks[hunks.length - 1] = {
+      ...last,
+      oid: '0'.repeat(40),
+      shortOid: '0000000',
+      summary: 'Uncommitted changes',
+      authorName: 'Not committed yet',
+      authorEmail: '',
+      committed: false,
+    };
+  }
+  return { path: file, rev, lines, hunks };
 }
