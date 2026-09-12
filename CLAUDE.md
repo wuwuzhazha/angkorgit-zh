@@ -1962,6 +1962,18 @@ update CLAUDE.md or docs/ — never the code.
   if a real advertisement check is ever wanted, connect with
   `Direction::Fetch` for the listing and only after the git2 bump.
 
+- **G41 — the local gate is macOS; two things only CI catches**: (1) an import used
+  solely inside a `#[cfg(target_os = "macos")]` item is an unused import on Linux
+  and Windows, and clippy runs with `-D warnings` there — qualify the type inline
+  (`std::path::PathBuf`) or gate the `use` with the same cfg. (2) A test fixture
+  that shells out to `git clone` gets Windows git's `core.autocrlf=true` checkout,
+  so setting autocrlf off AFTER the clone is too late: the next `commit_all` in
+  the clone silently commits the CRLF file and a rebase onto LF content reports
+  conflicts on Windows only. Clone with `git -c core.autocrlf=false clone …`
+  (see `clone_of` in tests/git_engine.rs). Both broke the 0.13.0 release commit's
+  CI on 2026-09-12 and were fixed in follow-up commits; the Release workflow only
+  runs `tauri build`, so the tagged artifacts were unaffected.
+
 ## 9. Testing map
 
 | Suite | Location | Coverage |
