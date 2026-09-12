@@ -64,7 +64,10 @@ function makeCommits(count: number): CommitInfo[] {
       parents: i === count - 1 ? [] : parents,
       refs:
         i === 0
-          ? [{ kind: 'localBranch', name: 'refs/heads/main', shorthand: 'main' }]
+          ? [
+              { kind: 'localBranch', name: 'refs/heads/hotfix/lane-colors', shorthand: 'hotfix/lane-colors' },
+              { kind: 'localBranch', name: 'refs/heads/main', shorthand: 'main' },
+            ]
           : i === 2
             ? [
                 { kind: 'remoteBranch', name: 'refs/remotes/origin/main', shorthand: 'origin/main' },
@@ -73,7 +76,10 @@ function makeCommits(count: number): CommitInfo[] {
             : i === 5
               ? [{ kind: 'stash', name: 'stash@{0}', shorthand: 'WIP on main: experiment with lane colors' }]
               : i === 7
-                ? [{ kind: 'localBranch', name: 'refs/heads/feature/diff-viewer', shorthand: 'feature/diff-viewer' }]
+                ? [
+                    { kind: 'localBranch', name: 'refs/heads/feature/diff-viewer', shorthand: 'feature/diff-viewer' },
+                    { kind: 'localBranch', name: 'refs/heads/release/0.4', shorthand: 'release/0.4' },
+                  ]
                 : [],
       isHead: i === 0,
     });
@@ -159,7 +165,9 @@ export const demoStatus: StatusSummary = {
 export const demoBranches: BranchInfo[] = [
   { name: 'main', isHead: true, isRemote: false, upstream: 'origin/main', ahead: 2, behind: 0, targetOid: ALL_COMMITS[0].oid },
   { name: 'develop', isHead: false, isRemote: false, upstream: null, ahead: 0, behind: 0, targetOid: ALL_COMMITS[20].oid },
+  { name: 'hotfix/lane-colors', isHead: false, isRemote: false, upstream: null, ahead: 0, behind: 0, targetOid: ALL_COMMITS[0].oid },
   { name: 'feature/diff-viewer', isHead: false, isRemote: false, upstream: null, ahead: 0, behind: 0, targetOid: ALL_COMMITS[7].oid },
+  { name: 'release/0.4', isHead: false, isRemote: false, upstream: null, ahead: 0, behind: 0, targetOid: ALL_COMMITS[7].oid },
   { name: 'fix/stash-race', isHead: false, isRemote: false, upstream: null, ahead: 0, behind: 0, targetOid: ALL_COMMITS[12].oid },
   { name: 'origin/main', isHead: false, isRemote: true, upstream: null, ahead: 0, behind: 0, targetOid: ALL_COMMITS[2].oid },
 ];

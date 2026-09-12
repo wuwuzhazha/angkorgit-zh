@@ -920,6 +920,87 @@ test('conflict resolver shows line numbers in both sides and the result', async 
   expect(values.every((n) => Number.isInteger(n) && n > 0)).toBe(true);
 });
 
+test('hovering a crowded ref cell stacks every ref in place, folded ones included', async ({ page }) => {
+  await page.goto('/');
+  await page.getByText('angkorgit', { exact: true }).first().click();
+  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  const rowChip = page.getByTitle(/^feature\/diff-viewer · local/).first();
+  const row = page.getByRole('row').filter({ has: rowChip }).first();
+  await expect(row.getByText('release/0.4', { exact: true })).toHaveCount(0);
+  await expect(row.getByRole('button', { name: '1 more ref' })).toHaveText('+1');
+  await rowChip.hover();
+  const panel = page.locator('[data-more-refs]');
+  const first = panel.getByTitle(/^feature\/diff-viewer · local/);
+  const second = panel.getByTitle(/^release\/0\.4 · local — double-click to checkout/);
+  await expect(first).toBeVisible();
+  await expect(second).toBeVisible();
+  const rowBox = await rowChip.boundingBox();
+  const firstBox = await first.boundingBox();
+  const secondBox = await second.boundingBox();
+  if (!rowBox || !firstBox || !secondBox) throw new Error('chip geometry missing');
+  expect(Math.abs(firstBox.x - rowBox.x)).toBeLessThanOrEqual(2);
+  expect(Math.abs(firstBox.y - rowBox.y)).toBeLessThanOrEqual(2);
+  expect(secondBox.x).toBeCloseTo(firstBox.x, 0);
+  expect(secondBox.y).toBeGreaterThan(firstBox.y + firstBox.height);
+  await second.click({ button: 'right' });
+  await expect(page.getByRole('menuitem', { name: 'Checkout release/0.4' })).toBeVisible();
+  await expect(page.getByRole('menuitem', { name: /Reset .* to this/ })).toHaveCount(0);
+  await page.keyboard.press('Escape');
+  await expect(page.getByRole('menuitem')).toHaveCount(0);
+});
+
+test('the checked-out branch is the visible chip and the only one with the tick', async ({ page }) => {
+  await page.goto('/');
+  await page.getByText('angkorgit', { exact: true }).first().click();
+  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  const rows = page.getByRole('row');
+  const top = rows.first();
+  await expect(top.getByTitle(/^main · local/)).toBeVisible();
+  await expect(top.getByText('hotfix/lane-colors', { exact: true })).toHaveCount(0);
+  await expect(top.getByRole('button', { name: '1 more ref' })).toHaveText('+1');
+  await top.getByTitle(/^main · local/).hover();
+  const panel = page.locator('[data-more-refs]');
+  const main = panel.getByTitle(/^main · local/);
+  const hotfix = panel.getByTitle(/^hotfix\/lane-colors · local/);
+  await expect(main).toBeVisible();
+  await expect(hotfix).toBeVisible();
+  const mainBox = await main.boundingBox();
+  const hotfixBox = await hotfix.boundingBox();
+  if (!mainBox || !hotfixBox) throw new Error('chip geometry missing');
+  expect(hotfixBox.y).toBeGreaterThan(mainBox.y);
+  const opacity = (color: string) => Number(color.split(',')[3]?.replace(')', '') ?? '1');
+  expect(opacity(await main.evaluate((el) => getComputedStyle(el).backgroundColor))).toBe(1);
+  expect(opacity(await hotfix.evaluate((el) => getComputedStyle(el).backgroundColor))).toBeLessThan(1);
+  await expect(main.locator('svg.lucide-check')).toHaveCount(1);
+  await expect(hotfix.locator('svg.lucide-check')).toHaveCount(0);
+});
+
+test('a separated origin chip offers the reset from its right-click menu too', async ({ page }) => {
+  await page.goto('/');
+  await page.getByText('angkorgit', { exact: true }).first().click();
+  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await page.getByTitle(/origin\/main — double-click to reset main to it/).first().click({ button: 'right' });
+  await page.getByRole('menuitem', { name: 'Reset main to this…' }).click();
+  const dialog = page.getByRole('dialog');
+  await expect(dialog.getByText('Reset branch to its remote?')).toBeVisible();
+  await dialog.getByRole('button', { name: 'Cancel' }).click();
+  await expect(dialog).toBeHidden();
+});
+
+test('arrow keys move the working copy diff from file to file', async ({ page }) => {
+  await page.goto('/');
+  await page.getByText('angkorgit', { exact: true }).first().click();
+  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await page.getByText('ipc.ts', { exact: true }).first().click();
+  await expect(page.locator('section[aria-label="Diff for src/core/ipc.ts"]')).toBeVisible();
+  await page.keyboard.press('ArrowDown');
+  await expect(page.locator('section[aria-label="Diff for src/data/palette-seed.sql"]')).toBeVisible();
+  await page.keyboard.press('ArrowDown');
+  await expect(page.locator('section[aria-label="Diff for docs/Architecture.md"]')).toBeVisible();
+  await page.keyboard.press('ArrowUp');
+  await expect(page.locator('section[aria-label="Diff for src/data/palette-seed.sql"]')).toBeVisible();
+});
+
 test('the checked-out branch chip is filled while other local chips stay tinted', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();

@@ -11,6 +11,28 @@ All notable changes to AngKorGit are documented here. The format follows
   palette) installs an `angkorgit` command. `angkorgit` and `angkorgit open [path]`
   open a local folder; `angkorgit clone [-b branch] <url>` opens the clone dialog
   with the URL, folder and branch filled in. `angkorgit --help` lists the commands.
+- **Crowded ref columns expand on hover.** When a commit carries more refs than fit
+  next to it, hovering its chips (or clicking the `+n` badge) stacks every branch and
+  tag in place, one per line, as real chips: double-click to check out, right-click
+  for the same menu a visible chip gets. That menu also offers "Reset … to this…" on
+  a remote chip whose local branch has drifted ahead, so a folded origin ref can be
+  reset from there.
+- **Pull requests are checked for tool-generated commit trailers.** A CI job fails
+  when a commit carries `Co-authored-by` lines from coding tools or a "Generated
+  with" footer, and the contributing guide says so.
+
+### Security
+- react-router-dom 6.30.6, fixing an open redirect in `<Link>` and `useNavigate`.
+
+### Fixed
+- **The checked-out branch is always the visible chip.** When several local
+  branches sit on the HEAD commit, the graph used to show whichever came first and
+  gave it the tick, so the branch you were actually on could hide behind `+1` while
+  its neighbour looked checked out. The current branch now sorts first and is the
+  only one marked.
+- **↑/↓ in the working copy list now move the diff.** After clicking a changed
+  file, the arrow keys only moved the highlight and the diff stayed on the file you
+  clicked. They now open the previous or next file, like the commit file list.
 
 ## [0.12.0] — 2026-09-10
 

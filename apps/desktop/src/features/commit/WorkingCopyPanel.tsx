@@ -712,7 +712,8 @@ export function WorkingCopyPanel() {
       index < 0 ? (direction === 1 ? 0 : visibleOrder.length - 1) : index + direction;
     const next = visibleOrder[nextIndex];
     if (!next) return;
-    selectFile({ path: next.file.path, staged: next.staged });
+    setMulti(null);
+    showDiff(next.file, next.staged);
     requestAnimationFrame(() => {
       listScrollRef.current
         ?.querySelector('[data-selected-file-row]')
