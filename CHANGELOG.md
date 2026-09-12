@@ -36,6 +36,11 @@ All notable changes to AngKorGit are documented here. The format follows
 - **Cloning from inside a repository opens the clone.** The Clone entry in the
   repository switcher used to finish with a toast and leave you in the repository
   you started from. The new one now opens in its own tab.
+- **Pushing a branch that is already up to date no longer pushes.** The toolbar
+  Push, ⌘P and the branch menu used to send the push anyway and toast "Pushed
+  <branch>", so hosts that react to every receive-pack started CI for nothing.
+  When the tip matches the remote-tracking branch AngKorGit now says the branch
+  is already up to date and never contacts the remote, like `git push` (#17).
 
 ## [0.12.0] — 2026-09-10
 

@@ -2228,3 +2228,69 @@ fn git_cli_recognizes_worktrees_created_by_the_engine() {
     assert!(status.status.success());
     assert!(String::from_utf8_lossy(&status.stdout).trim().is_empty());
 }
+
+fn bare_origin(local: &TempRepo) -> PathBuf {
+    let dir = local.dir.with_file_name(format!(
+        "{}-origin.git",
+        local.dir.file_name().unwrap().to_string_lossy()
+    ));
+    let status = Command::new("git")
+        .args(["init", "--bare", "-q", dir.to_str().unwrap()])
+        .status()
+        .expect("git CLI available");
+    assert!(status.success());
+    let status = Command::new("git")
+        .args(["remote", "add", "origin", dir.to_str().unwrap()])
+        .current_dir(&local.dir)
+        .status()
+        .unwrap();
+    assert!(status.success());
+    dir
+}
+
+#[test]
+fn push_reports_up_to_date_instead_of_pushing_again() {
+    let local = TempRepo::new();
+    local.write("a.txt", "one\n");
+    let first_tip = commit_all(&local, "one");
+    let origin = bare_origin(&local);
+
+    let first = core::push(local.path(), "origin", None, false, false, true).unwrap();
+    assert_eq!(first.status, "ok");
+    let remote_tip = |name: &str| {
+        let out = Command::new("git")
+            .args(["rev-parse", name])
+            .current_dir(&origin)
+            .output()
+            .unwrap();
+        String::from_utf8_lossy(&out.stdout).trim().to_string()
+    };
+    assert_eq!(remote_tip("master"), first_tip);
+
+    let again = core::push(local.path(), "origin", None, false, false, true).unwrap();
+    assert_eq!(again.status, "up_to_date", "{}", again.message);
+    assert!(
+        again.message.contains("already up to date"),
+        "{}",
+        again.message
+    );
+
+    let cli = Command::new("git")
+        .args(["push", "origin", "master"])
+        .current_dir(&local.dir)
+        .output()
+        .unwrap();
+    assert!(
+        String::from_utf8_lossy(&cli.stderr).contains("Everything up-to-date"),
+        "{}",
+        String::from_utf8_lossy(&cli.stderr)
+    );
+
+    local.write("a.txt", "two\n");
+    let second_tip = commit_all(&local, "two");
+    let moved = core::push(local.path(), "origin", None, false, false, true).unwrap();
+    assert_eq!(moved.status, "ok");
+    assert_eq!(remote_tip("master"), second_tip);
+
+    let _ = std::fs::remove_dir_all(&origin);
+}

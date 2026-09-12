@@ -493,17 +493,28 @@ pub fn push(
 
     let refspecs = push_refspecs(&branch_name, force, with_tags);
 
+    let track_upstream = |repo: &Repository| -> AppResult<()> {
+        if set_upstream {
+            let mut branch = repo.find_branch(&branch_name, git2::BranchType::Local)?;
+            branch.set_upstream(Some(&format!("{remote_name}/{branch_name}")))?;
+        }
+        Ok(())
+    };
+    if !with_tags && tracking_ref_matches(&repo, remote_name, &branch_name) {
+        track_upstream(&repo)?;
+        return Ok(OpOutcome {
+            status: "up_to_date".into(),
+            message: format!("{branch_name} is already up to date on {remote_name}"),
+        });
+    }
+
     prime_account_bindings(Some(&repo));
     let mut remote = repo.find_remote(remote_name)?;
     let mut opts = PushOptions::new();
     opts.remote_callbacks(make_callbacks());
     let specs: Vec<&str> = refspecs.iter().map(String::as_str).collect();
     remote.push(&specs, Some(&mut opts))?;
-
-    if set_upstream {
-        let mut branch = repo.find_branch(&branch_name, git2::BranchType::Local)?;
-        branch.set_upstream(Some(&format!("{remote_name}/{branch_name}")))?;
-    }
+    track_upstream(&repo)?;
 
     Ok(OpOutcome {
         status: "ok".into(),
@@ -512,6 +523,12 @@ pub fn push(
             if force { " (forced)" } else { "" }
         ),
     })
+}
+
+fn tracking_ref_matches(repo: &Repository, remote_name: &str, branch_name: &str) -> bool {
+    let tip = |name: String| repo.find_reference(&name).ok().and_then(|r| r.target());
+    let local = tip(format!("refs/heads/{branch_name}"));
+    local.is_some() && local == tip(format!("refs/remotes/{remote_name}/{branch_name}"))
 }
 
 pub fn pull_branch(path: &str, branch_name: &str) -> AppResult<OpOutcome> {
