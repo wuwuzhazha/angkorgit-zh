@@ -1319,3 +1319,26 @@ test('the status bar says when the repository was last fetched', async ({ page }
   await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
   await expect(page.locator('[data-last-fetch]')).toHaveText(/Fetched just now/);
 });
+
+test('the diff header opens blame with authors per hunk and Escape returns to the graph', async ({ page }) => {
+  await page.goto('/');
+  await page.getByText('angkorgit', { exact: true }).first().click();
+  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await page.getByText('CommitGraph.tsx').first().click();
+  await page.locator('section[aria-label^="Diff for"]').getByRole('button', { name: 'Blame' }).click();
+  const blame = page.locator('section[aria-label^="Blame of"]');
+  await expect(blame).toBeVisible();
+  await expect(blame.getByText('Working copy')).toBeVisible();
+  await expect(blame.locator('[data-blame-line="1"]')).toBeVisible();
+  const authors = blame.getByRole('button', { name: /^Open commit [0-9a-f]+$/ });
+  await expect(authors.first()).toBeVisible();
+  expect(await authors.count()).toBeGreaterThan(1);
+  await expect(blame.getByText('Not committed yet')).toBeVisible();
+
+  await authors.first().click({ button: 'right' });
+  await expect(page.getByRole('menuitem', { name: 'Blame at this commit' })).toBeVisible();
+  await page.keyboard.press('Escape');
+  await page.keyboard.press('Escape');
+  await expect(blame).toBeHidden();
+  await expect(page.getByPlaceholder('Search commits…')).toBeVisible();
+});

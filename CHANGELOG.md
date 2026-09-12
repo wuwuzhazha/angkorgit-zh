@@ -12,6 +12,12 @@ All notable changes to AngKorGit are documented here. The format follows
   `akg open [path]` open a local folder; `akg clone [-b branch] <url>` opens the
   clone dialog with the URL, folder and branch filled in. `akg --help` lists the
   commands.
+- **Blame.** Every line of a file with who changed it, when, and in which commit.
+  Open it from the diff header or from a file's right-click menu in the working
+  copy or a commit. Hover a line to light up every line from the same commit,
+  click the author to jump to that commit in the graph, and right-click to blame
+  the file as it was at that commit or just before it. Uncommitted lines are
+  marked as such.
 - **Open in your editor.** Settings → Git lists the editors installed on your
   machine (VS Code, Cursor, Zed, Sublime Text, the JetBrains IDEs, Xcode, GNOME
   Builder and more). The toolbar gets an "Open in <editor>" button whose menu

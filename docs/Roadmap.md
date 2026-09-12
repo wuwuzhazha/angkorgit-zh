@@ -28,7 +28,7 @@ direction.
 
 ## Next
 
-- [ ] Blame view
+- [x] Blame view
 - [ ] Worktrees: start an installed AI CLI inside a worktree from its row, a per-repo post-create setup command, merged badge with one-step cleanup
 - [ ] Provider avatars via connected accounts, layered over Gravatar
 

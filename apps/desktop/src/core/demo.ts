@@ -1,4 +1,5 @@
 import type { EditorInfo } from './ipc';
+import type { BlameHunk, FileBlame } from '@angkorgit/core';
 import type {
   BranchInfo,
   CliAgentInfo,
@@ -538,3 +539,40 @@ export const demoEditors: EditorInfo[] = [
   { id: 'vscode', label: 'Visual Studio Code', path: '/usr/local/bin/code', launch: 'binary' },
   { id: 'zed', label: 'Zed', path: '/Applications/Zed.app', launch: 'app' },
 ];
+
+export function demoBlame(file: string, rev: string | null): FileBlame {
+  const lines = demoConflictContent.split('\n');
+  const hunks: BlameHunk[] = [];
+  let line = 1;
+  let i = 0;
+  while (line <= lines.length) {
+    const commit = ALL_COMMITS[(i * 3) % 7];
+    const count = Math.min(lines.length - line + 1, 2 + (i % 4));
+    hunks.push({
+      oid: commit.oid,
+      shortOid: commit.shortOid,
+      summary: commit.summary,
+      authorName: commit.author.name,
+      authorEmail: commit.author.email,
+      time: commit.author.time,
+      startLine: line,
+      lineCount: count,
+      committed: true,
+    });
+    line += count;
+    i += 1;
+  }
+  if (!rev && hunks.length > 0) {
+    const last = hunks[hunks.length - 1];
+    hunks[hunks.length - 1] = {
+      ...last,
+      oid: '0'.repeat(40),
+      shortOid: '0000000',
+      summary: 'Uncommitted changes',
+      authorName: 'Not committed yet',
+      authorEmail: '',
+      committed: false,
+    };
+  }
+  return { path: file, rev, lines, hunks };
+}

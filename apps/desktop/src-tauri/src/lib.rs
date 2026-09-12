@@ -15,6 +15,7 @@ mod terminal;
 mod watcher;
 
 pub mod test_api {
+    pub use crate::core::blame::blame_file;
     pub use crate::core::branch::{
         can_fast_forward, checkout_branch, cherry_pick, cherry_pick_many, create as branch_create,
         list as branches, merge, rebase, rebase_commits, rebase_interactive, reset,
@@ -190,6 +191,7 @@ pub fn run() {
             commands::cli_uninstall,
             commands::editors_detect,
             commands::editor_open,
+            commands::file_blame,
         ])
         .build(tauri::generate_context!())
         .expect("error while running AngKorGit");

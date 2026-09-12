@@ -2376,3 +2376,44 @@ fn pull_rebases_when_asked_or_configured_and_merges_otherwise() {
 
     let _ = std::fs::remove_dir_all(&origin);
 }
+
+#[test]
+fn blame_attributes_lines_to_their_commits_and_uncommitted_edits() {
+    let repo = TempRepo::new();
+    repo.write("a.txt", "one\ntwo\n");
+    let first = commit_all(&repo, "first");
+    core::set_config(Some(repo.path()), "user.name", "Second Dev", false).unwrap();
+    repo.write("a.txt", "one\nTWO\n");
+    let second = commit_all(&repo, "second");
+
+    let blame = core::blame_file(repo.path(), "a.txt", None).unwrap();
+    assert_eq!(blame.lines, vec!["one", "TWO"]);
+    assert_eq!(blame.hunks.len(), 2);
+    assert_eq!(blame.hunks[0].oid, first);
+    assert_eq!(
+        (blame.hunks[0].start_line, blame.hunks[0].line_count),
+        (1, 1)
+    );
+    assert_eq!(blame.hunks[1].oid, second);
+    assert_eq!(blame.hunks[1].author_name, "Second Dev");
+    assert_eq!(blame.hunks[1].summary, "second");
+    assert!(blame.hunks.iter().all(|hunk| hunk.committed));
+    assert_eq!(blame.rev, None);
+
+    repo.write("a.txt", "one\nTWO\nthree\n");
+    let dirty = core::blame_file(repo.path(), "a.txt", None).unwrap();
+    assert_eq!(dirty.lines.len(), 3);
+    let last = dirty.hunks.last().unwrap();
+    assert!(!last.committed);
+    assert_eq!((last.start_line, last.line_count), (3, 1));
+    assert_eq!(last.summary, "Uncommitted changes");
+
+    let old = core::blame_file(repo.path(), "a.txt", Some(&first)).unwrap();
+    assert_eq!(old.lines, vec!["one", "two"]);
+    assert_eq!(old.hunks.len(), 1);
+    assert_eq!(old.hunks[0].oid, first);
+    assert_eq!(old.rev.as_deref(), Some(first.as_str()));
+
+    let before = core::blame_file(repo.path(), "a.txt", Some(&format!("{second}^"))).unwrap();
+    assert_eq!(before.rev.as_deref(), Some(first.as_str()));
+}

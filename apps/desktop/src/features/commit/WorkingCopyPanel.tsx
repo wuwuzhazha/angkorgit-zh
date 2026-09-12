@@ -1,7 +1,7 @@
 import { memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { toast } from 'sonner';
-import { AlertTriangle, Archive, Code, Copy, ExternalLink, FolderOpen, History, Maximize2, Minus, Pencil, Plus, SearchCheck, Sparkles, Trash2, Undo2, X } from 'lucide-react';
+import { AlertTriangle, Archive, Code, Copy, ExternalLink, FolderOpen, History, UserRoundSearch, Maximize2, Minus, Pencil, Plus, SearchCheck, Sparkles, Trash2, Undo2, X } from 'lucide-react';
 import type { FileStatus } from '@angkorgit/core';
 import { aiCapabilities, buildStagedReviewSignature, filterFiles, hashText, PROJECT_REVIEW_FILE, joinCommitMessage, splitCommitMessage } from '@angkorgit/core';
 import {
@@ -1076,6 +1076,9 @@ export function WorkingCopyPanel() {
             )}
             <DropdownMenuItem onClick={() => useUi.getState().openFileHistory(fileMenu.file.path)}>
               <History /> File history
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => useUi.getState().openBlame(fileMenu.file.path)}>
+              <UserRoundSearch /> Blame
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() =>

@@ -17,6 +17,7 @@ import {
   Pencil,
   Sparkles,
   Tag as TagIcon,
+  UserRoundSearch,
 } from 'lucide-react';
 import type { CommitFileInfo, CommitInfo, FileDiff } from '@angkorgit/core';
 import { aiCapabilities, filterFiles } from '@angkorgit/core';
@@ -676,6 +677,12 @@ export function CommitDetails({
             )}
             <DropdownMenuItem onClick={() => useUi.getState().openFileHistory(fileMenu.file.path)}>
               <History /> File history
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              disabled={fileMenu.file.status === 'deleted'}
+              onClick={() => useUi.getState().openBlame(fileMenu.file.path, fileMenu.file.sourceOid ?? commit.oid)}
+            >
+              <UserRoundSearch /> Blame at this commit
             </DropdownMenuItem>
             <DropdownMenuItem
               disabled={fileMenu.file.status === 'deleted'}

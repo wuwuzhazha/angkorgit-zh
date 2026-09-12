@@ -16,6 +16,7 @@ import { DiffPanel } from '@/features/diff/DiffPanel';
 import { EditorPanel, editorCloseShortcut } from '@/features/editor/EditorPanel';
 import { commitShortcut } from '@/features/commit/WorkingCopyPanel';
 import { FileHistoryPanel } from '@/features/history/FileHistoryPanel';
+import { BlamePanel } from '@/features/blame/BlamePanel';
 import { Inspector } from '@/features/inspector/Inspector';
 const TerminalPanel = lazy(() =>
   import('@/features/terminal/TerminalPanel').then((m) => ({ default: m.TerminalPanel })),
@@ -94,6 +95,7 @@ export function RepositoryPage() {
   const centerDiff = useUi((s) => s.centerDiff);
   const centerEditor = useUi((s) => s.centerEditor);
   const centerFileHistory = useUi((s) => s.centerFileHistory);
+  const centerBlame = useUi((s) => s.centerBlame);
   const closeCenterDiff = useUi((s) => s.closeCenterDiff);
 
   const repoPath = repo?.path ?? null;
@@ -270,6 +272,7 @@ export function RepositoryPage() {
           if (ui.centerEditor) editorCloseShortcut.current?.();
           else if (ui.centerDiff) closeCenterDiff();
           else if (ui.centerFileHistory) ui.closeFileHistory();
+          else if (ui.centerBlame) ui.closeBlame();
         },
       },
     ],
@@ -277,7 +280,7 @@ export function RepositoryPage() {
   );
   useShortcuts(shortcuts);
 
-  const focusMode = !!centerFileHistory && !centerEditor && !centerDiff;
+  const focusMode = (!!centerFileHistory || !!centerBlame) && !centerEditor && !centerDiff;
   const showSidebar = sidebarOpen && !focusMode;
   const focusModeRef = useRef(focusMode);
   focusModeRef.current = focusMode;
@@ -364,16 +367,18 @@ export function RepositoryPage() {
           <Panel id="center" order={2} defaultSize={54} minSize={30}>
             <PanelGroup direction="vertical" autoSaveId="angkorgit-center">
               <Panel minSize={30}>
-                <div className={centerDiff || centerEditor || centerFileHistory ? 'hidden' : 'h-full'}>
+                <div className={centerDiff || centerEditor || centerFileHistory || centerBlame ? 'hidden' : 'h-full'}>
                   <CommitGraph key={repo.path} />
                 </div>
                 {centerEditor ? (
                   <EditorPanel key={centerEditor} file={centerEditor} />
                 ) : centerDiff ? (
                   <DiffPanel target={centerDiff} />
+                ) : centerFileHistory ? (
+                  <FileHistoryPanel key={centerFileHistory} file={centerFileHistory} />
                 ) : (
-                  centerFileHistory && (
-                    <FileHistoryPanel key={centerFileHistory} file={centerFileHistory} />
+                  centerBlame && (
+                    <BlamePanel key={`${centerBlame.file}@${centerBlame.rev ?? ''}`} target={centerBlame} />
                   )
                 )}
               </Panel>

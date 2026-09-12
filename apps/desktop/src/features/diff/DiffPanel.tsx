@@ -1,7 +1,7 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { toast } from 'sonner';
-import { ChevronDown, ChevronLeft, ChevronRight, ChevronUp, Columns2, Copy, FileText, History, Minus, Plus, Rows3, TextSelect, Trash2, WholeWord, WrapText, X } from 'lucide-react';
+import { ChevronDown, ChevronLeft, ChevronRight, ChevronUp, Columns2, Copy, FileText, History, Minus, Plus, Rows3, TextSelect, Trash2, UserRoundSearch, WholeWord, WrapText, X } from 'lucide-react';
 import type { CommitFileInfo, FileDiff } from '@angkorgit/core';
 import {
   Badge,
@@ -38,6 +38,7 @@ export function DiffPanel({ target }: { target: CenterDiffTarget }) {
   const closeCenterDiff = useUi((s) => s.closeCenterDiff);
   const openCenterDiff = useUi((s) => s.openCenterDiff);
   const openFileHistory = useUi((s) => s.openFileHistory);
+  const openBlame = useUi((s) => s.openBlame);
   const diffView = useUi((s) => s.diffView);
   const setDiffView = useUi((s) => s.setDiffView);
   const wordDiff = useUi((s) => s.wordDiff);
@@ -354,6 +355,16 @@ export function DiffPanel({ target }: { target: CenterDiffTarget }) {
             onClick={() => openFileHistory(target.path)}
           >
             <History className="size-3.5" />
+          </Button>
+        </Hint>
+        <Hint label={target.oid ? 'Blame at this commit' : 'Blame'}>
+          <Button
+            variant="ghost"
+            size="icon-sm"
+            aria-label="Blame"
+            onClick={() => openBlame(target.path, target.oid ?? null)}
+          >
+            <UserRoundSearch className="size-3.5" />
           </Button>
         </Hint>
         {blocks.length > 0 && (

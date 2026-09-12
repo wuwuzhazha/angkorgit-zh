@@ -869,3 +869,12 @@ pub async fn editors_detect() -> AppResult<Vec<crate::editors::EditorInfo>> {
 pub async fn editor_open(editorId: String, path: String) -> AppResult<crate::editors::EditorInfo> {
     blocking(move || crate::editors::open(&editorId, &path)).await
 }
+
+#[tauri::command]
+pub async fn file_blame(
+    path: String,
+    file: String,
+    rev: Option<String>,
+) -> AppResult<crate::core::blame::FileBlame> {
+    blocking(move || crate::core::blame::blame_file(&path, &file, rev.as_deref())).await
+}

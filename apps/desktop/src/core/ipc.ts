@@ -25,6 +25,7 @@ import type {
   WorktreeAddRequest,
   WorktreeInfo,
 } from '@angkorgit/core';
+import type { FileBlame } from '@angkorgit/core';
 let demo = null as unknown as typeof import('./demo');
 
 export interface OpOutcome {
@@ -291,6 +292,13 @@ export const ipc = {
       return demo.demoHistory({ skip: skip ?? 0, limit: limit ?? 25 });
     }
     return invoke('history_file', { path, file, limit, skip });
+  },
+  async fileBlame(path: string, file: string, rev?: string | null): Promise<FileBlame> {
+    if (!isTauri()) {
+      await delay(150);
+      return demo.demoBlame(file, rev ?? null);
+    }
+    return invoke('file_blame', { path, file, rev: rev ?? null });
   },
   async repoFiles(path: string): Promise<string[]> {
     if (!isTauri()) {

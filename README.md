@@ -111,7 +111,6 @@ It's free, MIT licensed, and there is no account, no telemetry and no cloud. Eve
 
 - In-app pull request review. The forge does this better, with CI logs and suggestions. There is an Open in browser button.
 - Telemetry, accounts, a cloud. Nothing phones home and there is nothing to sign up for.
-- A blame view. File history is there, line level blame is on the list.
 - A plugin marketplace. Not yet.
 
 ## Install
