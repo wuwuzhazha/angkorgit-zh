@@ -1151,6 +1151,7 @@ test('right-clicking a commit file offers the working copy file actions', async 
   await expect(menu.getByRole('menuitem', { name: 'File history' })).toBeVisible();
   await expect(menu.getByRole('menuitem', { name: 'Show in Finder' })).toBeVisible();
   await expect(menu.getByRole('menuitem', { name: 'Copy path' })).toBeVisible();
+  await expect(menu.getByRole('menuitem', { name: 'Copy absolute path' })).toBeVisible();
   await expect(menu.getByRole('menuitem', { name: /Apply this file/ })).toHaveCount(0);
   await page.keyboard.press('Escape');
   await expect(menu).toHaveCount(0);

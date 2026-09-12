@@ -1111,6 +1111,14 @@ export function WorkingCopyPanel() {
             >
               <Copy /> Copy path
             </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => {
+                void navigator.clipboard.writeText(`${path}/${fileMenu.file.path}`);
+                toast.success('Absolute path copied');
+              }}
+            >
+              <Copy /> Copy absolute path
+            </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem
               destructive

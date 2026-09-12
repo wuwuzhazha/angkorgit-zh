@@ -27,7 +27,8 @@ All notable changes to AngKorGit are documented here. The format follows
   auto fetch runs.
 - **Right-click on a commit's files.** Files in the commit view now have the same
   menu as the working copy: edit, file history, open in an external app, show in
-  Finder and copy path. Stash files keep their Apply entries at the top.
+  Finder, copy the relative or the absolute path. Stash files keep their Apply
+  entries at the top.
 - **Crowded ref columns expand on hover.** When a commit carries more refs than fit
   next to it, hovering its chips (or clicking the `+n` badge) stacks every branch and
   tag in place, one per line, as real chips: double-click to check out, right-click

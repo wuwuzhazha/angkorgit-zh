@@ -709,6 +709,14 @@ export function CommitDetails({
             >
               <Copy /> Copy path
             </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => {
+                void navigator.clipboard.writeText(`${repoPath}/${fileMenu.file.path}`);
+                toast.success('Absolute path copied');
+              }}
+            >
+              <Copy /> Copy absolute path
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       )}

@@ -1241,7 +1241,9 @@ features/
 │                               entries sit first behind a separator when the commit is a
 │                               stash — then the working copy's non-mutating entries: Edit
 │                               file, File history, Open in external app, Show in Finder,
-│                               Copy path; Edit/Open/Show are disabled for a file the commit
+│                               Copy path (repo-relative) + Copy absolute path (owner request
+│                               2026-09-12, the working copy menu has both too); Edit/Open/Show
+│                               are disabled for a file the commit
 │                               deleted. Stage/discard/stash have no meaning here and stay
 │                               out; "checkout this file at this commit" is not built.
 │                               Inspector (working copy ⟷ commit details; the h-9 header
