@@ -33,6 +33,9 @@ All notable changes to AngKorGit are documented here. The format follows
 - **↑/↓ in the working copy list now move the diff.** After clicking a changed
   file, the arrow keys only moved the highlight and the diff stayed on the file you
   clicked. They now open the previous or next file, like the commit file list.
+- **Cloning from inside a repository opens the clone.** The Clone entry in the
+  repository switcher used to finish with a toast and leave you in the repository
+  you started from. The new one now opens in its own tab.
 
 ## [0.12.0] — 2026-09-10
 

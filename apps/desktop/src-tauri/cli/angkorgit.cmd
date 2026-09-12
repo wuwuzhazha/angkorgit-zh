@@ -70,7 +70,7 @@ exit /b 0
 echo Usage:
 echo   angkorgit                            Open the current directory
 echo   angkorgit open [path]                Open the provided path
-echo   angkorgit clone [-b branch] ^<url^>    Clone the repository by url or name/owner
+echo   angkorgit clone [-b branch] ^<url^>    Clone the repository by url or owner/repo
 echo                                        ^(ex torvalds/linux^), optionally checking out
 echo                                        the branch
 exit /b 0
@@ -79,7 +79,7 @@ exit /b 0
 echo Usage:
 echo   angkorgit                            Open the current directory
 echo   angkorgit open [path]                Open the provided path
-echo   angkorgit clone [-b branch] ^<url^>    Clone the repository by url or name/owner
+echo   angkorgit clone [-b branch] ^<url^>    Clone the repository by url or owner/repo
 echo                                        ^(ex torvalds/linux^), optionally checking out
 echo                                        the branch
 exit /b 1

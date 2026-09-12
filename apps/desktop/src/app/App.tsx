@@ -44,7 +44,7 @@ function Shell() {
     let pendingClone: ClonePreset | null = null;
     const openClone = (preset: ClonePreset) => {
       useUi.getState().openDialog('clone', preset);
-      navigate('/welcome', { replace: true });
+      if (!useRepo.getState().repo) navigate('/welcome', { replace: true });
     };
     const finishSplash = () => {
       if (finished) return;

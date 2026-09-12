@@ -2,6 +2,7 @@ import { Suspense, lazy, useCallback, useEffect, useLayoutEffect, useMemo, useRe
 import { useNavigate } from 'react-router-dom';
 import { Panel, PanelGroup, PanelResizeHandle, type ImperativePanelHandle } from 'react-resizable-panels';
 import { motion } from 'framer-motion';
+import { toast } from 'sonner';
 import { useRepo } from './store';
 import { useGraph } from '@/features/graph/store';
 import { sidebarVisible, useUi } from '@/features/ui/store';
@@ -410,7 +411,18 @@ export function RepositoryPage() {
       <CreatePrDialog />
       <CreateWorktreeDialog />
       <InteractiveRebaseDialog />
-      <CloneDialog onCloned={() => void refreshAll()} />
+      <CloneDialog
+        onCloned={(path) =>
+          void useRepo
+            .getState()
+            .open(path)
+            .catch((error) =>
+              toast.error(
+                `Could not open repository: ${(error as { message?: string }).message ?? error}`,
+              ),
+            )
+        }
+      />
       {conflictFile && (
         <Suspense fallback={null}>
           <ConflictResolver key={conflictFile} file={conflictFile} onResolved={refreshAll} />

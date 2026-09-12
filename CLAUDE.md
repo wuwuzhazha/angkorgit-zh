@@ -209,7 +209,11 @@ account_check.rs      ← re-verifies a stored account token against its provide
 cli.rs                ← `angkorgit` CLI (GitHub Desktop-shaped): bare / `open [path]`
                         opens a folder; `clone [-b branch] <url|owner/repo>` opens the
                         in-app clone dialog prefilled (url, cwd, branch) so progress and
-                        cancel stay in the UI; `--help` lists commands. Shim in
+                        cancel stay in the UI — IN PLACE when a repo tab is open, on the
+                        welcome page otherwise (App.tsx openClone); RepositoryPage's
+                        CloneDialog onCloned OPENS the clone (it used to only refreshAll,
+                        so a toolbar clone never opened the new repo — fixed with the CLI
+                        follow-up 2026-09-12); `--help` lists commands. Shim in
                         cli/angkorgit.sh (.cmd on Windows); missing path exits 1 (capture
                         resolve before launch); install dest is /usr/local/bin then
                         ~/.local/bin (never Homebrew's prefix); app takes `--open` /
