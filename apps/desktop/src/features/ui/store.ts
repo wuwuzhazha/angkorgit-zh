@@ -58,8 +58,8 @@ export interface StashPreset {
   paths: string[];
 }
 
-export interface BlameTarget {
-  file: string;
+export interface FileHistoryPreset {
+  pane: 'blame';
   rev: string | null;
 }
 
@@ -93,7 +93,7 @@ interface UiState {
   centerDiff: CenterDiffTarget | null;
   centerEditor: string | null;
   centerFileHistory: string | null;
-  centerBlame: BlameTarget | null;
+  fileHistoryPreset: FileHistoryPreset | null;
   conflictFile: string | null;
   repoTabs: string[];
   worktreeTabs: string[];
@@ -126,7 +126,7 @@ interface UiState {
   openFileHistory: (file: string) => void;
   closeFileHistory: () => void;
   openBlame: (file: string, rev?: string | null) => void;
-  closeBlame: () => void;
+  clearFileHistoryPreset: () => void;
   openConflict: (file: string | null) => void;
   addRepoTab: (path: string) => void;
   closeRepoTab: (path: string) => void;
@@ -179,7 +179,7 @@ export const useUi = create<UiState>()(
   centerDiff: null,
   centerEditor: null,
   centerFileHistory: null,
-  centerBlame: null,
+  fileHistoryPreset: null,
   conflictFile: null,
   repoTabs: [],
   worktreeTabs: [],
@@ -221,11 +221,16 @@ export const useUi = create<UiState>()(
   openEditor: (centerEditor) => set({ centerEditor }),
   closeEditor: () => set({ centerEditor: null }),
   openFileHistory: (centerFileHistory) =>
-    set({ centerFileHistory, centerBlame: null, centerDiff: null, sidebarHiddenForDiff: false }),
-  closeFileHistory: () => set({ centerFileHistory: null }),
+    set({ centerFileHistory, fileHistoryPreset: null, centerDiff: null, sidebarHiddenForDiff: false }),
+  closeFileHistory: () => set({ centerFileHistory: null, fileHistoryPreset: null }),
   openBlame: (file, rev = null) =>
-    set({ centerBlame: { file, rev }, centerFileHistory: null, centerDiff: null, sidebarHiddenForDiff: false }),
-  closeBlame: () => set({ centerBlame: null }),
+    set({
+      centerFileHistory: file,
+      fileHistoryPreset: { pane: 'blame', rev },
+      centerDiff: null,
+      sidebarHiddenForDiff: false,
+    }),
+  clearFileHistoryPreset: () => set({ fileHistoryPreset: null }),
   openConflict: (conflictFile) => set({ conflictFile }),
   addRepoTab: (path) =>
     set((s) => (s.repoTabs.includes(path) ? s : { repoTabs: [...s.repoTabs, path] })),

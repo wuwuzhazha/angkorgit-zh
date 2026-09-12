@@ -1320,26 +1320,37 @@ test('the status bar says when the repository was last fetched', async ({ page }
   await expect(page.locator('[data-last-fetch]')).toHaveText(/Fetched just now/);
 });
 
-test('the diff header opens blame with authors per hunk and Escape returns to the graph', async ({ page }) => {
+test('the diff header opens blame inside file history with authors per hunk', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
   await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
   await page.getByText('CommitGraph.tsx').first().click();
   await page.locator('section[aria-label^="Diff for"]').getByRole('button', { name: 'Blame' }).click();
-  const blame = page.locator('section[aria-label^="Blame of"]');
-  await expect(blame).toBeVisible();
-  await expect(blame.getByText('Working copy')).toBeVisible();
-  await expect(blame.locator('[data-blame-line="1"]')).toBeVisible();
-  const authors = blame.getByRole('button', { name: /^Open commit [0-9a-f]+$/ });
+  const history = page.locator('section[aria-label^="History of"]');
+  await expect(history).toBeVisible();
+  await expect(history.getByRole('button', { name: 'Blame view' })).toHaveAttribute('aria-pressed', 'true');
+  await expect(history.locator('[data-working-copy-row]')).toHaveClass(/border-l-primary/);
+  const pane = history.locator('[data-blame-pane]');
+  await expect(pane.locator('[data-blame-line="1"]')).toBeVisible();
+  const authors = pane.getByRole('button', { name: /^Open commit [0-9a-f]+$/ });
   await expect(authors.first()).toBeVisible();
   expect(await authors.count()).toBeGreaterThan(1);
-  await expect(blame.getByText('Not committed yet')).toBeVisible();
+  await expect(pane.getByText('Not committed yet')).toBeVisible();
 
-  await authors.first().click({ button: 'right' });
+  await history.locator('li[data-index="0"] [role="button"]').first().click();
+  await expect(pane.getByText('Not committed yet')).toHaveCount(0);
+  await expect(history.locator('[data-working-copy-row]')).not.toHaveClass(/border-l-primary/);
+
+  await pane.locator('[data-blame-line="1"]').click({ button: 'right' });
   await expect(page.getByRole('menuitem', { name: 'Blame at this commit' })).toBeVisible();
   await page.keyboard.press('Escape');
+
+  await history.getByRole('button', { name: 'Diff view' }).click();
+  await expect(history.locator('[data-blame-pane]')).toHaveCount(0);
+  await expect(history.getByRole('button', { name: 'Inline diff' })).toBeVisible();
+
   await page.keyboard.press('Escape');
-  await expect(blame).toBeHidden();
+  await expect(history).toBeHidden();
   await expect(page.getByPlaceholder('Search commits…')).toBeVisible();
 });
 
@@ -1354,5 +1365,7 @@ test('the palette offers Blame… and picks a file', async ({ page }) => {
   await expect(picker).toBeVisible();
   await picker.fill('App.tsx');
   await page.getByText('src/app/App.tsx', { exact: true }).click();
-  await expect(page.locator('section[aria-label="Blame of src/app/App.tsx"]')).toBeVisible();
+  const history = page.locator('section[aria-label="History of src/app/App.tsx"]');
+  await expect(history).toBeVisible();
+  await expect(history.locator('[data-blame-pane] [data-blame-line="1"]')).toBeVisible();
 });
