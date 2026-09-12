@@ -569,7 +569,7 @@ function CliToolCard() {
   return (
     <SettingCard
       title="Command line tool"
-      description="Open or clone a repository from the terminal. Run angkorgit --help for the full usage."
+      description="Open or clone a repository from the terminal as angkorgit or the short akg. Run akg --help for the full usage."
       action={
         status ? (
           <Button variant="secondary" size="sm" disabled={busy} onClick={() => void uninstall()}>
@@ -588,7 +588,10 @@ angkorgit open [path]
 angkorgit clone [-b branch] <url>`}
       </pre>
       {status && (
-        <p className="mt-1 text-[11px] leading-relaxed text-faint">{status.path}</p>
+        <p className="mt-1 text-[11px] leading-relaxed text-faint">
+          {status.path}
+          {status.aliasPath && ' · also akg'}
+        </p>
       )}
     </SettingCard>
   );

@@ -18,6 +18,8 @@ static PENDING: Mutex<Option<CliRequest>> = Mutex::new(None);
 #[serde(rename_all = "camelCase")]
 pub struct CliToolStatus {
     pub path: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub alias_path: Option<String>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize)]
@@ -165,7 +167,10 @@ pub fn install() -> AppResult<CliToolStatus> {
         }
         let dest = dir.join(shim_name());
         match write_shim(&dest, &body) {
-            Ok(()) => return Ok(status_of(&dest)),
+            Ok(()) => {
+                let _ = write_alias(&dest, &body);
+                return Ok(status_of(&dest));
+            }
             Err(error) => last_err = Some(error),
         }
     }
@@ -176,6 +181,10 @@ pub fn install() -> AppResult<CliToolStatus> {
 
 pub fn uninstall() -> AppResult<()> {
     if let Some(path) = find_shim() {
+        let alias = alias_path_of(&path);
+        if is_our_shim(&alias) {
+            std::fs::remove_file(&alias)?;
+        }
         std::fs::remove_file(path)?;
     }
     Ok(())
@@ -202,8 +211,30 @@ fn write_shim(dest: &Path, body: &str) -> std::io::Result<()> {
 }
 
 fn status_of(path: &Path) -> CliToolStatus {
+    let alias = alias_path_of(path);
     CliToolStatus {
         path: path.to_string_lossy().into_owned(),
+        alias_path: is_our_shim(&alias).then(|| alias.to_string_lossy().into_owned()),
+    }
+}
+
+fn alias_path_of(shim: &Path) -> PathBuf {
+    shim.with_file_name(alias_name())
+}
+
+fn write_alias(shim: &Path, body: &str) -> std::io::Result<()> {
+    let alias = alias_path_of(shim);
+    if alias.symlink_metadata().is_ok() {
+        std::fs::remove_file(&alias)?;
+    }
+    #[cfg(unix)]
+    {
+        let _ = body;
+        std::os::unix::fs::symlink(shim_name(), &alias)
+    }
+    #[cfg(not(unix))]
+    {
+        write_shim(&alias, body)
     }
 }
 
@@ -212,6 +243,14 @@ fn shim_name() -> &'static str {
         "angkorgit.cmd"
     } else {
         "angkorgit"
+    }
+}
+
+fn alias_name() -> &'static str {
+    if cfg!(windows) {
+        "akg.cmd"
+    } else {
+        "akg"
     }
 }
 
@@ -429,6 +468,28 @@ mod tests {
         assert!(body.contains("abs=$(resolve \"$2\") || exit 1"));
         assert!(!body.contains("launch_open \"$(resolve"));
         assert_eq!(HELP.lines().next(), Some("Usage:"));
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn alias_is_a_symlink_next_to_the_shim_and_uninstall_takes_both() {
+        let dir = std::env::temp_dir().join(format!("angkorgit-cli-alias-{}", std::process::id()));
+        std::fs::create_dir_all(&dir).unwrap();
+        let shim = dir.join(shim_name());
+        let body = unix_shim(Path::new("/Applications/AngKorGit.app"), "app");
+        write_shim(&shim, &body).unwrap();
+        assert_eq!(status_of(&shim).alias_path, None);
+        write_alias(&shim, &body).unwrap();
+        let alias = dir.join("akg");
+        assert_eq!(std::fs::read_link(&alias).unwrap(), Path::new("angkorgit"));
+        assert!(is_our_shim(&alias));
+        assert_eq!(
+            status_of(&shim).alias_path.as_deref(),
+            Some(alias.to_string_lossy().as_ref())
+        );
+        write_alias(&shim, &body).unwrap();
+        assert!(alias.symlink_metadata().is_ok());
+        std::fs::remove_dir_all(&dir).unwrap();
     }
 
     #[cfg(unix)]

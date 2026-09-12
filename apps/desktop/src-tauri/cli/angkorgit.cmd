@@ -73,6 +73,8 @@ echo   angkorgit open [path]                Open the provided path
 echo   angkorgit clone [-b branch] ^<url^>    Clone the repository by url or owner/repo
 echo                                        ^(ex torvalds/linux^), optionally checking out
 echo                                        the branch
+echo.
+echo akg is a short alias for angkorgit
 exit /b 0
 
 :help_err
@@ -82,4 +84,6 @@ echo   angkorgit open [path]                Open the provided path
 echo   angkorgit clone [-b branch] ^<url^>    Clone the repository by url or owner/repo
 echo                                        ^(ex torvalds/linux^), optionally checking out
 echo                                        the branch
+echo.
+echo akg is a short alias for angkorgit
 exit /b 1

@@ -4,3 +4,5 @@ Usage:
   angkorgit clone [-b branch] <url>    Clone the repository by url or owner/repo
                                        (ex torvalds/linux), optionally checking out
                                        the branch
+
+akg is a short alias for angkorgit
