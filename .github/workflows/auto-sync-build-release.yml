@@ -25,7 +25,7 @@ jobs:
   auto-sync-localize-build-release:
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
           fetch-tags: true
@@ -146,11 +146,11 @@ jobs:
           git push origin main 2>&1 | Select-Object -Last 1
         working-directory: apps/desktop/src-tauri
 
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v5
         if: steps.check.outputs.HAS_UPDATE == 'true'
         with:
           version: 10.32.1
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         if: steps.check.outputs.HAS_UPDATE == 'true'
         with:
           node-version: 22
