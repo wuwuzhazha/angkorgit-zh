@@ -48,7 +48,7 @@ fn stash_paths(
     let repo = super::repo::open(path)?;
     let workdir = repo
         .workdir()
-        .ok_or_else(|| AppError::other("cannot stash in a 裸仓库"))?
+        .ok_or_else(|| AppError::other("无法在裸仓库中暂存"))?
         .to_path_buf();
     let sig = repo.signature()?;
     let head = repo.head()?.peel_to_commit()?;
@@ -257,7 +257,7 @@ fn dirty_index_refusal(error: &git2::Error) -> bool {
 fn stash_via_cli(repo: &Repository, verb: &str, index: usize) -> AppResult<()> {
     let workdir = repo
         .workdir()
-        .ok_or_else(|| AppError::other("cannot apply a stash in a 裸仓库"))?;
+        .ok_or_else(|| AppError::other("无法在裸仓库中应用暂存"))?;
     let output = crate::proc::hidden("git")
         .args(["stash", verb, "--quiet", &format!("stash@{{{index}}}")])
         .current_dir(workdir)
@@ -339,7 +339,7 @@ pub fn stash_restore_files(path: &str, index: usize, paths: &[String]) -> AppRes
     let oid = stash_oid(&mut repo, index)?;
     let workdir = repo
         .workdir()
-        .ok_or_else(|| AppError::other("cannot restore into a 裸仓库"))?
+        .ok_or_else(|| AppError::other("无法在裸仓库中恢复文件"))?
         .to_path_buf();
     let stash = repo.find_commit(oid)?;
     let stashed = stash.tree()?;

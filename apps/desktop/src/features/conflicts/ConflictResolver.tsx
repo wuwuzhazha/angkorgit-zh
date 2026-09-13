@@ -1148,7 +1148,7 @@ export function ConflictResolver({ file, onResolved }: { file: string; onResolve
         </div>
         {conflicts.length > 1 && fileIndex >= 0 && (
           <span className="flex shrink-0 items-center gap-0.5 rounded-md border border-border-subtle bg-surface-raised/60 px-1">
-            <Hint label="上一个冲突ed file">
+            <Hint label="上一个有冲突的文件">
               <Button
                 variant="ghost"
                 size="icon-sm"
@@ -1162,7 +1162,7 @@ export function ConflictResolver({ file, onResolved }: { file: string; onResolve
             <span className="whitespace-nowrap px-1 text-[10px] font-medium tabular-nums text-muted">
               File {fileIndex + 1} of {conflicts.length}
             </span>
-            <Hint label="下一个冲突ed file">
+            <Hint label="下一个有冲突的文件">
               <Button
                 variant="ghost"
                 size="icon-sm"

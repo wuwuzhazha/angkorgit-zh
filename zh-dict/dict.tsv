@@ -90,7 +90,9 @@ ui	Replace hand edits?	替换手工编辑？
 ui,docs	Explaining conflict…	正在解释冲突…
 ui	Stop explaining	停止解释
 ui	Dismiss	关闭	'Dismiss'
+ui	Previous conflicted file	上一个有冲突的文件
 ui	Previous conflict	上一个冲突
+ui	Next conflicted file	下一个有冲突的文件
 ui,e2e	Next conflict	下一个冲突
 ui	(no lines — deletes this section)	（无行——删除此部分）
 ui	${file} resolved	${file} 已解决
@@ -201,6 +203,9 @@ ui	Use for this repo	用于此仓库
 ui	Use as global identity	用作全局身份
 ui	Provider, connection and message style	提供方、连接与消息风格
 ui	Auto fetch, pull requests, identity and profiles	自动拉取、拉取请求、身份与配置
+ui	Auto fetch is off in Settings → Git.	自动拉取已在设置 → Git 中关闭。
+ui	Auto fetch, pull requests, command line, identity and profiles	自动拉取、拉取请求、命令行、身份与配置
+ui	https:// remotes use accounts · git@ remotes use SSH keys	https:// 远端使用账户 · git@ 远端使用 SSH 密钥
 ui	Auto fetch	自动拉取
 ui	Minimize animations across the app	减少整个应用中的动画
 ui,docs	Reduce motion	减少动效
@@ -275,6 +280,7 @@ ui	Nothing to redo	无可重做
 ui	Open a Git repository	打开 Git 仓库
 ui	Open repository…	打开仓库…
 ui	Clone repository…	克隆仓库…
+ui	Open repository in ${editor.label}	在 ${editor.label} 中打开仓库
 ui	Open repository	打开仓库
 ui	Clone repository	克隆仓库
 ui	Browse for a local folder	浏览本地文件夹
@@ -390,6 +396,8 @@ ui	<figcaption className="mt-2 text-xs text-danger">Before</figcaption>	<figcapt
 ui	<figcaption className="mt-2 text-xs text-success">After</figcaption>	<figcaption className="mt-2 text-xs text-success">变更后</figcaption>
 ui	Image contents unavailable	图片内容不可用
 ui	Binary file — no text diff	二进制文件——无文本 diff
+ui	No changes for this file in that commit (it may have been renamed).	此文件在该提交中没有更改（可能已被重命名）。
+ui	No uncommitted changes to this file.	此文件没有未提交的更改。
 ui	No changes	无更改
 ui	label: 'modified'	label: '已修改'
 ui	label: 'added'	label: '新增'
@@ -439,7 +447,6 @@ ui	Toggle line wrapping	切换自动换行
 ui	Show whole file	显示整个文件
 ui	Whole file shown — click for changes only	已显示整个文件——点击仅显示更改
 ui	Toggle whole file view	切换整文件视图
-ui	No changes for this file in that commit (it may have been renamed).	该提交中没有此文件的更改（它可能已被重命名）。
 ui	Select a commit to see its changes.	选择一个提交以查看其更改。
 ui,e2e	Close file history	关闭文件历史
 ui	History of ${file}	${file} 的历史
@@ -739,6 +746,9 @@ rust	delta out of range	增量超出范围
 rust	resize failed: {e}	调整大小失败：{e}
 rust	Merged {branch}	已合并 {branch}
 rust	Rebase complete	变基完成
+rust	cannot stash in a bare repository	无法在裸仓库中暂存
+rust	cannot apply a stash in a bare repository	无法在裸仓库中应用暂存
+rust	cannot restore into a bare repository	无法在裸仓库中恢复文件
 rust	bare repository	裸仓库
 rust	read src dir	读取 src 目录
 rust	Reverted {}	已还原 {}

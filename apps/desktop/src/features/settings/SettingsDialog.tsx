@@ -82,8 +82,8 @@ const SECTIONS: Array<{
   icon: React.ComponentType<{ className?: string }>;
 }> = [
   { id: 'appearance', label: '外观', description: '主题、强调色、缩放与动效', icon: Palette },
-  { id: 'git', label: 'Git', description: '自动拉取, pull requests, command line, identity and profiles', icon: User },
-  { id: 'accounts', label: 'Authentication', description: 'https:// remotes use accounts · git@ remotes use SSH keys', icon: Github },
+  { id: 'git', label: 'Git', description: '自动拉取、拉取请求、命令行、身份与配置', icon: User },
+  { id: 'accounts', label: 'Authentication', description: 'https:// 远端使用账户 · git@ 远端使用 SSH 密钥', icon: Github },
   { id: 'ai', label: 'AI 助手', description: '提供方、连接与消息风格', icon: Sparkles },
   { id: 'shortcuts', label: '快捷键', description: '键盘参考', icon: Keyboard },
 ];

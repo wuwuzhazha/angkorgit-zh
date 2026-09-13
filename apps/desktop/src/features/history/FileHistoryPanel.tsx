@@ -475,9 +475,9 @@ export function FileHistoryPanel({ file }: { file: string }) {
             ) : (
               <p className="py-16 text-center text-sm text-faint">
                 {selected === WORKING_COPY
-                  ? 'No uncommitted changes to this file.'
+                  ? '此文件没有未提交的更改。'
                   : selected
-                    ? '无更改 for this file in that commit (it may have been renamed).'
+                    ? '此文件在该提交中没有更改（可能已被重命名）。'
                     : '选择一个提交以查看其更改。'}
               </p>
             )}

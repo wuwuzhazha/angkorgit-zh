@@ -162,7 +162,7 @@ export function CommitGraph() {
         handler: () => {
           const ui = useUi.getState();
           if (ui.centerDiff || ui.centerEditor || ui.centerFileHistory || ui.paletteOpen || ui.dialog || ui.conflictFile) return;
-          ui.focusInspector();
+          ui.focusInspector(useGraph.getState().selectedOid);
         },
       },
       {

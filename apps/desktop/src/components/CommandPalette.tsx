@@ -547,7 +547,7 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
           {repo && editor && (
             <PaletteItem
               icon={<Code />}
-              label={`打开仓库 in ${editor.label}`}
+              label={`在 ${editor.label} 中打开仓库`}
               onSelect={() => {
                 close();
                 void openInEditor(editor.id, repo.path);

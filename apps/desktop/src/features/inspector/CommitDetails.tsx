@@ -243,12 +243,15 @@ export function CommitDetails({
   const wantFirstFile = useRef(false);
   useEffect(() => {
     if (inspectorFocusSeq === focusRequests.inspectorConsumed) return;
+    if (focusRequests.inspectorTarget !== commit.oid) return;
+    const el = filesRef.current;
+    if (!el) return;
     focusRequests.inspectorConsumed = inspectorFocusSeq;
-    filesRef.current?.focus();
+    el.focus();
     if (activeIndex >= 0) return;
     if (!loading && shownDiffs.length > 0) openFileAt(0);
     else wantFirstFile.current = true;
-  }, [inspectorFocusSeq, activeIndex, loading, shownDiffs, openFileAt]);
+  }, [inspectorFocusSeq, commit.oid, activeIndex, loading, shownDiffs, openFileAt]);
   useEffect(() => {
     if (!wantFirstFile.current || loading || shownDiffs.length === 0) return;
     wantFirstFile.current = false;

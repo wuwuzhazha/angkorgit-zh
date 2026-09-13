@@ -728,8 +728,11 @@ export function WorkingCopyPanel() {
   const inspectorFocusSeq = useUi((s) => s.inspectorFocusSeq);
   useEffect(() => {
     if (inspectorFocusSeq === focusRequests.inspectorConsumed) return;
+    if (focusRequests.inspectorTarget !== null) return;
+    const el = listScrollRef.current;
+    if (!el) return;
     focusRequests.inspectorConsumed = inspectorFocusSeq;
-    listScrollRef.current?.focus();
+    el.focus();
     if (!useUi.getState().selectedFile && visibleOrder[0]) showDiff(visibleOrder[0].file, visibleOrder[0].staged);
   }, [inspectorFocusSeq, visibleOrder, showDiff]);
 

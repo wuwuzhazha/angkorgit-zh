@@ -139,13 +139,13 @@ interface UiState {
   setGraphTail: (on: boolean) => void;
   setFileTree: (on: boolean) => void;
   setFileFilterOpen: (on: boolean) => void;
-  focusInspector: () => void;
+  focusInspector: (target: string | null) => void;
   focusGraph: () => void;
 }
 
 export const sidebarVisible = (s: UiState) => s.sidebarOpen && !s.sidebarHiddenForDiff;
 
-export const focusRequests = { inspectorConsumed: 0 };
+export const focusRequests = { inspectorConsumed: 0, inspectorTarget: null as string | null };
 
 let dialogReturnFocus: HTMLElement | null = null;
 
@@ -269,7 +269,10 @@ export const useUi = create<UiState>()(
     set((s) => ({ graphColumns: { ...s.graphColumns, [column]: on } })),
   setGraphTail: (graphTail) => set({ graphTail }),
   setFileTree: (fileTree) => set({ fileTree }),
-  focusInspector: () => set((s) => ({ inspectorFocusSeq: s.inspectorFocusSeq + 1 })),
+  focusInspector: (target) => {
+    focusRequests.inspectorTarget = target;
+    set((s) => ({ inspectorFocusSeq: s.inspectorFocusSeq + 1 }));
+  },
   focusGraph: () => set((s) => ({ graphFocusSeq: s.graphFocusSeq + 1 })),
   setFileFilterOpen: (fileFilterOpen) =>
     set((s) => ({ fileFilterOpen, fileFilterFocusSeq: fileFilterOpen ? s.fileFilterFocusSeq + 1 : s.fileFilterFocusSeq })),
