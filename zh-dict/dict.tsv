@@ -212,9 +212,9 @@ ui	AI Assistant	AI 助手
 ui	Shortcuts	快捷键	label: 'Shortcuts'
 ui	Keyboard shortcuts	键盘快捷键
 ui	Keyboard reference	键盘参考
-ui	Command palette	命令面板
+ui,e2e	Command palette	命令面板
 ui,docs,website	File history…	文件历史…
-ui,website	File history	文件历史
+ui,website,e2e	File history	文件历史
 ui	Search a file to see who changed it…	搜索文件查看修改人…
 ui,e2e	Type a command or branch name…	输入命令或分支名…
 ui,website,e2e	Search commits…	搜索提交…
@@ -237,7 +237,7 @@ ui	Worktrees	工作树	"Worktrees"
 ui	Remotes	远端	"Remotes"
 ui	Stashes	暂存列表	"Stashes"
 ui	Submodules	子模块	"Submodules"
-ui	Filter refs…	过滤引用…
+ui,e2e	Filter refs…	过滤引用…
 ui,e2e	Collapse all sections	折叠全部分区
 ui,e2e	Expand all folders	展开全部文件夹
 ui,e2e	Collapse all folders	折叠全部文件夹
@@ -282,6 +282,7 @@ ui	From a remote URL	从远端 URL 克隆
 ui	No repositories match “{query.trim()}”.	未找到匹配“{query.trim()}”的仓库。
 ui	Remove from recents	从最近列表中移除
 ui	Copy path	复制路径	<Copy /> Copy path
+e2e	Copy path	复制路径
 ui	<FolderGit2 /> Open	<FolderGit2 /> 打开
 ui	/> Open	/> 打开
 ui	/> Clone	/> 克隆
@@ -427,7 +428,7 @@ ui	Amend commit	修订提交
 ui	Commit amended	已修订提交
 ui,e2e	Resize commit box	调整提交框大小
 ui	Drag to resize · double-click to reset	拖动调整大小 · 双击重置
-ui	Inline diff	内联 diff
+ui,e2e	Inline diff	内联 diff
 ui	Side-by-side diff	并排 diff
 ui	Word diff on	词级 diff 开
 ui	Word diff off	词级 diff 关
@@ -440,7 +441,7 @@ ui	Whole file shown — click for changes only	已显示整个文件——点击
 ui	Toggle whole file view	切换整文件视图
 ui	No changes for this file in that commit (it may have been renamed).	该提交中没有此文件的更改（它可能已被重命名）。
 ui	Select a commit to see its changes.	选择一个提交以查看其更改。
-ui	Close file history	关闭文件历史
+ui,e2e	Close file history	关闭文件历史
 ui	History of ${file}	${file} 的历史
 ui	Show less	收起
 ui,docs	Show full message	显示完整消息
@@ -591,13 +592,14 @@ ui	each new message	每条新消息
 ui	Previous change	上一个更改
 ui	Drag to reorder	拖动以重新排序
 ui	the new message	这条新消息
-ui	Paste the token	粘贴令牌
+ui,e2e	Paste the token	粘贴令牌
 ui	Prune worktrees	清理工作树
 ui	Choose a branch	选择分支
 ui,docs,e2e	folder missing	文件夹缺失
 ui	Hunk operation	代码块操作
 ui	Next match (↩)	下一个匹配 (↩)
 ui	Previous match	上一个匹配	aria-label="Previous match"
+e2e	Previous match	上一个匹配
 ui	request failed	请求失败
 ui	Remove account	移除账户
 ui	Previous file	上一个文件
@@ -885,6 +887,7 @@ website	Starts from main.	从 main 开始。
 website	Folder	文件夹	>Folder<
 website	Created next to the repository by default. The folder must not exist yet.	默认创建在仓库旁边；该文件夹必须尚不存在。
 website	Cancel	取消	>Cancel<
+e2e	Cancel	取消
 website	Create worktree	创建工作树
 website	AI, optional	AI，可选
 website	Uses the AI you <em>already</em> have.	使用你<em>已有</em>的 AI。

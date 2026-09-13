@@ -59,9 +59,7 @@ fn bound_username(repo_path: Option<&str>, host: &str) -> Option<String> {
 
 fn missing_account_message(host: &str, has_metadata: bool) -> String {
     if has_metadata {
-        format!(
-            "the token for {host} is missing from the system keychain — reconnect the account in Settings → Authentication"
-        )
+        format!("{host} 的令牌已从系统密钥链中缺失——请在“设置 → 身份验证”中重新连接该账户")
     } else {
         format!("没有已连接的 {host} 账户——请在“设置 → 身份验证”中连接")
     }
@@ -107,10 +105,10 @@ mod tests {
     #[test]
     fn missing_token_is_reported_differently_from_no_account() {
         let missing = missing_account_message("gitlab.com", true);
-        assert!(missing.contains("missing from the system keychain"));
-        assert!(missing.contains("reconnect"));
+        assert!(missing.contains("系统密钥链"));
+        assert!(missing.contains("重新连接"));
         let none = missing_account_message("gitlab.com", false);
-        assert!(none.starts_with("no connected gitlab.com account"));
+        assert!(none.starts_with("没有已连接的 gitlab.com 账户"));
     }
 
     #[test]

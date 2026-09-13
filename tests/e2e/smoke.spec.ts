@@ -42,7 +42,7 @@ test('commit search finds matches in the full graph and steps through them', asy
   await expect(page.locator('[data-search-match]').first()).toBeVisible();
   await search.press('Enter');
   await expect(page.getByText(/^2 of \d+$/)).toBeVisible();
-  await page.getByLabel('Previous match').click();
+  await page.getByLabel('上一个匹配').click();
   await expect(page.getByText(/^1 of \d+$/)).toBeVisible();
   await page.getByText('fix(diff): handle renamed files in word diff').first().click();
   await expect(search).toHaveValue('virtualize');
@@ -72,14 +72,14 @@ test('reconnecting an account opens the token form with the account prefilled', 
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
   await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
-  await page.getByRole('button', { name: 'Settings', exact: true }).click();
+  await page.getByRole('button', { name: '设置', exact: true }).click();
   const dialog = page.getByRole('dialog');
   await dialog.getByRole('button', { name: 'Authentication', exact: true }).click();
   await expect(dialog.getByText('demo-user', { exact: true })).toBeVisible();
-  await expect(dialog.getByPlaceholder('Paste the token')).toBeHidden();
-  await dialog.getByRole('button', { name: 'demo-user on github.com actions' }).click();
+  await expect(dialog.getByPlaceholder('粘贴令牌')).toBeHidden();
+  await dialog.getByRole('button', { name: 'demo-user 在 github.com 上的操作' }).click();
   await page.getByRole('menuitem', { name: /Reconnect with a new token/ }).click();
-  const token = dialog.getByPlaceholder('Paste the token');
+  const token = dialog.getByPlaceholder('粘贴令牌');
   await expect(token).toBeVisible();
   await expect(token).toBeFocused();
   await expect
@@ -92,8 +92,8 @@ test('a file history row can open the full commit in the graph', async ({ page }
   await page.getByText('angkorgit', { exact: true }).first().click();
   await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   await page.getByText('CommitGraph.tsx').first().click();
-  await page.locator('section[aria-label^="文件差异："]').getByRole('button', { name: 'File history' }).click();
-  const history = page.locator('section[aria-label^="History of"]');
+  await page.locator('section[aria-label^="文件差异："]').getByRole('button', { name: '文件历史' }).click();
+  const history = page.locator('section[aria-label$="的历史"]');
   await expect(history).toBeVisible();
   const firstRow = history.getByRole('button', { name: /^Open commit [0-9a-f]+$/ }).first();
   await firstRow.focus();
@@ -102,8 +102,8 @@ test('a file history row can open the full commit in the graph', async ({ page }
   await firstRow.click();
   await expect(history).toBeHidden();
   await expect(page.getByPlaceholder('搜索提交…')).toBeVisible();
-  const inspector = page.getByLabel('Inspector');
-  await expect(inspector.getByText('Commit', { exact: true })).toBeVisible();
+  const inspector = page.getByLabel('检查器');
+  await expect(inspector.getByText('提交', { exact: true })).toBeVisible();
   await expect(inspector.getByText(new RegExp(`^${short}`)).first()).toBeVisible();
   await expect(page.locator('[role="row"][aria-selected="true"]')).toContainText(short.slice(0, 7));
 });
@@ -195,21 +195,21 @@ test('the resolver picks with the keyboard and opens the next conflicted file af
   await page.getByText('angkorgit', { exact: true }).first().click();
   await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   await page.getByRole('button', { name: /laneColors\.ts/ }).first().click();
-  await expect(page.getByText('0 of 3 resolved')).toBeVisible();
+  await expect(page.getByText('0 / 3 已解决')).toBeVisible();
   await expect(page.getByText('File 2 of 2')).toBeVisible();
   await page.keyboard.press('a');
-  await expect(page.getByText('1 of 3 resolved')).toBeVisible();
+  await expect(page.getByText('1 / 3 已解决')).toBeVisible();
   await page.keyboard.press('ArrowDown');
-  await expect(page.getByText('Conflict 2 of 3')).toBeVisible();
+  await expect(page.getByText('冲突 2 / 3')).toBeVisible();
   await page.keyboard.press('b');
   await page.keyboard.press('ArrowDown');
   await page.keyboard.press('b');
-  await expect(page.getByText('3 of 3 resolved')).toBeVisible();
+  await expect(page.getByText('3 / 3 已解决')).toBeVisible();
   await expect(page.getByText('(section deleted)')).toBeVisible();
   await page.keyboard.press('ControlOrMeta+Enter');
   await expect(page.getByText('laneColors.ts resolved')).toBeVisible();
   await expect(page.getByText('1 more file to resolve')).toBeVisible();
-  await expect(page.getByRole('dialog', { name: /Resolve conflicts in src\/features\/graph\/drawGraph\.ts/ })).toBeVisible();
+  await expect(page.getByRole('dialog', { name: /解决冲突：src\/features\/graph\/drawGraph\.ts/ })).toBeVisible();
   await expect(page.getByText('File 1 of 2')).toBeHidden();
 });
 
@@ -231,7 +231,7 @@ test('leaving a conflict with picks asks first while a clean resolver closes on 
   await confirm.getByRole('button', { name: '取消' }).click();
   await expect(confirm).toBeHidden();
   await expect(page.getByText('1 / 1 已解决')).toBeVisible();
-  await resolver.getByRole('button', { name: 'Close', exact: true }).click();
+  await resolver.getByRole('button', { name: '关闭', exact: true }).click();
   await expect(confirm).toBeVisible();
   await confirm.getByRole('button', { name: 'Leave' }).click();
   await expect(resolver).toBeHidden();
@@ -651,7 +651,7 @@ test('multi-line comments in a diff stay highlighted as comments', async ({ page
   await page.getByText('CommitGraph.tsx').first().click();
   const inner = page
     .locator('section[aria-label^="文件差异："] span.font-mono')
-    .filter({ hasText: '虚拟化行让大型提交图保持流畅' })
+    .filter({ hasText: 'Virtualized rows keep large graphs smooth for every export and import.' })
     .first();
   await expect(inner).toBeVisible();
   const html = await inner.evaluate((el) => el.innerHTML);
@@ -726,14 +726,14 @@ test('the inspector stops at its minimum width when dragged and comes back after
   await page.mouse.up();
   const minimum = await widthOf();
   expect(minimum).toBeGreaterThan(200);
-  await expect(page.getByLabel('Inspector')).toBeVisible();
+  await expect(page.getByLabel('检查器')).toBeVisible();
   await expect(page.getByText('ipc.ts', { exact: true }).first()).toBeVisible();
 
   await page.getByText('CommitGraph.tsx').first().click();
-  await page.locator('section[aria-label^="文件差异："]').getByRole('button', { name: 'File history' }).click();
-  await expect(page.locator('section[aria-label^="History of"]')).toBeVisible();
+  await page.locator('section[aria-label^="文件差异："]').getByRole('button', { name: '文件历史' }).click();
+  await expect(page.locator('section[aria-label$="的历史"]')).toBeVisible();
   await expect.poll(widthOf).toBeLessThan(2);
-  await page.getByRole('button', { name: 'Close file history' }).click();
+  await page.getByRole('button', { name: '关闭文件历史' }).click();
   await expect(page.getByPlaceholder('搜索提交…')).toBeVisible();
   await expect.poll(async () => Math.abs((await widthOf()) - minimum)).toBeLessThan(2);
 });
@@ -744,7 +744,7 @@ test('dragging the sidebar shut and back open shows its content again', async ({
   await page.getByText('angkorgit', { exact: true }).first().click();
   await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   const sidebar = page.locator('[data-panel-id="sidebar"]');
-  const filter = page.getByPlaceholder('Filter refs…');
+  const filter = page.getByPlaceholder('过滤引用…');
   await expect(filter).toBeVisible();
   const handle = page.locator('[data-panel-resize-handle-id]').first();
   const grip = await handle.boundingBox();
@@ -758,7 +758,7 @@ test('dragging the sidebar shut and back open shows its content again', async ({
   await page.mouse.up();
   await expect(filter).toBeVisible();
   expect((await sidebar.boundingBox())?.width ?? 0).toBeGreaterThan(200);
-  await expect(page.getByRole('button', { name: /^分支/ })).toBeVisible();
+  await expect(page.getByRole('button', { name: /^分支 \d/ })).toBeVisible();
 });
 
 test('提交框将摘要行与较小的描述分隔开', async ({ page }) => {
@@ -982,8 +982,8 @@ test('a separated origin chip offers the reset from its right-click menu too', a
   await page.getByTitle(/origin\/main — double-click to reset main to it/).first().click({ button: 'right' });
   await page.getByRole('menuitem', { name: 'Reset main to this…' }).click();
   const dialog = page.getByRole('dialog');
-  await expect(dialog.getByText('Reset branch to its remote?')).toBeVisible();
-  await dialog.getByRole('button', { name: 'Cancel' }).click();
+  await expect(dialog.getByText('将分支重置到其远端？')).toBeVisible();
+  await dialog.getByRole('button', { name: '取消' }).click();
   await expect(dialog).toBeHidden();
 });
 
@@ -992,21 +992,21 @@ test('arrow keys move the working copy diff from file to file', async ({ page })
   await page.getByText('angkorgit', { exact: true }).first().click();
   await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   await page.getByText('ipc.ts', { exact: true }).first().click();
-  await expect(page.locator('section[aria-label="文件差异： src/core/ipc.ts"]')).toBeVisible();
+  await expect(page.locator('section[aria-label="文件差异：src/core/ipc.ts"]')).toBeVisible();
   await page.keyboard.press('ArrowDown');
-  await expect(page.locator('section[aria-label="文件差异： src/data/palette-seed.sql"]')).toBeVisible();
+  await expect(page.locator('section[aria-label="文件差异：src/data/palette-seed.sql"]')).toBeVisible();
   await page.keyboard.press('ArrowDown');
-  await expect(page.locator('section[aria-label="文件差异： docs/Architecture.md"]')).toBeVisible();
+  await expect(page.locator('section[aria-label="文件差异：docs/Architecture.md"]')).toBeVisible();
   await page.keyboard.press('ArrowUp');
-  await expect(page.locator('section[aria-label="文件差异： src/data/palette-seed.sql"]')).toBeVisible();
+  await expect(page.locator('section[aria-label="文件差异：src/data/palette-seed.sql"]')).toBeVisible();
 });
 
 test('the checked-out branch chip is filled while other local chips stay tinted', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
   await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
-  const headChip = page.getByTitle(/^main · 本地/).first();
-  const otherChip = page.getByTitle(/^feature\/diff-viewer · 本地/).first();
+  const headChip = page.getByTitle(/^main · local/).first();
+  const otherChip = page.getByTitle(/^feature\/diff-viewer · local/).first();
   const opacity = (color: string) => Number(color.split(',')[3]?.replace(')', '') ?? '1');
   const headBg = await headChip.evaluate((el) => getComputedStyle(el).backgroundColor);
   const otherBg = await otherChip.evaluate((el) => getComputedStyle(el).backgroundColor);
@@ -1019,7 +1019,7 @@ test('double-clicking a separated origin chip offers to reset the local branch',
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
   await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
-  await page.getByTitle(/origin\/main——双击将其重置到 main/).first().dblclick();
+  await page.getByTitle(/origin\/main — double-click to reset main to it/).first().dblclick();
   const dialog = page.getByRole('dialog');
   await expect(dialog.getByText('将分支重置到其远端？')).toBeVisible();
   await expect(dialog.getByText(/2 个提交仅存在于本地分支，将被丢弃/)).toBeVisible();
@@ -1145,12 +1145,12 @@ test('right-clicking a commit file offers the working copy file actions', async 
   await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   await page.getByText('feat(graph): virtualize commit rows').first().click();
 
-  const inspector = page.getByRole('complementary', { name: 'Inspector' });
+  const inspector = page.getByRole('complementary', { name: '检查器' });
   await inspector.getByText('GraphRow.tsx', { exact: true }).click({ button: 'right' });
   const menu = page.getByRole('menu');
-  await expect(menu.getByRole('menuitem', { name: 'File history' })).toBeVisible();
-  await expect(menu.getByRole('menuitem', { name: /Show in (Finder|file manager)/ })).toBeVisible();
-  await expect(menu.getByRole('menuitem', { name: 'Copy path' })).toBeVisible();
+  await expect(menu.getByRole('menuitem', { name: '文件历史' })).toBeVisible();
+  await expect(menu.getByRole('menuitem', { name: /Show in Finder|在文件管理器中显示/ })).toBeVisible();
+  await expect(menu.getByRole('menuitem', { name: '复制路径' })).toBeVisible();
   await expect(menu.getByRole('menuitem', { name: 'Copy absolute path' })).toBeVisible();
   await expect(menu.getByRole('menuitem', { name: /Apply this file/ })).toHaveCount(0);
   await page.keyboard.press('Escape');
@@ -1269,7 +1269,7 @@ test('arrow keys walk from the graph into a commit\u2019s files and back', async
 test('settings can install the command line tool', async ({ page }) => {
   await page.goto('/');
   await expect(page.getByText('最近仓库')).toBeVisible({ timeout: 10_000 });
-  await page.getByRole('button', { name: 'Settings', exact: true }).click();
+  await page.getByRole('button', { name: '设置', exact: true }).click();
   const dialog = page.getByRole('dialog');
   await dialog.getByRole('button', { name: 'Git', exact: true }).click();
   await expect(dialog.getByText('Command line tool')).toBeVisible();
@@ -1286,7 +1286,7 @@ test('settings lists detected editors and the toolbar opens in the chosen one', 
   await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   await expect(page.getByRole('button', { name: 'Open in Visual Studio Code' })).toBeVisible();
 
-  await page.getByRole('button', { name: 'Settings', exact: true }).click();
+  await page.getByRole('button', { name: '设置', exact: true }).click();
   const dialog = page.getByRole('dialog');
   await dialog.getByRole('button', { name: 'Git', exact: true }).click();
   await expect(dialog.getByText('External editor')).toBeVisible();
@@ -1317,7 +1317,7 @@ test('the status bar says when the repository was last fetched', async ({ page }
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
   await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
-  await expect(page.locator('[data-last-fetch]')).toHaveText(/Fetched just now/);
+  await expect(page.locator('[data-last-fetch]')).toHaveText(/Fetched 刚刚/);
 });
 
 test('the diff header opens blame inside file history with authors per hunk', async ({ page }) => {
@@ -1326,7 +1326,7 @@ test('the diff header opens blame inside file history with authors per hunk', as
   await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   await page.getByText('CommitGraph.tsx').first().click();
   await page.locator('section[aria-label^="文件差异："]').getByRole('button', { name: 'Blame' }).click();
-  const history = page.locator('section[aria-label^="History of"]');
+  const history = page.locator('section[aria-label$="的历史"]');
   await expect(history).toBeVisible();
   await expect(history.getByRole('button', { name: 'Blame view' })).toHaveAttribute('aria-pressed', 'true');
   await expect(history.locator('[data-working-copy-row]')).toHaveClass(/border-l-primary/);
@@ -1347,7 +1347,7 @@ test('the diff header opens blame inside file history with authors per hunk', as
 
   await history.getByRole('button', { name: 'Diff view' }).click();
   await expect(history.locator('[data-blame-pane]')).toHaveCount(0);
-  await expect(history.getByRole('button', { name: 'Inline diff' })).toBeVisible();
+  await expect(history.getByRole('button', { name: '内联 diff' })).toBeVisible();
 
   await page.keyboard.press('Escape');
   await expect(history).toBeHidden();
@@ -1358,14 +1358,14 @@ test('the palette offers Blame… and picks a file', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
   await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
-  await page.getByRole('button', { name: 'Command palette' }).click();
+  await page.getByRole('button', { name: '命令面板' }).click();
   await page.getByPlaceholder('输入命令或分支名…').fill('Blame');
   await page.getByText('Blame…', { exact: true }).click();
   const picker = page.getByPlaceholder('Search a file to blame…');
   await expect(picker).toBeVisible();
   await picker.fill('App.tsx');
   await page.getByText('src/app/App.tsx', { exact: true }).click();
-  const history = page.locator('section[aria-label="History of src/app/App.tsx"]');
+  const history = page.locator('section[aria-label="src/app/App.tsx 的历史"]');
   await expect(history).toBeVisible();
   await expect(history.locator('[data-blame-pane] [data-blame-line="1"]')).toBeVisible();
 });
