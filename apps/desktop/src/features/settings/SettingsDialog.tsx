@@ -1358,8 +1358,8 @@ export function SettingsDialog() {
                               <span className="text-danger">无法访问。请检查密钥、URL 或本地服务是否运行。</span>
                             </>
                           )}
-                          {aiStatus === 'untested' && <span className="text-faint">Connection not tested yet</span>}
-                          {aiStatus === 'stale' && <span className="text-faint">Settings changed since the last test</span>}
+                          {aiStatus === 'untested' && <span className="text-faint">连接尚未测试</span>}
+                          {aiStatus === 'stale' && <span className="text-faint">自上次测试后设置已更改</span>}
                         </span>
                         <Button variant="secondary" size="sm" onClick={() => void testAi()} disabled={testing}>
                           {testing ? <Spinner /> : <Wifi className="size-3.5" />}

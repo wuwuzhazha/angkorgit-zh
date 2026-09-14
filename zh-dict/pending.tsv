@@ -113,7 +113,6 @@ e2e	tests/e2e/smoke.spec.ts	Dara Kim
 e2e	tests/e2e/smoke.spec.ts	dialog geometry missing
 e2e	tests/e2e/smoke.spec.ts	Diff view
 e2e	tests/e2e/smoke.spec.ts	dragging the sidebar shut and back open shows its content again
-e2e	tests/e2e/smoke.spec.ts	Editor options
 e2e	tests/e2e/smoke.spec.ts	Explains the why.
 e2e	tests/e2e/smoke.spec.ts	External editor
 e2e	tests/e2e/smoke.spec.ts	feat(graph): virtualize commit rows
@@ -135,11 +134,6 @@ e2e	tests/e2e/smoke.spec.ts	Merge into current branch
 e2e	tests/e2e/smoke.spec.ts	no inspector resize handle
 e2e	tests/e2e/smoke.spec.ts	No matches
 e2e	tests/e2e/smoke.spec.ts	Not committed yet
-e2e	tests/e2e/smoke.spec.ts	Open commit 
-e2e	tests/e2e/smoke.spec.ts	Open in browser
-e2e	tests/e2e/smoke.spec.ts	Open in Visual Studio Code
-e2e	tests/e2e/smoke.spec.ts	Open in Zed
-e2e	tests/e2e/smoke.spec.ts	Open repository in browser
 e2e	tests/e2e/smoke.spec.ts	Pull options
 e2e	tests/e2e/smoke.spec.ts	Pull with merge
 e2e	tests/e2e/smoke.spec.ts	Pull with rebase
@@ -149,12 +143,10 @@ e2e	tests/e2e/smoke.spec.ts	Reset main to this…
 e2e	tests/e2e/smoke.spec.ts	return render(rows, { colors });
 e2e	tests/e2e/smoke.spec.ts	Search a file to blame…
 e2e	tests/e2e/smoke.spec.ts	settings can install the command line tool
-e2e	tests/e2e/smoke.spec.ts	Settings changed since the last test
 e2e	tests/e2e/smoke.spec.ts	settings lists detected editors and the toolbar opens in the chosen one
 e2e	tests/e2e/smoke.spec.ts	src/app/App.tsx
 e2e	tests/e2e/smoke.spec.ts	staged files can be discarded from the row, the menu and the header
 e2e	tests/e2e/smoke.spec.ts	temple gold
-e2e	tests/e2e/smoke.spec.ts	Test connection
 e2e	tests/e2e/smoke.spec.ts	the author box finds commits without flattening the graph
 e2e	tests/e2e/smoke.spec.ts	the commit file list can be filtered by path
 e2e	tests/e2e/smoke.spec.ts	the diff header opens blame inside file history with authors per hunk
@@ -725,14 +717,10 @@ ui	apps/desktop/src/components/CommandPalette.tsx	Install command line tool
 ui	apps/desktop/src/components/CommandPalette.tsx	Pull (rebase)
 ui	apps/desktop/src/components/CommandPalette.tsx	Pull with rebase
 ui	apps/desktop/src/components/CommandPalette.tsx	Search a file to blame…
-ui	apps/desktop/src/components/StatusBar.tsx	No AI provider is set up yet. Click to choose one in Settings.
 ui	apps/desktop/src/components/StatusBar.tsx	Set up AI
 ui	apps/desktop/src/components/Toolbar.tsx	 : ''}
 ui	apps/desktop/src/components/Toolbar.tsx	 : ''} · merge or rebase per pull.rebase
 ui	apps/desktop/src/components/Toolbar.tsx	block truncate
-ui	apps/desktop/src/components/Toolbar.tsx	Editor options
-ui	apps/desktop/src/components/Toolbar.tsx	Open in editor
-ui	apps/desktop/src/components/Toolbar.tsx	Open in editor (none detected, see Settings → Git)
 ui	apps/desktop/src/components/Toolbar.tsx	Pull (merge)
 ui	apps/desktop/src/components/Toolbar.tsx	Pull (rebase)
 ui	apps/desktop/src/components/Toolbar.tsx	Pull options

@@ -1061,3 +1061,9 @@ ui	${aiName} answered the last connection test. Click to open the AI settings.	$
 ui	${aiName} did not answer the last connection test. Click to open the AI settings.	${aiName} 未响应上次连接测试。点击打开 AI 设置。
 ui	The AI settings changed since ${aiName} was last tested. Click to open them and run Test connection again.	自 ${aiName} 上次测试后 AI 设置已更改。点击打开并重新运行测试连接。
 ui	${aiName} is set up. Its connection has not been tested yet — click to open the AI settings and run Test connection.	${aiName} 已设置，但连接尚未测试——点击打开 AI 设置并运行测试连接。
+e2e	Installed AI CLI	已安装 AI CLI
+ui	Reachable	可访问	>Reachable<
+ui	Connection not tested yet	连接尚未测试
+ui	Settings changed since the last test	自上次测试后设置已更改
+e2e	Reachable	可访问	getByText\('Reachable'
+e2e	Settings changed since the last test	自上次测试后设置已更改
