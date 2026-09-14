@@ -36,7 +36,19 @@ jobs:
           cache: pnpm
           cache-dependency-path: pnpm-lock.yaml
       - run: pnpm install --frozen-lockfile
-      - name: 版本号与输入一致
+      - name: 版本号格式与 tag 检查
+        env:
+          VERSION: ${{ inputs.version }}
+        run: |
+          if ! printf '%s' "$VERSION" | grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+$'; then
+            echo "::error::版本号格式应为 x.y.z，当前为 $VERSION"
+            exit 1
+          fi
+          if git ls-remote --tags origin "refs/tags/v$VERSION" | grep -q .; then
+            echo "::error::tag v$VERSION 已存在，请换一个版本号。"
+            exit 1
+          fi
+      - name: 版本号与仓库一致
         env:
           VERSION: ${{ inputs.version }}
         run: |
@@ -46,6 +58,7 @@ jobs:
             exit 1
           fi
       - run: pnpm check:copy
+      - run: pnpm check:dict
       - run: pnpm typecheck
       - run: pnpm test
       - run: pnpm exec playwright install --with-deps chromium

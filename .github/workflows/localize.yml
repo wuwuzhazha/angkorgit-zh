@@ -79,6 +79,11 @@ jobs:
         continue-on-error: true
         run: node scripts/check-copy.mjs > "$RUNNER_TEMP/copycheck.txt" 2>&1
 
+      - name: 词典检查
+        id: dictcheck
+        continue-on-error: true
+        run: node scripts/check-dict.mjs > "$RUNNER_TEMP/dictcheck.txt" 2>&1
+
       - name: 整理待译清单
         id: pending
         run: |
@@ -113,6 +118,12 @@ jobs:
             echo
             echo '```text'
             cat "$RUNNER_TEMP/copycheck.txt"
+            echo '```'
+            echo
+            echo "### 词典检查（\`pnpm check:dict\`）"
+            echo
+            echo '```text'
+            cat "$RUNNER_TEMP/dictcheck.txt"
             echo '```'
             echo
             echo "### 待译/待确认条目：$(cat "$RUNNER_TEMP/pending-count.txt") 条"

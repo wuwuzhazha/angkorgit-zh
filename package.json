@@ -28,6 +28,7 @@
     "test:watch": "vitest",
     "test:e2e": "playwright test -c tests/e2e/playwright.config.ts",
     "check:copy": "node scripts/check-copy.mjs",
+    "check:dict": "node scripts/check-dict.mjs",
     "website": "pnpm --filter @angkorgit/website dev",
     "website:build": "pnpm --filter @angkorgit/website build",
     "website:preview": "pnpm --filter @angkorgit/website preview",

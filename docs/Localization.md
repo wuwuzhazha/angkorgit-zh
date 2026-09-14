@@ -10,7 +10,7 @@
 | --- | --- | --- | --- |
 | `upstream-watch.yml` 上游更新检测 | 每天 01:00 UTC / 手动 | 检测上游新提交，创建（或复用）带 `upstream-sync` 标签的 Issue，并在正文 @ 仓库所有者 | 不写 main、不构建、不发布 |
 | `localize.yml` 同步并汉化（PR） | 手动 | 合并上游 → 恢复自维护文件 → 应用词库 → `check:copy` → 开 PR | 不推 main、不发布 |
-| `ci.yml` | push / PR | `check:copy`、typecheck、单元测试、Playwright、Rust 三平台 | — |
+| `ci.yml` | push / PR | `check:copy`、`check:dict`、typecheck、单元测试、Playwright、Rust 三平台 | — |
 | `release-zh.yml` 发布中文版 | 手动 | 先跑完整测试（含 e2e），再构建 Windows 安装包、签名、生成 `latest.json`、发布 Release | 不改版本号，版本必须已在仓库中 |
 
 ### 通知方式
@@ -19,6 +19,10 @@ Issue 是唯一事实来源：GitHub 会给仓库关注者发送 Issue 邮件通
 Issue 带 `upstream-sync` 标签，同一上游提交不会重复创建。
 
 > 前置条件：仓库必须**启用 Issues**（Settings → Features → Issues）。本仓库已启用。
+
+如需**额外**发一封独立邮件，配置以下 secrets 后自动启用（不配置则跳过该步）：
+`SMTP_SERVER`、`SMTP_PORT`、`SMTP_USERNAME`、`SMTP_PASSWORD`、`MAIL_TO`、`MAIL_FROM`，
+SSL 端口（465）另在仓库 Variables 里设 `SMTP_SECURE=true`。
 
 ## 人工流程
 
@@ -72,6 +76,17 @@ ui	Open repository	打开仓库		whole
 
 允许表在 `scripts/copy-allowlist.json`：`phrases` 放多词专有名词，`words` 放单词技术术语/品牌。
 **只允许真正的专有名词或技术术语**，不要用它掩盖半翻译。
+
+## 词典检查 `scripts/check-dict.mjs`
+
+`pnpm check:dict` 静态校验 `dict.tsv`：
+
+- 字段数、作用域、匹配模式是否合法；
+- 锚点是否为合法正则；
+- **单单词是否缺锚点**（会在同步时直接报错的那条）；
+- 重复词条、译文与源文相同、以及**前缀重叠**提示（不阻塞，已按最长源优先处理）。
+
+CI 与「同步并汉化（PR）」都会跑它，坏词条在 PR 阶段就被拦住。
 
 ## 为什么不自动发布
 
