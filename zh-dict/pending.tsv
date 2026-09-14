@@ -77,6 +77,17 @@ docs	docs/Launch-Checklist.md	%{http_code}\n
 docs	docs/Launch-Checklist.md	apps/website/public/CNAME
 docs	docs/Launch-Checklist.md	apps/website/src/layouts/Base.astro
 docs	docs/Launch-Checklist.md	SITE_BASE=/
+docs	docs/Localization.md	. / _ - :
+docs	docs/Localization.md	'Open repository in browser'
+docs	docs/Localization.md	'Open repository'
+docs	docs/Localization.md	apps/desktop/src
+docs	docs/Localization.md	apps/website/src
+docs	docs/Localization.md	check:copy
+docs	docs/Localization.md	Open repository
+docs	docs/Localization.md	Open repository in browser
+docs	docs/Localization.md	packages/core/src
+docs	docs/Localization.md	pnpm check:copy
+docs	docs/Localization.md	pnpm test:e2e
 docs	docs/Roadmap.md	.angkorgit/review.md
 docs	docs/Roadmap.md	Open in browser
 docs	docs/UI-Guidelines.md	--background
