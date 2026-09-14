@@ -385,7 +385,7 @@ if ($Help) {
 
 $script:effectiveDryRun = -not $Push -and -not $NoDryRun
 
-$logDir = Join-Path $env:TEMP 'angkorgit-zh-sync'
+$logDir = Join-Path ([System.IO.Path]::GetTempPath()) 'angkorgit-zh-sync'
 New-Item -ItemType Directory -Force -Path $logDir | Out-Null
 $script:LogFile = Join-Path $logDir ('sync-localize-' + (Get-Date -Format 'yyyyMMdd-HHmmss') + '.log')
 

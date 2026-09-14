@@ -897,7 +897,7 @@ website	Starts from main.	从 main 开始。
 website	Folder	文件夹	>Folder<
 website	Created next to the repository by default. The folder must not exist yet.	默认创建在仓库旁边；该文件夹必须尚不存在。
 website	Cancel	取消	>Cancel<
-e2e	Cancel	取消
+e2e	Cancel	取消	name: 'Cancel'
 website	Create worktree	创建工作树
 website	AI, optional	AI，可选
 website	Uses the AI you <em>already</em> have.	使用你<em>已有</em>的 AI。
