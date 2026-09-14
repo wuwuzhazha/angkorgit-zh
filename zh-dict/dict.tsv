@@ -1026,7 +1026,6 @@ e2e	conflict resolver picks lines into a clean output	冲突解决器将所选�
 e2e	aside div[title*="drag onto another branch"]	aside div[title*="拖到另一个分支上"]
 e2e	command palette opens with keyboard shortcut	命令面板可通过键盘快捷键打开
 e2e	long paths stay inside confirmation dialogs	长路径保持在确认对话框内
-e2e	Virtualized rows keep large graphs smooth	虚拟化行让大型提交图保持流畅
 e2e	selecting a commit opens the inspector	选择提交会打开检查器
 e2e	splash fades into the welcome screen	启动画面淡入欢迎屏幕
 e2e	mod+f focuses the commit search box	mod+f 聚焦提交搜索框
