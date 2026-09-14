@@ -554,12 +554,12 @@ export function Toolbar({ onRefresh }: { onRefresh: () => Promise<void> }) {
       <Separator orientation="vertical" className="mx-2 h-6" />
 
       <div className="flex items-center">
-        <Hint label={editor ? `Open in ${editor.label}` : 'Open in editor (none detected, see Settings → Git)'}>
+        <Hint label={editor ? `在 ${editor.label} 中打开` : '在编辑器中打开（未检测到，见 设置 → Git）'}>
           <Button
             variant="ghost"
             size="icon"
             className="rounded-r-none"
-            aria-label={editor ? `Open in ${editor.label}` : 'Open in editor'}
+            aria-label={editor ? `在 ${editor.label} 中打开` : '在编辑器中打开'}
             disabled={!editor}
             onClick={() => editor && void openInEditor(editor.id, repo.path)}
           >
@@ -572,7 +572,7 @@ export function Toolbar({ onRefresh }: { onRefresh: () => Promise<void> }) {
               variant="ghost"
               size="icon-sm"
               className="rounded-l-none"
-              aria-label="Editor options"
+              aria-label="编辑器选项"
               disabled={editors.length === 0}
             >
               <ChevronDown className="size-3.5" />
@@ -581,7 +581,7 @@ export function Toolbar({ onRefresh }: { onRefresh: () => Promise<void> }) {
           <DropdownMenuContent align="start">
             {editors.map((candidate) => (
               <DropdownMenuItem key={candidate.id} onClick={() => void openInEditor(candidate.id, repo.path)}>
-                {candidate.id === editor?.id ? <Check /> : <Code />} Open in {candidate.label}
+                {candidate.id === editor?.id ? <Check /> : <Code />} 在 {candidate.label} 中打开
               </DropdownMenuItem>
             ))}
           </DropdownMenuContent>

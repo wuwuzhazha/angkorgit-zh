@@ -48,14 +48,14 @@ export function StatusBar() {
       : AI_PROVIDER_PRESETS[ai.provider].label;
   const aiLabel = aiConfigured ? aiName : 'Set up AI';
   const aiHint = !aiConfigured
-    ? 'No AI provider is set up yet. Click to choose one in Settings.'
+    ? '尚未设置 AI 提供商。点击在设置中选择一个。'
     : aiStatus === 'ok'
-      ? `${aiName} answered the last connection test. Click to open the AI settings.`
+      ? `${aiName} 已响应上次连接测试。点击打开 AI 设置。`
       : aiStatus === 'fail'
-        ? `${aiName} did not answer the last connection test. Click to open the AI settings.`
+        ? `${aiName} 未响应上次连接测试。点击打开 AI 设置。`
         : aiStatus === 'stale'
-          ? `The AI settings changed since ${aiName} was last tested. Click to open them and run Test connection again.`
-          : `${aiName} is set up. Its connection has not been tested yet — click to open the AI settings and run Test connection.`;
+          ? `自 ${aiName} 上次测试后 AI 设置已更改。点击打开并重新运行测试连接。`
+          : `${aiName} 已设置，但连接尚未测试——点击打开 AI 设置并运行测试连接。`;
   const [version, setVersion] = useState('');
 
   useEffect(() => {

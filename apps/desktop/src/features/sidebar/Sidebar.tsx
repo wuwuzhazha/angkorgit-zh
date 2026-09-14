@@ -1280,7 +1280,7 @@ export function Sidebar() {
               <Check /> Checkout
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => void openExternal(prMenu.pr.url)}>
-              <Cloud /> 打开 in browser
+              <Cloud /> 在浏览器中打开
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => {
@@ -1437,7 +1437,7 @@ export function Sidebar() {
                 if (url) void openExternal(url);
               }}
             >
-              <Globe /> 打开 in browser
+              <Globe /> 在浏览器中打开
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => {
@@ -1540,7 +1540,7 @@ export function Sidebar() {
             )}
             {!branchMenu.branch.isHead && !branchMenuHeld && (
               <DropdownMenuItem onClick={() => openDialog('createWorktree', { branch: branchMenu.branch.name })}>
-                <FolderTree /> 打开 in new worktree…
+                <FolderTree /> 在新工作树中打开…
               </DropdownMenuItem>
             )}
             <DropdownMenuItem

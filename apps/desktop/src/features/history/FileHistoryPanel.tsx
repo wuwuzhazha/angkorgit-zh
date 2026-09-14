@@ -414,7 +414,7 @@ export function FileHistoryPanel({ file }: { file: string }) {
                           variant="ghost"
                           size="icon-sm"
                           className="h-5 w-5 opacity-0 transition-opacity group-hover:opacity-100 focus-visible:opacity-100"
-                          aria-label={`Open commit ${commit.shortOid}`}
+                          aria-label={`打开提交 ${commit.shortOid}`}
                           onClick={(e) => {
                             e.stopPropagation();
                             openCommit(commit);
@@ -497,7 +497,7 @@ export function FileHistoryPanel({ file }: { file: string }) {
           </DropdownMenuTrigger>
           <DropdownMenuContent align="start" side="bottom">
             <DropdownMenuItem onClick={() => openCommit(commitMenu.commit)}>
-              <GitCommitHorizontal /> 打开 commit with all its files
+              <GitCommitHorizontal /> 打开该提交及其全部文件
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => {

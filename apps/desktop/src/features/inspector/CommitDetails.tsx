@@ -675,7 +675,7 @@ export function CommitDetails({
                 disabled={fileMenu.file.status === 'deleted'}
                 onClick={() => void openInEditor(editor.id, `${repoPath}/${fileMenu.file.path}`)}
               >
-                <Code /> 打开 in {editor.label}
+                <Code /> 在 {editor.label} 中打开
               </DropdownMenuItem>
             )}
             <DropdownMenuItem onClick={() => useUi.getState().openFileHistory(fileMenu.file.path)}>
@@ -697,7 +697,7 @@ export function CommitDetails({
                   )
               }
             >
-              <ExternalLink /> 打开 in external app
+              <ExternalLink /> 在外部应用中打开
             </DropdownMenuItem>
             <DropdownMenuItem
               disabled={fileMenu.file.status === 'deleted'}

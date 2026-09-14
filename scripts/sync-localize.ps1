@@ -455,6 +455,7 @@ foreach ($dl in [System.IO.File]::ReadAllLines((Join-Path $DictDir 'dict.tsv')))
   }
   $dictEntries += [pscustomobject]@{ Scopes = $scopes; Source = $src; Target = $tgt; Anchor = $anchor }
 }
+$dictEntries = @($dictEntries | Sort-Object { $_.Source.Length } -Descending)
 Write-Log ("词库已加载：{0} 条 / 保护 {1} 条 / 跳过 {2} 条" -f $dictEntries.Count, $script:Protect.Count, $script:SkipRegexes.Count)
 
 # ============ 阶段 ① 同步 ============

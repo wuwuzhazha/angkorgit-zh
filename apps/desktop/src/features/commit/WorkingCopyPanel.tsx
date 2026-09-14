@@ -1074,7 +1074,7 @@ export function WorkingCopyPanel() {
             </DropdownMenuItem>
             {editor && (
               <DropdownMenuItem onClick={() => void openInEditor(editor.id, `${path}/${fileMenu.file.path}`)}>
-                <Code /> 打开 in {editor.label}
+                <Code /> 在 {editor.label} 中打开
               </DropdownMenuItem>
             )}
             <DropdownMenuItem onClick={() => useUi.getState().openFileHistory(fileMenu.file.path)}>
@@ -1097,7 +1097,7 @@ export function WorkingCopyPanel() {
                   )
               }
             >
-              <ExternalLink /> 打开 in external app
+              <ExternalLink /> 在外部应用中打开
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() =>

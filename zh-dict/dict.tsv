@@ -535,7 +535,7 @@ e2e	Title	标题	Placeholder\('Title'
 ui,e2e	Flat file list	扁平文件列表
 ui,e2e	Folder tree	文件夹树
 ui	Diff for ${target.path}	文件差异：${target.path}
-e2e	Diff for	文件差异：
+e2e	Diff for 	文件差异：
 e2e	Result	结果	getByText\('Result'
 ui	 commit{commits.length === 1 && !hasMore ? '' : 's'}	 个提交
 e2e	400 commits	400 个提交
@@ -1035,3 +1035,29 @@ e2e	sidebar geometry missing	缺少侧边栏几何信息
 e2e	tags header missing	缺少标签标题
 e2e	branch row missing	缺少分支行
 e2e	no resize handle	无调整大小手柄
+ui	Open in browser	在浏览器中打开
+ui	Open repository in browser	在浏览器中打开仓库
+ui	Open ${pickedRemote?.name} in browser	在浏览器中打开 ${pickedRemote?.name}
+ui	Open in ${editor.label}	在 ${editor.label} 中打开
+ui	Open in external app	在外部应用中打开
+ui	Open in new worktree…	在新工作树中打开…
+ui	Open commit with all its files	打开该提交及其全部文件
+ui	Open commit	打开提交
+ui	Open in editor (none detected, see Settings → Git)	在编辑器中打开（未检测到，见 设置 → Git）
+ui	Open in editor	在编辑器中打开
+ui	Editor options	编辑器选项
+ui	Test connection	测试连接
+e2e	Open in browser	在浏览器中打开
+e2e	Open repository in browser	在浏览器中打开仓库
+e2e	Open commit with all its files	打开该提交及其全部文件
+e2e	Open commit	打开提交
+e2e	Test connection	测试连接
+e2e	Remotes	远端	name: /\^Remotes/
+e2e	Open in Visual Studio Code	在 Visual Studio Code 中打开
+e2e	Open in Zed	在 Zed 中打开
+e2e	Editor options	编辑器选项
+ui	No AI provider is set up yet. Click to choose one in Settings.	尚未设置 AI 提供商。点击在设置中选择一个。
+ui	${aiName} answered the last connection test. Click to open the AI settings.	${aiName} 已响应上次连接测试。点击打开 AI 设置。
+ui	${aiName} did not answer the last connection test. Click to open the AI settings.	${aiName} 未响应上次连接测试。点击打开 AI 设置。
+ui	The AI settings changed since ${aiName} was last tested. Click to open them and run Test connection again.	自 ${aiName} 上次测试后 AI 设置已更改。点击打开并重新运行测试连接。
+ui	${aiName} is set up. Its connection has not been tested yet — click to open the AI settings and run Test connection.	${aiName} 已设置，但连接尚未测试——点击打开 AI 设置并运行测试连接。

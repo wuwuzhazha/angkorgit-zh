@@ -95,10 +95,10 @@ test('a file history row can open the full commit in the graph', async ({ page }
   await page.locator('section[aria-label^="文件差异："]').getByRole('button', { name: '文件历史' }).click();
   const history = page.locator('section[aria-label$="的历史"]');
   await expect(history).toBeVisible();
-  const firstRow = history.getByRole('button', { name: /^Open commit [0-9a-f]+$/ }).first();
+  const firstRow = history.getByRole('button', { name: /^打开提交 [0-9a-f]+$/ }).first();
   await firstRow.focus();
   const label = await firstRow.getAttribute('aria-label');
-  const short = label?.replace('Open commit ', '') ?? '';
+  const short = label?.replace('打开提交 ', '') ?? '';
   await firstRow.click();
   await expect(history).toBeHidden();
   await expect(page.getByPlaceholder('搜索提交…')).toBeVisible();
@@ -1026,10 +1026,10 @@ test('the remote menu and the palette open the repository page in the browser', 
   await page.getByText('angkorgit', { exact: true }).first().click();
   await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   const sidebar = page.getByRole('complementary', { name: '分支与引用' });
-  const remotesHeader = sidebar.getByRole('button', { name: /^Remotes/ });
+  const remotesHeader = sidebar.getByRole('button', { name: /^远端/ });
   if ((await remotesHeader.getAttribute('aria-expanded')) !== 'true') await remotesHeader.click();
   await sidebar.getByText('origin', { exact: true }).click({ button: 'right' });
-  const item = page.getByRole('menuitem', { name: 'Open in browser' });
+  const item = page.getByRole('menuitem', { name: '在浏览器中打开' });
   await expect(item).toBeVisible();
   await expect(item).not.toHaveAttribute('aria-disabled', 'true');
   const [popup] = await Promise.all([page.context().waitForEvent('page'), item.click()]);
@@ -1037,7 +1037,7 @@ test('the remote menu and the palette open the repository page in the browser', 
   await popup.close();
   await page.keyboard.press('ControlOrMeta+k');
   await expect(page.getByPlaceholder('输入命令或分支名…')).toBeVisible();
-  await expect(page.getByText('Open repository in browser', { exact: true })).toBeVisible();
+  await expect(page.getByText('在浏览器中打开仓库', { exact: true })).toBeVisible();
 });
 
 test('blame is disabled for a file no commit has seen yet', async ({ page }) => {
@@ -1051,12 +1051,12 @@ test('blame is disabled for a file no commit has seen yet', async ({ page }) => 
   await expect(item).toHaveAttribute('aria-disabled', 'true');
   await page.keyboard.press('Escape');
   await row.click();
-  const diff = page.locator('section[aria-label="文件差异： docs/Architecture.md"]');
+  const diff = page.locator('section[aria-label="文件差异：docs/Architecture.md"]');
   await expect(diff).toBeVisible();
   await expect(diff.getByRole('button', { name: 'Blame' })).toBeDisabled();
   await page.keyboard.press('Escape');
   await page.getByText('ipc.ts', { exact: true }).first().click();
-  await expect(page.locator('section[aria-label="文件差异： src/core/ipc.ts"]').getByRole('button', { name: 'Blame' })).toBeEnabled();
+  await expect(page.locator('section[aria-label="文件差异：src/core/ipc.ts"]').getByRole('button', { name: 'Blame' })).toBeEnabled();
 });
 
 test('the status bar shows the AI connection state once AI is configured and tested', async ({ page }) => {
@@ -1068,7 +1068,7 @@ test('the status bar shows the AI connection state once AI is configured and tes
   await expect(chip).toHaveText('Ollama');
   await chip.click();
   const dialog = page.getByRole('dialog');
-  await expect(dialog.getByRole('button', { name: 'Test connection' })).toBeVisible();
+  await expect(dialog.getByRole('button', { name: '测试连接' })).toBeVisible();
   await dialog.getByRole('combobox').first().click();
   await page.getByRole('option', { name: /Installed AI CLI/ }).click();
   await expect(chip).toHaveAttribute('data-ai-status', 'unconfigured');
@@ -1076,7 +1076,7 @@ test('the status bar shows the AI connection state once AI is configured and tes
   await dialog.getByRole('button', { name: /Claude Code/ }).click();
   await expect(chip).toHaveAttribute('data-ai-status', 'untested');
   await expect(chip).toHaveText('Claude Code');
-  await dialog.getByRole('button', { name: 'Test connection' }).click();
+  await dialog.getByRole('button', { name: '测试连接' }).click();
   await expect(dialog.getByText('Reachable', { exact: true })).toBeVisible({ timeout: 10_000 });
   await page.keyboard.press('Escape');
   await expect(chip).toHaveAttribute('data-ai-status', 'ok');
@@ -1376,7 +1376,7 @@ test('settings lists detected editors and the toolbar opens in the chosen one', 
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
   await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
-  await expect(page.getByRole('button', { name: 'Open in Visual Studio Code' })).toBeVisible();
+  await expect(page.getByRole('button', { name: '在 Visual Studio Code 中打开' })).toBeVisible();
 
   await page.getByRole('button', { name: '设置', exact: true }).click();
   const dialog = page.getByRole('dialog');
@@ -1388,10 +1388,10 @@ test('settings lists detected editors and the toolbar opens in the chosen one', 
   await expect(zed).toHaveAttribute('aria-pressed', 'true');
   await page.keyboard.press('Escape');
 
-  await expect(page.getByRole('button', { name: 'Open in Zed' })).toBeVisible();
-  await page.getByRole('button', { name: 'Editor options' }).click();
-  await expect(page.getByRole('menuitem', { name: 'Open in Visual Studio Code' })).toBeVisible();
-  await expect(page.getByRole('menuitem', { name: 'Open in Zed' })).toBeVisible();
+  await expect(page.getByRole('button', { name: '在 Zed 中打开' })).toBeVisible();
+  await page.getByRole('button', { name: '编辑器选项' }).click();
+  await expect(page.getByRole('menuitem', { name: '在 Visual Studio Code 中打开' })).toBeVisible();
+  await expect(page.getByRole('menuitem', { name: '在 Zed 中打开' })).toBeVisible();
   await page.keyboard.press('Escape');
 });
 
@@ -1424,7 +1424,7 @@ test('the diff header opens blame inside file history with authors per hunk', as
   await expect(history.locator('[data-working-copy-row]')).toHaveClass(/border-l-primary/);
   const pane = history.locator('[data-blame-pane]');
   await expect(pane.locator('[data-blame-line="1"]')).toBeVisible();
-  const authors = pane.getByRole('button', { name: /^Open commit [0-9a-f]+$/ });
+  const authors = pane.getByRole('button', { name: /^打开提交 [0-9a-f]+$/ });
   await expect(authors.first()).toBeVisible();
   expect(await authors.count()).toBeGreaterThan(1);
   await expect(pane.getByText('Not committed yet')).toBeVisible();

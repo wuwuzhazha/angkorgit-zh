@@ -125,7 +125,7 @@ export function BlameView({
                     type="button"
                     className="flex min-w-0 flex-1 items-center gap-2 text-left font-sans disabled:cursor-default"
                     title={`${hunk.summary}\n${hunk.authorName} · ${formatDate(hunk.time)}`}
-                    aria-label={hunk.committed ? `Open commit ${hunk.shortOid}` : 'Not committed yet'}
+                    aria-label={hunk.committed ? `打开提交 ${hunk.shortOid}` : 'Not committed yet'}
                     disabled={!hunk.committed}
                     onClick={() => onOpenCommit(hunk.oid)}
                   >
@@ -159,7 +159,7 @@ export function BlameView({
           <DropdownMenuContent align="start" side="bottom">
             <DropdownMenuLabel className="max-w-64 truncate">{menu.hunk.summary}</DropdownMenuLabel>
             <DropdownMenuItem disabled={!menu.hunk.committed} onClick={() => onOpenCommit(menu.hunk.oid)}>
-              <GitCommitHorizontal /> 打开 commit {menu.hunk.shortOid}
+              <GitCommitHorizontal /> 打开提交 {menu.hunk.shortOid}
             </DropdownMenuItem>
             <DropdownMenuItem disabled={!menu.hunk.committed} onClick={() => onBlameAt(menu.hunk.oid)}>
               <UserRoundSearch /> Blame at this commit
