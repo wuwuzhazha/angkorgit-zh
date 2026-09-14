@@ -1,0 +1,131 @@
+name: 发布中文版
+
+# 手动触发，先跑完整测试（typecheck / 单元 / e2e / 混排文案），通过后才构建 Windows 安装包并发布。
+# 版本号必须在仓库里已经是输入的版本，保证 tag / 安装包 / latest.json 三处一致。
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: '版本号 x.y.z（必须已写入仓库）'
+        required: true
+      notes:
+        description: '可选：补充发布说明'
+        required: false
+        default: ''
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-zh
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    name: 测试
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v5
+        with:
+          version: 10.32.1
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
+      - run: pnpm install --frozen-lockfile
+      - name: 版本号与输入一致
+        env:
+          VERSION: ${{ inputs.version }}
+        run: |
+          tree=$(node -p "require('./package.json').version")
+          if [ "$tree" != "$VERSION" ]; then
+            echo "::error::package.json 版本 $tree 与输入 $VERSION 不一致，请先合并版本升级。"
+            exit 1
+          fi
+      - run: pnpm check:copy
+      - run: pnpm typecheck
+      - run: pnpm test
+      - run: pnpm exec playwright install --with-deps chromium
+      - run: pnpm test:e2e
+
+  build:
+    name: 构建并发布（Windows）
+    needs: verify
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v5
+        with:
+          version: 10.32.1
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: swatinem/rust-cache@v2
+        with:
+          workspaces: apps/desktop/src-tauri
+      - run: pnpm install --frozen-lockfile
+      - name: 构建安装包（NSIS + MSI，含 updater 签名）
+        shell: pwsh
+        env:
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+        run: pnpm tauri:build
+      - name: 生成 updater latest.json
+        shell: pwsh
+        env:
+          VERSION: ${{ inputs.version }}
+        run: |
+          $bundle = Join-Path $env:GITHUB_WORKSPACE 'apps/desktop/src-tauri/target/release/bundle'
+          $exe = Get-ChildItem (Join-Path $bundle 'nsis') -Filter *.exe | Select-Object -First 1
+          if (-not $exe) { Write-Error 'NSIS exe 未找到，无法生成 latest.json'; exit 4 }
+          $sig = (Get-Content -Raw ($exe.FullName + '.sig')).Trim()
+          $url = "https://github.com/$env:GITHUB_REPOSITORY/releases/download/v$env:VERSION/$($exe.Name)"
+          $json = @{
+            version   = $env:VERSION
+            notes     = "AngKorGit (zh-CN) v$env:VERSION"
+            pub_date  = (Get-Date).ToUniversalTime().ToString('o')
+            platforms = @{ 'windows-x86_64' = @{ signature = $sig; url = $url } }
+          } | ConvertTo-Json -Depth 6
+          [System.IO.File]::WriteAllText((Join-Path $bundle 'latest.json'), $json, (New-Object System.Text.UTF8Encoding($false)))
+          Write-Host "latest.json 已生成：$url"
+      - name: 发布说明
+        shell: pwsh
+        env:
+          VERSION: ${{ inputs.version }}
+          NOTES: ${{ inputs.notes }}
+        run: |
+          $extra = if ($env:NOTES) { $env:NOTES } else { '（手动发布）' }
+          $body = @"
+          ## AngKorGit 中文版 v$env:VERSION
+
+          $extra
+
+          ### 安装
+          | 平台 | 文件 |
+          | --- | --- |
+          | Windows | `AngKorGit_$($env:VERSION)_x64-setup.exe` |
+
+          ### 说明
+          - 安装包未做商业代码签名，SmartScreen 首次运行请选择“更多信息 → 仍要运行”。
+          - 应用内自动更新指向本仓库 Releases 的 latest.json（已签名）。
+          "@
+          $body | Set-Content -Path release-notes.md -Encoding utf8
+      - uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ inputs.version }}
+          name: AngKorGit 中文版 v${{ inputs.version }}
+          body_path: release-notes.md
+          fail_on_unmatched_files: false
+          make_latest: true
+          files: |
+            apps/desktop/src-tauri/target/release/bundle/nsis/*.exe
+            apps/desktop/src-tauri/target/release/bundle/nsis/*.sig
+            apps/desktop/src-tauri/target/release/bundle/msi/*.msi
+            apps/desktop/src-tauri/target/release/bundle/msi/*.sig
+            apps/desktop/src-tauri/target/release/bundle/latest.json

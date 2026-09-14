@@ -1,0 +1,85 @@
+name: 上游更新检测
+
+# 只读检测：上游 cheat2001/angkorgit 有新提交时，创建一个 Issue 并 @ 仓库所有者。
+# GitHub 会把 Issue 通知发到邮箱；不写 main、不构建、不发布。
+# 后续动作：运行「同步并汉化（PR）」工作流，人工校对后合并。
+
+on:
+  schedule:
+    - cron: '0 1 * * *'   # 每天 01:00 UTC
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: upstream-watch
+  cancel-in-progress: false
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: 检测上游更新
+        id: check
+        run: |
+          git remote remove upstream 2>/dev/null || true
+          git remote add upstream https://github.com/cheat2001/angkorgit.git
+          git fetch upstream main --tags --force
+          if git merge-base --is-ancestor upstream/main HEAD; then
+            echo "上游无新提交，跳过。"
+            echo "has_update=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          echo "has_update=true" >> "$GITHUB_OUTPUT"
+          sha=$(git rev-parse --short upstream/main)
+          echo "$sha" > "$RUNNER_TEMP/sha.txt"
+          {
+            echo "@$GITHUB_REPOSITORY_OWNER 上游有新的提交，请运行 **同步并汉化（PR）** 工作流并人工校对。"
+            echo
+            echo "上游 main：\`$sha\`"
+            echo
+            echo "### 上游提交"
+            echo
+            echo '```text'
+            git log --oneline HEAD..upstream/main
+            echo '```'
+            echo
+            echo "### 本地化范围的文件变更"
+            echo
+            echo '```text'
+            git diff --stat HEAD upstream/main -- \
+              apps/desktop/src apps/desktop/src-tauri/src packages/core/src \
+              tests/e2e apps/website/src
+            echo '```'
+            echo
+            echo "### 全部变更统计"
+            echo
+            echo '```text'
+            git diff --stat HEAD upstream/main
+            echo '```'
+          } > "$RUNNER_TEMP/body.md"
+
+      - name: 创建 Issue（同一上游提交只创建一次）
+        if: steps.check.outputs.has_update == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          sha=$(cat "$RUNNER_TEMP/sha.txt")
+          gh label create upstream-sync -R "$GITHUB_REPOSITORY" \
+            --color 1D76DB --description "上游同步追踪" 2>/dev/null || true
+          latest=$(gh issue list --label upstream-sync --state all --limit 1 \
+            --json title --jq '.[0].title' -R "$GITHUB_REPOSITORY")
+          if printf '%s' "$latest" | grep -q "$sha"; then
+            echo "上游提交 $sha 已有对应 Issue，跳过。"
+            exit 0
+          fi
+          gh issue create -R "$GITHUB_REPOSITORY" \
+            --title "上游更新：$sha" \
+            --label upstream-sync \
+            --body-file "$RUNNER_TEMP/body.md"
