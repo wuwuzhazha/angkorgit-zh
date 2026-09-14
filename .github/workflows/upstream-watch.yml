@@ -7,7 +7,12 @@ name: 上游更新检测
 on:
   schedule:
     - cron: '0 1 * * *'   # 每天 01:00 UTC
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      force:
+        description: '即使上游无新提交也生成报告（用于验证流程）'
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -43,7 +48,8 @@ jobs:
           git remote remove upstream 2>/dev/null || true
           git remote add upstream https://github.com/cheat2001/angkorgit.git
           git fetch upstream main --tags --force
-          if git merge-base --is-ancestor upstream/main HEAD; then
+          force='${{ inputs.force }}'
+          if git merge-base --is-ancestor upstream/main HEAD && [ "$force" != "true" ]; then
             echo "上游无新提交，跳过。"
             echo "has_update=false" >> "$GITHUB_OUTPUT"
             exit 0
@@ -84,6 +90,10 @@ jobs:
           pending=0
           if [ -f zh-dict/pending.tsv ]; then pending=$(grep -vc '^#' zh-dict/pending.tsv || true); fi
           {
+            if [ "${{ inputs.force }}" = "true" ]; then
+              echo "> 本次为**手动强制生成**（上游无新提交时用于验证流程）。"
+              echo
+            fi
             echo "@$GITHUB_REPOSITORY_OWNER 上游有新的提交，请人工分析后运行 **同步并汉化（PR）**。"
             echo
             echo "上游 main：\`$sha\`"
