@@ -11,7 +11,7 @@
 | `upstream-watch.yml` 上游更新检测 | 每天 01:00 UTC / 手动 | 检测上游新提交，创建（或复用）带 `upstream-sync` 标签的 Issue，并在正文 @ 仓库所有者 | 不写 main、不构建、不发布 |
 | `localize.yml` 同步并汉化（PR） | 手动 | 合并上游 → 恢复自维护文件 → 应用词库 → `check:copy` → 开 PR | 不推 main、不发布 |
 | `ci.yml` | push / PR | `check:copy`、`check:dict`、typecheck、单元测试、Playwright、Rust 三平台 | — |
-| `release-zh.yml` 发布中文版 | 手动 | 先跑完整测试（含 e2e），再构建 Windows 安装包、签名、生成 `latest.json`、发布 Release | 不改版本号，版本必须已在仓库中 |
+| `release-zh.yml` 发布中文版 | 手动 | 先跑完整测试（含 e2e），再构建 Windows 安装包、签名、生成 `latest.json`、发布 Release | 不改版本号，版本必须已在仓库中；`dry_run` 可只跑测试 |
 
 ### 通知方式
 

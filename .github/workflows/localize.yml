@@ -117,13 +117,13 @@ jobs:
             echo "### 混排文案检查（\`pnpm check:copy\`）"
             echo
             echo '```text'
-            cat "$RUNNER_TEMP/copycheck.txt"
+            cat "$RUNNER_TEMP/copycheck.txt" 2>/dev/null || echo "（未生成）"
             echo '```'
             echo
             echo "### 词典检查（\`pnpm check:dict\`）"
             echo
             echo '```text'
-            cat "$RUNNER_TEMP/dictcheck.txt"
+            cat "$RUNNER_TEMP/dictcheck.txt" 2>/dev/null || echo "（未生成）"
             echo '```'
             echo
             echo "### 待译/待确认条目：$(cat "$RUNNER_TEMP/pending-count.txt") 条"
