@@ -58,7 +58,8 @@ jobs:
           sha=$(git rev-parse --short upstream/main)
           echo "$sha" > "$RUNNER_TEMP/sha.txt"
           git log --oneline HEAD..upstream/main > "$RUNNER_TEMP/upstream.txt"
-          git diff --stat HEAD upstream/main > "$RUNNER_TEMP/stat.txt"
+          base=$(git merge-base HEAD upstream/main)
+          git diff --stat "$base" upstream/main > "$RUNNER_TEMP/stat.txt"
 
       - name: 试跑合并与自动汉化（不推送，仅用于评估）
         if: steps.check.outputs.has_update == 'true'
