@@ -6,6 +6,38 @@ All notable changes to AngKorGit are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.14.0] — 2026-09-13
+
+The fork workflow release. Fast-forward from the branch menu, every remote fetched
+on each tab switch, the repository page one click away, and the AI provider in the
+status bar. Two testers filed six issues in two days and every one of them shaped
+this version, including a blame crash on uncommitted edits and hunk staging that
+only worked on the first hunk.
+
+### Added
+- **Fast-forward from the branch menu.** Right-clicking a branch in the sidebar or a
+  branch chip in the graph now offers "Fast-forward current to this" next to "Merge
+  into current". It is enabled only when the current branch is strictly behind, so
+  syncing a fork's `main` with `upstream/main` is one click and leaves no merge
+  commit. "Merge into current" keeps recording a merge commit. (#20)
+- **AI provider in the status bar.** A chip next to the zoom control names the AI
+  provider in use, Gemini, Claude Code, Ollama and so on, with its icon green when
+  the last Test connection passed, red when it failed and plain when it has not been
+  tested since the settings changed. Nothing is polled; only Test connection writes
+  the result. With no provider set up it reads "Set up AI", and clicking it opens
+  the AI settings either way. (#23)
+- **Open the repository in the browser.** Right-click a remote in the sidebar for
+  "Open in browser", or run "Open repository in browser" from the palette, and the
+  repository page on GitHub, GitLab, Bitbucket or a self-hosted forge opens in your
+  browser. Each remote opens its own page, so a fork's `origin` and `upstream` are
+  both one click away. Bitbucket Server paths map to their browse page; a remote
+  with a local path has nothing to open and the entry stays disabled. (#24)
+- **Avatars from your connected account.** When Gravatar has nothing for an author,
+  the graph, commit view, file history and blame ask the repository's forge instead:
+  GitHub and Bitbucket by the commit, GitLab (self-hosted included) by the author
+  email. Needs a connected account for that host and the Pull requests setting on;
+  one request per author, cached for the session.
+
 ### Changed
 - **Fetch reaches every remote.** Auto fetch, the toolbar Fetch and the palette's
   fetch now walk all remotes instead of the first one, so a fork sees `upstream`
@@ -13,10 +45,38 @@ All notable changes to AngKorGit are documented here. The format follows
 - **Zed and Flatpak editors are detected on Linux.** Zed's `zeditor` package name
   and the Flatpak exports of Zed, VS Code, Sublime Text, GNOME Builder and Kate are
   recognised by the External editor picker. (#18)
+- **Editors are found in their default install folders.** On Windows the External
+  editor picker looks in the usual install locations of VS Code, Cursor, Windsurf,
+  Sublime Text and the JetBrains Toolbox scripts even when their launcher is not
+  on PATH; macOS and Linux add the JetBrains Toolbox scripts folder.
 
 ### Fixed
+- **Blame no longer crashes on a file with uncommitted changes.** Blaming the working
+  copy of a tracked file you had edited aborted the whole app: libgit2 splits a
+  committed block around your edit and leaves the split halves without a signature,
+  which the engine then dereferenced. Authors now come from the commit itself. (#21)
+- **Blame knows when there is nothing to blame.** An untracked or newly staged file
+  has no commits, so the Blame entry in the file menu and the diff header's Blame
+  button are disabled with a hint instead of erroring, and the engine says so plainly
+  for a path missing from a commit. (#21)
+- **Stage hunk works on every hunk, not only the first.** Staging or unstaging a
+  later hunk in a file with several changes failed with "hunk did not apply": the
+  isolated hunk kept line numbers from the full diff that libgit2 could not match.
+  The hunk is now anchored on the lines the index actually has. (#22)
+- **Remote branch tooltips say what double-click does.** A remote branch row or
+  chip used to promise "double-click to checkout"; it now says the local branch is
+  checked out from it and fast-forwarded when it is behind, which is what happens.
+  (#20)
+- **Switching tabs fetches again.** The fetch that runs when you open or switch to a
+  repository tab fired before the repository's remotes were loaded, found none and
+  gave up until the next auto fetch interval. It now waits for the remote list, so
+  the status bar's "Fetched just now" is true right after a tab switch. (#20)
 - The commit and working copy file menus said "Show in Finder" on Linux and
   Windows; they say "Show in file manager" there. (#18)
+- On Windows the command line tool installed into a folder that was never on PATH,
+  so `akg` could not be found. Install now adds that folder to the user PATH and
+  uninstall removes it. On macOS, when the install falls back to `~/.local/bin`,
+  the Settings card says how to put it on PATH.
 
 ## [0.13.0] — 2026-09-12
 
@@ -1192,7 +1252,8 @@ The first release. 🏛️
 - AI assistant with pluggable providers (OpenAI, Anthropic, Gemini, Ollama,
   LM Studio): commit messages, diff/conflict explanations, PR descriptions, reviews
 
-[Unreleased]: https://github.com/cheat2001/angkorgit/compare/v0.13.0...HEAD
+[Unreleased]: https://github.com/cheat2001/angkorgit/compare/v0.14.0...HEAD
+[0.14.0]: https://github.com/cheat2001/angkorgit/compare/v0.13.0...v0.14.0
 [0.13.0]: https://github.com/cheat2001/angkorgit/compare/v0.12.0...v0.13.0
 [0.12.0]: https://github.com/cheat2001/angkorgit/compare/v0.11.0...v0.12.0
 [0.11.0]: https://github.com/cheat2001/angkorgit/compare/v0.10.0...v0.11.0

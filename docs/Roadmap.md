@@ -1,10 +1,10 @@
 # 路线图
 
-Updated for v0.13.0 (September 2026). [CHANGELOG.md](../CHANGELOG.md) is the
+Updated for v0.14.0 (September 2026). [CHANGELOG.md](../CHANGELOG.md) is the
 authoritative record of what shipped in each release; this file tracks
 direction.
 
-## Shipped (0.1.0 → 0.13.0)
+## Shipped (0.1.0 → 0.14.0)
 
 - [x] 仓库：打开、克隆（带进度）、最近、搜索、仓库标签页（可拖动排序）
 - [x] 提交：暂存文件、代码块与单行；取消暂存、提交、修订；按仓库保存提交草稿; multi-select in the working copy with bulk stage/unstage/stash/discard; discard for staged files; path filter over changed files and commit files
@@ -28,12 +28,13 @@ direction.
 - [x] Blame: a pane of file history with a Working copy row, per-hunk authors, jump to the commit, blame at or before any commit
 - [x] External editor: detected editors (VS Code, Cursor, Zed, Sublime, JetBrains, Xcode, GNOME Builder…) from the toolbar, palette and file menus
 - [x] Pull with rebase following `pull.rebase`, a merge/rebase choice per pull, and a status bar note of the last fetch
+- [x] Fork workflow: "Fast-forward current to this" in the branch menus (enabled only when the branch is strictly behind), every remote fetched on each tab switch, "Open in browser" on a remote and from the palette
+- [x] Provider avatars from the connected account when Gravatar has none; the AI provider and its last connection test in the status bar
 - [x] Performance: fast startup (splash waits for the app, not a timer; heavy views load on first use), a quiet file watcher, on-demand commit diffs, loading overlay on slow repository switches
 
 ## Next
 
 - [ ] Worktrees: start an installed AI CLI inside a worktree from its row, a per-repo post-create setup command, merged badge with one-step cleanup
-- [ ] Provider avatars via connected accounts, layered over Gravatar
 
 ## 以后——互联（架构已就位，见 Architecture.md）
 

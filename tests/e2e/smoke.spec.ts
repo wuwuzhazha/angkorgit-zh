@@ -1001,6 +1001,98 @@ test('arrow keys move the working copy diff from file to file', async ({ page })
   await expect(page.locator('section[aria-label="文件差异：src/data/palette-seed.sql"]')).toBeVisible();
 });
 
+test('branch menus offer a fast-forward entry next to merge, disabled when the current branch is ahead', async ({ page }) => {
+  await page.goto('/');
+  await page.getByText('angkorgit', { exact: true }).first().click();
+  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await page.getByText('develop', { exact: true }).click({ button: 'right' });
+  const sidebarMenu = page.getByRole('menu');
+  await expect(sidebarMenu.getByRole('menuitem', { name: 'Merge into current' })).toBeEnabled();
+  const sidebarFf = sidebarMenu.getByRole('menuitem', { name: 'Fast-forward current to this' });
+  await expect(sidebarFf).toBeVisible();
+  await expect(sidebarFf).toHaveAttribute('aria-disabled', 'true');
+  await page.keyboard.press('Escape');
+  await expect(page.getByRole('menu')).toHaveCount(0);
+  await page.getByTitle(/^feature\/diff-viewer · local/).first().click({ button: 'right' });
+  const graphMenu = page.getByRole('menu');
+  await expect(graphMenu.getByRole('menuitem', { name: 'Merge into current branch' })).toBeEnabled();
+  const graphFf = graphMenu.getByRole('menuitem', { name: 'Fast-forward current branch to this' });
+  await expect(graphFf).toBeVisible();
+  await expect(graphFf).toHaveAttribute('aria-disabled', 'true');
+});
+
+test('the remote menu and the palette open the repository page in the browser', async ({ page }) => {
+  await page.goto('/');
+  await page.getByText('angkorgit', { exact: true }).first().click();
+  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  const sidebar = page.getByRole('complementary', { name: 'Branches and refs' });
+  const remotesHeader = sidebar.getByRole('button', { name: /^Remotes/ });
+  if ((await remotesHeader.getAttribute('aria-expanded')) !== 'true') await remotesHeader.click();
+  await sidebar.getByText('origin', { exact: true }).click({ button: 'right' });
+  const item = page.getByRole('menuitem', { name: 'Open in browser' });
+  await expect(item).toBeVisible();
+  await expect(item).not.toHaveAttribute('aria-disabled', 'true');
+  const [popup] = await Promise.all([page.context().waitForEvent('page'), item.click()]);
+  expect(popup.url()).toBe('https://github.com/demo/angkorgit');
+  await popup.close();
+  await page.keyboard.press('ControlOrMeta+k');
+  await expect(page.getByPlaceholder('Type a command or branch name…')).toBeVisible();
+  await expect(page.getByText('Open repository in browser', { exact: true })).toBeVisible();
+});
+
+test('blame is disabled for a file no commit has seen yet', async ({ page }) => {
+  await page.goto('/');
+  await page.getByText('angkorgit', { exact: true }).first().click();
+  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  const row = page.getByText('Architecture.md', { exact: true }).first();
+  await row.click({ button: 'right' });
+  const item = page.getByRole('menuitem', { name: /^Blame/ });
+  await expect(item).toHaveText(/no commits yet/);
+  await expect(item).toHaveAttribute('aria-disabled', 'true');
+  await page.keyboard.press('Escape');
+  await row.click();
+  const diff = page.locator('section[aria-label="Diff for docs/Architecture.md"]');
+  await expect(diff).toBeVisible();
+  await expect(diff.getByRole('button', { name: 'Blame' })).toBeDisabled();
+  await page.keyboard.press('Escape');
+  await page.getByText('ipc.ts', { exact: true }).first().click();
+  await expect(page.locator('section[aria-label="Diff for src/core/ipc.ts"]').getByRole('button', { name: 'Blame' })).toBeEnabled();
+});
+
+test('the status bar shows the AI connection state once AI is configured and tested', async ({ page }) => {
+  await page.goto('/');
+  await page.getByText('angkorgit', { exact: true }).first().click();
+  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  const chip = page.locator('[data-ai-status]');
+  await expect(chip).toHaveAttribute('data-ai-status', 'untested');
+  await expect(chip).toHaveText('Ollama');
+  await chip.click();
+  const dialog = page.getByRole('dialog');
+  await expect(dialog.getByRole('button', { name: 'Test connection' })).toBeVisible();
+  await dialog.getByRole('combobox').first().click();
+  await page.getByRole('option', { name: /Installed AI CLI/ }).click();
+  await expect(chip).toHaveAttribute('data-ai-status', 'unconfigured');
+  await expect(chip).toHaveText(/Set up AI/);
+  await dialog.getByRole('button', { name: /Claude Code/ }).click();
+  await expect(chip).toHaveAttribute('data-ai-status', 'untested');
+  await expect(chip).toHaveText('Claude Code');
+  await dialog.getByRole('button', { name: 'Test connection' }).click();
+  await expect(dialog.getByText('Reachable', { exact: true })).toBeVisible({ timeout: 10_000 });
+  await page.keyboard.press('Escape');
+  await expect(chip).toHaveAttribute('data-ai-status', 'ok');
+  await expect(chip).toHaveText('Claude Code');
+  await chip.click();
+  await dialog.getByRole('combobox').first().click();
+  await page.getByRole('option', { name: 'Ollama', exact: true }).click();
+  await expect(dialog.getByText('Settings changed since the last test')).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(chip).toHaveAttribute('data-ai-status', 'stale');
+  await expect(chip).toHaveText('Ollama');
+  await page.reload();
+  await page.getByText('angkorgit', { exact: true }).first().click();
+  await expect(page.locator('[data-ai-status]')).toHaveAttribute('data-ai-status', 'stale', { timeout: 10_000 });
+});
+
 test('the checked-out branch chip is filled while other local chips stay tinted', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
