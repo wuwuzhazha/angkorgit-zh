@@ -103,15 +103,15 @@ export function StatusBar() {
       )}
       {lastFetchAt !== null && (
         <Hint
-          label={`Last fetched at ${new Date(lastFetchAt).toLocaleTimeString()}. ${
+          label={`上次获取于 ${new Date(lastFetchAt).toLocaleTimeString()}。${
             autoFetchMinutes
-              ? `Fetches run when you switch to this tab, when the window gets focus and every ${autoFetchMinutes} min.`
+              ? `切换到本标签页、窗口获得焦点时以及每 ${autoFetchMinutes} 分钟会自动获取。`
               : '自动拉取已在设置 → Git 中关闭。'
           }`}
         >
           <span className="flex items-center gap-1 text-faint" data-last-fetch>
             <RefreshCw className="size-3" />
-            Fetched {timeAgo(lastFetchAt / 1000)}
+            已获取 · {timeAgo(lastFetchAt / 1000)}
           </span>
         </Hint>
       )}

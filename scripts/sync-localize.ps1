@@ -203,7 +203,12 @@ function Update-DictFile {
         }
       }
       $esc = [regex]::Escape($e.Source)
-      $ms = [regex]::Matches($newLine, $esc)
+      if ($e.Mode -eq 'whole') {
+        $qclass = '[' + [char]39 + [char]96 + [char]34 + ']'
+        $ms = [regex]::Matches($newLine, ('(?<q>' + $qclass + ')' + $esc + '\k<q>'))
+      } else {
+        $ms = [regex]::Matches($newLine, $esc)
+      }
       if ($ms.Count -eq 0) { continue }
       for ($j = $ms.Count - 1; $j -ge 0; $j--) {
         $m = $ms[$j]
@@ -212,7 +217,12 @@ function Update-DictFile {
           if ($m.Index -lt ($sp[0] + $sp[1]) -and ($m.Index + $m.Length) -gt $sp[0]) { $overlap = $true; break }
         }
         if ($overlap) { continue }
-        $newLine = $newLine.Substring(0, $m.Index) + $e.Target + $newLine.Substring($m.Index + $m.Length)
+        if ($e.Mode -eq 'whole') {
+          $quote = $m.Groups['q'].Value
+          $newLine = $newLine.Substring(0, $m.Index) + $quote + $e.Target + $quote + $newLine.Substring($m.Index + $m.Length)
+        } else {
+          $newLine = $newLine.Substring(0, $m.Index) + $e.Target + $newLine.Substring($m.Index + $m.Length)
+        }
         $script:StatsReplacements++
       }
     }
@@ -442,6 +452,11 @@ foreach ($dl in [System.IO.File]::ReadAllLines((Join-Path $DictDir 'dict.tsv')))
   $src = $f[1]
   $tgt = $f[2]
   $anchor = if ($f.Count -gt 3) { $f[3] } else { '' }
+  $mode = if ($f.Count -gt 4) { $f[4] } else { '' }
+  if ($mode -ne '' -and $mode -ne 'whole') {
+    Write-Log "dict.tsv 第 $dictLineNo 行 mode 非法（仅支持 whole）：$mode" 'ERROR'
+    exit 5
+  }
   if ($anchor -ne '') {
     try { $null = [regex]::new($anchor) } catch {
       Write-Log "dict.tsv 第 $dictLineNo 行 anchor 正则非法：$anchor" 'ERROR'
@@ -449,11 +464,11 @@ foreach ($dl in [System.IO.File]::ReadAllLines((Join-Path $DictDir 'dict.tsv')))
     }
   }
   if ($src -eq '' -or $tgt -eq '') { continue }
-  if ($src -notmatch '\s' -and $anchor -eq '') {
-    Write-Log "词条缺少 anchor（单单词必须带上下文锚）：$src" 'ERROR'
+  if ($src -notmatch '\s' -and $anchor -eq '' -and $mode -ne 'whole') {
+    Write-Log "词条缺少 anchor（单单词必须带上下文锚或 whole 模式）：$src" 'ERROR'
     exit 5
   }
-  $dictEntries += [pscustomobject]@{ Scopes = $scopes; Source = $src; Target = $tgt; Anchor = $anchor }
+  $dictEntries += [pscustomobject]@{ Scopes = $scopes; Source = $src; Target = $tgt; Anchor = $anchor; Mode = $mode }
 }
 $dictEntries = @($dictEntries | Sort-Object { $_.Source.Length } -Descending)
 Write-Log ("词库已加载：{0} 条 / 保护 {1} 条 / 跳过 {2} 条" -f $dictEntries.Count, $script:Protect.Count, $script:SkipRegexes.Count)

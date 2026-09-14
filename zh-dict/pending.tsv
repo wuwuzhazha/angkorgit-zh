@@ -171,6 +171,7 @@ meta	apps/desktop/src-tauri/tauri.conf.json	icons/icon.icns
 meta	apps/desktop/src-tauri/tauri.conf.json	icons/icon.ico
 meta	apps/desktop/src-tauri/tauri.conf.json	pnpm build
 meta	apps/desktop/src-tauri/tauri.conf.json	pnpm dev:vite
+meta	package.json	check:copy
 meta	package.json	install:mac
 meta	package.json	playwright test -c tests/e2e/playwright.config.ts
 meta	package.json	pnpm -r build

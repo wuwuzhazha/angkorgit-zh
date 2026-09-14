@@ -1244,7 +1244,7 @@ export function Sidebar() {
           <DropdownMenuContent align="start" side="bottom">
             <DropdownMenuLabel className="max-w-64 truncate font-mono">{subMenu.sub.path}</DropdownMenuLabel>
             <DropdownMenuItem onClick={() => openSubmodule(subMenu.sub)}>
-              <FolderGit2 /> 打开 as repository
+              <FolderGit2 /> 作为仓库打开
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => {

@@ -1409,7 +1409,7 @@ test('the status bar says when the repository was last fetched', async ({ page }
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
   await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
-  await expect(page.locator('[data-last-fetch]')).toHaveText(/Fetched 刚刚/);
+  await expect(page.locator('[data-last-fetch]')).toHaveText(/已获取 · 刚刚/);
 });
 
 test('the diff header opens blame inside file history with authors per hunk', async ({ page }) => {

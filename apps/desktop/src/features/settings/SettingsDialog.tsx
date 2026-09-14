@@ -185,7 +185,7 @@ function SshCard() {
                 toast.success('公钥已复制——请粘贴到你的托管平台');
               }}
             >
-              <Copy /> 复制 public key
+              <Copy /> 复制公钥
             </Button>
           </div>
         )}

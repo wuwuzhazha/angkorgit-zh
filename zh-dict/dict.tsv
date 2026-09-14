@@ -1067,3 +1067,9 @@ ui	Connection not tested yet	连接尚未测试
 ui	Settings changed since the last test	自上次测试后设置已更改
 e2e	Reachable	可访问	getByText\('Reachable'
 e2e	Settings changed since the last test	自上次测试后设置已更改
+ui	Open as repository	作为仓库打开
+ui	Copy public key	复制公钥
+ui	Fetched {timeAgo(lastFetchAt / 1000)}	已获取 · {timeAgo(lastFetchAt / 1000)}
+ui	Last fetched at ${new Date(lastFetchAt).toLocaleTimeString()}	上次获取于 ${new Date(lastFetchAt).toLocaleTimeString()}
+ui	Fetches run when you switch to this tab, when the window gets focus and every ${autoFetchMinutes} min.	切换到本标签页、窗口获得焦点时以及每 ${autoFetchMinutes} 分钟会自动获取。
+e2e	Fetched 刚刚	已获取 · 刚刚
