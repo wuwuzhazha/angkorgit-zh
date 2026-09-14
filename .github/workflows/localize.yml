@@ -77,7 +77,24 @@ jobs:
       - name: 混排文案检查
         id: copycheck
         continue-on-error: true
-        run: node scripts/check-copy.mjs
+        run: node scripts/check-copy.mjs > "$RUNNER_TEMP/copycheck.txt" 2>&1
+
+      - name: 整理待译清单
+        id: pending
+        run: |
+          if [ -f zh-dict/pending.tsv ]; then
+            grep -vc '^#' zh-dict/pending.tsv > "$RUNNER_TEMP/pending-count.txt" || true
+          else
+            echo 0 > "$RUNNER_TEMP/pending-count.txt"
+          fi
+          echo "待译/待确认条目：$(cat "$RUNNER_TEMP/pending-count.txt")"
+
+      - name: 保存待译清单
+        uses: actions/upload-artifact@v4
+        with:
+          name: pending-strings
+          path: zh-dict/pending.tsv
+          if-no-files-found: ignore
 
       - name: 生成 PR 说明
         run: |
@@ -95,8 +112,12 @@ jobs:
             echo "### 混排文案检查（\`pnpm check:copy\`）"
             echo
             echo '```text'
-            echo "结果：${{ steps.copycheck.outcome }}"
+            cat "$RUNNER_TEMP/copycheck.txt"
             echo '```'
+            echo
+            echo "### 待译/待确认条目：$(cat "$RUNNER_TEMP/pending-count.txt") 条"
+            echo
+            echo "完整清单见本次运行的 **pending-strings** 构建产物（\`zh-dict/pending.tsv\`，已用 .gitignore 排除，不再提交）。"
             echo
             echo "### 合并前请确认"
             echo

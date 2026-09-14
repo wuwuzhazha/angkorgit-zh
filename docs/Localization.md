@@ -18,16 +18,22 @@
 Issue 是唯一事实来源：GitHub 会给仓库关注者发送 Issue 邮件通知，正文里 `@owner` 再兜底一次。
 Issue 带 `upstream-sync` 标签，同一上游提交不会重复创建。
 
+> 前置条件：仓库必须**启用 Issues**（Settings → Features → Issues）。本仓库已启用。
+
 ## 人工流程
 
 1. 收到「上游更新：<sha>」Issue。
 2. Actions → **同步并汉化（PR）** → Run workflow（可填 `version` 顺带升版本号）。
 3. 工作流产出 PR `chore(i18n): 同步上游并汉化`。
-4. 在 PR 里查看 `check:copy` 结果与 CI；对照 Issue 里的上游提交，把新增英文串补进 `zh-dict/dict.tsv`。
+4. 在 PR 里查看 `check:copy` 结果与 CI；对照 **pending-strings** 构建产物
+   （`zh-dict/pending.tsv`，列出所有未翻译英文串）把新增串补进 `zh-dict/dict.tsv`。
 5. CI 全绿后合并。
 6. 需要发版时：确认 `package.json` 版本已是要发布的版本 → 运行 **发布中文版**。
 
 ## 词典 `zh-dict/dict.tsv`
+
+> `zh-dict/pending.tsv` 是脚本生成的待译清单，已加入 `.gitignore`，不再提交；
+> 每次「同步并汉化（PR）」会把它作为构建产物上传，PR 正文里也给出条目数。
 
 每行 `TAB` 分隔，字段依次为：
 
