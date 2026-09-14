@@ -66,8 +66,9 @@ jobs:
         continue-on-error: true
         shell: pwsh
         run: |
+          $pre = (git rev-parse HEAD).Trim()
           git merge upstream/main -X theirs --no-edit
-          Copy-Item docs/README.zh.md README.md -Force
+          git checkout $pre -- README.md docs apps/website
           $pub = (Get-Content -Raw zh-dict/updater-pubkey.txt).Trim()
           $conf = 'apps/desktop/src-tauri/tauri.conf.json'
           $raw = Get-Content -Raw $conf

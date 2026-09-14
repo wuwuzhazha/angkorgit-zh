@@ -48,12 +48,13 @@ jobs:
       - name: 合并上游并恢复自维护文件
         shell: pwsh
         run: |
+          $pre = (git rev-parse HEAD).Trim()
           if ('${{ steps.upstream.outputs.need_merge }}' -eq 'true') {
             git merge upstream/main -X theirs --no-edit
           } else {
             Write-Output "已包含上游最新提交。"
           }
-          Copy-Item docs/README.zh.md README.md -Force
+          git checkout $pre -- README.md docs apps/website
           $pub = (Get-Content -Raw zh-dict/updater-pubkey.txt).Trim()
           $conf = 'apps/desktop/src-tauri/tauri.conf.json'
           $raw = Get-Content -Raw $conf
@@ -62,7 +63,7 @@ jobs:
           git add -A
           git diff --cached --quiet
           if ($LASTEXITCODE -ne 0) {
-            git commit -m "chore: 合并上游并恢复中文 README 与 updater 公钥" --no-verify
+            git commit -m "chore: 合并上游并恢复中文 README、docs 与网站" --no-verify
           }
 
       - name: 应用词库

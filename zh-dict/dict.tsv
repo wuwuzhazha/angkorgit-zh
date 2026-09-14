@@ -1073,3 +1073,14 @@ ui	Fetched {timeAgo(lastFetchAt / 1000)}	已获取 · {timeAgo(lastFetchAt / 100
 ui	Last fetched at ${new Date(lastFetchAt).toLocaleTimeString()}	上次获取于 ${new Date(lastFetchAt).toLocaleTimeString()}
 ui	Fetches run when you switch to this tab, when the window gets focus and every ${autoFetchMinutes} min.	切换到本标签页、窗口获得焦点时以及每 ${autoFetchMinutes} 分钟会自动获取。
 e2e	Fetched 刚刚	已获取 · 刚刚
+ui	Discard all changes	全部丢弃未暂存的更改
+ui	Discard all staged changes	全部丢弃已暂存的更改
+ui	No changes match the filter.	没有匹配过滤条件的更改。
+ui	Uncommitted changes are discarded and cannot be recovered.	未提交的更改将被丢弃且无法恢复。
+ui	check that this is your Atlassian account email and that the API token carries the read:repository:bitbucket scope	请确认这是你的 Atlassian 账户邮箱，且 API 令牌带有 read:repository:bitbucket 权限范围
+ui	Uses an AI CLI already installed on this machine — Claude Code, Codex, Gemini CLI, OpenCode or Antigravity — with its own login and quota. No API key needed.	使用本机已安装的 AI CLI——Claude Code、Codex、Gemini CLI、OpenCode 或 Antigravity——以其自身的登录与配额运行，无需 API 密钥。
+ui	Used for commit messages, diff explanations, conflict help and reviews. Local models via Ollama or LM Studio need no API key.	用于提交消息、diff 解释、冲突帮助与审查。通过 Ollama 或 LM Studio 的本地模型无需 API 密钥。
+ui	Open in {editor.label}	在 {editor.label} 中打开
+ui	<FolderGit2 /> Open as repository	<FolderGit2 /> 作为仓库打开
+ui	Resolve conflicts in ${file}	解决冲突：${file}
+ui	Hard reset to	硬重置到

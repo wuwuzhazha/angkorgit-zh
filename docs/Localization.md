@@ -34,6 +34,18 @@ SSL 端口（465）另在仓库 Variables 里设 `SMTP_SECURE=true`。
 5. CI 全绿后合并。
 6. 需要发版时：确认 `package.json` 版本已是要发布的版本 → 运行 **发布中文版**。
 
+## 人工维护的中文内容
+
+以下路径是**手写中文**，词典无法复现，因此处理方式不同：
+
+- 本地化脚本跳过它们（`zh-dict/skip-files.txt` 里的 `docs/**`、`apps/website/**`）；
+- 合并上游后，工作流用 `git checkout <合并前提交> -- README.md docs apps/website`
+  把它们恢复成我们的版本，避免被上游英文覆盖。
+
+上游对这些文件的改动会出现在 Issue 的「变更统计」里，需要人工搬运——这正是「精准汉化」的部分。
+代码（`apps/desktop/src`、`apps/desktop/src-tauri/src`、`packages/core/src`、`tests/**`）仍由词典自动翻译，
+并由 `check:copy` / e2e 把关。
+
 ## 词典 `zh-dict/dict.tsv`
 
 > `zh-dict/pending.tsv` 是脚本生成的待译清单，已加入 `.gitignore`，不再提交；

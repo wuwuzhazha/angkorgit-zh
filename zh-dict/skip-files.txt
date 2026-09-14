@@ -26,3 +26,7 @@ apps/desktop/src/core/demo.ts
 CHANGELOG.md
 SECURITY.md
 CODE_OF_CONDUCT.md
+
+# 人工维护的中文内容：本地化脚本不处理；工作流在合并后从合并前的提交恢复
+docs/**
+apps/website/**
