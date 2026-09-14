@@ -49,9 +49,13 @@ jobs:
         shell: pwsh
         env:
           FORK_REPO: ${{ github.repository }}
-          PUSH_FLAG: ${{ inputs.push && '-Push' || '' }}
+          PUSH_INPUT: ${{ inputs.push }}
         run: |
-          ./scripts/sync-localize.ps1 -Repo "$env:GITHUB_WORKSPACE" `
-            -ForkRepo "$env:FORK_REPO" `
-            -UpstreamUrl "https://github.com/cheat2001/angkorgit.git" `
-            $env:PUSH_FLAG
+          $scriptArgs = @(
+            '-NoProfile', '-File', './scripts/sync-localize.ps1',
+            '-Repo', "$env:GITHUB_WORKSPACE",
+            '-ForkRepo', "$env:FORK_REPO",
+            '-UpstreamUrl', 'https://github.com/cheat2001/angkorgit.git'
+          )
+          if ($env:PUSH_INPUT -eq 'true') { $scriptArgs += '-Push' }
+          pwsh @scriptArgs
