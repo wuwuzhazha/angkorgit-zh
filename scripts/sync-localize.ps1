@@ -370,8 +370,7 @@ function Update-ForkUrls {
   param([string]$ForkRepo)
   $files = @(
     'apps/desktop/src-tauri/tauri.conf.json',
-    'apps/website/src/lib/site.ts',
-    'README.md'
+    'apps/website/src/lib/site.ts'
   )
   foreach ($rel in $files) {
     $abs = Join-Path $Repo ($rel.Replace('/', [System.IO.Path]::DirectorySeparatorChar))

@@ -127,16 +127,17 @@
   </tr>
 </table>
 
-## 🚀 全自动「同步 · 中文化 · 构建 · 发布」流水线
+## 🔄 上游同步与中文化
 
-本仓库内置 `.github/workflows/auto-sync-build-release.yml`，**无需人工参与**即可跟随上游持续更新并自动发布中文版安装包：
+本仓库不再无人值守地自动发布，汉化采用「自动检测 → 自动准备 PR → 人工校对合并 → 手动发布」：
 
-1. 每 6 小时自动轮询上游 `cheat2001/angkorgit`（也可在 Actions 页手动触发）。
-2. 检测到上游更新后：**合并（上游代码优先）→ 重放中文化词库 → 中文 README 恢复 → 版本号自动递增 → 提交推送 main**。
-3. 自动构建 Windows 安装包（NSIS `.exe` + MSI，含 updater 签名与 `latest.json`）。
-4. 自动发布 GitHub Release（Release 说明含本次上游提交清单与词库/待译统计）。
+1. **上游更新检测**（`upstream-watch.yml`，每天）：发现上游 `cheat2001/angkorgit` 新提交时创建 Issue，GitHub 邮件通知。
+2. **同步并汉化（PR）**（`localize.yml`，手动触发）：合并上游 → 应用 `zh-dict/dict.tsv` → 跑 `pnpm check:copy` → 开出 PR。
+3. 在 PR 里补齐新增英文串，CI（typecheck / 单元测试 / Playwright / Rust）全绿后合并。
+4. **发布中文版**（`release-zh.yml`，手动触发）：先跑完整测试，再构建并发布 Windows 安装包（NSIS + MSI，含 updater 签名与 `latest.json`）。
 
-上游新引入的英文串会自动进入 `zh-dict/pending.tsv` 并随 main 提交；人工翻译后推入 `dict.tsv`，下一次运行自动生效。升级检查（应用内“检查更新”）指向本仓库 Releases，安装后即可持续自动升级。
+上游新引入的英文串会进入 `zh-dict/pending.tsv`（构建产物，不入库），翻译后补进 `dict.tsv` 即可。
+详见 [docs/Localization.md](docs/Localization.md)。
 
 ## 🚫 故意不做的事情
 
