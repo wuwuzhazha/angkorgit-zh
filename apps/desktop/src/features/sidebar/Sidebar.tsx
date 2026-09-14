@@ -1437,7 +1437,7 @@ export function Sidebar() {
                 if (url) void openExternal(url);
               }}
             >
-              <Globe /> Open in browser
+              <Globe /> 打开 in browser
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => {

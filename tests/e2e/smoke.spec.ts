@@ -1004,7 +1004,7 @@ test('arrow keys move the working copy diff from file to file', async ({ page })
 test('branch menus offer a fast-forward entry next to merge, disabled when the current branch is ahead', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   await page.getByText('develop', { exact: true }).click({ button: 'right' });
   const sidebarMenu = page.getByRole('menu');
   await expect(sidebarMenu.getByRole('menuitem', { name: 'Merge into current' })).toBeEnabled();
@@ -1024,8 +1024,8 @@ test('branch menus offer a fast-forward entry next to merge, disabled when the c
 test('the remote menu and the palette open the repository page in the browser', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
-  const sidebar = page.getByRole('complementary', { name: 'Branches and refs' });
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
+  const sidebar = page.getByRole('complementary', { name: '分支与引用' });
   const remotesHeader = sidebar.getByRole('button', { name: /^Remotes/ });
   if ((await remotesHeader.getAttribute('aria-expanded')) !== 'true') await remotesHeader.click();
   await sidebar.getByText('origin', { exact: true }).click({ button: 'right' });
@@ -1036,14 +1036,14 @@ test('the remote menu and the palette open the repository page in the browser', 
   expect(popup.url()).toBe('https://github.com/demo/angkorgit');
   await popup.close();
   await page.keyboard.press('ControlOrMeta+k');
-  await expect(page.getByPlaceholder('Type a command or branch name…')).toBeVisible();
+  await expect(page.getByPlaceholder('输入命令或分支名…')).toBeVisible();
   await expect(page.getByText('Open repository in browser', { exact: true })).toBeVisible();
 });
 
 test('blame is disabled for a file no commit has seen yet', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   const row = page.getByText('Architecture.md', { exact: true }).first();
   await row.click({ button: 'right' });
   const item = page.getByRole('menuitem', { name: /^Blame/ });
@@ -1051,18 +1051,18 @@ test('blame is disabled for a file no commit has seen yet', async ({ page }) => 
   await expect(item).toHaveAttribute('aria-disabled', 'true');
   await page.keyboard.press('Escape');
   await row.click();
-  const diff = page.locator('section[aria-label="Diff for docs/Architecture.md"]');
+  const diff = page.locator('section[aria-label="文件差异： docs/Architecture.md"]');
   await expect(diff).toBeVisible();
   await expect(diff.getByRole('button', { name: 'Blame' })).toBeDisabled();
   await page.keyboard.press('Escape');
   await page.getByText('ipc.ts', { exact: true }).first().click();
-  await expect(page.locator('section[aria-label="Diff for src/core/ipc.ts"]').getByRole('button', { name: 'Blame' })).toBeEnabled();
+  await expect(page.locator('section[aria-label="文件差异： src/core/ipc.ts"]').getByRole('button', { name: 'Blame' })).toBeEnabled();
 });
 
 test('the status bar shows the AI connection state once AI is configured and tested', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   const chip = page.locator('[data-ai-status]');
   await expect(chip).toHaveAttribute('data-ai-status', 'untested');
   await expect(chip).toHaveText('Ollama');

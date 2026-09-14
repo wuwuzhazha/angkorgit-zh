@@ -309,7 +309,7 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
                 {webUrl && (
                   <PaletteItem
                     icon={<Globe />}
-                    label={remotes.length > 1 ? `Open ${pickedRemote?.name} in browser` : 'Open repository in browser'}
+                    label={remotes.length > 1 ? `Open ${pickedRemote?.name} in browser` : '打开仓库 in browser'}
                     onSelect={() => {
                       close();
                       void openExternal(webUrl);

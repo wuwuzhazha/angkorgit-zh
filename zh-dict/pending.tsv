@@ -78,19 +78,17 @@ docs	docs/Launch-Checklist.md	apps/website/public/CNAME
 docs	docs/Launch-Checklist.md	apps/website/src/layouts/Base.astro
 docs	docs/Launch-Checklist.md	SITE_BASE=/
 docs	docs/Roadmap.md	.angkorgit/review.md
+docs	docs/Roadmap.md	Open in browser
 docs	docs/UI-Guidelines.md	--background
 docs	docs/UI-Guidelines.md	Create Branch
 e2e	tests/e2e/smoke.spec.ts	(section deleted)
 e2e	tests/e2e/smoke.spec.ts	**://www.gravatar.com/**
-e2e	tests/e2e/smoke.spec.ts	0 of 3 resolved
 e2e	tests/e2e/smoke.spec.ts	000096aaaaaa
 e2e	tests/e2e/smoke.spec.ts	1 more file to resolve
 e2e	tests/e2e/smoke.spec.ts	1 more ref
 e2e	tests/e2e/smoke.spec.ts	1 of 1
 e2e	tests/e2e/smoke.spec.ts	1 of 2
-e2e	tests/e2e/smoke.spec.ts	1 of 3 resolved
 e2e	tests/e2e/smoke.spec.ts	1 of 5
-e2e	tests/e2e/smoke.spec.ts	3 of 3 resolved
 e2e	tests/e2e/smoke.spec.ts	4 of 5 selected
 e2e	tests/e2e/smoke.spec.ts	a file history row can open the full commit in the graph
 e2e	tests/e2e/smoke.spec.ts	a short hash prefix jumps like a full hash and an unknown hex word reports no matches
@@ -102,17 +100,15 @@ e2e	tests/e2e/smoke.spec.ts	arrow keys move the working copy diff from file to f
 e2e	tests/e2e/smoke.spec.ts	aside button[title="feature"]
 e2e	tests/e2e/smoke.spec.ts	aside button[title="feature"] span.truncate
 e2e	tests/e2e/smoke.spec.ts	Blame at this commit
+e2e	tests/e2e/smoke.spec.ts	blame is disabled for a file no commit has seen yet
 e2e	tests/e2e/smoke.spec.ts	Blame view
 e2e	tests/e2e/smoke.spec.ts	button span.truncate
 e2e	tests/e2e/smoke.spec.ts	Checkout release/0.4
 e2e	tests/e2e/smoke.spec.ts	chip geometry missing
-e2e	tests/e2e/smoke.spec.ts	Close file history
+e2e	tests/e2e/smoke.spec.ts	Claude Code
 e2e	tests/e2e/smoke.spec.ts	Command line tool
-e2e	tests/e2e/smoke.spec.ts	Command palette
 e2e	tests/e2e/smoke.spec.ts	commit search finds matches in the full graph and steps through them
-e2e	tests/e2e/smoke.spec.ts	Conflict 2 of 3
 e2e	tests/e2e/smoke.spec.ts	Copy absolute path
-e2e	tests/e2e/smoke.spec.ts	Copy path
 e2e	tests/e2e/smoke.spec.ts	Dara Kim
 e2e	tests/e2e/smoke.spec.ts	dialog geometry missing
 e2e	tests/e2e/smoke.spec.ts	Diff view
@@ -125,8 +121,6 @@ e2e	tests/e2e/smoke.spec.ts	feat(worktrees): list, create and remove linked work
 e2e	tests/e2e/smoke.spec.ts	feature/parallel agents
 e2e	tests/e2e/smoke.spec.ts	File 1 of 2
 e2e	tests/e2e/smoke.spec.ts	File 2 of 2
-e2e	tests/e2e/smoke.spec.ts	File history
-e2e	tests/e2e/smoke.spec.ts	Filter refs…
 e2e	tests/e2e/smoke.spec.ts	Find author…
 e2e	tests/e2e/smoke.spec.ts	fix(diff): handle renamed files
 e2e	tests/e2e/smoke.spec.ts	fix(diff): handle renamed files in word diff
@@ -134,31 +128,33 @@ e2e	tests/e2e/smoke.spec.ts	graph display menu can switch the lane color band of
 e2e	tests/e2e/smoke.spec.ts	h2, p
 e2e	tests/e2e/smoke.spec.ts	hovering a crowded ref cell stacks every ref in place, folded ones included
 e2e	tests/e2e/smoke.spec.ts	img[src*="gravatar"]
-e2e	tests/e2e/smoke.spec.ts	Inline diff
 e2e	tests/e2e/smoke.spec.ts	Leave this file unresolved?
 e2e	tests/e2e/smoke.spec.ts	leaving a conflict with picks asks first while a clean resolver closes on Escape
+e2e	tests/e2e/smoke.spec.ts	Merge into current
+e2e	tests/e2e/smoke.spec.ts	Merge into current branch
 e2e	tests/e2e/smoke.spec.ts	no inspector resize handle
 e2e	tests/e2e/smoke.spec.ts	No matches
 e2e	tests/e2e/smoke.spec.ts	Not committed yet
 e2e	tests/e2e/smoke.spec.ts	Open commit 
+e2e	tests/e2e/smoke.spec.ts	Open in browser
 e2e	tests/e2e/smoke.spec.ts	Open in Visual Studio Code
 e2e	tests/e2e/smoke.spec.ts	Open in Zed
-e2e	tests/e2e/smoke.spec.ts	Paste the token
-e2e	tests/e2e/smoke.spec.ts	Previous match
+e2e	tests/e2e/smoke.spec.ts	Open repository in browser
 e2e	tests/e2e/smoke.spec.ts	Pull options
 e2e	tests/e2e/smoke.spec.ts	Pull with merge
 e2e	tests/e2e/smoke.spec.ts	Pull with rebase
 e2e	tests/e2e/smoke.spec.ts	reconnecting an account opens the token form with the account prefilled
 e2e	tests/e2e/smoke.spec.ts	release/0.4
-e2e	tests/e2e/smoke.spec.ts	Reset branch to its remote?
 e2e	tests/e2e/smoke.spec.ts	Reset main to this…
 e2e	tests/e2e/smoke.spec.ts	return render(rows, { colors });
 e2e	tests/e2e/smoke.spec.ts	Search a file to blame…
 e2e	tests/e2e/smoke.spec.ts	settings can install the command line tool
+e2e	tests/e2e/smoke.spec.ts	Settings changed since the last test
 e2e	tests/e2e/smoke.spec.ts	settings lists detected editors and the toolbar opens in the chosen one
 e2e	tests/e2e/smoke.spec.ts	src/app/App.tsx
 e2e	tests/e2e/smoke.spec.ts	staged files can be discarded from the row, the menu and the header
 e2e	tests/e2e/smoke.spec.ts	temple gold
+e2e	tests/e2e/smoke.spec.ts	Test connection
 e2e	tests/e2e/smoke.spec.ts	the author box finds commits without flattening the graph
 e2e	tests/e2e/smoke.spec.ts	the commit file list can be filtered by path
 e2e	tests/e2e/smoke.spec.ts	the diff header opens blame inside file history with authors per hunk
@@ -166,10 +162,13 @@ e2e	tests/e2e/smoke.spec.ts	the diff header opens the history of the file being 
 e2e	tests/e2e/smoke.spec.ts	the inspector stops at its minimum width when dragged and comes back after file history
 e2e	tests/e2e/smoke.spec.ts	the palette offers Blame… and picks a file
 e2e	tests/e2e/smoke.spec.ts	the pull button offers merge and rebase
+e2e	tests/e2e/smoke.spec.ts	the remote menu and the palette open the repository page in the browser
 e2e	tests/e2e/smoke.spec.ts	the resolver picks with the keyboard and opens the next conflicted file after saving
 e2e	tests/e2e/smoke.spec.ts	the sidebar comes back after a relaunch that happened with a diff open
 e2e	tests/e2e/smoke.spec.ts	the status bar says when the repository was last fetched
+e2e	tests/e2e/smoke.spec.ts	the status bar shows the AI connection state once AI is configured and tested
 e2e	tests/e2e/smoke.spec.ts	the working copy filter narrows both lists and shows counts
+e2e	tests/e2e/smoke.spec.ts	Virtualized rows keep large graphs smooth for every export and import.
 e2e	tests/e2e/smoke.spec.ts	WIP on main: experiment with lane colors
 e2e	tests/e2e/smoke.spec.ts	xpath=ancestor::*[@role="row"]
 meta	apps/desktop/package.json	vite preview
@@ -233,6 +232,8 @@ rust	apps/desktop/src-tauri/src/cli.rs	torvalds/linux
 rust	apps/desktop/src-tauri/src/core/accounts.rs	acct:{host}:{username}
 rust	apps/desktop/src-tauri/src/core/accounts.rs	gitlab.example.com:8443
 rust	apps/desktop/src-tauri/src/core/ai_keys.rs	ai:{provider}
+rust	apps/desktop/src-tauri/src/core/blame.rs	{file} does not exist in commit {} — blame it at a commit that still has it
+rust	apps/desktop/src-tauri/src/core/blame.rs	{file} has no committed history yet — commit it first, then blame it
 rust	apps/desktop/src-tauri/src/core/blame.rs	{file} is a binary file
 rust	apps/desktop/src-tauri/src/core/blame.rs	{file} is too large to blame ({} MB)
 rust	apps/desktop/src-tauri/src/core/blame.rs	bare repositories have no working copy to blame
@@ -277,7 +278,7 @@ rust	apps/desktop/src-tauri/src/core/sign.rs	{literal}\n
 rust	apps/desktop/src-tauri/src/core/sign.rs	commit: {}
 rust	apps/desktop/src-tauri/src/core/sign.rs	Test User
 rust	apps/desktop/src-tauri/src/core/stage.rs	{file_header}@@ -{start},{old_count} +{start},{new_count} @@\n{body}
-rust	apps/desktop/src-tauri/src/core/stage.rs	{header}{hunk}
+rust	apps/desktop/src-tauri/src/core/stage.rs	{header}@@ -{},{} +{new_start},{} @@\n{body}
 rust	apps/desktop/src-tauri/src/core/stage.rs	\\ No newline at end of file\n
 rust	apps/desktop/src-tauri/src/core/stage.rs	a>(repo: &
 rust	apps/desktop/src-tauri/src/core/stage.rs	checked above
@@ -289,6 +290,12 @@ rust	apps/desktop/src-tauri/src/editors.rs	.local/share/flatpak/exports/bin
 rust	apps/desktop/src-tauri/src/editors.rs	{editor_id} is not installed on this machine any more — pick another editor in Settings → Git
 rust	apps/desktop/src-tauri/src/editors.rs	#!/bin/sh\necho \"$@\" > '{}'\n
 rust	apps/desktop/src-tauri/src/editors.rs	GNOME Builder
+rust	apps/desktop/src-tauri/src/editors.rs	Microsoft VS Code\\bin
+rust	apps/desktop/src-tauri/src/editors.rs	Programs\\cursor\\resources\\app\\bin
+rust	apps/desktop/src-tauri/src/editors.rs	Programs\\Microsoft VS Code Insiders\\bin
+rust	apps/desktop/src-tauri/src/editors.rs	Programs\\Microsoft VS Code\\bin
+rust	apps/desktop/src-tauri/src/editors.rs	Programs\\Windsurf\\bin
+rust	apps/desktop/src-tauri/src/editors.rs	Programs\\Zed
 rust	apps/desktop/src-tauri/src/editors.rs	static [&
 rust	apps/desktop/src-tauri/src/editors.rs	Sublime Text
 rust	apps/desktop/src-tauri/src/editors.rs	Visual Studio Code
@@ -308,9 +315,6 @@ rust	apps/desktop/src-tauri/src/forge.rs	Basic {basic}
 rust	apps/desktop/src-tauri/src/forge.rs	Bearer {token}
 rust	apps/desktop/src-tauri/src/forge.rs	Bearer tok
 rust	apps/desktop/src-tauri/src/forge.rs	github.corp.dev:8443
-rust	apps/desktop/src-tauri/src/forge.rs	missing from the system keychain
-rust	apps/desktop/src-tauri/src/forge.rs	no connected gitlab.com account
-rust	apps/desktop/src-tauri/src/forge.rs	the token for {host} is missing from the system keychain — reconnect the account in Settings → Authentication
 rust	apps/desktop/src-tauri/src/proc.rs	Command::new(
 rust	apps/desktop/src-tauri/src/watcher.rs	worktrees/
 rust	apps/desktop/src-tauri/tests/git_engine.rs	--format=%B
@@ -351,12 +355,14 @@ rust	apps/desktop/src-tauri/tests/git_engine.rs	commit 1
 rust	apps/desktop/src-tauri/tests/git_engine.rs	commit 2
 rust	apps/desktop/src-tauri/tests/git_engine.rs	committed\n
 rust	apps/desktop/src-tauri/tests/git_engine.rs	core.autocrlf=false
+rust	apps/desktop/src-tauri/tests/git_engine.rs	delete gone
 rust	apps/desktop/src-tauri/tests/git_engine.rs	demo change
 rust	apps/desktop/src-tauri/tests/git_engine.rs	demo change\n
 rust	apps/desktop/src-tauri/tests/git_engine.rs	demo work
 rust	apps/desktop/src-tauri/tests/git_engine.rs	demo work\n
 rust	apps/desktop/src-tauri/tests/git_engine.rs	dirty worktree must not be removed
 rust	apps/desktop/src-tauri/tests/git_engine.rs	diverge on master
+rust	apps/desktop/src-tauri/tests/git_engine.rs	does not exist in commit
 rust	apps/desktop/src-tauri/tests/git_engine.rs	feat: after the conflict
 rust	apps/desktop/src-tauri/tests/git_engine.rs	feat: amended
 rust	apps/desktop/src-tauri/tests/git_engine.rs	feat: clean pick
@@ -386,8 +392,13 @@ rust	apps/desktop/src-tauri/tests/git_engine.rs	git CLI available
 rust	apps/desktop/src-tauri/tests/git_engine.rs	git worktree list did not report the new worktree:\n{listing}
 rust	apps/desktop/src-tauri/tests/git_engine.rs	hotfix/one
 rust	apps/desktop/src-tauri/tests/git_engine.rs	index on
+rust	apps/desktop/src-tauri/tests/git_engine.rs	inserted near top
 rust	apps/desktop/src-tauri/tests/git_engine.rs	keep\nmore\n
 rust	apps/desktop/src-tauri/tests/git_engine.rs	kept across checkout\n
+rust	apps/desktop/src-tauri/tests/git_engine.rs	l1\nl2\nl3\nl4\nl5\nl6\n
+rust	apps/desktop/src-tauri/tests/git_engine.rs	line {i}
+rust	apps/desktop/src-tauri/tests/git_engine.rs	line {i}\n
+rust	apps/desktop/src-tauri/tests/git_engine.rs	line 31 changed
 rust	apps/desktop/src-tauri/tests/git_engine.rs	line should be staged
 rust	apps/desktop/src-tauri/tests/git_engine.rs	local base
 rust	apps/desktop/src-tauri/tests/git_engine.rs	local divergence
@@ -411,8 +422,10 @@ rust	apps/desktop/src-tauri/tests/git_engine.rs	message {message:?}
 rust	apps/desktop/src-tauri/tests/git_engine.rs	missing origin line in: {engine_message:?}
 rust	apps/desktop/src-tauri/tests/git_engine.rs	new staged\n
 rust	apps/desktop/src-tauri/tests/git_engine.rs	new/fresh.txt
+rust	apps/desktop/src-tauri/tests/git_engine.rs	no committed history yet
 rust	apps/desktop/src-tauri/tests/git_engine.rs	no such file or directory
 rust	apps/desktop/src-tauri/tests/git_engine.rs	not a rev
+rust	apps/desktop/src-tauri/tests/git_engine.rs	Not committed yet
 rust	apps/desktop/src-tauri/tests/git_engine.rs	nothing here
 rust	apps/desktop/src-tauri/tests/git_engine.rs	On master: only a
 rust	apps/desktop/src-tauri/tests/git_engine.rs	On master: wip graph
@@ -441,6 +454,7 @@ rust	apps/desktop/src-tauri/tests/git_engine.rs	Second Dev
 rust	apps/desktop/src-tauri/tests/git_engine.rs	source change\n
 rust	apps/desktop/src-tauri/tests/git_engine.rs	SSH SIGNATURE
 rust	apps/desktop/src-tauri/tests/git_engine.rs	staged then edited\n
+rust	apps/desktop/src-tauri/tests/git_engine.rs	staged, unstaged and appended lines are all uncommitted
 rust	apps/desktop/src-tauri/tests/git_engine.rs	stash decoration
 rust	apps/desktop/src-tauri/tests/git_engine.rs	stash listed
 rust	apps/desktop/src-tauri/tests/git_engine.rs	Test User
@@ -497,6 +511,8 @@ test	tests/unit/aiTextSegments.test.ts	keeps unclosed markers literal
 test	tests/unit/aiTextSegments.test.ts	never spans tokens across newlines
 test	tests/unit/aiTextSegments.test.ts	parses bold and code tokens between plain text
 test	tests/unit/aiTextSegments.test.ts	treats asterisks inside backticks as code content
+test	tests/unit/blameable.test.ts	is false for files no commit has seen yet
+test	tests/unit/blameable.test.ts	is true for tracked files whatever their change kind
 test	tests/unit/cliAgents.test.ts	  \u001b[32mfeat: colored\u001b[0m \n
 test	tests/unit/cliAgents.test.ts	\n \n
 test	tests/unit/cliAgents.test.ts	\u001b]0;title\u0007hello\u001b[1m!\u001b[0m 
@@ -591,6 +607,7 @@ test	tests/unit/forge.test.ts	Adds the thing.
 test	tests/unit/forge.test.ts	Another open merge request
 test	tests/unit/forge.test.ts	Another open merge request already exists
 test	tests/unit/forge.test.ts	bitbucket lists workspace members and embeds reviewer uuids on create
+test	tests/unit/forge.test.ts	bitbucket reads the commit author user avatar
 test	tests/unit/forge.test.ts	cheat2001/angkorgit
 test	tests/unit/forge.test.ts	creates a merge request with a draft title prefix
 test	tests/unit/forge.test.ts	creates a pull request and returns the mapped result
@@ -606,10 +623,12 @@ test	tests/unit/forge.test.ts	feature/worktrees
 test	tests/unit/forge.test.ts	Fix pipeline
 test	tests/unit/forge.test.ts	fix/pipeline
 test	tests/unit/forge.test.ts	github lists collaborators and requests reviewers after creating
+test	tests/unit/forge.test.ts	github reads the avatar of the commit author
 test	tests/unit/forge.test.ts	github still returns the created pr when the reviewer request fails
 test	tests/unit/forge.test.ts	github validation errors
 test	tests/unit/forge.test.ts	github.corp.dev:8443
 test	tests/unit/forge.test.ts	github/feature/test1
+test	tests/unit/forge.test.ts	gitlab asks the avatar endpoint by email
 test	tests/unit/forge.test.ts	gitlab lists project members and embeds reviewer_ids on create
 test	tests/unit/forge.test.ts	gitlab scheme fallback safety
 test	tests/unit/forge.test.ts	gone/branch
@@ -677,6 +696,12 @@ test	tests/unit/reviewSignature.test.ts	diff b
 test	tests/unit/reviewSignature.test.ts	differs for different content and repeats for identical content
 test	tests/unit/reviewSignature.test.ts	does not collide on filenames containing newlines
 test	tests/unit/reviewSignature.test.ts	includes only staged files
+test	tests/unit/webUrl.test.ts	drops the ssh port and user from an ssh:// remote
+test	tests/unit/webUrl.test.ts	leaves Bitbucket Cloud paths alone
+test	tests/unit/webUrl.test.ts	maps a Bitbucket Server scm path to its browse page
+test	tests/unit/webUrl.test.ts	returns null for a local path remote
+test	tests/unit/webUrl.test.ts	strips a trailing slash before the .git suffix check
+test	tests/unit/webUrl.test.ts	turns an https remote into the repository page
 test	tests/unit/wordDiff.test.ts	const a = 1;
 test	tests/unit/wordDiff.test.ts	const count = 1;
 test	tests/unit/wordDiff.test.ts	const total = 1;
@@ -700,6 +725,8 @@ ui	apps/desktop/src/components/CommandPalette.tsx	Install command line tool
 ui	apps/desktop/src/components/CommandPalette.tsx	Pull (rebase)
 ui	apps/desktop/src/components/CommandPalette.tsx	Pull with rebase
 ui	apps/desktop/src/components/CommandPalette.tsx	Search a file to blame…
+ui	apps/desktop/src/components/StatusBar.tsx	No AI provider is set up yet. Click to choose one in Settings.
+ui	apps/desktop/src/components/StatusBar.tsx	Set up AI
 ui	apps/desktop/src/components/Toolbar.tsx	 : ''}
 ui	apps/desktop/src/components/Toolbar.tsx	 : ''} · merge or rebase per pull.rebase
 ui	apps/desktop/src/components/Toolbar.tsx	block truncate
@@ -721,6 +748,7 @@ ui	apps/desktop/src/features/blame/BlameView.tsx	Hash copied
 ui	apps/desktop/src/features/blame/BlameView.tsx	Not committed yet
 ui	apps/desktop/src/features/commit/draftStore.ts	zustand/middleware
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	Absolute path copied
+ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	Blame (no commits yet)
 ui	apps/desktop/src/features/commit/WorkingCopyPanel.tsx	Show in Finder
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	Clear every pick and start over
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	Commit to finish the merge.
@@ -743,6 +771,7 @@ ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	What the revert want
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	Your branch as it is now.
 ui	apps/desktop/src/features/conflicts/ConflictResolver.tsx	Your commit, being replayed on top of it.
 ui	apps/desktop/src/features/diff/DiffPanel.tsx	Blame at this commit
+ui	apps/desktop/src/features/diff/DiffPanel.tsx	Nothing to blame yet — this file has no commits
 ui	apps/desktop/src/features/diff/DiffViewer.tsx	image/svg+xml
 ui	apps/desktop/src/features/forge/CreatePrDialog.tsx	 : ''}
 ui	apps/desktop/src/features/graph/CommitGraph.tsx	Find author…
@@ -752,7 +781,6 @@ ui	apps/desktop/src/features/graph/WipRow.tsx	3 2.5
 ui	apps/desktop/src/features/history/FileHistoryPanel.tsx	Blame view
 ui	apps/desktop/src/features/history/FileHistoryPanel.tsx	Diff view
 ui	apps/desktop/src/features/history/FileHistoryPanel.tsx	Hash copied
-ui	apps/desktop/src/features/history/FileHistoryPanel.tsx	No uncommitted changes to this file.
 ui	apps/desktop/src/features/history/FileHistoryPanel.tsx	Open this commit in the graph with all its files
 ui	apps/desktop/src/features/inspector/CommitDetails.tsx	).join('\n')}
 ui	apps/desktop/src/features/inspector/CommitDetails.tsx	Absolute path copied
@@ -766,6 +794,7 @@ ui	apps/desktop/src/features/settings/SettingsDialog.tsx	[{suffix}]
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	→ / ←
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	↑ / ↓
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	+ / − / 0
+ui	apps/desktop/src/features/settings/SettingsDialog.tsx	$HOME/.local/bin:$PATH
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	A / C
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	Command line tool
 ui	apps/desktop/src/features/settings/SettingsDialog.tsx	Command line tool removed
