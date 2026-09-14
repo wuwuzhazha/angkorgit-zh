@@ -463,8 +463,8 @@ fn isolated_hunk_patch(diff: &git2::Diff, hunk_index: usize) -> AppResult<String
     let hunk_text = hunks
         .get(hunk_index)
         .ok_or_else(|| AppError::other(format!("找不到代码块 {hunk_index}")))?;
-    let patch = git2::Patch::from_diff(diff, 0)?
-        .ok_or_else(|| AppError::other("此文件没有文本 diff"))?;
+    let patch =
+        git2::Patch::from_diff(diff, 0)?.ok_or_else(|| AppError::other("此文件没有文本 diff"))?;
     let (hunk, _) = patch.hunk(hunk_index)?;
     let body = hunk_text
         .split_once('\n')
