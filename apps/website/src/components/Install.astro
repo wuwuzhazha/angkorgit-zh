@@ -4,25 +4,34 @@ import TerminalBlock from './TerminalBlock.astro';
 import { SITE } from '../lib/site';
 
 const version = SITE.latestVersion;
+const upstreamVersion = '0.15.0';
+const upstreamAsset = (asset: string) =>
+  `https://github.com/cheat2001/angkorgit/releases/download/v${upstreamVersion}/${asset}`;
 
 const platforms = [
   {
-    name: 'macOS',
-    detail: 'Intel 与 Apple Silicon，单文件',
-    asset: `AngKorGit_${version}_universal.dmg`,
-    note: '未用 Apple 证书签名，所以 macOS 会询问一次。右键点击并选择“打开”，或使用下方的 Homebrew，之后就再也不会询问。',
+    name: 'Windows',
+    detail: 'x64 中文版安装程序',
+    asset: `AngKorGit_${version}_x64-setup.exe`,
+    url: SITE.assetUrl(version, `AngKorGit_${version}_x64-setup.exe`),
+    action: '下载中文版',
+    note: 'SmartScreen 会提示发布者未知。点击“更多信息”，然后“仍要运行”。发布页面也提供 .msi 安装包；自动更新使用本仓库的签名。',
   },
   {
-    name: 'Windows',
-    detail: 'x64 安装程序',
-    asset: `AngKorGit_${version}_x64-setup.exe`,
-    note: 'SmartScreen 会提示发布者未知。点击“更多信息”，然后“仍要运行”。发布页面也提供 .msi 安装包。',
+    name: 'macOS',
+    detail: '上游原版，未汉化',
+    asset: `AngKorGit_${upstreamVersion}_universal.dmg`,
+    url: upstreamAsset(`AngKorGit_${upstreamVersion}_universal.dmg`),
+    action: '下载上游原版',
+    note: '支持 Intel 与 Apple Silicon。本次不提供 macOS 中文安装包；如需中文界面，可自行编译本仓库源码。',
   },
   {
     name: 'Linux',
-    detail: 'AppImage、.deb 和 .rpm',
-    asset: `AngKorGit_${version}_amd64.AppImage`,
-    note: 'chmod +x and run. Needs WebKitGTK 4.1 and libssl, which most desktops already have.',
+    detail: '上游原版，未汉化',
+    asset: `AngKorGit_${upstreamVersion}_amd64.AppImage`,
+    url: upstreamAsset(`AngKorGit_${upstreamVersion}_amd64.AppImage`),
+    action: '下载上游原版',
+    note: '添加执行权限后运行，需要 WebKitGTK 4.1 与 libssl。中文版本需自行编译；上游还提供 .deb 和 .rpm。',
   },
 ];
 
@@ -36,11 +45,11 @@ const brew = 'brew install --cask cheat2001/tap/angkorgit';
         <p class="font-mono text-xs uppercase tracking-[0.18em] text-primary">安装 · v{version}</p>
         <h2 class="display mt-3 text-4xl leading-[1.02] sm:text-5xl">选择你的平台。</h2>
         <p class="mt-6 text-[17px] leading-relaxed text-muted">
-          Every build is compiled in public by GitHub Actions from the source you can read, and the app checks for
-          the next version itself.
+          Windows 中文版由本仓库的 GitHub Actions 构建，并通过签名校验自动更新。
+          macOS 与 Linux 链接明确指向未汉化的上游原版。
         </p>
         <div class="mt-8">
-          <p class="font-mono text-xs uppercase tracking-[0.14em] text-faint">Mac（Homebrew）</p>
+          <p class="font-mono text-xs uppercase tracking-[0.14em] text-faint">macOS 上游原版（Homebrew）</p>
           <div class="mt-2">
             <TerminalBlock label="terminal" lines={[brew]} copy={brew} />
           </div>
@@ -61,10 +70,10 @@ const brew = 'brew install --cask cheat2001/tap/angkorgit';
                   <p class="mt-2 text-[13px] leading-relaxed text-muted">{p.note}</p>
                 </div>
                 <a
-                  href={SITE.assetUrl(version, p.asset)}
+                  href={p.url}
                   class="inline-flex h-9 items-center gap-2 self-start rounded-md border border-border px-3.5 text-sm font-medium text-foreground transition-colors hover:border-primary hover:text-primary"
                 >
-                  下载
+                  {p.action}
                   <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                     <path d="M12 5v14m0 0 6-6m-6 6-6-6" />
                   </svg>
@@ -77,17 +86,17 @@ const brew = 'brew install --cask cheat2001/tap/angkorgit';
         <details class="group mt-6">
           <summary class="flex cursor-pointer list-none items-center gap-2 text-sm text-muted hover:text-foreground">
             <svg class="h-3.5 w-3.5 transition-transform group-open:rotate-90" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6" /></svg>
-            不使用 Homebrew，从终端安装
+            从终端安装：Windows 中文版与其他平台上游原版
           </summary>
           <div class="mt-4 grid gap-4">
             <TerminalBlock
-              label="macOS"
+              label="macOS 上游原版"
               lines={[
-                `curl -L ${SITE.assetUrl(version, `AngKorGit_${version}_universal.dmg`)} -o ~/Downloads/AngKorGit.dmg`,
+                `curl -L ${upstreamAsset(`AngKorGit_${upstreamVersion}_universal.dmg`)} -o ~/Downloads/AngKorGit.dmg`,
                 'xattr -cr ~/Downloads/AngKorGit.dmg',
                 'open ~/Downloads/AngKorGit.dmg',
               ]}
-              copy={`curl -L ${SITE.assetUrl(version, `AngKorGit_${version}_universal.dmg`)} -o ~/Downloads/AngKorGit.dmg && xattr -cr ~/Downloads/AngKorGit.dmg && open ~/Downloads/AngKorGit.dmg`}
+              copy={`curl -L ${upstreamAsset(`AngKorGit_${upstreamVersion}_universal.dmg`)} -o ~/Downloads/AngKorGit.dmg && xattr -cr ~/Downloads/AngKorGit.dmg && open ~/Downloads/AngKorGit.dmg`}
             />
             <TerminalBlock
               label="Windows（PowerShell）"
@@ -98,13 +107,13 @@ const brew = 'brew install --cask cheat2001/tap/angkorgit';
               copy={`curl -L ${SITE.assetUrl(version, `AngKorGit_${version}_x64-setup.exe`)} -o "$env:TEMP\\AngKorGit-setup.exe"; Start-Process "$env:TEMP\\AngKorGit-setup.exe"`}
             />
             <TerminalBlock
-              label="Linux"
+              label="Linux 上游原版"
               lines={[
-                `curl -L ${SITE.assetUrl(version, `AngKorGit_${version}_amd64.AppImage`)} -o ~/Downloads/AngKorGit.AppImage`,
+                `curl -L ${upstreamAsset(`AngKorGit_${upstreamVersion}_amd64.AppImage`)} -o ~/Downloads/AngKorGit.AppImage`,
                 'chmod +x ~/Downloads/AngKorGit.AppImage',
                 '~/Downloads/AngKorGit.AppImage',
               ]}
-              copy={`curl -L ${SITE.assetUrl(version, `AngKorGit_${version}_amd64.AppImage`)} -o ~/Downloads/AngKorGit.AppImage && chmod +x ~/Downloads/AngKorGit.AppImage && ~/Downloads/AngKorGit.AppImage`}
+              copy={`curl -L ${upstreamAsset(`AngKorGit_${upstreamVersion}_amd64.AppImage`)} -o ~/Downloads/AngKorGit.AppImage && chmod +x ~/Downloads/AngKorGit.AppImage && ~/Downloads/AngKorGit.AppImage`}
             />
           </div>
         </details>

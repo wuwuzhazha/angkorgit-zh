@@ -1,15 +1,31 @@
 # 更新日志
 
-All notable changes to AngKorGit are documented here. The format follows
-[Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and versions follow
-[Semantic Versioning](https://semver.org/).
+此处记录 AngKorGit 的重要变更，格式遵循
+[Keep a Changelog](https://keepachangelog.com/en/1.1.0/)，版本遵循
+[语义化版本](https://semver.org/)。
 
-## [Unreleased]
+## [未发布]
 
-### Fixed
-- **"Show in file manager" on Windows opens the file's folder again.** Explorer was
-  handed a path with forward slashes, quoted as a whole together with its `/select`
-  switch, and fell back to a default folder. Reported by Christian Lauinger. (#26)
+## [0.15.1] — 2026-09-17
+
+中文版同步至上游 `b3faaf1`，包含 v0.15.0 与后续 Windows 文件定位修复。
+
+### 新增
+- 侧边栏添加远端并立即获取分支。
+- 跨 Fork 创建上游 PR/MR，可选择目标仓库。
+- 默认克隆目录与终端右键菜单。
+
+### 修复
+- Windows SSH 使用 OpenSSL，支持 ed25519/ECDSA 主机密钥。
+- Windows 文件管理器正确定位文件。
+- 长行差异的滚动性能、滚动后选区保持与完整内容复制。
+- 合入 Linux Wayland 紧凑标题栏改进。
+
+### 中文化与发行
+- 补齐新功能文案、错误消息、无障碍标签和对应测试。
+- 保留中文版更新地址与公钥，更新中文开发说明、路线图和下载入口。
+- 本次仅提供 Windows x64 NSIS/MSI 安装包；Windows 源码构建新增原生 Perl 依赖。
+- 详细说明见 [docs/mcp-release-v0.15.1.md](docs/mcp-release-v0.15.1.md)。
 
 ## [0.15.0] — 2026-09-16
 

@@ -1,4 +1,4 @@
-const FALLBACK_VERSION = '0.14.0';
+const FALLBACK_VERSION = '0.15.1';
 
 async function latestReleaseVersion(): Promise<string> {
   try {
@@ -40,6 +40,6 @@ export const SITE = {
 export const NAV = [
   { href: '/#conflicts', label: '功能简介' },
   { href: '/#box', label: '内置功能' },
-  { href: '/#install', label: 'Install' },
-  { href: '/docs/', label: 'Docs' },
+  { href: '/#install', label: '安装' },
+  { href: '/docs/', label: '文档' },
 ] as const;

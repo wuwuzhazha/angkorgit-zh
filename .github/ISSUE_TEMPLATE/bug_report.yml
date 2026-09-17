@@ -1,48 +1,48 @@
-name: 🐛 Bug report
-description: Something isn't working the way it should
+name: 🐛 问题反馈
+description: 报告功能异常或中文翻译问题
 labels: [bug]
 body:
   - type: markdown
     attributes:
-      value: Thanks for taking the time to report a bug — screenshots help enormously.
+      value: 感谢反馈！请提供复现步骤与截图；不要粘贴私有仓库内容、令牌或其他凭据。
   - type: textarea
     id: what-happened
     attributes:
-      label: What happened?
-      description: Also tell us what you expected instead.
-      placeholder: 'Clicked X, expected Y, got Z…'
+      label: 发生了什么？
+      description: 请同时说明预期行为。
+      placeholder: '点击了某个按钮，预期出现某个结果，实际发生了……'
     validations:
       required: true
   - type: textarea
     id: steps
     attributes:
-      label: Steps to reproduce
+      label: 复现步骤
       placeholder: |
-        1. Open a repository with …
-        2. Click …
-        3. See error
+        1. 打开一个仓库……
+        2. 点击……
+        3. 观察到错误……
     validations:
       required: true
   - type: input
     id: version
     attributes:
-      label: AngKorGit version
-      placeholder: '0.15.0 (Settings rail shows it)'
+      label: AngKorGit 版本
+      placeholder: '0.15.1（可在设置侧栏查看）'
     validations:
       required: true
   - type: dropdown
     id: os
     attributes:
-      label: Operating system
+      label: 操作系统
       options: [macOS, Windows, Linux]
     validations:
       required: true
   - type: textarea
     id: repo-shape
     attributes:
-      label: Repository shape (if relevant)
-      description: Submodules? Very large history? Unusual remotes? Never paste private repository contents.
+      label: 仓库特点（如相关）
+      description: 是否包含子模块、很长的提交历史或特殊远端？请勿粘贴私有仓库内容。
   - type: textarea
     id: screenshots
     attributes:
-      label: Screenshots / error text
+      label: 截图或错误信息

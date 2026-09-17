@@ -1,51 +1,51 @@
 # 路线图
 
-Updated for v0.14.0 (September 2026). [CHANGELOG.md](../CHANGELOG.md) is the
-authoritative record of what shipped in each release; this file tracks
-direction.
+更新至中文版 v0.15.1（2026 年 9 月），包含上游 v0.15.0 与 `b3faaf1` 修复。各版本的已发布变更见 [CHANGELOG.md](../CHANGELOG.md)；此处记录功能方向。
 
-## Shipped (0.1.0 → 0.14.0)
+## 已实现（0.1.0 → 0.15.1）
 
-- [x] 仓库：打开、克隆（带进度）、最近、搜索、仓库标签页（可拖动排序）
-- [x] 提交：暂存文件、代码块与单行；取消暂存、提交、修订；按仓库保存提交草稿; multi-select in the working copy with bulk stage/unstage/stash/discard; discard for staged files; path filter over changed files and commit files
-- [x] History: virtualized animated graph, find in graph by message, hash or author with an n / m stepper (the lanes never collapse), branch filter, refs/tags/HEAD/merges, file history with a one-click jump to the whole commit
-- [x] 分支：创建、删除、重命名、检出（含远端）、合并、变基（+继续/中止）、交互式变基（重排/改写/压缩/丢弃）、拣选（单个或多个提交，可选“(cherry picked from commit …)”引用）、重置（软/混合/硬）——显式合并始终记录合并提交；可从提交框中止合并
-- [x] Remote: fetch, pull, push, force push, push a branch straight from its tip commit's menu, push/fetch tags, background auto fetch
-- [x] Conflicts: visual resolver — aligned A/B panes with line numbers, one take-all checkbox per side (mixed while partly picked) plus hover-to-pick lines that land in file order, a Result pane with in-place editing and its own line numbers behind a draggable split, keyboard control (↑/↓, A/B, ⌘⏎), conflict and file navigation that opens the next conflicted file after each save, guards against losing picks and hand edits, AI explanations
-- [x] 工作树：侧边栏分区显示分支/脏/缺失状态，任意工作树可作独立标签页打开，可从分支或提交在相邻文件夹创建，安全移除与清理，别处持有的分支在侧边栏与提交图中标记
-- [x] 暂存：创建（整棵树或所选文件）、应用、弹出（工具栏一键）、丢弃；暂存作为提交图中的行，带有自己的节点与菜单；可从暂存中应用单个文件 · 标签：创建（附注/轻量）、删除、检出 · 子模块：列出与更新
-- [x] 仓库根目录内置 PTY 终端；内置文件编辑器
-- [x] Diff：内联与并排、语法高亮、词级 diff、图片 diff、diff 内查找（⌘F）、缩略图、上一处/下一处更改与文件导航（N/P、[/]），直接打开到第一处更改（无滚动动画）, reloads live as the file changes on disk, file history one click from the header; → / ↑ ↓ / ← walk from the graph into a commit's files and back
-- [x] Settings: sixteen themes (Angkor Dusk default) with accents & zoom, identity profiles (repo-local) with linked accounts, SSH key management & generation, hosting accounts with verified tokens (Secret Service on Linux, missing tokens flagged), AI providers & commit style, keyboard reference
-- [x] Sidebar: accordion sections with pinned headers and collapse-all, row menus on hover and right-click everywhere, empty-state cards; graph display options and column headers; welcome page with keyboard navigation and missing-folder detection
-- [x] AI: provider-agnostic (OpenAI, Anthropic, Gemini, Ollama, LM Studio) plus installed AI CLIs (Claude Code, Codex, Gemini CLI, OpenCode, Antigravity) — commit messages, diff/conflict explanations, PR descriptions, staged-change review with team conventions (global + per-repo `.angkorgit/review.md`), background execution with stop, full-size reading views
-- [x] Undo/redo for recent operations; drag-and-drop merge/rebase
-- [x] Auto-update: pull-based from GitHub releases, signature-verified
-- [x] Commit signing: SSH and GPG, driven by existing git config (commit.gpgSign, gpg.format, user.signingKey) — covers commit, amend, merge
-- [x] 拉取请求: sidebar list, checkout and in-app create with reviewer selection for GitHub, GitLab (incl. self-hosted) and Bitbucket Cloud, through the connected account; browser fallback without one
-- [x] Graph search: message text, a hash or prefix, and author all find matches in the full graph, centered and highlighted, with an n / m control; ⌘F focuses the search
-- [x] Command line: `angkorgit` / `akg` installed from Settings — open the current folder, a path, or clone by URL or owner/repo into the app
-- [x] Blame: a pane of file history with a Working copy row, per-hunk authors, jump to the commit, blame at or before any commit
-- [x] External editor: detected editors (VS Code, Cursor, Zed, Sublime, JetBrains, Xcode, GNOME Builder…) from the toolbar, palette and file menus
-- [x] Pull with rebase following `pull.rebase`, a merge/rebase choice per pull, and a status bar note of the last fetch
-- [x] Fork workflow: "Fast-forward current to this" in the branch menus (enabled only when the branch is strictly behind), every remote fetched on each tab switch, "Open in browser" on a remote and from the palette
-- [x] Provider avatars from the connected account when Gravatar has none; the AI provider and its last connection test in the status bar
-- [x] Performance: fast startup (splash waits for the app, not a timer; heavy views load on first use), a quiet file watcher, on-demand commit diffs, loading overlay on slow repository switches
+- [x] 仓库：打开、带进度的克隆、最近使用、搜索、可拖动排序的仓库标签页。
+- [x] 提交：按文件、代码块或单行暂存与取消暂存；提交、修订、按仓库保存草稿；多选批量操作与路径过滤。
+- [x] 历史：虚拟化提交图，按消息、哈希或作者查找，保留图形布局并逐个跳转；分支过滤、引用、标签、文件历史与完整提交跳转。
+- [x] 分支：创建、删除、重命名、检出、合并、变基、交互式变基、单个或批量拣选、软/混合/硬重置；显式合并保留合并提交。
+- [x] 远端：获取、拉取、推送、强制推送、从分支提交菜单推送、标签推送与获取、后台自动获取。
+- [x] 冲突：带行号的双栏解析器、整侧或逐行采纳、可编辑结果、可拖动分隔线、键盘操作、冲突与文件导航、未保存内容保护、AI 解释。
+- [x] 工作树：状态展示、独立标签页、从分支或提交创建、安全移除与清理、标记已在其他工作树检出的分支。
+- [x] 贮藏：整棵工作树或所选文件的创建、应用、弹出、丢弃与单文件恢复；标签管理；子模块列表与更新。
+- [x] 仓库根目录的内置 PTY 终端与文件编辑器。
+- [x] 文件差异：内联与并排、语法与词级高亮、图片比较、查找、缩略图、改动导航、实时刷新、文件历史与键盘导航。
+- [x] 设置：16 款主题、强调色与缩放、仓库身份配置、SSH 密钥、托管账户、AI 提供方、提交风格与快捷键参考。
+- [x] 侧边栏：可折叠分区、固定标题、右键菜单、空状态、提交图选项；欢迎页键盘导航与缺失目录提示。
+- [x] AI：多种 API 提供方与本机 CLI，支持提交消息、差异/冲突解释、PR 描述、按团队约定审查暂存更改、后台执行与停止。
+- [x] 操作撤销与重做；拖放合并或变基。
+- [x] 从本仓库 GitHub Releases 检查自动更新，并校验更新签名。
+- [x] 根据 Git 配置进行 SSH/GPG 提交签名，覆盖提交、修订与合并。
+- [x] GitHub、GitLab（含自建实例）和 Bitbucket Cloud 的拉取请求列表、检出、创建与审查人选择；未连接账户时回退至浏览器。
+- [x] 提交图完整搜索、居中高亮与匹配项计数；快捷键聚焦搜索框。
+- [x] 命令行工具 `angkorgit` / `akg`：打开当前目录、指定路径或进入克隆流程。
+- [x] 文件追溯：工作副本与历史版本、逐块作者、跳转提交、追溯到指定提交或其之前。
+- [x] 外部编辑器检测，以及工具栏、命令面板和文件菜单入口。
+- [x] 遵循 `pull.rebase` 的拉取，单次选择合并或变基，以及上次获取时间。
+- [x] Fork 协作：分支菜单快进、切换标签页时获取全部远端、在浏览器中打开远端仓库。
+- [x] 托管平台头像；状态栏展示 AI 提供方与最近连接测试结果。
+- [x] 上游协作：从侧边栏添加远端，向上游仓库创建跨 Fork PR/MR，记住默认克隆目录，终端右键复制、粘贴、全选与清空。
+- [x] Windows SSH：通过 OpenSSL 版 libssh2 支持 ed25519 与 ECDSA 主机密钥；在文件管理器中正确定位文件。
+- [x] 性能与交互：快速启动、按需加载、安静的文件监测、按需获取差异；长行截断显示但保留完整复制内容；滚动后保持文本选区；精简 Wayland 标题栏。
 
-## Next
+## 下一步
 
-- [ ] Worktrees: start an installed AI CLI inside a worktree from its row, a per-repo post-create setup command, merged badge with one-step cleanup
+- [ ] 工作树：从工作树条目启动本机 AI CLI、按仓库配置创建后命令、已合并标记与一键清理。
 
-## 以后——互联（架构已就位，见 Architecture.md）
+## 后续：平台互联
 
-- [ ] Azure DevOps 与 Bitbucket Server 适配器（GitHub、GitLab 与 Bitbucket Cloud 已完成）
-- [ ] 只读拉取请求详情视图（提交、CI 状态、审查状态）
-- [ ] Issue 查看器
+- [ ] Azure DevOps 与 Bitbucket Server 适配器。
+- [ ] 只读拉取请求详情，包含提交、CI 与审查状态。
+- [ ] Issue 查看器。
 
-## 以后——强力功能
+## 后续：进阶功能
 
-- [ ] 插件宿主（命令面板命令、侧边栏分区、检查器标签页）
-- [ ] 多仓库工作区
-- [ ] 性能：提交图文件支持，实现瞬时冷启动
+- [ ] 插件宿主：命令面板命令、侧边栏分区与检查器标签页。
+- [ ] 多仓库工作区。
+- [ ] 提交图文件支持与更快的冷启动。
 
-非目标：企业级管理工具、内置 CI 仪表盘、应用内代码审查（评论、批准与合并都在 forge 的网页 UI 上实时进行，一键可达），以及任何复制 forge 网页 UI 却没有日常价值的东西。
+不计划实现企业级管理工具、内置 CI 仪表盘或应用内完整代码评审。评论、批准与合并继续交给托管平台网页，通过应用中的入口访问。
