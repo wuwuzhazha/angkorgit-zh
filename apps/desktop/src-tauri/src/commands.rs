@@ -231,8 +231,10 @@ pub async fn reveal_path(path: String) -> AppResult<()> {
             }
             #[cfg(target_os = "windows")]
             {
+                use std::os::windows::process::CommandExt;
+                let native = path.replace('/', "\\");
                 crate::proc::hidden("explorer")
-                    .arg(format!("/select,{path}"))
+                    .raw_arg(format!("/select,\"{native}\""))
                     .status()
             }
             #[cfg(all(unix, not(target_os = "macos")))]
@@ -426,6 +428,11 @@ pub async fn reset_to(path: String, oid: String, mode: String) -> AppResult<()> 
 #[tauri::command]
 pub async fn remote_list(path: String) -> AppResult<Vec<RemoteInfo>> {
     blocking(move || remote::list(&path)).await
+}
+
+#[tauri::command]
+pub async fn remote_add(path: String, name: String, url: String) -> AppResult<()> {
+    blocking(move || remote::add(&path, &name, &url)).await
 }
 
 #[tauri::command]

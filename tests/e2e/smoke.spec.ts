@@ -1461,3 +1461,124 @@ test('the palette offers Blame… and picks a file', async ({ page }) => {
   await expect(history).toBeVisible();
   await expect(history.locator('[data-blame-pane] [data-blame-line="1"]')).toBeVisible();
 });
+
+test('the remotes section offers Add remote and opens the add dialog', async ({ page }) => {
+  await page.goto('/');
+  await page.getByText('angkorgit', { exact: true }).first().click();
+  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  const remotesHeader = page.getByRole('button', { name: /^Remotes/ });
+  await remotesHeader.hover();
+  await page.getByRole('button', { name: 'Add remote', exact: true }).click({ force: true });
+  const dialog = page.getByRole('dialog');
+  await expect(dialog.getByRole('heading', { name: 'Add remote' })).toBeVisible();
+  await expect(dialog.getByPlaceholder('upstream')).toBeVisible();
+  await expect(dialog.getByRole('button', { name: 'Add remote', exact: true })).toBeDisabled();
+  await dialog.getByPlaceholder('upstream').fill('upstream');
+  await dialog.getByPlaceholder('https://github.com/user/repo.git').fill('https://github.com/demo/upstream.git');
+  await expect(dialog.getByRole('button', { name: 'Add remote', exact: true })).toBeEnabled();
+  await page.keyboard.press('Escape');
+  await expect(dialog).toBeHidden();
+});
+
+test('the terminal answers right-click with copy, paste, select all and clear', async ({ page }) => {
+  await page.goto('/');
+  await page.getByText('angkorgit', { exact: true }).first().click();
+  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await page.getByRole('button', { name: 'Toggle terminal' }).click();
+  const host = page.locator('.terminal-host');
+  await expect(host).toBeVisible();
+  await host.click({ button: 'right' });
+  const menu = page.getByRole('menu');
+  await expect(menu.getByRole('menuitem', { name: 'Copy' })).toBeDisabled();
+  await expect(menu.getByRole('menuitem', { name: 'Paste' })).toBeVisible();
+  await expect(menu.getByRole('menuitem', { name: 'Select all' })).toBeVisible();
+  await menu.getByRole('menuitem', { name: 'Clear terminal' }).click();
+  await expect(menu).toBeHidden();
+});
+
+test('settings remembers a clone destination and the clone dialog starts there', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.getByText('Recent repositories')).toBeVisible({ timeout: 10_000 });
+  await page.getByRole('button', { name: 'Settings', exact: true }).click();
+  const dialog = page.getByRole('dialog');
+  await dialog.getByRole('button', { name: 'Git', exact: true }).click();
+  await expect(dialog.getByText('Clone destination')).toBeVisible();
+  await expect(dialog.getByText(/Not set/)).toBeVisible();
+  await page.evaluate(() => {
+    window.prompt = () => '/tmp/repos';
+  });
+  await dialog.getByRole('button', { name: 'Choose folder' }).click();
+  await expect(dialog.getByText('/tmp/repos')).toBeVisible();
+  await page.keyboard.press('Escape');
+  await page.getByText('Clone repository', { exact: true }).first().click();
+  await expect(page.getByPlaceholder('Destination folder')).toHaveValue('/tmp/repos');
+});
+
+test('a diff selection keeps its lines after scrolling away and back', async ({ page }) => {
+  await page.goto('/');
+  await page.getByText('angkorgit', { exact: true }).first().click();
+  await page.getByText('palette-seed.sql').first().click();
+  await expect(page.getByText('temple gold').first()).toBeVisible();
+
+  const scroller = page.locator('section[aria-label^="Diff for"] div.overflow-y-auto');
+  await scroller.evaluate((el) => {
+    el.scrollTop = Math.max(0, el.scrollTop - 1500);
+  });
+  const visibleRowIndex = () =>
+    scroller.evaluate((el) => {
+      const box = el.getBoundingClientRect();
+      const rows = [...el.querySelectorAll<HTMLElement>('[data-diff-row]')];
+      const visible = rows.find((row) => {
+        const rect = row.getBoundingClientRect();
+        return rect.top > box.top + 60 && rect.bottom < box.bottom - 120;
+      });
+      return visible ? Number(visible.dataset.diffRow) : null;
+    });
+  await expect.poll(visibleRowIndex).not.toBeNull();
+  const firstIndex = (await visibleRowIndex()) as number;
+  const rowAt = (index: number) => page.locator(`[data-diff-row="${index}"]`);
+  const first = await rowAt(firstIndex).boundingBox();
+  const last = await rowAt(firstIndex + 3).boundingBox();
+  if (!first || !last) throw new Error('diff rows not laid out');
+  await page.mouse.move(first.x + 30, first.y + first.height / 2);
+  await page.mouse.down();
+  await page.mouse.move(last.x + 220, last.y + last.height / 2, { steps: 6 });
+  await page.mouse.up();
+
+  const selectionText = () => page.evaluate(() => window.getSelection()?.toString() ?? '');
+  const isRange = () => page.evaluate(() => window.getSelection()?.type === 'Range');
+  const before = await selectionText();
+  expect(before.split('\n')).toHaveLength(4);
+  expect(before).toContain('INSERT INTO palette');
+
+  await page.evaluate(() => {
+    (window as unknown as { __copied: string | null }).__copied = null;
+    document.addEventListener('copy', (e) => {
+      (window as unknown as { __copied: string | null }).__copied =
+        e.clipboardData?.getData('text/plain') ?? '';
+    });
+  });
+  const copied = () => page.evaluate(() => (window as unknown as { __copied: string | null }).__copied);
+  const resetCopied = () =>
+    page.evaluate(() => {
+      (window as unknown as { __copied: string | null }).__copied = null;
+    });
+
+  const top = await scroller.evaluate((el) => el.scrollTop);
+  for (const delta of [-4000, 4000]) {
+    await scroller.evaluate((el, value) => {
+      el.scrollTop = Math.max(0, el.scrollTop + value);
+    }, delta);
+    await expect(rowAt(firstIndex)).toHaveCount(0);
+    await expect.poll(isRange).toBe(true);
+    await resetCopied();
+    await page.keyboard.press('ControlOrMeta+c');
+    await expect.poll(copied).toBe(before);
+
+    await scroller.evaluate((el, value) => {
+      el.scrollTop = value;
+    }, top);
+    await expect(rowAt(firstIndex)).toHaveCount(1);
+    await expect.poll(selectionText).toBe(before);
+  }
+});

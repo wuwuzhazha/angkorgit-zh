@@ -6,6 +6,74 @@ All notable changes to AngKorGit are documented here. The format follows
 
 ## [Unreleased]
 
+### Fixed
+- **"Show in file manager" on Windows opens the file's folder again.** Explorer was
+  handed a path with forward slashes, quoted as a whole together with its `/select`
+  switch, and fell back to a default folder. Reported by Christian Lauinger. (#26)
+
+## [0.15.0] — 2026-09-16
+
+The upstream release. Add a remote from the sidebar, file a pull request from a
+fork into its upstream, and clone into the folder you always use. SSH remotes on
+Windows now accept the ed25519 and ECDSA host keys servers actually present, a
+minified diff no longer freezes on macOS, and a text selection stays on its lines
+while you scroll. Three contributors shaped this
+version, two of them with their first pull requests to the project.
+
+### Added
+- **Add a remote from the sidebar.** The Remotes section header has a "+" and the
+  empty state an "Add remote" button. Name it, paste the URL, and it is fetched right
+  away so its branches appear. Remove was already there; add never made it in. (#26)
+- **Pull requests from a fork into upstream.** When a repository has two remotes on
+  the same host that point at different repositories, the create dialog gains an
+  "Into repository" choice, pre-set to `upstream` when there is one. The target
+  branch list, default branch and reviewers follow the chosen repository, and the
+  request is filed there with the fork as its source on GitHub, GitLab and Bitbucket
+  Cloud. (#26)
+- **Default clone folder.** The clone dialog starts from the last folder you cloned
+  into, and Settings → Git → Clone destination lets you pick or clear it. (#26)
+- **Right-click menu in the terminal.** Copy, Paste, Select all and Clear terminal. (#26)
+
+### Fixed
+- **Fetch, pull and push over SSH on Windows.** The bundled libssh2 was built
+  with the WinCNG crypto backend, which cannot negotiate `ssh-ed25519` or ECDSA
+  host keys, so talking to servers like GitLab failed with "failed to set
+  hostkey preference: The requested method(s) are not currently supported"
+  before authentication was even attempted. The Windows build now compiles
+  libssh2 against the vendored OpenSSL instead, which speaks every host-key
+  type the git CLI does. Local Windows builds of the engine now need Perl on
+  `PATH` (e.g. Strawberry Perl) for the OpenSSL compile; release CI already
+  provides it.
+- **A text selection in a diff stays on the lines you selected while you scroll.**
+  Rows that leave the screen are unmounted by the virtualized diff, and the browser
+  used to move the selection boundary to whatever row took that slot, so after a
+  scroll the highlight sat on different lines. The selection is now tracked by line
+  and column and put back on the right text after every scroll, and ⌘C copies the
+  full selection even while the selected rows are off screen. Line numbers, change
+  markers and hunk headers are no longer selectable, so a drag that crosses them
+  keeps to the code.
+- **Diffs with very long lines no longer freeze the scroll on macOS.** A minified
+  bundle with lines of 50,000 to 300,000 characters used to stall the diff for up
+  to a second per frame on WebKit while Chromium stayed smooth. Rows now render at
+  most 5,000 characters, with a "… n more characters" tag on the clipped ones, and
+  clipped rows skip syntax highlighting. On a synthetic copy of the reported file the
+  worst frame went from 1.05 s to 51 ms and the diff opens in a third of the time.
+  Copy still uses the full line text. (#27)
+- **Horizontal scrolling in a diff stays responsive under load.** The pan of the two
+  text layers is composited now instead of repainting every frame, and its scroll
+  limit is measured once per gesture instead of on every wheel event, so a busy
+  session no longer makes sideways scrolling lag while vertical scrolling feels fine.
+- **A shorter titlebar on Linux under Wayland.** The windowing layer that Tauri
+  pins puts its own full-height GTK header bar on the window, so GNOME users had
+  an empty bar above the toolbar. It is now compacted to the size of its buttons.
+  X11 and other desktops are unchanged. Thanks to Christian Lauinger. (#25)
+
+### Changed
+- Diff text renders without font ligatures. WebKit shapes ligature fonts on a slower
+  path, which cost a factor of 3.5 on long minified rows, and a ligature can hide a
+  one-character difference between two lines. Fewer rows are rendered off screen
+  while scrolling (overscan 24 → 8), which shortens each scroll burst.
+
 ## [0.14.0] — 2026-09-13
 
 The fork workflow release. Fast-forward from the branch menu, every remote fetched
@@ -1252,7 +1320,8 @@ The first release. 🏛️
 - AI assistant with pluggable providers (OpenAI, Anthropic, Gemini, Ollama,
   LM Studio): commit messages, diff/conflict explanations, PR descriptions, reviews
 
-[Unreleased]: https://github.com/cheat2001/angkorgit/compare/v0.14.0...HEAD
+[Unreleased]: https://github.com/cheat2001/angkorgit/compare/v0.15.0...HEAD
+[0.15.0]: https://github.com/cheat2001/angkorgit/compare/v0.14.0...v0.15.0
 [0.14.0]: https://github.com/cheat2001/angkorgit/compare/v0.13.0...v0.14.0
 [0.13.0]: https://github.com/cheat2001/angkorgit/compare/v0.12.0...v0.13.0
 [0.12.0]: https://github.com/cheat2001/angkorgit/compare/v0.11.0...v0.12.0
