@@ -261,7 +261,7 @@ export function Sidebar() {
   const [stashMenu, setStashMenu] = useState<{ x: number; y: number; stash: StashInfo } | null>(null);
   const [tagMenu, setTagMenu] = useState<{ x: number; y: number; tag: TagInfo } | null>(null);
   const [prMenu, setPrMenu] = useState<{ x: number; y: number; pr: PullRequestInfo } | null>(null);
-  const [editRemote, setEditRemote] = useState<{ original: string; name: string; url: string } | null>(null);
+  const [editRemote, setEditRemote] = useState<{ original: string | null; name: string; url: string } | null>(null);
   const [savingRemote, setSavingRemote] = useState(false);
 
   const openSubmodule = (sub: SubmoduleInfo) => {
@@ -471,10 +471,20 @@ export function Sidebar() {
     const edit = editRemote;
     if (!edit || !edit.name.trim() || !edit.url.trim() || savingRemote) return;
     setSavingRemote(true);
-    await act(`更新远端 ${edit.original}`, () => ipc.remoteEdit(path, edit.original, edit.name, edit.url));
+    const original = edit.original;
+    if (original === null) {
+      const name = edit.name.trim();
+      await act(`添加远端 ${name}`, async () => {
+        await ipc.remoteAdd(path, name, edit.url);
+        return ipc.fetch(path, name, true, false);
+      });
+    } else {
+      await act(`更新远端 ${original}`, () => ipc.remoteEdit(path, original, edit.name, edit.url));
+    }
     setSavingRemote(false);
     setEditRemote(null);
   };
+  const openAddRemote = () => setEditRemote({ original: null, name: remotes.length === 0 ? 'origin' : '', url: '' });
 
   const [expandedFolders, setExpandedFolders] = useState<Set<string>>(new Set());
   useEffect(() => {
@@ -1064,12 +1074,29 @@ export function Sidebar() {
           </>
         )}
 
-        <Section {...section('remotes')} icon={<Cloud className="size-3.5" />} title="远端" count={remoteBranches.length}>
+        <Section
+          {...section('remotes')}
+          icon={<Cloud className="size-3.5" />}
+          title="远端"
+          count={remoteBranches.length}
+          action={
+            <Hint label="添加远端">
+              <Button variant="ghost" size="icon-sm" aria-label="添加远端" onClick={openAddRemote}>
+                <Plus className="size-3.5" />
+              </Button>
+            </Hint>
+          }
+        >
           {remotes.length === 0 && !hasRemoteBranches && !repoRefreshing && (
             <SidebarEmpty
               icon={<Cloud />}
               title="无远端"
               description="此仓库只存在于本机。添加远端即可推送、拉取并打开拉取请求。"
+              action={
+                <Button variant="secondary" size="sm" className="w-full justify-center" onClick={openAddRemote}>
+                  <Plus className="size-3.5" /> 添加远端
+                </Button>
+              }
             />
           )}
           {q
@@ -1472,19 +1499,23 @@ export function Sidebar() {
       <Dialog open={editRemote !== null} onOpenChange={(o) => !o && setEditRemote(null)}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>编辑远端</DialogTitle>
-            <DialogDescription>重命名远端，或将其指向其他 URL。</DialogDescription>
+            <DialogTitle>{editRemote?.original === null ? '添加远端' : '编辑远端'}</DialogTitle>
+            <DialogDescription>
+              {editRemote?.original === null
+                ? '输入远端名称与 URL。添加后会立即获取远端信息，并在此显示其分支。'
+                : '重命名远端或修改其 URL。'}
+            </DialogDescription>
           </DialogHeader>
           <div className="flex flex-col gap-3">
             <label className="flex flex-col gap-1.5 text-xs text-muted">
-              Name
+              名称
               <Input
                 value={editRemote?.name ?? ''}
                 onChange={(e) => setEditRemote((s) => (s ? { ...s, name: e.target.value } : s))}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter') void submitEditRemote();
                 }}
-                placeholder="origin"
+                placeholder={remotes.length === 0 ? 'origin' : 'upstream'}
                 autoFocus
               />
             </label>
@@ -1509,7 +1540,7 @@ export function Sidebar() {
               disabled={savingRemote || !editRemote?.name.trim() || !editRemote?.url.trim()}
               onClick={() => void submitEditRemote()}
             >
-              Save changes
+              {editRemote?.original === null ? '添加远端' : '保存更改'}
             </Button>
           </DialogFooter>
         </DialogContent>

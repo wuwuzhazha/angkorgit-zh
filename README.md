@@ -143,22 +143,20 @@
 
 - **应用内代码评审（PR Review）**：代码托管平台（GitHub/GitLab）配合 CI 日志与行内评论体验更佳，软件内提供一键“在浏览器中打开”按钮。
 - **遥测数据、强制账号、云服务**：不会向外部发送任何追踪数据，无需注册任何平台。
-- **代码追溯（Blame）视图**：已内置文件历史查看，单行追溯在后续规划中。
 - **插件市场**：暂不支持扩展插件。
 
 ## 📦 安装与下载
 
-你可以从本项目的 [Releases 发行页面](https://github.com/wuwuzhazha/angkorgit-zh/releases) 下载适合你操作系统的安装包：
+本仓库的 [Releases 发行页面](https://github.com/wuwuzhazha/angkorgit-zh/releases) 提供 **Windows x64 中文版**：
 
-- **Windows**：下载 `AngKorGit_0.10.0_x64-setup.exe`（NSIS 一键安装程序）或 `.msi` 安装包。
-- **macOS**：下载 `.dmg` 并拖入 Applications 目录。
-- **Linux**：下载 `.AppImage`（添加执行权限后直接运行）或 `.deb` 包。
+- **Windows**：下载 `AngKorGit_0.15.1_x64-setup.exe`（NSIS 安装程序）或对应的 `.msi` 安装包。应用内自动更新指向本仓库，更新包带有校验签名。
+- **macOS / Linux**：本次未发布这两个平台的中文安装包。可自行编译中文源码，或到[上游发行页面](https://github.com/cheat2001/angkorgit/releases)下载未汉化的原版。不要使用不存在的本仓库 DMG/AppImage 下载地址。
 
 > **提示**：由于未购买商业代码签名证书，Windows SmartScreen 或 macOS Gatekeeper 首次启动时可能会弹出未知开发者提示，在 Windows 下点击“更多信息 → 仍要运行”，在 macOS 下于“系统设置 → 隐私与安全性”中点击“仍然打开”即可。
 
 ## 🛠️ 从源码编译构建
 
-构建前请准备开发环境：[Node 20+](https://nodejs.org)、[pnpm 10+](https://pnpm.io)、[Rust 稳定版](https://rustup.rs) 以及 [Tauri v2 系统依赖](https://v2.tauri.app/start/prerequisites/)（Windows 需 Visual Studio C++ 生成工具）。
+构建前请准备开发环境：[Node 20+](https://nodejs.org)、[pnpm 10+](https://pnpm.io)、[Rust 稳定版](https://rustup.rs) 以及 [Tauri v2 系统依赖](https://v2.tauri.app/start/prerequisites/)。Windows 还需要 Visual Studio C++ 生成工具和加入 `PATH` 的原生 Windows Perl（例如 Strawberry Perl），用于构建 OpenSSL。安装已构建的应用不需要 Perl。
 
 ```bash
 # 1. 安装项目依赖

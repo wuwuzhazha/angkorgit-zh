@@ -1084,3 +1084,52 @@ ui	Open in {editor.label}	在 {editor.label} 中打开
 ui	<FolderGit2 /> Open as repository	<FolderGit2 /> 作为仓库打开
 ui	Resolve conflicts in ${file}	解决冲突：${file}
 ui	Hard reset to	硬重置到
+
+# 0.15.1：上游 b3faaf1 新增界面、错误消息与测试选择器
+ui,e2e	Add remote	添加远端		whole
+ui	Add remote ${name}	添加远端 ${name}		whole
+ui	Update remote ${original}	更新远端 ${original}		whole
+ui	<Plus className="size-3.5" /> Add remote	<Plus className="size-3.5" /> 添加远端
+ui	Edit remote	编辑远端		whole
+ui	Save changes	保存更改		whole
+ui	Name the remote and paste its URL. It is fetched right away so its branches show up here.	输入远端名称与 URL。添加后会立即获取远端信息，并在此显示其分支。		whole
+ui	Rename the remote or point it at a different URL.	重命名远端或修改其 URL。		whole
+ui	Name	名称	^\s*Name\s*$
+ui	Into repository	目标仓库	>Into repository<
+ui	Target repository	目标仓库		whole
+ui	Opens a ${noun} from ${remote.owner}/${remote.repo} into ${targetRemote.owner}/${targetRemote.repo} on ${provider.label}.	在 ${provider.label} 上创建${noun}，将 ${remote.owner}/${remote.repo} 的更改提交到 ${targetRemote.owner}/${targetRemote.repo}。		whole
+ui	Opens a ${noun} on ${provider.label} for the current branch.	在 ${provider.label} 上为当前分支创建${noun}。		whole
+ui	No branches found on {activeTargetName} — fetch it first so the target branch list can fill in.	{activeTargetName} 上没有找到分支——请先获取该远端，再选择目标分支。
+ui	Open	打开	openExternal\(pr\.url\)	whole
+ui	Writing…	撰写中…	^\s*Writing…\s*$
+ui	Loading members…	正在加载成员…	^\s*Loading members…\s*$
+ui	No members found — reviewers can still be added on {provider.label}.	未找到成员——仍可在 {provider.label} 上添加审查人。
+ui	Optional	可选		whole
+ui,e2e	Clone destination	克隆目录		whole
+ui	Choose the default clone folder	选择默认克隆目录		whole
+ui	The folder the clone dialog starts from. The last folder you cloned into is remembered here automatically.	克隆对话框默认使用的目录。最近一次克隆使用的目录会自动保存到这里。		whole
+ui	Not set — the dialog asks for a folder each time	未设置——每次克隆时选择文件夹		whole
+ui	Clear	清除	^\s*Clear\s*$
+ui	<FolderOpen className="size-3.5" /> Choose folder	<FolderOpen className="size-3.5" /> 选择文件夹
+e2e	Choose folder	选择文件夹		whole
+e2e	Not set	未设置	getByText\(/Not set/\)
+ui	Terminal	终端	>Terminal<
+ui	<Copy /> Copy	<Copy /> 复制	<Copy /> Copy\s*$
+ui	<ClipboardPaste /> Paste	<ClipboardPaste /> 粘贴
+ui	<TextSelect /> Select all	<TextSelect /> 全选
+ui	<Eraser /> Clear terminal	<Eraser /> 清空终端
+e2e	Copy	复制		whole
+e2e	Paste	粘贴		whole
+e2e	Select all	全选		whole
+e2e	Clear terminal	清空终端		whole
+ui	Only the first ${MAX_RENDERED_LINE.toLocaleString()} characters of this line are shown	此行仅显示前 ${MAX_RENDERED_LINE.toLocaleString()} 个字符
+ui	… ${clipped.hidden.toLocaleString()} more characters	… 另有 ${clipped.hidden.toLocaleString()} 个字符
+e2e	Diff for	文件差异：	aria-label\^="Diff for"
+rust	a remote named '{name}' already exists	名为“{name}”的远端已存在		whole
+rust	already exists	已存在	assert!\(dup\.to_string\(\)\.contains	whole
+rust	required	不能为空	assert!\(blank\.to_string\(\)\.contains	whole
+core	GitLab did not return the target project id	GitLab 未返回目标项目 ID		whole
+e2e	Toggle terminal	切换终端		whole
+e2e	Settings	设置		whole
+e2e	Clone repository	克隆仓库		whole
+e2e	Destination folder	目标文件夹		whole

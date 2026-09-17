@@ -395,6 +395,22 @@ pub fn list(path: &str) -> AppResult<Vec<RemoteInfo>> {
     Ok(result)
 }
 
+pub fn add(path: &str, name: &str, url: &str) -> AppResult<()> {
+    let name = name.trim();
+    let url = url.trim();
+    if name.is_empty() || url.is_empty() {
+        return Err(crate::error::AppError::other("远端名称和 URL 均不能为空"));
+    }
+    let repo = super::repo::open(path)?;
+    if repo.find_remote(name).is_ok() {
+        return Err(crate::error::AppError::other(format!(
+            "名为“{name}”的远端已存在"
+        )));
+    }
+    repo.remote(name, url)?;
+    Ok(())
+}
+
 pub fn edit(path: &str, name: &str, new_name: &str, url: &str) -> AppResult<()> {
     let new_name = new_name.trim();
     let url = url.trim();

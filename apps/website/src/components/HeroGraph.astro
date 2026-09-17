@@ -1,4 +1,6 @@
 ---
+import { SITE } from '../lib/site';
+
 interface Ref {
   label: string;
   kind: 'branch' | 'tag';
@@ -24,11 +26,10 @@ const rows: Row[] = [
   {
     id: 'install',
     lane: 0,
-    msg: 'Download 0.14.0',
-    hash: 'e7c0f98',
+    msg: `下载中文版 ${SITE.latestVersion}`,
     refs: [
       { label: 'main', kind: 'branch' },
-      { label: 'v0.14.0', kind: 'tag' },
+      { label: `v${SITE.latestVersion}`, kind: 'tag' },
     ],
     through: [],
     up: true,
@@ -67,7 +68,7 @@ const color = (lane: number) => `hsl(var(${laneColor[lane]}))`;
   <div class="mock-bar rounded-t-lg border border-border">
     <span class="h-2 w-2 rounded-full" style="background:hsl(var(--graph-0) / 0.8)"></span>
     <span class="font-mono text-[10.5px] tracking-wide text-faint">angkorgit.app</span>
-    <span class="ml-auto font-mono text-[10.5px] text-faint">{rows.length - 1} commits</span>
+    <span class="ml-auto font-mono text-[10.5px] text-faint">{rows.length - 1} 个提交</span>
   </div>
   <ol class="overflow-hidden rounded-b-lg border border-t-0 border-border bg-surface py-1">
     {

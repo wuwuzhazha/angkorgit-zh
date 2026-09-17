@@ -26,7 +26,7 @@ import {
   Spinner,
   Textarea,
 } from '@angkorgit/design-system';
-import { aiCapabilities, forgeNoun, type ForgeUser } from '@angkorgit/core';
+import { aiCapabilities, defaultForgeTarget, forgeNoun, forgeTargets, sameForgeRepo, type ForgeUser } from '@angkorgit/core';
 import { ipc, openExternal } from '@/core/ipc';
 import { useRepo } from '@/features/repository/store';
 import { useUi } from '@/features/ui/store';
@@ -49,6 +49,7 @@ const dialogMetaCache = new Map<string, DialogMeta>();
 export function CreatePrDialog() {
   const repo = useRepo((s) => s.repo);
   const branches = useRepo((s) => s.branches);
+  const remotes = useRepo((s) => s.remotes);
   const dialog = useUi((s) => s.dialog);
   const closeDialog = useUi((s) => s.closeDialog);
   const remote = useForge((s) => s.remote);
@@ -68,18 +69,24 @@ export function CreatePrDialog() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [generating, setGenerating] = useState(false);
+  const [targetName, setTargetName] = useState<string | null>(null);
   const aiRun = useRef(0);
   const baseTouched = useRef(false);
 
   const path = repo?.path ?? '';
   const source = repo?.headBranch ?? '';
+  const sourceName = remoteName ?? 'origin';
+  const targets = useMemo(() => (remote ? forgeTargets(remotes, remote) : []), [remotes, remote]);
+  const activeTargetName = targetName ?? (remote ? defaultForgeTarget(targets, sourceName) : sourceName);
+  const targetRemote = targets.find((t) => t.name === activeTargetName)?.remote ?? remote;
+  const crossRepo = !!remote && !!targetRemote && !sameForgeRepo(remote, targetRemote);
   const provider = useMemo(
-    () => (remote && path ? forgeProviderFor(path, remote) : null),
-    [remote, path],
+    () => (targetRemote && path ? forgeProviderFor(path, targetRemote) : null),
+    [targetRemote, path],
   );
   const noun = forgeNoun(provider?.kind);
 
-  const remotePrefix = `${remoteName ?? 'origin'}/`;
+  const remotePrefix = `${activeTargetName}/`;
   const baseOptions = useMemo(() => {
     const names = branches
       .filter((b) => b.isRemote && b.name.startsWith(remotePrefix))
@@ -101,11 +108,17 @@ export function CreatePrDialog() {
     setSubmitting(false);
     setGenerating(false);
     aiRun.current += 1;
+    setTargetName(null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open]);
+
+  useEffect(() => {
+    if (!open) return;
     baseTouched.current = false;
     setBase('');
     setReviewers([]);
 
-    const key = remote ? `${path}|${remote.webUrl}` : '';
+    const key = targetRemote ? `${path}|${targetRemote.webUrl}` : '';
     const cached = key ? dialogMetaCache.get(key) : undefined;
     setDefaultBranchName(cached?.defaultBranch ?? null);
     setCandidates(cached?.users ?? []);
@@ -156,7 +169,7 @@ export function CreatePrDialog() {
       cancelled = true;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [open]);
+  }, [open, targetRemote?.webUrl]);
 
   useEffect(() => {
     if (!open || baseTouched.current || baseOptions.length === 0) return;
@@ -230,10 +243,11 @@ export function CreatePrDialog() {
         targetBranch: base,
         draft,
         reviewerIds: reviewers,
+        ...(crossRepo && remote ? { sourceRepo: { owner: remote.owner, repo: remote.repo } } : {}),
       });
       closeDialog();
       toast.success(`${provider.label} ${noun} #${pr.number} 已创建`, {
-        action: { label: 'Open', onClick: () => void openExternal(pr.url) },
+        action: { label: '打开', onClick: () => void openExternal(pr.url) },
       });
       void useForge.getState().load(true);
     } catch (err) {
@@ -253,10 +267,38 @@ export function CreatePrDialog() {
             创建{noun}
           </DialogTitle>
           <DialogDescription>
-            为当前分支在 {provider.label} 上打开{noun}。
+            {crossRepo && remote && targetRemote
+              ? `在 ${provider.label} 上创建${noun}，将 ${remote.owner}/${remote.repo} 的更改提交到 ${targetRemote.owner}/${targetRemote.repo}。`
+              : `在 ${provider.label} 上为当前分支创建${noun}。`}
           </DialogDescription>
         </DialogHeader>
         <div className="flex flex-col gap-3">
+          {targets.length > 1 && (
+            <div className="flex items-center gap-2">
+              <span className="w-28 shrink-0 text-xs text-muted">目标仓库</span>
+              <Select
+                value={activeTargetName}
+                onValueChange={(value) => {
+                  setTargetName(value);
+                  baseTouched.current = false;
+                }}
+              >
+                <SelectTrigger className="h-8 flex-1" aria-label="目标仓库">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {targets.map((t) => (
+                    <SelectItem key={t.name} value={t.name}>
+                      <span className="font-mono">{t.name}</span>
+                      <span className="ml-2 text-faint">
+                        {t.remote.owner}/{t.remote.repo}
+                      </span>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          )}
           <div className="flex items-center gap-2">
             <Badge tone="info" className="min-w-0 max-w-56">
               <span className="truncate">{source}</span>
@@ -316,7 +358,7 @@ export function CreatePrDialog() {
             {generating && (
               <span className="pointer-events-none absolute bottom-2 left-2 flex items-center gap-1.5 rounded bg-surface-overlay/90 px-1.5 py-0.5 text-[11px] text-muted">
                 <Logo size={14} animated="loop" className="logo-draw-loop shrink-0" />
-                Writing…
+                撰写中…
               </span>
             )}
           </div>
@@ -334,7 +376,7 @@ export function CreatePrDialog() {
                 {candidatesLoading && (
                   <div className="flex items-center gap-2 px-2 py-1.5 text-xs text-faint">
                     <Logo size={14} animated="loop" className="logo-draw-loop shrink-0" />
-                    Loading members…
+                    正在加载成员…
                   </div>
                 )}
                 {accountLookupFailed && (
@@ -344,7 +386,7 @@ export function CreatePrDialog() {
                 )}
                 {!candidatesLoading && !accountLookupFailed && visibleCandidates.length === 0 && (
                   <div className="px-2 py-1.5 text-xs text-faint">
-                    No members found — reviewers can still be added on {provider.label}.
+                    未找到成员——仍可在 {provider.label} 上添加审查人。
                   </div>
                 )}
                 {!accountLookupFailed && visibleCandidates.map((user) => (
@@ -375,7 +417,7 @@ export function CreatePrDialog() {
                     .filter((user) => reviewers.includes(user.id))
                     .map((user) => user.name)
                     .join(', ')
-                : 'Optional'}
+                : '可选'}
             </span>
           </div>
           <label className="flex cursor-pointer items-center gap-2 text-xs text-muted">
@@ -384,7 +426,7 @@ export function CreatePrDialog() {
           </label>
           {baseOptions.length === 0 && (
             <p className="text-xs text-info">
-              未找到远端分支——请先获取，以便填充目标分支列表。
+              {activeTargetName} 上没有找到分支——请先获取该远端，再选择目标分支。
             </p>
           )}
           {notPushed && (

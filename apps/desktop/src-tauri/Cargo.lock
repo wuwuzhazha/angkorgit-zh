@@ -54,11 +54,13 @@ dependencies = [
 
 [[package]]
 name = "angkorgit"
-version = "0.14.0"
+version = "0.15.1"
 dependencies = [
  "base64 0.22.1",
  "git2",
+ "gtk",
  "keyring",
+ "libssh2-sys",
  "notify-debouncer-mini",
  "portable-pty",
  "reqwest 0.12.28",

@@ -1,6 +1,14 @@
-import { useEffect, useRef } from 'react';
-import { X } from 'lucide-react';
-import { Button, Hint } from '@angkorgit/design-system';
+import { useEffect, useRef, useState } from 'react';
+import { ClipboardPaste, Copy, Eraser, TextSelect, X } from 'lucide-react';
+import {
+  Button,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+  Hint,
+} from '@angkorgit/design-system';
 import { Terminal } from '@xterm/xterm';
 import { FitAddon } from '@xterm/addon-fit';
 import '@xterm/xterm/css/xterm.css';
@@ -90,6 +98,30 @@ export function TerminalPanel() {
   const theme = useSettings((s) => s.theme);
   const accent = useSettings((s) => s.accent);
   const hostRef = useRef<HTMLDivElement>(null);
+  const [menu, setMenu] = useState<{ x: number; y: number; hasSelection: boolean } | null>(null);
+
+  const current = () => (repoPath ? sessions.get(repoPath) : undefined);
+  const copySelection = () => {
+    const text = current()?.terminal.getSelection() ?? '';
+    if (text) void navigator.clipboard.writeText(text);
+  };
+  const paste = async () => {
+    const session = current();
+    if (!session) return;
+    try {
+      const text = await navigator.clipboard.readText();
+      if (text) session.terminal.paste(text);
+    } finally {
+      session.terminal.focus();
+    }
+  };
+  const selectAll = () => current()?.terminal.selectAll();
+  const clear = () => {
+    const session = current();
+    if (!session) return;
+    session.terminal.clear();
+    session.terminal.focus();
+  };
 
   useEffect(() => {
     const next = terminalThemeFromTokens();
@@ -134,7 +166,7 @@ export function TerminalPanel() {
   return (
     <div className="flex h-full flex-col bg-surface">
       <div className="flex h-7 shrink-0 items-center border-b border-border-subtle px-3">
-        <span className="text-[10px] font-semibold uppercase tracking-wide text-muted">Terminal</span>
+        <span className="text-[10px] font-semibold uppercase tracking-wide text-muted">终端</span>
         <span className="ml-2 min-w-0 flex-1 truncate font-mono text-[10px] text-faint">{repoPath}</span>
         <Hint label="关闭终端">
           <Button variant="ghost" size="icon-sm" className="ml-auto shrink-0" aria-label="关闭终端" onClick={toggleTerminal}>
@@ -142,7 +174,36 @@ export function TerminalPanel() {
           </Button>
         </Hint>
       </div>
-      <div ref={hostRef} className="terminal-host min-h-0 flex-1" />
+      <div
+        ref={hostRef}
+        className="terminal-host min-h-0 flex-1"
+        onContextMenu={(e) => {
+          e.preventDefault();
+          setMenu({ x: e.clientX, y: e.clientY, hasSelection: current()?.terminal.hasSelection() ?? false });
+        }}
+      />
+      {menu && (
+        <DropdownMenu open onOpenChange={(o) => !o && setMenu(null)}>
+          <DropdownMenuTrigger asChild>
+            <span style={{ position: 'fixed', left: menu.x, top: menu.y }} />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="start" side="bottom" onCloseAutoFocus={(e) => e.preventDefault()}>
+            <DropdownMenuItem disabled={!menu.hasSelection} onSelect={copySelection}>
+              <Copy /> 复制
+            </DropdownMenuItem>
+            <DropdownMenuItem onSelect={() => void paste()}>
+              <ClipboardPaste /> 粘贴
+            </DropdownMenuItem>
+            <DropdownMenuItem onSelect={selectAll}>
+              <TextSelect /> 全选
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onSelect={clear}>
+              <Eraser /> 清空终端
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      )}
     </div>
   );
 }
