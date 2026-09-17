@@ -399,9 +399,7 @@ pub fn add(path: &str, name: &str, url: &str) -> AppResult<()> {
     let name = name.trim();
     let url = url.trim();
     if name.is_empty() || url.is_empty() {
-        return Err(crate::error::AppError::other(
-            "远端名称和 URL 均不能为空",
-        ));
+        return Err(crate::error::AppError::other("远端名称和 URL 均不能为空"));
     }
     let repo = super::repo::open(path)?;
     if repo.find_remote(name).is_ok() {
