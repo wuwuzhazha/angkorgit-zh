@@ -1667,9 +1667,9 @@ fn remote_add_registers_the_remote_and_fetch_uses_it() {
     assert_eq!(remotes[0].url, origin.path());
 
     let dup = core::remote_add(local.path(), "upstream", origin.path()).unwrap_err();
-    assert!(dup.to_string().contains("already exists"));
+    assert!(dup.to_string().contains("已存在"));
     let blank = core::remote_add(local.path(), "  ", origin.path()).unwrap_err();
-    assert!(blank.to_string().contains("required"));
+    assert!(blank.to_string().contains("不能为空"));
 
     core::fetch(local.path(), "upstream", false, false).unwrap();
     let fetched = Command::new("git")

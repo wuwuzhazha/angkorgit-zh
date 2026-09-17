@@ -166,7 +166,7 @@ export function TerminalPanel() {
   return (
     <div className="flex h-full flex-col bg-surface">
       <div className="flex h-7 shrink-0 items-center border-b border-border-subtle px-3">
-        <span className="text-[10px] font-semibold uppercase tracking-wide text-muted">Terminal</span>
+        <span className="text-[10px] font-semibold uppercase tracking-wide text-muted">终端</span>
         <span className="ml-2 min-w-0 flex-1 truncate font-mono text-[10px] text-faint">{repoPath}</span>
         <Hint label="关闭终端">
           <Button variant="ghost" size="icon-sm" className="ml-auto shrink-0" aria-label="关闭终端" onClick={toggleTerminal}>
@@ -189,17 +189,17 @@ export function TerminalPanel() {
           </DropdownMenuTrigger>
           <DropdownMenuContent align="start" side="bottom" onCloseAutoFocus={(e) => e.preventDefault()}>
             <DropdownMenuItem disabled={!menu.hasSelection} onSelect={copySelection}>
-              <Copy /> Copy
+              <Copy /> 复制
             </DropdownMenuItem>
             <DropdownMenuItem onSelect={() => void paste()}>
-              <ClipboardPaste /> Paste
+              <ClipboardPaste /> 粘贴
             </DropdownMenuItem>
             <DropdownMenuItem onSelect={selectAll}>
-              <TextSelect /> Select all
+              <TextSelect /> 全选
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem onSelect={clear}>
-              <Eraser /> Clear terminal
+              <Eraser /> 清空终端
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

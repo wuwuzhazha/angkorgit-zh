@@ -126,7 +126,7 @@ export function gitlabForgeProvider(remote: ForgeRemote, http: HttpClient): Forg
       if (input.sourceRepo) {
         const target = (await request('GET', `/projects/${projectId}`)) as { id?: number };
         if (typeof target.id !== 'number') {
-          throw new ForgeError('GitLab did not return the target project id', 'gitlab');
+          throw new ForgeError('GitLab 未返回目标项目 ID', 'gitlab');
         }
         targetProjectId = target.id;
         postProject = encodeURIComponent(`${input.sourceRepo.owner}/${input.sourceRepo.repo}`);

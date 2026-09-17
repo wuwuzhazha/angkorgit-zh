@@ -1468,14 +1468,14 @@ test('the remotes section offers Add remote and opens the add dialog', async ({ 
   await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   const remotesHeader = page.getByRole('button', { name: /^远端/ });
   await remotesHeader.hover();
-  await page.getByRole('button', { name: 'Add remote', exact: true }).click({ force: true });
+  await page.getByRole('button', { name: '添加远端', exact: true }).click({ force: true });
   const dialog = page.getByRole('dialog');
-  await expect(dialog.getByRole('heading', { name: 'Add remote' })).toBeVisible();
+  await expect(dialog.getByRole('heading', { name: '添加远端' })).toBeVisible();
   await expect(dialog.getByPlaceholder('upstream')).toBeVisible();
-  await expect(dialog.getByRole('button', { name: 'Add remote', exact: true })).toBeDisabled();
+  await expect(dialog.getByRole('button', { name: '添加远端', exact: true })).toBeDisabled();
   await dialog.getByPlaceholder('upstream').fill('upstream');
   await dialog.getByPlaceholder('https://github.com/user/repo.git').fill('https://github.com/demo/upstream.git');
-  await expect(dialog.getByRole('button', { name: 'Add remote', exact: true })).toBeEnabled();
+  await expect(dialog.getByRole('button', { name: '添加远端', exact: true })).toBeEnabled();
   await page.keyboard.press('Escape');
   await expect(dialog).toBeHidden();
 });
@@ -1489,10 +1489,10 @@ test('the terminal answers right-click with copy, paste, select all and clear', 
   await expect(host).toBeVisible();
   await host.click({ button: 'right' });
   const menu = page.getByRole('menu');
-  await expect(menu.getByRole('menuitem', { name: 'Copy' })).toBeDisabled();
-  await expect(menu.getByRole('menuitem', { name: 'Paste' })).toBeVisible();
-  await expect(menu.getByRole('menuitem', { name: 'Select all' })).toBeVisible();
-  await menu.getByRole('menuitem', { name: 'Clear terminal' }).click();
+  await expect(menu.getByRole('menuitem', { name: '复制' })).toBeDisabled();
+  await expect(menu.getByRole('menuitem', { name: '粘贴' })).toBeVisible();
+  await expect(menu.getByRole('menuitem', { name: '全选' })).toBeVisible();
+  await menu.getByRole('menuitem', { name: '清空终端' }).click();
   await expect(menu).toBeHidden();
 });
 
@@ -1502,12 +1502,12 @@ test('settings remembers a clone destination and the clone dialog starts there',
   await page.getByRole('button', { name: 'Settings', exact: true }).click();
   const dialog = page.getByRole('dialog');
   await dialog.getByRole('button', { name: 'Git', exact: true }).click();
-  await expect(dialog.getByText('Clone destination')).toBeVisible();
-  await expect(dialog.getByText(/Not set/)).toBeVisible();
+  await expect(dialog.getByText('克隆目录')).toBeVisible();
+  await expect(dialog.getByText(/未设置/)).toBeVisible();
   await page.evaluate(() => {
     window.prompt = () => '/tmp/repos';
   });
-  await dialog.getByRole('button', { name: 'Choose folder' }).click();
+  await dialog.getByRole('button', { name: '选择文件夹' }).click();
   await expect(dialog.getByText('/tmp/repos')).toBeVisible();
   await page.keyboard.press('Escape');
   await page.getByText('Clone repository', { exact: true }).first().click();
@@ -1520,7 +1520,7 @@ test('a diff selection keeps its lines after scrolling away and back', async ({ 
   await page.getByText('palette-seed.sql').first().click();
   await expect(page.getByText('temple gold').first()).toBeVisible();
 
-  const scroller = page.locator('section[aria-label^="Diff for"] div.overflow-y-auto');
+  const scroller = page.locator('section[aria-label^="文件差异："] div.overflow-y-auto');
   await scroller.evaluate((el) => {
     el.scrollTop = Math.max(0, el.scrollTop - 1500);
   });

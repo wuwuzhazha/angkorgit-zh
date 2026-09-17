@@ -406,7 +406,7 @@ pub fn add(path: &str, name: &str, url: &str) -> AppResult<()> {
     let repo = super::repo::open(path)?;
     if repo.find_remote(name).is_ok() {
         return Err(crate::error::AppError::other(format!(
-            "a remote named '{name}' already exists"
+            "名为“{name}”的远端已存在"
         )));
     }
     repo.remote(name, url)?;

@@ -540,28 +540,28 @@ function CloneFolderCard() {
   const cloneRoot = useSettings((s) => s.cloneRoot);
   const setCloneRoot = useSettings((s) => s.setCloneRoot);
   const browse = async () => {
-    const dir = await pickDirectory('Choose the default clone folder');
+    const dir = await pickDirectory('选择默认克隆目录');
     if (dir) setCloneRoot(dir);
   };
   return (
     <SettingCard
-      title="Clone destination"
-      description="The folder the clone dialog starts from. The last folder you cloned into is remembered here automatically."
+      title="克隆目录"
+      description="克隆对话框默认使用的目录。最近一次克隆使用的目录会自动保存到这里。"
       action={
         <span className="flex items-center gap-1.5">
           {cloneRoot && (
             <Button variant="ghost" size="sm" onClick={() => setCloneRoot(null)}>
-              Clear
+              清除
             </Button>
           )}
           <Button variant="secondary" size="sm" onClick={() => void browse()}>
-            <FolderOpen className="size-3.5" /> Choose folder
+            <FolderOpen className="size-3.5" /> 选择文件夹
           </Button>
         </span>
       }
     >
       <p className={cn('truncate font-mono text-[11px]', cloneRoot ? 'text-muted' : 'text-faint')} title={cloneRoot ?? undefined}>
-        {cloneRoot ? shortenHome(cloneRoot) : 'Not set — the dialog asks for a folder each time'}
+        {cloneRoot ? shortenHome(cloneRoot) : '未设置——每次克隆时选择文件夹'}
       </p>
     </SettingCard>
   );

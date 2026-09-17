@@ -123,7 +123,7 @@ export const CodeLine = memo(function CodeLine({
     }
     if (clipped.hidden === 0) return highlightLineState(clipped.text, language, inComment).html;
     const body = highlightLineState(clipped.text, null, false).html;
-    return `${body}<span class="ml-2 rounded-sm bg-surface-raised px-1.5 text-faint" title="Only the first ${MAX_RENDERED_LINE.toLocaleString()} characters of this line are shown">… ${clipped.hidden.toLocaleString()} more characters</span>`;
+    return `${body}<span class="ml-2 rounded-sm bg-surface-raised px-1.5 text-faint" title="此行仅显示前 ${MAX_RENDERED_LINE.toLocaleString()} 个字符">… 另有 ${clipped.hidden.toLocaleString()} 个字符</span>`;
   }, [line, pair, language, useWordDiff, side]);
 
   return (

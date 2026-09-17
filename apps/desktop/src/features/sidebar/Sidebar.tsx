@@ -474,12 +474,12 @@ export function Sidebar() {
     const original = edit.original;
     if (original === null) {
       const name = edit.name.trim();
-      await act(`Add remote ${name}`, async () => {
+      await act(`添加远端 ${name}`, async () => {
         await ipc.remoteAdd(path, name, edit.url);
         return ipc.fetch(path, name, true, false);
       });
     } else {
-      await act(`Update remote ${original}`, () => ipc.remoteEdit(path, original, edit.name, edit.url));
+      await act(`更新远端 ${original}`, () => ipc.remoteEdit(path, original, edit.name, edit.url));
     }
     setSavingRemote(false);
     setEditRemote(null);
@@ -1080,8 +1080,8 @@ export function Sidebar() {
           title="远端"
           count={remoteBranches.length}
           action={
-            <Hint label="Add remote">
-              <Button variant="ghost" size="icon-sm" aria-label="Add remote" onClick={openAddRemote}>
+            <Hint label="添加远端">
+              <Button variant="ghost" size="icon-sm" aria-label="添加远端" onClick={openAddRemote}>
                 <Plus className="size-3.5" />
               </Button>
             </Hint>
@@ -1094,7 +1094,7 @@ export function Sidebar() {
               description="此仓库只存在于本机。添加远端即可推送、拉取并打开拉取请求。"
               action={
                 <Button variant="secondary" size="sm" className="w-full justify-center" onClick={openAddRemote}>
-                  <Plus className="size-3.5" /> Add remote
+                  <Plus className="size-3.5" /> 添加远端
                 </Button>
               }
             />
@@ -1499,16 +1499,16 @@ export function Sidebar() {
       <Dialog open={editRemote !== null} onOpenChange={(o) => !o && setEditRemote(null)}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>{editRemote?.original === null ? 'Add remote' : 'Edit remote'}</DialogTitle>
+            <DialogTitle>{editRemote?.original === null ? '添加远端' : '编辑远端'}</DialogTitle>
             <DialogDescription>
               {editRemote?.original === null
-                ? 'Name the remote and paste its URL. It is fetched right away so its branches show up here.'
-                : 'Rename the remote or point it at a different URL.'}
+                ? '输入远端名称与 URL。添加后会立即获取远端信息，并在此显示其分支。'
+                : '重命名远端或修改其 URL。'}
             </DialogDescription>
           </DialogHeader>
           <div className="flex flex-col gap-3">
             <label className="flex flex-col gap-1.5 text-xs text-muted">
-              Name
+              名称
               <Input
                 value={editRemote?.name ?? ''}
                 onChange={(e) => setEditRemote((s) => (s ? { ...s, name: e.target.value } : s))}
@@ -1540,7 +1540,7 @@ export function Sidebar() {
               disabled={savingRemote || !editRemote?.name.trim() || !editRemote?.url.trim()}
               onClick={() => void submitEditRemote()}
             >
-              {editRemote?.original === null ? 'Add remote' : 'Save changes'}
+              {editRemote?.original === null ? '添加远端' : '保存更改'}
             </Button>
           </DialogFooter>
         </DialogContent>

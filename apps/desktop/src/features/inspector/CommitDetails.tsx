@@ -595,7 +595,7 @@ export function CommitDetails({
                   className="h-6 shrink-0 px-2 text-[11px]"
                   onClick={() => setPicked(new Set())}
                 >
-                  Clear
+                  清除
                 </Button>
                 <Button
                   size="sm"

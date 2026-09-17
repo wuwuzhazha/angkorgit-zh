@@ -247,7 +247,7 @@ export function CreatePrDialog() {
       });
       closeDialog();
       toast.success(`${provider.label} ${noun} #${pr.number} 已创建`, {
-        action: { label: 'Open', onClick: () => void openExternal(pr.url) },
+        action: { label: '打开', onClick: () => void openExternal(pr.url) },
       });
       void useForge.getState().load(true);
     } catch (err) {
@@ -268,14 +268,14 @@ export function CreatePrDialog() {
           </DialogTitle>
           <DialogDescription>
             {crossRepo && remote && targetRemote
-              ? `Opens a ${noun} from ${remote.owner}/${remote.repo} into ${targetRemote.owner}/${targetRemote.repo} on ${provider.label}.`
-              : `Opens a ${noun} on ${provider.label} for the current branch.`}
+              ? `在 ${provider.label} 上创建${noun}，将 ${remote.owner}/${remote.repo} 的更改提交到 ${targetRemote.owner}/${targetRemote.repo}。`
+              : `在 ${provider.label} 上为当前分支创建${noun}。`}
           </DialogDescription>
         </DialogHeader>
         <div className="flex flex-col gap-3">
           {targets.length > 1 && (
             <div className="flex items-center gap-2">
-              <span className="w-28 shrink-0 text-xs text-muted">Into repository</span>
+              <span className="w-28 shrink-0 text-xs text-muted">目标仓库</span>
               <Select
                 value={activeTargetName}
                 onValueChange={(value) => {
@@ -283,7 +283,7 @@ export function CreatePrDialog() {
                   baseTouched.current = false;
                 }}
               >
-                <SelectTrigger className="h-8 flex-1" aria-label="Target repository">
+                <SelectTrigger className="h-8 flex-1" aria-label="目标仓库">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -358,7 +358,7 @@ export function CreatePrDialog() {
             {generating && (
               <span className="pointer-events-none absolute bottom-2 left-2 flex items-center gap-1.5 rounded bg-surface-overlay/90 px-1.5 py-0.5 text-[11px] text-muted">
                 <Logo size={14} animated="loop" className="logo-draw-loop shrink-0" />
-                Writing…
+                撰写中…
               </span>
             )}
           </div>
@@ -376,7 +376,7 @@ export function CreatePrDialog() {
                 {candidatesLoading && (
                   <div className="flex items-center gap-2 px-2 py-1.5 text-xs text-faint">
                     <Logo size={14} animated="loop" className="logo-draw-loop shrink-0" />
-                    Loading members…
+                    正在加载成员…
                   </div>
                 )}
                 {accountLookupFailed && (
@@ -386,7 +386,7 @@ export function CreatePrDialog() {
                 )}
                 {!candidatesLoading && !accountLookupFailed && visibleCandidates.length === 0 && (
                   <div className="px-2 py-1.5 text-xs text-faint">
-                    No members found — reviewers can still be added on {provider.label}.
+                    未找到成员——仍可在 {provider.label} 上添加审查人。
                   </div>
                 )}
                 {!accountLookupFailed && visibleCandidates.map((user) => (
@@ -417,7 +417,7 @@ export function CreatePrDialog() {
                     .filter((user) => reviewers.includes(user.id))
                     .map((user) => user.name)
                     .join(', ')
-                : 'Optional'}
+                : '可选'}
             </span>
           </div>
           <label className="flex cursor-pointer items-center gap-2 text-xs text-muted">
@@ -426,7 +426,7 @@ export function CreatePrDialog() {
           </label>
           {baseOptions.length === 0 && (
             <p className="text-xs text-info">
-              No branches found on {activeTargetName} — fetch it first so the target branch list can fill in.
+              {activeTargetName} 上没有找到分支——请先获取该远端，再选择目标分支。
             </p>
           )}
           {notPushed && (
