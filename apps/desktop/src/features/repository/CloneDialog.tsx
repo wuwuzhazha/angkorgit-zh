@@ -67,7 +67,7 @@ export function CloneDialog({ onCloned }: { onCloned: (path: string) => void }) 
       const target = `${into.replace(/\/$/, '')}/${name}`;
       const path = await ipc.cloneRepository(url.trim(), target, branch.trim() || null);
       setCloneRoot(into.trim().replace(/\/$/, ''));
-      toast.success('Repository cloned');
+      toast.success('仓库已克隆');
       closeDialog();
       onCloned(path);
     } catch (error) {

@@ -1465,8 +1465,8 @@ test('the palette offers Blame… and picks a file', async ({ page }) => {
 test('the remotes section offers Add remote and opens the add dialog', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
-  const remotesHeader = page.getByRole('button', { name: /^Remotes/ });
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
+  const remotesHeader = page.getByRole('button', { name: /^远端/ });
   await remotesHeader.hover();
   await page.getByRole('button', { name: 'Add remote', exact: true }).click({ force: true });
   const dialog = page.getByRole('dialog');
@@ -1483,7 +1483,7 @@ test('the remotes section offers Add remote and opens the add dialog', async ({ 
 test('the terminal answers right-click with copy, paste, select all and clear', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   await page.getByRole('button', { name: 'Toggle terminal' }).click();
   const host = page.locator('.terminal-host');
   await expect(host).toBeVisible();
@@ -1498,7 +1498,7 @@ test('the terminal answers right-click with copy, paste, select all and clear', 
 
 test('settings remembers a clone destination and the clone dialog starts there', async ({ page }) => {
   await page.goto('/');
-  await expect(page.getByText('Recent repositories')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByText('最近仓库')).toBeVisible({ timeout: 10_000 });
   await page.getByRole('button', { name: 'Settings', exact: true }).click();
   const dialog = page.getByRole('dialog');
   await dialog.getByRole('button', { name: 'Git', exact: true }).click();

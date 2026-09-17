@@ -1077,7 +1077,7 @@ export function Sidebar() {
         <Section
           {...section('remotes')}
           icon={<Cloud className="size-3.5" />}
-          title="Remotes"
+          title="远端"
           count={remoteBranches.length}
           action={
             <Hint label="Add remote">
@@ -1090,8 +1090,8 @@ export function Sidebar() {
           {remotes.length === 0 && !hasRemoteBranches && !repoRefreshing && (
             <SidebarEmpty
               icon={<Cloud />}
-              title="No remotes"
-              description="This repository lives only on this machine. Add a remote to push, pull and open pull requests."
+              title="无远端"
+              description="此仓库只存在于本机。添加远端即可推送、拉取并打开拉取请求。"
               action={
                 <Button variant="secondary" size="sm" className="w-full justify-center" onClick={openAddRemote}>
                   <Plus className="size-3.5" /> Add remote

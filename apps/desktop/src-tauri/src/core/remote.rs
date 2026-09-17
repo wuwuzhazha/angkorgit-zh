@@ -400,7 +400,7 @@ pub fn add(path: &str, name: &str, url: &str) -> AppResult<()> {
     let url = url.trim();
     if name.is_empty() || url.is_empty() {
         return Err(crate::error::AppError::other(
-            "remote name and URL are both required",
+            "远端名称和 URL 均不能为空",
         ));
     }
     let repo = super::repo::open(path)?;
