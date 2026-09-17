@@ -5,6 +5,16 @@ import { gitlabForgeProvider, parseForgeRemote, type HttpRequest } from '@angkor
 const source = (path: string) => readFileSync(new URL(`../../${path}`, import.meta.url), 'utf8');
 
 describe('Chinese localization of the upstream collaboration update', () => {
+  it('keeps smoke navigation selectors aligned with the Chinese interface', () => {
+    const smoke = source('tests/e2e/smoke.spec.ts');
+    for (const selector of ["name: 'Toggle terminal'", "name: 'Settings'", "getByText('Clone repository'", "getByPlaceholder('Destination folder'"]) {
+      expect(smoke).not.toContain(selector);
+    }
+    for (const selector of ["name: '切换终端'", "name: '设置'", "getByText('克隆仓库'", "getByPlaceholder('目标文件夹'"]) {
+      expect(smoke).toContain(selector);
+    }
+  });
+
   it('localizes remote controls without changing remote identifiers', () => {
     const sidebar = source('apps/desktop/src/features/sidebar/Sidebar.tsx');
     expect(sidebar).toContain('aria-label="添加远端"');

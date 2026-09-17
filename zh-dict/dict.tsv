@@ -1129,3 +1129,7 @@ rust	a remote named '{name}' already exists	名为“{name}”的远端已存在
 rust	already exists	已存在	assert!\(dup\.to_string\(\)\.contains	whole
 rust	required	不能为空	assert!\(blank\.to_string\(\)\.contains	whole
 core	GitLab did not return the target project id	GitLab 未返回目标项目 ID		whole
+e2e	Toggle terminal	切换终端		whole
+e2e	Settings	设置		whole
+e2e	Clone repository	克隆仓库		whole
+e2e	Destination folder	目标文件夹		whole

@@ -1484,7 +1484,7 @@ test('the terminal answers right-click with copy, paste, select all and clear', 
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
   await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
-  await page.getByRole('button', { name: 'Toggle terminal' }).click();
+  await page.getByRole('button', { name: '切换终端' }).click();
   const host = page.locator('.terminal-host');
   await expect(host).toBeVisible();
   await host.click({ button: 'right' });
@@ -1499,7 +1499,7 @@ test('the terminal answers right-click with copy, paste, select all and clear', 
 test('settings remembers a clone destination and the clone dialog starts there', async ({ page }) => {
   await page.goto('/');
   await expect(page.getByText('最近仓库')).toBeVisible({ timeout: 10_000 });
-  await page.getByRole('button', { name: 'Settings', exact: true }).click();
+  await page.getByRole('button', { name: '设置', exact: true }).click();
   const dialog = page.getByRole('dialog');
   await dialog.getByRole('button', { name: 'Git', exact: true }).click();
   await expect(dialog.getByText('克隆目录')).toBeVisible();
@@ -1510,8 +1510,8 @@ test('settings remembers a clone destination and the clone dialog starts there',
   await dialog.getByRole('button', { name: '选择文件夹' }).click();
   await expect(dialog.getByText('/tmp/repos')).toBeVisible();
   await page.keyboard.press('Escape');
-  await page.getByText('Clone repository', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Destination folder')).toHaveValue('/tmp/repos');
+  await page.getByText('克隆仓库', { exact: true }).first().click();
+  await expect(page.getByPlaceholder('目标文件夹')).toHaveValue('/tmp/repos');
 });
 
 test('a diff selection keeps its lines after scrolling away and back', async ({ page }) => {
