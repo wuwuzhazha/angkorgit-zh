@@ -1430,5 +1430,5 @@ ui	Clear every pick and start over	清除所有选择并重新开始
 ui	edited by hand	手动编辑		
 ui	The commit being cherry-picked.	正在被拣选的提交。		
 ui	Your hand-written result (and any hand-edited conflicts) will be replaced by the resolution built from the checkboxes.	你手工编写的结果（以及任何手动编辑过的冲突）将被根据勾选框生成的解决方案替换。		
-ui	Replace	替换		
+ui	Replace	替换	confirmLabel: 'Replace'
 ui	Discard the hand-written result?	丢弃手工编辑的结果？		
