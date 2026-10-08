@@ -120,7 +120,7 @@ export function useDiffSelectAll(diff: FileDiff | null, scrollRef: React.RefObje
     <>
       {selectedSide && (
         <div className="pointer-events-none absolute left-1/2 top-2 z-20 -translate-x-1/2 whitespace-nowrap rounded-md border border-border bg-surface-overlay px-2.5 py-1 text-[11px] text-muted shadow-soft">
-          {selectedSide === 'old' ? 'Old' : 'New'} text selected — ⌘C to copy · Esc to clear
+          已选中{selectedSide === 'old' ? '旧' : '新'}侧文本 — ⌘C 复制 · Esc 清除
         </div>
       )}
       {caretPos &&

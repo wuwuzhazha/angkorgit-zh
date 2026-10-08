@@ -556,7 +556,7 @@ export function AccountsTab() {
                 />
               </Field>
               <Field
-                label={provider === 'bitbucket' ? 'Atlassian 账户邮箱' : 'Username'}
+                label={provider === 'bitbucket' ? 'Atlassian 账户邮箱' : '用户名'}
                 hint={
                   reconnecting
                     ? undefined
