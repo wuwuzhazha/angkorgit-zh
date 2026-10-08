@@ -306,7 +306,7 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
         <>
         <Command.Group heading="操作">
           <PaletteItem icon={<History />} label="文件历史…" onSelect={() => enterFilePicker('fileHistory')} />
-          <PaletteItem icon={<UserRoundSearch />} label="Blame…" onSelect={() => enterFilePicker('blame')} />
+          <PaletteItem icon={<UserRoundSearch />} label="溯源…" onSelect={() => enterFilePicker('blame')} />
           <PaletteItem icon={<ArrowDownToLine />} label="拉取" onSelect={() => run('拉取', () => ipc.pull(path, remote))} />
           <PaletteItem
             icon={<ArrowDownToLine />}

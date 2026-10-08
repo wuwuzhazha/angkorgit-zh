@@ -1212,7 +1212,7 @@ export function ConflictResolver({ file, onResolved }: { file: string; onResolve
               </Button>
             </span>
           </Hint>
-          <Hint label="Close">
+          <Hint label="关闭">
             <Button variant="ghost" size="icon" aria-label="关闭" onClick={() => void requestClose()}>
               <X />
             </Button>
@@ -1376,7 +1376,7 @@ export function ConflictResolver({ file, onResolved }: { file: string; onResolve
                     </Button>
                   </Hint>
                 ) : (
-                  <Hint label="Discard the hand-written result and rebuild from the checkboxes">
+                  <Hint label="丢弃手工编辑的结果，并根据勾选框重新生成">
                     <Button
                       variant="ghost"
                       size="icon-sm"

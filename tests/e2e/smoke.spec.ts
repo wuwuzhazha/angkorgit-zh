@@ -57,7 +57,7 @@ test('commit search finds matches in the full graph and steps through them', asy
 test('the author box finds commits without flattening the graph', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  const author = page.getByPlaceholder('Find author…');
+  const author = page.getByPlaceholder('查找作者…');
   await expect(author).toBeVisible({ timeout: 10_000 });
   await author.fill('Dara');
   await expect(page.getByText(/^1 of \d+$/)).toBeVisible({ timeout: 10_000 });
@@ -245,14 +245,14 @@ test('leaving a conflict with picks asks first while a clean resolver closes on 
   await open();
   await page.getByLabel('取 A 侧全部行解决此冲突').click();
   await page.keyboard.press('Escape');
-  const confirm = page.getByRole('dialog').filter({ hasText: 'Leave this file unresolved?' });
+  const confirm = page.getByRole('dialog').filter({ hasText: '不解决此文件的冲突就离开？' });
   await expect(confirm).toBeVisible();
   await confirm.getByRole('button', { name: '取消' }).click();
   await expect(confirm).toBeHidden();
   await expect(page.getByText('1 / 1 已解决')).toBeVisible();
   await resolver.getByRole('button', { name: '关闭', exact: true }).click();
   await expect(confirm).toBeVisible();
-  await confirm.getByRole('button', { name: 'Leave' }).click();
+  await confirm.getByRole('button', { name: '离开' }).click();
   await expect(resolver).toBeHidden();
 });
 
@@ -1295,17 +1295,17 @@ test('blame is disabled for a file no commit has seen yet', async ({ page }) => 
   await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   const row = page.getByText('Architecture.md', { exact: true }).first();
   await row.click({ button: 'right' });
-  const item = page.getByRole('menuitem', { name: /^Blame/ });
-  await expect(item).toHaveText(/no commits yet/);
+  const item = page.getByRole('menuitem', { name: /^溯源/ });
+  await expect(item).toHaveText(/尚无提交/);
   await expect(item).toHaveAttribute('aria-disabled', 'true');
   await page.keyboard.press('Escape');
   await row.click();
   const diff = page.locator('section[aria-label="文件差异：docs/Architecture.md"]');
   await expect(diff).toBeVisible();
-  await expect(diff.getByRole('button', { name: 'Blame' })).toBeDisabled();
+  await expect(diff.getByRole('button', { name: '溯源' })).toBeDisabled();
   await page.keyboard.press('Escape');
   await page.getByText('ipc.ts', { exact: true }).first().click();
-  await expect(page.locator('section[aria-label="文件差异：src/core/ipc.ts"]').getByRole('button', { name: 'Blame' })).toBeEnabled();
+  await expect(page.locator('section[aria-label="文件差异：src/core/ipc.ts"]').getByRole('button', { name: '溯源' })).toBeEnabled();
 });
 
 test('the status bar shows the AI connection state once AI is configured and tested', async ({ page }) => {
@@ -1321,7 +1321,7 @@ test('the status bar shows the AI connection state once AI is configured and tes
   await dialog.getByRole('combobox').first().click();
   await page.getByRole('option', { name: /已安装 AI CLI/ }).click();
   await expect(chip).toHaveAttribute('data-ai-status', 'unconfigured');
-  await expect(chip).toHaveText(/Set up AI/);
+  await expect(chip).toHaveText(/设置 AI/);
   await dialog.getByRole('button', { name: /Claude Code/ }).click();
   await expect(chip).toHaveAttribute('data-ai-status', 'untested');
   await expect(chip).toHaveText('Claude Code');
@@ -1785,7 +1785,7 @@ test('the diff header opens blame inside file history with authors per hunk', as
   await page.getByText('angkorgit', { exact: true }).first().click();
   await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   await page.getByText('CommitGraph.tsx').first().click();
-  await page.locator('section[aria-label^="文件差异："]').getByRole('button', { name: 'Blame' }).click();
+  await page.locator('section[aria-label^="文件差异："]').getByRole('button', { name: '溯源' }).click();
   const history = page.locator('section[aria-label$="的历史"]');
   await expect(history).toBeVisible();
   await expect(history.getByRole('button', { name: '溯源视图' })).toHaveAttribute('aria-pressed', 'true');
@@ -1802,7 +1802,7 @@ test('the diff header opens blame inside file history with authors per hunk', as
   await expect(history.locator('[data-working-copy-row]')).not.toHaveClass(/border-l-primary/);
 
   await pane.locator('[data-blame-line="1"]').click({ button: 'right' });
-  await expect(page.getByRole('menuitem', { name: 'Blame at this commit' })).toBeVisible();
+  await expect(page.getByRole('menuitem', { name: '在此提交上溯源' })).toBeVisible();
   await page.keyboard.press('Escape');
 
   await history.getByRole('button', { name: '差异视图' }).click();
@@ -1819,9 +1819,9 @@ test('the palette offers Blame… and picks a file', async ({ page }) => {
   await page.getByText('angkorgit', { exact: true }).first().click();
   await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   await page.getByRole('button', { name: '命令面板' }).click();
-  await page.getByPlaceholder('输入命令或分支名…').fill('Blame');
-  await page.getByText('Blame…', { exact: true }).click();
-  const picker = page.getByPlaceholder('Search a file to blame…');
+  await page.getByPlaceholder('输入命令或分支名…').fill('溯源');
+  await page.getByText('溯源…', { exact: true }).click();
+  const picker = page.getByPlaceholder('选择要溯源的文件…');
   await expect(picker).toBeVisible();
   await picker.fill('App.tsx');
   await page.getByText('src/app/App.tsx', { exact: true }).click();

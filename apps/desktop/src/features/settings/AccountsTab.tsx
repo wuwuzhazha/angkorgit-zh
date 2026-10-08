@@ -532,7 +532,7 @@ export function AccountsTab() {
                   : '添加账户'}
             </p>
             <div className="grid grid-cols-2 gap-x-6 gap-y-3">
-              <Field label="Provider">
+              <Field label="提供方">
                 <Select value={provider} onValueChange={(v) => changeProvider(v as ProviderKind)} disabled={reconnecting !== null}>
                   <SelectTrigger>
                     <SelectValue />

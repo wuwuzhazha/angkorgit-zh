@@ -660,8 +660,8 @@ function EditorCard() {
       {editors.length === 0 && !loading ? (
         <SettingEmpty
           icon={<Code className="size-4" />}
-          title="No editor found"
-          description="Install your editor's command line launcher (VS Code calls it the shell command) and scan again."
+          title="未找到编辑器"
+          description="安装编辑器的命令行启动器（VS Code 称之为 shell 命令）后重新扫描。"
         />
       ) : (
         <div className="flex flex-col gap-1.5">
@@ -1172,7 +1172,7 @@ export function SettingsDialog() {
                       <Field label="Name">
                         <Input value={gitName} onChange={(e) => setGitName(e.target.value)} placeholder="你的姓名" />
                       </Field>
-                      <Field label="Email">
+                      <Field label="邮箱">
                         <Input
                           value={gitEmail}
                           onChange={(e) => setGitEmail(e.target.value)}
@@ -1314,7 +1314,7 @@ export function SettingsDialog() {
                         <div className="rounded-lg border border-primary/30 bg-primary/5 p-3">
                           <p className="mb-3 text-xs font-medium text-foreground">新建配置</p>
                           <div className="grid grid-cols-3 gap-3">
-                            <Field label="Label">
+                            <Field label="名称">
                               <Input
                                 autoFocus
                                 placeholder="工作"
@@ -1337,7 +1337,7 @@ export function SettingsDialog() {
                                 }}
                               />
                             </Field>
-                            <Field label="Email">
+                            <Field label="邮箱">
                               <Input
                                 placeholder="you@company.com"
                                 value={profileEmail}
