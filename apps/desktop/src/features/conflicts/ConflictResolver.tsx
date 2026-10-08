@@ -161,7 +161,7 @@ function sideHint(state: RepoState | undefined, side: Side): string {
         ? '你正在变基到的分支。变基进行中时，Git 把这一侧称为 HEAD。'
         : '你的提交，将重新应用在它之上。';
     case 'cherrypick':
-      return side === 'current' ? '你当前分支的现状。' : 'The commit being cherry-picked.';
+      return side === 'current' ? '你当前分支的现状。' : '正在被拣选的提交。';
     case 'revert':
       return side === 'current' ? '你当前分支的现状。' : '还原操作想要撤销的内容。';
     default:
@@ -400,11 +400,11 @@ export function ConflictResolver({ file, onResolved }: { file: string; onResolve
     const ok = await confirmDialog({
       title: '替换手工编辑？',
       description: replaceManual
-        ? 'Your hand-written result (and any hand-edited conflicts) will be replaced by the resolution built from the checkboxes.'
+        ? '你手工编写的结果（以及任何手动编辑过的冲突）将被根据勾选框生成的解决方案替换。'
         : blockIndex === undefined
           ? '手工编辑的冲突结果将被你选择的行替换。'
           : "此冲突的手工编辑结果将被你选择的行替换。",
-      confirmLabel: 'Replace',
+      confirmLabel: '替换',
       destructive: true,
     });
     if (!ok) return false;
@@ -530,7 +530,7 @@ export function ConflictResolver({ file, onResolved }: { file: string; onResolve
 
   const discardManual = async () => {
     const ok = await confirmDialog({
-      title: 'Discard the hand-written result?',
+      title: '丢弃手工编辑的结果？',
       description: '结果将恢复为从 A 和 B 中挑选的行。',
       confirmLabel: '丢弃',
       destructive: true,
