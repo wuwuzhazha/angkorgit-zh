@@ -31,3 +31,6 @@ zh-dict/pending.tsv
 # local-only tooling (MCP computer-use), never commit
 .shuncode/
 .commandcode/
+
+# 本机 pnpm 配置（Junction 不可用时的 copy/hoisted 兜底），随机器而异
+.npmrc
