@@ -427,7 +427,7 @@ export function ConflictResolver({ file, onResolved }: { file: string; onResolve
       title: '不解决此文件的冲突就离开？',
       description: '在你标记文件为已解决之前，不会写入任何内容。你在这里挑选和编辑过的行将会丢失。',
       path: file,
-      confirmLabel: 'Leave',
+      confirmLabel: '离开',
       destructive: true,
     });
   };
