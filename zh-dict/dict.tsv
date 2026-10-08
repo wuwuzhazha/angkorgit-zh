@@ -1392,3 +1392,39 @@ ui	In recents	最近列表中
 ui	This is a stash.	这是一个暂存。
 ui	These whitespace changes are staged and will be committed. Turn off 忽略空白字符 to unstage them.	这些空白字符更改已暂存，将会被提交。关闭“忽略空白字符”可取消暂存。
 ui	打开仓库 in a new tab	在新标签页中打开仓库
+ui	Blame	溯源		whole
+ui	Blame at this commit	在此提交上溯源		
+ui	Blame (no commits yet)	溯源（尚无提交）		
+ui	Not committed yet	尚未提交		
+ui	Hash copied	已复制哈希		
+ui	Search a file to blame…	选择要溯源的文件…		
+ui	Set up AI	设置 AI		
+ui	Install command line tool	安装命令行工具		
+ui	Show in Finder	在 Finder 中显示		
+ui	Branch (optional)	分支（可选）		
+ui	Find author…	查找作者…		
+ui	Next match (Enter)	下一个匹配（回车）		
+ui	Previous match (Shift+Enter)	上一个匹配（Shift+回车）		
+ui	Open this commit in the graph with all its files	在提交图中打开此提交及其所有文件		
+ui	Nothing to blame yet — this file has no commits	暂无可溯源的提交——此文件还没有提交记录		
+ui	Your branch as it is now.	你当前分支的现状。		
+ui	What the revert wants to undo.	还原操作想要撤销的内容。		
+ui	Your commit, being replayed on top of it.	你的提交，将重新应用在它之上。		
+ui	The branch you are on (HEAD).	你当前所在的分支（HEAD）。		
+ui	The branch being merged in.	正在被合并进来的分支。		
+ui	The branch you are rebasing onto. Git calls this side HEAD while a rebase runs.	你正在变基到的分支。变基进行中时，Git 把这一侧称为 HEAD。		
+ui	The result goes back to the lines picked from A and B.	结果将恢复为从 A 和 B 中挑选的行。		
+ui	Continue the rebase from the toolbar to finish.	在工具栏中继续变基以完成操作。		
+ui	Commit to finish the merge.	提交以完成合并。		
+ui	Commit to finish the revert.	提交以完成还原。		
+ui	Commit to finish the cherry-pick.	提交以完成拣选。		
+ui	Leave this file unresolved?	不解决此文件的冲突就离开？		
+ui	Nothing is written until you mark the file resolved. The lines you picked and edited here will be lost.	在你标记文件为已解决之前，不会写入任何内容。你在这里挑选和编辑过的行将会丢失。		
+ui	No conflict markers in this file. Mark it resolved to keep it as it is.	此文件中没有冲突标记。将其标记为已解决以保持现状。		
+ui	Pick lines for every conflict (or edit the result by hand) first	请先为每一处冲突挑选行（或手动编辑结果）		
+ui	Remove the remaining <<<<<<< markers from the result first	请先从结果中移除剩余的 <<<<<<< 标记		
+ui	Pick lines from A and B above. Click any result line to edit it by hand.	请从上方 A 和 B 中挑选行。点击任意结果行即可手动编辑。		
+ui	Ready to mark resolved. Click any result line to edit it by hand.	已可标记为已解决。点击任意结果行即可手动编辑。		
+ui	Edit the whole result by hand	手动编辑整个结果		
+ui	Clear every pick and start over	清除所有选择并重新开始		
+ui	edited by hand	手动编辑		
