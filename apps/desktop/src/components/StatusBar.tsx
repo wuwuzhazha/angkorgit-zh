@@ -47,7 +47,7 @@ export function StatusBar() {
         ? CLI_AGENTS[ai.cliAgent].label
         : ''
       : AI_PROVIDER_PRESETS[ai.provider].label;
-  const aiLabel = aiConfigured ? aiName : 'Set up AI';
+  const aiLabel = aiConfigured ? aiName : '设置 AI';
   const aiHint = !aiConfigured
     ? '尚未设置 AI 提供商。点击在设置中选择一个。'
     : aiStatus === 'ok'

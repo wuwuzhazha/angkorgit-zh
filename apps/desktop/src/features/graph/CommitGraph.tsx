@@ -400,7 +400,7 @@ export function CommitGraph() {
               className="flex items-center gap-0.5 rounded-md border border-border-subtle bg-surface-raised/60 px-1"
               aria-label={`Match ${find.active + 1} of ${find.matches.length}${find.truncated ? ' or more' : ''}`}
             >
-              <Hint label="Previous match (Shift+Enter)">
+              <Hint label="上一个匹配（Shift+回车）">
                 <Button
                   variant="ghost"
                   size="icon-sm"
@@ -415,7 +415,7 @@ export function CommitGraph() {
                 {find.active + 1} of {find.matches.length}
                 {find.truncated ? '+' : ''}
               </span>
-              <Hint label="Next match (Enter)">
+              <Hint label="下一个匹配（回车）">
                 <Button
                   variant="ghost"
                   size="icon-sm"
@@ -434,7 +434,7 @@ export function CommitGraph() {
             value={authorDraft}
             onChange={(e) => setAuthorDraft(e.target.value)}
             onKeyDown={onFindKeyDown(authorDraft, () => setAuthorDraft(''))}
-            placeholder="Find author…"
+            placeholder="查找作者…"
             className="h-7 pl-8 text-xs"
           />
         </div>

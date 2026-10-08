@@ -261,7 +261,7 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
           mode === 'fileHistory'
             ? '搜索文件查看修改人…'
             : mode === 'blame'
-              ? 'Search a file to blame…'
+              ? '选择要溯源的文件…'
               : '输入命令或分支名…'
         }
         onKeyDown={(e) => {
@@ -286,7 +286,7 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
           <div className="py-8 text-center text-sm text-faint">无法列出文件。</div>
         )}
         {mode !== 'commands' && !filesLoading && !filesError && (
-          <Command.Group heading={mode === 'blame' ? 'Blame' : '文件历史'}>
+          <Command.Group heading={mode === 'blame' ? '溯源' : '文件历史'}>
             {visibleFiles.map((file) => (
               <PaletteItem
                 key={file}
@@ -622,7 +622,7 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
           />
           <PaletteItem
             icon={<SquareTerminal />}
-            label="Install command line tool"
+            label="安装命令行工具"
             onSelect={() => {
               close();
               void installCliTool().catch((error) =>

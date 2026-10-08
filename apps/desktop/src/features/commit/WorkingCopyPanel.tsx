@@ -1217,7 +1217,7 @@ export function WorkingCopyPanel() {
               disabled={!hasCommittedHistory(fileMenu.file)}
               onClick={() => useUi.getState().openBlame(fileMenu.file.path)}
             >
-              <UserRoundSearch /> {hasCommittedHistory(fileMenu.file) ? 'Blame' : 'Blame (no commits yet)'}
+              <UserRoundSearch /> {hasCommittedHistory(fileMenu.file) ? '溯源' : '溯源（尚无提交）'}
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() =>
@@ -1243,7 +1243,7 @@ export function WorkingCopyPanel() {
                   )
               }
             >
-              <FolderOpen /> {isMac ? 'Show in Finder' : '在文件管理器中显示'}
+              <FolderOpen /> {isMac ? '在 Finder 中显示' : '在文件管理器中显示'}
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => {

@@ -158,27 +158,27 @@ function sideHint(state: RepoState | undefined, side: Side): string {
   switch (state) {
     case 'rebase':
       return side === 'current'
-        ? 'The branch you are rebasing onto. Git calls this side HEAD while a rebase runs.'
-        : 'Your commit, being replayed on top of it.';
+        ? '你正在变基到的分支。变基进行中时，Git 把这一侧称为 HEAD。'
+        : '你的提交，将重新应用在它之上。';
     case 'cherrypick':
-      return side === 'current' ? 'Your branch as it is now.' : 'The commit being cherry-picked.';
+      return side === 'current' ? '你当前分支的现状。' : 'The commit being cherry-picked.';
     case 'revert':
-      return side === 'current' ? 'Your branch as it is now.' : 'What the revert wants to undo.';
+      return side === 'current' ? '你当前分支的现状。' : '还原操作想要撤销的内容。';
     default:
-      return side === 'current' ? 'The branch you are on (HEAD).' : 'The branch being merged in.';
+      return side === 'current' ? '你当前所在的分支（HEAD）。' : '正在被合并进来的分支。';
   }
 }
 
 function finishHint(state: RepoState | undefined): string {
   switch (state) {
     case 'rebase':
-      return 'Continue the rebase from the toolbar to finish.';
+      return '在工具栏中继续变基以完成操作。';
     case 'cherrypick':
-      return 'Commit to finish the cherry-pick.';
+      return '提交以完成拣选。';
     case 'revert':
-      return 'Commit to finish the revert.';
+      return '提交以完成还原。';
     default:
-      return 'Commit to finish the merge.';
+      return '提交以完成合并。';
   }
 }
 
@@ -424,8 +424,8 @@ export function ConflictResolver({ file, onResolved }: { file: string; onResolve
   const confirmLeave = async (): Promise<boolean> => {
     if (!hasProgress) return true;
     return confirmDialog({
-      title: 'Leave this file unresolved?',
-      description: 'Nothing is written until you mark the file resolved. The lines you picked and edited here will be lost.',
+      title: '不解决此文件的冲突就离开？',
+      description: '在你标记文件为已解决之前，不会写入任何内容。你在这里挑选和编辑过的行将会丢失。',
       path: file,
       confirmLabel: 'Leave',
       destructive: true,
@@ -531,7 +531,7 @@ export function ConflictResolver({ file, onResolved }: { file: string; onResolve
   const discardManual = async () => {
     const ok = await confirmDialog({
       title: 'Discard the hand-written result?',
-      description: 'The result goes back to the lines picked from A and B.',
+      description: '结果将恢复为从 A 和 B 中挑选的行。',
       confirmLabel: '丢弃',
       destructive: true,
     });
@@ -1074,7 +1074,7 @@ export function ConflictResolver({ file, onResolved }: { file: string; onResolve
                 )}
               >
                 {state === 'edited' ? <Pencil className="size-2.5" /> : <Check className="size-3" />}
-                {state === 'edited' ? 'edited by hand' : 'resolved'}
+                {state === 'edited' ? '手动编辑' : 'resolved'}
               </span>
             )}
           </div>
@@ -1117,10 +1117,10 @@ export function ConflictResolver({ file, onResolved }: { file: string; onResolve
 
   const resultStatus =
     total === 0
-      ? 'No conflict markers in this file. Mark it resolved to keep it as it is.'
+      ? '此文件中没有冲突标记。将其标记为已解决以保持现状。'
       : resolvedCount === total
-        ? 'Ready to mark resolved. Click any result line to edit it by hand.'
-        : 'Pick lines from A and B above. Click any result line to edit it by hand.';
+        ? '已可标记为已解决。点击任意结果行即可手动编辑。'
+        : '请从上方 A 和 B 中挑选行。点击任意结果行即可手动编辑。';
 
   return (
     <motion.div
@@ -1195,9 +1195,9 @@ export function ConflictResolver({ file, onResolved }: { file: string; onResolve
           <Hint
             label={
               manualHasMarkers || (manualText === null && blockEditsHaveMarkers) ? (
-                'Remove the remaining <<<<<<< markers from the result first'
+                '请先从结果中移除剩余的 <<<<<<< 标记'
               ) : !canSave ? (
-                'Pick lines for every conflict (or edit the result by hand) first'
+                '请先为每一处冲突挑选行（或手动编辑结果）'
               ) : (
                 <span className="flex items-center gap-1.5">
                   写入结果并将文件标记为已解决 <Kbd>{modKey()}⏎</Kbd>
@@ -1362,7 +1362,7 @@ export function ConflictResolver({ file, onResolved }: { file: string; onResolve
               )}
               <span className="ml-auto flex shrink-0 items-center gap-1">
                 {manualText === null ? (
-                  <Hint label="Edit the whole result by hand">
+                  <Hint label="手动编辑整个结果">
                     <Button
                       variant="ghost"
                       size="icon-sm"
@@ -1387,7 +1387,7 @@ export function ConflictResolver({ file, onResolved }: { file: string; onResolve
                     </Button>
                   </Hint>
                 )}
-                <Hint label="Clear every pick and start over">
+                <Hint label="清除所有选择并重新开始">
                   <Button variant="ghost" size="sm" onClick={() => void reset()}>
                     Reset
                   </Button>

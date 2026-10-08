@@ -1101,7 +1101,7 @@ export function CommitDetails({
               disabled={fileMenu.deleted}
               onClick={() => useUi.getState().openBlame(fileMenu.path, fileMenu.oid)}
             >
-              <UserRoundSearch /> Blame at this commit
+              <UserRoundSearch /> 在此提交上溯源
             </DropdownMenuItem>
             <DropdownMenuItem
               disabled={fileMenu.deleted}
@@ -1125,7 +1125,7 @@ export function CommitDetails({
                   )
               }
             >
-              <FolderOpen /> {isMac ? 'Show in Finder' : '在文件管理器中显示'}
+              <FolderOpen /> {isMac ? '在 Finder 中显示' : '在文件管理器中显示'}
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => {

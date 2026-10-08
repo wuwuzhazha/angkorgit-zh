@@ -126,7 +126,7 @@ export function BlameView({
                     type="button"
                     className="flex min-w-0 flex-1 items-center gap-2 text-left font-sans disabled:cursor-default"
                     title={`${hunk.summary}\n${hunk.authorName} · ${formatDate(hunk.time)}`}
-                    aria-label={hunk.committed ? `打开提交 ${hunk.shortOid}` : 'Not committed yet'}
+                    aria-label={hunk.committed ? `打开提交 ${hunk.shortOid}` : '尚未提交'}
                     disabled={!hunk.committed}
                     onClick={() => onOpenCommit(hunk.oid)}
                   >
@@ -163,7 +163,7 @@ export function BlameView({
               <GitCommitHorizontal /> 打开提交 {menu.hunk.shortOid}
             </DropdownMenuItem>
             <DropdownMenuItem disabled={!menu.hunk.committed} onClick={() => onBlameAt(menu.hunk.oid)}>
-              <UserRoundSearch /> Blame at this commit
+              <UserRoundSearch /> 在此提交上溯源
             </DropdownMenuItem>
             <DropdownMenuItem disabled={!menu.hunk.committed} onClick={() => onBlameAt(`${menu.hunk.oid}^`)}>
               <UserRoundSearch /> Blame before this commit
@@ -173,7 +173,7 @@ export function BlameView({
               disabled={!menu.hunk.committed}
               onClick={() => {
                 void navigator.clipboard.writeText(menu.hunk.oid);
-                toast.success('Hash copied');
+                toast.success('已复制哈希');
               }}
             >
               <Copy /> 复制 hash

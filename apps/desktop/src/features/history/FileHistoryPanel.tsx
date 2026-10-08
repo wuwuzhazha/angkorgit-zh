@@ -422,7 +422,7 @@ export function FileHistoryPanel({ file }: { file: string }) {
                       <Badge tone="neutral" className="font-mono text-[10px]">
                         {commit.shortOid}
                       </Badge>
-                      <Hint label="Open this commit in the graph with all its files">
+                      <Hint label="在提交图中打开此提交及其所有文件">
                         <Button
                           variant="ghost"
                           size="icon-sm"
@@ -531,7 +531,7 @@ export function FileHistoryPanel({ file }: { file: string }) {
             <DropdownMenuItem
               onClick={() => {
                 void navigator.clipboard.writeText(commitMenu.commit.oid);
-                toast.success('Hash copied');
+                toast.success('已复制哈希');
               }}
             >
               <Copy /> 复制 hash

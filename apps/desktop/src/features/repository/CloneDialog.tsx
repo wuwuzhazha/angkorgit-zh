@@ -97,7 +97,7 @@ export function CloneDialog({ onCloned }: { onCloned: (path: string) => void }) 
             }}
           />
           <Input
-            placeholder="Branch (optional)"
+            placeholder="分支（可选）"
             value={branch}
             onChange={(e) => setBranch(e.target.value)}
             onKeyDown={(e) => {

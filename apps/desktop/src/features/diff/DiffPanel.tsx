@@ -501,16 +501,16 @@ export function DiffPanel({ target }: { target: CenterDiffTarget }) {
         <Hint
           label={
             !blameable
-              ? 'Nothing to blame yet — this file has no commits'
+              ? '暂无可溯源的提交——此文件还没有提交记录'
               : target.oid
-                ? 'Blame at this commit'
-                : 'Blame'
+                ? '在此提交上溯源'
+                : '溯源'
           }
         >
           <Button
             variant="ghost"
             size="icon-sm"
-            aria-label="Blame"
+            aria-label="溯源"
             disabled={!blameable}
             onClick={() => openBlame(target.path, target.oid ?? null)}
           >
