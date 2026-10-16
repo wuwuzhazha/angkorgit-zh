@@ -428,6 +428,7 @@ export function AccountsTab() {
 
   return (
     <SettingCard
+      settingId="accounts"
       title="账户"
       description="当远端的主机匹配时自动使用——无需 SSH 配置即可通过 HTTPS 推送和拉取。每个主机可以有多个账户；其中一个是默认账户，各配置可选用其他账户。"
       action={

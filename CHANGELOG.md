@@ -6,6 +6,36 @@
 
 ## [未发布]
 
+## [0.23.0] — 2026-10-13
+
+工作副本版本。文件树中的文件夹可以整体暂存与取消暂存，diff 会标出你当前停留
+的更改，设置新增筛选框，推送被拒时会回显服务端返回的信息。设置筛选来自
+noyobo，多文件暂存修复来自 chrismo80，空提交拦截来自 Bunthoeun Tok。
+
+### 新增
+- **按标题或关键词筛选设置。** 打开设置时搜索框自动获得焦点，隐藏不匹配的
+  卡片与分区，并支持多个关键词。回车跳到第一个匹配项并闪烁定位。Esc 先清除
+  筛选、再关闭；关闭会重置筛选，直接打开某个分区仍然可用。(#33)
+- **整文件夹暂存或取消暂存。** 工作副本的文件树中，每个文件夹行都带有与其
+  文件相同的复选框：「更改」下未勾选（勾选会递归暂存其中的全部内容），
+  「已暂存」下已勾选（取消勾选即全部取消暂存），「全部文件」下文件夹内两种
+  状态并存时显示半选。折叠箭头和名称仍然用于折叠文件夹。(#65)
+- **当前更改会被标记。** 用 `N` / `P`、`→` 或标题栏的箭头步进时，会在所停留
+  更改的左侧边缘画一条金色竖条，标题栏显示「2 / 7 处改动」，长 diff 中一眼
+  即可看出当前处于哪一处更改。文件历史的 diff 也有同样的标记。(#75)
+- **视图选项菜单保持打开。** 切换词级 diff、忽略空白字符、自动换行或显示
+  整个文件不再关闭菜单，可以一次调整多个选项；Esc 或点击菜单外部关闭。(#67)
+- **推送被拒时回显服务端信息。** 远端拒绝某个引用时（受保护分支、pre-receive
+  钩子），失败提示会在单行原因下附带服务器打印的内容，例如 GitHub 的
+  “Changes must be made through a pull request”。(#76)
+
+### 修复
+- 多文件选择下的暂存或取消暂存不再报「索引已锁定」：选择会作为一次调用交给
+  引擎，只写一次索引，而不是每个文件各调一次、互相争抢锁。(#66)
+- **`⌘⏎` 不再产生空提交。** 没有暂存内容时「提交」按钮已禁用，但快捷键仍会
+  提交；现在会提示先暂存，引擎也会拒绝不产生任何更改的提交（合并仍可提交）。
+  隐藏了已暂存文件的文件筛选不再禁用「提交」或丢掉文件数量。
+
 ## [0.22.1] — 2026-10-08
 
 补齐 0.22.0 遗留的中文文案，并修复本地开发环境在 Windows 上的依赖安装。
@@ -1717,7 +1747,10 @@ The first release. 🏛️
 - AI assistant with pluggable providers (OpenAI, Anthropic, Gemini, Ollama,
   LM Studio): commit messages, diff/conflict explanations, PR descriptions, reviews
 
-[Unreleased]: https://github.com/cheat2001/angkorgit/compare/v0.21.1...HEAD
+[Unreleased]: https://github.com/cheat2001/angkorgit/compare/v0.23.0...HEAD
+[0.23.0]: https://github.com/cheat2001/angkorgit/compare/v0.22.1...v0.23.0
+[0.22.1]: https://github.com/cheat2001/angkorgit/compare/v0.22.0...v0.22.1
+[0.22.0]: https://github.com/cheat2001/angkorgit/compare/v0.21.1...v0.22.0
 [0.21.1]: https://github.com/cheat2001/angkorgit/compare/v0.21.0...v0.21.1
 [0.21.0]: https://github.com/cheat2001/angkorgit/compare/v0.20.0...v0.21.0
 [0.20.0]: https://github.com/cheat2001/angkorgit/compare/v0.19.0...v0.20.0

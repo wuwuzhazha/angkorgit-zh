@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef } from 'react';
-import type { FileDiff } from '@angkorgit/core';
+import { pairHunkLines, type FileDiff } from '@angkorgit/core';
 import { useSettings } from '@/features/settings/store';
 import type { DiffViewMode } from '@/features/ui/store';
 
@@ -8,31 +8,18 @@ type RowKind = 'header' | 'context' | 'addition' | 'deletion' | 'mixed';
 function logicalRows(diff: FileDiff, view: DiffViewMode): RowKind[] {
   const rows: RowKind[] = [];
   for (const hunk of diff.hunks) {
-    rows.push('header');
+    if (hunk.header) rows.push('header');
     if (view === 'inline') {
       for (const line of hunk.lines) rows.push(line.kind);
     } else {
-      let pendingDeletions = 0;
-      const flush = () => {
-        for (let i = 0; i < pendingDeletions; i++) rows.push('deletion');
-        pendingDeletions = 0;
-      };
-      for (const line of hunk.lines) {
-        if (line.kind === 'deletion') {
-          pendingDeletions++;
-        } else if (line.kind === 'addition') {
-          if (pendingDeletions > 0) {
-            pendingDeletions--;
-            rows.push('mixed');
-          } else {
-            rows.push('addition');
-          }
-        } else {
-          flush();
-          rows.push('context');
-        }
+      for (const pair of pairHunkLines(hunk)) {
+        const leftChange = pair.left != null && pair.left.kind !== 'context';
+        const rightChange = pair.right != null && pair.right.kind !== 'context';
+        if (leftChange && rightChange) rows.push('mixed');
+        else if (leftChange) rows.push('deletion');
+        else if (rightChange) rows.push('addition');
+        else rows.push('context');
       }
-      flush();
     }
   }
   return rows;
@@ -41,6 +28,8 @@ function logicalRows(diff: FileDiff, view: DiffViewMode): RowKind[] {
 export interface ChangeBlock {
   fraction: number;
   kind: RowKind;
+  start: number;
+  end: number;
 }
 
 export function changeBlocks(diff: FileDiff, view: DiffViewMode): ChangeBlock[] {
@@ -51,13 +40,24 @@ export function changeBlocks(diff: FileDiff, view: DiffViewMode): ChangeBlock[] 
   rows.forEach((kind, index) => {
     const changed = kind === 'addition' || kind === 'deletion' || kind === 'mixed';
     if (changed && !inBlock) {
-      blocks.push({ fraction: index / total, kind });
+      blocks.push({ fraction: index / total, kind, start: index, end: index });
       inBlock = true;
-    } else if (!changed) {
+    } else if (changed) {
+      blocks[blocks.length - 1].end = index;
+    } else {
       inBlock = false;
     }
   });
   return blocks;
+}
+
+export interface RowRange {
+  start: number;
+  end: number;
+}
+
+export function rowInRange(index: number, range: RowRange | undefined): boolean {
+  return range !== undefined && index >= range.start && index <= range.end;
 }
 
 export function scrollToFraction(

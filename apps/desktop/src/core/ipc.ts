@@ -106,6 +106,16 @@ export async function listen(event: string, handler: (payload: unknown) => void)
 const delay = (ms = 120) => new Promise((r) => setTimeout(r, ms));
 
 const DEMO_AI_KEYS = 'angkorgit-demo-ai-keys';
+const DEMO_SEARCH_DELAY = 'angkorgit-demo-search-delay';
+const DEMO_NOTHING_STAGED = 'angkorgit-demo-nothing-staged';
+
+function demoNothingStaged(): boolean {
+  try {
+    return localStorage.getItem(DEMO_NOTHING_STAGED) === '1';
+  } catch {
+    return false;
+  }
+}
 let demoCli: CliToolStatus | null = null;
 
 function demoAiKeys(): Record<string, string> {
@@ -118,6 +128,15 @@ function demoAiKeys(): Record<string, string> {
 
 function demoAiKeysSave(keys: Record<string, string>): void {
   localStorage.setItem(DEMO_AI_KEYS, JSON.stringify(keys));
+}
+
+function demoSearchDelay(): number {
+  try {
+    const ms = Number(localStorage.getItem(DEMO_SEARCH_DELAY));
+    return ms > 0 ? ms : 40;
+  } catch {
+    return 40;
+  }
 }
 
 export const ipc = {
@@ -148,7 +167,7 @@ export const ipc = {
     return invoke('repo_clone', { url, into, branch: branch ?? null });
   },
   async status(path: string): Promise<StatusSummary> {
-    if (!isTauri()) return demo.demoStatus;
+    if (!isTauri()) return demoNothingStaged() ? demo.demoUnstagedStatus() : demo.demoStatus;
     return invoke('repo_status', { path });
   },
   async stateCleanup(path: string): Promise<void> {
@@ -185,9 +204,17 @@ export const ipc = {
     if (!isTauri()) return;
     return invoke('stage_file', { path, file });
   },
+  async stageFiles(path: string, files: string[]): Promise<void> {
+    if (!isTauri()) return;
+    return invoke('stage_files', { path, files });
+  },
   async unstageFile(path: string, file: string): Promise<void> {
     if (!isTauri()) return;
     return invoke('unstage_file', { path, file });
+  },
+  async unstageFiles(path: string, files: string[]): Promise<void> {
+    if (!isTauri()) return;
+    return invoke('unstage_files', { path, files });
   },
   async stageAll(path: string): Promise<void> {
     if (!isTauri()) return;
@@ -297,7 +324,7 @@ export const ipc = {
   },
   async historySearch(path: string, query: HistorySearchQuery): Promise<HistorySearch> {
     if (!isTauri()) {
-      await delay(40);
+      await delay(demoSearchDelay());
       return demo.demoHistorySearch(query);
     }
     return invoke('history_search', { path, query });

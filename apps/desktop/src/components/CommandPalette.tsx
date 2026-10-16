@@ -49,7 +49,7 @@ import { installCliTool } from '@/features/settings/cliTool';
 import { openInEditor, preferredEditor, useEditors } from '@/features/settings/editors';
 import { useUndo } from '@/features/history/undoStore';
 import { useForge } from '@/features/forge/store';
-import { chordLabels, forgeNoun, groupRepos, parseChordId, pickForgeRemote, remoteWebUrl, repoGroupIdFor } from '@angkorgit/core';
+import { chordLabels, forgeNoun, groupRepos, parseChordId, pickForgeRemote, pickRemote, pushSetsUpstream, remoteWebUrl, repoGroupIdFor } from '@angkorgit/core';
 import { closeRepoGroup, openRepoGroup } from '@/features/repository/groups';
 import { currentPullRequestUrl, isMac, modKey } from '@/shared/utils';
 
@@ -88,7 +88,8 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
 
   const path = repo?.path ?? '';
   const repoState = repo?.state ?? 'clean';
-  const remote = remotes[0]?.name ?? 'origin';
+  const headUpstream = useMemo(() => branches.find((b) => !b.isRemote && b.isHead)?.upstream ?? null, [branches]);
+  const remote = pickRemote(remotes, headUpstream)?.name ?? 'origin';
   const locals = useMemo(() => branches.filter((b) => !b.isRemote && !b.isHead), [branches]);
   const otherRepos = useMemo(() => recents.filter((r) => r.path !== path).slice(0, 8), [recents, path]);
   const groupSections = useMemo(
@@ -159,7 +160,7 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
     void (async () => {
       try {
         const result = (await op()) as { status?: string; message?: string } | undefined;
-        if ((label.startsWith('Pull') || label.startsWith('拉取')) && useRepo.getState().repo?.path === path) useRepo.getState().markFetched();
+        if ((label.startsWith('拉取') || label.startsWith('从')) && useRepo.getState().repo?.path === path) useRepo.getState().markFetched();
         toastOutcome(result, `${label} 已完成`);
         await onRefresh();
       } catch (error) {
@@ -314,8 +315,27 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
             onSelect={() => run('拉取（变基）', () => ipc.pull(path, remote, 'rebase'))}
           />
           <PaletteItem icon={<ArrowUpFromLine />} label="推送" onSelect={() => run('推送', () => ipc.push(path, remote, false, false, true))} />
+          {remotes.length > 1 &&
+            remotes.map((r) => (
+              <PaletteItem
+                key={`pull-${r.name}`}
+                icon={<ArrowDownToLine />}
+                label={`从 ${r.name} 拉取`}
+                onSelect={() => run(`从 ${r.name} 拉取`, () => ipc.pull(path, r.name))}
+              />
+            ))}
+          {remotes.length > 1 &&
+            remotes.map((r) => (
+              <PaletteItem
+                key={`push-${r.name}`}
+                icon={<ArrowUpFromLine />}
+                label={`推送到 ${r.name}`}
+                onSelect={() =>
+                  run(`推送到 ${r.name}`, () => ipc.push(path, r.name, false, false, pushSetsUpstream(headUpstream, r.name)))
+                }
+              />
+            ))}
           {(() => {
-            const headUpstream = branches.find((b) => !b.isRemote && b.isHead)?.upstream ?? null;
             const pickedRemote = pickForgeRemote(remotes, headUpstream);
             const prUrl = currentPullRequestUrl(repo, pickedRemote?.url);
             const webUrl = pickedRemote ? remoteWebUrl(pickedRemote.url) : null;
