@@ -54,6 +54,97 @@ test('commit search finds matches in the full graph and steps through them', asy
   await expect(page.getByText(/^1 of \d+$/)).toBeHidden();
 });
 
+test('a search result that lands after a click keeps the clicked commit selected', async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem('angkorgit-demo-search-delay', '1500'));
+  await page.goto('/');
+  await page.getByText('angkorgit', { exact: true }).first().click();
+  const search = page.getByPlaceholder('Search commits…');
+  await expect(search).toBeVisible({ timeout: 10_000 });
+  await search.fill('virtualiz');
+  const pill = page.getByText(/^1 of \d+$/);
+  await expect(pill).toBeVisible({ timeout: 10_000 });
+  await expect(page.locator('[data-search-match="active"]')).toHaveText(/virtualize commit rows/);
+  await search.pressSequentially('e');
+  const clicked = page.locator('[role="row"]', { hasText: 'perf(history): lazy-load decorations' }).first();
+  await clicked.click();
+  await expect(clicked).toHaveAttribute('aria-selected', 'true');
+  await expect(pill).toBeHidden();
+  await expect(pill).toBeVisible({ timeout: 10_000 });
+  await expect(clicked).toHaveAttribute('aria-selected', 'true');
+  await expect(page.locator('[data-search-match="active"]')).toHaveCount(0);
+  await expect(page.locator('[data-search-match]').first()).toBeVisible();
+  await page.locator('[data-search-match]').nth(1).click();
+  await expect(page.getByText(/^2 of \d+$/)).toBeVisible();
+  await search.press('Enter');
+  await expect(page.getByText(/^3 of \d+$/)).toBeVisible();
+  await expect(page.locator('[data-search-match="active"]')).toHaveText(/virtualize commit rows/);
+});
+
+test('side-by-side rows pair edited lines by similarity and leave insertions alone', async ({ page }) => {
+  await page.goto('/');
+  await page.getByText('angkorgit', { exact: true }).first().click();
+  await page.getByText('CommitGraph.tsx').first().click();
+  await page.getByRole('button', { name: 'Side-by-side diff' }).click();
+  const rowOf = (pane: 'old' | 'new', text: string) =>
+    page.locator(`[data-diff-pane="${pane}"] [data-diff-row]`, { hasText: text }).first().getAttribute('data-diff-row');
+  await expect(page.locator('[data-diff-pane="old"]')).toBeVisible();
+  expect(await rowOf('new', 'import { ROW_HEIGHT, OVERSCAN }')).toBe(await rowOf('old', "import { ROW_HEIGHT } from './constants';"));
+  const rewritten = await rowOf('old', 'const renderRow = (row: Row)');
+  expect(await rowOf('new', 'const renderRow = (item: VirtualItem')).toBe(rewritten);
+  const comment = await rowOf('new', '/**');
+  expect(comment).not.toBe(rewritten);
+  await expect(page.locator(`[data-diff-pane="old"] [data-diff-row="${comment}"]`)).toHaveAttribute('data-diff-blank', 'true');
+  await page.locator('[data-diff-pane="new"]').getByText('logger.info(userId)').scrollIntoViewIfNeeded();
+  expect(await rowOf('new', 'return db.get(userId);')).toBe(await rowOf('old', 'return db.get(id);'));
+  const inserted = await rowOf('new', 'logger.info(userId)');
+  await expect(page.locator(`[data-diff-pane="old"] [data-diff-row="${inserted}"]`)).toHaveAttribute('data-diff-blank', 'true');
+});
+
+test('pull and push offer every remote and follow the branch upstream by default', async ({ page }) => {
+  await page.goto('/');
+  await page.getByText('angkorgit', { exact: true }).first().click();
+  await expect(page.getByRole('button', { name: 'Pull options' })).toBeVisible({ timeout: 10_000 });
+  await page.evaluate(async () => {
+    const [{ ipc }, { useRepo }] = await Promise.all([
+      import('/src/core/ipc.ts'),
+      import('/src/features/repository/store.ts'),
+    ]);
+    const tracker = window as unknown as { __remoteCalls: string[] };
+    tracker.__remoteCalls = [];
+    const remotes = [
+      { name: 'gitlab', url: 'git@gitlab.com:demo/angkorgit.git' },
+      { name: 'origin', url: 'git@github.com:demo/angkorgit.git' },
+    ];
+    ipc.remotes = async () => remotes;
+    ipc.pull = async (_path, name) => {
+      tracker.__remoteCalls.push(`pull:${name}`);
+      return { status: 'ok', message: `Pulled ${name}` };
+    };
+    ipc.push = async (_path, name, _force, _tags, setUpstream) => {
+      tracker.__remoteCalls.push(`push:${name}:${setUpstream}`);
+      return { status: 'ok', message: `Pushed ${name}` };
+    };
+    useRepo.setState({ remotes });
+  });
+  const calls = () => page.evaluate(() => (window as unknown as { __remoteCalls: string[] }).__remoteCalls);
+  await page.getByRole('button', { name: /^Pull( \d+)?$/ }).click();
+  await expect.poll(calls).toEqual(['pull:origin']);
+  await page.getByRole('button', { name: 'Pull options' }).click();
+  await expect(page.getByRole('menuitemcheckbox', { name: 'origin' })).toHaveAttribute('aria-checked', 'true');
+  await expect(page.getByRole('menuitemcheckbox', { name: 'gitlab' })).toHaveAttribute('aria-checked', 'false');
+  await page.getByRole('menuitemcheckbox', { name: 'gitlab' }).click();
+  await expect.poll(calls).toEqual(['pull:origin', 'pull:gitlab']);
+  await page.getByRole('button', { name: 'Push options' }).click();
+  await page.getByRole('menuitemcheckbox', { name: 'gitlab' }).click();
+  await expect.poll(calls).toEqual(['pull:origin', 'pull:gitlab', 'push:gitlab:false']);
+  await page.getByRole('button', { name: 'Push options' }).click();
+  await page.getByRole('menuitemcheckbox', { name: 'origin' }).click();
+  await expect.poll(calls).toEqual(['pull:origin', 'pull:gitlab', 'push:gitlab:false', 'push:origin:true']);
+  await page.keyboard.press(process.platform === 'darwin' ? 'Meta+k' : 'Control+k');
+  await page.getByPlaceholder(/Type a command/).fill('Pull from gitlab');
+  await expect(page.getByRole('option', { name: /Pull from gitlab/ })).toBeVisible();
+});
+
 test('the author box finds commits without flattening the graph', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
@@ -811,6 +902,36 @@ test('提交框将摘要行与较小的描述分隔开', async ({ page }) => {
   await description.fill('');
   await description.press('Backspace');
   await expect(summary).toBeFocused();
+});
+
+test('mod+enter with nothing staged asks to stage instead of committing', async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem('angkorgit-demo-nothing-staged', '1'));
+  await page.goto('/');
+  await page.getByText('angkorgit', { exact: true }).first().click();
+  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  const summary = page.getByLabel('Commit summary');
+  await summary.fill('fix: nothing staged');
+  await expect(page.getByRole('button', { name: 'Commit', exact: true })).toBeDisabled();
+
+  await summary.press('ControlOrMeta+Enter');
+  await expect(page.getByText('Stage some changes first')).toBeVisible();
+  await page.waitForTimeout(500);
+  await expect(page.getByText('Committed', { exact: true })).toHaveCount(0);
+  await expect(summary).toHaveValue('fix: nothing staged');
+});
+
+test('a file filter that hides the staged files leaves Commit enabled with the full count', async ({ page }) => {
+  await page.goto('/');
+  await page.getByText('angkorgit', { exact: true }).first().click();
+  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  const staged = demoStatus.files.filter((file) => file.staged);
+  expect(filterFiles(staged, (file) => file.path, 'ipc.ts')).toHaveLength(0);
+
+  await page.getByLabel('Commit summary').fill('fix: filtered');
+  await page.getByRole('button', { name: 'Filter files' }).click();
+  await page.getByPlaceholder('Filter changed files…').fill('ipc.ts');
+  await expect(page.getByText(/^Staged/).locator('..')).toContainText(`0 of ${staged.length}`);
+  await expect(page.getByRole('button', { name: `Commit ${staged.length} files` })).toBeEnabled();
 });
 
 test('the commit box grows when its top edge is dragged and resets on double-click', async ({ page }) => {
@@ -2382,16 +2503,23 @@ test('ignore whitespace hides an indent-only change and turns staging off', asyn
   await diff.getByRole('button', { name: '视图选项' }).click();
   await page.getByRole('menuitemcheckbox', { name: '忽略空白字符' }).click();
   await expect(diff.getByText('+0', { exact: true })).toBeVisible();
-  await expect(diff.getByText('仅发现空白字符更改')).toBeVisible();
-  await expect(diff.getByRole('button', { name: '暂存代码块' })).toHaveCount(0);
-  await diff.getByRole('button', { name: '视图选项' }).click();
-  await expect(page.getByRole('menu').getByText('不是 Git 会实际应用的补丁')).toBeVisible();
+  await expect(diff.getByText('Only whitespace changes found')).toBeVisible();
+  await expect(diff.getByRole('button', { name: 'Stage hunk' })).toHaveCount(0);
+  await expect(page.getByRole('menu')).toBeVisible();
+  await expect(page.getByRole('menu').getByText('not the patch git would apply')).toBeVisible();
+  await expect(page.getByRole('menuitemcheckbox', { name: 'Word diff' })).toHaveAttribute('aria-checked', 'true');
+  await page.getByRole('menuitemcheckbox', { name: 'Word diff' }).click();
+  await expect(page.getByRole('menuitemcheckbox', { name: 'Word diff' })).toHaveAttribute('aria-checked', 'false');
+  await expect(page.getByRole('menu')).toBeVisible();
+  await page.getByRole('menuitemcheckbox', { name: 'Word diff' }).click();
+  await expect(page.getByRole('menuitemcheckbox', { name: 'Word diff' })).toHaveAttribute('aria-checked', 'true');
 
   await page.keyboard.press('Escape');
+  await expect(page.getByRole('menu')).toHaveCount(0);
   await page.getByText('ipc.ts', { exact: true }).first().click();
-  const token = page.locator('section[aria-label="文件差异：src/core/ipc.ts"]');
-  await expect(token.getByText('+16', { exact: true })).toBeVisible();
-  await expect(token.getByRole('button', { name: '暂存代码块' })).toHaveCount(0);
+  const token = page.locator('section[aria-label="Diff for src/core/ipc.ts"]');
+  await expect(token.getByText('+22', { exact: true })).toBeVisible();
+  await expect(token.getByRole('button', { name: 'Stage hunk' })).toHaveCount(0);
 });
 
 test('tabs switch with mod+digit and a custom chord assigned from the tab menu', async ({ page }) => {
@@ -2785,4 +2913,139 @@ test('repositories can be grouped on the welcome page and a group opens as tabs'
   await expect(frontend).toBeHidden();
   await expect(page.locator('[data-recent-row="/Users/demo/projects/angkorgit"]')).toBeVisible();
   await expect(backend.getByText('2', { exact: true })).toBeVisible();
+});
+
+test('settings filters cards, lands on the first hit and clears before closing', async ({ page }) => {
+  await page.goto('/');
+  await page.getByText('angkorgit', { exact: true }).first().click();
+  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await page.keyboard.press('ControlOrMeta+,');
+  const dialog = page.getByRole('dialog');
+  const filter = dialog.getByRole('textbox', { name: 'Filter settings', exact: true });
+  await expect(filter).toBeFocused();
+  await expect(filter).toHaveAttribute('spellcheck', 'false');
+  await filter.fill('ssh agent');
+  await expect(dialog.locator('[data-settings-card]')).toHaveCount(1);
+  await expect(dialog.getByRole('heading', { name: 'SSH', exact: true })).toBeVisible();
+  await expect(dialog.getByRole('button', { name: 'Appearance', exact: true })).toBeHidden();
+  await filter.press('Enter');
+  await expect(dialog.locator('[data-settings-card="ssh"]')).toHaveClass(/animate-locate/);
+  await expect(dialog.locator('[data-settings-card="ssh"]')).not.toHaveClass(/animate-locate/);
+  await filter.press('Enter');
+  await expect(dialog.locator('[data-settings-card="ssh"]')).toHaveClass(/animate-locate/);
+  await filter.press('Escape');
+  await expect(dialog).toBeVisible();
+  await expect(filter).toHaveValue('');
+  await filter.fill('cli');
+  await dialog.getByRole('button', { name: 'AI Assistant', exact: true }).click();
+  await expect(dialog.getByRole('heading', { name: 'Provider', exact: true })).toBeVisible();
+  await filter.press('Enter');
+  await expect(dialog.locator('[data-settings-card="cli"]')).toHaveClass(/animate-locate/);
+  await filter.fill('profiles');
+  await dialog.getByRole('button', { name: 'New profile', exact: true }).click();
+  const profileLabel = dialog.getByPlaceholder('Work', { exact: true });
+  await profileLabel.fill('Draft profile');
+  await profileLabel.press('Escape');
+  await expect(filter).toHaveValue('');
+  await expect(profileLabel).toBeFocused();
+  await expect(profileLabel).toHaveValue('Draft profile');
+  await dialog.getByRole('button', { name: 'Cancel', exact: true }).click();
+  await filter.fill('authentication');
+  await expect(dialog.locator('[data-settings-card]')).toHaveCount(3);
+  await dialog.getByRole('button', { name: 'Authentication', exact: true }).click();
+  await dialog.getByRole('button', { name: 'Add account', exact: true }).click();
+  const token = dialog.getByPlaceholder('Paste the token');
+  await token.fill('draft-token');
+  await token.press('Escape');
+  await expect(filter).toHaveValue('');
+  await expect(token).toBeFocused();
+  await expect(token).toHaveValue('draft-token');
+  await dialog.getByRole('button', { name: 'Cancel', exact: true }).click();
+  await filter.fill('no-such-setting');
+  await expect(dialog.getByText('No matching settings', { exact: true })).toBeVisible();
+  await expect(dialog.locator('[data-settings-card]')).toHaveCount(0);
+  await dialog.getByRole('button', { name: 'Close', exact: true }).click();
+  await page.keyboard.press('ControlOrMeta+,');
+  await expect(filter).toBeFocused();
+  await expect(filter).toHaveValue('');
+  await filter.press('Escape');
+  await expect(dialog).toBeHidden();
+  await page.keyboard.press('ControlOrMeta+k');
+  await page.getByPlaceholder('Type a command or branch name…').fill('Settings');
+  await page.getByRole('option', { name: /Settings/ }).click();
+  await expect(filter).toBeFocused();
+  await filter.press('Escape');
+  await page.locator('[data-ai-status]').click();
+  await expect(dialog.getByRole('heading', { name: 'AI Assistant', exact: true })).toBeVisible();
+  await expect(filter).toBeFocused();
+});
+
+test('folder rows in the working copy tree stage and unstage everything inside them', async ({ page }) => {
+  await page.goto('/');
+  await page.getByText('angkorgit', { exact: true }).first().click();
+  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await page.evaluate(async () => {
+    const { ipc } = await import('/src/core/ipc.ts');
+    const calls = ((window as unknown as { __stageCalls: unknown[] }).__stageCalls = [] as unknown[]);
+    ipc.stageFiles = async (_path, files) => void calls.push(['stage', files]);
+    ipc.unstageFiles = async (_path, files) => void calls.push(['unstage', files]);
+  });
+  await page.getByRole('button', { name: 'Folder tree' }).click();
+  const srcFolder = page.locator('[data-tree-folder="src"]').first();
+  await expect(srcFolder).toBeVisible();
+  const stageSrc = page.getByRole('checkbox', { name: 'Stage every change in src', exact: true });
+  await expect(stageSrc).toHaveAttribute('data-state', 'unchecked');
+  await stageSrc.click();
+  await expect(srcFolder).toBeVisible();
+  const unstageSrc = page.getByRole('checkbox', { name: 'Unstage every change in src/features/graph', exact: true });
+  await expect(unstageSrc).toHaveAttribute('data-state', 'checked');
+  await unstageSrc.click();
+  const calls = await page.evaluate(() => (window as unknown as { __stageCalls: unknown[] }).__stageCalls);
+  expect(calls).toEqual([
+    ['stage', ['src/indent.txt', 'src/core/ipc.ts', 'src/data/palette-seed.sql', 'src/features/repository/components/working-copy/deeply/nested/WorkingCopyFileListItemContainerFactory.tsx']],
+    ['unstage', ['src/features/graph/CommitGraph.tsx']],
+  ]);
+  await srcFolder.getByRole('button', { name: 'Collapse src', exact: true }).click();
+  await expect(page.getByText('ipc.ts', { exact: true })).toHaveCount(0);
+  await srcFolder.getByRole('button', { name: 'Expand src', exact: true }).click();
+  await expect(page.getByText('ipc.ts', { exact: true }).first()).toBeVisible();
+  await page.getByRole('button', { name: 'All files' }).click();
+  await expect(page.getByRole('checkbox', { name: 'Stage every change in src', exact: true })).toHaveAttribute('data-state', 'indeterminate');
+});
+
+test('stepping through changes marks the active one and counts it in the header', async ({ page }) => {
+  await page.goto('/');
+  await page.getByText('angkorgit', { exact: true }).first().click();
+  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await page.getByText('CommitGraph.tsx', { exact: true }).first().click();
+  const diff = page.locator('section[aria-label="Diff for src/features/graph/CommitGraph.tsx"]');
+  await expect(diff).toBeVisible();
+  const count = diff.locator('[data-change-count]');
+  await expect(count).toHaveText(/^1 of \d+ changes$/);
+  const total = Number((await count.textContent())!.match(/of (\d+)/)![1]);
+  expect(total).toBeGreaterThan(2);
+  const activeRows = () => diff.locator('[data-change-active]');
+  await expect(activeRows().first()).toBeVisible();
+  const firstTop = await activeRows().first().boundingBox();
+  await page.keyboard.press('n');
+  await expect(count).toHaveText(`2 of ${total} changes`);
+  await expect(activeRows().first()).toBeVisible();
+  const secondTop = await activeRows().first().boundingBox();
+  expect(secondTop!.y).not.toBe(firstTop!.y);
+  await diff.getByRole('button', { name: 'Next change' }).click();
+  await expect(count).toHaveText(`3 of ${total} changes`);
+  await page.keyboard.press('p');
+  await expect(count).toHaveText(`2 of ${total} changes`);
+  await diff.getByRole('button', { name: 'Side-by-side diff' }).click();
+  await expect(count).toHaveText(/^\d+ changes$/);
+  await expect(activeRows()).toHaveCount(0);
+  await page.keyboard.press('n');
+  await expect(count).toHaveText(/^\d+ of \d+ changes$/);
+  await expect(activeRows().first()).toBeVisible();
+  await diff.getByRole('button', { name: 'View options' }).click();
+  await page.getByRole('menuitemcheckbox', { name: 'Wrap long lines' }).click();
+  await page.keyboard.press('Escape');
+  await page.keyboard.press('n');
+  await expect(count).toHaveText(/^\d+ of \d+ changes$/);
+  await expect(activeRows().first()).toBeVisible();
 });

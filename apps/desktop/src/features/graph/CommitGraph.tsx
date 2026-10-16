@@ -3,7 +3,7 @@ import { useVirtualizer } from '@tanstack/react-virtual';
 import { toast } from 'sonner';
 import { toastOutcome } from '@/shared/toastOutcome';
 import { Archive, ArchiveRestore, ArrowDownToLine, ArrowUpFromLine, Check, ChevronDown, ChevronUp, Combine, Copy, FastForward, Filter, FolderTree, GitBranchPlus, GitCommitHorizontal, Settings2, GitMerge, ListOrdered, ListRestart, Pencil, RotateCcw, Search, Tag as TagIcon, Trash2, Undo2, User, X } from 'lucide-react';
-import type { CommitInfo, RefInfo } from '@angkorgit/core';
+import { pickRemote, type CommitInfo, type RefInfo } from '@angkorgit/core';
 import {
   Button,
   DropdownMenu,
@@ -120,8 +120,9 @@ export function CommitGraph() {
     const author = authorDraft.trim();
     const current = useGraph.getState().find;
     if ((current?.text ?? '') === text && (current?.author ?? '') === author) return;
+    const selectedAt = useGraph.getState().selectionEpoch();
     const timer = setTimeout(() => {
-      void setFind(path, { text, author });
+      void setFind(path, { text, author }, selectedAt);
     }, 300);
     return () => clearTimeout(timer);
   }, [searchDraft, authorDraft, path, setFind]);
@@ -232,14 +233,8 @@ export function CommitGraph() {
     [refresh, reload, path],
   );
 
-  const pushRemoteFor = (branch: string): string => {
-    const upstream = branches.find((b) => !b.isRemote && b.name === branch)?.upstream;
-    if (upstream) {
-      const remoteName = upstream.split('/')[0];
-      if (remotes.some((r) => r.name === remoteName)) return remoteName;
-    }
-    return remotes[0]?.name ?? 'origin';
-  };
+  const pushRemoteFor = (branch: string): string =>
+    pickRemote(remotes, branches.find((b) => !b.isRemote && b.name === branch)?.upstream)?.name ?? 'origin';
 
   const pushBranch = async (branch: string) => {
     await ensureRepoProfile(path);

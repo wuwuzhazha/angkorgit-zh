@@ -122,7 +122,8 @@ export function FontsCard() {
 
   return (
     <SettingCard
-      title="字体"
+      settingId="fonts"
+      title="Fonts"
       description={
         <>
           从本机已安装的字体中任选。界面字体作用于整个应用，代码字体用于差异、哈希与提交详情，

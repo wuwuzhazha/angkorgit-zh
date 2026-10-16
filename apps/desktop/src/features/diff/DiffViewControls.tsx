@@ -11,6 +11,8 @@ import {
 } from '@angkorgit/design-system';
 import { useUi } from '@/features/ui/store';
 
+const keepOpen = (event: Event) => event.preventDefault();
+
 function MenuNote({ children }: { children: React.ReactNode }) {
   return (
     <div className="mx-1 mb-0.5 mt-1 flex items-start gap-2 rounded-md bg-surface-raised px-2 py-1.5 text-[11px] leading-snug text-muted">
@@ -114,23 +116,39 @@ export function DiffViewControls({
           </DropdownMenuTrigger>
         </Hint>
         <DropdownMenuContent align="end" className="w-60">
-          <DropdownMenuLabel>视图选项</DropdownMenuLabel>
-          <DropdownMenuCheckboxItem icon={<WholeWord />} checked={wordDiff} onCheckedChange={(v) => setWordDiff(v === true)}>
-            词级 diff
+          <DropdownMenuLabel>View options</DropdownMenuLabel>
+          <DropdownMenuCheckboxItem
+            icon={<WholeWord />}
+            checked={wordDiff}
+            onSelect={keepOpen}
+            onCheckedChange={(v) => setWordDiff(v === true)}
+          >
+            Word diff
           </DropdownMenuCheckboxItem>
-          <DropdownMenuCheckboxItem icon={<Space />} checked={ignoreWhitespace} onCheckedChange={(v) => setIgnoreWhitespace(v === true)}>
-            忽略空白字符
+          <DropdownMenuCheckboxItem
+            icon={<Space />}
+            checked={ignoreWhitespace}
+            onSelect={keepOpen}
+            onCheckedChange={(v) => setIgnoreWhitespace(v === true)}
+          >
+            Ignore whitespace
           </DropdownMenuCheckboxItem>
           <DropdownMenuCheckboxItem
             icon={<WrapText />}
             checked={wrapLines}
             disabled={wrapDisabled}
+            onSelect={keepOpen}
             onCheckedChange={(v) => setWrapLines(v === true)}
           >
             自动换行
           </DropdownMenuCheckboxItem>
-          <DropdownMenuCheckboxItem icon={<FileText />} checked={fullFileDiff} onCheckedChange={(v) => setFullFileDiff(v === true)}>
-            显示整个文件
+          <DropdownMenuCheckboxItem
+            icon={<FileText />}
+            checked={fullFileDiff}
+            onSelect={keepOpen}
+            onCheckedChange={(v) => setFullFileDiff(v === true)}
+          >
+            Show whole file
           </DropdownMenuCheckboxItem>
           {notes}
         </DropdownMenuContent>

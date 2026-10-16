@@ -130,6 +130,58 @@ fn unstage_and_amend() {
 }
 
 #[test]
+fn stage_and_unstage_many_files() {
+    let repo = TempRepo::new();
+    repo.write("a.txt", "one\n");
+    repo.write("b.txt", "two\n");
+    commit_all(&repo, "first");
+
+    repo.write("a.txt", "one changed\n");
+    repo.write("c.txt", "three\n");
+    std::fs::remove_file(repo.dir.join("b.txt")).unwrap();
+
+    core::stage_files(
+        repo.path(),
+        &[
+            "a.txt".to_string(),
+            "b.txt".to_string(),
+            "c.txt".to_string(),
+        ],
+    )
+    .unwrap();
+    let status = core::status(repo.path()).unwrap();
+    assert_eq!(status.files.len(), 3);
+    let by_path = |p: &str| {
+        status
+            .files
+            .iter()
+            .find(|f| f.path == p)
+            .unwrap_or_else(|| panic!("{p} missing"))
+    };
+    assert_eq!(by_path("a.txt").staged.as_deref(), Some("modified"));
+    assert_eq!(by_path("b.txt").staged.as_deref(), Some("deleted"));
+    assert_eq!(by_path("c.txt").staged.as_deref(), Some("new"));
+    assert!(status.files.iter().all(|f| f.unstaged.is_none()));
+
+    core::unstage_files(repo.path(), &["a.txt".to_string(), "b.txt".to_string()]).unwrap();
+    let status = core::status(repo.path()).unwrap();
+    let staged: Vec<&str> = status
+        .files
+        .iter()
+        .filter(|f| f.staged.is_some())
+        .map(|f| f.path.as_str())
+        .collect();
+    assert_eq!(staged, vec!["c.txt"]);
+
+    core::unstage_files(repo.path(), &[]).unwrap();
+    let status = core::status(repo.path()).unwrap();
+    assert_eq!(
+        status.files.iter().filter(|f| f.staged.is_some()).count(),
+        1
+    );
+}
+
+#[test]
 fn branch_create_checkout_merge_ff_and_normal() {
     let repo = TempRepo::new();
     repo.write("a.txt", "base\n");
@@ -180,6 +232,67 @@ fn merge_conflict_detect_and_resolve() {
     assert_eq!(core::conflict_list(repo.path()).unwrap().len(), 0);
     core::commit(repo.path(), "merge other").unwrap();
     assert_eq!(repo.read("a.txt"), "resolved content\n");
+}
+
+fn head_commit(repo: &TempRepo) -> (String, usize) {
+    let page = core::history(
+        repo.path(),
+        core::HistoryQuery {
+            skip: 0,
+            limit: 1,
+            search: None,
+            author: None,
+            branch: None,
+        },
+    )
+    .unwrap();
+    let head = &page.commits[0];
+    (head.oid.clone(), head.parents.len())
+}
+
+#[test]
+fn commit_with_nothing_staged_is_refused_and_head_stays() {
+    let repo = TempRepo::new();
+    repo.write("a.txt", "one\n");
+    let base = commit_all(&repo, "base");
+    repo.write("a.txt", "unstaged edit\n");
+
+    let err = core::commit(repo.path(), "empty").unwrap_err();
+    assert!(err.to_string().contains("Nothing staged to commit"));
+    let head = head_commit(&repo);
+    assert_eq!(head.0, base);
+    assert_eq!(repo.read("a.txt"), "unstaged edit\n");
+}
+
+#[test]
+fn first_commit_with_an_empty_index_is_refused() {
+    let repo = TempRepo::new();
+    repo.write("a.txt", "untracked\n");
+    let err = core::commit(repo.path(), "empty").unwrap_err();
+    assert!(err.to_string().contains("Nothing staged to commit"));
+    core::stage_file(repo.path(), "a.txt").unwrap();
+    core::commit(repo.path(), "first").unwrap();
+}
+
+#[test]
+fn merge_that_keeps_head_tree_still_commits() {
+    let repo = TempRepo::new();
+    repo.write("a.txt", "line\n");
+    commit_all(&repo, "base");
+    core::branch_create(repo.path(), "other", None, true).unwrap();
+    repo.write("a.txt", "other change\n");
+    commit_all(&repo, "other");
+    core::checkout_branch(repo.path(), "master").unwrap();
+    repo.write("a.txt", "master change\n");
+    let master = commit_all(&repo, "master");
+
+    let outcome = core::merge(repo.path(), "other", false).unwrap();
+    assert_eq!(outcome.status, "conflicts");
+    core::conflict_resolve(repo.path(), "a.txt", "master change\n").unwrap();
+    let merged = core::commit(repo.path(), "merge other, keep ours").unwrap();
+    assert_ne!(merged, master);
+    let head = head_commit(&repo);
+    assert_eq!(head.1, 2);
 }
 
 #[test]
@@ -2416,6 +2529,57 @@ fn head_summary_and_parents(repo: &TempRepo) -> (String, usize) {
     let text = String::from_utf8_lossy(&out.stdout).trim().to_string();
     let (summary, parents) = text.split_once('\0').unwrap();
     (summary.to_string(), parents.split_whitespace().count())
+}
+
+#[test]
+fn pull_from_a_remote_other_than_the_upstream_merges_its_same_name_branch() {
+    let local = TempRepo::new();
+    local.write("a.txt", "base\n");
+    commit_all(&local, "base");
+    let origin = bare_origin(&local);
+    core::push(local.path(), "origin", None, false, false, true).unwrap();
+
+    let mirror = local.dir.with_file_name(format!(
+        "{}-mirror.git",
+        local.dir.file_name().unwrap().to_string_lossy()
+    ));
+    git2::Repository::init_bare(&mirror).unwrap();
+    core::remote_add(local.path(), "mirror", mirror.to_str().unwrap()).unwrap();
+    core::push(local.path(), "mirror", None, false, false, false).unwrap();
+    let other = clone_of(&mirror, &local, "other");
+    other.write("b.txt", "only on the mirror\n");
+    commit_all(&other, "mirror commit");
+    core::push(other.path(), "origin", None, false, false, true).unwrap();
+
+    let outcome = core::pull(local.path(), "mirror", Some("merge")).unwrap();
+    assert_eq!(outcome.status, "fast_forward", "{}", outcome.message);
+    assert_eq!(local.read("b.txt"), "only on the mirror\n");
+    let repo = git2::Repository::open(local.path()).unwrap();
+    let branch = repo.find_branch("master", git2::BranchType::Local).unwrap();
+    assert_eq!(
+        branch.upstream().unwrap().name().unwrap(),
+        Some("origin/master")
+    );
+    drop(branch);
+    drop(repo);
+
+    let empty = local.dir.with_file_name(format!(
+        "{}-empty.git",
+        local.dir.file_name().unwrap().to_string_lossy()
+    ));
+    git2::Repository::init_bare(&empty).unwrap();
+    core::remote_add(local.path(), "empty", empty.to_str().unwrap()).unwrap();
+    let err = core::pull(local.path(), "empty", Some("merge"))
+        .err()
+        .expect("pulling a branch the remote lacks fails");
+    assert!(
+        err.to_string().contains("empty has no branch master"),
+        "{err}"
+    );
+
+    let _ = std::fs::remove_dir_all(&origin);
+    let _ = std::fs::remove_dir_all(&mirror);
+    let _ = std::fs::remove_dir_all(&empty);
 }
 
 #[test]

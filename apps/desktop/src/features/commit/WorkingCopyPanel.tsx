@@ -40,7 +40,17 @@ import { FileFilterInput } from '@/components/FileFilterInput';
 import { ChangeMark } from '@/components/ChangeMark';
 import { DirName } from '@/components/DirName';
 import { EmptyCard } from '@/components/EmptyCard';
-import { FileTree, treeIndent as sharedTreeIndent, FileTreeFoldButton, INITIAL_FOLD, nextFold, type FileTreeFold, type FileTreeFoldState } from '@/components/FileTree';
+import {
+  FileTree,
+  folderFiles,
+  treeIndent as sharedTreeIndent,
+  FileTreeFoldButton,
+  INITIAL_FOLD,
+  nextFold,
+  type FileTreeFold,
+  type FileTreeFoldState,
+  type TreeFolder,
+} from '@/components/FileTree';
 import { basename, isMac, modKey } from '@/shared/utils';
 
 function statusBadge(kind: string | null) {
@@ -446,8 +456,8 @@ export function WorkingCopyPanel() {
 
   const stageMany = (paths: string[], staged: boolean) =>
     run(
-      () => Promise.all(paths.map((file) => (staged ? ipc.unstageFile(path, file) : ipc.stageFile(path, file)))),
-      staged ? '取消暂存失败' : '暂存失败',
+      () => (staged ? ipc.unstageFiles(path, paths) : ipc.stageFiles(path, paths)),
+      staged ? 'Unstage failed' : 'Stage failed',
     );
 
   const discardMany = async (paths: string[], staged: boolean) => {
@@ -550,8 +560,8 @@ export function WorkingCopyPanel() {
       toast.info('请先在设置中配置 AI 提供方');
       return;
     }
-    if (stagedFiles.length === 0) {
-      toast.info('请先暂存一些更改');
+    if (allStaged.length === 0) {
+      toast.info('Stage some changes first');
       return;
     }
     const run = ++aiRunRef.current;
@@ -580,8 +590,8 @@ export function WorkingCopyPanel() {
       toast.info('请先在设置中配置 AI 提供方');
       return;
     }
-    if (stagedFiles.length === 0) {
-      toast.info('请先暂存一些更改');
+    if (allStaged.length === 0) {
+      toast.info('Stage some changes first');
       return;
     }
     const target = path;
@@ -638,6 +648,10 @@ export function WorkingCopyPanel() {
 
   const commit = async () => {
     if (!summary.trim() && !amend) return;
+    if (allStaged.length === 0 && !amend && repo?.state !== 'merge') {
+      toast.info('Stage some changes first');
+      return;
+    }
     if (committingRef.current) return;
     committingRef.current = true;
     setCommitting(true);
@@ -884,6 +898,39 @@ export function WorkingCopyPanel() {
         : renderStaged(entry.change, depth)
       : renderPlain(entry.path, depth);
 
+  const stageableFiles = (files: FileStatus[]) => files.filter((file) => file.unstaged && file.unstaged !== 'conflicted');
+  const folderCheckbox = (folder: TreeFolder<unknown>, label: string, state: boolean | 'indeterminate', onToggle: () => void) => (
+    <Checkbox
+      checked={state}
+      aria-label={`${label} ${folder.path}`}
+      data-folder-checkbox={folder.path}
+      onCheckedChange={onToggle}
+      onClick={(e) => e.stopPropagation()}
+    />
+  );
+  const unstagedFolderControl = (folder: TreeFolder<FileStatus>) => {
+    const paths = stageableFiles(folderFiles(folder)).map((file) => file.path);
+    if (paths.length === 0) return null;
+    return folderCheckbox(folder, 'Stage every change in', false, () => stageMany(paths, false));
+  };
+  const stagedFolderControl = (folder: TreeFolder<FileStatus>) =>
+    folderCheckbox(folder, 'Unstage every change in', true, () =>
+      stageMany(folderFiles(folder).map((file) => file.path), true),
+    );
+  const entryFolderControl = (folder: TreeFolder<AllFilesEntry<FileStatus>>) => {
+    const changes = folderFiles(folder).flatMap((entry) => (entry.change ? [entry.change] : []));
+    if (changes.length === 0) return null;
+    const unstaged = stageableFiles(changes).map((file) => file.path);
+    const staged = changes.filter((file) => file.staged).map((file) => file.path);
+    if (unstaged.length > 0) {
+      return folderCheckbox(folder, 'Stage every change in', staged.length > 0 ? 'indeterminate' : false, () =>
+        stageMany(unstaged, false),
+      );
+    }
+    if (staged.length === 0) return null;
+    return folderCheckbox(folder, 'Unstage every change in', true, () => stageMany(staged, true));
+  };
+
   const countLabel = (shown: number, total: number) =>
     filtering ? (
       <span className="text-faint">
@@ -1012,6 +1059,7 @@ export function WorkingCopyPanel() {
                 fold={allFold}
                 onFoldState={setAllFoldState}
                 defaultCollapsed={(folder) => !changedFolders.has(folder)}
+                folderControl={entryFolderControl}
               />
             )}
           </>
@@ -1068,6 +1116,7 @@ export function WorkingCopyPanel() {
             renderFile={renderUnstaged}
             fold={unstagedFold}
             onFoldState={setUnstagedFoldState}
+            folderControl={unstagedFolderControl}
           />
         ) : (
           <VirtualFileList
@@ -1136,6 +1185,7 @@ export function WorkingCopyPanel() {
             renderFile={renderStaged}
             fold={stagedFold}
             onFoldState={setStagedFoldState}
+            folderControl={stagedFolderControl}
           />
         ) : (
           <VirtualFileList
@@ -1405,16 +1455,16 @@ export function WorkingCopyPanel() {
             </label>
             <Hint
               label={
-                stagedFiles.length === 0
-                  ? '暂存一些更改后即可用 AI 审查'
-                  : '提交前用 AI 审查暂存更改'
+                allStaged.length === 0
+                  ? 'Stage some changes to review them with AI'
+                  : 'Review staged changes with AI before committing'
               }
             >
               <span className="inline-flex">
               <Button
                 variant="outline"
                 size="sm"
-                disabled={reviewBusy || committing || aiBusy || stagedFiles.length === 0}
+                disabled={reviewBusy || committing || aiBusy || allStaged.length === 0}
                 onClick={() => void reviewStaged()}
               >
                 {reviewBusy ? (
@@ -1441,8 +1491,8 @@ export function WorkingCopyPanel() {
             <Hint
               label={
                 <span className="flex items-center gap-1">
-                  {stagedFiles.length === 0 && !amend && repo?.state !== 'merge'
-                    ? '暂存文件后即可提交'
+                  {allStaged.length === 0 && !amend && repo?.state !== 'merge'
+                    ? 'Stage a file to commit'
                     : 'Commit'}{' '}
                   <Kbd>{modKey()}</Kbd>
                   <Kbd>⏎</Kbd>
@@ -1455,12 +1505,12 @@ export function WorkingCopyPanel() {
                 disabled={
                   committing ||
                   (!summary.trim() && !amend) ||
-                  (stagedFiles.length === 0 && !amend && repo?.state !== 'merge')
+                  (allStaged.length === 0 && !amend && repo?.state !== 'merge')
                 }
                 onClick={() => void commit()}
               >
                 {committing && <Spinner className="text-primary-foreground" />}
-                {amend ? '修订提交' : `提交${stagedFiles.length > 0 ? ` ${stagedFiles.length} 个文件` : ''}`}
+                {amend ? 'Amend commit' : `Commit${allStaged.length > 0 ? ` ${allStaged.length} file${allStaged.length === 1 ? '' : 's'}` : ''}`}
               </Button>
               </span>
             </Hint>

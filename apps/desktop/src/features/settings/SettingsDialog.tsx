@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { toast } from 'sonner';
 import {
   Check,
@@ -16,6 +16,7 @@ import {
   Plus,
   RefreshCw,
   Sparkles,
+  Search,
   SquareTerminal,
   Sun,
   Trash2,
@@ -36,6 +37,10 @@ import {
   type CommitStylePreset,
   chordLabels,
   parseChordId,
+  filterSettingsCards,
+  SETTINGS_SECTION_LABELS,
+  type SettingsSectionId,
+  type SettingsCardId,
 } from '@angkorgit/core';
 import {
   Badge,
@@ -72,12 +77,12 @@ import { applyProfileToRepo } from './profiles';
 import { installCliTool } from './cliTool';
 import { useEditors } from './editors';
 import { AccountsTab, providerIcon } from './AccountsTab';
-import { Field, SettingCard, SettingEmpty, SettingRow } from './SettingCard';
+import { Field, SettingCard, SettingEmpty, SettingRow, SettingsFilterContext } from './SettingCard';
 import { FontsCard } from './FontsCard';
 import { getAiProvider } from '@/features/ai/client';
 import { basename, isMac, modKey, shortenHome } from '@/shared/utils';
 
-type SectionId = 'appearance' | 'git' | 'accounts' | 'ai' | 'shortcuts';
+type SectionId = SettingsSectionId;
 
 const SECTIONS: Array<{
   id: SectionId;
@@ -85,11 +90,11 @@ const SECTIONS: Array<{
   description: string;
   icon: React.ComponentType<{ className?: string }>;
 }> = [
-  { id: 'appearance', label: '外观', description: '主题、强调色、缩放与动效', icon: Palette },
-  { id: 'git', label: 'Git', description: '自动拉取、拉取请求、命令行、身份与配置', icon: User },
-  { id: 'accounts', label: 'Authentication', description: 'https:// 远端使用账户 · git@ 远端使用 SSH 密钥', icon: Github },
-  { id: 'ai', label: 'AI 助手', description: '提供方、连接与消息风格', icon: Sparkles },
-  { id: 'shortcuts', label: '快捷键', description: '键盘参考', icon: Keyboard },
+  { id: 'appearance', label: SETTINGS_SECTION_LABELS.appearance, description: 'Theme, accent color, zoom and motion', icon: Palette },
+  { id: 'git', label: SETTINGS_SECTION_LABELS.git, description: 'Auto fetch, pull requests, command line, identity and profiles', icon: User },
+  { id: 'accounts', label: SETTINGS_SECTION_LABELS.accounts, description: 'https:// remotes use accounts · git@ remotes use SSH keys', icon: Github },
+  { id: 'ai', label: SETTINGS_SECTION_LABELS.ai, description: 'Provider, connection and message style', icon: Sparkles },
+  { id: 'shortcuts', label: SETTINGS_SECTION_LABELS.shortcuts, description: 'Keyboard reference', icon: Keyboard },
 ];
 
 function SshCard() {
@@ -130,6 +135,7 @@ function SshCard() {
 
   return (
     <SettingCard
+      settingId="ssh"
       title="SSH"
       description="用于 git@… 远端；https:// 远端改用上面的账户。"
     >
@@ -203,8 +209,9 @@ function CredentialHelperCard() {
   const setUseCredentialHelper = useSettings((s) => s.setUseCredentialHelper);
   return (
     <SettingCard
-      title="系统凭据助手"
-      description="在账户之后，回退到 git 或其他客户端保存的凭据；关闭可单独测试账户。"
+      settingId="credential-helper"
+      title="System credential helper"
+      description="After your accounts, fall back to credentials saved by git or another client. Turn off to test the accounts on their own."
       action={<Switch checked={useCredentialHelper} onCheckedChange={setUseCredentialHelper} />}
     />
   );
@@ -428,7 +435,8 @@ function CommitStyleCard() {
 
   return (
     <SettingCard
-      title="提交消息风格"
+      settingId="commit-style"
+      title="Commit message style"
       description={COMMIT_STYLE_PRESETS[commit.preset].description}
       action={
         <Select
@@ -549,8 +557,9 @@ function CloneFolderCard() {
   };
   return (
     <SettingCard
-      title="克隆目录"
-      description="克隆对话框默认使用的目录。最近一次克隆使用的目录会自动保存到这里。"
+      settingId="clone"
+      title="Clone destination"
+      description="The folder the clone dialog starts from. The last folder you cloned into is remembered here automatically."
       action={
         <span className="flex items-center gap-1.5">
           {cloneRoot && (
@@ -605,8 +614,9 @@ function CliToolCard() {
 
   return (
     <SettingCard
-      title="命令行工具"
-      description="在终端中以 angkorgit 或简写 akg 打开、克隆仓库。运行 akg --help 查看完整用法。"
+      settingId="cli"
+      title="Command line tool"
+      description="Open or clone a repository from the terminal as angkorgit or the short akg. Run akg --help for the full usage."
       action={
         status ? (
           <Button variant="secondary" size="sm" disabled={busy} onClick={() => void uninstall()}>
@@ -648,8 +658,9 @@ function EditorCard() {
 
   return (
     <SettingCard
-      title="外部编辑器"
-      description="从工具栏、命令面板和文件菜单中，用本机安装的编辑器打开仓库或文件。"
+      settingId="editor"
+      title="External editor"
+      description="Open the repository or a file in an editor installed on this machine, from the toolbar, the palette and the file menus."
       action={
         <Button variant="ghost" size="sm" onClick={() => void rescan()} disabled={loading}>
           {loading ? <Spinner /> : <RefreshCw className="size-3.5" />}
@@ -720,8 +731,9 @@ function ReviewStyleCard() {
 
   return (
     <SettingCard
-      title="AI 审查约定"
-      description="AI 审查者在审查暂存更改时关注的内容，适用于所有仓库。"
+      settingId="review"
+      title="AI review conventions"
+      description="What the AI reviewer pays attention to when it reviews staged changes. Applies to every repository."
     >
       <div className="flex flex-col gap-2">
         <Textarea
@@ -752,8 +764,9 @@ function RepoShortcutsCard() {
     .sort((a, b) => a.name.localeCompare(b.name));
   return (
     <SettingCard
-      title="仓库快捷键"
-      description="可在应用任意位置切换至指定仓库的按键组合；若该仓库尚未打开则会自动打开。在标签页或最近仓库上右键并选择“键盘快捷键…”即可添加。"
+      settingId="repo-shortcuts"
+      title="Repository shortcuts"
+      description="A key combination that switches to a repository from anywhere in the app, opening it if it is not already open. Right-click a tab or a recent repository and choose Keyboard shortcut… to add one."
     >
       {entries.length === 0 ? (
         <SettingEmpty
@@ -830,7 +843,71 @@ export function SettingsDialog() {
   const settings = useSettings();
   const aiStatus = settings.aiStatus;
 
-  const [section, setSection] = useState<SectionId>('appearance');
+  const [selectedSection, setSection] = useState<SectionId>('appearance');
+  const [query, setQuery] = useState('');
+  const searchRef = useRef<HTMLInputElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [locate, setLocate] = useState<{ id: SettingsCardId; sequence: number } | null>(null);
+  const [located, setLocated] = useState<SettingsCardId | null>(null);
+  const filtering = query.trim().length > 0;
+  const matches = useMemo(() => filterSettingsCards(query), [query]);
+  const visible = useMemo(() => filtering ? new Set(matches.map((card) => card.id)) : null, [filtering, matches]);
+  const sections = SECTIONS.filter((entry) => !filtering || matches.some((card) => card.section === entry.id));
+  const section = sections.some((entry) => entry.id === selectedSection)
+    ? selectedSection
+    : sections[0]?.id ?? selectedSection;
+
+  useEffect(() => {
+    if (open) return;
+    setQuery('');
+    setLocate(null);
+    setLocated(null);
+  }, [open]);
+
+  useEffect(() => {
+    setLocate(null);
+    setLocated(null);
+  }, [query]);
+
+  useEffect(() => {
+    scrollRef.current?.scrollTo({ top: 0 });
+  }, [query, section]);
+
+  useEffect(() => {
+    if (!open || !locate) return;
+    const scroller = scrollRef.current;
+    const card = scroller?.querySelector<HTMLElement>(`[data-settings-card="${locate.id}"]`);
+    if (!scroller || !card) return;
+    setLocated(null);
+    const bounds = scroller.getBoundingClientRect();
+    const cardBounds = card.getBoundingClientRect();
+    const alreadyVisible = cardBounds.top >= bounds.top && cardBounds.bottom <= bounds.bottom;
+    const destination = Math.max(0, Math.min(
+      scroller.scrollHeight - scroller.clientHeight,
+      scroller.scrollTop + cardBounds.top - bounds.top,
+    ));
+    if (!alreadyVisible) scroller.scrollTo({ top: destination, behavior: settings.reduceMotion ? 'auto' : 'smooth' });
+    let frame = 0;
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    const started = performance.now();
+    const measure = () => {
+      const current = card.getBoundingClientRect();
+      const viewport = scroller.getBoundingClientRect();
+      const visibleNow = current.top >= viewport.top - 1 && current.bottom <= viewport.bottom + 1;
+      if (alreadyVisible || visibleNow || Math.abs(scroller.scrollTop - destination) < 1) {
+        setLocated(locate.id);
+        timer = setTimeout(() => setLocated(null), 1200);
+      } else {
+        if (performance.now() - started > 1600) scroller.scrollTo({ top: destination, behavior: 'auto' });
+        frame = requestAnimationFrame(measure);
+      }
+    };
+    frame = requestAnimationFrame(measure);
+    return () => {
+      cancelAnimationFrame(frame);
+      if (timer !== undefined) clearTimeout(timer);
+    };
+  }, [open, locate, settings.reduceMotion]);
   const [gitName, setGitName] = useState('');
   const [gitEmail, setGitEmail] = useState('');
   const [testing, setTesting] = useState(false);
@@ -948,18 +1025,72 @@ export function SettingsDialog() {
 
   return (
     <Dialog open={open} onOpenChange={(o) => !o && closeDialog()}>
-      <DialogContent className="max-w-3xl overflow-hidden p-0">
-        <DialogTitle className="sr-only">设置</DialogTitle>
+      <DialogContent
+        className="max-w-3xl overflow-hidden p-0"
+        onOpenAutoFocus={(event) => {
+          event.preventDefault();
+          searchRef.current?.focus();
+        }}
+        onEscapeKeyDown={(event) => {
+          if (!query) return;
+          event.preventDefault();
+          event.stopPropagation();
+          setQuery('');
+          if (!(document.activeElement instanceof HTMLElement) || document.activeElement === document.body) {
+            searchRef.current?.focus();
+          }
+        }}
+      >
+        <DialogTitle className="sr-only">Settings</DialogTitle>
         <div className="flex h-[560px] max-h-[80vh]">
           <nav className="flex w-52 shrink-0 flex-col border-r border-border-subtle bg-surface">
             <p className="px-4 pb-2 pt-4 text-xs font-semibold uppercase tracking-wide text-faint">
               设置
             </p>
+            <div className="px-3 pb-3">
+              <div className="relative">
+                <Search className="pointer-events-none absolute left-2 top-2 size-3.5 text-faint" />
+                <Input
+                  ref={searchRef}
+                  aria-label="Filter settings"
+                  placeholder="Filter settings…"
+                  className="h-8 pl-7 pr-7 text-xs"
+                  value={query}
+                  spellCheck={false}
+                  autoCorrect="off"
+                  autoCapitalize="off"
+                  onChange={(event) => setQuery(event.target.value)}
+                  onKeyDown={(event) => {
+                    if (event.key !== 'Enter' || event.nativeEvent.isComposing || !filtering || !matches.length) return;
+                    event.preventDefault();
+                    setSection(matches[0].section);
+                    setLocate((previous) => ({ id: matches[0].id, sequence: (previous?.sequence ?? 0) + 1 }));
+                  }}
+                />
+                {query && (
+                  <Hint label="Clear settings filter">
+                    <button
+                      type="button"
+                      aria-label="Clear settings filter"
+                      className="absolute right-1 top-1 flex size-6 items-center justify-center rounded-md text-muted hover:text-foreground"
+                      onClick={() => { setQuery(''); searchRef.current?.focus(); }}
+                    >
+                      <X className="size-3.5" />
+                    </button>
+                  </Hint>
+                )}
+              </div>
+            </div>
             <div className="flex-1 px-2">
-              {SECTIONS.map(({ id, label, icon: Icon }) => (
+              {sections.map(({ id, label, icon: Icon }) => (
                 <button
                   key={id}
-                  onClick={() => setSection(id)}
+                  onClick={() => {
+                    setSection(id);
+                    setLocate(null);
+                    setLocated(null);
+                  }}
+                  aria-current={section === id ? 'page' : undefined}
                   className={cn(
                     'mb-0.5 flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 text-left text-sm transition-colors',
                     section === id
@@ -982,15 +1113,27 @@ export function SettingsDialog() {
 
           <div className="flex min-w-0 flex-1 flex-col bg-background">
             <header className="shrink-0 border-b border-border-subtle px-6 pb-4 pt-5">
-              <h2 className="text-base font-semibold">{active.label}</h2>
-              <p className="mt-0.5 text-xs text-muted">{active.description}</p>
+              <h2 className="text-base font-semibold">{sections.length ? active.label : 'Settings'}</h2>
+              <p className="mt-0.5 text-xs text-muted" role={filtering ? 'status' : undefined}>
+                {filtering ? `${matches.length} matching ${matches.length === 1 ? 'setting' : 'settings'}` : active.description}
+              </p>
             </header>
-            <div className="min-h-0 flex-1 overflow-y-auto p-6">
-              {section === 'appearance' && (
+            <div ref={scrollRef} className="min-h-0 flex-1 overflow-y-auto p-6">
+              <SettingsFilterContext.Provider value={{ visible, located }}>
+              {filtering && matches.length === 0 && (
+                <SettingEmpty
+                  icon={<Search className="size-4" />}
+                  title="No matching settings"
+                  description="Try another title or keyword."
+                  action={<Button variant="secondary" size="sm" onClick={() => { setQuery(''); searchRef.current?.focus(); }}>Clear filter</Button>}
+                />
+              )}
+              {sections.length > 0 && section === 'appearance' && (
                 <div className="flex flex-col gap-4">
                   <SettingCard
-                    title="主题"
-                    description="常用编辑器配色——界面与语法颜色跟随主题。"
+                    settingId="theme"
+                    title="Theme"
+                    description="Popular editor palettes — surfaces and syntax colors follow the theme."
                   >
                     <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
                       {THEMES.map((t) => (
@@ -1042,8 +1185,9 @@ export function SettingsDialog() {
                   </SettingCard>
 
                   <SettingCard
-                    title="强调色"
-                    description="按钮、高亮与焦点跟随强调色，提交图与 diff 颜色保持其含义。"
+                    settingId="accent"
+                    title="Accent color"
+                    description="Buttons, highlights and focus follow your accent. Graph and diff colors keep their meaning."
                   >
                     <div className="flex items-center gap-3">
                       {ACCENTS.map((accent) => (
@@ -1066,7 +1210,8 @@ export function SettingsDialog() {
                   </SettingCard>
 
                   <SettingCard
-                    title="缩放"
+                    settingId="zoom"
+                    title="Zoom"
                     description={
                       <>
                         Also <Kbd>{modKey()}</Kbd> <Kbd>+</Kbd> / <Kbd>{modKey()}</Kbd> <Kbd>−</Kbd> anywhere
@@ -1104,8 +1249,9 @@ export function SettingsDialog() {
                   />
 
                   <SettingCard
-                    title="减少动效"
-                    description="减少整个应用中的动画"
+                    settingId="motion"
+                    title="Reduce motion"
+                    description="Minimize animations across the app"
                     action={<Switch checked={settings.reduceMotion} onCheckedChange={settings.setReduceMotion} />}
                   />
 
@@ -1113,11 +1259,12 @@ export function SettingsDialog() {
                 </div>
               )}
 
-              {section === 'git' && (
+              {sections.length > 0 && section === 'git' && (
                 <div className="flex flex-col gap-4">
                   <SettingCard
-                    title="自动拉取"
-                    description="在后台从第一个远端拉取，让队友的提交自动出现；失败保持静默。"
+                    settingId="auto-fetch"
+                    title="Auto fetch"
+                    description="Fetch from the first remote in the background so teammates' commits show up by themselves. Failures stay silent."
                     action={
                       <Select
                         value={String(settings.autoFetchMinutes)}
@@ -1137,8 +1284,9 @@ export function SettingsDialog() {
                   />
 
                   <SettingCard
-                    title="拉取请求"
-                    description="在侧边栏显示拉取请求区块，通过已关联账户加载。"
+                    settingId="pull-requests"
+                    title="Pull requests"
+                    description="Show the pull requests section in the sidebar, loaded through your connected account."
                     action={
                       <Switch
                         checked={settings.showPullRequests}
@@ -1154,7 +1302,8 @@ export function SettingsDialog() {
                   <EditorCard />
 
                   <SettingCard
-                    title={repo ? '此仓库的身份' : '全局身份'}
+                    settingId="identity"
+                    title={repo ? 'Identity for this repository' : 'Global identity'}
                     description={
                       repo
                         ? '在此处提交时写入的姓名和邮箱，保存到本仓库，优先于全局 git 配置。'
@@ -1191,8 +1340,9 @@ export function SettingsDialog() {
                   </SettingCard>
 
                   <SettingCard
-                    title="配置文件"
-                    description="工作与个人身份，各自关联托管平台账户。仓库在首次提交或推送时被分配到某个配置，该选择随仓库保留。"
+                    settingId="profiles"
+                    title="Profiles"
+                    description="Work and personal identities, each with the hosting accounts linked to it. A repository is assigned to one profile the first time you commit or push, and that choice stays with the repository."
                     action={
                       !addingProfile && settings.profiles.length > 0 ? (
                         <Button variant="secondary" size="sm" onClick={() => setAddingProfile(true)}>
@@ -1373,7 +1523,7 @@ export function SettingsDialog() {
                 </div>
               )}
 
-              {section === 'accounts' && (
+              {sections.length > 0 && section === 'accounts' && (
                 <div className="flex flex-col gap-4">
                   <AccountsTab />
                   <CredentialHelperCard />
@@ -1381,10 +1531,11 @@ export function SettingsDialog() {
                 </div>
               )}
 
-              {section === 'ai' && (
+              {sections.length > 0 && section === 'ai' && (
                 <div className="flex flex-col gap-4">
                   <SettingCard
-                    title="提供方"
+                    settingId="provider"
+                    title="Provider"
                     description={
                       settings.ai.provider === 'cli'
                         ? '使用本机已安装的 AI CLI 工具——Claude Code、GitHub Copilot CLI、Codex、Gemini CLI、OpenCode、Antigravity 或 Cursor CLI——享有其自身登录态与配额，无需 API 密钥。'
@@ -1471,9 +1622,9 @@ export function SettingsDialog() {
                 </div>
               )}
 
-              {section === 'shortcuts' && (
+              {sections.length > 0 && section === 'shortcuts' && (
                 <div className="flex flex-col gap-4">
-                  <SettingCard title="键盘快捷键">
+                  <SettingCard settingId="keyboard" title="Keyboard shortcuts">
                     <div className="flex flex-col">
                       {SHORTCUTS.map(([label, keys], index) => (
                         <div key={label}>
@@ -1493,6 +1644,7 @@ export function SettingsDialog() {
                   <RepoShortcutsCard />
                 </div>
               )}
+              </SettingsFilterContext.Provider>
             </div>
           </div>
         </div>
