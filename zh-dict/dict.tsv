@@ -1433,3 +1433,13 @@ ui	Your hand-written result (and any hand-edited conflicts) will be replaced by 
 ui	Replace	替换	confirmLabel: 'Replace'
 ui	Discard the hand-written result?	丢弃手工编辑的结果？		
 ui	Leave	离开	confirmLabel: 'Leave'	
+
+ui	Open the repository or a file in an editor installed on this machine, from the toolbar, the palette and the file menus.	从工具栏、命令面板和文件菜单中，用本机安装的编辑器打开仓库或文件。		
+ui	Command line tool removed	命令行工具已移除		
+ui	Switch to a recent repository	切换到最近使用的仓库		
+ui	Open the commit’s files / back to the graph	打开提交的文件 / 返回提交图		
+ui	Previous / next file (file list)	上一个 / 下一个文件（文件列表）		
+ui	the current branch	当前分支		
+ui	Already up to date (demo)	已是最新（演示）		
+ui	Rebase complete (demo)	变基完成（演示）		
+ui	Reverted (demo)	已还原（演示）		

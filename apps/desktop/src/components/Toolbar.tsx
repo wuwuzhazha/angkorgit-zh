@@ -460,7 +460,7 @@ export function Toolbar({ onRefresh }: { onRefresh: () => Promise<void> }) {
       void import('@/features/forge/store').then(({ useForge }) => useForge.getState().load(true));
     })();
   const confirmForcePush = async () => {
-    const branch = repo.headBranch ?? 'the current branch';
+    const branch = repo.headBranch ?? '当前分支';
     const ok = await confirmDialog({
       title: '强制推送？',
       description: `${remote}/${branch} 将被本地的 ${branch}覆盖。仅存在于远端的提交将会丢失，任何已拉取该分支的人都需要重置到新历史。`,

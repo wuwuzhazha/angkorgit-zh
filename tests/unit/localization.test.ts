@@ -207,4 +207,26 @@ describe('Chinese localization of the upstream collaboration update', () => {
     expect(calls).toHaveLength(1);
     expect(calls[0].method).toBe('GET');
   });
+
+  it('localizes the settings shortcuts table and the CLI-tool toast', () => {
+    const settings = source('apps/desktop/src/features/settings/SettingsDialog.tsx');
+    for (const label of ["'切换到最近使用的仓库'", "'设置', ['mod', ',']]", "'打开提交的文件 / 返回提交图'", "'上一个 / 下一个文件（文件列表）'"]) {
+      expect(settings).toContain(label);
+    }
+    for (const label of ['Switch to a recent repository', "['Settings', ['mod', ',']]", 'Previous / next file (file list)', "back to the graph'"]) {
+      expect(settings).not.toContain(label);
+    }
+    expect(settings).toContain('命令行工具已移除');
+    expect(settings).not.toContain('Command line tool removed');
+    expect(settings).toContain('从工具栏、命令面板和文件菜单中，用本机安装的编辑器打开仓库或文件。');
+    expect(settings).not.toContain('Open the repository or a file in an editor installed');
+    const toolbar = source('apps/desktop/src/components/Toolbar.tsx');
+    expect(toolbar).toContain("headBranch ?? '当前分支'");
+    expect(toolbar).not.toContain('the current branch');
+    const ipc = source('apps/desktop/src/core/ipc.ts');
+    expect(ipc).toContain('已是最新（演示）');
+    expect(ipc).toContain('变基完成（演示）');
+    expect(ipc).toContain('已还原（演示）');
+    expect(ipc).not.toMatch(/Already up to date \(demo\)|Rebase complete \(demo\)|Reverted \(demo\)/);
+  });
 });

@@ -595,7 +595,7 @@ function CliToolCard() {
     try {
       await ipc.cliUninstall();
       setStatus(null);
-      toast.success('Command line tool removed');
+      toast.success('命令行工具已移除');
     } catch (error) {
       toast.error(`Could not uninstall: ${(error as { message?: string }).message ?? error}`);
     } finally {
@@ -649,7 +649,7 @@ function EditorCard() {
   return (
     <SettingCard
       title="外部编辑器"
-      description="Open the repository or a file in an editor installed on this machine, from the toolbar, the palette and the file menus."
+      description="从工具栏、命令面板和文件菜单中，用本机安装的编辑器打开仓库或文件。"
       action={
         <Button variant="ghost" size="sm" onClick={() => void rescan()} disabled={loading}>
           {loading ? <Spinner /> : <RefreshCw className="size-3.5" />}
@@ -797,22 +797,22 @@ function RepoShortcutsCard() {
 
 const SHORTCUTS: Array<[string, string[]]> = [
   ['命令面板', ['mod', 'K']],
-  ['Switch to a recent repository', ['mod', 'P']],
+  ['切换到最近使用的仓库', ['mod', 'P']],
   ['在新标签页中打开仓库', ['mod', 'T']],
   ['切换终端', ['mod', '`']],
   ['切换侧边栏', ['mod', 'B']],
   ['撤销/重做操作', ['mod', 'Z / ⇧Z']],
   ['刷新仓库', ['mod', 'R']],
-  ['Settings', ['mod', ',']],
+  ['设置', ['mod', ',']],
   ['切换到第 1 至 9 个标签页', ['mod', '1 … 9']],
   ['上一个 / 下一个标签页', ['mod', '⇧', '[ / ]']],
   ['关闭标签页', ['mod', 'W']],
   ['提交暂存的更改', ['mod', '⏎']],
   ['上一个/下一个提交', ['↑ / ↓']],
   ['第一个/最后一个提交', ['Home / End']],
-  ['Open the commit\u2019s files / back to the graph', ['→ / ←']],
+  ['打开提交的文件 / 返回提交图', ['→ / ←']],
   ['下一个改动（循环，打开差异时）', ['→']],
-  ['Previous / next file (file list)', ['↑ / ↓']],
+  ['上一个 / 下一个文件（文件列表）', ['↑ / ↓']],
   ['搜索提交 / diff 内查找', ['mod', 'F']],
   ['上一个匹配（diff 内查找）', ['⇧', '⏎']],
   ['选择/复制 diff 一侧', ['mod', 'A / C']],

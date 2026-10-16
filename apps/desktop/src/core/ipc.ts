@@ -280,7 +280,7 @@ export const ipc = {
     return invoke('history_unpushed', { path });
   },
   async revert(path: string, oid: string): Promise<OpOutcome> {
-    if (!isTauri()) return { status: 'ok', message: 'Reverted (demo)' };
+    if (!isTauri()) return { status: 'ok', message: '已还原（演示）' };
     return invoke('commit_revert', { path, oid });
   },
 
@@ -377,7 +377,7 @@ export const ipc = {
     return invoke('branch_rebase', { path, upstream });
   },
   async rebaseContinue(path: string): Promise<OpOutcome> {
-    if (!isTauri()) return { status: 'ok', message: 'Rebase complete (demo)' };
+    if (!isTauri()) return { status: 'ok', message: '变基完成（演示）' };
     return invoke('rebase_continue', { path });
   },
   async rebaseAbort(path: string): Promise<void> {
@@ -443,7 +443,7 @@ export const ipc = {
   async pull(path: string, remote: string, mode?: 'merge' | 'rebase'): Promise<OpOutcome> {
     if (!isTauri()) {
       await delay(400);
-      return { status: 'ok', message: 'Already up to date (demo)' };
+      return { status: 'ok', message: '已是最新（演示）' };
     }
     return invoke('remote_pull', { path, remote, mode: mode ?? null });
   },
