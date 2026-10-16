@@ -90,11 +90,11 @@ const SECTIONS: Array<{
   description: string;
   icon: React.ComponentType<{ className?: string }>;
 }> = [
-  { id: 'appearance', label: SETTINGS_SECTION_LABELS.appearance, description: 'Theme, accent color, zoom and motion', icon: Palette },
-  { id: 'git', label: SETTINGS_SECTION_LABELS.git, description: 'Auto fetch, pull requests, command line, identity and profiles', icon: User },
-  { id: 'accounts', label: SETTINGS_SECTION_LABELS.accounts, description: 'https:// remotes use accounts · git@ remotes use SSH keys', icon: Github },
-  { id: 'ai', label: SETTINGS_SECTION_LABELS.ai, description: 'Provider, connection and message style', icon: Sparkles },
-  { id: 'shortcuts', label: SETTINGS_SECTION_LABELS.shortcuts, description: 'Keyboard reference', icon: Keyboard },
+  { id: 'appearance', label: SETTINGS_SECTION_LABELS.appearance, description: '主题、强调色、缩放与动效', icon: Palette },
+  { id: 'git', label: SETTINGS_SECTION_LABELS.git, description: '自动拉取、拉取请求、命令行、身份与配置', icon: User },
+  { id: 'accounts', label: SETTINGS_SECTION_LABELS.accounts, description: 'https:// 远端使用账户 · git@ 远端使用 SSH 密钥', icon: Github },
+  { id: 'ai', label: SETTINGS_SECTION_LABELS.ai, description: '提供方、连接与消息风格', icon: Sparkles },
+  { id: 'shortcuts', label: SETTINGS_SECTION_LABELS.shortcuts, description: '键盘参考', icon: Keyboard },
 ];
 
 function SshCard() {
@@ -210,8 +210,8 @@ function CredentialHelperCard() {
   return (
     <SettingCard
       settingId="credential-helper"
-      title="System credential helper"
-      description="After your accounts, fall back to credentials saved by git or another client. Turn off to test the accounts on their own."
+      title="系统凭据助手"
+      description="在账户之后，回退到 git 或其他客户端保存的凭据；关闭可单独测试账户。"
       action={<Switch checked={useCredentialHelper} onCheckedChange={setUseCredentialHelper} />}
     />
   );
@@ -436,7 +436,7 @@ function CommitStyleCard() {
   return (
     <SettingCard
       settingId="commit-style"
-      title="Commit message style"
+      title="提交消息风格"
       description={COMMIT_STYLE_PRESETS[commit.preset].description}
       action={
         <Select
@@ -558,8 +558,8 @@ function CloneFolderCard() {
   return (
     <SettingCard
       settingId="clone"
-      title="Clone destination"
-      description="The folder the clone dialog starts from. The last folder you cloned into is remembered here automatically."
+      title="克隆目录"
+      description="克隆对话框默认使用的目录。最近一次克隆使用的目录会自动保存到这里。"
       action={
         <span className="flex items-center gap-1.5">
           {cloneRoot && (
@@ -660,7 +660,7 @@ function EditorCard() {
     <SettingCard
       settingId="editor"
       title="External editor"
-      description="Open the repository or a file in an editor installed on this machine, from the toolbar, the palette and the file menus."
+      description="从工具栏、命令面板和文件菜单中，用本机安装的编辑器打开仓库或文件。"
       action={
         <Button variant="ghost" size="sm" onClick={() => void rescan()} disabled={loading}>
           {loading ? <Spinner /> : <RefreshCw className="size-3.5" />}
@@ -732,8 +732,8 @@ function ReviewStyleCard() {
   return (
     <SettingCard
       settingId="review"
-      title="AI review conventions"
-      description="What the AI reviewer pays attention to when it reviews staged changes. Applies to every repository."
+      title="AI 审查约定"
+      description="AI 审查者在审查暂存更改时关注的内容，适用于所有仓库。"
     >
       <div className="flex flex-col gap-2">
         <Textarea
@@ -765,8 +765,8 @@ function RepoShortcutsCard() {
   return (
     <SettingCard
       settingId="repo-shortcuts"
-      title="Repository shortcuts"
-      description="A key combination that switches to a repository from anywhere in the app, opening it if it is not already open. Right-click a tab or a recent repository and choose Keyboard shortcut… to add one."
+      title="仓库快捷键"
+      description="可在应用任意位置切换至指定仓库的按键组合；若该仓库尚未打开则会自动打开。在标签页或最近仓库上右键并选择“键盘快捷键…”即可添加。"
     >
       {entries.length === 0 ? (
         <SettingEmpty
@@ -1133,7 +1133,7 @@ export function SettingsDialog() {
                   <SettingCard
                     settingId="theme"
                     title="Theme"
-                    description="Popular editor palettes — surfaces and syntax colors follow the theme."
+                    description="常用编辑器配色——界面与语法颜色跟随主题。"
                   >
                     <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
                       {THEMES.map((t) => (
@@ -1186,8 +1186,8 @@ export function SettingsDialog() {
 
                   <SettingCard
                     settingId="accent"
-                    title="Accent color"
-                    description="Buttons, highlights and focus follow your accent. Graph and diff colors keep their meaning."
+                    title="强调色"
+                    description="按钮、高亮与焦点跟随强调色，提交图与 diff 颜色保持其含义。"
                   >
                     <div className="flex items-center gap-3">
                       {ACCENTS.map((accent) => (
@@ -1250,8 +1250,8 @@ export function SettingsDialog() {
 
                   <SettingCard
                     settingId="motion"
-                    title="Reduce motion"
-                    description="Minimize animations across the app"
+                    title="减少动效"
+                    description="减少整个应用中的动画"
                     action={<Switch checked={settings.reduceMotion} onCheckedChange={settings.setReduceMotion} />}
                   />
 
@@ -1263,8 +1263,8 @@ export function SettingsDialog() {
                 <div className="flex flex-col gap-4">
                   <SettingCard
                     settingId="auto-fetch"
-                    title="Auto fetch"
-                    description="Fetch from the first remote in the background so teammates' commits show up by themselves. Failures stay silent."
+                    title="自动拉取"
+                    description="在后台从第一个远端拉取，让队友的提交自动出现；失败保持静默。"
                     action={
                       <Select
                         value={String(settings.autoFetchMinutes)}
@@ -1285,8 +1285,8 @@ export function SettingsDialog() {
 
                   <SettingCard
                     settingId="pull-requests"
-                    title="Pull requests"
-                    description="Show the pull requests section in the sidebar, loaded through your connected account."
+                    title="拉取请求"
+                    description="在侧边栏显示拉取请求区块，通过已关联账户加载。"
                     action={
                       <Switch
                         checked={settings.showPullRequests}
@@ -1303,7 +1303,7 @@ export function SettingsDialog() {
 
                   <SettingCard
                     settingId="identity"
-                    title={repo ? 'Identity for this repository' : 'Global identity'}
+                    title={repo ? '此仓库的身份' : '全局身份'}
                     description={
                       repo
                         ? '在此处提交时写入的姓名和邮箱，保存到本仓库，优先于全局 git 配置。'
@@ -1342,7 +1342,7 @@ export function SettingsDialog() {
                   <SettingCard
                     settingId="profiles"
                     title="Profiles"
-                    description="Work and personal identities, each with the hosting accounts linked to it. A repository is assigned to one profile the first time you commit or push, and that choice stays with the repository."
+                    description="工作与个人身份，各自关联托管平台账户。仓库在首次提交或推送时被分配到某个配置，该选择随仓库保留。"
                     action={
                       !addingProfile && settings.profiles.length > 0 ? (
                         <Button variant="secondary" size="sm" onClick={() => setAddingProfile(true)}>
@@ -1624,7 +1624,7 @@ export function SettingsDialog() {
 
               {sections.length > 0 && section === 'shortcuts' && (
                 <div className="flex flex-col gap-4">
-                  <SettingCard settingId="keyboard" title="Keyboard shortcuts">
+                  <SettingCard settingId="keyboard" title="键盘快捷键">
                     <div className="flex flex-col">
                       {SHORTCUTS.map(([label, keys], index) => (
                         <div key={label}>

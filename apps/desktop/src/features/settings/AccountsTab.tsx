@@ -430,7 +430,7 @@ export function AccountsTab() {
     <SettingCard
       settingId="accounts"
       title="Accounts"
-      description="Used automatically when a remote's host matches — push and pull over HTTPS with no SSH setup. Several accounts per host are fine; one is the default and profiles can pick another."
+      description="当远端的主机匹配时自动使用——无需 SSH 配置即可通过 HTTPS 推送和拉取。每个主机可以有多个账户；其中一个是默认账户，各配置可选用其他账户。"
       action={
         !showForm ? (
           <Button variant="secondary" size="sm" onClick={startAdd}>

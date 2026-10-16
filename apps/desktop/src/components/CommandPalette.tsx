@@ -314,7 +314,7 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
             label="拉取（变基）"
             onSelect={() => run('拉取（变基）', () => ipc.pull(path, remote, 'rebase'))}
           />
-          <PaletteItem icon={<ArrowUpFromLine />} label="Push" onSelect={() => run('Push', () => ipc.push(path, remote, false, false, true))} />
+          <PaletteItem icon={<ArrowUpFromLine />} label="推送" onSelect={() => run('推送', () => ipc.push(path, remote, false, false, true))} />
           {remotes.length > 1 &&
             remotes.map((r) => (
               <PaletteItem

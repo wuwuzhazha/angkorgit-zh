@@ -116,14 +116,14 @@ export function DiffViewControls({
           </DropdownMenuTrigger>
         </Hint>
         <DropdownMenuContent align="end" className="w-60">
-          <DropdownMenuLabel>View options</DropdownMenuLabel>
+          <DropdownMenuLabel>视图选项</DropdownMenuLabel>
           <DropdownMenuCheckboxItem
             icon={<WholeWord />}
             checked={wordDiff}
             onSelect={keepOpen}
             onCheckedChange={(v) => setWordDiff(v === true)}
           >
-            Word diff
+            词级 diff
           </DropdownMenuCheckboxItem>
           <DropdownMenuCheckboxItem
             icon={<Space />}
@@ -131,7 +131,7 @@ export function DiffViewControls({
             onSelect={keepOpen}
             onCheckedChange={(v) => setIgnoreWhitespace(v === true)}
           >
-            Ignore whitespace
+            忽略空白字符
           </DropdownMenuCheckboxItem>
           <DropdownMenuCheckboxItem
             icon={<WrapText />}
@@ -148,7 +148,7 @@ export function DiffViewControls({
             onSelect={keepOpen}
             onCheckedChange={(v) => setFullFileDiff(v === true)}
           >
-            Show whole file
+            显示整个文件
           </DropdownMenuCheckboxItem>
           {notes}
         </DropdownMenuContent>

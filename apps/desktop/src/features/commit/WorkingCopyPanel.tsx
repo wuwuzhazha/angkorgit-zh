@@ -457,7 +457,7 @@ export function WorkingCopyPanel() {
   const stageMany = (paths: string[], staged: boolean) =>
     run(
       () => (staged ? ipc.unstageFiles(path, paths) : ipc.stageFiles(path, paths)),
-      staged ? 'Unstage failed' : 'Stage failed',
+      staged ? '取消暂存失败' : '暂存失败',
     );
 
   const discardMany = async (paths: string[], staged: boolean) => {
@@ -561,7 +561,7 @@ export function WorkingCopyPanel() {
       return;
     }
     if (allStaged.length === 0) {
-      toast.info('Stage some changes first');
+      toast.info('请先暂存一些更改');
       return;
     }
     const run = ++aiRunRef.current;
@@ -591,7 +591,7 @@ export function WorkingCopyPanel() {
       return;
     }
     if (allStaged.length === 0) {
-      toast.info('Stage some changes first');
+      toast.info('请先暂存一些更改');
       return;
     }
     const target = path;
@@ -649,7 +649,7 @@ export function WorkingCopyPanel() {
   const commit = async () => {
     if (!summary.trim() && !amend) return;
     if (allStaged.length === 0 && !amend && repo?.state !== 'merge') {
-      toast.info('Stage some changes first');
+      toast.info('请先暂存一些更改');
       return;
     }
     if (committingRef.current) return;
@@ -1456,8 +1456,8 @@ export function WorkingCopyPanel() {
             <Hint
               label={
                 allStaged.length === 0
-                  ? 'Stage some changes to review them with AI'
-                  : 'Review staged changes with AI before committing'
+                  ? '暂存一些更改后即可用 AI 审查'
+                  : '提交前用 AI 审查暂存更改'
               }
             >
               <span className="inline-flex">
@@ -1492,7 +1492,7 @@ export function WorkingCopyPanel() {
               label={
                 <span className="flex items-center gap-1">
                   {allStaged.length === 0 && !amend && repo?.state !== 'merge'
-                    ? 'Stage a file to commit'
+                    ? '暂存文件后即可提交'
                     : 'Commit'}{' '}
                   <Kbd>{modKey()}</Kbd>
                   <Kbd>⏎</Kbd>
@@ -1510,7 +1510,7 @@ export function WorkingCopyPanel() {
                 onClick={() => void commit()}
               >
                 {committing && <Spinner className="text-primary-foreground" />}
-                {amend ? 'Amend commit' : `Commit${allStaged.length > 0 ? ` ${allStaged.length} file${allStaged.length === 1 ? '' : 's'}` : ''}`}
+                {amend ? '修订提交' : `提交${allStaged.length > 0 ? ` ${allStaged.length} file${allStaged.length === 1 ? '' : 's'}` : ''}`}
               </Button>
               </span>
             </Hint>

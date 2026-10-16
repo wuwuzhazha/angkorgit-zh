@@ -504,7 +504,7 @@ fn pull_source(
         if tracked_remote.as_deref() == Some(remote_name) {
             return Ok(upstream
                 .name()?
-                .ok_or_else(|| AppError::other("invalid upstream name"))?
+                .ok_or_else(|| AppError::other("无效的上游名称"))?
                 .to_string());
         }
     }

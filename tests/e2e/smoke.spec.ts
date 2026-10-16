@@ -58,7 +58,7 @@ test('a search result that lands after a click keeps the clicked commit selected
   await page.addInitScript(() => localStorage.setItem('angkorgit-demo-search-delay', '1500'));
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  const search = page.getByPlaceholder('Search commits…');
+  const search = page.getByPlaceholder('搜索提交…');
   await expect(search).toBeVisible({ timeout: 10_000 });
   await search.fill('virtualiz');
   const pill = page.getByText(/^1 of \d+$/);
@@ -908,8 +908,8 @@ test('mod+enter with nothing staged asks to stage instead of committing', async 
   await page.addInitScript(() => localStorage.setItem('angkorgit-demo-nothing-staged', '1'));
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
-  const summary = page.getByLabel('Commit summary');
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
+  const summary = page.getByLabel('提交摘要');
   await summary.fill('fix: nothing staged');
   await expect(page.getByRole('button', { name: 'Commit', exact: true })).toBeDisabled();
 
@@ -923,11 +923,11 @@ test('mod+enter with nothing staged asks to stage instead of committing', async 
 test('a file filter that hides the staged files leaves Commit enabled with the full count', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   const staged = demoStatus.files.filter((file) => file.staged);
   expect(filterFiles(staged, (file) => file.path, 'ipc.ts')).toHaveLength(0);
 
-  await page.getByLabel('Commit summary').fill('fix: filtered');
+  await page.getByLabel('提交摘要').fill('fix: filtered');
   await page.getByRole('button', { name: 'Filter files' }).click();
   await page.getByPlaceholder('Filter changed files…').fill('ipc.ts');
   await expect(page.getByText(/^Staged/).locator('..')).toContainText(`0 of ${staged.length}`);
@@ -2517,7 +2517,7 @@ test('ignore whitespace hides an indent-only change and turns staging off', asyn
   await page.keyboard.press('Escape');
   await expect(page.getByRole('menu')).toHaveCount(0);
   await page.getByText('ipc.ts', { exact: true }).first().click();
-  const token = page.locator('section[aria-label="Diff for src/core/ipc.ts"]');
+  const token = page.locator('section[aria-label="文件差异：src/core/ipc.ts"]');
   await expect(token.getByText('+22', { exact: true })).toBeVisible();
   await expect(token.getByRole('button', { name: 'Stage hunk' })).toHaveCount(0);
 });
@@ -2918,7 +2918,7 @@ test('repositories can be grouped on the welcome page and a group opens as tabs'
 test('settings filters cards, lands on the first hit and clears before closing', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   await page.keyboard.press('ControlOrMeta+,');
   const dialog = page.getByRole('dialog');
   const filter = dialog.getByRole('textbox', { name: 'Filter settings', exact: true });
@@ -2949,18 +2949,18 @@ test('settings filters cards, lands on the first hit and clears before closing',
   await expect(filter).toHaveValue('');
   await expect(profileLabel).toBeFocused();
   await expect(profileLabel).toHaveValue('Draft profile');
-  await dialog.getByRole('button', { name: 'Cancel', exact: true }).click();
+  await dialog.getByRole('button', { name: '取消', exact: true }).click();
   await filter.fill('authentication');
   await expect(dialog.locator('[data-settings-card]')).toHaveCount(3);
   await dialog.getByRole('button', { name: 'Authentication', exact: true }).click();
-  await dialog.getByRole('button', { name: 'Add account', exact: true }).click();
-  const token = dialog.getByPlaceholder('Paste the token');
+  await dialog.getByRole('button', { name: '添加账户', exact: true }).click();
+  const token = dialog.getByPlaceholder('粘贴令牌');
   await token.fill('draft-token');
   await token.press('Escape');
   await expect(filter).toHaveValue('');
   await expect(token).toBeFocused();
   await expect(token).toHaveValue('draft-token');
-  await dialog.getByRole('button', { name: 'Cancel', exact: true }).click();
+  await dialog.getByRole('button', { name: '取消', exact: true }).click();
   await filter.fill('no-such-setting');
   await expect(dialog.getByText('No matching settings', { exact: true })).toBeVisible();
   await expect(dialog.locator('[data-settings-card]')).toHaveCount(0);
@@ -2971,7 +2971,7 @@ test('settings filters cards, lands on the first hit and clears before closing',
   await filter.press('Escape');
   await expect(dialog).toBeHidden();
   await page.keyboard.press('ControlOrMeta+k');
-  await page.getByPlaceholder('Type a command or branch name…').fill('Settings');
+  await page.getByPlaceholder('输入命令或分支名…').fill('设置');
   await page.getByRole('option', { name: /Settings/ }).click();
   await expect(filter).toBeFocused();
   await filter.press('Escape');
@@ -2983,14 +2983,14 @@ test('settings filters cards, lands on the first hit and clears before closing',
 test('folder rows in the working copy tree stage and unstage everything inside them', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   await page.evaluate(async () => {
     const { ipc } = await import('/src/core/ipc.ts');
     const calls = ((window as unknown as { __stageCalls: unknown[] }).__stageCalls = [] as unknown[]);
     ipc.stageFiles = async (_path, files) => void calls.push(['stage', files]);
     ipc.unstageFiles = async (_path, files) => void calls.push(['unstage', files]);
   });
-  await page.getByRole('button', { name: 'Folder tree' }).click();
+  await page.getByRole('button', { name: '文件夹树' }).click();
   const srcFolder = page.locator('[data-tree-folder="src"]').first();
   await expect(srcFolder).toBeVisible();
   const stageSrc = page.getByRole('checkbox', { name: 'Stage every change in src', exact: true });
@@ -3009,16 +3009,16 @@ test('folder rows in the working copy tree stage and unstage everything inside t
   await expect(page.getByText('ipc.ts', { exact: true })).toHaveCount(0);
   await srcFolder.getByRole('button', { name: 'Expand src', exact: true }).click();
   await expect(page.getByText('ipc.ts', { exact: true }).first()).toBeVisible();
-  await page.getByRole('button', { name: 'All files' }).click();
+  await page.getByRole('button', { name: '全部文件' }).click();
   await expect(page.getByRole('checkbox', { name: 'Stage every change in src', exact: true })).toHaveAttribute('data-state', 'indeterminate');
 });
 
 test('stepping through changes marks the active one and counts it in the header', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   await page.getByText('CommitGraph.tsx', { exact: true }).first().click();
-  const diff = page.locator('section[aria-label="Diff for src/features/graph/CommitGraph.tsx"]');
+  const diff = page.locator('section[aria-label="文件差异：src/features/graph/CommitGraph.tsx"]');
   await expect(diff).toBeVisible();
   const count = diff.locator('[data-change-count]');
   await expect(count).toHaveText(/^1 of \d+ changes$/);
