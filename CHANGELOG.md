@@ -8,115 +8,100 @@
 
 ## [0.23.0] — 2026-10-13
 
-The working-copy release. Folders in the file tree stage and unstage as one, the
-diff marks the change you are standing on, Settings has a filter box, and a refused
-push tells you what the server said. The settings filter is noyobo's work, the
-multi-file staging fix is chrismo80's, the empty-commit guard is Bunthoeun Tok's.
+工作副本版本。文件树中的文件夹可以整体暂存与取消暂存，diff 会标出你当前停留
+的更改，设置新增筛选框，推送被拒时会回显服务端返回的信息。设置筛选来自
+noyobo，多文件暂存修复来自 chrismo80，空提交拦截来自 Bunthoeun Tok。
 
-### Added
-- **Filter settings by title or keyword.** The search field focuses when Settings
-  opens, hides non-matching cards and sections, and accepts multiple terms. Enter
-  lands on the first match with a locate flash. Escape clears the filter before
-  closing; closing resets it, and opening a specific section still works. (#33)
-- **Stage or unstage a whole folder.** In the working copy's folder tree every folder
-  row carries the same checkbox its files have: unticked under Changes (tick to stage
-  everything inside, recursively), ticked under Staged (untick to unstage it all), and
-  half-filled in All files when a folder holds both. The chevron and the name still
-  fold the folder. (#65)
-- **The current change is marked.** Stepping with N / P, → or the header chevrons
-  draws a gold bar along the left edge of the change you landed on and the header counts
-  "2 of 7 changes", so you can tell which change is the active one in a long diff. The
-  file history diff gets the same marker. (#75)
-- **View options stays open.** Toggling Word diff, Ignore whitespace, Wrap or Show
-  whole file no longer closes the menu, so several options can be changed in one go;
-  Escape or a click outside closes it. (#67)
-- **Push refusals quote the server.** When a remote refuses a ref (a protected branch,
-  a pre-receive hook) the failure toast now carries what the server printed, such as
-  GitHub's "Changes must be made through a pull request", under the one-line reason.
-  (#76)
+### 新增
+- **按标题或关键词筛选设置。** 打开设置时搜索框自动获得焦点，隐藏不匹配的
+  卡片与分区，并支持多个关键词。回车跳到第一个匹配项并闪烁定位。Esc 先清除
+  筛选、再关闭；关闭会重置筛选，直接打开某个分区仍然可用。(#33)
+- **整文件夹暂存或取消暂存。** 工作副本的文件树中，每个文件夹行都带有与其
+  文件相同的复选框：「更改」下未勾选（勾选会递归暂存其中的全部内容），
+  「已暂存」下已勾选（取消勾选即全部取消暂存），「全部文件」下文件夹内两种
+  状态并存时显示半选。折叠箭头和名称仍然用于折叠文件夹。(#65)
+- **当前更改会被标记。** 用 `N` / `P`、`→` 或标题栏的箭头步进时，会在所停留
+  更改的左侧边缘画一条金色竖条，标题栏显示「2 / 7 处改动」，长 diff 中一眼
+  即可看出当前处于哪一处更改。文件历史的 diff 也有同样的标记。(#75)
+- **视图选项菜单保持打开。** 切换词级 diff、忽略空白字符、自动换行或显示
+  整个文件不再关闭菜单，可以一次调整多个选项；Esc 或点击菜单外部关闭。(#67)
+- **推送被拒时回显服务端信息。** 远端拒绝某个引用时（受保护分支、pre-receive
+  钩子），失败提示会在单行原因下附带服务器打印的内容，例如 GitHub 的
+  “Changes must be made through a pull request”。(#76)
 
-### Fixed
-- Staging or unstaging a multi-file selection no longer fails with "the index is
-  locked": the selection goes to the engine as one call with a single index write
-  instead of one call per file racing for the lock (#66)
-- **⌘⏎ no longer makes an empty commit.** With nothing staged the Commit button was
-  disabled, but the shortcut still committed; it now asks you to stage first, and the
-  engine refuses a commit that changes nothing (a merge still commits). A file filter
-  that hides the staged files no longer disables Commit or drops its file count.
+### 修复
+- 多文件选择下的暂存或取消暂存不再报「索引已锁定」：选择会作为一次调用交给
+  引擎，只写一次索引，而不是每个文件各调一次、互相争抢锁。(#66)
+- **`⌘⏎` 不再产生空提交。** 没有暂存内容时「提交」按钮已禁用，但快捷键仍会
+  提交；现在会提示先暂存，引擎也会拒绝不产生任何更改的提交（合并仍可提交）。
+  隐藏了已暂存文件的文件筛选不再禁用「提交」或丢掉文件数量。
+
+## [0.22.1] — 2026-10-08
+
+补齐 0.22.0 遗留的中文文案，并修复本地开发环境在 Windows 上的依赖安装。
+仅翻译与文案，无功能变更。
+
+### 变更
+- **溯源（Blame）界面全面汉化。** 命令面板入口、diff 头部按钮、菜单项、
+  文件选择器占位符，以及「此文件尚无提交」「在此提交上溯源」等提示。
+- **冲突解决器文案汉化。** 变基/拣选/还原三种场景下 A、B 两侧的语义说明
+  （例如「变基进行中时，Git 把这一侧称为 HEAD」）、完成提示、离开确认
+  对话框，以及手工编辑结果的替换与丢弃提示。
+- **设置表单标签汉化。** 提供方、邮箱、名称等字段标签，未找到编辑器时的
+  空状态说明，以及命令行工具卡片。
+- 其他细节：命令面板的溯源分组、差异复制的选中提示、查找作者输入框、
+  状态栏的「设置 AI」、用户名标签。
+
+### 修复
+- 工作副本的「更改 / 已暂存」分区标题与检查器的「文件」标题此前一直是英文。
+- 设置中的命令行工具卡片此前显示英文的「命令行工具 / 安装 / 卸载」和
+  文件历史的「差异 / 溯源」视图切换。
+- 侧边栏与提交图菜单中的「合并到当前分支」「将当前分支快进到此处」。
+- `vitest.config.ts` 里 `highlight.js` 的别名写死了
+  `apps/desktop/node_modules`，在依赖被提升到仓库根目录的布局下会失效。
 
 ## [0.22.0] — 2026-10-08
 
-The remotes release. Repositories with more than one remote get a "Pull from" and a
-"Push to" list on the toolbar, and the plain buttons now follow the branch's upstream
-instead of the first remote in the list. The welcome page can scan a whole folder of
-projects into recents, a commit's files can be read on one scrolling page, ⌘P jumps
-between repositories, and side-by-side diffs pair changed lines with the line that
-really replaced them, with the minimap following suit. The scan, the tab names, the
-all-files page and ⌘P are a contributor's work, as are the terminal focus, the empty
-panes and the op-ssh-sign fix.
+同步上游 v0.21.1 之后的开发版（`6bea2ca`…`498999b`）：仓库文件夹扫描、
+标签页清理与同名消歧、仓库快捷切换、单页查看一次提交的全部改动，以及
+统一空状态面板。全部界面文案已汉化。
 
-### Added
-- **Scan a folder for repositories.** The folder-search button in the Recent
-  repositories header (and Scan in the empty state) picks a folder, walks every folder
-  under it for Git repositories, including submodules and repositories nested inside
-  others, skipping hidden and dependency folders such as node_modules, and lists what it
-  found with checkboxes. Repositories already in
-  recents are marked, and Add puts the picked ones into the list without opening them. (#60)
-- **Same-named tabs tell you which is which.** When two open repositories share a
-  folder name, such as a fork and the original or two clones, each tab adds the
-  nearest parent folder that sets it apart (“payments · shared-services”). (#60)
-- **Every file of a commit on one page.** The diff header of a commit file gains a
-  File / All files switch. All files stacks every changed file in one scrolling page,
-  GitLab-style: a sticky header per file with its status, folder and line counts, a
-  collapse arrow, Collapse all, and a button back to the single-file view. Inline or
-  side by side and the view options apply to every file at once. Diffs load as they
-  scroll into view, files over 1,500 changed lines start collapsed, clicking a file in
-  the commit's file list scrolls to it, scrolling moves the file list's highlight, and
-  [ / ] step between files. The choice is remembered. (#60)
-- **Pull from and push to any remote.** With more than one remote, the Pull and Push
-  menus list every remote under "Pull from" / "Push to", with the default ticked (#61).
-  The default follows the current branch's upstream, then `origin`, instead of whatever
-  remote happened to be listed first. Pulling from another remote merges or rebases
-  onto that remote's branch of the same name, like `git pull <remote> <branch>`, and
-  pushing to another remote leaves the branch's upstream alone. The command palette
-  carries the same entries.
-- **⌘P switches repositories.** A search box over every recent repository, matching
-  name or path, with the current repository and open tabs marked. Enter switches to the
-  repository's tab when it is already open and opens a new tab otherwise; it works from
-  the welcome page too. ⌘K stays the command palette (⌘P used to open it as well). (#60)
-- **⌘T opens a repository in a new tab**, the same as the + button at the end of the
-  tab strip. (#60)
+### 新增
+- **扫描文件夹批量添加仓库。**「最近仓库」标题栏右侧的文件夹搜索按钮
+  （空状态下也有「扫描」）会递归遍历所选目录下的每一个文件夹查找 Git
+  仓库，包括子模块与嵌套在其他仓库内部的仓库，自动跳过隐藏目录和
+  `node_modules` 之类的依赖目录，并列出结果供勾选。已在最近列表中的仓库
+  会被标记，「添加」把勾选的那些加入列表而不打开它们。
+- **同名标签页一眼可辨。** 当两个已打开的仓库文件夹同名时（例如 fork 与
+  原版，或两份 clone），每个标签页会补上最近一级能区分它们的父级目录
+  （形如「payments · shared-services」）。
+- **一次提交的全部改动集中在一页。** 提交文件的 diff 顶部栏新增
+  「单文件 / 全部文件」切换。「全部文件」以 GitLab 式单页堆叠该提交的所有
+  改动文件：每个文件有吸顶标题（状态、目录与增删行数）、折叠箭头、
+  「全部折叠」，以及回到单文件视图的按钮。内联/并排与视图选项对所有文件
+  同时生效。diff 在滚动进入视口时才加载，超过 1500 行改动的文件默认折叠，
+  在提交的文件列表中点击某个文件会滚动到它，滚动时文件列表的高亮随之
+  移动，`[` / `]` 在文件间步进。该选择会被记住。
+- **`⌘P` 快速切换仓库。** 一个覆盖全部最近仓库的搜索框，按名称或路径匹配，
+  当前仓库与已打开的标签页均有标记。回车在仓库标签页已打开时切换过去，
+  否则新开一个标签页；在欢迎页同样可用。`⌘K` 仍是命令面板（`⌘P` 此前也
+  会打开它）。
+- **`⌘T` 在新标签页打开仓库**，与标签栏末尾的 + 按钮一致。
 
-### Fixed
-- Side-by-side diffs pair each changed line with the line that actually replaced it
-  (#62). A line inserted between two edited lines used to steal the next deletion,
-  so the word marks described the wrong edit and the real replacement sat alone on
-  the row below. Lines are now paired by how many words they share; an unrelated
-  insertion gets its own row, and a single replaced line always shares one. The diff
-  minimap reads the same pairs, so its marks line up with the rows (#63).
-- Opening the terminal now focuses its input immediately, so typing works without
-  clicking inside it first. (#56)
-- Commit signing through 1Password's op-ssh-sign never found the signature: the
-  buffer handed to the signer carried a `.buf` extension, and op-ssh-sign writes its
-  `.sig` with the extension replaced rather than appended. The buffer has no extension
-  now, so ssh-keygen and op-ssh-sign land on the same file. (#59)
-- A tab whose folder was moved or deleted no longer lingers next to the repository's
-  new location. The tab strip checks its folders and closes the ones that are gone,
-  with a note naming them. (#60)
-- Clicking into a file diff and pressing ← closes it again, and → steps to the next
-  change. The window-level arrow shortcuts never fired: the shortcut hook marked the
-  key event as handled before the diff panel checked it, so only the file list's own
-  keys worked.
-- A commit clicked while a search was still running stays selected. The first search
-  in a repository can take a moment, and when its result arrived it jumped to the
-  first match even though you had already picked another commit. A late result now
-  keeps your selection, and clicking a matching commit moves the "n of m" counter to
-  it so Enter continues from there.
+### 修复
+- 打开终端后输入框立即获得焦点，无需先点击一下才能打字。
+- 文件夹被移动或删除的标签页不再残留在仓库的新位置旁边。标签栏会检查每个
+  标签页的文件夹并关闭已消失的那些，并提示被关闭的是哪些。
+- 在文件 diff 中点击后按 `←` 可以关闭它，按 `→` 可以步进到下一处改动。
+  这两个窗口级方向键快捷键此前从未生效：快捷键钩子在 diff 面板检查之前就把
+  键盘事件标记为已处理，因此只有文件列表自身的按键有效。
 
-### Changed
-- **Empty panes use one panel.** Diff blanks, a file with no history, an empty graph, a commit with no files, a welcome search with no matches, and an empty rebase plan use a centered panel (icon, title, one line) instead of a faint sentence. A staged whitespace-only file says those changes are still staged. (#50)
-- Recent repositories keep up to 1,000 entries instead of 30, so a scanned folder of
-  projects is not cut short. (#60)
+### 变更
+- **空状态统一为一个面板。** diff 空白区、没有历史的文件、空提交图、
+  没有文件的提交、欢迎页搜索无结果、以及空的变基计划，都改为居中面板
+  （图标、标题、一行说明），而不是一行灰字。仅含空白字符改动的已暂存
+  文件会说明这些改动仍处于暂存状态。
+- 最近仓库上限由 30 条提升至 1000 条，扫描出的一整个项目目录不会被截断。
 
 ## [0.21.1] — 2026-10-04
 
@@ -1763,7 +1748,8 @@ The first release. 🏛️
   LM Studio): commit messages, diff/conflict explanations, PR descriptions, reviews
 
 [Unreleased]: https://github.com/cheat2001/angkorgit/compare/v0.23.0...HEAD
-[0.23.0]: https://github.com/cheat2001/angkorgit/compare/v0.22.0...v0.23.0
+[0.23.0]: https://github.com/cheat2001/angkorgit/compare/v0.22.1...v0.23.0
+[0.22.1]: https://github.com/cheat2001/angkorgit/compare/v0.22.0...v0.22.1
 [0.22.0]: https://github.com/cheat2001/angkorgit/compare/v0.21.1...v0.22.0
 [0.21.1]: https://github.com/cheat2001/angkorgit/compare/v0.21.0...v0.21.1
 [0.21.0]: https://github.com/cheat2001/angkorgit/compare/v0.20.0...v0.21.0
