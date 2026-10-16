@@ -84,7 +84,7 @@ test('side-by-side rows pair edited lines by similarity and leave insertions alo
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
   await page.getByText('CommitGraph.tsx').first().click();
-  await page.getByRole('button', { name: 'Side-by-side diff' }).click();
+  await page.getByRole('button', { name: '并排 diff' }).click();
   const rowOf = (pane: 'old' | 'new', text: string) =>
     page.locator(`[data-diff-pane="${pane}"] [data-diff-row]`, { hasText: text }).first().getAttribute('data-diff-row');
   await expect(page.locator('[data-diff-pane="old"]')).toBeVisible();
@@ -103,7 +103,7 @@ test('side-by-side rows pair edited lines by similarity and leave insertions alo
 test('pull and push offer every remote and follow the branch upstream by default', async ({ page }) => {
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByRole('button', { name: 'Pull options' })).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByRole('button', { name: '拉取选项' })).toBeVisible({ timeout: 10_000 });
   await page.evaluate(async () => {
     const [{ ipc }, { useRepo }] = await Promise.all([
       import('/src/core/ipc.ts'),
@@ -127,22 +127,23 @@ test('pull and push offer every remote and follow the branch upstream by default
     useRepo.setState({ remotes });
   });
   const calls = () => page.evaluate(() => (window as unknown as { __remoteCalls: string[] }).__remoteCalls);
-  await page.getByRole('button', { name: /^Pull( \d+)?$/ }).click();
+  await page.getByRole('button', { name: /^拉取( \d+)?$/ }).click();
   await expect.poll(calls).toEqual(['pull:origin']);
-  await page.getByRole('button', { name: 'Pull options' }).click();
+  await page.getByRole('button', { name: '拉取选项' }).click();
   await expect(page.getByRole('menuitemcheckbox', { name: 'origin' })).toHaveAttribute('aria-checked', 'true');
   await expect(page.getByRole('menuitemcheckbox', { name: 'gitlab' })).toHaveAttribute('aria-checked', 'false');
   await page.getByRole('menuitemcheckbox', { name: 'gitlab' }).click();
   await expect.poll(calls).toEqual(['pull:origin', 'pull:gitlab']);
-  await page.getByRole('button', { name: 'Push options' }).click();
+  await page.getByRole('button', { name: '推送选项' }).click();
   await page.getByRole('menuitemcheckbox', { name: 'gitlab' }).click();
   await expect.poll(calls).toEqual(['pull:origin', 'pull:gitlab', 'push:gitlab:false']);
-  await page.getByRole('button', { name: 'Push options' }).click();
+  await page.getByRole('button', { name: '推送选项' }).click();
   await page.getByRole('menuitemcheckbox', { name: 'origin' }).click();
   await expect.poll(calls).toEqual(['pull:origin', 'pull:gitlab', 'push:gitlab:false', 'push:origin:true']);
   await page.keyboard.press(process.platform === 'darwin' ? 'Meta+k' : 'Control+k');
-  await page.getByPlaceholder(/Type a command/).fill('Pull from gitlab');
-  await expect(page.getByRole('option', { name: /Pull from gitlab/ })).toBeVisible();
+  const remoteName = 'gitlab';
+  await page.getByPlaceholder(/输入命令/).fill(`从 ${remoteName} 拉取`);
+  await expect(page.getByRole('option', { name: `从 ${remoteName} 拉取` })).toBeVisible();
 });
 
 test('the author box finds commits without flattening the graph', async ({ page }) => {
@@ -167,7 +168,7 @@ test('reconnecting an account opens the token form with the account prefilled', 
   await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   await page.getByRole('button', { name: '设置', exact: true }).click();
   const dialog = page.getByRole('dialog');
-  await dialog.getByRole('button', { name: 'Authentication', exact: true }).click();
+  await dialog.getByRole('button', { name: '身份验证', exact: true }).click();
   await expect(dialog.getByText('demo-user', { exact: true })).toBeVisible();
   await expect(dialog.getByPlaceholder('粘贴令牌')).toBeHidden();
   await dialog.getByRole('button', { name: 'demo-user 在 github.com 上的操作' }).click();
@@ -911,12 +912,12 @@ test('mod+enter with nothing staged asks to stage instead of committing', async 
   await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   const summary = page.getByLabel('提交摘要');
   await summary.fill('fix: nothing staged');
-  await expect(page.getByRole('button', { name: 'Commit', exact: true })).toBeDisabled();
+  await expect(page.getByRole('button', { name: '提交', exact: true })).toBeDisabled();
 
   await summary.press('ControlOrMeta+Enter');
-  await expect(page.getByText('Stage some changes first')).toBeVisible();
+  await expect(page.getByText('请先暂存一些更改')).toBeVisible();
   await page.waitForTimeout(500);
-  await expect(page.getByText('Committed', { exact: true })).toHaveCount(0);
+  await expect(page.getByText('已提交', { exact: true })).toHaveCount(0);
   await expect(summary).toHaveValue('fix: nothing staged');
 });
 
@@ -928,10 +929,10 @@ test('a file filter that hides the staged files leaves Commit enabled with the f
   expect(filterFiles(staged, (file) => file.path, 'ipc.ts')).toHaveLength(0);
 
   await page.getByLabel('提交摘要').fill('fix: filtered');
-  await page.getByRole('button', { name: 'Filter files' }).click();
-  await page.getByPlaceholder('Filter changed files…').fill('ipc.ts');
-  await expect(page.getByText(/^Staged/).locator('..')).toContainText(`0 of ${staged.length}`);
-  await expect(page.getByRole('button', { name: `Commit ${staged.length} files` })).toBeEnabled();
+  await page.getByRole('button', { name: '过滤文件' }).click();
+  await page.getByPlaceholder('过滤更改的文件…').fill('ipc.ts');
+  await expect(page.getByText(/^已暂存/).locator('..')).toContainText(`0 of ${staged.length}`);
+  await expect(page.getByRole('button', { name: `提交 ${staged.length} 个文件` })).toBeEnabled();
 });
 
 test('the commit box grows when its top edge is dragged and resets on double-click', async ({ page }) => {
@@ -1272,6 +1273,8 @@ test('暂存文件不提供“全部文件”布局，即使记住的是该布�
   await page.keyboard.press('Escape');
 
   await page.getByRole('row').nth(2).click();
+  // 等暂存专用的“应用”按钮消失，避免它和文件行都命中 GraphRow.tsx。
+  await expect(page.getByLabel(/^从暂存中应用/)).toHaveCount(0);
   await page.getByLabel('提交文件').getByRole('button', { name: /GraphRow\.tsx/ }).click();
   await expect(page.locator('[data-all-changes]')).toBeVisible();
 });
@@ -2146,7 +2149,7 @@ test('the GitHub account form offers fine-grained and classic token pages', asyn
   await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   await page.getByRole('button', { name: '设置', exact: true }).click();
   const dialog = page.getByRole('dialog');
-  await dialog.getByRole('button', { name: 'Authentication', exact: true }).click();
+  await dialog.getByRole('button', { name: '身份验证', exact: true }).click();
   await dialog.getByRole('button', { name: '添加账户' }).click();
   await expect(dialog.getByPlaceholder('粘贴令牌')).toBeVisible();
   await expect(dialog.getByRole('link', { name: '前往创建' })).toHaveAttribute('href', /settings\/tokens\/new/);
@@ -2264,7 +2267,7 @@ test('the All files view lists every file at a commit and opens an unchanged one
   await expect(inspector.getByText('graphLayout.test.ts')).toBeVisible();
   await expect(inspector.getByText('Roadmap.md')).toHaveCount(0);
 
-  await page.getByRole('button', { name: '全部文件' }).click();
+  await page.getByRole('button', { name: '全部文件', exact: true }).click();
   await expect(inspector.getByText('5 changed')).toBeVisible();
   await expect(inspector.getByText('Roadmap.md')).toBeVisible();
   await expect(inspector.getByText('Architecture.md')).toBeVisible();
@@ -2291,7 +2294,7 @@ test('the All files view shows the whole working tree with changed files still a
   const inspector = page.getByRole('complementary', { name: '检查器' });
   await expect(inspector.getByText('README.md')).toHaveCount(0);
 
-  await page.getByRole('button', { name: '全部文件' }).click();
+  await page.getByRole('button', { name: '全部文件', exact: true }).click();
   await expect(inspector.getByText('12 changed')).toBeVisible();
   await expect(inspector.getByText('README.md')).toBeVisible();
   await expect(inspector.getByLabel('暂存 src/core/ipc.ts')).toBeVisible();
@@ -2503,23 +2506,23 @@ test('ignore whitespace hides an indent-only change and turns staging off', asyn
   await diff.getByRole('button', { name: '视图选项' }).click();
   await page.getByRole('menuitemcheckbox', { name: '忽略空白字符' }).click();
   await expect(diff.getByText('+0', { exact: true })).toBeVisible();
-  await expect(diff.getByText('Only whitespace changes found')).toBeVisible();
-  await expect(diff.getByRole('button', { name: 'Stage hunk' })).toHaveCount(0);
+  await expect(diff.getByText('仅发现空白字符更改')).toBeVisible();
+  await expect(diff.getByRole('button', { name: '暂存代码块' })).toHaveCount(0);
   await expect(page.getByRole('menu')).toBeVisible();
-  await expect(page.getByRole('menu').getByText('not the patch git would apply')).toBeVisible();
-  await expect(page.getByRole('menuitemcheckbox', { name: 'Word diff' })).toHaveAttribute('aria-checked', 'true');
-  await page.getByRole('menuitemcheckbox', { name: 'Word diff' }).click();
-  await expect(page.getByRole('menuitemcheckbox', { name: 'Word diff' })).toHaveAttribute('aria-checked', 'false');
+  await expect(page.getByRole('menu').getByText('不是 Git 会实际应用的补丁')).toBeVisible();
+  await expect(page.getByRole('menuitemcheckbox', { name: '词级 diff' })).toHaveAttribute('aria-checked', 'true');
+  await page.getByRole('menuitemcheckbox', { name: '词级 diff' }).click();
+  await expect(page.getByRole('menuitemcheckbox', { name: '词级 diff' })).toHaveAttribute('aria-checked', 'false');
   await expect(page.getByRole('menu')).toBeVisible();
-  await page.getByRole('menuitemcheckbox', { name: 'Word diff' }).click();
-  await expect(page.getByRole('menuitemcheckbox', { name: 'Word diff' })).toHaveAttribute('aria-checked', 'true');
+  await page.getByRole('menuitemcheckbox', { name: '词级 diff' }).click();
+  await expect(page.getByRole('menuitemcheckbox', { name: '词级 diff' })).toHaveAttribute('aria-checked', 'true');
 
   await page.keyboard.press('Escape');
   await expect(page.getByRole('menu')).toHaveCount(0);
   await page.getByText('ipc.ts', { exact: true }).first().click();
   const token = page.locator('section[aria-label="文件差异：src/core/ipc.ts"]');
   await expect(token.getByText('+22', { exact: true })).toBeVisible();
-  await expect(token.getByRole('button', { name: 'Stage hunk' })).toHaveCount(0);
+  await expect(token.getByRole('button', { name: '暂存代码块' })).toHaveCount(0);
 });
 
 test('tabs switch with mod+digit and a custom chord assigned from the tab menu', async ({ page }) => {
@@ -2921,13 +2924,13 @@ test('settings filters cards, lands on the first hit and clears before closing',
   await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   await page.keyboard.press('ControlOrMeta+,');
   const dialog = page.getByRole('dialog');
-  const filter = dialog.getByRole('textbox', { name: 'Filter settings', exact: true });
+  const filter = dialog.getByRole('textbox', { name: '过滤设置', exact: true });
   await expect(filter).toBeFocused();
   await expect(filter).toHaveAttribute('spellcheck', 'false');
   await filter.fill('ssh agent');
   await expect(dialog.locator('[data-settings-card]')).toHaveCount(1);
   await expect(dialog.getByRole('heading', { name: 'SSH', exact: true })).toBeVisible();
-  await expect(dialog.getByRole('button', { name: 'Appearance', exact: true })).toBeHidden();
+  await expect(dialog.getByRole('button', { name: '外观', exact: true })).toBeHidden();
   await filter.press('Enter');
   await expect(dialog.locator('[data-settings-card="ssh"]')).toHaveClass(/animate-locate/);
   await expect(dialog.locator('[data-settings-card="ssh"]')).not.toHaveClass(/animate-locate/);
@@ -2937,13 +2940,13 @@ test('settings filters cards, lands on the first hit and clears before closing',
   await expect(dialog).toBeVisible();
   await expect(filter).toHaveValue('');
   await filter.fill('cli');
-  await dialog.getByRole('button', { name: 'AI Assistant', exact: true }).click();
-  await expect(dialog.getByRole('heading', { name: 'Provider', exact: true })).toBeVisible();
+  await dialog.getByRole('button', { name: 'AI 助手', exact: true }).click();
+  await expect(dialog.getByRole('heading', { name: '提供方', exact: true })).toBeVisible();
   await filter.press('Enter');
   await expect(dialog.locator('[data-settings-card="cli"]')).toHaveClass(/animate-locate/);
   await filter.fill('profiles');
-  await dialog.getByRole('button', { name: 'New profile', exact: true }).click();
-  const profileLabel = dialog.getByPlaceholder('Work', { exact: true });
+  await dialog.getByRole('button', { name: '新建配置', exact: true }).click();
+  const profileLabel = dialog.getByPlaceholder('工作', { exact: true });
   await profileLabel.fill('Draft profile');
   await profileLabel.press('Escape');
   await expect(filter).toHaveValue('');
@@ -2952,7 +2955,7 @@ test('settings filters cards, lands on the first hit and clears before closing',
   await dialog.getByRole('button', { name: '取消', exact: true }).click();
   await filter.fill('authentication');
   await expect(dialog.locator('[data-settings-card]')).toHaveCount(3);
-  await dialog.getByRole('button', { name: 'Authentication', exact: true }).click();
+  await dialog.getByRole('button', { name: '身份验证', exact: true }).click();
   await dialog.getByRole('button', { name: '添加账户', exact: true }).click();
   const token = dialog.getByPlaceholder('粘贴令牌');
   await token.fill('draft-token');
@@ -2962,9 +2965,9 @@ test('settings filters cards, lands on the first hit and clears before closing',
   await expect(token).toHaveValue('draft-token');
   await dialog.getByRole('button', { name: '取消', exact: true }).click();
   await filter.fill('no-such-setting');
-  await expect(dialog.getByText('No matching settings', { exact: true })).toBeVisible();
+  await expect(dialog.getByText('没有匹配的设置', { exact: true })).toBeVisible();
   await expect(dialog.locator('[data-settings-card]')).toHaveCount(0);
-  await dialog.getByRole('button', { name: 'Close', exact: true }).click();
+  await dialog.getByRole('button', { name: '关闭', exact: true }).click();
   await page.keyboard.press('ControlOrMeta+,');
   await expect(filter).toBeFocused();
   await expect(filter).toHaveValue('');
@@ -2972,11 +2975,11 @@ test('settings filters cards, lands on the first hit and clears before closing',
   await expect(dialog).toBeHidden();
   await page.keyboard.press('ControlOrMeta+k');
   await page.getByPlaceholder('输入命令或分支名…').fill('设置');
-  await page.getByRole('option', { name: /Settings/ }).click();
+  await page.getByRole('option', { name: /^设置/ }).click();
   await expect(filter).toBeFocused();
   await filter.press('Escape');
   await page.locator('[data-ai-status]').click();
-  await expect(dialog.getByRole('heading', { name: 'AI Assistant', exact: true })).toBeVisible();
+  await expect(dialog.getByRole('heading', { name: 'AI 助手', exact: true })).toBeVisible();
   await expect(filter).toBeFocused();
 });
 
@@ -2993,11 +2996,13 @@ test('folder rows in the working copy tree stage and unstage everything inside t
   await page.getByRole('button', { name: '文件夹树' }).click();
   const srcFolder = page.locator('[data-tree-folder="src"]').first();
   await expect(srcFolder).toBeVisible();
-  const stageSrc = page.getByRole('checkbox', { name: 'Stage every change in src', exact: true });
+  const folderCheckbox = (label: string, path: string) =>
+    page.getByRole('checkbox', { name: `${label} ${path}`, exact: true });
+  const stageSrc = folderCheckbox('暂存以下路径中的所有更改', 'src');
   await expect(stageSrc).toHaveAttribute('data-state', 'unchecked');
   await stageSrc.click();
   await expect(srcFolder).toBeVisible();
-  const unstageSrc = page.getByRole('checkbox', { name: 'Unstage every change in src/features/graph', exact: true });
+  const unstageSrc = folderCheckbox('取消暂存以下路径中的所有更改', 'src/features/graph');
   await expect(unstageSrc).toHaveAttribute('data-state', 'checked');
   await unstageSrc.click();
   const calls = await page.evaluate(() => (window as unknown as { __stageCalls: unknown[] }).__stageCalls);
@@ -3005,12 +3010,14 @@ test('folder rows in the working copy tree stage and unstage everything inside t
     ['stage', ['src/indent.txt', 'src/core/ipc.ts', 'src/data/palette-seed.sql', 'src/features/repository/components/working-copy/deeply/nested/WorkingCopyFileListItemContainerFactory.tsx']],
     ['unstage', ['src/features/graph/CommitGraph.tsx']],
   ]);
-  await srcFolder.getByRole('button', { name: 'Collapse src', exact: true }).click();
+  await srcFolder.getByRole('button', { name: /^折叠 / }).click();
   await expect(page.getByText('ipc.ts', { exact: true })).toHaveCount(0);
-  await srcFolder.getByRole('button', { name: 'Expand src', exact: true }).click();
+  await srcFolder.getByRole('button', { name: /^展开 / }).click();
   await expect(page.getByText('ipc.ts', { exact: true }).first()).toBeVisible();
-  await page.getByRole('button', { name: '全部文件' }).click();
-  await expect(page.getByRole('checkbox', { name: 'Stage every change in src', exact: true })).toHaveAttribute('data-state', 'indeterminate');
+  await page.getByRole('button', { name: '全部文件', exact: true }).click();
+  await expect(
+    folderCheckbox('暂存以下路径中的所有更改', 'src'),
+  ).toHaveAttribute('data-state', 'indeterminate');
 });
 
 test('stepping through changes marks the active one and counts it in the header', async ({ page }) => {
@@ -3021,31 +3028,31 @@ test('stepping through changes marks the active one and counts it in the header'
   const diff = page.locator('section[aria-label="文件差异：src/features/graph/CommitGraph.tsx"]');
   await expect(diff).toBeVisible();
   const count = diff.locator('[data-change-count]');
-  await expect(count).toHaveText(/^1 of \d+ changes$/);
-  const total = Number((await count.textContent())!.match(/of (\d+)/)![1]);
+  await expect(count).toHaveText(/^1 \/ \d+ 处改动$/);
+  const total = Number((await count.textContent())!.match(/\/ (\d+)/)![1]);
   expect(total).toBeGreaterThan(2);
   const activeRows = () => diff.locator('[data-change-active]');
   await expect(activeRows().first()).toBeVisible();
   const firstTop = await activeRows().first().boundingBox();
   await page.keyboard.press('n');
-  await expect(count).toHaveText(`2 of ${total} changes`);
+  await expect(count).toHaveText(`2 / ${total} 处改动`);
   await expect(activeRows().first()).toBeVisible();
   const secondTop = await activeRows().first().boundingBox();
   expect(secondTop!.y).not.toBe(firstTop!.y);
-  await diff.getByRole('button', { name: 'Next change' }).click();
-  await expect(count).toHaveText(`3 of ${total} changes`);
+  await diff.getByRole('button', { name: '下一个更改' }).click();
+  await expect(count).toHaveText(`3 / ${total} 处改动`);
   await page.keyboard.press('p');
-  await expect(count).toHaveText(`2 of ${total} changes`);
-  await diff.getByRole('button', { name: 'Side-by-side diff' }).click();
-  await expect(count).toHaveText(/^\d+ changes$/);
+  await expect(count).toHaveText(`2 / ${total} 处改动`);
+  await diff.getByRole('button', { name: '并排 diff' }).click();
+  await expect(count).toHaveText(/^\d+ 处改动$/);
   await expect(activeRows()).toHaveCount(0);
   await page.keyboard.press('n');
-  await expect(count).toHaveText(/^\d+ of \d+ changes$/);
+  await expect(count).toHaveText(/^\d+ \/ \d+ 处改动$/);
   await expect(activeRows().first()).toBeVisible();
-  await diff.getByRole('button', { name: 'View options' }).click();
-  await page.getByRole('menuitemcheckbox', { name: 'Wrap long lines' }).click();
+  await diff.getByRole('button', { name: '视图选项' }).click();
+  await page.getByRole('menuitemcheckbox', { name: '自动换行' }).click();
   await page.keyboard.press('Escape');
   await page.keyboard.press('n');
-  await expect(count).toHaveText(/^\d+ of \d+ changes$/);
+  await expect(count).toHaveText(/^\d+ \/ \d+ 处改动$/);
   await expect(activeRows().first()).toBeVisible();
 });

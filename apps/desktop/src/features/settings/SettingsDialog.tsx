@@ -38,7 +38,6 @@ import {
   chordLabels,
   parseChordId,
   filterSettingsCards,
-  SETTINGS_SECTION_LABELS,
   type SettingsSectionId,
   type SettingsCardId,
 } from '@angkorgit/core';
@@ -90,11 +89,11 @@ const SECTIONS: Array<{
   description: string;
   icon: React.ComponentType<{ className?: string }>;
 }> = [
-  { id: 'appearance', label: SETTINGS_SECTION_LABELS.appearance, description: '主题、强调色、缩放与动效', icon: Palette },
-  { id: 'git', label: SETTINGS_SECTION_LABELS.git, description: '自动拉取、拉取请求、命令行、身份与配置', icon: User },
-  { id: 'accounts', label: SETTINGS_SECTION_LABELS.accounts, description: 'https:// 远端使用账户 · git@ 远端使用 SSH 密钥', icon: Github },
-  { id: 'ai', label: SETTINGS_SECTION_LABELS.ai, description: '提供方、连接与消息风格', icon: Sparkles },
-  { id: 'shortcuts', label: SETTINGS_SECTION_LABELS.shortcuts, description: '键盘参考', icon: Keyboard },
+  { id: 'appearance', label: '外观', description: '主题、强调色、缩放与动效', icon: Palette },
+  { id: 'git', label: 'Git', description: '自动拉取、拉取请求、命令行、身份与配置', icon: User },
+  { id: 'accounts', label: '身份验证', description: 'https:// 远端使用账户 · git@ 远端使用 SSH 密钥', icon: Github },
+  { id: 'ai', label: 'AI 助手', description: '提供方、连接与消息风格', icon: Sparkles },
+  { id: 'shortcuts', label: '快捷键', description: '键盘参考', icon: Keyboard },
 ];
 
 function SshCard() {
@@ -615,8 +614,8 @@ function CliToolCard() {
   return (
     <SettingCard
       settingId="cli"
-      title="Command line tool"
-      description="Open or clone a repository from the terminal as angkorgit or the short akg. Run akg --help for the full usage."
+      title="命令行工具"
+      description="在终端中以 angkorgit 或简写 akg 打开、克隆仓库。运行 akg --help 查看完整用法。"
       action={
         status ? (
           <Button variant="secondary" size="sm" disabled={busy} onClick={() => void uninstall()}>
@@ -659,12 +658,12 @@ function EditorCard() {
   return (
     <SettingCard
       settingId="editor"
-      title="External editor"
+      title="外部编辑器"
       description="从工具栏、命令面板和文件菜单中，用本机安装的编辑器打开仓库或文件。"
       action={
         <Button variant="ghost" size="sm" onClick={() => void rescan()} disabled={loading}>
           {loading ? <Spinner /> : <RefreshCw className="size-3.5" />}
-          Scan again
+          重新扫描
         </Button>
       }
     >
@@ -1041,7 +1040,7 @@ export function SettingsDialog() {
           }
         }}
       >
-        <DialogTitle className="sr-only">Settings</DialogTitle>
+        <DialogTitle className="sr-only">设置</DialogTitle>
         <div className="flex h-[560px] max-h-[80vh]">
           <nav className="flex w-52 shrink-0 flex-col border-r border-border-subtle bg-surface">
             <p className="px-4 pb-2 pt-4 text-xs font-semibold uppercase tracking-wide text-faint">
@@ -1052,8 +1051,8 @@ export function SettingsDialog() {
                 <Search className="pointer-events-none absolute left-2 top-2 size-3.5 text-faint" />
                 <Input
                   ref={searchRef}
-                  aria-label="Filter settings"
-                  placeholder="Filter settings…"
+                  aria-label="过滤设置"
+                  placeholder="过滤设置…"
                   className="h-8 pl-7 pr-7 text-xs"
                   value={query}
                   spellCheck={false}
@@ -1068,10 +1067,10 @@ export function SettingsDialog() {
                   }}
                 />
                 {query && (
-                  <Hint label="Clear settings filter">
+                  <Hint label="清除设置过滤">
                     <button
                       type="button"
-                      aria-label="Clear settings filter"
+                      aria-label="清除设置过滤"
                       className="absolute right-1 top-1 flex size-6 items-center justify-center rounded-md text-muted hover:text-foreground"
                       onClick={() => { setQuery(''); searchRef.current?.focus(); }}
                     >
@@ -1113,9 +1112,9 @@ export function SettingsDialog() {
 
           <div className="flex min-w-0 flex-1 flex-col bg-background">
             <header className="shrink-0 border-b border-border-subtle px-6 pb-4 pt-5">
-              <h2 className="text-base font-semibold">{sections.length ? active.label : 'Settings'}</h2>
+              <h2 className="text-base font-semibold">{sections.length ? active.label : '设置'}</h2>
               <p className="mt-0.5 text-xs text-muted" role={filtering ? 'status' : undefined}>
-                {filtering ? `${matches.length} matching ${matches.length === 1 ? 'setting' : 'settings'}` : active.description}
+                {filtering ? `匹配 ${matches.length} 项设置` : active.description}
               </p>
             </header>
             <div ref={scrollRef} className="min-h-0 flex-1 overflow-y-auto p-6">
@@ -1123,16 +1122,16 @@ export function SettingsDialog() {
               {filtering && matches.length === 0 && (
                 <SettingEmpty
                   icon={<Search className="size-4" />}
-                  title="No matching settings"
-                  description="Try another title or keyword."
-                  action={<Button variant="secondary" size="sm" onClick={() => { setQuery(''); searchRef.current?.focus(); }}>Clear filter</Button>}
+                  title="没有匹配的设置"
+                  description="换一个标题或关键词试试。"
+                  action={<Button variant="secondary" size="sm" onClick={() => { setQuery(''); searchRef.current?.focus(); }}>清除过滤</Button>}
                 />
               )}
               {sections.length > 0 && section === 'appearance' && (
                 <div className="flex flex-col gap-4">
                   <SettingCard
                     settingId="theme"
-                    title="Theme"
+                    title="主题"
                     description="常用编辑器配色——界面与语法颜色跟随主题。"
                   >
                     <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
@@ -1211,7 +1210,7 @@ export function SettingsDialog() {
 
                   <SettingCard
                     settingId="zoom"
-                    title="Zoom"
+                    title="缩放"
                     description={
                       <>
                         Also <Kbd>{modKey()}</Kbd> <Kbd>+</Kbd> / <Kbd>{modKey()}</Kbd> <Kbd>−</Kbd> anywhere
@@ -1341,7 +1340,7 @@ export function SettingsDialog() {
 
                   <SettingCard
                     settingId="profiles"
-                    title="Profiles"
+                    title="配置文件"
                     description="工作与个人身份，各自关联托管平台账户。仓库在首次提交或推送时被分配到某个配置，该选择随仓库保留。"
                     action={
                       !addingProfile && settings.profiles.length > 0 ? (
@@ -1535,7 +1534,7 @@ export function SettingsDialog() {
                 <div className="flex flex-col gap-4">
                   <SettingCard
                     settingId="provider"
-                    title="Provider"
+                    title="提供方"
                     description={
                       settings.ai.provider === 'cli'
                         ? '使用本机已安装的 AI CLI 工具——Claude Code、GitHub Copilot CLI、Codex、Gemini CLI、OpenCode、Antigravity 或 Cursor CLI——享有其自身登录态与配额，无需 API 密钥。'

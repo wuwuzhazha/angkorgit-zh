@@ -38,7 +38,7 @@ pub fn commit(path: &str, message: &str) -> AppResult<String> {
             None => index_is_empty,
         };
         if nothing_staged {
-            return Err(AppError::other("Nothing staged to commit"));
+            return Err(AppError::other("没有暂存内容可提交"));
         }
     }
 

@@ -1443,3 +1443,15 @@ ui	the current branch	当前分支
 ui	Already up to date (demo)	已是最新（演示）		
 ui	Rebase complete (demo)	变基完成（演示）		
 ui	Reverted (demo)	已还原（演示）		
+ui,e2e	Stage every change in	暂存以下路径中的所有更改
+ui,e2e	Unstage every change in	取消暂存以下路径中的所有更改
+ui	Pull from ${r.name}	从 ${r.name} 拉取
+ui	Push to ${r.name}	推送到 ${r.name}
+ui	Pull from	从以下远端拉取	DropdownMenuLabel>Pull from<
+ui	Push to	推送到以下远端	DropdownMenuLabel>Push to<
+ui	${label} failed: ${headline}	${label} 失败：${headline}
+rust	Nothing staged to commit	没有暂存内容可提交
+rust	{remote_name} has no branch {branch_name}	{remote_name} 上没有分支 {branch_name}
+rust	The server said:	服务器返回：
+ui,e2e	Collapse	折叠		whole
+ui,e2e	Expand	展开		whole

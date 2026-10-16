@@ -208,7 +208,7 @@ export function ChangeNavButtons({
       </Hint>
       {showCount && (
         <span className="text-[10px] text-faint tabular-nums" data-change-count>
-          {active !== null ? `${active + 1} of ${blocks.length}` : blocks.length} change{blocks.length === 1 ? '' : 's'}
+          {active !== null ? `${active + 1} / ${blocks.length} 处改动` : `${blocks.length} 处改动`}
         </span>
       )}
     </>

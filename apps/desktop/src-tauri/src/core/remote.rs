@@ -516,7 +516,7 @@ fn pull_source(
         return Ok(same_name);
     }
     Err(AppError::other(format!(
-        "{remote_name} has no branch {branch_name}"
+        "{remote_name} 上没有分支 {branch_name}"
     )))
 }
 
@@ -682,11 +682,10 @@ pub(crate) fn rejection_message(
     };
     let list = rejected.iter().map(describe).collect::<Vec<_>>().join(", ");
     let mut message = format!(
-        "{remote_name} rejected {list}. Nothing else from this push was rolled back; fix the \
-         rejected ref and push again."
+        "{remote_name} 拒绝了 {list}。此次推送的其他内容均未回滚；请修复被拒的引用后重新推送。"
     );
     if !server_said.is_empty() {
-        message.push_str("\nThe server said:\n");
+        message.push_str("\n服务器返回：\n");
         message.push_str(&server_said.join("\n"));
     }
     message
@@ -928,7 +927,7 @@ mod tests {
             "{message}"
         );
         assert!(!message.contains("refs/"));
-        assert!(!message.contains("The server said"));
+        assert!(!message.contains("服务器返回"));
     }
 
     #[test]
@@ -954,9 +953,9 @@ mod tests {
             )],
             &said,
         );
-        assert!(message.starts_with("origin rejected branch main (pre-receive hook declined)."));
+        assert!(message.starts_with("origin 拒绝了 分支 main (pre-receive hook declined)。"));
         assert!(message.ends_with(
-            "The server said:\nerror: GH006: Protected branch update failed for refs/heads/main.\n\
+            "服务器返回：\nerror: GH006: Protected branch update failed for refs/heads/main.\n\
              error: Changes must be made through a pull request."
         ));
     }

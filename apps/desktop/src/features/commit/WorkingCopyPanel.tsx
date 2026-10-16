@@ -911,10 +911,10 @@ export function WorkingCopyPanel() {
   const unstagedFolderControl = (folder: TreeFolder<FileStatus>) => {
     const paths = stageableFiles(folderFiles(folder)).map((file) => file.path);
     if (paths.length === 0) return null;
-    return folderCheckbox(folder, 'Stage every change in', false, () => stageMany(paths, false));
+    return folderCheckbox(folder, '暂存以下路径中的所有更改', false, () => stageMany(paths, false));
   };
   const stagedFolderControl = (folder: TreeFolder<FileStatus>) =>
-    folderCheckbox(folder, 'Unstage every change in', true, () =>
+    folderCheckbox(folder, '取消暂存以下路径中的所有更改', true, () =>
       stageMany(folderFiles(folder).map((file) => file.path), true),
     );
   const entryFolderControl = (folder: TreeFolder<AllFilesEntry<FileStatus>>) => {
@@ -923,12 +923,12 @@ export function WorkingCopyPanel() {
     const unstaged = stageableFiles(changes).map((file) => file.path);
     const staged = changes.filter((file) => file.staged).map((file) => file.path);
     if (unstaged.length > 0) {
-      return folderCheckbox(folder, 'Stage every change in', staged.length > 0 ? 'indeterminate' : false, () =>
+      return folderCheckbox(folder, '暂存以下路径中的所有更改', staged.length > 0 ? 'indeterminate' : false, () =>
         stageMany(unstaged, false),
       );
     }
     if (staged.length === 0) return null;
-    return folderCheckbox(folder, 'Unstage every change in', true, () => stageMany(staged, true));
+    return folderCheckbox(folder, '取消暂存以下路径中的所有更改', true, () => stageMany(staged, true));
   };
 
   const countLabel = (shown: number, total: number) =>
@@ -1493,7 +1493,7 @@ export function WorkingCopyPanel() {
                 <span className="flex items-center gap-1">
                   {allStaged.length === 0 && !amend && repo?.state !== 'merge'
                     ? '暂存文件后即可提交'
-                    : 'Commit'}{' '}
+                    : '提交'}{' '}
                   <Kbd>{modKey()}</Kbd>
                   <Kbd>⏎</Kbd>
                 </span>
@@ -1510,7 +1510,7 @@ export function WorkingCopyPanel() {
                 onClick={() => void commit()}
               >
                 {committing && <Spinner className="text-primary-foreground" />}
-                {amend ? '修订提交' : `提交${allStaged.length > 0 ? ` ${allStaged.length} file${allStaged.length === 1 ? '' : 's'}` : ''}`}
+                {amend ? '修订提交' : `提交${allStaged.length > 0 ? ` ${allStaged.length} 个文件` : ''}`}
               </Button>
               </span>
             </Hint>

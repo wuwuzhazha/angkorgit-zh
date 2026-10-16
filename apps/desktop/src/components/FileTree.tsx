@@ -108,7 +108,7 @@ function FolderRow<T>({
     >
       <button
         type="button"
-        aria-label={`${open ? 'Collapse' : 'Expand'} ${folder.name}`}
+        aria-label={`${open ? '折叠' : '展开'} ${folder.name}`}
         className="-mr-1 flex shrink-0 items-center"
         onClick={onToggle}
       >

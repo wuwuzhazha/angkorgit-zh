@@ -50,7 +50,7 @@ import { openInEditor, preferredEditor, useEditors } from '@/features/settings/e
 import { useUndo } from '@/features/history/undoStore';
 import { useForge } from '@/features/forge/store';
 import { chordLabels, forgeNoun, groupRepos, parseChordId, pickForgeRemote, pickRemote, pushSetsUpstream, remoteWebUrl, repoGroupIdFor } from '@angkorgit/core';
-import { closeRepoGroup, openRepoGroup, plural } from '@/features/repository/groups';
+import { closeRepoGroup, openRepoGroup } from '@/features/repository/groups';
 import { currentPullRequestUrl, isMac, modKey } from '@/shared/utils';
 
 export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }) {
@@ -160,7 +160,7 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
     void (async () => {
       try {
         const result = (await op()) as { status?: string; message?: string } | undefined;
-        if ((label.startsWith('Pull') || label.startsWith('拉取')) && useRepo.getState().repo?.path === path) useRepo.getState().markFetched();
+        if ((label.startsWith('拉取') || label.startsWith('从')) && useRepo.getState().repo?.path === path) useRepo.getState().markFetched();
         toastOutcome(result, `${label} 已完成`);
         await onRefresh();
       } catch (error) {
@@ -320,8 +320,8 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
               <PaletteItem
                 key={`pull-${r.name}`}
                 icon={<ArrowDownToLine />}
-                label={`Pull from ${r.name}`}
-                onSelect={() => run(`Pull from ${r.name}`, () => ipc.pull(path, r.name))}
+                label={`从 ${r.name} 拉取`}
+                onSelect={() => run(`从 ${r.name} 拉取`, () => ipc.pull(path, r.name))}
               />
             ))}
           {remotes.length > 1 &&
@@ -329,9 +329,9 @@ export function CommandPalette({ onRefresh }: { onRefresh: () => Promise<void> }
               <PaletteItem
                 key={`push-${r.name}`}
                 icon={<ArrowUpFromLine />}
-                label={`Push to ${r.name}`}
+                label={`推送到 ${r.name}`}
                 onSelect={() =>
-                  run(`Push to ${r.name}`, () => ipc.push(path, r.name, false, false, pushSetsUpstream(headUpstream, r.name)))
+                  run(`推送到 ${r.name}`, () => ipc.push(path, r.name, false, false, pushSetsUpstream(headUpstream, r.name)))
                 }
               />
             ))}

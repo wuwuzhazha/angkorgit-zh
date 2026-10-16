@@ -258,7 +258,7 @@ fn commit_with_nothing_staged_is_refused_and_head_stays() {
     repo.write("a.txt", "unstaged edit\n");
 
     let err = core::commit(repo.path(), "empty").unwrap_err();
-    assert!(err.to_string().contains("Nothing staged to commit"));
+    assert!(err.to_string().contains("没有暂存内容可提交"));
     let head = head_commit(&repo);
     assert_eq!(head.0, base);
     assert_eq!(repo.read("a.txt"), "unstaged edit\n");
@@ -269,7 +269,7 @@ fn first_commit_with_an_empty_index_is_refused() {
     let repo = TempRepo::new();
     repo.write("a.txt", "untracked\n");
     let err = core::commit(repo.path(), "empty").unwrap_err();
-    assert!(err.to_string().contains("Nothing staged to commit"));
+    assert!(err.to_string().contains("没有暂存内容可提交"));
     core::stage_file(repo.path(), "a.txt").unwrap();
     core::commit(repo.path(), "first").unwrap();
 }
@@ -2572,10 +2572,7 @@ fn pull_from_a_remote_other_than_the_upstream_merges_its_same_name_branch() {
     let err = core::pull(local.path(), "empty", Some("merge"))
         .err()
         .expect("pulling a branch the remote lacks fails");
-    assert!(
-        err.to_string().contains("empty has no branch master"),
-        "{err}"
-    );
+    assert!(err.to_string().contains("empty 上没有分支 master"), "{err}");
 
     let _ = std::fs::remove_dir_all(&origin);
     let _ = std::fs::remove_dir_all(&mirror);

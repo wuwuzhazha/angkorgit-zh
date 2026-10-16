@@ -436,7 +436,7 @@ export function Toolbar({ onRefresh }: { onRefresh: () => Promise<void> }) {
     setBusy(label);
     try {
       const outcome = await op();
-      if ((label.startsWith('Pull') || label.startsWith('拉取')) && useRepo.getState().repo?.path === repo.path) useRepo.getState().markFetched();
+      if ((label.startsWith('拉取') || label.startsWith('从')) && useRepo.getState().repo?.path === repo.path) useRepo.getState().markFetched();
       if (outcome && 'message' in outcome) {
         toastOutcome(outcome, `${label} 完成`);
       } else {
@@ -450,7 +450,7 @@ export function Toolbar({ onRefresh }: { onRefresh: () => Promise<void> }) {
       }
       const text = String((error as { message?: string }).message ?? error);
       const [headline, ...rest] = text.split('\n');
-      toast.error(`${label} failed: ${headline}`, {
+      toast.error(`${label} 失败：${headline}`, {
         description: rest.length > 0 ? <span className="whitespace-pre-line font-mono text-[11px]">{rest.join('\n')}</span> : undefined,
         duration: rest.length > 0 ? 12_000 : undefined,
       });
@@ -577,12 +577,12 @@ export function Toolbar({ onRefresh }: { onRefresh: () => Promise<void> }) {
             {remotes.length > 1 && (
               <>
                 <DropdownMenuSeparator />
-                <DropdownMenuLabel>Pull from</DropdownMenuLabel>
+                <DropdownMenuLabel>从以下远端拉取</DropdownMenuLabel>
                 {remotes.map((r) => (
                   <DropdownMenuCheckboxItem
                     key={r.name}
                     checked={r.name === remote}
-                    onSelect={() => void run(`Pull from ${r.name}`, () => ipc.pull(repo.path, r.name))}
+                    onSelect={() => void run(`从 ${r.name} 拉取`, () => ipc.pull(repo.path, r.name))}
                   >
                     <span className="truncate">{r.name}</span>
                   </DropdownMenuCheckboxItem>
@@ -622,13 +622,13 @@ export function Toolbar({ onRefresh }: { onRefresh: () => Promise<void> }) {
             {remotes.length > 1 && (
               <>
                 <DropdownMenuSeparator />
-                <DropdownMenuLabel>Push to</DropdownMenuLabel>
+                <DropdownMenuLabel>推送到以下远端</DropdownMenuLabel>
                 {remotes.map((r) => (
                   <DropdownMenuCheckboxItem
                     key={r.name}
                     checked={r.name === remote}
                     onSelect={() =>
-                      runPush(`Push to ${r.name}`, () =>
+                      runPush(`推送到 ${r.name}`, () =>
                         ipc.push(repo.path, r.name, false, false, pushSetsUpstream(headUpstream, r.name)),
                       )
                     }

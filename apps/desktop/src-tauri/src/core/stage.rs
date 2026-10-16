@@ -14,9 +14,7 @@ pub fn stage_files(path: &str, files: &[String]) -> AppResult<()> {
     }
     let repo = super::repo::open(path)?;
     let mut index = repo.index()?;
-    let workdir = repo
-        .workdir()
-        .ok_or_else(|| AppError::other("裸仓库"))?;
+    let workdir = repo.workdir().ok_or_else(|| AppError::other("裸仓库"))?;
     for file in files {
         if workdir.join(file).symlink_metadata().is_ok() {
             index.add_path(Path::new(file))?;
