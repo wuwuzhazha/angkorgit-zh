@@ -226,7 +226,7 @@ export function StatusBar() {
           {whatsNew.unseen && <span aria-hidden className="absolute right-0.5 top-0 size-1.5 rounded-full bg-primary" />}
         </button>
       </Hint>
-      <Hint label="Check for updates">
+      <Hint label="检查更新">
         <button
           type="button"
           className="rounded px-1 hover:bg-surface-raised hover:text-foreground"

@@ -3075,7 +3075,7 @@ test('stepping through changes marks the active one and counts it in the header'
 
 test('group pull summary shows moved refs, skips, failures and unchanged repositories', async ({ page }) => {
   await page.goto('/');
-  await expect(page.getByText('Recent repositories')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByText('最近仓库')).toBeVisible({ timeout: 10_000 });
   await page.evaluate(async () => {
     const [{ ipc }, { useSettings }, { useRepo }] = await Promise.all([
       import('/src/core/ipc.ts'), import('/src/features/settings/store.ts'), import('/src/features/repository/store.ts'),
@@ -3124,12 +3124,12 @@ test('group pull summary shows moved refs, skips, failures and unchanged reposit
 
 test('group fetch classifies partial failures once and cancellation releases a hanging run', async ({ page }) => {
   await page.goto('/');
-  await expect(page.getByText('Recent repositories')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByText('最近仓库')).toBeVisible({ timeout: 10_000 });
   await page.evaluate(async () => {
     const [{ ipc }, { useSettings }, { useRepo }] = await Promise.all([
       import('/src/core/ipc.ts'), import('/src/features/settings/store.ts'), import('/src/features/repository/store.ts'),
     ]);
-    const repos = ['unchanged', 'partial', 'slow', 'remaining'].map((name) => ({ path: `/projects/${name}`, name, lastOpenedAt: 0 }));
+    const repos = ['未更改', 'partial', 'slow', 'remaining'].map((name) => ({ path: `/projects/${name}`, name, lastOpenedAt: 0 }));
     useRepo.setState({ recents: repos });
     useSettings.getState().addRepoGroup('Projects', 0, repos.map((r) => r.path));
     const tracker = window as unknown as { __groupCalls: string[]; __finishGroup: () => void };
@@ -3171,7 +3171,7 @@ test('group fetch classifies partial failures once and cancellation releases a h
 
 test('cancel counts a completed checkout and ignores a delayed inactive-run error', async ({ page }) => {
   await page.goto('/');
-  await expect(page.getByText('Recent repositories')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByText('最近仓库')).toBeVisible({ timeout: 10_000 });
   await page.evaluate(async () => {
     const [{ ipc }, { useSettings }, { useRepo }] = await Promise.all([
       import('/src/core/ipc.ts'), import('/src/features/settings/store.ts'), import('/src/features/repository/store.ts'),
@@ -3222,7 +3222,7 @@ test('tabs shrink to share a narrow window like browser tabs and scroll only pas
   });
   await page.goto('/');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   const strip = page.locator('[data-tab-strip]');
   const tabs = page.getByRole('tab');
   const longTab = page.locator('[data-tab-path="/Users/demo/projects/crosspromotionmodule"]');
@@ -3253,7 +3253,7 @@ test('tabs shrink to share a narrow window like browser tabs and scroll only pas
 
 test("what's new opens from the welcome footer and the status bar and its unread dot clears once seen", async ({ page }) => {
   await page.goto('/');
-  await expect(page.getByText('Recent repositories')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByText('最近仓库')).toBeVisible({ timeout: 10_000 });
   const footerLink = page.getByRole('button', { name: "What's new" });
   await expect(footerLink).toHaveAttribute('data-whats-new-unseen', 'true');
   await footerLink.click();
@@ -3267,7 +3267,7 @@ test("what's new opens from the welcome footer and the status bar and its unread
   await page.reload();
   await expect(page.getByRole('button', { name: "What's new" })).toHaveAttribute('data-whats-new-unseen', 'false');
   await page.getByText('angkorgit', { exact: true }).first().click();
-  await expect(page.getByPlaceholder('Search commits…')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   const bell = page.locator('[data-whats-new]');
   await expect(bell).toHaveAttribute('data-whats-new-unseen', 'false');
   await bell.click();
