@@ -1,4 +1,6 @@
 import type {
+  GroupUpdateResult,
+  GroupUpdateReceipt,
   BranchInfo,
   CliAgentInfo,
   CliRunRequest,
@@ -94,6 +96,17 @@ if (!isTauri()) {
 async function invoke<T>(command: string, args?: Record<string, unknown>): Promise<T> {
   const { invoke } = await import('@tauri-apps/api/core');
   return invoke<T>(command, args);
+}
+
+export const overlayTitleBar =
+  isTauri() && typeof navigator !== 'undefined' && navigator.platform.toUpperCase().includes('MAC');
+
+export async function fullscreenState(): Promise<boolean> {
+  if (!isTauri()) return false;
+  const { getCurrentWindow } = await import('@tauri-apps/api/window');
+  return getCurrentWindow()
+    .isFullscreen()
+    .catch(() => false);
 }
 
 export async function listen(event: string, handler: (payload: unknown) => void): Promise<() => void> {
@@ -466,6 +479,25 @@ export const ipc = {
       return { status: 'ok', message: `Fetched ${remote} (demo)` };
     }
     return invoke('remote_fetch', { path, remote, tags, prune });
+  },
+  async groupStart(runId: string): Promise<void> {
+    if (!isTauri()) return;
+    return invoke('repository_group_start', { runId });
+  },
+  async groupCancel(runId: string): Promise<GroupUpdateReceipt[]> {
+    if (!isTauri()) return [];
+    return invoke('repository_group_cancel', { runId });
+  },
+  async groupFinish(runId: string): Promise<void> {
+    if (!isTauri()) return;
+    return invoke('repository_group_finish', { runId });
+  },
+  async groupUpdate(path: string, pull: boolean, runId: string): Promise<GroupUpdateResult> {
+    if (!isTauri()) {
+      await delay(400);
+      return { status: 'up_to_date', message: pull ? 'main is already up to date (demo)' : 'Fetched origin; no refs moved (demo)', changes: [] };
+    }
+    return invoke('repository_group_update', { path, pull, runId });
   },
   async pull(path: string, remote: string, mode?: 'merge' | 'rebase'): Promise<OpOutcome> {
     if (!isTauri()) {

@@ -6,6 +6,46 @@
 
 ## [未发布]
 
+## [0.24.0] — 2026-10-16
+
+The tab strip release. A repository group fetches or pulls every repository in it
+with one click, the tabs share a small window the way a browser's do, on macOS they
+sit in the title bar, and the release notes now live inside the app. Fetch all and
+Pull all are ChrisLauinger77's work.
+
+### Added
+- **Fetch all and Pull all for a group.** Right-click a group header on the start
+  page to fetch every remote of every repository in the group, or to fast-forward
+  each checked-out branch from its upstream. A live summary lists moved refs with
+  their commit counts, repositories that were already up to date, skips with the
+  reason (detached HEAD, diverged history, an unfinished operation, local changes
+  that conflict with the checkout) and failures, and a partial fetch keeps its
+  successes and errors together. Pull never merges or rebases and preserves
+  unrelated local changes, exactly like the toolbar Pull. Cancel stops the remaining
+  repositories, keeps what already finished and releases the app even while a
+  network read is stalled. Per-remote prune settings override `fetch.prune`.
+  Contributed by ChrisLauinger77. (#69)
+- **What's new inside the app.** A bell in the status bar and a "What's new" link
+  in the welcome footer open the release notes for every version, with the one you
+  are running marked and issue numbers linking to GitHub. The bell carries a dot
+  until you have read the notes for the version you are on.
+
+### Changed
+- The tab strip shares a narrow window the way a browser does: tabs shrink to fit,
+  long names truncate, the close button stays only on the active tab, and the strip
+  only scrolls once every tab has reached its minimum width. A wide window looks
+  exactly as before.
+- On macOS the tabs sit in the title bar next to the traffic lights, like a browser,
+  instead of under an empty title row. Drag the window by the tab strip and
+  double-click it to zoom. Windows and Linux keep their native title bar.
+
+### Fixed
+- Creating a pull request from a fork into the upstream repository with a
+  fine-grained GitHub token now says why GitHub refused it: such a token can only
+  act on repositories of the account it was created for, so it needs a classic token
+  with the repo scope. The same refusal on your own repository points at the missing
+  pull request permission. (#77)
+
 ## [0.23.0] — 2026-10-13
 
 工作副本版本。文件树中的文件夹可以整体暂存与取消暂存，diff 会标出你当前停留
@@ -1747,9 +1787,9 @@ The first release. 🏛️
 - AI assistant with pluggable providers (OpenAI, Anthropic, Gemini, Ollama,
   LM Studio): commit messages, diff/conflict explanations, PR descriptions, reviews
 
-[Unreleased]: https://github.com/cheat2001/angkorgit/compare/v0.23.0...HEAD
-[0.23.0]: https://github.com/cheat2001/angkorgit/compare/v0.22.1...v0.23.0
-[0.22.1]: https://github.com/cheat2001/angkorgit/compare/v0.22.0...v0.22.1
+[Unreleased]: https://github.com/cheat2001/angkorgit/compare/v0.24.0...HEAD
+[0.24.0]: https://github.com/cheat2001/angkorgit/compare/v0.23.0...v0.24.0
+[0.23.0]: https://github.com/cheat2001/angkorgit/compare/v0.22.0...v0.23.0
 [0.22.0]: https://github.com/cheat2001/angkorgit/compare/v0.21.1...v0.22.0
 [0.21.1]: https://github.com/cheat2001/angkorgit/compare/v0.21.0...v0.21.1
 [0.21.0]: https://github.com/cheat2001/angkorgit/compare/v0.20.0...v0.21.0

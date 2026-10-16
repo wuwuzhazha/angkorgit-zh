@@ -1,10 +1,11 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import {
   chordText,
   groupRepos,
   parseChordId,
   repoGroupIdFor,
   type RepoGroup,
+  type GroupUpdateResult,
   type RepoGroupDropPosition,
 } from '@angkorgit/core';
 import { useNavigate } from 'react-router-dom';
@@ -16,11 +17,13 @@ import {
   ChevronRight,
   Clock,
   Copy,
+  RefreshCw,
   FolderGit2,
   FolderOpen,
   FolderSearch,
   FolderTree,
   GitBranchPlus,
+  ArrowDownToLine,
   MoreHorizontal,
   Pencil,
   Search,
@@ -59,6 +62,10 @@ import { CloneDialog } from './CloneDialog';
 import { RepoShortcutDialog } from './RepoShortcutDialog';
 import { RepoGroupDialog } from './RepoGroupDialog';
 import { GroupDot, GroupTile, RepoGroupSubmenu } from './RepoGroupMenu';
+import { GroupUpdateDialog, type GroupUpdateProgress } from './GroupUpdateDialog';
+import { updateGroupRepositories } from './groupUpdate';
+import { useTitleBarInset } from '@/shared/useTitleBarInset';
+import { useWhatsNew } from '@/features/changelog/useWhatsNew';
 import { closeRepoGroup, deleteRepoGroup, openRepoGroup } from './groups';
 import { ScanRepositoriesDialog, startRepositoryScan } from './ScanRepositoriesDialog';
 import { SettingsDialog } from '@/features/settings/SettingsDialog';
@@ -83,6 +90,11 @@ export function WelcomePage() {
   const groupOf = useSettings((s) => s.repoGroupOf);
   const setRepoGroup = useSettings((s) => s.setRepoGroup);
   const moveRepoGroup = useSettings((s) => s.moveRepoGroup);
+  const busy = useRepo((s) => s.busy);
+  const groupRun = useRef<{ id: string; controller: AbortController; cancelling: boolean; ready: Promise<void>; completed: Map<string, GroupUpdateResult> } | null>(null);
+  const [groupProgress, setGroupProgress] = useState<GroupUpdateProgress | null>(null);
+  const titleBarInset = useTitleBarInset();
+  const whatsNew = useWhatsNew();
   const [query, setQuery] = useState('');
   const [activePath, setActivePath] = useState<string | null>(null);
   const [missing, setMissing] = useState<Set<string>>(new Set());
@@ -93,6 +105,65 @@ export function WelcomePage() {
   const [dragGroupId, setDragGroupId] = useState<string | null>(null);
   const [groupDrop, setGroupDrop] = useState<{ id: string; position: RepoGroupDropPosition } | null>(null);
   const [version, setVersion] = useState('');
+
+  useEffect(() => () => {
+    const run = groupRun.current;
+    if (run) void run.ready.then(() => ipc.groupCancel(run.id)).then((receipts) => {
+      run.completed = new Map(receipts.map(({ path, result }) => [path, result]));
+      run.controller.abort();
+    }).catch(() => undefined);
+  }, []);
+
+  async function cancelGroup() {
+    const run = groupRun.current;
+    if (!run || run.cancelling) return;
+    run.cancelling = true;
+    setGroupProgress((current) => current?.runId === run.id ? { ...current, cancelling: true } : current);
+    try {
+      await run.ready;
+      const receipts = await ipc.groupCancel(run.id);
+      run.completed = new Map(receipts.map(({ path, result }) => [path, result]));
+      run.controller.abort();
+    } catch (error) {
+      run.cancelling = false;
+      setGroupProgress((current) => current?.runId === run.id ? { ...current, cancelling: false } : current);
+      toast.error(`Could not cancel group: ${(error as { message?: string })?.message ?? error}`);
+    }
+  }
+
+  async function updateGroup(group: RepoGroup, repos: RecentRepository[], pull: boolean) {
+    if (groupRun.current || useRepo.getState().busy || useRepo.getState().opening || repos.length === 0) return;
+    const id = crypto.randomUUID();
+    const run = { id, controller: new AbortController(), cancelling: false, ready: ipc.groupStart(id), completed: new Map<string, GroupUpdateResult>() };
+    groupRun.current = run;
+    useRepo.getState().setBusy(pull ? 'Pulling group…' : 'Fetching group…');
+    setGroupProgress({ runId: run.id, name: group.name, pull, total: repos.length, results: [], running: true, cancelling: false });
+    try {
+      await run.ready;
+      await updateGroupRepositories(repos, (path) => ipc.groupUpdate(path, pull, run.id), (result) => {
+        setGroupProgress((current) => {
+          if (current?.runId !== run.id) return current;
+          const existing = current.results.some((r) => r.repo.path === result.repo.path);
+          return { ...current, results: existing
+            ? current.results.map((r) => r.repo.path === result.repo.path ? result : r)
+            : [...current.results, result] };
+        });
+      }, run.controller.signal, () => run.completed);
+      if (repos.some((r) => r.path === useRepo.getState().repo?.path)) {
+        if (run.controller.signal.aborted) void useRepo.getState().refresh().catch(() => undefined);
+        else await useRepo.getState().refresh();
+      }
+    } catch (error) {
+      toast.error(`Group update failed: ${(error as { message?: string })?.message ?? error}`);
+    } finally {
+      await ipc.groupFinish(run.id).catch(() => undefined);
+      if (groupRun.current === run) {
+        groupRun.current = null;
+        useRepo.getState().setBusy(null);
+      }
+      setGroupProgress((current) => current?.runId === run.id ? { ...current, running: false, cancelling: false } : current);
+    }
+  }
 
   useEffect(() => {
     void appVersion()
@@ -431,6 +502,9 @@ export function WelcomePage() {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.3 }}
     >
+      {titleBarInset.inset > 0 && (
+        <div data-tauri-drag-region className="absolute inset-x-0 top-0" style={{ height: titleBarInset.height }} />
+      )}
       <TemplePattern className="[mask-image:radial-gradient(ellipse_at_center,transparent_30%,black_75%)]" />
       <div className="relative w-full max-w-3xl">
         <div className="mb-10 flex items-center gap-4">
@@ -570,6 +644,16 @@ export function WelcomePage() {
           >
             检查更新
           </button>
+          <span aria-hidden>·</span>
+          <button
+            type="button"
+            className="relative flex items-center gap-1.5 hover:text-foreground hover:underline"
+            data-whats-new-unseen={whatsNew.unseen}
+            onClick={whatsNew.open}
+          >
+            {whatsNew.unseen && <span aria-hidden className="size-1.5 rounded-full bg-primary" />}
+            What's new
+          </button>
         </p>
       </div>
 
@@ -616,6 +700,19 @@ export function WelcomePage() {
               <GroupDot color={groupMenu.group.color} className="-ml-1" />
               <span className="truncate">{groupMenu.group.name}</span>
             </DropdownMenuLabel>
+            <DropdownMenuItem
+              disabled={groupMenu.repos.length === 0 || !!busy || !!opening}
+              onClick={() => void updateGroup(groupMenu.group, groupMenu.repos, false)}
+            >
+              <RefreshCw /> Fetch all
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              disabled={groupMenu.repos.length === 0 || !!busy || !!opening}
+              onClick={() => void updateGroup(groupMenu.group, groupMenu.repos, true)}
+            >
+              <ArrowDownToLine /> Pull all (fast-forward only)
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
             <DropdownMenuItem
               disabled={groupMenu.repos.length === 0}
               onClick={() =>
@@ -671,6 +768,7 @@ export function WelcomePage() {
         </DropdownMenu>
       )}
 
+      <GroupUpdateDialog progress={groupProgress} onClose={() => setGroupProgress(null)} onCancel={() => void cancelGroup()} />
       <CloneDialog onCloned={(path) => void openRepository(path)} />
       <SettingsDialog />
       <RepoShortcutDialog />
