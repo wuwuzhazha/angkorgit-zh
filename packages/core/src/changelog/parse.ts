@@ -42,7 +42,7 @@ export function parseChangelog(markdown: string): ChangelogRelease[] {
     const header = RELEASE_HEADER.exec(line);
     if (header) {
       flushRelease();
-      if (header[1].toLowerCase() === 'unreleased') continue;
+      if (['unreleased', '未发布'].includes(header[1].toLowerCase())) continue;
       release = { version: header[1], date: header[2]?.trim() ?? null, intro: '', sections: [] };
       continue;
     }

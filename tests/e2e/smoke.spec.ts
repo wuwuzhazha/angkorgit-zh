@@ -3129,14 +3129,14 @@ test('group fetch classifies partial failures once and cancellation releases a h
     const [{ ipc }, { useSettings }, { useRepo }] = await Promise.all([
       import('/src/core/ipc.ts'), import('/src/features/settings/store.ts'), import('/src/features/repository/store.ts'),
     ]);
-    const repos = ['未更改', 'partial', 'slow', 'remaining'].map((name) => ({ path: `/projects/${name}`, name, lastOpenedAt: 0 }));
+    const repos = ['plain', 'partial', 'slow', 'remaining'].map((name) => ({ path: `/projects/${name}`, name, lastOpenedAt: 0 }));
     useRepo.setState({ recents: repos });
     useSettings.getState().addRepoGroup('Projects', 0, repos.map((r) => r.path));
     const tracker = window as unknown as { __groupCalls: string[]; __finishGroup: () => void };
     tracker.__groupCalls = [];
     ipc.groupUpdate = async (path) => {
       tracker.__groupCalls.push(path);
-      if (path.endsWith('/unchanged')) return { status: 'ok', message: 'Fetched origin without ref changes', changes: [] };
+      if (path.endsWith('/plain')) return { status: 'ok', message: 'Fetched origin without ref changes', changes: [] };
       if (path.endsWith('/partial')) return {
         status: 'partial', message: 'origin fetched; backup authentication failed',
         changes: [{ name: 'origin/main', oldOid: '1234567890', newOid: 'abcdef0123', commits: 2 }],
@@ -3158,7 +3158,7 @@ test('group fetch classifies partial failures once and cancellation releases a h
     const { useRepo } = await import('/src/features/repository/store.ts');
     if (useRepo.getState().busy !== null) throw new Error('Cancellation kept the app busy');
     const tracker = window as unknown as { __groupCalls: string[] };
-    if (tracker.__groupCalls.join(',') !== '/projects/unchanged,/projects/partial,/projects/slow') throw new Error('Started a repository after cancellation');
+    if (tracker.__groupCalls.join(',') !== '/projects/plain,/projects/partial,/projects/slow') throw new Error('Started a repository after cancellation');
   });
   await dialog.getByRole('button', { name: '完成', exact: true }).click();
   await expect(dialog).toBeHidden();
@@ -3260,7 +3260,7 @@ test("what's new opens from the welcome footer and the status bar and its unread
   const dialog = page.getByRole('dialog');
   await expect(dialog.getByRole('heading', { name: '更新内容' })).toBeVisible();
   await expect(dialog.locator('[data-whats-new-release]').first()).toHaveAttribute('data-whats-new-release', /^\d+\.\d+\.\d+$/);
-  await expect(dialog.locator('[data-whats-new-release="0.24.0"]')).toContainText('分组的一键 全部获取 与 Pull all');
+  await expect(dialog.locator('[data-whats-new-release="0.24.0"]')).toContainText('分组的一键全部获取与全部拉取');
   await page.keyboard.press('Escape');
   await expect(dialog).toBeHidden();
   await expect(footerLink).toHaveAttribute('data-whats-new-unseen', 'false');

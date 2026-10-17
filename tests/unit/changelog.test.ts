@@ -58,4 +58,9 @@ describe('parseChangelog', () => {
     expect(parseChangelog('## [1.0.0]\n\n### Added\n- x\n')[0]).toMatchObject({ version: '1.0.0', date: null });
     expect(parseChangelog('')).toEqual([]);
   });
+
+  it('skips the localized Unreleased heading', () => {
+    const releases = parseChangelog('## [未发布]\n\n### 新增\n- 尚未发布。\n\n## [0.24.0] — 2026-10-16\n\n### 新增\n- 已发布。\n');
+    expect(releases.map((r) => r.version)).toEqual(['0.24.0']);
+  });
 });

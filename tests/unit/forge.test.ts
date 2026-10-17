@@ -853,21 +853,21 @@ describe('github token refusals on create', () => {
       githubForgeProvider(githubRemote(), http).createPullRequest({ ...input, sourceRepo: { owner: 'chris', repo: 'angkorgit' } }),
     ).rejects.toMatchObject({
       status: 403,
-      message: expect.stringMatching(/fine-grained token can only act on repositories of the account it was created for.*classic token with the repo scope.*GitHub said: Resource not accessible by personal access token\./s),
+      message: expect.stringMatching(/细粒度令牌只能作用于创建它所属账户的仓库.*带 repo 权限的经典令牌.*GitHub 表示：Resource not accessible by personal access token。/s),
     });
   });
 
   it('points at the pull request permission when the same repository refuses', async () => {
     const { http } = fakeHttp(refusal);
     await expect(githubForgeProvider(githubRemote(), http).createPullRequest(input)).rejects.toMatchObject({
-      message: expect.stringContaining('"Pull requests: read and write"'),
+      message: expect.stringContaining('「拉取请求：读写」'),
     });
   });
 
   it('leaves other 403s such as a rate limit verbatim', async () => {
     const { http } = fakeHttp(() => ({ status: 403, body: JSON.stringify({ message: 'API rate limit exceeded' }) }));
     await expect(githubForgeProvider(githubRemote(), http).createPullRequest(input)).rejects.toMatchObject({
-      message: 'GitHub request failed (403): API rate limit exceeded',
+      message: 'GitHub 请求失败（403）: API rate limit exceeded',
     });
   });
 });

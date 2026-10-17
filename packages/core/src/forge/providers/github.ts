@@ -62,11 +62,11 @@ const TOKEN_REFUSAL = /resource not accessible/i;
 
 export function explainGithubCreateRefusal(error: unknown, targetRepo: string | null): unknown {
   if (!(error instanceof ForgeError) || error.status !== 403 || !TOKEN_REFUSAL.test(error.message)) return error;
-  const said = /\(\d+\): (.*)$/.exec(error.message)?.[1];
+  const said = /[（(]\d+[）)]: (.*)$/.exec(error.message)?.[1];
   const hint = targetRepo
-    ? `GitHub refused to open the pull request in ${targetRepo}. A fine-grained token can only act on repositories of the account it was created for, so it cannot open pull requests into a repository you do not own. Connect a classic token with the repo scope (public_repo is enough for public repositories) and try again.`
-    : 'GitHub refused to open the pull request: the token cannot write pull requests on this repository. A fine-grained token needs the "Pull requests: read and write" permission, a classic token the repo scope.';
-  return new ForgeError(said ? `${hint} GitHub said: ${said}.` : hint, error.forge, error.status);
+    ? `GitHub 拒绝在 ${targetRepo} 打开拉取请求。细粒度令牌只能作用于创建它所属账户的仓库，因此无法向你不拥有的仓库打开拉取请求。请改用带 repo 权限的经典令牌（公开仓库用 public_repo 即可）后重试。`
+    : 'GitHub 拒绝打开拉取请求：该令牌无法在此仓库写入拉取请求。细粒度令牌需要「拉取请求：读写」权限，经典令牌则需要 repo 权限。';
+  return new ForgeError(said ? `${hint} GitHub 表示：${said}。` : hint, error.forge, error.status);
 }
 
 function githubMessage(body: string): string | null {
