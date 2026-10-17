@@ -8,43 +8,33 @@
 
 ## [0.24.0] — 2026-10-16
 
-The tab strip release. A repository group fetches or pulls every repository in it
-with one click, the tabs share a small window the way a browser's do, on macOS they
-sit in the title bar, and the release notes now live inside the app. Fetch all and
-Pull all are ChrisLauinger77's work.
+标签栏版本。分组可以一键获取或拉取组内的全部仓库，标签页像浏览器那样共享窄窗口，
+在 macOS 上进入标题栏，发布说明也搬进了应用内。Fetch all 与 Pull all 来自
+ChrisLauinger77。
 
-### Added
-- **Fetch all and Pull all for a group.** Right-click a group header on the start
-  page to fetch every remote of every repository in the group, or to fast-forward
-  each checked-out branch from its upstream. A live summary lists moved refs with
-  their commit counts, repositories that were already up to date, skips with the
-  reason (detached HEAD, diverged history, an unfinished operation, local changes
-  that conflict with the checkout) and failures, and a partial fetch keeps its
-  successes and errors together. Pull never merges or rebases and preserves
-  unrelated local changes, exactly like the toolbar Pull. Cancel stops the remaining
-  repositories, keeps what already finished and releases the app even while a
-  network read is stalled. Per-remote prune settings override `fetch.prune`.
-  Contributed by ChrisLauinger77. (#69)
-- **What's new inside the app.** A bell in the status bar and a "What's new" link
-  in the welcome footer open the release notes for every version, with the one you
-  are running marked and issue numbers linking to GitHub. The bell carries a dot
-  until you have read the notes for the version you are on.
+### 新增
+- **分组的一键 Fetch all 与 Pull all。** 在欢迎页右键点击分组标题，即可获取组内每个
+  仓库的全部远端，或把每个已检出的分支从上游快进。实时汇总会列出发生移动的引用
+  及其提交数、本就已是最新的仓库、带原因的跳过（游离的 HEAD、历史已分叉、有未完成
+  的操作、与检出冲突的本地更改）以及失败项，部分成功时成功与错误一并保留。拉取
+  从不合并或变基，并保留无关的本地更改，与工具栏的拉取完全一致。取消会停止其余
+  仓库、保留已完成的结果，即使网络读取卡住也能释放应用。各远端的 prune 设置优先于
+  `fetch.prune`。由 ChrisLauinger77 贡献。(#69)
+- **应用内的 What's new 发布说明。** 状态栏的铃铛与欢迎页底部的「What's new」
+  链接可以打开每个版本的发布说明，正在运行的版本会被标出，issue 编号可跳转到
+  GitHub。在读过当前版本的说明之前，铃铛上会带一个小圆点。
 
-### Changed
-- The tab strip shares a narrow window the way a browser does: tabs shrink to fit,
-  long names truncate, the close button stays only on the active tab, and the strip
-  only scrolls once every tab has reached its minimum width. A wide window looks
-  exactly as before.
-- On macOS the tabs sit in the title bar next to the traffic lights, like a browser,
-  instead of under an empty title row. Drag the window by the tab strip and
-  double-click it to zoom. Windows and Linux keep their native title bar.
+### 变更
+- 标签栏像浏览器一样共享窄窗口：标签页收缩以适应空间，长名字截断，仅活动标签页保留
+  关闭按钮，只有在每个标签页都达到最小宽度之后标签栏才会滚动。宽窗口下与之前完全
+  一致。
+- 在 macOS 上，标签页像浏览器一样进入标题栏、紧挨红绿灯按钮，而不再占用一行空标题。
+  可以用标签栏拖动窗口、双击缩放。Windows 与 Linux 保留原生标题栏。
 
-### Fixed
-- Creating a pull request from a fork into the upstream repository with a
-  fine-grained GitHub token now says why GitHub refused it: such a token can only
-  act on repositories of the account it was created for, so it needs a classic token
-  with the repo scope. The same refusal on your own repository points at the missing
-  pull request permission. (#77)
+### 修复
+- 使用细粒度 GitHub 令牌把拉取请求从 Fork 创建到上游仓库时，现在会说明 GitHub 拒绝
+  的原因：这类令牌只能作用于创建它所属账户的仓库，因此需要改用带 repo 权限的
+  Classic token。在自己的仓库上遇到同样的拒绝时，会提示缺少拉取请求权限。(#77)
 
 ## [0.23.0] — 2026-10-13
 

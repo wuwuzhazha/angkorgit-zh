@@ -1,21 +1,26 @@
 import { toast } from 'sonner';
-import { isTauri } from '@/core/ipc';
+import { isTauri, openExternal } from '@/core/ipc';
 
-let checking = false;
+const CHECK_TIMEOUT_MS = 15_000;
+const DOWNLOAD_TIMEOUT_MS = 60_000;
+const RELEASES_URL = 'https://github.com/wuwuzhazha/angkorgit-zh/releases/latest';
 
-export async function checkForUpdates(options: { silent: boolean }): Promise<void> {
-  if (!isTauri() || checking) return;
-  checking = true;
+let inFlight: Promise<void> | null = null;
+let loud = false;
+
+async function run(): Promise<void> {
+  if (loud) toast.loading('正在检查更新…', { id: 'updater' });
   try {
     const { check } = await import('@tauri-apps/plugin-updater');
-    const update = await check();
+    const update = await check({ timeout: CHECK_TIMEOUT_MS });
 
     if (!update) {
-      if (!options.silent) toast.success('AngKorGit 已是最新版本');
+      if (loud) toast.success('AngKorGit 已是最新版本', { id: 'updater' });
       return;
     }
 
     toast.info(`发现新版本 AngKorGit ${update.version}`, {
+      id: 'updater',
       description: '下载并重启即可更新。',
       duration: 15_000,
       action: {
@@ -24,7 +29,7 @@ export async function checkForUpdates(options: { silent: boolean }): Promise<voi
           void (async () => {
             try {
               toast.loading('正在下载更新…', { id: 'updater' });
-              await update.downloadAndInstall();
+              await update.downloadAndInstall(undefined, { timeout: DOWNLOAD_TIMEOUT_MS });
               toast.success('更新已安装——正在重启', { id: 'updater' });
               const { relaunch } = await import('@tauri-apps/plugin-process');
               await relaunch();
@@ -38,10 +43,23 @@ export async function checkForUpdates(options: { silent: boolean }): Promise<voi
       },
     });
   } catch (error) {
-    if (!options.silent) {
-      toast.error(`检查更新失败：${(error as { message?: string }).message ?? error}`);
+    if (loud) {
+      toast.error(`检查更新失败：${(error as { message?: string }).message ?? error}`, {
+        id: 'updater',
+        action: { label: '打开发布页', onClick: () => void openExternal(RELEASES_URL) },
+      });
     }
-  } finally {
-    checking = false;
   }
+}
+
+export async function checkForUpdates(options: { silent: boolean }): Promise<void> {
+  if (!isTauri()) return;
+  if (!options.silent) loud = true;
+  if (!inFlight) {
+    inFlight = run().finally(() => {
+      inFlight = null;
+      loud = false;
+    });
+  }
+  await inFlight;
 }

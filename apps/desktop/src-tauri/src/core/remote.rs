@@ -470,7 +470,7 @@ pub fn group_update_controlled(
         }
         Err(_) if control.is_cancelled() && !control.has_completed(path) => Ok(GroupUpdateResult {
             status: "cancelled".into(),
-            message: "Cancelled before completing the repository update".into(),
+            message: "完成仓库更新前已取消".into(),
             changes: Vec::new(),
         }),
         Err(error) => Err(error),
@@ -486,7 +486,7 @@ fn group_update_inner(
     if !Path::new(path).is_dir() {
         return Ok(GroupUpdateResult {
             status: "skipped".into(),
-            message: "Repository folder no longer exists".into(),
+            message: "仓库文件夹已不存在".into(),
             changes: Vec::new(),
         });
     }
@@ -499,7 +499,7 @@ fn group_update_inner(
     if !pull {
         let names: Vec<String> = repo.remotes()?.iter().flatten().map(String::from).collect();
         if names.is_empty() {
-            return Ok(result("skipped", "No remotes configured".into()));
+            return Ok(result("skipped", "未配置任何远端".into()));
         }
         let mut progress = FetchProgress {
             before: Arc::new(fetched_refs(&repo)?),
@@ -531,58 +531,46 @@ fn group_update_inner(
     }
 
     if repo.is_bare() {
-        return Ok(result(
-            "skipped",
-            "Bare repository has no working tree".into(),
-        ));
+        return Ok(result("skipped", "裸仓库没有工作树".into()));
     }
     if repo.state() != git2::RepositoryState::Clean {
-        return Ok(result(
-            "skipped",
-            "An unfinished Git operation is in progress".into(),
-        ));
+        return Ok(result("skipped", "有未完成的 Git 操作正在进行".into()));
     }
     if repo.head_detached()? {
-        return Ok(result("skipped", "HEAD is detached".into()));
+        return Ok(result("skipped", "HEAD 处于游离状态".into()));
     }
     let head = match repo.head() {
         Ok(head) => head,
         Err(error) if error.code() == git2::ErrorCode::UnbornBranch => {
-            return Ok(result("skipped", "Branch has no commits yet".into()));
+            return Ok(result("skipped", "分支尚无提交".into()));
         }
         Err(error) => return Err(error.into()),
     };
     let refname = head
         .name()
-        .ok_or_else(|| AppError::other("Invalid HEAD name"))?
+        .ok_or_else(|| AppError::other("无效的 HEAD 名称"))?
         .to_string();
     let branch_name = head.shorthand().unwrap_or(&refname).to_string();
     let merge_ref = match repo.branch_upstream_merge(&refname) {
         Ok(name) => name
             .as_str()
-            .ok_or_else(|| AppError::other("Invalid upstream merge ref"))?
+            .ok_or_else(|| AppError::other("无效的上游合并引用"))?
             .to_string(),
         Err(error) if error.code() == git2::ErrorCode::NotFound => {
-            return Ok(result(
-                "skipped",
-                format!("{branch_name} has no upstream configured"),
-            ));
+            return Ok(result("skipped", format!("{branch_name} 未配置上游")));
         }
         Err(error) => return Err(error.into()),
     };
     let remote = match repo.branch_upstream_remote(&refname) {
         Ok(remote) => remote,
         Err(error) if error.code() == git2::ErrorCode::NotFound => {
-            return Ok(result(
-                "skipped",
-                format!("{branch_name} has no upstream configured"),
-            ));
+            return Ok(result("skipped", format!("{branch_name} 未配置上游")));
         }
         Err(error) => return Err(error.into()),
     };
     let remote = remote
         .as_str()
-        .ok_or_else(|| AppError::other("Invalid upstream remote"))?;
+        .ok_or_else(|| AppError::other("无效的上游远端"))?;
     let tracking_ref = if remote == "." {
         Some(merge_ref.clone())
     } else {
@@ -590,7 +578,7 @@ fn group_update_inner(
             Ok(_) => match repo.branch_upstream_name(&refname) {
                 Ok(name) => Some(
                     name.as_str()
-                        .ok_or_else(|| AppError::other("Invalid upstream name"))?
+                        .ok_or_else(|| AppError::other("无效的上游名称"))?
                         .to_string(),
                 ),
                 Err(error) if error.code() == git2::ErrorCode::NotFound => None,
@@ -624,7 +612,7 @@ fn group_update_inner(
                 {
                     return Ok(result(
                         "skipped",
-                        format!("Configured upstream {upstream_ref} is missing on remote {remote}"),
+                        format!("配置的上游 {upstream_ref} 在远端 {remote} 上不存在"),
                     ));
                 }
                 return Err(error);
@@ -641,7 +629,7 @@ fn group_update_inner(
             Err(error) if error.code() == git2::ErrorCode::NotFound => {
                 return Ok(result(
                     "skipped",
-                    format!("Configured upstream {upstream_ref} is missing after fetch"),
+                    format!("获取后找不到配置的上游 {upstream_ref}"),
                 ));
             }
             Err(error) => return Err(error.into()),
@@ -653,34 +641,31 @@ fn group_update_inner(
         return Ok(result(
             "up_to_date",
             if ahead == 0 {
-                format!("{branch_name} is already up to date")
+                format!("{branch_name} 已是最新")
             } else {
-                format!("{branch_name} is ahead by {ahead} commit(s); nothing to pull")
+                format!("{branch_name} 领先 {ahead} 个提交，无需拉取")
             },
         ));
     }
     if ahead > 0 {
-        return Ok(result("skipped", format!("{branch_name} has diverged ({ahead} ahead, {behind} behind); fast-forward unavailable")));
+        return Ok(result(
+            "skipped",
+            format!("{branch_name} 已分叉（领先 {ahead}，落后 {behind}），无法快进"),
+        ));
     }
     let current = repo.head()?;
     if current.name() != Some(refname.as_str())
         || current.target() != Some(old)
         || repo.state() != git2::RepositoryState::Clean
     {
-        return Ok(result(
-            "skipped",
-            "Repository changed during fetch; try again".into(),
-        ));
+        return Ok(result("skipped", "获取期间仓库发生变化，请重试".into()));
     }
     let checkout = control.with_active_result(path, || {
         let mut checkout = CheckoutBuilder::new();
         checkout.safe();
         if let Err(error) = repo.checkout_tree(target.as_object(), Some(&mut checkout)) {
             if error.code() == git2::ErrorCode::Conflict {
-                return Ok(result(
-                    "skipped",
-                    format!("Local changes prevent checkout: {error}"),
-                ));
+                return Ok(result("skipped", format!("本地更改阻止检出：{error}")));
             }
             return Err(error.into());
         }
@@ -690,14 +675,14 @@ fn group_update_inner(
             })
             .map_err(|error| {
                 AppError::other(format!(
-                    "Checkout completed, but branch update failed for {branch_name}: {error}. \
-                 The working tree is at {new}; the branch may still point at {old}. \
-                 Inspect HEAD and working-tree changes before retrying."
+                    "检出已完成，但更新分支 {branch_name} 失败：{error}。\
+                 工作树位于 {new}，分支可能仍指向 {old}。\
+                 重试前请检查 HEAD 与工作树更改。"
                 ))
             })?;
         Ok(GroupUpdateResult {
             status: "ok".into(),
-            message: format!("Fast-forwarded {branch_name} by {behind} commit(s)"),
+            message: format!("已将 {branch_name} 快进 {behind} 个提交"),
             changes: vec![RefMovement {
                 name: branch_name,
                 old_oid: Some(old.to_string()),
@@ -777,7 +762,7 @@ fn group_fetch(
             return Err(git2::Error::new(
                 git2::ErrorCode::NotFound,
                 git2::ErrorClass::Reference,
-                "Configured upstream was not received from the remote",
+                "未从远端收到配置的上游",
             )
             .into());
         }
@@ -848,15 +833,12 @@ pub(super) fn fetch_progress_summary(
     } else {
         "failed"
     };
-    let mut message = format!(
-        "Fetched {} of {} remotes",
-        progress.succeeded, progress.total
-    );
+    let mut message = format!("已获取 {} / {} 个远端", progress.succeeded, progress.total);
     if cancelled && progress.succeeded < progress.total {
-        message.push_str(" before cancellation");
+        message.push_str("（取消前）");
     }
     if !progress.failures.is_empty() {
-        message.push_str(&format!(". Failed: {}", progress.failures.join("; ")));
+        message.push_str(&format!("。失败：{}", progress.failures.join("; ")));
     }
     GroupUpdateResult {
         status: status.into(),

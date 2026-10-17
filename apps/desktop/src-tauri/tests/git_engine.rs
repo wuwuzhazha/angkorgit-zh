@@ -3064,7 +3064,7 @@ fn group_pull_fast_forwards_configured_upstream_without_merging() {
     core::push(local.path(), "origin", None, false, false, true).unwrap();
     let result = core::group_update(other.path(), true).unwrap();
     assert_eq!(result.status, "skipped");
-    assert!(result.message.contains("diverged"));
+    assert!(result.message.contains("已分叉"));
     assert_eq!(repo.head().unwrap().target().unwrap().to_string(), mine);
     assert_eq!(repo.state(), git2::RepositoryState::Clean);
     std::fs::remove_dir_all(origin).unwrap();
@@ -3088,7 +3088,7 @@ fn group_pull_skips_conflicting_changes_detached_missing_upstream_and_unfinished
         }
         let result = core::group_update(other.path(), true).unwrap();
         assert_eq!(result.status, "skipped");
-        assert!(result.message.contains("Local changes prevent checkout"));
+        assert!(result.message.contains("本地更改阻止检出"));
         assert_eq!(other.read("a.txt"), "dirty\n");
     }
     let repo = git2::Repository::open(other.path()).unwrap();
@@ -3106,7 +3106,7 @@ fn group_pull_skips_conflicting_changes_detached_missing_upstream_and_unfinished
     other.write("incoming.txt", "untracked file\n");
     let result = core::group_update(other.path(), true).unwrap();
     assert_eq!(result.status, "skipped");
-    assert!(result.message.contains("Local changes prevent checkout"));
+    assert!(result.message.contains("本地更改阻止检出"));
     assert_eq!(other.read("incoming.txt"), "untracked file\n");
     assert_eq!(repo.head().unwrap().target().unwrap().to_string(), old);
     std::fs::remove_file(other.dir.join("incoming.txt")).unwrap();
@@ -3114,14 +3114,14 @@ fn group_pull_skips_conflicting_changes_detached_missing_upstream_and_unfinished
     assert!(core::group_update(other.path(), true)
         .unwrap()
         .message
-        .contains("unfinished"));
+        .contains("未完成"));
     std::fs::remove_file(repo.path().join("MERGE_HEAD")).unwrap();
     repo.set_head_detached(git2::Oid::from_str(&old).unwrap())
         .unwrap();
     assert!(core::group_update(other.path(), true)
         .unwrap()
         .message
-        .contains("detached"));
+        .contains("游离"));
     repo.set_head("refs/heads/master").unwrap();
     repo.find_branch("master", git2::BranchType::Local)
         .unwrap()
@@ -3130,7 +3130,7 @@ fn group_pull_skips_conflicting_changes_detached_missing_upstream_and_unfinished
     assert!(core::group_update(other.path(), true)
         .unwrap()
         .message
-        .contains("no upstream"));
+        .contains("未配置上游"));
     assert_eq!(repo.head().unwrap().target().unwrap().to_string(), old);
     assert_eq!(
         core::group_update(other.dir.join("missing").to_str().unwrap(), true)
@@ -3190,7 +3190,7 @@ fn group_fetch_reports_moved_refs_and_continues_after_remote_failure() {
     assert!(core::group_update(empty.path(), true)
         .unwrap()
         .message
-        .contains("no commits"));
+        .contains("尚无提交"));
     std::fs::remove_dir_all(origin).unwrap();
 }
 
@@ -3227,11 +3227,11 @@ fn group_pull_restores_missing_tracking_refs_and_reports_deleted_upstreams() {
     assert!(
         result
             .message
-            .contains("Configured upstream refs/remotes/origin/master is missing"),
+            .contains("配置的上游 refs/remotes/origin/master 在远端 origin 上不存在"),
         "{}",
         result.message
     );
-    assert!(!result.message.contains("no upstream"));
+    assert!(!result.message.contains("未配置上游"));
     assert_eq!(repo.head().unwrap().target().unwrap().to_string(), old);
     std::fs::remove_dir_all(origin).unwrap();
 }
@@ -3462,10 +3462,7 @@ fn group_pull_explains_when_checkout_succeeds_but_branch_update_fails() {
     let error = core::group_update(other.path(), true)
         .unwrap_err()
         .to_string();
-    assert!(
-        error.contains("Checkout completed, but branch update failed"),
-        "{error}"
-    );
+    assert!(error.contains("检出已完成，但更新分支"), "{error}");
     assert!(error.contains(&old));
     assert!(error.contains(&new));
     assert_eq!(repo.head().unwrap().target().unwrap().to_string(), old);
@@ -3704,7 +3701,7 @@ fn group_fetch_cancel_receipts_keep_successful_remotes_and_prior_errors() {
         let result = &receipts[0].result;
         assert_eq!(result.status, if successful { "partial" } else { "failed" });
         assert!(result.message.contains("b-error"), "{}", result.message);
-        assert!(result.message.contains("before cancellation"));
+        assert!(result.message.contains("（取消前）"));
         assert_eq!(
             result
                 .changes
@@ -3778,7 +3775,7 @@ fn group_pull_fetches_an_upstream_outside_the_remote_fetch_refspec() {
         .unwrap();
     let deleted = core::group_update(other.path(), true).unwrap();
     assert_eq!(deleted.status, "skipped");
-    assert!(deleted.message.contains("missing on remote origin"));
+    assert!(deleted.message.contains("在远端 origin 上不存在"));
     assert!(repo
         .references_glob("refs/angkorgit/group-pull/*")
         .unwrap()
@@ -3862,11 +3859,8 @@ fn group_cancel_preserves_other_receipts_when_a_fetch_repository_path_becomes_in
     assert!(affected
         .result
         .message
-        .contains("Fetched 1 of 2 remotes before cancellation"));
-    assert!(affected
-        .result
-        .message
-        .contains("Could not inspect moved refs"));
+        .contains("已获取 1 / 2 个远端（取消前）"));
+    assert!(affected.result.message.contains("无法检查移动的引用"));
     alias.write(".git", &gitdir);
     release_tx.send(()).unwrap();
     server.join().unwrap();

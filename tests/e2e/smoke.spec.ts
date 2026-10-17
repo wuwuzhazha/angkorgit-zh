@@ -2782,21 +2782,21 @@ test('repositories can be grouped on the welcome page and a group opens as tabs'
   await expect(frontend).toBeVisible();
   await expect(frontend.getByText('1', { exact: true })).toBeVisible();
   await frontend.click({ button: 'right' });
-  await page.getByRole('menuitem', { name: 'Fetch all', exact: true }).click();
-  await expect(dialog.getByRole('heading', { name: 'Fetch all — Frontend' })).toBeVisible();
-  await expect(dialog.getByRole('button', { name: 'Done', exact: true })).toBeEnabled();
+  await page.getByRole('menuitem', { name: '全部获取', exact: true }).click();
+  await expect(dialog.getByRole('heading', { name: '全部获取 — 前端' })).toBeVisible();
+  await expect(dialog.getByRole('button', { name: '完成', exact: true })).toBeEnabled();
   await expect(dialog.locator('[data-group-update-results]')).toContainText('temple-ui');
-  await expect(dialog).toContainText('0 skipped · 0 failed');
-  await dialog.getByRole('button', { name: 'Done', exact: true }).click();
+  await expect(dialog).toContainText('0 个已跳过 · 0 个失败');
+  await dialog.getByRole('button', { name: '完成', exact: true }).click();
   await frontend.click({ button: 'right' });
-  await expect(page.getByRole('menuitem', { name: 'Pull all (fast-forward only)', exact: true }).locator('svg')).toHaveClass(/lucide-arrow-down-to-line/);
-  await page.getByRole('menuitem', { name: 'Pull all (fast-forward only)', exact: true }).click();
-  await expect(dialog.getByRole('heading', { name: 'Pull all (fast-forward only) — Frontend' })).toBeVisible();
-  await expect(dialog.getByRole('button', { name: 'Done', exact: true })).toBeEnabled();
-  await expect(dialog).toContainText('Up to date');
-  await dialog.getByRole('button', { name: 'Done', exact: true }).click();
+  await expect(page.getByRole('menuitem', { name: '全部拉取（仅限快进）', exact: true }).locator('svg')).toHaveClass(/lucide-arrow-down-to-line/);
+  await page.getByRole('menuitem', { name: '全部拉取（仅限快进）', exact: true }).click();
+  await expect(dialog.getByRole('heading', { name: '全部拉取（仅限快进） — 前端' })).toBeVisible();
+  await expect(dialog.getByRole('button', { name: '完成', exact: true })).toBeEnabled();
+  await expect(dialog).toContainText('已是最新');
+  await dialog.getByRole('button', { name: '完成', exact: true }).click();
 
-  const other = page.locator('[data-group-header]', { hasText: 'Other' });
+  const other = page.locator('[data-group-header]', { hasText: '其他' });
   await expect(other.getByText('3', { exact: true })).toBeVisible();
 
   const angkor = page.locator('[data-recent-row="/Users/demo/projects/angkorgit"]');
@@ -3093,21 +3093,21 @@ test('group pull summary shows moved refs, skips, failures and unchanged reposit
     };
   });
   await page.locator('[data-group-header]', { hasText: 'Projects' }).click({ button: 'right' });
-  await expect(page.getByRole('menuitem', { name: 'Pull all (fast-forward only)', exact: true }).locator('svg')).toHaveClass(/lucide-arrow-down-to-line/);
-  await page.getByRole('menuitem', { name: 'Pull all (fast-forward only)', exact: true }).click();
+  await expect(page.getByRole('menuitem', { name: '全部拉取（仅限快进）', exact: true }).locator('svg')).toHaveClass(/lucide-arrow-down-to-line/);
+  await page.getByRole('menuitem', { name: '全部拉取（仅限快进）', exact: true }).click();
   const dialog = page.getByRole('dialog');
-  await expect(dialog.getByRole('button', { name: 'Done', exact: true })).toBeDisabled();
+  await expect(dialog.getByRole('button', { name: '完成', exact: true })).toBeDisabled();
   await page.keyboard.press('Escape');
   await expect(dialog).toBeVisible();
-  await expect(dialog.getByRole('button', { name: 'Done', exact: true })).toBeEnabled();
-  await expect(dialog.getByRole('status')).toContainText('1 updated · 1 up to date · 1 skipped · 1 failed');
-  await expect(dialog).toContainText('main: 1234567 → abcdef0 (2 commits)');
+  await expect(dialog.getByRole('button', { name: '完成', exact: true })).toBeEnabled();
+  await expect(dialog.getByRole('status')).toContainText('1 个已更新 · 1 已是最新 · 1 个已跳过 · 1 个失败');
+  await expect(dialog).toContainText('main: 1234567 → abcdef0（2 个提交）');
   await expect(dialog).toContainText('main has diverged');
   await expect(dialog).toContainText('Authentication failed');
   await expect(dialog).toContainText('main is already up to date');
-  await expect(dialog.getByText('Updated', { exact: true })).toHaveClass(/text-success/);
-  await expect(dialog.getByText('Failed', { exact: true })).toHaveClass(/text-danger/);
-  await expect(dialog).toContainText('preserving unrelated local changes');
+  await expect(dialog.getByText('已更新', { exact: true })).toHaveClass(/text-success/);
+  await expect(dialog.getByText('失败', { exact: true })).toHaveClass(/text-danger/);
+  await expect(dialog).toContainText('保留无关的本地更改');
   expect(await dialog.locator('[data-group-update-row]').first().evaluate((row) => getComputedStyle(row).borderTopWidth)).toBe('0px');
   expect(await dialog.getByRole('status').evaluate((status) => getComputedStyle(status).whiteSpace)).toBe('nowrap');
   await page.screenshot({ path: '/tmp/angkorgit-group-summary.png' });
@@ -3117,7 +3117,7 @@ test('group pull summary shows moved refs, skips, failures and unchanged reposit
   });
   await expect(page.locator('html')).toHaveClass(/light/);
   await page.screenshot({ path: '/tmp/angkorgit-group-summary-light.png' });
-  await dialog.getByRole('button', { name: 'Done', exact: true }).click();
+  await dialog.getByRole('button', { name: '完成', exact: true }).click();
   await expect(dialog).toBeHidden();
 });
 
@@ -3145,14 +3145,14 @@ test('group fetch classifies partial failures once and cancellation releases a h
     };
   });
   await page.locator('[data-group-header]', { hasText: 'Projects' }).click({ button: 'right' });
-  await page.getByRole('menuitem', { name: 'Fetch all', exact: true }).click();
+  await page.getByRole('menuitem', { name: '全部获取', exact: true }).click();
   const dialog = page.getByRole('dialog');
-  await expect(dialog).toContainText('Partial');
-  await expect(dialog.getByText('Unchanged', { exact: true })).toBeVisible();
-  await expect(dialog.getByRole('status')).toContainText('0 updated · 1 unchanged · 0 skipped · 0 failed · 1 partial');
-  await dialog.getByRole('button', { name: 'Cancel run', exact: true }).click();
-  await expect(dialog.getByRole('button', { name: 'Done', exact: true })).toBeEnabled();
-  await expect(dialog.getByRole('status')).toContainText('1 partial · 2 cancelled');
+  await expect(dialog).toContainText('部分成功');
+  await expect(dialog.getByText('无更改', { exact: true })).toBeVisible();
+  await expect(dialog.getByRole('status')).toContainText('0 个已更新 · 1 无更改 · 0 个已跳过 · 0 个失败 · 1 个部分成功');
+  await dialog.getByRole('button', { name: '取消本次运行', exact: true }).click();
+  await expect(dialog.getByRole('button', { name: '完成', exact: true })).toBeEnabled();
+  await expect(dialog.getByRole('status')).toContainText('1 个部分成功 · 2 个已取消');
   await page.screenshot({ path: '/tmp/angkorgit-group-cancel-summary.png' });
   await page.evaluate(async () => {
     const { useRepo } = await import('/src/features/repository/store.ts');
@@ -3160,12 +3160,12 @@ test('group fetch classifies partial failures once and cancellation releases a h
     const tracker = window as unknown as { __groupCalls: string[] };
     if (tracker.__groupCalls.join(',') !== '/projects/unchanged,/projects/partial,/projects/slow') throw new Error('Started a repository after cancellation');
   });
-  await dialog.getByRole('button', { name: 'Done', exact: true }).click();
+  await dialog.getByRole('button', { name: '完成', exact: true }).click();
   await expect(dialog).toBeHidden();
   await page.evaluate(() => (window as unknown as { __finishGroup: () => void }).__finishGroup());
   await expect(dialog).toBeHidden();
   await page.locator('[data-group-header]', { hasText: 'Projects' }).click({ button: 'right' });
-  await expect(page.getByRole('menuitem', { name: 'Fetch all', exact: true })).toBeEnabled();
+  await expect(page.getByRole('menuitem', { name: '全部获取', exact: true })).toBeEnabled();
 });
 
 
@@ -3183,19 +3183,19 @@ test('cancel counts a completed checkout and ignores a delayed inactive-run erro
     tracker.__groupCalls = 0;
     ipc.groupUpdate = async () => {
       tracker.__groupCalls++;
-      return new Promise((_, reject) => { tracker.__rejectLateGroup = () => reject({ message: 'Group update is no longer active' }); });
+      return new Promise((_, reject) => { tracker.__rejectLateGroup = () => reject({ message: '分组更新已不再活动' }); });
     };
     ipc.groupCancel = async () => [{ path: repos[0].path, result: {
       status: 'ok', message: 'Fast-forwarded main', changes: [{ name: 'main', oldOid: '1234567', newOid: 'abcdef0', commits: 1 }],
     } }];
   });
   await page.locator('[data-group-header]', { hasText: 'Projects' }).click({ button: 'right' });
-  await page.getByRole('menuitem', { name: 'Pull all (fast-forward only)', exact: true }).click();
+  await page.getByRole('menuitem', { name: '全部拉取（仅限快进）', exact: true }).click();
   const dialog = page.getByRole('dialog');
-  await dialog.getByRole('button', { name: 'Cancel run', exact: true }).click();
-  await expect(dialog.getByRole('button', { name: 'Done', exact: true })).toBeEnabled();
-  await expect(dialog.getByRole('status')).toContainText('1 updated · 0 up to date · 0 skipped · 0 failed · 1 cancelled');
-  await expect(dialog.getByText('Updated', { exact: true })).toBeVisible();
+  await dialog.getByRole('button', { name: '取消本次运行', exact: true }).click();
+  await expect(dialog.getByRole('button', { name: '完成', exact: true })).toBeEnabled();
+  await expect(dialog.getByRole('status')).toContainText('1 个已更新 · 0 已是最新 · 0 个已跳过 · 0 个失败 · 1 个已取消');
+  await expect(dialog.getByText('已更新', { exact: true })).toBeVisible();
   await page.evaluate(async () => {
     const tracker = window as unknown as { __rejectLateGroup: () => void; __groupCalls: number };
     if (tracker.__groupCalls !== 1) throw new Error('Queued repository started');
@@ -3204,10 +3204,10 @@ test('cancel counts a completed checkout and ignores a delayed inactive-run erro
     await Promise.resolve();
     await Promise.resolve();
   });
-  await expect(dialog.getByText('Updated', { exact: true })).toBeVisible();
-  await expect(dialog.getByText('Group update is no longer active', { exact: true })).toBeHidden();
-  await expect(dialog.getByRole('status')).toContainText('1 updated · 0 up to date · 0 skipped · 0 failed · 1 cancelled');
-  await dialog.getByRole('button', { name: 'Done', exact: true }).click();
+  await expect(dialog.getByText('已更新', { exact: true })).toBeVisible();
+  await expect(dialog.getByText('分组更新已不再活动', { exact: true })).toBeHidden();
+  await expect(dialog.getByRole('status')).toContainText('1 个已更新 · 0 已是最新 · 0 个已跳过 · 0 个失败 · 1 个已取消');
+  await dialog.getByRole('button', { name: '完成', exact: true }).click();
 });
 
 test('tabs shrink to share a narrow window like browser tabs and scroll only past their minimum', async ({ page }) => {
@@ -3228,7 +3228,7 @@ test('tabs shrink to share a narrow window like browser tabs and scroll only pas
   const longTab = page.locator('[data-tab-path="/Users/demo/projects/crosspromotionmodule"]');
   await expect(tabs).toHaveCount(11);
   await expect(strip).toHaveAttribute('data-tab-strip', 'full');
-  await expect(page.getByRole('button', { name: 'Close tycho' })).toBeVisible();
+  await expect(page.getByRole('button', { name: '关闭 tycho' })).toBeVisible();
   const wide = (await longTab.boundingBox())!;
   await page.setViewportSize({ width: 820, height: 900 });
   await expect(strip).toHaveAttribute('data-tab-strip', 'compact');
@@ -3240,38 +3240,38 @@ test('tabs shrink to share a narrow window like browser tabs and scroll only pas
     const box = (await tabs.nth(i).boundingBox())!;
     expect(box.x + box.width).toBeLessThanOrEqual(bar.x + bar.width + 1);
   }
-  await expect(page.getByRole('button', { name: 'Close tycho' })).toBeHidden();
-  await expect(page.getByRole('button', { name: 'Close angkorgit' })).toBeVisible();
+  await expect(page.getByRole('button', { name: '关闭 tycho' })).toBeHidden();
+  await expect(page.getByRole('button', { name: '关闭 angkorgit' })).toBeVisible();
   await page.setViewportSize({ width: 480, height: 900 });
   await expect(page.locator('[data-tab-overflow]')).toBeVisible();
   expect((await longTab.boundingBox())!.width).toBeGreaterThanOrEqual(48);
   await page.setViewportSize({ width: 1440, height: 900 });
   await expect(strip).toHaveAttribute('data-tab-strip', 'full');
-  await expect(page.getByRole('button', { name: 'Close tycho' })).toBeVisible();
+  await expect(page.getByRole('button', { name: '关闭 tycho' })).toBeVisible();
   expect(Math.abs((await longTab.boundingBox())!.width - wide.width)).toBeLessThan(2);
 });
 
 test("what's new opens from the welcome footer and the status bar and its unread dot clears once seen", async ({ page }) => {
   await page.goto('/');
   await expect(page.getByText('最近仓库')).toBeVisible({ timeout: 10_000 });
-  const footerLink = page.getByRole('button', { name: "What's new" });
+  const footerLink = page.getByRole('button', { name: '更新内容' });
   await expect(footerLink).toHaveAttribute('data-whats-new-unseen', 'true');
   await footerLink.click();
   const dialog = page.getByRole('dialog');
-  await expect(dialog.getByRole('heading', { name: "What's new" })).toBeVisible();
+  await expect(dialog.getByRole('heading', { name: '更新内容' })).toBeVisible();
   await expect(dialog.locator('[data-whats-new-release]').first()).toHaveAttribute('data-whats-new-release', /^\d+\.\d+\.\d+$/);
-  await expect(dialog.locator('[data-whats-new-release="0.23.0"]')).toContainText('Filter settings by title or keyword.');
+  await expect(dialog.locator('[data-whats-new-release="0.24.0"]')).toContainText('分组的一键 Fetch all 与 Pull all');
   await page.keyboard.press('Escape');
   await expect(dialog).toBeHidden();
   await expect(footerLink).toHaveAttribute('data-whats-new-unseen', 'false');
   await page.reload();
-  await expect(page.getByRole('button', { name: "What's new" })).toHaveAttribute('data-whats-new-unseen', 'false');
+  await expect(page.getByRole('button', { name: '更新内容' })).toHaveAttribute('data-whats-new-unseen', 'false');
   await page.getByText('angkorgit', { exact: true }).first().click();
   await expect(page.getByPlaceholder('搜索提交…')).toBeVisible({ timeout: 10_000 });
   const bell = page.locator('[data-whats-new]');
   await expect(bell).toHaveAttribute('data-whats-new-unseen', 'false');
   await bell.click();
-  await expect(page.getByRole('dialog').getByRole('heading', { name: "What's new" })).toBeVisible();
-  await page.getByRole('dialog').getByRole('button', { name: 'Close', exact: true }).last().click();
+  await expect(page.getByRole('dialog').getByRole('heading', { name: '更新内容' })).toBeVisible();
+  await page.getByRole('dialog').getByRole('button', { name: '关闭', exact: true }).last().click();
   await expect(page.getByRole('dialog')).toBeHidden();
 });

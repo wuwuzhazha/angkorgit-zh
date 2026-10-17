@@ -54,7 +54,7 @@ export function GroupUpdateDialog({ progress, onClose, onCancel }: {
         </DialogHeader>
         <div className="mb-3 flex items-center gap-2 overflow-x-auto whitespace-nowrap text-xs" role="status" aria-live="polite">
           {running && <Spinner className="size-4 shrink-0" />}
-          <span className="shrink-0">{cancelling ? 'Cancelling…' : running ? `${results.length} of ${total} repositories complete` : `${total} repositories complete`} · {counts.updated} updated · {counts.unchanged} {pull ? 'up to date' : 'unchanged'} · {counts.skipped} skipped · {counts.failed} failed{counts.partial > 0 && ` · ${counts.partial} partial`}{counts.cancelled > 0 && ` · ${counts.cancelled} cancelled`}</span>
+          <span className="shrink-0">{cancelling ? '正在取消…' : running ? `${results.length} / ${total} 个仓库已完成` : `${total} 个仓库已完成`} · {counts.updated} 个已更新 · {counts.unchanged} {pull ? '已是最新' : '无更改'} · {counts.skipped} 个已跳过 · {counts.failed} 个失败{counts.partial > 0 && ` · ${counts.partial} 个部分成功`}{counts.cancelled > 0 && ` · ${counts.cancelled} 个已取消`}</span>
         </div>
         <div className="max-h-[55vh] space-y-4 overflow-y-auto pr-1" data-group-update-results>
           {results.map((result) => (
@@ -67,8 +67,8 @@ export function GroupUpdateDialog({ progress, onClose, onCancel }: {
               <p className="mt-1 break-words">{result.message}</p>
               {result.changes.map((change) => (
                 <p key={change.name} className="mt-1 break-all font-mono text-xs text-muted">
-                  {change.name.replace(/^refs\/(remotes|heads|tags)\//, '')}: {change.oldOid?.slice(0, 7) ?? 'new'} → {change.newOid?.slice(0, 7) ?? 'deleted'}
-                  {change.commits !== null && ` (${change.commits} commit${change.commits === 1 ? '' : 's'})`}
+                  {change.name.replace(/^refs\/(remotes|heads|tags)\//, '')}: {change.oldOid?.slice(0, 7) ?? '新'} → {change.newOid?.slice(0, 7) ?? '已删除'}
+                  {change.commits !== null && `（${change.commits} 个提交）`}
                 </p>
               ))}
               {!pull && result.status === 'ok' && result.changes.length === 0 && <p className="text-xs text-muted">No refs moved.</p>}

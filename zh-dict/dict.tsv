@@ -1455,3 +1455,43 @@ rust	{remote_name} has no branch {branch_name}	{remote_name} 上没有分支 {br
 rust	The server said:	服务器返回：
 ui,e2e	Collapse	折叠		whole
 ui,e2e	Expand	展开		whole
+
+# 0.24.0：上游 e37a268 分组 Fetch/Pull、应用内 What's new、标签栏自适应
+ui,e2e	Fetch all	全部获取
+ui,e2e	Pull all (fast-forward only)	全部拉取（仅限快进）
+ui	Fetches every configured remote in the group.	获取分组中每个仓库的全部已配置远端。
+ui	Fast-forwards the checked-out branch from its upstream, preserving unrelated local changes.	从上游快进当前检出的分支，同时保留无关的本地更改。
+ui,e2e	Up to date	已是最新
+ui	Updated	已更新	updated: 'Updated'
+ui	Unchanged	无更改	: 'Unchanged'
+ui	Skipped	已跳过	skipped: 'Skipped'
+ui	Failed	失败	failed: 'Failed'
+ui	Partial	部分成功	partial: 'Partial'
+ui	Cancelled	已取消	cancelled: 'Cancelled'
+ui	Cancelling…	正在取消…	cancelling \? 'Cancelling…'
+ui	Cancel run	取消本次运行
+ui	Done	完成	>Done</Button>
+ui	No refs moved.	没有引用发生变化。
+ui	Cancelled before this repository started	该仓库开始前已取消
+ui	Cancelled before completing this repository	该仓库完成前已取消
+ui	Fetching group…	正在获取分组…
+ui	Pulling group…	正在拉取分组…
+ui	Could not cancel group: ${(error as { message?: string })?.message ?? error}	无法取消分组：${(error as { message?: string })?.message ?? error}
+ui	Group update failed: ${(error as { message?: string })?.message ?? error}	分组更新失败：${(error as { message?: string })?.message ?? error}
+ui	See what's new in v	查看新版本内容
+ui,e2e	What's new	更新内容
+ui	You are on AngKorGit v${version}.	当前运行的是 AngKorGit v${version}。
+ui	Release notes for every AngKorGit version.	每个 AngKorGit 版本的发布说明。
+ui	Current	当前	<Badge tone="primary">Current</Badge>
+ui	Full changelog on GitHub	在 GitHub 上查看完整更新日志
+ui	Close	关闭	>Close</Button>
+
+# 0.24.0 e2e 断言（分组弹窗、标签页关闭、What's new）
+e2e	Updated	已更新	getByText\('Updated'
+e2e	Failed	失败	getByText\('Failed'
+e2e	Partial	部分成功	toContainText\('Partial'
+e2e	Unchanged	无更改	getByText\('Unchanged'
+e2e	Done	完成	name: 'Done'
+e2e	Close	关闭	name: 'Close', exact: true
+e2e	Close tycho	关闭 tycho
+e2e	Close angkorgit	关闭 angkorgit

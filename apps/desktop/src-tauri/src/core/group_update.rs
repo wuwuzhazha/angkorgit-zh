@@ -30,7 +30,7 @@ impl GroupUpdateControl {
         *self
             .cancelled
             .lock()
-            .map_err(|_| AppError::other("Group update lock poisoned"))? = true;
+            .map_err(|_| AppError::other("分组更新锁已损坏"))? = true;
         Ok(())
     }
 
@@ -39,7 +39,7 @@ impl GroupUpdateControl {
         let completed = self
             .completed
             .lock()
-            .map_err(|_| AppError::other("Group results lock poisoned"))?
+            .map_err(|_| AppError::other("分组结果锁已损坏"))?
             .clone();
         Ok(completed
             .into_iter()
@@ -62,7 +62,7 @@ impl GroupUpdateControl {
                                 }
                                 result
                                     .message
-                                    .push_str(&format!(". Could not inspect moved refs: {error}"));
+                                    .push_str(&format!("。无法检查移动的引用：{error}"));
                                 result
                             }
                         }
@@ -76,7 +76,7 @@ impl GroupUpdateControl {
     pub(super) fn record_fetch(&self, path: &str, progress: FetchProgress) -> AppResult<()> {
         self.completed
             .lock()
-            .map_err(|_| AppError::other("Group results lock poisoned"))?
+            .map_err(|_| AppError::other("分组结果锁已损坏"))?
             .insert(path.into(), Completed::Fetch(progress));
         Ok(())
     }
@@ -108,7 +108,7 @@ impl GroupUpdateControl {
             };
             self.completed
                 .lock()
-                .map_err(|_| AppError::other("Group results lock poisoned"))?
+                .map_err(|_| AppError::other("分组结果锁已损坏"))?
                 .insert(path.into(), Completed::Result(receipt));
             result
         })
@@ -132,9 +132,9 @@ impl GroupUpdateControl {
         let cancelled = self
             .cancelled
             .lock()
-            .map_err(|_| AppError::other("Group update lock poisoned"))?;
+            .map_err(|_| AppError::other("分组更新锁已损坏"))?;
         if *cancelled {
-            return Err(AppError::other("Group update cancelled"));
+            return Err(AppError::other("分组更新已取消"));
         }
         Ok(cancelled)
     }
@@ -182,11 +182,11 @@ fn prune_expired(runs: &mut Runs, now: Instant) {
 pub fn start(id: &str) -> AppResult<()> {
     let mut runs = runs()
         .lock()
-        .map_err(|_| AppError::other("Group update registry poisoned"))?;
+        .map_err(|_| AppError::other("分组更新注册表已损坏"))?;
     let now = Instant::now();
     prune_expired(&mut runs, now);
     if runs.contains_key(id) {
-        return Err(AppError::other("Group update already exists"));
+        return Err(AppError::other("分组更新已存在"));
     }
     runs.insert(
         id.into(),
@@ -201,20 +201,20 @@ pub fn start(id: &str) -> AppResult<()> {
 pub fn control(id: &str) -> AppResult<Arc<GroupUpdateControl>> {
     let mut runs = runs()
         .lock()
-        .map_err(|_| AppError::other("Group update registry poisoned"))?;
+        .map_err(|_| AppError::other("分组更新注册表已损坏"))?;
     let now = Instant::now();
     let control = runs.get_mut(id).map(|run| {
         run.last_used = now;
         run.control.clone()
     });
     prune_expired(&mut runs, now);
-    control.ok_or_else(|| AppError::other("Group update is no longer active"))
+    control.ok_or_else(|| AppError::other("分组更新已不再活动"))
 }
 
 pub fn cancel(id: &str) -> AppResult<Vec<GroupUpdateReceipt>> {
     let mut runs = runs()
         .lock()
-        .map_err(|_| AppError::other("Group update registry poisoned"))?;
+        .map_err(|_| AppError::other("分组更新注册表已损坏"))?;
     let now = Instant::now();
     let control = runs.get_mut(id).map(|run| {
         run.last_used = now;
@@ -231,7 +231,7 @@ pub fn cancel(id: &str) -> AppResult<Vec<GroupUpdateReceipt>> {
 pub fn finish(id: &str) -> AppResult<()> {
     let mut runs = runs()
         .lock()
-        .map_err(|_| AppError::other("Group update registry poisoned"))?;
+        .map_err(|_| AppError::other("分组更新注册表已损坏"))?;
     let control = runs.remove(id).map(|run| run.control);
     prune_expired(&mut runs, Instant::now());
     drop(runs);
