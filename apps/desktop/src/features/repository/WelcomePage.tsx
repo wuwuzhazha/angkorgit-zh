@@ -127,7 +127,7 @@ export function WelcomePage() {
     } catch (error) {
       run.cancelling = false;
       setGroupProgress((current) => current?.runId === run.id ? { ...current, cancelling: false } : current);
-      toast.error(`Could not cancel group: ${(error as { message?: string })?.message ?? error}`);
+      toast.error(`无法取消分组：${(error as { message?: string })?.message ?? error}`);
     }
   }
 
@@ -136,7 +136,7 @@ export function WelcomePage() {
     const id = crypto.randomUUID();
     const run = { id, controller: new AbortController(), cancelling: false, ready: ipc.groupStart(id), completed: new Map<string, GroupUpdateResult>() };
     groupRun.current = run;
-    useRepo.getState().setBusy(pull ? 'Pulling group…' : 'Fetching group…');
+    useRepo.getState().setBusy(pull ? '正在拉取分组…' : '正在获取分组…');
     setGroupProgress({ runId: run.id, name: group.name, pull, total: repos.length, results: [], running: true, cancelling: false });
     try {
       await run.ready;
@@ -154,7 +154,7 @@ export function WelcomePage() {
         else await useRepo.getState().refresh();
       }
     } catch (error) {
-      toast.error(`Group update failed: ${(error as { message?: string })?.message ?? error}`);
+      toast.error(`分组更新失败：${(error as { message?: string })?.message ?? error}`);
     } finally {
       await ipc.groupFinish(run.id).catch(() => undefined);
       if (groupRun.current === run) {
@@ -652,7 +652,7 @@ export function WelcomePage() {
             onClick={whatsNew.open}
           >
             {whatsNew.unseen && <span aria-hidden className="size-1.5 rounded-full bg-primary" />}
-            What's new
+            更新内容
           </button>
         </p>
       </div>
@@ -704,13 +704,13 @@ export function WelcomePage() {
               disabled={groupMenu.repos.length === 0 || !!busy || !!opening}
               onClick={() => void updateGroup(groupMenu.group, groupMenu.repos, false)}
             >
-              <RefreshCw /> Fetch all
+              <RefreshCw /> 全部获取
             </DropdownMenuItem>
             <DropdownMenuItem
               disabled={groupMenu.repos.length === 0 || !!busy || !!opening}
               onClick={() => void updateGroup(groupMenu.group, groupMenu.repos, true)}
             >
-              <ArrowDownToLine /> Pull all (fast-forward only)
+              <ArrowDownToLine /> 全部拉取（仅限快进）
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem

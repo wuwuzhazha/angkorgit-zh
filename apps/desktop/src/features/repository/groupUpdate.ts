@@ -22,7 +22,7 @@ export async function updateGroupRepositories(
   completedOnCancel: () => ReadonlyMap<string, GroupUpdateResult> = () => new Map(),
 ): Promise<void> {
   for (const repo of repos) {
-    const cancelled: GroupUpdateResult = { status: 'cancelled', message: 'Cancelled before this repository started', changes: [] };
+    const cancelled: GroupUpdateResult = { status: 'cancelled', message: '该仓库开始前已取消', changes: [] };
     if (signal?.aborted) {
       onResult({ ...(completedOnCancel().get(repo.path) ?? cancelled), repo });
       continue;
@@ -35,7 +35,7 @@ export async function updateGroupRepositories(
     }).catch((error): GroupUpdateResult => ({
       status: 'failed', message: (error as { message?: string })?.message ?? String(error), changes: [],
     }));
-    const interrupted = { ...cancelled, message: 'Cancelled before completing this repository' };
+    const interrupted = { ...cancelled, message: '该仓库完成前已取消' };
     let onAbort: (() => void) | undefined;
     const aborted = new Promise<GroupUpdateResult>((resolve) => {
       onAbort = () => resolve(completedOnCancel().get(repo.path) ?? (started ? interrupted : cancelled));

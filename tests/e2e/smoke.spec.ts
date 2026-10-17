@@ -3260,7 +3260,7 @@ test("what's new opens from the welcome footer and the status bar and its unread
   const dialog = page.getByRole('dialog');
   await expect(dialog.getByRole('heading', { name: '更新内容' })).toBeVisible();
   await expect(dialog.locator('[data-whats-new-release]').first()).toHaveAttribute('data-whats-new-release', /^\d+\.\d+\.\d+$/);
-  await expect(dialog.locator('[data-whats-new-release="0.24.0"]')).toContainText('分组的一键 Fetch all 与 Pull all');
+  await expect(dialog.locator('[data-whats-new-release="0.24.0"]')).toContainText('分组的一键 全部获取 与 Pull all');
   await page.keyboard.press('Escape');
   await expect(dialog).toBeHidden();
   await expect(footerLink).toHaveAttribute('data-whats-new-unseen', 'false');

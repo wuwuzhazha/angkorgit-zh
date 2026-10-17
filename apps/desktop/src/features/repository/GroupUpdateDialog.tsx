@@ -32,8 +32,8 @@ export function GroupUpdateDialog({ progress, onClose, onCancel }: {
   const counts: Record<GroupResultKind, number> = { updated: 0, unchanged: 0, skipped: 0, failed: 0, partial: 0, cancelled: 0 };
   for (const result of results) counts[classify(result)]++;
   const labels: Record<GroupResultKind, string> = {
-    updated: 'Updated', unchanged: pull ? 'Up to date' : 'Unchanged', skipped: 'Skipped',
-    failed: 'Failed', partial: 'Partial', cancelled: 'Cancelled',
+    updated: '已更新', unchanged: pull ? '已是最新' : '无更改', skipped: '已跳过',
+    failed: '失败', partial: '部分成功', cancelled: '已取消',
   };
   const tones: Record<GroupResultKind, 'success' | 'danger' | 'primary' | 'neutral'> = {
     updated: 'success', unchanged: 'neutral', skipped: 'neutral',
@@ -47,9 +47,9 @@ export function GroupUpdateDialog({ progress, onClose, onCancel }: {
         onInteractOutside={(e) => e.preventDefault()}
       >
         <DialogHeader>
-          <DialogTitle>{pull ? 'Pull all (fast-forward only)' : 'Fetch all'} — {name}</DialogTitle>
+          <DialogTitle>{pull ? '全部拉取（仅限快进）' : '全部获取'} — {name}</DialogTitle>
           <DialogDescription>
-            {pull ? 'Fast-forwards the checked-out branch from its upstream, preserving unrelated local changes.' : 'Fetches every configured remote in the group.'}
+            {pull ? '从上游快进当前检出的分支，同时保留无关的本地更改。' : '获取分组中每个仓库的全部已配置远端。'}
           </DialogDescription>
         </DialogHeader>
         <div className="mb-3 flex items-center gap-2 overflow-x-auto whitespace-nowrap text-xs" role="status" aria-live="polite">
@@ -71,13 +71,13 @@ export function GroupUpdateDialog({ progress, onClose, onCancel }: {
                   {change.commits !== null && `（${change.commits} 个提交）`}
                 </p>
               ))}
-              {!pull && result.status === 'ok' && result.changes.length === 0 && <p className="text-xs text-muted">No refs moved.</p>}
+              {!pull && result.status === 'ok' && result.changes.length === 0 && <p className="text-xs text-muted">没有引用发生变化。</p>}
             </div>
           ))}
         </div>
         <DialogFooter>
-          {running && <Button variant="ghost" disabled={cancelling} onClick={onCancel}>Cancel run</Button>}
-          <Button disabled={running} onClick={onClose}>Done</Button>
+          {running && <Button variant="ghost" disabled={cancelling} onClick={onCancel}>取消本次运行</Button>}
+          <Button disabled={running} onClick={onClose}>完成</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

@@ -212,11 +212,11 @@ export function StatusBar() {
           ))}
         </DropdownMenuContent>
       </DropdownMenu>
-      <Hint label={whatsNew.unseen ? `See what's new in v` : "What's new"}>
+      <Hint label={whatsNew.unseen ? `查看新版本内容` : "更新内容"}>
         <button
           type="button"
           className="relative flex items-center rounded px-1 py-0.5 hover:bg-surface-raised hover:text-foreground"
-          aria-label="What's new"
+          aria-label="更新内容"
           data-whats-new
           data-whats-new-unseen={whatsNew.unseen}
           onClick={whatsNew.open}

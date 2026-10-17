@@ -78,9 +78,9 @@ export function WhatsNewDialog() {
     <Dialog open onOpenChange={(o) => !o && closeDialog()}>
       <DialogContent className="max-w-2xl">
         <DialogHeader>
-          <DialogTitle>What's new</DialogTitle>
+          <DialogTitle>更新内容</DialogTitle>
           <DialogDescription>
-            {version ? `You are on AngKorGit v${version}.` : 'Release notes for every AngKorGit version.'}
+            {version ? `当前运行的是 AngKorGit v${version}。` : '每个 AngKorGit 版本的发布说明。'}
           </DialogDescription>
         </DialogHeader>
         <div className="-mx-1 max-h-[60vh] space-y-7 overflow-y-auto px-1 pb-1" data-whats-new-list>
@@ -89,7 +89,7 @@ export function WhatsNewDialog() {
               <div className="flex items-baseline gap-2">
                 <h3 className="text-sm font-semibold text-foreground">v{release.version}</h3>
                 {release.date && <span className="text-[11px] text-faint">{release.date}</span>}
-                {release.version === version && <Badge tone="primary">Current</Badge>}
+                {release.version === version && <Badge tone="primary">当前</Badge>}
               </div>
               {release.intro && (
                 <p className="mt-1.5 whitespace-pre-wrap text-xs text-muted">
@@ -114,9 +114,9 @@ export function WhatsNewDialog() {
         </div>
         <DialogFooter>
           <Button variant="ghost" onClick={() => void openExternal(CHANGELOG_URL)}>
-            Full changelog on GitHub
+            在 GitHub 上查看完整更新日志
           </Button>
-          <Button onClick={closeDialog}>Close</Button>
+          <Button onClick={closeDialog}>关闭</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
